@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { step } from '../../fixtures/step-decorator';
 import { BasePage } from '../base.page';
 import { IConfig } from '../../types';
 
@@ -7,6 +8,7 @@ export class LocationManagementHistoryPage extends BasePage {
     super(page, config);
   }
 
+  @step('Navigate to history tab')
   async navigateToHistoryTab(officeNo = '1604'): Promise<void> {
     const currentUrl = this.page.url();
     if (!currentUrl.includes(`locations/${officeNo}/settings/location`)) {
@@ -30,12 +32,14 @@ export class LocationManagementHistoryPage extends BasePage {
  * when History tab is active, sub-tabs (Currency, Legal, etc.) are hidden.
  * If the next spec inherits this worker, those sub-tabs will not be found.
  */
+  @step('Return to basic information')
   async returnToBasicInformation(): Promise<void> {
     const basicTab = this.getElement('tabBasicInformation');
     await basicTab.click();
     await this.waitForAngularStable();
   }
 
+  @step('Capture responses on history tab switch')
   async captureResponsesOnHistoryTabSwitch(): Promise<string[]> {
     const basicTab = this.getElement('tabBasicInformation');
     await basicTab.click();
@@ -56,10 +60,12 @@ export class LocationManagementHistoryPage extends BasePage {
     return responses;
   }
 
+  @step('Is table visible')
   async isTableVisible(): Promise<boolean> {
     return this.getElement('tblMgmtHistory').isVisible();
   }
 
+  @step('Get column headers')
   async getColumnHeaders(): Promise<string[]> {
     const table = this.getElement('tblMgmtHistory');
     await table.locator('th').first().waitFor({ state: 'visible', timeout: 10_000 });
@@ -67,14 +73,17 @@ export class LocationManagementHistoryPage extends BasePage {
     return (await headers.allTextContents()).map(t => t.trim());
   }
 
+  @step('Get column header count')
   async getColumnHeaderCount(): Promise<number> {
     return this.getElement('tblMgmtHistory').locator('th').count();
   }
 
+  @step('Get data row count')
   async getDataRowCount(): Promise<number> {
     return this.getElement('tblMgmtHistory').locator('tbody tr').count();
   }
 
+  @step('Is table empty')
   async isTableEmpty(): Promise<boolean> {
     const text = (await this.getElement('tblMgmtHistory').textContent() || '').trim();
     return text.includes('No results.');
@@ -88,16 +97,19 @@ export class LocationManagementHistoryPage extends BasePage {
     return idx;
   }
 
+  @step('Get column by header')
   async getColumnByHeader(rowIndex: number, headerText: string): Promise<string> {
     const colIndex = await this.getColumnIndex(headerText);
     return this.getColumnByIndex(rowIndex, colIndex);
   }
 
+  @step('Get column by index')
   async getColumnByIndex(rowIndex: number, colIndex: number): Promise<string> {
     const cell = this.getElement('tblMgmtHistory').locator(`tbody tr`).nth(rowIndex).locator('td').nth(colIndex);
     return (await cell.textContent() || '').trim();
   }
 
+  @step('Get row values')
   async getRowValues(rowIndex: number, headerTexts: string[]): Promise<Record<string, string>> {
     const result: Record<string, string> = {};
     for (const header of headerTexts) {
@@ -106,6 +118,7 @@ export class LocationManagementHistoryPage extends BasePage {
     return result;
   }
 
+  @step('Get latest row values')
   async getLatestRowValues(headerTexts: string[]): Promise<Record<string, string>> {
     return this.getRowValues(0, headerTexts);
   }
@@ -146,6 +159,7 @@ export class LocationManagementHistoryPage extends BasePage {
  * @param headerTexts Column headers to read (duplicate names return first match).
  * @param maxRows Safety cap (default 40 — 2x typical rowsPerPage).
  */
+  @step('Get rows since timestamp')
   async getRowsSinceTimestamp(
     sinceMs: number,
     headerTexts: string[],
@@ -194,6 +208,7 @@ export class LocationManagementHistoryPage extends BasePage {
  /** Radix sort dropdown is flaky: menu occasionally fails to appear after button click.
  * Retries with Escape to clear any lingering state, max 3 attempts.
  * Uses [role="menu"] retry — not selectComboboxOption (different surface). */
+  @step('Click sort column')
   async clickSortColumn(headerText: string, direction: 'ascending' | 'descending' = 'ascending'): Promise<void> {
     const colIndex = await this.getColumnIndex(headerText);
     const th = this.getElement('tblMgmtHistory').locator('th').nth(colIndex);
@@ -221,17 +236,20 @@ export class LocationManagementHistoryPage extends BasePage {
     throw new Error(`clickSortColumn("${headerText}", "${direction}") failed after 3 attempts: ${String(lastErr)}`);
   }
 
+  @step('Is sort button present')
   async isSortButtonPresent(headerText: string): Promise<boolean> {
     const colIndex = await this.getColumnIndex(headerText);
     const th = this.getElement('tblMgmtHistory').locator('th').nth(colIndex);
     return (await th.locator('button').count()) > 0;
   }
 
+  @step('Is sort button present by index')
   async isSortButtonPresentByIndex(colIndex: number): Promise<boolean> {
     const th = this.getElement('tblMgmtHistory').locator('th').nth(colIndex);
     return (await th.locator('button').count()) > 0;
   }
 
+  @step('Sort by modified on desc')
   async sortByModifiedOnDesc(): Promise<void> {
     await this.clickSortColumn('Modified On', 'descending');
   }
@@ -241,6 +259,7 @@ export class LocationManagementHistoryPage extends BasePage {
  * the DOM has re-rendered with newest rows on top. With ~2900 rows, the ASC→DESC re-render
  * can take 1-3s; without this wait, the top row may still show old timestamps.
  */
+  @step('Wait for recent top row')
   async waitForRecentTopRow(maxAgeMs = 24 * 60 * 60 * 1000, timeoutMs = 15_000): Promise<void> {
     const headers = await this.getColumnHeaders();
     const modifiedOnIdx = headers.indexOf('Modified On');
@@ -259,14 +278,17 @@ export class LocationManagementHistoryPage extends BasePage {
     throw new Error(`Top row Modified On "${lastVal}" not within ${maxAgeMs}ms of now after ${timeoutMs}ms wait — sort may not have applied`);
   }
 
+  @step('Get rows per page value')
   async getRowsPerPageValue(): Promise<string> {
     return (await this.getElement('drpMgmtHistoryRowsPerPage').textContent() || '').trim();
   }
 
+  @step('Get rows per page options')
   async getRowsPerPageOptions(): Promise<string[]> {
     return this.getComboboxOptions('drpMgmtHistoryRowsPerPage');
   }
 
+  @step('Set rows per page')
   async setRowsPerPage(value: string): Promise<void> {
     await this.getElement('drpMgmtHistoryRowsPerPage').click();
     const listbox = this.page.locator('[role="listbox"]');
@@ -275,6 +297,7 @@ export class LocationManagementHistoryPage extends BasePage {
     await this.waitForAngularStable();
   }
 
+  @step('Get pagination text')
   async getPaginationText(): Promise<string> {
     const tabContent = this.page.locator('[data-testid="location-settings-tab-content-management-history"]');
     const current = (await tabContent.locator('input[aria-label="Current page number"]').inputValue().catch(() => '')).trim();
@@ -284,6 +307,7 @@ export class LocationManagementHistoryPage extends BasePage {
     return `${current} / ${total}`;
   }
 
+  @step('Is pagination button disabled')
   async isPaginationButtonDisabled(direction: 'first' | 'previous' | 'next' | 'last'): Promise<boolean> {
     const keyMap = {
       first: 'btnMgmtHistoryFirstPage',
@@ -294,6 +318,7 @@ export class LocationManagementHistoryPage extends BasePage {
     return this.getElement(keyMap[direction]).isDisabled();
   }
 
+  @step('Click pagination button')
   async clickPaginationButton(direction: 'first' | 'previous' | 'next' | 'last'): Promise<void> {
     const keyMap = {
       first: 'btnMgmtHistoryFirstPage',
@@ -305,6 +330,7 @@ export class LocationManagementHistoryPage extends BasePage {
     await this.waitForAngularStable();
   }
 
+  @step('Is read only')
   async isReadOnly(): Promise<boolean> {
     const panel = this.page.locator('[role="tabpanel"]');
     const addBtn = await panel.locator('button:has-text("Add")').count();
@@ -319,6 +345,7 @@ export class LocationManagementHistoryPage extends BasePage {
     return addBtn === 0 && editBtn === 0 && deleteBtn === 0 && saveBtn === 0 && inputs === 0;
   }
 
+  @step('Are cells non interactive')
   async areCellsNonInteractive(): Promise<boolean> {
     const firstCell = this.getElement('tblMgmtHistory').locator('tbody tr:first-child td:first-child');
     if (await firstCell.count() === 0) return true; // No data rows
@@ -327,6 +354,7 @@ export class LocationManagementHistoryPage extends BasePage {
     return inputsAfterClick === 0;
   }
 
+  @step('Has horizontal scroll')
   async hasHorizontalScroll(): Promise<boolean> {
     const table = this.getElement('tblMgmtHistory');
     return table.evaluate(el => {
@@ -335,6 +363,7 @@ export class LocationManagementHistoryPage extends BasePage {
     });
   }
 
+  @step('Get approximate total row count')
   async getApproximateTotalRowCount(): Promise<number> {
     const paginationText = await this.getPaginationText();
     const match = paginationText.match(/\d+\s*\/\s*(\d+)/);

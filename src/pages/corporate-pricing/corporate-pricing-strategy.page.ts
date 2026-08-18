@@ -3,6 +3,7 @@ import { CorporatePricingBasePage } from './corporate-pricing.page';
 import type { IConfig } from '../../types';
 import { CorporatePricingSelectors as S } from '../../selectors/corporate-pricing';
 import { STRATEGY } from '../../data/corporate-pricing/strategy';
+import { step } from '../../fixtures/step-decorator';
 
 type StrategyFlag = 'Is Productions' | 'Is Internal' | 'Is GSO' | 'Is Active';
 
@@ -11,20 +12,24 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     super(page, config);
   }
 
+  @step('Open the pricing strategy page')
   async open(pricebookId: string = STRATEGY.pricebookGuid, office: string = STRATEGY.office): Promise<void> {
     await this.gotoDetails(office, pricebookId);
     await this.page.locator(S.hdgPriceStrategies).first().waitFor({ state: 'visible', timeout: 25_000 });
     await this.waitForAngularStable();
   }
 
+  @step('Is strategy tab active')
   async isStrategyTabActive(): Promise<boolean> {
     return this.isVisibleSafe(S.hdgPriceStrategies);
   }
 
+  @step('Click detail tab')
   async clickDetailTab(): Promise<void> {
     await this.switchTab('Pricing Detail');
   }
 
+  @step('Get header field')
   async getHeaderField(field: 'name' | 'type' | 'year' | 'currency' | 'active'): Promise<string> {
     switch (field) {
       case 'name':
@@ -44,12 +49,14 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     return (await this.page.locator(`p:text-is("${label}") + p`).first().innerText()).trim();
   }
 
+  @step('Header fields are read only')
   async headerFieldsAreReadOnly(): Promise<boolean> {
     const nameTag = await this.page.locator(S.hdgPricebookName).first().evaluate((el) => el.tagName).catch(() => '');
     const typeTag = await this.page.locator('p:text-is("Labor/Equipment") + p').first().evaluate((el) => el.tagName).catch(() => '');
     return nameTag === 'H2' && typeTag === 'P';
   }
 
+  @step('Get tabs')
   async getTabs(): Promise<string[]> {
     const tabs: string[] = [];
     if ((await this.page.locator(S.tabPricingStrategy).count()) > 0) tabs.push('Pricing Strategy');
@@ -58,10 +65,12 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     return tabs;
   }
 
+  @step('Has history tab')
   async hasHistoryTab(): Promise<boolean> {
     return (await this.getTabs()).includes('History');
   }
 
+  @step('Get strategy total')
   async getStrategyTotal(): Promise<number> {
     const txt = await this.page.locator(S.lblStrategyTotal).first().innerText().catch(() => '');
     const m = txt.match(/Total:\s*(\d+)/);
@@ -72,16 +81,19 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     return this.page.getByRole('complementary').getByRole('button', { name }).first();
   }
 
+  @step('Select strategy')
   async selectStrategy(name: string): Promise<void> {
     await this.strategyListItem(name).click();
     await this.waitForAngularStable();
   }
 
+  @step('Select first strategy')
   async selectFirstStrategy(): Promise<void> {
     await this.page.getByRole('complementary').getByRole('button').filter({ hasText: /\S/ }).first().click();
     await this.waitForAngularStable();
   }
 
+  @step('Is remove visible')
   async isRemoveVisible(name: string): Promise<boolean> {
     const item = this.strategyListItem(name);
     if ((await item.count()) === 0) return false;
@@ -92,14 +104,17 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     return this.page.getByRole('textbox', { name: 'Pricing Strategy' });
   }
 
+  @step('Get strategy name')
   async getStrategyName(): Promise<string> {
     return (await this.editorNameField().inputValue()).trim();
   }
 
+  @step('Set strategy name')
   async setStrategyName(value: string): Promise<void> {
     await this.editorNameField().fill(value);
   }
 
+  @step('Get flag')
   async getFlag(name: StrategyFlag): Promise<{ checked: boolean; disabled: boolean }> {
     const cb = this.page.getByRole('checkbox', { name });
     return {
@@ -108,10 +123,12 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     };
   }
 
+  @step('Has locations table')
   async hasLocationsTable(): Promise<boolean> {
     return this.isVisibleSafe(S.tblLocationsUsingDefault);
   }
 
+  @step('Get strategy locations')
   async getStrategyLocations(): Promise<Array<{ office: string; name: string }>> {
     const rows = this.page.locator(S.tblLocationsUsingDefault).first().locator('tbody tr');
     const out: Array<{ office: string; name: string }> = [];
@@ -128,15 +145,18 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     return out;
   }
 
+  @step('Open add strategy dialog')
   async openAddStrategyDialog(): Promise<void> {
     await this.page.getByRole('complementary').getByRole('button').filter({ hasText: /^$/ }).first().click();
     await this.page.locator(S.dlgNewStrategy).first().waitFor({ state: 'visible', timeout: 10_000 });
   }
 
+  @step('Is add dialog open')
   async isAddDialogOpen(): Promise<boolean> {
     return this.isVisibleSafe(S.dlgNewStrategy);
   }
 
+  @step('Add strategy')
   async addStrategy(name: string): Promise<void> {
     await this.openAddStrategyDialog();
     const dlg = this.page.locator(S.dlgNewStrategy).first();
@@ -146,6 +166,7 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     await this.waitForAngularStable();
   }
 
+  @step('Cancel add dialog')
   async cancelAddDialog(): Promise<void> {
     const dlg = this.page.locator(S.dlgNewStrategy).first();
     if (await dlg.isVisible().catch(() => false)) {
@@ -154,11 +175,13 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     }
   }
 
+  @step('Remove strategy')
   async removeStrategy(name: string): Promise<void> {
     await this.strategyListItem(name).getByRole('button').first().click();
     await this.waitForAngularStable();
   }
 
+  @step('Is dirty')
   async isDirty(): Promise<boolean> {
     return this.isSaveEnabled();
   }
@@ -176,6 +199,7 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
    * success event. Returns whether the toast was observed. Persistence is still proven by the
    * caller's reload + re-read (save-success ≠ pristine).
    */
+  @step('Save and confirm')
   async saveAndConfirm(): Promise<{ toastSeen: boolean }> {
     // Attach the success-toast waiter BEFORE clicking Save — the toast surfaces and auto-dismisses
     // quickly, so a waiter set up only after the click + dialog-confirm can race past it (the source
@@ -197,18 +221,22 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     return this.page.locator(S.dlgNewStrategy).first();
   }
 
+  @step('Fill dialog name')
   async fillDialogName(value: string): Promise<void> {
     await this.addDialog().getByRole('textbox', { name: 'Strategy Name' }).fill(value);
   }
 
+  @step('Get dialog name')
   async getDialogName(): Promise<string> {
     return this.addDialog().getByRole('textbox', { name: 'Strategy Name' }).inputValue();
   }
 
+  @step('Is dialog add enabled')
   async isDialogAddEnabled(): Promise<boolean> {
     return this.addDialog().getByRole('button', { name: 'Add', exact: true }).isEnabled().catch(() => false);
   }
 
+  @step('Get dialog flag')
   async getDialogFlag(name: StrategyFlag): Promise<{ checked: boolean; disabled: boolean }> {
     const cb = this.addDialog().getByRole('checkbox', { name });
     return {
@@ -217,28 +245,33 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     };
   }
 
+  @step('Set dialog flag')
   async setDialogFlag(name: StrategyFlag, checked: boolean): Promise<void> {
     const cb = this.addDialog().getByRole('checkbox', { name });
     if (checked) await cb.check();
     else await cb.uncheck();
   }
 
+  @step('Click dialog add')
   async clickDialogAdd(): Promise<void> {
     await this.addDialog().getByRole('button', { name: 'Add', exact: true }).click();
     await this.addDialog().waitFor({ state: 'hidden', timeout: 10_000 }).catch(() => { /* dialog animates out */ });
     await this.waitForAngularStable();
   }
 
+  @step('Click dialog add expecting rejection')
   async clickDialogAddExpectingRejection(): Promise<void> {
     await this.addDialog().getByRole('button', { name: 'Add', exact: true }).click();
     await this.waitForAngularStable();
   }
 
+  @step('Get dialog error')
   async getDialogError(): Promise<string> {
     const err = this.addDialog().getByText(/already exists|required|invalid/i).first();
     return (await err.count()) > 0 ? (await err.innerText()).trim() : '';
   }
 
+  @step('Close add dialog')
   async closeAddDialog(): Promise<void> {
     const dlg = this.addDialog();
     if (await dlg.isVisible().catch(() => false)) {
@@ -247,6 +280,7 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     }
   }
 
+  @step('Add strategy with flags')
   async addStrategyWithFlags(name: string, flags: Partial<Record<StrategyFlag, boolean>>): Promise<void> {
     await this.openAddStrategyDialog();
     for (const key of Object.keys(flags) as StrategyFlag[]) {
@@ -256,29 +290,35 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     await this.clickDialogAdd();
   }
 
+  @step('Set editor flag')
   async setEditorFlag(name: StrategyFlag, checked: boolean): Promise<void> {
     const cb = this.page.getByRole('checkbox', { name });
     if (checked) await cb.check();
     else await cb.uncheck();
   }
 
+  @step('Has strategy')
   async hasStrategy(name: string): Promise<boolean> {
     return (await this.page.getByRole('complementary').getByRole('button', { name }).count()) > 0;
   }
 
+  @step('Search strategies')
   async searchStrategies(text: string): Promise<void> {
     await this.page.locator(S.txtSearchStrategies).first().fill(text);
     await this.waitForAngularStable();
   }
 
+  @step('Click back breadcrumb')
   async clickBackBreadcrumb(): Promise<void> {
     await this.page.locator(S.lnkBackToSearch).first().click();
   }
 
+  @step('Is unsaved changes prompt visible')
   async isUnsavedChangesPromptVisible(): Promise<boolean> {
     return this.page.getByRole('alertdialog', { name: /unsaved changes/i }).isVisible().catch(() => false);
   }
 
+  @step('Resolve unsaved changes prompt')
   async resolveUnsavedChangesPrompt(choice: 'Stay' | 'Discard'): Promise<void> {
     await this.page.getByRole('alertdialog').getByRole('button', { name: choice, exact: true }).click().catch(() => { /* best-effort: the prompt may have auto-resolved before this click; the stability wait below is the real settle */ });
     await this.waitForAngularStable();
@@ -302,6 +342,7 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
    * the count guard above. The name is therefore the only persisted-mutable field, so restoring it
    * fully restores the baseline.
    */
+  @step('Ensure default state')
   async ensureDefaultState(defaults: { name: string } = { name: STRATEGY.fixtureStrategyName }): Promise<void> {
     const maxAttempts = 3;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {

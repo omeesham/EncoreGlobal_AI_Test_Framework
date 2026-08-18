@@ -73,7 +73,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
     });
   });
 
-  test('TC-LOC-NTS-035: Whitespace-only " " persist', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-035: Whitespace-only "   " persist', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(60_000);
     await saveAndVerifyCase({
@@ -90,7 +90,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
     });
   });
 
-  test('TC-LOC-NTS-036: Leading whitespace " hello" persist (not trimmed)', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-036: Leading whitespace "  hello" persist (not trimmed)', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(60_000);
     await saveAndVerifyCase({
@@ -107,7 +107,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
     });
   });
 
-  test('TC-LOC-NTS-037: Trailing whitespace "hello " persist (not trimmed)', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-037: Trailing whitespace "hello  " persist (not trimmed)', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(60_000);
     await saveAndVerifyCase({
@@ -246,7 +246,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
       saveAndConfirm: () => locationNotesPage.saveAndConfirm(),
       reload: () => locationNotesPage.reloadAndNavigateToNotesTab(),
       expectAfterReload: async () => {
-        // After clear+save+reload, two acceptable states per BUG-LOC-NTS-003 placeholder behavior:
+        // After clear+save+reload, two acceptable states per the auto-empty placeholder behavior:
         // (a) row 0 exists with empty textarea value, OR (b) default empty state (no rows).
         // Branch on isDefaultEmptyState — no catch-swallow (clear diagnostics, content not row-count).
         if (await locationNotesPage.isDefaultEmptyState()) {
@@ -305,7 +305,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
     });
   });
 
-  test('TC-LOC-NTS-044: Mixed-content (note 1 = 1-char, note 2 = 4000-char) save+reload', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-044: Mixed-content (row 0 = 1-char, row 1 = 4000-char) save+reload', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(90_000);
     await saveAndVerifyCase({
@@ -327,7 +327,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
     });
   });
 
-  test('TC-LOC-NTS-045: Edit the second of two note rows - first row unchanged after save+reload', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-045: Edit row 1 of 2 — row 0 unchanged after save+reload', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(90_000);
     const editSuffix = ' — edited';
@@ -404,7 +404,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
       saveAndConfirm: () => locationNotesPage.saveAndConfirm(),
       reload: () => locationNotesPage.reloadAndNavigateToNotesTab(),
       expectAfterReload: async () => {
-        // Content assertion only — placeholder row from BUG-LOC-NTS-003 may inflate count
+        // Content assertion only — an auto-generated placeholder row may inflate count
         expect(await locationNotesPage.getNoteValue(0)).toBe(r0);
         expect(await locationNotesPage.getNoteValue(1)).toBe(r1);
       },
@@ -412,9 +412,8 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
     });
   });
 
-  // BUG-LOC-NTS-004: Delete button vanishes on single-row form-array after clear() — TC cannot
-  // reach the Delete step.
-  // BUG-LOC-NTS-004
+  // Delete button vanishes on single-row note list after clear() — TC cannot reach the Delete step.
+  // Pending an application fix.
   // FIXME TC-LOC-NTS-056 (Blocked — the Delete control disappears on a single-row note list after the text is cleared, so the row cannot be deleted. Pending an application fix.)
   test.fixme('TC-LOC-NTS-056: Verify deleting the only note row returns the empty state', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate([]);
@@ -435,7 +434,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
       saveAndConfirm: () => locationNotesPage.saveAndConfirm(),
       reload: () => locationNotesPage.reloadAndNavigateToNotesTab(),
       expectAfterReload: async () => {
-        // Either default empty state or a single placeholder empty textarea (BUG-LOC-NTS-003).
+        // Either default empty state or a single auto-generated placeholder empty textarea.
         // Branch on isDefaultEmptyState — no catch-swallow (clear diagnostics, content not row-count).
         if (await locationNotesPage.isDefaultEmptyState()) {
           expect(await locationNotesPage.isDefaultEmptyState()).toBe(true);
@@ -516,7 +515,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
     await locationNotesPage.clickSaveButton();
     // Click in top-left corner of viewport (outside any modal dialog content).
     await realPage.mouse.click(2, 2);
-    // Title-aligned probe: observe whether the alertdialog dismissed or stayed (UX
+    // Title-aligned probe: observe whether the confirmation dialog dismissed or stayed (UX
     // classification of this case is pending). Branch — no opaque OR-assertion.
     const dialogStillOpen = await realPage.locator('[role="alertdialog"]').isVisible().catch(() => false);
     if (dialogStillOpen) {
@@ -603,7 +602,7 @@ test.describe('Location Notes — FCC @locations @notes @fcc', () => {
     await locationNotesPage.fillNote(0, NOTE_1_CHAR);
     await locationNotesPage.saveAndConfirm();
     // Cross-tab isolation proof: switching to Currency must NOT trigger the "Unsaved Changes"
-    // alertdialog. (The shared Save button being disabled only proves Notes is pristine — not
+    // confirmation dialog. (The shared Save button being disabled only proves Notes is pristine — not
     // that Currency was untouched, because the Save button is page-scoped.)
     const currencyTab = realPage.locator('[data-testid="location-settings-sub-tab-currency"]');
     await currencyTab.click();
@@ -667,7 +666,7 @@ test.describe('Location Notes @locations @notes', () => {
 
  // After discard, state = 1 empty row at index 0. Use row 0 directly.
 
-  test('TC-LOC-NTS-002: Type text in the note box and verify counter updates', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-002: Type text in textarea and verify counter updates', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
  // Row 0 already exists from default state
     await locationNotesPage.fillNote(0, NOTE_TEXT_SHORT);
@@ -775,7 +774,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.discardChangesViaReload();
   });
 
-  test("TC-LOC-NTS-011: Navigating away with unsaved changes shows the browser's leave-page warning", async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-011: Navigation away triggers browser beforeunload dialog', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     await locationNotesPage.fillNote(0, NOTE_UNSAVED);
     expect(await locationNotesPage.isSaveEnabled()).toBe(true);
@@ -843,7 +842,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.discardChangesViaReload();
   });
 
-  test('TC-LOC-NTS-016: Row created via Add shows Delete, and typing keeps the row', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-016: Row created via Add has Delete visible; typing keeps it', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
  // Defensive per-test baseline reset. Prior-session DB pollution (e.g., from a preceding test
  // that errored before its own ensureEmptyState cleanup ran) leaves saved rows whose Delete
@@ -873,7 +872,7 @@ test.describe('Location Notes @locations @notes', () => {
   });
 
 
-  test('TC-LOC-NTS-021: Paste exceeds 4000 char limit - counter shows overage', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-021: Paste exceeds 4000 char limit — counter shows overage', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     await locationNotesPage.pasteIntoNote(0, NOTE_4001_CHARS);
     expect(await locationNotesPage.getCharCount()).toBe(4001);
@@ -882,7 +881,7 @@ test.describe('Location Notes @locations @notes', () => {
   });
 
 
-  test('TC-LOC-NTS-022: Accessibility - keyboard navigation', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-022: Accessibility — keyboard navigation', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     await locationNotesPage.prepareEmptyRow();
     const textarea = locationNotesPage.getNoteTextarea(0);
@@ -895,7 +894,7 @@ test.describe('Location Notes @locations @notes', () => {
   });
 
 
-  test('TC-LOC-NTS-023: Full lifecycle - add, save, reload, delete, save', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-023: Full lifecycle — add, save, reload, delete, save', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.fillNote(0, NOTE_LIFECYCLE);
@@ -910,7 +909,7 @@ test.describe('Location Notes @locations @notes', () => {
   });
 
 
-  test('TC-LOC-NTS-024: Multi-row persistence - 3 rows save+reload+verify', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-024: Multi-row persistence — 3 rows save+reload+verify', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
@@ -933,7 +932,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.ensureEmptyState();
   });
 
-  test('TC-LOC-NTS-025: Boundary persistence - 4000 chars save+reload', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-025: Boundary persistence — 4000 chars save+reload', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
@@ -947,7 +946,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.ensureEmptyState();
   });
 
-  test('TC-LOC-NTS-026: Partial deletion persistence - delete middle row, save, verify remaining', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-026: Partial deletion persistence — delete middle row, save, verify remaining', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
@@ -969,7 +968,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.ensureEmptyState();
   });
 
-  test('TC-LOC-NTS-027: Cancel save dialog - verify changes NOT persisted', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-027: Cancel save dialog — verify changes NOT persisted', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
@@ -985,7 +984,7 @@ test.describe('Location Notes @locations @notes', () => {
 
  // Live-verified 2026-05-12: sequential save, edit-existing, save-empty, overage persistence, delete-persist
 
-  test('TC-LOC-NTS-028: Sequential save - add second note with reload between saves, both persist', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-028: Sequential save — add second note with reload between saves, both persist', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
@@ -1007,7 +1006,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.ensureEmptyState();
   });
 
-  test('TC-LOC-NTS-029: Edit existing saved note - overwritten text persists', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-029: Edit existing saved note — overwritten text persists', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
@@ -1026,7 +1025,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.ensureEmptyState();
   });
 
-  test('TC-LOC-NTS-030: Save empty row - persists as empty note box, not No Notes Available', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-030: Save empty row — persists as empty textarea, not No Notes Available', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
@@ -1043,7 +1042,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.ensureEmptyState();
   });
 
-  test('TC-LOC-NTS-031: Overage content persists - 4001 chars save+reload without truncation', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-031: Overage content persists — 4001 chars save+reload without truncation', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
@@ -1060,7 +1059,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.ensureEmptyState();
   });
 
-  test('TC-LOC-NTS-032: Delete row persists without explicit note box clear', async ({ locationNotesPage, dependencyGate }) => {
+  test('TC-LOC-NTS-032: Delete row persists without explicit textarea clear', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
@@ -1068,7 +1067,7 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.saveAndConfirm();
     await locationNotesPage.reloadAndNavigateToNotesTab();
     expect(await locationNotesPage.getNoteValue(0)).toBe(NOTE_DELETE_CHECK);
- // Delete row WITHOUT clearing textarea first (BUG-LOC-NTS-001 regression check)
+ // Delete row WITHOUT clearing textarea first (delete-only-not-persisting regression check)
     await locationNotesPage.deleteRow(0);
     expect(await locationNotesPage.isEmptyStateVisible()).toBe(true);
     await locationNotesPage.saveAndConfirm();

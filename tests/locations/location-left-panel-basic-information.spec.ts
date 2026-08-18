@@ -273,7 +273,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
   test('TC-LOC-LP-016: Line Of Business is read-only/disabled in edit mode (NM-831)', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     // Corrected from the original MD ("3-option dropdown"): LOB is disabled when EDITING an existing
     // location by Encore design (NM-831 / NM-1140 — selectable only at creation). A disabled Radix
-    // combobox cannot open, so the assertion is the disabled state + the displayed value.
+    // dropdown cannot open, so the assertion is the disabled state + the displayed value.
     expect(await lp.isFieldDisabled('drpLineOfBusiness')).toBe(true);
     expect(await lp.getLineOfBusiness()).toBe(LP_DEFAULTS.lineOfBusiness);
   });
@@ -348,8 +348,8 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
 
   // TC-LOC-LP-024 (Cross-tab Save validation — Legal tab invalid): NOT automated here. Driving the
   // Legal tab into an INVALID state (clearing the required Service Charge) has no UI "clear"
-  // affordance on the Radix required select AND risks Legal state-leak per the Legal screen's tamper-teardown
-  // finding (a DOM mutation of a Radix SC combobox tears down the Angular page). Save-gating on an
+  // affordance on the required dropdown AND risks Legal state-leak per the Legal screen's tamper-teardown
+  // finding (a programmatic change to the Service Charge dropdown tears down the Angular page). Save-gating on an
   // invalid Basic-Information state is already proven by TC-019 (TaxModeID=0). This is
   // a known coverage gap; a design decision is pending (no-DOM-leak requirement vs the Legal tab's
   // tamper-teardown behaviour). NOT a bug → no BUG cite, no test.fixme stub.

@@ -1,4 +1,5 @@
 import { Page, expect } from '@playwright/test';
+import { step } from '../../fixtures/step-decorator';
 import { BasePage } from '../base.page';
 import { Log } from '../../utils/logger';
 import { IConfig } from '../../types';
@@ -9,10 +10,12 @@ export class LocationNotesPage extends BasePage {
     Log.info('LocationNotesPage initialized');
   }
 
+  @step('Navigate to notes tab')
   async navigateToNotesTab(officeNo: string = '1604'): Promise<void> {
     await this.navigateToSubTab('tabNotes', 'sectionNotes', officeNo);
   }
 
+  @step('Is on notes tab')
   async isOnNotesTab(): Promise<boolean> {
     // Use the tab trigger's aria-selected instead of count()>0
     // on a child anchor. Radix mounts inactive panels for some tabs (forceMount-equivalent);
@@ -22,6 +25,7 @@ export class LocationNotesPage extends BasePage {
     return (await tab.getAttribute('aria-selected').catch(() => null)) === 'true';
   }
 
+  @step('Click notes tab')
   async clickNotesTab(): Promise<void> {
     await this.clickWithRetry('tabNotes');
     await this.getElement('sectionNotes').waitFor({ state: 'visible', timeout: 15_000 });
@@ -36,6 +40,7 @@ export class LocationNotesPage extends BasePage {
     ]);
   }
 
+  @step('Reload and navigate to notes tab')
   async reloadAndNavigateToNotesTab(): Promise<void> {
     const handler = async (d: import('@playwright/test').Dialog) => {
       try { await d.accept(); } catch { /* dialog may already be handled */ }
@@ -54,10 +59,12 @@ export class LocationNotesPage extends BasePage {
     await this.waitForAngularStable();
   }
 
+  @step('Click add')
   async clickAdd(): Promise<void> {
     await this.clickWithRetry('btnNotesAdd');
   }
 
+  @step('Fill note')
   async fillNote(row: number, text: string): Promise<void> {
     if (row === 0) {
       const count = await this.getElement('txtNoteInputAll').count();
@@ -80,6 +87,7 @@ export class LocationNotesPage extends BasePage {
  * Bypasses the JS keyboard handler for pasting long content.
  * Dispatches input+change events to trigger Angular model update.
  */
+  @step('Paste into note')
   async pasteIntoNote(row: number, text: string): Promise<void> {
     if (row === 0) {
       const count = await this.getElement('txtNoteInputAll').count();
@@ -101,6 +109,7 @@ export class LocationNotesPage extends BasePage {
     Log.info(`[OK] Pasted ${text.length} chars into note row ${row}`);
   }
 
+  @step('Append to note')
   async appendToNote(row: number, suffix: string): Promise<void> {
     const textarea = this.getElement('txtNoteInputAll').nth(row);
     await textarea.focus();
@@ -113,6 +122,7 @@ export class LocationNotesPage extends BasePage {
     await textarea.press('Tab');
   }
 
+  @step('Prepend to note')
   async prependToNote(row: number, prefix: string): Promise<void> {
     const textarea = this.getElement('txtNoteInputAll').nth(row);
     await textarea.focus();
@@ -125,6 +135,7 @@ export class LocationNotesPage extends BasePage {
     await textarea.press('Tab');
   }
 
+  @step('Replace slice in note')
   async replaceSliceInNote(row: number, start: number, end: number, newText: string): Promise<void> {
     const textarea = this.getElement('txtNoteInputAll').nth(row);
     await textarea.focus();
@@ -138,6 +149,7 @@ export class LocationNotesPage extends BasePage {
     await textarea.press('Tab');
   }
 
+  @step('Clear note')
   async clearNote(row: number): Promise<void> {
     const textarea = this.getElement('txtNoteInputAll').nth(row);
     await textarea.focus();
@@ -150,6 +162,7 @@ export class LocationNotesPage extends BasePage {
     await textarea.press('Tab');
   }
 
+  @step('Prepare empty row')
   async prepareEmptyRow(): Promise<void> {
     const count = await this.getElement('txtNoteInputAll').count();
     if (count === 0) {
@@ -157,12 +170,14 @@ export class LocationNotesPage extends BasePage {
     }
   }
 
+  @step('Delete row')
   async deleteRow(row: number): Promise<void> {
     const deleteBtn = this.getElement('btnNotesDelete').nth(row);
     await deleteBtn.click();
     Log.info(`[OK] Deleted note row ${row}`);
   }
 
+  @step('Delete all rows')
   async deleteAllRows(): Promise<void> {
     let count = await this.getElement('btnNotesDelete').count();
     while (count > 0) {
@@ -177,42 +192,51 @@ export class LocationNotesPage extends BasePage {
     Log.info('[OK] All note rows deleted');
   }
 
+  @step('Is empty state visible')
   async isEmptyStateVisible(): Promise<boolean> {
     return this.getElement('lblNoNotesAvailable').isVisible();
   }
 
+  @step('Get note value')
   async getNoteValue(row: number): Promise<string> {
     const el = this.getElement('txtNoteInputAll').nth(row);
     await el.waitFor({ state: 'visible', timeout: 15_000 });
     return el.inputValue();
   }
 
+  @step('Get note row count')
   async getNoteRowCount(): Promise<number> {
     return this.getElement('txtNoteInputAll').count();
   }
 
+  @step('Get char counter text')
   async getCharCounterText(): Promise<string> {
     return (await this.getElement('lblNotesCharCounter').textContent()) ?? '';
   }
 
+  @step('Get char count')
   async getCharCount(): Promise<number> {
     const text = await this.getCharCounterText();
     const match = text.match(/(\d+)\/4000/);
     return match && match[1] ? parseInt(match[1], 10) : -1;
   }
 
+  @step('Get delete button count')
   async getDeleteButtonCount(): Promise<number> {
     return this.getElement('btnNotesDelete').count();
   }
 
+  @step('Is add button visible')
   async isAddButtonVisible(): Promise<boolean> {
     return this.getElement('btnNotesAdd').isVisible();
   }
 
+  @step('Is progress bar visible')
   async isProgressBarVisible(): Promise<boolean> {
     return this.getElement('barNotesProgress').isVisible();
   }
 
+  @step('Is save enabled')
   async isSaveEnabled(): Promise<boolean> {
     return this.getElement('btnSaveNotes').isEnabled();
   }
@@ -221,10 +245,12 @@ export class LocationNotesPage extends BasePage {
     return this.getElement('txtNoteInputAll').nth(row);
   }
 
+  @step('Get textarea maxlength')
   async getTextareaMaxlength(row: number): Promise<string | null> {
     return this.getElement('txtNoteInputAll').nth(row).getAttribute('maxlength');
   }
 
+  @step('Save and confirm')
   async saveAndConfirm(): Promise<void> {
     await this.getElement('btnSaveNotes').waitFor({ state: 'visible', timeout: 5_000 });
  // Wait for Angular to enable Save (may take a tick after fill+Tab).
@@ -279,10 +305,12 @@ export class LocationNotesPage extends BasePage {
     );
   }
 
+  @step('Click save button')
   async clickSaveButton(): Promise<void> {
     await this.clickWithRetry('btnSaveNotes');
   }
 
+  @step('Get save dialog content')
   async getSaveDialogContent(): Promise<{ heading: string; body: string }> {
     const dialog = this.getElement('dlgSaveChanges');
     await dialog.waitFor({ state: 'visible', timeout: 5_000 });
@@ -291,16 +319,19 @@ export class LocationNotesPage extends BasePage {
     return { heading: heading.trim(), body: body.trim() };
   }
 
+  @step('Confirm save dialog')
   async confirmSaveDialog(): Promise<void> {
     await this.getElement('btnSaveChangesConfirm').click();
     await this.getElement('dlgSaveChanges').waitFor({ state: 'hidden', timeout: 10_000 });
   }
 
+  @step('Cancel save dialog')
   async cancelSaveDialog(): Promise<void> {
     await this.getElement('btnSaveChangesCancel').click();
     await this.getElement('dlgSaveChanges').waitFor({ state: 'hidden', timeout: 10_000 });
   }
 
+  @step('Ensure empty state')
   async ensureEmptyState(): Promise<void> {
     // save-verify-exempt: verifies inline — after the save + reload below it re-reads
     // isDefaultEmptyState() and self-heals once if the delete did not persist, instead of
@@ -357,6 +388,7 @@ export class LocationNotesPage extends BasePage {
     Log.info('[OK] Notes ensured empty (DB clean)');
   }
 
+  @step('Is default empty state')
   async isDefaultEmptyState(): Promise<boolean> {
     const noNotesVisible = await this.isEmptyStateVisible();
     const rowCount = await this.getElement('txtNoteInputAll').count();
@@ -369,10 +401,12 @@ export class LocationNotesPage extends BasePage {
     return false;
   }
 
+  @step('Discard changes via reload')
   async discardChangesViaReload(): Promise<void> {
     await this.reloadAndNavigateToNotesTab();
   }
 
+  @step('Navigate away with unsaved changes')
   async navigateAwayWithUnsavedChanges(_url: string): Promise<boolean> {
     let dialogAppeared = false;
     const handler = async (dialog: import('@playwright/test').Dialog) => {
@@ -396,6 +430,7 @@ export class LocationNotesPage extends BasePage {
     return dialogAppeared;
   }
 
+  @step('Switch to tab')
   async switchToTab(tabKey: string): Promise<void> {
     await this.clickWithRetry(tabKey);
     await this.waitForAngularStable();

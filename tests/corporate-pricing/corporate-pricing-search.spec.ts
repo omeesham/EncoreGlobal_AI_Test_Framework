@@ -44,7 +44,7 @@ test.describe('Corporate Pricing — Search FCC: BVA, each-option, combined & re
     expect(probe.staged).toBe(CORP_PRICING_SEARCH.fcc.pricebookSpecial); // accepted literally
     expect(probe.ariaInvalid).toBeNull(); // (a)
     expect(probe.escaped).toBe(true); // (b)
-    expect(probe.pageError).toBe(0); // crash-safe (unlike the Radix combobox)
+    expect(probe.pageError).toBe(0); // crash-safe (unlike the currency dropdown)
     const url = await cp.searchAndWaitForList();
     expect(url).toContain(CORP_PRICING_SEARCH.fcc.pricebookSpecialEncoded); // URL-encoded in the query
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBe(0);
@@ -75,7 +75,7 @@ test.describe('Corporate Pricing — Search FCC: BVA, each-option, combined & re
       const url = await cp.searchAndWaitForList();
       expect(url, `currency ${name} → ${CORP_PRICING_SEARCH.fcc.params.currency}=${id}`)
         .toContain(`${CORP_PRICING_SEARCH.fcc.params.currency}=${id}`);
-      await cp.clickReset(); // restores the combobox to "All Currencies" for the next option
+      await cp.clickReset(); // restores the dropdown to "All Currencies" for the next option
     }
   });
 
@@ -245,7 +245,7 @@ test.describe('Corporate Pricing — Search @corporate-pricing @search', () => {
   });
 
   test('TC-CPR-SRC-006: Pricing Strategy is a text filter (not a dropdown); stages then Search applies', async ({ corporatePricingSearchPage: cp }) => {
-    expect(await cp.getStrategyFilterValue()).toBe(''); // it is an <input> (would throw if a combobox)
+    expect(await cp.getStrategyFilterValue()).toBe(''); // it is an <input> (would throw if a dropdown)
     const counter = cp.attachListCallCounter();
     try {
       await cp.fillStrategyFilter('Tier');

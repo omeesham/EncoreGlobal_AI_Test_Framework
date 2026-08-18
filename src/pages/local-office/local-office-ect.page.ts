@@ -2,6 +2,7 @@ import { Locator } from '@playwright/test';
 import { LocalOfficeSettingsPage } from './local-office-settings.page';
 import { LocalOfficeEctSelectors, LocalOfficeSettingsSelectors, getTsSelector } from '../../selectors';
 import { Log } from '../../utils/logger';
+import { step } from '../../fixtures/step-decorator';
 
 export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
 
@@ -21,6 +22,7 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
  * Fix: unified retry loop that always checks AFTER each reload, with delay between retries
  * to give the API breathing room.
  */
+  @step('Open ECT Settings tab')
   async navigateToEctTab(): Promise<void> {
     const maxRetries = 4;
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -60,10 +62,13 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
       await this.dismissAlertDialogIfVisible();
     }
   }
+
+  @step('Is ECT Settings fixed costs save enabled')
   async isEctFixedCostsSaveEnabled(): Promise<boolean> {
     return !(await this.getElement('btnSaveFixedCosts').isDisabled());
   }
 
+  @step('Is ECT Settings labor costs save enabled')
   async isEctLaborCostsSaveEnabled(): Promise<boolean> {
     return !(await this.getElement('btnSaveLaborCosts').isDisabled());
   }
@@ -75,12 +80,14 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
  * Fix: poll until Save button disables — concrete signal that save completed and
  * form was marked pristine. Prevents race between save response and navigation.
  */
+  @step('Click save fixed costs')
   async clickSaveFixedCosts(): Promise<void> {
     await this.getElement('btnSaveFixedCosts').click();
     await this.waitForAngularStable();
     await this.waitForSaveDisabled('btnSaveFixedCosts');
   }
 
+  @step('Click save labor costs')
   async clickSaveLaborCosts(): Promise<void> {
     await this.getElement('btnSaveLaborCosts').click();
     await this.waitForAngularStable();
@@ -99,30 +106,38 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
     }
     Log.warn(`[WARN] Save button (${btnKey}) did not disable within ${timeout}ms — proceeding anyway`);
   }
+
+  @step('Get ECT Settings field value')
   async getEctFieldValue(key: string): Promise<string> {
     return this.getFieldDisplayValue(key);
   }
 
+  @step('Get event profit target row count')
   async getEventProfitTargetRowCount(): Promise<number> {
     return this.getElement('tblEventProfitTarget').locator('tbody tr').count();
   }
 
+  @step('Is event profit target read only')
   async isEventProfitTargetReadOnly(): Promise<boolean> {
     return (await this.getElement('tblEventProfitTarget').locator('input, textarea').count()) === 0;
   }
 
+  @step('Get sub rental matrix row count')
   async getSubRentalMatrixRowCount(): Promise<number> {
     return this.getElement('tblSubRentalMatrix').locator('tbody tr').count();
   }
 
+  @step('Is sub rental read only')
   async isSubRentalReadOnly(): Promise<boolean> {
     return (await this.getElement('tblSubRentalMatrix').locator('input, textarea').count()) === 0;
   }
 
+  @step('Get labor cost row count')
   async getLaborCostRowCount(): Promise<number> {
     return this.getElement('tblLaborCostAssumptions').locator('tbody tr').count();
   }
 
+  @step('Get labor cost value')
   async getLaborCostValue(rowIndex: number): Promise<string> {
     const input = this.page.locator(`[data-testid="ect-settings-input-labor-cost-${rowIndex}"]`);
     return input.inputValue();
@@ -130,6 +145,7 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
 
  /** Angular can fire "Unsaved changes" alertdialog asynchronously after tab load.
  * If the click is intercepted, dismiss the dialog and retry. */
+  @step('Fill labor cost')
   async fillLaborCost(rowIndex: number, value: string): Promise<void> {
     const input = this.page.locator(`[data-testid="ect-settings-input-labor-cost-${rowIndex}"]`);
     try {
@@ -146,26 +162,31 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
     await input.press('Tab');
   }
 
+  @step('Get first labor class name')
   async getFirstLaborClassName(): Promise<string> {
     const cell = this.getElement('tblLaborCostAssumptions').locator('tbody tr:first-child td:first-child');
     return (await cell.textContent() || '').trim();
   }
 
+  @step('Get last labor class name')
   async getLastLaborClassName(): Promise<string> {
     const cell = this.getElement('tblLaborCostAssumptions').locator('tbody tr:last-child td:first-child');
     return (await cell.textContent() || '').trim();
   }
 
+  @step('Is labor class read only')
   async isLaborClassReadOnly(): Promise<boolean> {
     return (await this.getElement('tblLaborCostAssumptions')
       .locator('tbody tr:first-child td:first-child input').count()) === 0;
   }
 
+  @step('Is labor cost editable')
   async isLaborCostEditable(): Promise<boolean> {
     return (await this.getElement('tblLaborCostAssumptions')
       .locator('tbody tr:first-child td:last-child input').count()) > 0;
   }
 
+  @step('Get table row texts')
   async getTableRowTexts(tableKey: string, rowSelector: string): Promise<string[]> {
     const cells = this.getElement(tableKey).locator(`${rowSelector} td`);
     return (await cells.allTextContents()).map(t => t.trim());

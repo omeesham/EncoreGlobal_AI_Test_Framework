@@ -4,6 +4,7 @@ import { Log } from '../../utils/logger';
 import { IConfig } from '../../types';
 import { DynamicSelectors } from '../../selectors';
 import { CheckboxState } from '../components/location-form-helpers.component';
+import { step } from '../../fixtures/step-decorator';
 
 export class LocationPricingPage extends BasePage {
   constructor(page: Page, config?: IConfig) {
@@ -11,6 +12,7 @@ export class LocationPricingPage extends BasePage {
     Log.info('LocationPricingPage initialized');
   }
 
+  @step('Navigate to pricing tab')
   async navigateToPricingTab(officeNo: string = '1604'): Promise<void> {
     await this.navigateToSubTab('tabPricing', 'chkCorporatePricing', officeNo);
  // Wait for pricing API to populate persisted checkbox states (default render is unchecked).
@@ -21,12 +23,14 @@ export class LocationPricingPage extends BasePage {
  * Encore sub-tabs share `settings/location` URL — URL-based detection is unreliable after
  * a sibling tab's navigation; aria-selected is the reliable signal.
  */
+  @step('Is on pricing tab')
   async isOnPricingTab(): Promise<boolean> {
     const tab = this.getElement('tabPricing');
     if ((await tab.count()) === 0) return false;
     return (await tab.getAttribute('aria-selected').catch(() => null)) === 'true';
   }
 
+  @step('Reload pricing tab')
   async reloadPricingTab(officeNo: string = '1604'): Promise<void> {
     const base = this.config?.base_url || '';
  // After Save→Cancel, form stays dirty. safeNavigateTo handles beforeunload dialog.
@@ -40,6 +44,7 @@ export class LocationPricingPage extends BasePage {
  * Angular's change detection applies API data to DOM attributes AFTER the HTTP response is
  * received (async gap); in serial runs that gap widens enough that reads return stale defaults.
  */
+  @step('Wait for pricing data loaded')
   async waitForPricingDataLoaded(): Promise<void> {
     await this.waitForAngularStable();
  // Signal 1 (primary, reliable across offices): the secondary pricing grid has rendered its rows.
@@ -69,18 +74,22 @@ export class LocationPricingPage extends BasePage {
     }
   }
 
+  @step('Get checkbox state')
   async getCheckboxState(selectorKey: string): Promise<CheckboxState> {
     return this.getRadixCheckboxState(selectorKey);
   }
 
+  @step('Check checkbox')
   async checkCheckbox(selectorKey: string): Promise<void> {
     await this.setRadixCheckbox(selectorKey, true);
   }
 
+  @step('Uncheck checkbox')
   async uncheckCheckbox(selectorKey: string): Promise<void> {
     await this.setRadixCheckbox(selectorKey, false);
   }
 
+  @step('Is dropdown enabled')
   async isDropdownEnabled(selectorKey: string): Promise<boolean> {
     const el = this.getElement(selectorKey);
     const disabled = await el.isDisabled().catch(() => true);
@@ -88,10 +97,12 @@ export class LocationPricingPage extends BasePage {
     return !disabled;
   }
 
+  @step('Get dropdown value')
   async getDropdownValue(selectorKey: string): Promise<string> {
     return this.getFieldDisplayValue(selectorKey);
   }
 
+  @step('Verify primary dropdown states')
   async verifyPrimaryDropdownStates(keys: readonly string[], expectedEnabled: boolean): Promise<{ allPassed: boolean; failures: string[] }> {
     const failures: string[] = [];
     for (const key of keys) {
@@ -109,6 +120,7 @@ export class LocationPricingPage extends BasePage {
  * @param selectorKey - selector key for the combobox
  * @param optionText - exact pricebook name to select
  */
+  @step('Select primary dropdown option')
   async selectPrimaryDropdownOption(selectorKey: string, optionText: string): Promise<void> {
  // Skip if already set -- clicking an already-selected option toggles it off (Radix behavior)
     const currentValue = await this.getDropdownValue(selectorKey);
@@ -136,6 +148,7 @@ export class LocationPricingPage extends BasePage {
  * No-op if the dropdown is already unset. Used to restore a dropdown after a persistence test.
  * @param selectorKey - selector key for the combobox
  */
+  @step('Clear primary dropdown')
   async clearPrimaryDropdown(selectorKey: string): Promise<void> {
     const current = (await this.getDropdownValue(selectorKey)).trim();
     if (current === '' || current === '--Select--' || current === 'Select') {
@@ -153,12 +166,14 @@ export class LocationPricingPage extends BasePage {
     Log.info(`Cleared ${selectorKey} (was "${current}")`);
   }
 
+  @step('Get currency filter value')
   async getCurrencyFilterValue(): Promise<string> {
     return this.getFieldDisplayValue('drpCurrencyFilter');
   }
 
  /** The outer try/finally fires Escape on the failure path if the upstream open throws
  * before BasePage's internal Escape runs — a safe no-op if the popover is already closed. */
+  @step('Get currency filter options')
   async getCurrencyFilterOptions(): Promise<string[]> {
     try {
       return await this.getComboboxOptions('drpCurrencyFilter');
@@ -167,6 +182,7 @@ export class LocationPricingPage extends BasePage {
     }
   }
 
+  @step('Select currency filter')
   async selectCurrencyFilter(optionText: string): Promise<void> {
     await this.getElement('drpCurrencyFilter').click();
     await this.page.waitForTimeout(500);
@@ -176,6 +192,7 @@ export class LocationPricingPage extends BasePage {
     Log.info(`Currency filter -> ${optionText}`);
   }
 
+  @step('Get column headers')
   async getColumnHeaders(): Promise<string[]> {
     return this.getColumnHeadersByKeys([
       'colHeaderPricingStrategy', 'colHeaderPricebook', 'colHeaderCurrency',
@@ -184,6 +201,7 @@ export class LocationPricingPage extends BasePage {
     ]);
   }
 
+  @step('Is grid row visible')
   async isGridRowVisible(priceBookName: string): Promise<boolean> {
     const selector = DynamicSelectors.rowPriceBook(priceBookName);
     const count = await this.page.locator(selector).count();
@@ -191,6 +209,7 @@ export class LocationPricingPage extends BasePage {
     return count > 0;
   }
 
+  @step('Is grid row displayed')
   async isGridRowDisplayed(priceBookName: string): Promise<boolean> {
     const selector = DynamicSelectors.rowPriceBook(priceBookName);
     const loc = this.page.locator(selector);
@@ -199,12 +218,14 @@ export class LocationPricingPage extends BasePage {
     return loc.first().isVisible().catch(() => false);
   }
 
+  @step('Get grid row count')
   async getGridRowCount(): Promise<number> {
     const count = await this.page.locator('[role="tabpanel"] table tbody tr').count();
     Log.info(`Grid row count: ${count}`);
     return count;
   }
 
+  @step('Get is alternative state')
   async getIsAlternativeState(priceBookName: string): Promise<CheckboxState> {
     const selector = DynamicSelectors.chkIsAlternative(priceBookName);
     const el = this.page.locator(selector);
@@ -216,6 +237,7 @@ export class LocationPricingPage extends BasePage {
     return { checked, disabled };
   }
 
+  @step('Get use effective date state')
   async getUseEffectiveDateState(priceBookName: string): Promise<CheckboxState> {
     const selector = DynamicSelectors.chkUseEffectiveDate(priceBookName);
     const el = this.page.locator(selector);
@@ -227,6 +249,7 @@ export class LocationPricingPage extends BasePage {
     return { checked, disabled };
   }
 
+  @step('Check is alternative')
   async checkIsAlternative(priceBookName: string): Promise<void> {
     const state = await this.getIsAlternativeState(priceBookName);
     if (!state.checked) {
@@ -236,6 +259,7 @@ export class LocationPricingPage extends BasePage {
     }
   }
 
+  @step('Uncheck is alternative')
   async uncheckIsAlternative(priceBookName: string): Promise<void> {
     const state = await this.getIsAlternativeState(priceBookName);
     if (state.checked) {
@@ -245,6 +269,7 @@ export class LocationPricingPage extends BasePage {
     }
   }
 
+  @step('Check use effective date')
   async checkUseEffectiveDate(priceBookName: string): Promise<void> {
     const state = await this.getUseEffectiveDateState(priceBookName);
     if (!state.checked) {
@@ -254,6 +279,7 @@ export class LocationPricingPage extends BasePage {
     }
   }
 
+  @step('Uncheck use effective date')
   async uncheckUseEffectiveDate(priceBookName: string): Promise<void> {
     const state = await this.getUseEffectiveDateState(priceBookName);
     if (state.checked) {
@@ -263,6 +289,7 @@ export class LocationPricingPage extends BasePage {
     }
   }
 
+  @step('Is start date enabled')
   async isStartDateEnabled(priceBookName: string): Promise<boolean> {
     const selector = DynamicSelectors.dtpStartDate(priceBookName);
     const el = this.page.locator(selector);
@@ -271,6 +298,7 @@ export class LocationPricingPage extends BasePage {
     return !disabled;
   }
 
+  @step('Is end date enabled')
   async isEndDateEnabled(priceBookName: string): Promise<boolean> {
     const selector = DynamicSelectors.dtpEndDate(priceBookName);
     const el = this.page.locator(selector);
@@ -279,34 +307,40 @@ export class LocationPricingPage extends BasePage {
     return !disabled;
   }
 
+  @step('Get start date value')
   async getStartDateValue(priceBookName: string): Promise<string> {
     const selector = DynamicSelectors.dtpStartDate(priceBookName);
     const input = this.page.locator(selector);
     return (await input.inputValue().catch(() => '')).trim();
   }
 
+  @step('Get end date value')
   async getEndDateValue(priceBookName: string): Promise<string> {
     const selector = DynamicSelectors.dtpEndDate(priceBookName);
     const input = this.page.locator(selector);
     return (await input.inputValue().catch(() => '')).trim();
   }
 
+  @step('Enter start date')
   async enterStartDate(priceBookName: string, dateValue: string): Promise<void> {
     await this.selectDateFromCalendar(priceBookName, 6, dateValue);
     Log.info(`Entered Start Date [${priceBookName}]: ${dateValue}`);
   }
 
+  @step('Enter end date')
   async enterEndDate(priceBookName: string, dateValue: string): Promise<void> {
     await this.selectDateFromCalendar(priceBookName, 7, dateValue);
     Log.info(`Entered End Date [${priceBookName}]: ${dateValue}`);
   }
 
+  @step('Is start date read only')
   async isStartDateReadOnly(priceBookName: string): Promise<boolean> {
     const selector = DynamicSelectors.dtpStartDate(priceBookName);
     const el = this.page.locator(selector);
     return (await el.getAttribute('readonly')) !== null;
   }
 
+  @step('Is end date read only')
   async isEndDateReadOnly(priceBookName: string): Promise<boolean> {
     const selector = DynamicSelectors.dtpEndDate(priceBookName);
     const el = this.page.locator(selector);
@@ -317,11 +351,13 @@ export class LocationPricingPage extends BasePage {
  * The validation tooltip only renders while the calendar popover is open.
  * Caller must ensure the popover is already open before calling this.
  */
+  @step('Has date validation error')
   async hasDateValidationError(): Promise<boolean> {
     const msg = this.page.locator('text=/Pricing Effective.*date.*must be set/');
     return (await msg.count()) > 0;
   }
 
+  @step('Open start date popover')
   async openStartDatePopover(priceBookName: string): Promise<void> {
     const row = this.page.locator(DynamicSelectors.rowPriceBook(priceBookName));
     const cell = row.locator('td:nth-child(6)');
@@ -331,6 +367,7 @@ export class LocationPricingPage extends BasePage {
     Log.info(`Opened Start Date popover for ${priceBookName}`);
   }
 
+  @step('Open end date popover')
   async openEndDatePopover(priceBookName: string): Promise<void> {
     const row = this.page.locator(DynamicSelectors.rowPriceBook(priceBookName));
     const cell = row.locator('td:nth-child(7)');
@@ -340,6 +377,7 @@ export class LocationPricingPage extends BasePage {
     Log.info(`Opened End Date popover for ${priceBookName}`);
   }
 
+  @step('Close date popover')
   async closeDatePopover(): Promise<void> {
     await this.page.keyboard.press('Escape');
  // Wait for the dialog to disappear
@@ -430,6 +468,7 @@ export class LocationPricingPage extends BasePage {
       .click();
   }
 
+  @step('Enable full cascade')
   async enableFullCascade(priceBookName: string): Promise<void> {
     await this.checkIsAlternative(priceBookName);
  // checkbox cascade is async — poll until Use Effective Date is enabled
@@ -447,6 +486,7 @@ export class LocationPricingPage extends BasePage {
     Log.info(`Full cascade enabled for ${priceBookName}`);
   }
 
+  @step('Get read only column interactive count')
   async getReadOnlyColumnInteractiveCount(priceBookName: string): Promise<number> {
     const row = this.page.locator(DynamicSelectors.rowPriceBook(priceBookName));
     let total = 0;
@@ -464,11 +504,13 @@ export class LocationPricingPage extends BasePage {
  * which re-reads after reload and re-drives until the server actually shows defaults. Do not add a
  * save here, or it will fight the baseline reset.
  */
+  @step('Reset grid row')
   async resetGridRow(priceBookName: string): Promise<void> {
     await this.uncheckIsAlternative(priceBookName);
     Log.info(`Row reset (in-grid only, not persisted): ${priceBookName}`);
   }
 
+  @step('Is save enabled')
   async isSaveEnabled(): Promise<boolean> {
     const el = this.getElement('btnSavePricing');
     const disabled = await el.isDisabled().catch(() => true);
@@ -476,14 +518,17 @@ export class LocationPricingPage extends BasePage {
     return !disabled;
   }
 
+  @step('Wait for save enabled')
   async waitForSaveEnabled(saveBtnKey = 'btnSavePricing', timeout = 5_000): Promise<boolean> {
     return super.waitForSaveEnabled(saveBtnKey, timeout);
   }
 
+  @step('Click save')
   async clickSave(): Promise<{ success: boolean; networkError?: string }> {
     return this.clickSaveWithDialog('btnSavePricing');
   }
 
+  @step('Save and confirm')
   async saveAndConfirm(): Promise<void> {
     const result = await this.clickSave();
     if (!result.success) {
@@ -503,6 +548,7 @@ export class LocationPricingPage extends BasePage {
  * (already at defaults) returns after reads only — no save, no reload — so it stays fast on this
  * heavy tab.
  */
+  @step('Ensure default state')
   async ensureDefaultState(
     defaults: { corporatePricing: boolean; priceGuideInclusive: boolean; gridRows: readonly string[] },
     officeNo: string = '1604',
@@ -540,6 +586,7 @@ export class LocationPricingPage extends BasePage {
     throw new Error(`ensureDefaultState: Pricing not at defaults after ${maxAttempts} attempts`);
   }
 
+  @step('Click save button')
   async clickSaveButton(): Promise<void> {
     const el = this.getElement('btnSavePricing');
     await el.click();
@@ -547,12 +594,14 @@ export class LocationPricingPage extends BasePage {
     Log.info('Clicked Save button — dialog opened');
   }
 
+  @step('Click save cancel')
   async clickSaveCancel(): Promise<void> {
     await this.getElement('btnSaveChangesCancel').click();
     await this.getElement('dlgSaveChanges').waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => {});
     Log.info('Clicked Save Cancel — dialog dismissed');
   }
 
+  @step('Is save dialog visible')
   async isSaveDialogVisible(): Promise<boolean> {
     return this.getElement('dlgSaveChanges').isVisible();
   }
@@ -560,6 +609,7 @@ export class LocationPricingPage extends BasePage {
   /** The page-scoped changes (widened viewport, suppressed beforeunload) are not
    * restored here — the viewport is harmless for later tests and the suppression resets on the
    * next test's page reload. */
+  @step('Click sidebar home')
   async clickSidebarHome(): Promise<void> {
     const homeLink = this.page.getByRole('link', { name: 'Home' });
     if (!await homeLink.isVisible().catch(() => false)) {
@@ -574,11 +624,13 @@ export class LocationPricingPage extends BasePage {
     await homeLink.click();
   }
 
+  @step('Is unsaved dialog visible')
   async isUnsavedDialogVisible(): Promise<boolean> {
     const dlg = this.page.locator('[data-testid="location-settings-modal-unsaved-changes"]');
     return dlg.waitFor({ state: 'visible', timeout: 5_000 }).then(() => true).catch(() => false);
   }
 
+  @step('Click unsaved stay')
   async clickUnsavedStay(): Promise<void> {
     const dlg = this.page.locator('[data-testid="location-settings-modal-unsaved-changes"]');
     await dlg.locator('button:has-text("Stay")').click();

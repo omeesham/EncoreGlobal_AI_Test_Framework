@@ -39,10 +39,10 @@ export interface SpecialContentData {
 }
 
 export const SPECIAL_CONTENT_TESTS: SpecialContentData[] = [
-  { tcId: '013', name: 'Special and HTML characters stored correctly', text: NOTE_SPECIAL_CHARS },
-  { tcId: '018', name: 'XSS payload stored as unsafe text (security)', text: NOTE_XSS },
-  { tcId: '019', name: 'SQL injection payload stored as text (security)', text: NOTE_SQL },
-  { tcId: '020', name: 'Emoji and unicode characters preserved through save/reload', text: NOTE_EMOJI },
+  { tcId: '013', name: 'Special/HTML characters stored correctly', text: NOTE_SPECIAL_CHARS },
+  { tcId: '018', name: 'XSS payload stored as text', text: NOTE_XSS },
+  { tcId: '019', name: 'SQL injection stored as text', text: NOTE_SQL },
+  { tcId: '020', name: 'Emoji and unicode preserved', text: NOTE_EMOJI },
 ];
 
 export const NOTE_ROW_ALPHA = 'Row Alpha';

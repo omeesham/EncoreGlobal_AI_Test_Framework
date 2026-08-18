@@ -11,12 +11,13 @@ import { LocalOfficeSettingsPage } from '../pages/local-office/local-office-sett
 import { LocalOfficeHistoryPage } from '../pages/local-office/local-office-history.page';
 import { LocalOfficeEctPage } from '../pages/local-office/local-office-ect.page';
 import { LocationAutoAddonPage } from '../pages/locations/location-auto-addon.page';
+import { LocationBusinessTypesPage } from '../pages/locations/location-business-types.page';
 import { LocationManagementHistoryPage } from '../pages/locations/location-management-history.page';
 import { CorporatePricingBasePage } from '../pages/corporate-pricing/corporate-pricing.page';
 import { CorporatePricingSearchPage } from '../pages/corporate-pricing/corporate-pricing-search.page';
 import { CorporatePricingStrategyPage } from '../pages/corporate-pricing/corporate-pricing-strategy.page';
 import { CorporatePricingDetailPage } from '../pages/corporate-pricing/corporate-pricing-detail.page';
-import { CorporatePricingOverridePage } from '../pages/corporate-pricing/corporate-pricing-override.page';
+import { CorporatePricingOverridePage } from '../pages/corporate-override/corporate-override.page';
 import { CorporatePricingNewPricebookPage } from '../pages/corporate-pricing/corporate-pricing-new-pricebook.page';
 import { CommonMethods } from '../utils/env-config';
 import { Log } from '../utils/logger';
@@ -34,7 +35,6 @@ import {
   writeStateAtomic,
 } from '../utils/auth-storage';
 import { dependencyGateExt } from './dependency-gate';
-import { wrapWithSteps } from './step-wrapper';
 
 type WorkerFixtures = {
   config: IConfig;
@@ -55,6 +55,7 @@ type TestFixtures = {
   localOfficeHistoryPage: LocalOfficeHistoryPage;
   localOfficeEctPage: LocalOfficeEctPage;
   locationAutoAddonPage: LocationAutoAddonPage;
+  locationBusinessTypesPage: LocationBusinessTypesPage;
   locationManagementHistoryPage: LocationManagementHistoryPage;
   corporatePricingBasePage: CorporatePricingBasePage;
   corporatePricingSearchPage: CorporatePricingSearchPage;
@@ -332,97 +333,102 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
   },
 
   locationCurrencyPage: async ({ authenticatedSession, config }, use) => {
-    const locationCurrencyPage = wrapWithSteps(new LocationCurrencyPage(authenticatedSession.page, config), 'LocationCurrencyPage');
+    const locationCurrencyPage = new LocationCurrencyPage(authenticatedSession.page, config);
     await use(locationCurrencyPage);
   },
 
   locationLocalInfoPage: async ({ authenticatedSession, config }, use) => {
-    const locationLocalInfoPage = wrapWithSteps(new LocationLocalInfoPage(authenticatedSession.page, config), 'LocationLocalInfoPage');
+    const locationLocalInfoPage = new LocationLocalInfoPage(authenticatedSession.page, config);
     await use(locationLocalInfoPage);
   },
 
   locationPricingPage: async ({ authenticatedSession, config }, use) => {
-    const locationPricingPage = wrapWithSteps(new LocationPricingPage(authenticatedSession.page, config), 'LocationPricingPage');
+    const locationPricingPage = new LocationPricingPage(authenticatedSession.page, config);
     await use(locationPricingPage);
   },
 
   locationAccountAddressPage: async ({ authenticatedSession, config }, use) => {
-    const locationAccountAddressPage = wrapWithSteps(new LocationAccountAddressPage(authenticatedSession.page, config), 'LocationAccountAddressPage');
+    const locationAccountAddressPage = new LocationAccountAddressPage(authenticatedSession.page, config);
     await use(locationAccountAddressPage);
   },
 
   locationNotesPage: async ({ authenticatedSession, config }, use) => {
-    const locationNotesPage = wrapWithSteps(new LocationNotesPage(authenticatedSession.page, config), 'LocationNotesPage');
+    const locationNotesPage = new LocationNotesPage(authenticatedSession.page, config);
     await use(locationNotesPage);
   },
 
   locationLegalPage: async ({ authenticatedSession, config }, use) => {
-    const locationLegalPage = wrapWithSteps(new LocationLegalPage(authenticatedSession.page, config), 'LocationLegalPage');
+    const locationLegalPage = new LocationLegalPage(authenticatedSession.page, config);
     await use(locationLegalPage);
   },
 
   locationLeftPanelBasicInformationPage: async ({ authenticatedSession, config }, use) => {
-    const locationLeftPanelBasicInformationPage = wrapWithSteps(new LocationLeftPanelBasicInformationPage(authenticatedSession.page, config), 'LocationLeftPanelBasicInformationPage');
+    const locationLeftPanelBasicInformationPage = new LocationLeftPanelBasicInformationPage(authenticatedSession.page, config);
     await use(locationLeftPanelBasicInformationPage);
   },
 
   locationSharedSetupLocationsPage: async ({ authenticatedSession, config }, use) => {
-    const locationSharedSetupLocationsPage = wrapWithSteps(new LocationSharedSetupLocationsPage(authenticatedSession.page, config), 'LocationSharedSetupLocationsPage');
+    const locationSharedSetupLocationsPage = new LocationSharedSetupLocationsPage(authenticatedSession.page, config);
     await use(locationSharedSetupLocationsPage);
   },
 
   localOfficeSettingsPage: async ({ authenticatedSession, config }, use) => {
-    const localOfficeSettingsPage = wrapWithSteps(new LocalOfficeSettingsPage(authenticatedSession.page, config), 'LocalOfficeSettingsPage');
+    const localOfficeSettingsPage = new LocalOfficeSettingsPage(authenticatedSession.page, config);
     await use(localOfficeSettingsPage);
   },
 
   localOfficeHistoryPage: async ({ authenticatedSession, config }, use) => {
-    const localOfficeHistoryPage = wrapWithSteps(new LocalOfficeHistoryPage(authenticatedSession.page, config), 'LocalOfficeHistoryPage');
+    const localOfficeHistoryPage = new LocalOfficeHistoryPage(authenticatedSession.page, config);
     await use(localOfficeHistoryPage);
   },
 
   localOfficeEctPage: async ({ authenticatedSession, config }, use) => {
-    const localOfficeEctPage = wrapWithSteps(new LocalOfficeEctPage(authenticatedSession.page, config), 'LocalOfficeEctPage');
+    const localOfficeEctPage = new LocalOfficeEctPage(authenticatedSession.page, config);
     await use(localOfficeEctPage);
   },
 
   locationAutoAddonPage: async ({ authenticatedSession, config }, use) => {
-    const locationAutoAddonPage = wrapWithSteps(new LocationAutoAddonPage(authenticatedSession.page, config), 'LocationAutoAddonPage');
+    const locationAutoAddonPage = new LocationAutoAddonPage(authenticatedSession.page, config);
     await use(locationAutoAddonPage);
   },
 
+  locationBusinessTypesPage: async ({ authenticatedSession, config }, use) => {
+    const locationBusinessTypesPage = new LocationBusinessTypesPage(authenticatedSession.page, config);
+    await use(locationBusinessTypesPage);
+  },
+
   locationManagementHistoryPage: async ({ authenticatedSession, config }, use) => {
-    const locationManagementHistoryPage = wrapWithSteps(new LocationManagementHistoryPage(authenticatedSession.page, config), 'LocationManagementHistoryPage');
+    const locationManagementHistoryPage = new LocationManagementHistoryPage(authenticatedSession.page, config);
     await use(locationManagementHistoryPage);
   },
 
   corporatePricingBasePage: async ({ authenticatedSession, config }, use) => {
-    const corporatePricingBasePage = wrapWithSteps(new CorporatePricingBasePage(authenticatedSession.page, config), 'CorporatePricingBasePage');
+    const corporatePricingBasePage = new CorporatePricingBasePage(authenticatedSession.page, config);
     await use(corporatePricingBasePage);
   },
 
   corporatePricingSearchPage: async ({ authenticatedSession, config }, use) => {
-    const corporatePricingSearchPage = wrapWithSteps(new CorporatePricingSearchPage(authenticatedSession.page, config), 'CorporatePricingSearchPage');
+    const corporatePricingSearchPage = new CorporatePricingSearchPage(authenticatedSession.page, config);
     await use(corporatePricingSearchPage);
   },
 
   corporatePricingStrategyPage: async ({ authenticatedSession, config }, use) => {
-    const corporatePricingStrategyPage = wrapWithSteps(new CorporatePricingStrategyPage(authenticatedSession.page, config), 'CorporatePricingStrategyPage');
+    const corporatePricingStrategyPage = new CorporatePricingStrategyPage(authenticatedSession.page, config);
     await use(corporatePricingStrategyPage);
   },
 
   corporatePricingDetailPage: async ({ authenticatedSession, config }, use) => {
-    const corporatePricingDetailPage = wrapWithSteps(new CorporatePricingDetailPage(authenticatedSession.page, config), 'CorporatePricingDetailPage');
+    const corporatePricingDetailPage = new CorporatePricingDetailPage(authenticatedSession.page, config);
     await use(corporatePricingDetailPage);
   },
 
   corporatePricingOverridePage: async ({ authenticatedSession, config }, use) => {
-    const corporatePricingOverridePage = wrapWithSteps(new CorporatePricingOverridePage(authenticatedSession.page, config), 'CorporatePricingOverridePage');
+    const corporatePricingOverridePage = new CorporatePricingOverridePage(authenticatedSession.page, config);
     await use(corporatePricingOverridePage);
   },
 
   corporatePricingNewPricebookPage: async ({ authenticatedSession, config }, use) => {
-    const corporatePricingNewPricebookPage = wrapWithSteps(new CorporatePricingNewPricebookPage(authenticatedSession.page, config), 'CorporatePricingNewPricebookPage');
+    const corporatePricingNewPricebookPage = new CorporatePricingNewPricebookPage(authenticatedSession.page, config);
     await use(corporatePricingNewPricebookPage);
   },
 
