@@ -1,0 +1,46 @@
+{
+  "name": "@encore/playwright",
+  "version": "1.0.0",
+  "description": "Encore Playwright test suite",
+  "private": true,
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "playwright test --config=playwright.config.ts",
+    "test:headed": "playwright test --config=playwright.config.ts --headed",
+    "test:debug": "playwright test --config=playwright.config.ts --debug",
+    "test:ui": "playwright test --config=playwright.config.ts --ui",
+    "test:failed": "playwright test --config=playwright.config.ts --last-failed",
+    "test:grep": "playwright test --config=playwright.config.ts --grep",
+    "test:cli": "node scripts/test-cli.js",
+    "clean:run": "node scripts/clean-run.js",
+    "report": "playwright show-report reports/html-report",
+    "allure:generate": "npx allure generate reports/allure-results --clean -o reports/allure-report",
+    "allure:open": "npx allure open reports/allure-report",
+    "allure:report": "npm run allure:generate && npm run allure:open",
+    "share-for-debugging": "node scripts/share-for-debugging.js",
+    "setup": "npm install && npx playwright install",
+    "setup:browsers": "npx playwright install chromium firefox webkit",
+    "clean": "rimraf --glob reports/allure-results reports/allure-report reports/diagnostics reports/walkthrough reports/html-report reports/test-results reports/test-results.json reports/failure-summary.json reports/junit-results.xml reports/share-for-debugging-*.zip logs/test-execution.log",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.60.0",
+    "@types/node": "^20.10.0",
+    "@types/proper-lockfile": "^4.1.4",
+    "allure-commandline": "^2.38.1",
+    "allure-playwright": "^3.7.0",
+    "archiver": "^7.0.1",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "xlsx": "^0.18.5"
+  },
+  "dependencies": {
+    "dotenv-flow": "^4.1.0",
+    "proper-lockfile": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

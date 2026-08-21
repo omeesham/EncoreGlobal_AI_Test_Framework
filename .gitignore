@@ -1,0 +1,44 @@
+# Build artifacts
+node_modules/
+reports/*
+!reports/bugs/
+logs/
+test-results/
+test-results-*/
+playwright-report/
+playwright/.cache/
+*.tsbuildinfo
+
+# Test evidence runtime artifacts (field-case-runner rejected inputs, etc.)
+.test-evidence/
+
+# Agent-internal artifacts kept on disk but never shipped
+scripts/walks/
+src/selectors/SELECTOR_CATALOG.md
+
+# Local environment overrides — .env.*.local and .env.server are personal overrides, never ship
+.env.local
+.env.*.local
+.env.server
+
+# Internal artifacts — never ship to client
+CLAUDE.md
+.auth/
+# Client requires NO GitHub workflows in the deliverable — never track or ship .github
+.github/
+
+# Playwright debug session artifacts (may contain live session cookies — never ship, never commit)
+.playwright-cli/
+.playwright-mcp/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Merged/renamed report output (per-module HTML reports + their blob inputs).
+# The bare "playwright-report/" rule above misses these renamed variants.
+playwright-report-*/
+blob-report/
+blob-report-*/
