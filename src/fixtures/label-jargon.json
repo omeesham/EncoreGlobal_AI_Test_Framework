@@ -1,34 +1,15 @@
 {
-  "jargonMap": {
-    "ssl": "Shared Setup Locations",
-    "ect": "ECT Settings",
-    "csv": "CSV",
-    "loc": "Location",
-    "url": "URL",
-    "id": "",
-    "btn": "",
-    "lm": "Location Management",
-    "si": "Self Include",
-    "pg": "Product Group",
-    "payto": "Pay To",
-    "pricebook": "Pricebook"
-  },
-  "deniedJargon": ["ssl", "ect", "csv", "btn", "lm", "si", "pg", "los", "bva", "fcc", "testid", "id"],
-  "handLabels": {
-    "LocationSharedSetupLocationsPage": {
-      "reloadAndNavigateToSSLTab": "Reload and open Shared Setup Locations tab",
-      "ensureCleanSSLTable": "Clear Shared Setup table to baseline"
-    },
-    "LocalOfficeEctPage": {
-      "navigateToEctTab": "Open ECT Settings tab"
-    },
-    "CorporatePricingSearchPage": {
-      "clickLocPricingExportAndCaptureUrl": "Click Location Pricing export",
-      "downloadLocPricingExport": "Download Location Pricing export",
-      "captureLocPricingCsvRows": "Capture Location Pricing CSV rows"
-    },
-    "LocationLeftPanelBasicInformationPage": {
-      "searchPayToById": "Search Pay To"
-    }
-  }
+  "approvedTerms": [
+    "Shared Setup Locations",
+    "ECT Settings",
+    "CSV",
+    "Location",
+    "URL",
+    "Location Management",
+    "Self Include",
+    "Product Group",
+    "Pay To",
+    "Pricebook"
+  ],
+  "deniedJargon": ["ssl", "ect", "csv", "btn", "lm", "si", "pg", "los", "bva", "fcc", "testid", "id"]
 }

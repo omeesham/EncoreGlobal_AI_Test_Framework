@@ -1,4 +1,5 @@
 import { Page } from '@playwright/test';
+import { step } from '../../fixtures/step-decorator';
 import { BasePage } from '../base.page';
 import { Log } from '../../utils/logger';
 import { IConfig } from '../../types';
@@ -9,10 +10,12 @@ export class LocationLegalPage extends BasePage {
     Log.info('LocationLegalPage initialized');
   }
 
+  @step('Navigate to legal tab')
   async navigateToLegalTab(officeNo: string = '1604'): Promise<void> {
     await this.navigateToSubTab('tabLegal', 'contentLegal', officeNo);
   }
 
+  @step('Is on legal tab')
   async isOnLegalTab(): Promise<boolean> {
     // contentLegal is a panel-wrapper testid that Radix keeps mounted across all tab
     // states (count() > 0 returns TRUE even when Legal is inactive). The tab trigger's
@@ -22,6 +25,7 @@ export class LocationLegalPage extends BasePage {
     return (await tab.getAttribute('aria-selected').catch(() => null)) === 'true';
   }
 
+  @step('Click legal tab')
   async clickLegalTab(): Promise<void> {
     await this.clickWithRetry('tabLegal');
     await this.getElement('contentLegal').waitFor({ state: 'visible', timeout: 15_000 });
@@ -35,6 +39,7 @@ export class LocationLegalPage extends BasePage {
     await this.waitForAngularStable();
   }
 
+  @step('Reload and navigate to legal tab')
   async reloadAndNavigateToLegalTab(): Promise<void> {
     const handler = async (d: import('@playwright/test').Dialog) => {
       try { await d.accept(); } catch { /* dialog may already be handled */ }
@@ -49,6 +54,7 @@ export class LocationLegalPage extends BasePage {
     await this.clickLegalTab();
   }
 
+  @step('Get grid row count')
   async getGridRowCount(): Promise<number> {
     const grid = this.getElement('tblLegal');
     await grid.waitFor({ state: 'visible', timeout: 15_000 });
@@ -57,6 +63,7 @@ export class LocationLegalPage extends BasePage {
     return rows;
   }
 
+  @step('Get column headers')
   async getColumnHeaders(): Promise<string[]> {
     const grid = this.getElement('tblLegal');
     await grid.waitFor({ state: 'visible', timeout: 15_000 });
@@ -64,12 +71,14 @@ export class LocationLegalPage extends BasePage {
     return headers.map(h => h.trim()).filter(h => h.length > 0);
   }
 
+  @step('Get language name')
   async getLanguageName(row: number = 0): Promise<string> {
     const grid = this.getElement('tblLegal');
     const cell = grid.locator(`tbody tr`).nth(row).locator('td').first();
     return (await cell.textContent() || '').trim();
   }
 
+  @step('Is language name read only')
   async isLanguageNameReadOnly(row: number = 0): Promise<boolean> {
     const grid = this.getElement('tblLegal');
     const cell = grid.locator(`tbody tr`).nth(row).locator('td').first();
@@ -77,30 +86,37 @@ export class LocationLegalPage extends BasePage {
     return interactiveCount === 0;
   }
 
+  @step('Get service charge value')
   async getServiceChargeValue(): Promise<string> {
     return this.getFieldDisplayValue('drpLegalServiceCharge0');
   }
 
+  @step('Get terms value')
   async getTermsValue(): Promise<string> {
     return this.getFieldDisplayValue('drpLegalTerms0');
   }
 
+  @step('Get service charge options')
   async getServiceChargeOptions(): Promise<string[]> {
     return this.getComboboxOptions('drpLegalServiceCharge0');
   }
 
+  @step('Get terms options')
   async getTermsOptions(): Promise<string[]> {
     return this.getComboboxOptions('drpLegalTerms0');
   }
 
+  @step('Select service charge')
   async selectServiceCharge(optionText: string): Promise<void> {
     await this.selectComboboxOption('drpLegalServiceCharge0', optionText, { exact: true });
   }
 
+  @step('Select terms')
   async selectTerms(optionText: string): Promise<void> {
     await this.selectComboboxOption('drpLegalTerms0', optionText, { exact: true });
   }
 
+  @step('Has dropdown search')
   async hasDropdownSearch(dropdownKey: string): Promise<boolean> {
     const listbox = await this.openComboboxListbox(dropdownKey);
     const searchCount = await listbox.locator('input, [type="search"], [cmdk-input]').count();
@@ -112,6 +128,7 @@ export class LocationLegalPage extends BasePage {
  /**
  * Throws on save failure so callers see server errors rather than a silent {success:false} return.
  */
+  @step('Save and confirm')
   async saveAndConfirm(): Promise<void> {
     const result = await this.clickSave();
     if (!result.success) {
@@ -125,6 +142,7 @@ export class LocationLegalPage extends BasePage {
  * and clickSaveWithDialog returns {success:true} when Save is disabled — so save-success
  * never proves the restore landed. The post-reload re-read is the load-bearing check.
  */
+  @step('Ensure default state')
   async ensureDefaultState(defaults: { serviceChargeName: string; termsName: string }): Promise<void> {
     const maxAttempts = 3;
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
@@ -153,17 +171,20 @@ export class LocationLegalPage extends BasePage {
     );
   }
 
+  @step('Is save enabled')
   async isSaveEnabled(): Promise<boolean> {
     const el = this.getElement('btnSaveLegal');
     const disabled = await el.isDisabled().catch(() => true);
     return !disabled;
   }
 
+  @step('Click save')
   async clickSave(): Promise<{ success: boolean; networkError?: string }> {
     await this.waitForSaveEnabled('btnSaveLegal');
     return this.clickSaveWithDialog('btnSaveLegal', 'dlgSaveChanges', 'btnSaveChangesConfirm');
   }
 
+  @step('Click save and get dialog')
   async clickSaveAndGetDialog(): Promise<'save-changes' | 'none'> {
     const el = this.getElement('btnSaveLegal');
     await el.waitFor({ state: 'visible', timeout: 5_000 });
@@ -179,6 +200,7 @@ export class LocationLegalPage extends BasePage {
     return visible ? 'save-changes' : 'none';
   }
 
+  @step('Cancel save dialog')
   async cancelSaveDialog(): Promise<void> {
     const dialog = this.getElement('dlgSaveChanges');
     if (await dialog.isVisible().catch(() => false)) {
@@ -187,6 +209,7 @@ export class LocationLegalPage extends BasePage {
     }
   }
 
+  @step('Attempt to leave the page, then stay')
   async triggerBeforeunloadAndStay(): Promise<boolean> {
     let dialogFired = false;
     const handler = async (d: import('@playwright/test').Dialog) => {

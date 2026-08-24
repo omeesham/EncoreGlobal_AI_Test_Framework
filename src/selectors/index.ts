@@ -19,9 +19,9 @@ import {
   CorporatePricingDetailsSelectors,
   CorporatePricingStrategySelectors,
   CorporatePricingDetailGridSelectors,
-  CorporatePricingOverrideSelectors,
   CorporatePricingNewPricebookSelectors,
 } from './corporate-pricing';
+import { CorporatePricingOverrideSelectors } from './corporate-override/override';
 
 export { MicrosoftLoginSelectors } from './auth/login';
 export { DynamicSelectors } from './auth/dynamic';

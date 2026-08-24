@@ -8,11 +8,14 @@ playwright-report/
 playwright/.cache/
 *.tsbuildinfo
 
+# Test evidence runtime artifacts (field-case-runner rejected inputs, etc.)
+.test-evidence/
+
 # Agent-internal artifacts kept on disk but never shipped
 scripts/walks/
 src/selectors/SELECTOR_CATALOG.md
 
-# Local env overrides (never commit real env files) — env files live at client root post-2026-06-05 POM restructure
+# Local environment overrides — .env.*.local and .env.server are personal overrides, never ship
 .env.local
 .env.*.local
 .env.server
@@ -32,3 +35,9 @@ CLAUDE.md
 Thumbs.db
 .idea/
 .vscode/
+
+# Merged/renamed report output (per-module HTML reports + their blob inputs).
+# The bare "playwright-report/" rule above misses these renamed variants.
+playwright-report-*/
+blob-report/
+blob-report-*/

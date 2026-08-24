@@ -71,10 +71,6 @@ export default defineConfig({
     ['html', { outputFolder: 'reports/html-report', open: 'never' }],
     ['json', { outputFile: 'reports/test-results.json' }],
     ['junit', { outputFile: 'reports/junit-results.xml' }],
-    // TestRail push — opt-in via TESTRAIL_ENABLED=true (+ connection vars); see .env.testrail.example.
-    ...(process.env.TESTRAIL_ENABLED === 'true'
-      ? [['./src/reporter/testrail-reporter.ts'] as const]
-      : []),
     // Skip Allure on CI — GitCommitInfo plugin times out on shallow-clone runners
     // (M365 build agents have no full git history). This inline guard replaces
     // a separate CI config file, keeping one config for shipping.

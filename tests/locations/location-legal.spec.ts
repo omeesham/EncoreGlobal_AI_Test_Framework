@@ -23,13 +23,13 @@ test.describe('Location Legal — FCC @locations @legal @fcc', () => {
   });
 
   // Live finding (2026-05-27, observed across two runs): the original
-  // plan called for a `page.evaluate()` DOM tamper of the SC combobox button's
-  // span textContent. Live behavior (observed across two test runs 2026-05-27):
-  // ANY DOM mutation of the Radix combobox button — even text-only with no
+  // plan called for a `page.evaluate()` programmatic change of the Service Charge dropdown button's
+  // displayed text. Live behavior (observed across two test runs 2026-05-27):
+  // ANY programmatic modification of the dropdown button — even text-only with no
   // synthetic events — tears down the Angular page with "Application error:
   // a client-side exception has occurred". The app aggressively rejects
-  // external DOM mutation of the combobox node (defensive, but blocks safe
-  // automation of textContent-tamper). This live finding is recorded as the TC-019
+  // external modification of the dropdown element (defensive, but blocks safe
+  // automation of text changes). This live finding is recorded as the TC-019
   // coverage disposition.
   //
   // Pivot: the genuinely-uncovered mechanic is

@@ -26,7 +26,7 @@ async function globalSetup(config: FullConfig) {
     throw new Error(
       "[env-guard] '.env.e2e' is the CI config and must not be used locally.\n" +
       "Local runs use '.env.local' (same target server, different config).\n" +
-      "Fix: run `npm test` without CI_ENV (it loads .env.local). See docs/SETUP.md Step 2 to create .env.local.",
+      "Fix: run `npm test` without CI_ENV (it loads .env.local). See the README 'Quickstart' section to fill in .env.local.",
     );
   }
 
@@ -85,7 +85,7 @@ async function runPreflightChecks(): Promise<PreflightResult[]> {
   for (const envVar of ['BASE_URL']) {
     const value = process.env[envVar];
     if (!value || value.trim() === '') {
-      results.push({ check: `env:${envVar}`, status: 'FAIL', message: `Missing required env var: ${envVar}` });
+      results.push({ check: `env:${envVar}`, status: 'FAIL', message: `Missing required env var: ${envVar}. Open .env.local and fill in the two blank values at the top. The README 'Quickstart' section has the steps.` });
     } else {
       results.push({ check: `env:${envVar}`, status: 'PASS', message: `${envVar}=${value}` });
     }
@@ -126,7 +126,7 @@ async function runPreflightChecks(): Promise<PreflightResult[]> {
     await CredentialLoader.loadCredentials({ type: 'env' });
     results.push({ check: 'credentials', status: 'PASS', message: 'Credentials loaded from environment' });
   } catch (error) {
-    results.push({ check: 'credentials', status: 'FAIL', message: `Credentials unavailable: ${error instanceof Error ? error.message : String(error)}` });
+    results.push({ check: 'credentials', status: 'FAIL', message: `Credentials unavailable: ${error instanceof Error ? error.message : String(error)}. Add your username and password to .env.local — on a build server, add them to that server's secret store instead.` });
   }
 
   return results;

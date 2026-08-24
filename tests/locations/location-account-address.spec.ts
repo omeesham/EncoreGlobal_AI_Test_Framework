@@ -103,9 +103,9 @@ test.describe('Location Account and Address @locations @account-address', () => 
   //     existing describe, same @locations @account-address tags, no separate fcc-tag.
   //     Save-cycle case uses the field-coverage runner; filter cases use ordinary test() (no save). ───
 
-  // BUG-BLOCKED: BUG-LOC-ACC-001 — clearing Phone 2 and saving does NOT persist empty; the prior
+  // Clearing Phone 2 and saving does NOT persist empty; the prior
   // value reappears on reload. This case asserts the CORRECT (fixed) behavior, so it is fixme'd
-  // until the app bug is resolved (per the bug-filing protocol). Un-fixme when BUG-LOC-ACC-001 closes.
+  // until the app bug is resolved. Un-fixme when the clear-not-persisting issue closes.
   // FIXME TC-LOC-ACC-029 (Blocked — clearing the Phone 2 field and saving does not persist the empty value; the previous value reappears after reload. Pending an application fix.)
   test.fixme('TC-LOC-ACC-029: Phone 2 cleared value persists empty after reload', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
     dependencyGate([]);
@@ -136,7 +136,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
   });
 
   test('TC-LOC-ACC-030: Account List Account Number filter returns matching account', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
-    test.fixme(true, 'blocked by BUG-LOC-ACC-002');
+    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate([]);
     test.setTimeout(90_000);
     await pg.openAccountListDialog();
@@ -191,7 +191,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
   });
 
   test('TC-LOC-ACC-004: Account List search returns results', async ({ locationAccountAddressPage, dependencyGate }) => {
-    test.fixme(true, 'blocked by BUG-LOC-ACC-002');
+    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(60_000);
     await locationAccountAddressPage.openAccountListDialog();
@@ -205,7 +205,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
   });
 
   test('TC-LOC-ACC-005: Account List Select button disabled until row checked', async ({ locationAccountAddressPage, dependencyGate }) => {
-    test.fixme(true, 'blocked by BUG-LOC-ACC-002');
+    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     await locationAccountAddressPage.openAccountListDialog();
     await locationAccountAddressPage.searchAccountByName(ACCOUNT_SEARCH.term);
@@ -216,7 +216,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
   });
 
   test('TC-LOC-ACC-006: Account List Cancel closes without changes', async ({ locationAccountAddressPage, dependencyGate }) => {
-    test.fixme(true, 'blocked by BUG-LOC-ACC-002');
+    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     await locationAccountAddressPage.openAccountListDialog();
     await locationAccountAddressPage.searchAccountByName(ACCOUNT_SEARCH.term);
@@ -226,7 +226,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
   });
 
   test('TC-LOC-ACC-007: Account List Reset clears search fields', async ({ locationAccountAddressPage, dependencyGate }) => {
-    test.fixme(true, 'blocked by BUG-LOC-ACC-002');
+    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     await locationAccountAddressPage.openAccountListDialog();
     await locationAccountAddressPage.searchAccountByName(ACCOUNT_SEARCH.term);
@@ -352,7 +352,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
  // TC-019 having saved it in the same serial run (cross-test coupling that failed when run
  // isolated / retried / parallel). Pick a target that DIFFERS from the current value to guarantee a
  // real dirtying change (avoids the net-zero trap where Save never enables). Both
- // candidate values are non-empty, so BUG-LOC-ACC-001 (clearing Phone 2 will not persist) never bites.
+ // candidate values are non-empty, so the clear-not-persisting issue (clearing Phone 2 will not persist) never bites.
     const current = await locationAccountAddressPage.getPhone2Value();
     const target = current === TEST_PHONE2_VALUE ? ACCOUNT_TEST_PHONE : TEST_PHONE2_VALUE;
     await locationAccountAddressPage.fillPhone2(target);
@@ -371,11 +371,11 @@ test.describe('Location Account and Address @locations @account-address', () => 
     }, { timeout: 60_000, intervals: [1_000], message: 'Phone 2 should persist as the saved target after reload' }).toBe(target);
     expect(await locationAccountAddressPage.isSaveEnabled()).toBe(false);
  // Cleanup: leave Phone 2 at the canonical TEST_PHONE2_VALUE baseline. This (a) matches the prior
- // effective end-state — the old empty-restore never persisted per BUG-LOC-ACC-001, so the serial chain
+ // effective end-state — the old empty-restore never persisted (clear does not persist), so the serial chain
  // always ended at TEST_PHONE2_VALUE — and (b) gives downstream serial tests a dirtyable starting value:
  // TC-022 fills ACCOUNT_TEST_PHONE and needs a NET change to enable Save, so Phone 2 must NOT be left at
  // ACCOUNT_TEST_PHONE (which is exactly the value this test's `target` becomes in a serial run). Empty
- // cannot persist (BUG-LOC-ACC-001), so restore to a known non-empty value rather than ''.
+ // cannot persist (empty values do not persist after save), so restore to a known non-empty value rather than ''.
     if (target !== TEST_PHONE2_VALUE) {
       await locationAccountAddressPage.fillPhone2(TEST_PHONE2_VALUE);
       await locationAccountAddressPage.clickSave();
@@ -414,7 +414,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
   });
 
   test('TC-LOC-ACC-025: Account List Address filter returns matching results', async ({ locationAccountAddressPage, dependencyGate }) => {
-    test.fixme(true, 'blocked by BUG-LOC-ACC-002');
+    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(60_000);
     await locationAccountAddressPage.openAccountListDialog();
@@ -427,7 +427,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
   });
 
   test('TC-LOC-ACC-026: Account List City filter returns matching results', async ({ locationAccountAddressPage, dependencyGate }) => {
-    test.fixme(true, 'blocked by BUG-LOC-ACC-002');
+    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(60_000);
     await locationAccountAddressPage.openAccountListDialog();
@@ -459,7 +459,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
   });
 
   test('TC-LOC-ACC-028: Account selection changes venue name and persists', async ({ locationAccountAddressPage, dependencyGate }) => {
-    test.fixme(true, 'blocked by BUG-LOC-ACC-002');
+    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(120_000);
     const originalName = await locationAccountAddressPage.getVenueNameValue();
