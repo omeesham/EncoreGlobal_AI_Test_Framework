@@ -7,6 +7,7 @@ import { LocationNotesPage } from '../pages/locations/location-notes.page';
 import { LocationLegalPage } from '../pages/locations/location-legal.page';
 import { LocationLeftPanelBasicInformationPage } from '../pages/locations/location-left-panel-basic-information.page';
 import { LocationSharedSetupLocationsPage } from '../pages/locations/location-shared-setup-locations.page';
+import { LocationBusinessTypesPage } from '../pages/locations/location-business-types.page';
 import { LocalOfficeSettingsPage } from '../pages/local-office/local-office-settings.page';
 import { LocalOfficeHistoryPage } from '../pages/local-office/local-office-history.page';
 import { LocalOfficeEctPage } from '../pages/local-office/local-office-ect.page';
@@ -50,6 +51,7 @@ type TestFixtures = {
   locationLegalPage: LocationLegalPage;
   locationLeftPanelBasicInformationPage: LocationLeftPanelBasicInformationPage;
   locationSharedSetupLocationsPage: LocationSharedSetupLocationsPage;
+  locationBusinessTypesPage: LocationBusinessTypesPage;
   localOfficeSettingsPage: LocalOfficeSettingsPage;
   localOfficeHistoryPage: LocalOfficeHistoryPage;
   localOfficeEctPage: LocalOfficeEctPage;
@@ -368,6 +370,11 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
   locationSharedSetupLocationsPage: async ({ authenticatedSession, config }, use) => {
     const locationSharedSetupLocationsPage = new LocationSharedSetupLocationsPage(authenticatedSession.page, config);
     await use(locationSharedSetupLocationsPage);
+  },
+
+  locationBusinessTypesPage: async ({ authenticatedSession, config }, use) => {
+    const locationBusinessTypesPage = new LocationBusinessTypesPage(authenticatedSession.page, config);
+    await use(locationBusinessTypesPage);
   },
 
   localOfficeSettingsPage: async ({ authenticatedSession, config }, use) => {
