@@ -1,11 +1,9 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022", "dom"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-
-    "baseUrl": "./",
+    "lib": ["ES2022", "DOM"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
 
     "outDir": "./.build",
     "rootDir": "./",
@@ -38,7 +36,9 @@
     "experimentalDecorators": false,
     "emitDecoratorMetadata": false,
 
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+
+    "types": ["node"]
   },
   "include": [
     // Root-level config (playwright.config.ts) — keep it in the type-check net so unused imports are caught.
