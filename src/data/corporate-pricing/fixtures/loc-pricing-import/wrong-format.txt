@@ -1,0 +1,2 @@
+this is not a csv file at all
+just random text
