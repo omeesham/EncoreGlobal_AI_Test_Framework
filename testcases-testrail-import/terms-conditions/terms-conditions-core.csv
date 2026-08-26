@@ -1,0 +1,1199 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Language filter offers five options,,,,,Automated,Omeesha Mahanta,,,"The list shows five options: All, English (Canada), US English, Spanish (Mexico), and French (Canada)",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Open the page-level Language filter</li>
+</ol>",,,"1. The list shows five options: All, English (Canada), US English, Spanish (Mexico), and French (Canada)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Language filter defaults to US English,,,,,Automated,Omeesha Mahanta,,,The filter shows US English,,,terms-conditions,,"The Terms and Conditions page has just been opened for office 1604 in a fresh navigation. Language: US English (expected default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Read the current value of the page-level Language filter</li>
+</ol>",,,1. The filter shows US English,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Selecting a language filters the grid rows,,,,,Automated,Omeesha Mahanta,,,All visible rows have language English (Canada),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Note the rows currently displayed under the US English filter</li>
+<li>2. Select English (Canada) in the page-level filter</li>
+<li>3. Verify every visible row has language English (Canada)</li>
+</ol>",,,"1. The row count is recorded
+2. The grid reloads and shows only rows whose language is English (Canada)
+3. All visible rows have language English (Canada)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Selecting All shows rows across all languages,,,,,Automated,Omeesha Mahanta,,,The grid shows rows from all languages; the count is at least as many as the single-language count,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Select a single language and note the row count</li>
+<li>2. Select All in the page-level filter</li>
+</ol>",,,"1. The row count for that language is recorded
+2. The grid shows rows from all languages; the count is at least as many as the single-language count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Language filter first option is All,,,,,Automated,Omeesha Mahanta,,,The first option in the list is All,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Open the page-level Language filter</li>
+</ol>",,,1. The first option in the list is All,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Language filter last option is French (Canada),,,,,Automated,Omeesha Mahanta,,,The last option in the list is French (Canada),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Open the page-level Language filter</li>
+</ol>",,,1. The last option in the list is French (Canada),,,,Master,S1620,Test Case (Steps),Regression,,,
+,Per-row language dropdown offers four options,,,,,Automated,Omeesha Mahanta,,,"The list shows four options: English (Canada), US English, Spanish (Mexico), and French (Canada)",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Open the Language dropdown on a grid row</li>
+</ol>",,,"1. The list shows four options: English (Canada), US English, Spanish (Mexico), and French (Canada)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing per-row language enables Save,,,,,Automated,Omeesha Mahanta,,,Save becomes enabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row with a globally unique name is visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Note the current language of a row</li>
+<li>2. Change the row's language to a different value</li>
+</ol>",,,"1. The language is recorded
+2. Save becomes enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing per-row language persists the value,,,,,Automated,Omeesha Mahanta,,,The original state is restored,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: All (to see all rows). An existing row with a globally unique name is visible. The grid contains no residue rows with malformed content that can make the bulk save fail
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change the row's language from its current value to a different language</li>
+<li>2. Click Save</li>
+<li>3. Reload the page and set the filter to All</li>
+<li>4. Locate the row by its name and read its language value</li>
+<li>5. Restore the original language and save</li>
+</ol>",,,"1. Save becomes enabled
+2. Save completes (no confirmation dialog); server returns 2xx
+3. The page reloads showing all rows
+4. The language matches the value set in step 1
+5. The original state is restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting per-row language to saved value disables Save,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row with a globally unique name is visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change a row's language to a different value</li>
+<li>2. Change the same row's language back to its original saved value</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name accepts a single character,,,,,Automated,Omeesha Mahanta,,,The character appears in the field; Save becomes enabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter a single unique character into the Name field</li>
+</ol>",,,"1. A new row appears at the bottom of the grid with language US English
+2. The character appears in the field; Save becomes enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name accepts a mid-length value,,,,,Automated,Omeesha Mahanta,,,The full value appears in the field; Save becomes enabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Enter a unique 50-character value into a Name field</li>
+</ol>",,,1. The full value appears in the field; Save becomes enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name accepts 260 characters,,,,,Automated,Omeesha Mahanta,,,The full 260-character value is accepted; Save becomes enabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Enter a unique 260-character value into a Name field</li>
+</ol>",,,1. The full 260-character value is accepted; Save becomes enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name with special characters persists byte-exact through save and reload,,,,,Automated,Omeesha Mahanta,,,"The name reads back byte-exact including all punctuation, accented, and CJK characters",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). The grid contains no residue rows with malformed content that can make the bulk save fail
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Enter a unique name containing special characters into a Name field (proven string: &lt; > &amp; "" ' / \ % # Café Ñoño 中文)</li>
+<li>2. Click Save</li>
+<li>3. Reload the page in a fresh context</li>
+<li>4. Locate the row by its name</li>
+</ol>",,,"1. The value appears exactly as typed; Save becomes enabled
+2. Save completes (server returns 2xx)
+3. The page reloads
+4. The name reads back byte-exact including all punctuation, accented, and CJK characters",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Whitespace-only name is rejected — Save disabled, aria-invalid",,,,,Automated,Omeesha Mahanta,,,"Save remains disabled; the Name input has `aria-invalid=""true""`",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter only space characters into the Name field and move focus away</li>
+</ol>",,,"1. A new row appears at the bottom
+2. Save remains disabled; the Name input has `aria-invalid=""true""`",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Duplicate name within the same language blocks Save,,,,,Automated,Omeesha Mahanta,,,"Save remains disabled; the Name input has `aria-invalid=""true""`",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). At least one US English row with a known name exists
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Add a new row (defaults to US English)</li>
+<li>2. Enter the exact name of an existing US English row into the new row's Name field</li>
+</ol>",,,"1. A new row appears
+2. Save remains disabled; the Name input has `aria-invalid=""true""`",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Duplicate name across a different language blocks Save,,,,,Automated,Omeesha Mahanta,,,"Save remains disabled; the Name input has `aria-invalid=""true""`",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: All (to see all rows). A row with a known name exists under one language
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Change the new row's language to a language different from the existing row's language</li>
+<li>3. Enter the exact name of the existing row into the new row's Name field</li>
+</ol>",,,"1. A new row appears (defaults to US English)
+2. The language changes
+3. Save remains disabled; the Name input has `aria-invalid=""true""`",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name edit then save persists through reload,,,,,Automated,Omeesha Mahanta,,,The original state is restored,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row with a known name is visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change the row's Name to a different unique value</li>
+<li>2. Click Save</li>
+<li>3. Reload the page</li>
+<li>4. Locate the row and read its Name value</li>
+<li>5. Restore the original name and save</li>
+</ol>",,,"1. Save becomes enabled
+2. Save completes (no confirmation dialog)
+3. The page reloads
+4. The Name matches the value set in step 1
+5. The original state is restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting a name edit returns Save to disabled,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change an existing row's Name to a different unique value</li>
+<li>2. Change the Name back to its original saved value</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clearing a name disables Save with red border and aria-invalid,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled (no-net-change change); `aria-invalid` clears; red border disappears,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row with a name is visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Clear the Name field of an existing row (select all and delete)</li>
+<li>2. Re-enter the original name</li>
+</ol>",,,"1. Save remains disabled; the Name input has `aria-invalid=""true""` and a red border (destructive color from design system)
+2. Save returns to disabled (no-net-change change); `aria-invalid` clears; red border disappears",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking an HTML cell opens the shared editor,,,,,Automated,Omeesha Mahanta,,,The Tiptap rich text editor panel opens and displays that row's Left Column content,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of a row</li>
+</ol>",,,1. The Tiptap rich text editor panel opens and displays that row's Left Column content,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking a cell alone does not enable Save,,,,,Automated,Omeesha Mahanta,,,Save is still disabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of a row</li>
+<li>2. Read the state of Save without typing anything</li>
+</ol>",,,"1. The editor opens
+2. Save is still disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Typing in the editor enables Save,,,,,Automated,Omeesha Mahanta,,,Save becomes enabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of a row to open the editor</li>
+<li>2. Type additional text into the editor using keyboard input</li>
+</ol>",,,"1. The editor opens
+2. Save becomes enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Left Column rich text persists through save and reload,,,,,Automated,Omeesha Mahanta,,,The sentinel string is present,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row with a known name is visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of the row to open the editor</li>
+<li>2. Type a unique sentinel string into the editor</li>
+<li>3. Click Save</li>
+<li>4. Reload the page</li>
+<li>5. Click the same row's Left Column cell</li>
+<li>6. Verify the sentinel string is present in the editor content</li>
+</ol>",,,"1. The editor opens with existing content
+2. The sentinel text appears in the editor
+3. Save completes (no confirmation dialog)
+4. The page reloads
+5. The editor opens
+6. The sentinel string is present",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Right Column rich text persists through save and reload,,,,,Automated,Omeesha Mahanta,,,The sentinel string is present,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row with a known name is visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Right Column cell of the row to open the editor</li>
+<li>2. Type a unique sentinel string into the editor</li>
+<li>3. Click Save</li>
+<li>4. Reload the page</li>
+<li>5. Click the same row's Right Column cell</li>
+<li>6. Verify the sentinel string is present in the editor content</li>
+</ol>",,,"1. The editor opens with existing content
+2. The sentinel text appears in the editor
+3. Save completes (no confirmation dialog)
+4. The page reloads
+5. The editor opens
+6. The sentinel string is present",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Bottom Column rich text persists through save and reload,,,,,Automated,Omeesha Mahanta,,,The sentinel string is present,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row with a known name is visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Bottom Column cell of the row to open the editor</li>
+<li>2. Type a unique sentinel string into the editor</li>
+<li>3. Click Save</li>
+<li>4. Reload the page</li>
+<li>5. Click the same row's Bottom Column cell</li>
+<li>6. Verify the sentinel string is present in the editor content</li>
+</ol>",,,"1. The editor opens with existing content
+2. The sentinel text appears in the editor
+3. Save completes (no confirmation dialog)
+4. The page reloads
+5. The editor opens
+6. The sentinel string is present",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add row appends at the bottom with defaults,,,,,Automated,Omeesha Mahanta,,,Save is still disabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: All (to see the full row set)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Note the last row currently in the grid</li>
+<li>2. Click the Add row button</li>
+<li>3. Read the new row's language</li>
+<li>4. Read the new row's Name field</li>
+<li>5. Read the state of Save</li>
+</ol>",,,"1. The last row is recorded
+2. A new row appears at the bottom of the grid
+3. The language is US English
+4. The Name field is empty
+5. Save is still disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save is disabled at rest,,,,,Automated,Omeesha Mahanta,,,Save is disabled,,,terms-conditions,,"The Terms and Conditions page has just been opened for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Read the state of the Save button without making any edits</li>
+</ol>",,,1. Save is disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save commits directly without a confirmation dialog,,,,,Automated,Omeesha Mahanta,,,The save operation completes; no confirmation dialog appears,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). The page has a valid unsaved edit (e.g. a name change to a unique value)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click Save</li>
+</ol>",,,1. The save operation completes; no confirmation dialog appears,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Language filter returns only matching rows (result-fidelity),,,,,Automated,Omeesha Mahanta,,,Every row's language is Spanish (Mexico); no rows from other languages are shown,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default).
+
+"""": result-fidelity
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Select Spanish (Mexico) in the page-level filter</li>
+<li>2. For each visible row, read its per-row language value</li>
+</ol>",,,"1. The grid reloads
+2. Every row's language is Spanish (Mexico); no rows from other languages are shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Language filter combined with row content (combination),,,,,Automated,Omeesha Mahanta,,,The row is not shown,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default).
+
+"""": combination
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Select English (Canada) in the page-level filter</li>
+<li>2. Verify a known English (Canada) row's name is visible</li>
+<li>3. Select US English in the page-level filter</li>
+<li>4. Verify the English (Canada) row from step 2 is no longer visible</li>
+</ol>",,,"1. The grid shows only English (Canada) rows
+2. The expected row name is visible
+3. The grid shows only US English rows
+4. The row is not shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"HTML cell displays rendered content, not raw markup (render-state)",,,,,Automated,Omeesha Mahanta,,,"The cell displays rendered HTML (e.g. bold text renders as bold), not raw markup tags",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row with HTML content in its Left Column exists.
+
+"""": render-state
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Read the Left Column cell content of a row that has rich text</li>
+</ol>",,,"1. The cell displays rendered HTML (e.g. bold text renders as bold), not raw markup tags",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A newly added row with no fields filled keeps Save disabled,,,,,Automated,Omeesha Mahanta,,,Save is disabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default).
+
+"""": empty-vol
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Add row button</li>
+<li>2. Do not fill any fields on the new row</li>
+<li>3. Read the state of Save</li>
+</ol>",,,"1. A new empty row is added
+2. No action taken
+3. Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Edited name persists through save and reload (persistence),,,,,Automated,Omeesha Mahanta,,,The original state is restored,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row with a known name is visible.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change the row's Name to a different unique value</li>
+<li>2. Click Save</li>
+<li>3. Reload the page</li>
+<li>4. Locate the row by its new name</li>
+<li>5. Restore the original name and save</li>
+</ol>",,,"1. Save becomes enabled (dirty gate)
+2. Save completes
+3. The page reloads with the filter at US English
+4. The row is found with the new name intact
+5. The original state is restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting an edit returns Save to disabled (persistence — revert),,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default).
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change an existing row's Name to a different unique value</li>
+<li>2. Change the Name back to its original saved value</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Column resize does not persist (persistence - non-persistent state),,,,,Manual,Omeesha Mahanta,,,The column has returned to its default width,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default).
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Drag a column resize handle to change a column width</li>
+<li>2. Reload the page</li>
+<li>3. Compare the column width to its pre-drag state</li>
+</ol>",,,"1. The column width changes visually
+2. The page reloads
+3. The column has returned to its default width",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editor state does not leak between cell selections (NM-3162),,,,,Automated,Omeesha Mahanta,,,Row A's content is unchanged,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). Two rows with different Left Column content exist
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of row A to open the editor</li>
+<li>2. Note the editor content</li>
+<li>3. Click the Left Column cell of row B (dismiss any unsaved-changes dialog by clicking Discard if it appears)</li>
+<li>4. Verify the editor content is row B's content, not row A's</li>
+<li>5. Click back to row A's Left Column cell (dismiss any dialog if it appears)</li>
+<li>6. Verify row A's content has not been contaminated by row B's content</li>
+</ol>",,,"1. The editor shows row A's content
+2. Content A is recorded
+3. The editor shows row B's content
+4. The content matches row B, not row A
+5. The editor shows row A's original content
+6. Row A's content is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Typed HTML entities are stored as escaped literals, not rendered as markup (NM-3163)",,,,,Automated,Omeesha Mahanta,,,The typed characters are displayed exactly as literal text,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row with a known name is visible. The grid contains no residue rows that can make the bulk save return HTTP 500
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of a row to open the editor</li>
+<li>2. Type the following using keyboard input: &amp;nbsp; &amp;amp; &lt; > &lt;b>bold&lt;/b></li>
+<li>3. Inspect the editor's inner HTML before saving</li>
+<li>4. Click Save</li>
+<li>5. Reload the page</li>
+<li>6. Click the same row's Left Column cell</li>
+<li>7. Verify the text displays as literal characters, not as rendered markup or entity sequences</li>
+</ol>",,,"1. The editor opens
+2. The text appears in the editor as literal characters — angle brackets visible as text, not rendered as markup
+3. The HTML contains: `<p>&amp;nbsp; &amp;amp; &lt; &gt; &lt;b&gt;bold&lt;/b&gt; &lt; &amp;</p>` — all typed characters are HTML-escaped
+4. Save completes
+5. The page reloads
+6. The editor opens
+7. The typed characters are displayed exactly as literal text",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching cells with unsaved editor content raises a guard dialog (NM-2191),,,,,Automated,Omeesha Mahanta,,,The dialog closes; the editor remains on the original row with the typed text intact,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of a row to open the editor</li>
+<li>2. Type additional text into the editor</li>
+<li>3. Click the Left Column cell of a different row</li>
+<li>4. Click Stay</li>
+</ol>",,,"1. The editor opens
+2. The text appears in the editor
+3. An ""Unsaved changes"" dialog appears with Stay and Discard options
+4. The dialog closes; the editor remains on the original row with the typed text intact",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Discarding unsaved editor content on cell switch clears the edit,,,,,Automated,Omeesha Mahanta,,,The editor shows the original row's content WITHOUT the text typed in step 2,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of a row to open the editor</li>
+<li>2. Type additional text into the editor</li>
+<li>3. Click the Left Column cell of a different row</li>
+<li>4. Click Discard</li>
+<li>5. Click back to the original row's Left Column cell</li>
+</ol>",,,"1. The editor opens
+2. The text appears
+3. The ""Unsaved changes"" dialog appears
+4. The dialog closes; the editor switches to the new row; the typed text from step 2 is discarded
+5. The editor shows the original row's content WITHOUT the text typed in step 2",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing the language filter with unsaved edits raises a guard dialog (NM-2191),,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change an existing row's Name to a different unique value</li>
+<li>2. Select a different language in the page-level filter</li>
+<li>3. Click Stay</li>
+<li>4. Restore the original name</li>
+</ol>",,,"1. Save becomes enabled
+2. A warning dialog appears with title ""Unsaved changes"", body ""Are you sure you want to leave this view? Any unsaved changes will be lost."", and buttons Stay / Discard
+3. The dialog closes; the filter has not changed; the edited value is still present; Save is still enabled
+4. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editor content across columns uses the same shared panel,,,,,Automated,Omeesha Mahanta,,,The editor switches to show the Bottom Column content,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of a row</li>
+<li>2. Click the Right Column cell of the same row (dismiss any unsaved-changes dialog if it appears)</li>
+<li>3. Click the Bottom Column cell of the same row (dismiss any dialog if it appears)</li>
+</ol>",,,"1. The editor opens showing the Left Column content
+2. The editor switches to show the Right Column content
+3. The editor switches to show the Bottom Column content",,,,Master,S1620,Test Case (Steps),Regression,,,
+,No guard dialog when editing a different row while one row is name-dirty,,,,,Automated,Omeesha Mahanta,,,Both rows are now edited simultaneously; no warning was shown,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). At least two rows are visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change row A's Name to a different unique value</li>
+<li>2. Click row B's Name input</li>
+<li>3. Type a value into row B's Name</li>
+</ol>",,,"1. Save becomes enabled
+2. Focus moves to row B; NO guard dialog appears; row A's edit remains
+3. Both rows are now edited simultaneously; no warning was shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Valid save should succeed even when residue rows are present,,,,,Automated,Omeesha Mahanta,,,The language change is NOT persisted — the entire batch was discarded,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). The grid contains at least one residue row with extreme content (e.g. 260-char name, special-character name, or RTE probe sentinels from prior test runs)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change a clean row's language to a different value</li>
+<li>2. Click Save and observe the network response</li>
+<li>3. Reload the page and verify the language change</li>
+</ol>",,,"1. Save becomes enabled
+2. The server returns HTTP 500 with body `{""success"":false,""message"":""Something unexpected has happened..."",""statusCode"":""Internal Server Error!""}`
+3. The language change is NOT persisted — the entire batch was discarded",,,,Master,S1620,Test Case (Steps),Regression,,,
+,UI shows success when save returns HTTP 500 — silent data loss,,,,,Automated,Omeesha Mahanta,,,The edit is NOT persisted — data was silently lost,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A save has just returned a non-2xx response (trigger: grid containing residue rows that can make bulk saves return HTTP 500, or any server-side failure)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Observe the UI immediately after the failed save</li>
+<li>2. Look for any error toast, banner, inline message, or console error</li>
+<li>3. Reload the page and verify the edit</li>
+</ol>",,,"1. The Save button transitions from enabled to disabled — identical to a successful save
+2. None is present — no user-facing error signal of any kind
+3. The edit is NOT persisted — data was silently lost",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Bold formatting round-trip — <strong> persists through save and reload,,,,,Automated,Omeesha Mahanta,,,NOT YET CONFIRMED — whether `<strong>` tags survive save + reload has not been cleanly measured,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of a row to open the editor</li>
+<li>2. Select text and apply Bold via the toolbar</li>
+<li>3. Click Save</li>
+<li>4. Reload the page and reopen the same cell</li>
+<li>5. Verify the Bold formatting is still applied</li>
+</ol>",,,"1. The editor opens
+2. The editor shows `<strong>` markup around the selection
+3. Save completes
+4. The editor opens
+5. NOT YET CONFIRMED — whether `<strong>` tags survive save + reload has not been cleanly measured",,,,Master,S1620,Test Case (Steps),Regression,,,
+,RTE entity encoding — ampersand typed persists as double-escaped entity,,,,,Automated,Omeesha Mahanta,,,"The editor shows `&` — stored as `&amp;` in HTML, rendered as literal ampersand",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row with a known unique name exists.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of the target row</li>
+<li>2. Clear existing content and type &amp; using keyboard</li>
+<li>3. Click Save</li>
+<li>4. Reload the page and click the same Left Column cell</li>
+</ol>",,,"1. The editor opens showing existing content
+2. The editor shows `&` visually
+3. Save completes (HTTP 2xx)
+4. The editor shows `&` — stored as `&amp;` in HTML, rendered as literal ampersand",,,,Master,S1620,Test Case (Steps),Regression,,,
+,RTE entity encoding — HTML entity reference typed persists as double-escaped,,,,,Automated,Omeesha Mahanta,,,The editor shows `&nbsp;` as visible text — stored as `&amp;nbsp;`,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row with a known unique name exists.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of the target row</li>
+<li>2. Clear existing content and type the literal characters &amp;nbsp</li>
+<li>3. using keyboard</li>
+<li>4. Click Save</li>
+<li>5. Reload the page and click the same Left Column cell</li>
+</ol>",,,"1. The editor opens
+2. The editor shows `&nbsp;` as visible text (not a space)
+3. Save completes
+4. The editor shows `&nbsp;` as visible text — stored as `&amp;nbsp;`",,,,Master,S1620,Test Case (Steps),Regression,,,
+,RTE entity encoding — angle brackets typed persist as escaped entities,,,,,Automated,Omeesha Mahanta,,,The editor shows `<b>bold</b>` as visible text — stored as `&lt;b&gt;bold&lt;/b&gt;`,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row with a known unique name exists.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Right Column cell of the target row</li>
+<li>2. Clear existing content and type &lt;b>bold&lt;/b> using keyboard</li>
+<li>3. Click Save</li>
+<li>4. Reload the page and click the same Right Column cell</li>
+</ol>",,,"1. The editor opens
+2. The editor shows `<b>bold</b>` as visible text (no bold rendering)
+3. Save completes
+4. The editor shows `<b>bold</b>` as visible text — stored as `&lt;b&gt;bold&lt;/b&gt;`",,,,Master,S1620,Test Case (Steps),Regression,,,
+,RTE entity encoding — nested markup with entities persists byte-exact,,,,,Automated,Omeesha Mahanta,,,The editor shows the exact typed string — all characters preserved through double-escaping,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row with a known unique name exists.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""x""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Bottom Column cell of the target row</li>
+<li>2. Clear existing content and type &lt;div class=""x"">&amp;amp; &amp;lt;span&amp;gt;&lt;/div> using keyboard</li>
+<li>3. Click Save</li>
+<li>4. Reload the page and click the same Bottom Column cell</li>
+</ol>",,,"1. The editor opens
+2. The editor shows the typed string as visible text
+3. Save completes
+4. The editor shows the exact typed string — all characters preserved through double-escaping",,,,Master,S1620,Test Case (Steps),Regression,,,
+,RTE empty content — clearing a cell and saving persists empty state,,,,,Automated,Omeesha Mahanta,,,The editor opens empty — the cleared state persisted,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row with existing content in Left Column.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell</li>
+<li>2. Select all content and delete it</li>
+<li>3. Click Save</li>
+<li>4. Reload the page and click the same Left Column cell</li>
+</ol>",,,"1. The editor opens with existing content
+2. The editor is empty
+3. Save completes
+4. The editor opens empty — the cleared state persisted",,,,Master,S1620,Test Case (Steps),Regression,,,
+,RTE whitespace-only content persists through save and reload,,,,,Automated,Omeesha Mahanta,,,The editor shows whitespace content — spaces persisted,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row with a known unique name exists.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Right Column cell of the target row</li>
+<li>2. Clear existing content and type three space characters</li>
+<li>3. Click Save</li>
+<li>4. Reload the page and click the same Right Column cell</li>
+</ol>",,,"1. The editor opens
+2. The editor shows whitespace
+3. Save completes
+4. The editor shows whitespace content — spaces persisted",,,,Master,S1620,Test Case (Steps),Regression,,,
+,RTE long content (300 characters) persists byte-exact through save and reload,,,,,Automated,Omeesha Mahanta,,,All 300 characters are present — no truncation,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row with a known unique name exists.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell of the target row</li>
+<li>2. Clear existing content and type a 300-character string using keyboard</li>
+<li>3. Click Save</li>
+<li>4. Reload the page and click the same Left Column cell</li>
+</ol>",,,"1. The editor opens
+2. The editor shows all 300 characters
+3. Save completes
+4. All 300 characters are present — no truncation",,,,Master,S1620,Test Case (Steps),Regression,,,
+,the HTML-entity-handling defect tooltip entity rendering (pending-probe),,,,,Manual,Omeesha Mahanta,,,PENDING-PROBE: whether the tooltip shows literal `&nbsp;` (escaped rendering) or a space (interpreted rendering) has not been measured,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row contains &nbsp; stored as &amp;nbsp; in a column cell.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Hover over the cell containing the stored &amp;amp;nbsp</li>
+<li>2. content</li>
+<li>3. Read the tooltip text</li>
+</ol>",,,"1. A tooltip appears
+2. PENDING-PROBE: whether the tooltip shows literal `&nbsp;` (escaped rendering) or a space (interpreted rendering) has not been measured",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editor state isolation — switching from Left to Right Column shows correct content,,,,,Automated,Omeesha Mahanta,,,"The editor shows ""RIGHT-CONTENT-A"" — no trace of Left Column content",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row has distinct content in Left Column (""LEFT-CONTENT-A"") and Right Column (""RIGHT-CONTENT-A"").
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Left Column cell</li>
+<li>2. Dismiss any unsaved-changes dialog if prompted (click Discard)</li>
+<li>3. Click the Right Column cell</li>
+</ol>",,,"1. The editor shows ""LEFT-CONTENT-A""
+2. Dialog dismissed
+3. The editor shows ""RIGHT-CONTENT-A"" — no trace of Left Column content",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editor state isolation — switching between rows in the same column,,,,,Automated,Omeesha Mahanta,,,The editor shows Row B's Left Column content — no trace of Row A,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). Row A and Row B have distinct content in the Left Column.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click Row A's Left Column cell</li>
+<li>2. Dismiss any unsaved-changes dialog (click Discard)</li>
+<li>3. Click Row B's Left Column cell</li>
+</ol>",,,"1. The editor shows Row A's Left Column content
+2. Dialog dismissed
+3. The editor shows Row B's Left Column content — no trace of Row A",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editor state isolation — multi-cell alternation does not leak content,,,,,Automated,Omeesha Mahanta,,,"Editor shows ""AAA"" — no contamination from the rapid switching",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). Three cells have distinct content: Row 1 Left (""AAA""), Row 1 Right (""BBB""), Row 2 Left (""CCC"").
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click Row 1 Left Column cell</li>
+<li>2. Immediately click Row 1 Right Column cell (dismiss dialog if prompted)</li>
+<li>3. Immediately click Row 2 Left Column cell (dismiss dialog if prompted)</li>
+<li>4. Click Row 1 Left Column cell again (dismiss dialog if prompted)</li>
+</ol>",,,"1. Editor shows ""AAA""
+2. Editor shows ""BBB""
+3. Editor shows ""CCC""
+4. Editor shows ""AAA"" — no contamination from the rapid switching",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Content saved under one language does not alter another language's content,,,,,Automated,Omeesha Mahanta,,,"Editor shows ""SPANISH-CONTENT"" — unchanged by the English row edit",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language filter: All. Two rows exist: Row A (US English, Left Column: ""ENGLISH-CONTENT"") and Row B (Spanish (Mexico), Left Column: ""SPANISH-CONTENT"").
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""ENGLISH-MODIFIED""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click Row A's Left Column cell and change content to ""ENGLISH-MODIFIED""</li>
+<li>2. Click Save</li>
+<li>3. Reload the page with Language filter set to All</li>
+<li>4. Click Row B's Left Column cell</li>
+</ol>",,,"1. Editor shows modified content
+2. Save completes
+3. Both rows visible
+4. Editor shows ""SPANISH-CONTENT"" — unchanged by the English row edit",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name uniqueness is enforced across languages,,,,,Automated,Omeesha Mahanta,,,`aria-invalid` clears; Save becomes enabled (given the form is dirty),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language filter: All. Row A (US English) has name ""SHARED-NAME-TEST"".
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""SHARED-NAME-TEST""
+Sample input 2: ""UNIQUE-SPANISH-NAME""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Find or create a row with language Spanish (Mexico)</li>
+<li>2. Type ""SHARED-NAME-TEST"" into the Spanish row's Name field</li>
+<li>3. Change the Spanish row's name to ""UNIQUE-SPANISH-NAME""</li>
+</ol>",,,"1. The Spanish row is visible
+2. `aria-invalid=""true""` appears on the input; Save remains disabled
+3. `aria-invalid` clears; Save becomes enabled (given the form is dirty)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Multiple rows edited — single save commits all as a unit,,,,,Automated,Omeesha Mahanta,,,"Both ""BATCH-ROW-A-MODIFIED"" and ""BATCH-ROW-B-MODIFIED"" are present",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). Two rows with known unique names exist.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""BATCH-ROW-A-MODIFIED""
+Sample input 2: ""BATCH-ROW-B-MODIFIED""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change Row A's name to ""BATCH-ROW-A-MODIFIED""</li>
+<li>2. Change Row B's name to ""BATCH-ROW-B-MODIFIED""</li>
+<li>3. Click Save</li>
+<li>4. Reload the page</li>
+</ol>",,,"1. Save becomes enabled
+2. Save stays enabled
+3. Save completes — the save payload contains ALL rows
+4. Both ""BATCH-ROW-A-MODIFIED"" and ""BATCH-ROW-B-MODIFIED"" are present",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Batch save persists language change,,,,,Automated,Omeesha Mahanta,,,The change is NOT persisted — entire batch discarded,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The grid contains residue rows (rows with extreme content from prior automation runs).
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change a clean row's language to a different value</li>
+<li>2. Click Save and intercept the network response</li>
+<li>3. Reload the page and verify the language change</li>
+</ol>",,,"1. Save becomes enabled
+2. The server returns HTTP 500
+3. The change is NOT persisted — entire batch discarded",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Save failure via route interception — form stays dirty, documenting a known application issue",,,,,Automated,Omeesha Mahanta,,,Save succeeds (HTTP 2xx); the edit persists after reload,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). Network interception is configured to return HTTP 500 for the save endpoint.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change a row's name to trigger unsaved changes</li>
+<li>2. Click Save (intercepted to return 500)</li>
+<li>3. Verify Save button state</li>
+<li>4. Remove the route interception</li>
+<li>5. Click Save again</li>
+</ol>",,,"1. Save becomes enabled
+2. An error message appears (toast, banner, or inline) indicating save failed
+3. Save remains enabled — the form stays dirty so the user can retry
+4. Network restored
+5. Save succeeds (HTTP 2xx); the edit persists after reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name field — 1 character minimum positive,,,,,Automated,Omeesha Mahanta,,,"The name ""X"" persists on the row",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""X""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Clear a row's Name field and type a single unique character ""X""</li>
+<li>2. Click Save</li>
+<li>3. Reload the page</li>
+</ol>",,,"1. `aria-invalid` is false; Save becomes enabled
+2. Save completes
+3. The name ""X"" persists on the row",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name field — 260 characters accepted,,,,,Automated,Omeesha Mahanta,,,All 260 characters persist without truncation,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Clear a row's Name field and type a 260-character unique string</li>
+<li>2. Click Save</li>
+<li>3. Reload the page</li>
+</ol>",,,"1. `aria-invalid` is false; Save becomes enabled; no truncation
+2. Save completes
+3. All 260 characters persist without truncation",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name field — empty triggers red border and blocks Save,,,,,Automated,Omeesha Mahanta,,,Focus moves — the field does not trap focus (escapable per the field-validation rules),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row has an existing name
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Clear the row's Name field entirely</li>
+<li>2. Attempt to Tab away from the field</li>
+</ol>",,,"1. `aria-invalid=""true""` appears; border color changes to red-orange (oklch(0.577 0.245 27.325)); Save becomes disabled
+2. Focus moves — the field does not trap focus (escapable per the field-validation rules)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name field — whitespace-only triggers silent block,,,,,Automated,Omeesha Mahanta,,,Focus moves — not trapped,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Clear a row's Name field and type three spaces</li>
+<li>2. Attempt to Tab away from the field</li>
+</ol>",,,"1. `aria-invalid=""true""` appears; Save is disabled
+2. Focus moves — not trapped",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name field — duplicate name triggers silent block,,,,,Automated,Omeesha Mahanta,,,Focus moves — not trapped,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). An existing row has name ""EXISTING-NAME""
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""EXISTING-NAME""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change a different row's Name to ""EXISTING-NAME""</li>
+<li>2. Attempt to Tab away from the field</li>
+</ol>",,,"1. `aria-invalid=""true""` appears; Save is disabled; NO visible error message or tooltip
+2. Focus moves — not trapped",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name field — special characters persist byte-exact,,,,,Automated,Omeesha Mahanta,,,The name field shows the exact string including all special and non-ASCII characters,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Clear a row's Name field and type &lt; > &amp; "" ' / \ % # Cafe Nono 中文</li>
+<li>2. Click Save</li>
+<li>3. Reload the page</li>
+</ol>",,,"1. `aria-invalid` is false; Save becomes enabled
+2. Save completes
+3. The name field shows the exact string including all special and non-ASCII characters",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pairwise covering array - language x row-position x column-type x data-state,,,,,Manual,Omeesha Mahanta,,,Each valid edit persists; empty Name edits blocked Save and did not persist,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language filter: All. At least 4 rows present spanning at least 2 languages.
+
+"""": persistence
+
+""Pairwise factors:""
+- Language (L): {US English, Spanish (Mexico), English (Canada), French (Canada)} - 4 levels
+- Row position (R): {first, middle, last} - 3 levels
+- Column type (C): {Name (plain text), Left (HTML/RTE), Right (HTML/RTE), Bottom (HTML/RTE)} - 4 levels
+- Data state (D): {new-fill, existing-edit, empty/cleared} - 3 levels
+
+""Covering array (all pairs present, 12 trials - cap at 12; see dropped-pairs below):""
+
+| Trial | Language | Row | Column | Data State |
+|---|---|---|---|---|
+| 1 | US English | first | Name | new-fill |
+| 2 | US English | middle | Left | existing-edit |
+| 3 | US English | last | Right | empty/cleared |
+| 4 | Spanish (Mexico) | first | Left | empty/cleared |
+| 5 | Spanish (Mexico) | middle | Right | new-fill |
+| 6 | Spanish (Mexico) | last | Name | existing-edit |
+| 7 | English (Canada) | first | Right | existing-edit |
+| 8 | English (Canada) | middle | Bottom | empty/cleared |
+| 9 | English (Canada) | last | Name | new-fill |
+| 10 | French (Canada) | first | Bottom | new-fill |
+| 11 | French (Canada) | middle | Name | empty/cleared |
+| 12 | French (Canada) | last | Left | existing-edit
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. For each trial 1-12: navigate to the specified row (by position anchor), target the specified column, apply the specified data state operation</li>
+<li>2. Click Save after all 12 trials are applied</li>
+<li>3. Reload the page and verify each trial's result persists</li>
+</ol>",,,"1. The edit succeeds without error for valid operations; invalid states (empty Name) show `aria-invalid`
+2. Save completes for valid edits
+3. Each valid edit persists; empty Name edits blocked Save and did not persist",,,,Master,S1620,Test Case (Steps),Regression,,,
+,State transition — Clean to Dirty via name edit,,,,,Automated,Omeesha Mahanta,,,Save becomes enabled (transition to Dirty),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). No pending edits (Save is disabled).
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Verify Save is disabled (Clean state)</li>
+<li>2. Type a character into a row's Name field</li>
+</ol>",,,"1. Save button has `disabled` attribute
+2. Save becomes enabled (transition to Dirty)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,State transition — Clean to Dirty via language change,,,,,Automated,Omeesha Mahanta,,,Save becomes enabled (transition to Dirty),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). No pending edits.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Verify Save is disabled (Clean state)</li>
+<li>2. Change a row's language dropdown to a different value</li>
+</ol>",,,"1. Save button has `disabled` attribute
+2. Save becomes enabled (transition to Dirty)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,State transition - Clean to Dirty (RTE edit),,,,,Manual,Omeesha Mahanta,,,Save becomes enabled (transition to Dirty),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). No pending edits.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Verify Save is disabled (Clean state)</li>
+<li>2. Click a Left Column cell and type content</li>
+</ol>",,,"1. Save button has `disabled` attribute
+2. Save becomes enabled (transition to Dirty)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,State transition — Dirty to Saving to Save-OK,,,,,Automated,Omeesha Mahanta,,,Save is disabled (Clean state restored); page is at rest,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty (Save enabled). Network interception captures the save response.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click Save</li>
+<li>2. Observe the network response</li>
+<li>3. Verify post-save state</li>
+</ol>",,,"1. The save request fires; Save transitions to disabled during the request
+2. HTTP 2xx returned
+3. Save is disabled (Clean state restored); page is at rest",,,,Master,S1620,Test Case (Steps),Regression,,,
+,State transition — Dirty to Save-Failed,,,,,Automated,Omeesha Mahanta,,,Save should remain enabled (form stays Dirty); an error message should appear,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty. Network interception configured to return HTTP 500.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click Save (intercepted to return 500)</li>
+<li>2. Verify post-failure state</li>
+</ol>",,,"1. The save request fires
+2. Save should remain enabled (form stays Dirty); an error message should appear",,,,Master,S1620,Test Case (Steps),Regression,,,
+,State transition — Dirty triggers beforeunload on navigate away,,,,,Automated,Omeesha Mahanta,,,The page remains; form is still dirty; Save still enabled,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Attempt to navigate away (e.g., click browser back or navigate to a different URL)</li>
+<li>2. Cancel the navigation (Stay)</li>
+</ol>",,,"1. The native `beforeunload` dialog fires
+2. The page remains; form is still dirty; Save still enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,State transition — Language filter change on dirty form raises guard (Stay),,,,,Automated,Omeesha Mahanta,,,The dialog dismisses; form remains dirty; Save still enabled; filter unchanged,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Language filter and select a different option</li>
+<li>2. Click Stay</li>
+</ol>",,,"1. The warning dialog opens with title ""Unsaved changes"" and body ""Are you sure you want to leave this view? Any unsaved changes will be lost.""
+2. The dialog dismisses; form remains dirty; Save still enabled; filter unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,State transition — Language filter change on dirty form (Discard),,,,,Automated,Omeesha Mahanta,,,The dialog dismisses; edits are discarded; grid reloads with the new filter; Save is disabled (Clean),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click the Language filter and select a different option</li>
+<li>2. Click Discard</li>
+</ol>",,,"1. The warning dialog opens
+2. The dialog dismisses; edits are discarded; grid reloads with the new filter; Save is disabled (Clean)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,No guard dialog when editing a different row while one is dirty (NM-2191 gap),,,,,Automated,Omeesha Mahanta,,,Both rows are now dirty; no warning was shown at any point,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Row A's name has been edited (form is dirty). Row B is visible.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click Row B's Name input</li>
+<li>2. Edit Row B's name</li>
+</ol>",,,"1. Focus moves to Row B; NO guard dialog fires
+2. Both rows are now dirty; no warning was shown at any point",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Validation-Error to Fix returns to Dirty,,,,,Automated,Omeesha Mahanta,,,`aria-invalid` clears; Save becomes enabled because the corrected name is an unsaved change,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. A row's Name is in validation error state (e.g., duplicate or empty).
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Verify Save is disabled and input shows a validation error</li>
+<li>2. Fix the name (type a unique, non-empty value)</li>
+</ol>",,,"1. Validation error state confirmed
+2. `aria-invalid` clears; Save becomes enabled because the corrected name is an unsaved change",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting edit to original value disables Save,,,,,Automated,Omeesha Mahanta,,,Save becomes disabled — the form detects revert-to-original and returns to Clean,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. A row has saved name ""ORIGINAL-NAME"".
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""TEMP-DIFFERENT""
+Sample input 2: ""ORIGINAL-NAME""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change the row's name to ""TEMP-DIFFERENT""</li>
+<li>2. Change the name back to ""ORIGINAL-NAME""</li>
+</ol>",,,"1. Save becomes enabled (Dirty)
+2. Save becomes disabled — the form detects revert-to-original and returns to Clean",,,,Master,S1620,Test Case (Steps),Regression,,,
+,State transition - Tab-to-tab navigation guard (unconfirmed),,,,,Manual,Omeesha Mahanta,,,UNCONFIRMED — whether a guard dialog fires on tab-to-tab navigation has not been tested (no tab link found in any probe),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty. A sibling settings tab link is visible.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click a sibling settings tab (if one exists)</li>
+</ol>",,,1. UNCONFIRMED — whether a guard dialog fires on tab-to-tab navigation has not been tested (no tab link found in any probe),,,,Master,S1620,Test Case (Steps),Regression,,,
+,Integration — Legal T&C selection surfaces in Location Management History (NM-1200),,,,,Automated,Omeesha Mahanta,,,A history row referencing the Terms and Conditions change is visible,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A unique sentinel name is prepared for tracing.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""HISTORY-TRACE-SENTINEL""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Change a row's name to a unique sentinel value (e.g., ""HISTORY-TRACE-SENTINEL"") and Save</li>
+<li>2. Navigate to Location Management History for office 1604</li>
+<li>3. Search or filter for the most recent entry</li>
+</ol>",,,"1. Save completes
+2. The History page loads (reuse `the Location Management History page object`)
+3. A history row referencing the Terms and Conditions change is visible",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Integration — T&C required per language on Legal tab (NM-825/NM-664),,,,,Automated,Omeesha Mahanta,,,Language-specific T&C content appears on the Legal tab,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. T&C entries exist for at least two languages.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Navigate to the Legal tab for office 1604</li>
+<li>2. Verify T&amp;C information is reflected per language</li>
+</ol>",,,"1. The Legal tab loads (reuse `the Location Legal page object`)
+2. Language-specific T&C content appears on the Legal tab",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Error-guessing — double-click race on Save button,,,,,Automated,Omeesha Mahanta,,,Exactly one a save request to the server captured,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty (Save enabled)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Rapidly double-click the Save button</li>
+<li>2. Verify no duplicate network requests</li>
+</ol>",,,"1. Only one save request fires; Save disables after the first click; no duplicate submission
+2. Exactly one a save request to the server captured",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Error-guessing — save-failure retry succeeds after interception removed,,,,,Automated,Omeesha Mahanta,,,Save should succeed; edit persists after reload,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty. First save will fail (route interception returns 500), then interception is removed
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click Save (intercepted: 500 returned)</li>
+<li>2. Remove interception and click Save again</li>
+</ol>",,,"1. Save should stay enabled for retry (correct expectation)
+2. Save should succeed; edit persists after reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Error-guessing — language switched mid-RTE-edit,,,,,Automated,Omeesha Mahanta,,,Both the language change and the RTE content persist,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The editor is open with unsaved content in a row's Left Column
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. While the editor has unsaved content, change the same row's language dropdown</li>
+<li>2. Click Save if enabled</li>
+</ol>",,,"1. The unsaved-changes guard fires (for the language filter change path) OR the language change applies without losing the RTE edit (for the per-row dropdown)
+2. Both the language change and the RTE content persist",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Error-guessing — browser-back after successful save,,,,,Automated,Omeesha Mahanta,,,The T&C page reloads with the saved data intact,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. A save was just completed successfully (form is Clean)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Click browser Back</li>
+<li>2. Click browser Forward to return</li>
+</ol>",,,"1. Navigation proceeds without any `beforeunload` dialog (form is Clean)
+2. The T&C page reloads with the saved data intact",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Accessibility — logical tab order through page controls,,,,,Automated,Omeesha Mahanta,,,Every interactive control is reachable via Tab; no element traps focus indefinitely,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Press Tab repeatedly from the first focusable element</li>
+<li>2. Verify no focus skips or traps</li>
+</ol>",,,"1. Focus moves in a logical order through: Language filter, grid rows (Language dropdown, Name input, column cells), Add row button, Save button
+2. Every interactive control is reachable via Tab; no element traps focus indefinitely",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Accessibility — RTE keyboard operability,,,,,Automated,Omeesha Mahanta,,,Focus moves OUT of the contenteditable to the next focusable element — the editor does not trap keyboard focus,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. A Left Column cell is visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Tab into the Left Column cell (or activate it via Enter/Space on the launcher button)</li>
+<li>2. Type text using the keyboard</li>
+<li>3. Press Tab or Escape to exit the editor</li>
+</ol>",,,"1. The RTE gains focus — the cursor is inside the contenteditable
+2. Characters appear in the editor
+3. Focus moves OUT of the contenteditable to the next focusable element — the editor does not trap keyboard focus",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Accessibility — unsaved-changes dialog focus trap and restore,,,,,Automated,Omeesha Mahanta,,,The dialog closes; focus returns to the element that triggered the dialog (the language filter),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty. The language filter is about to be changed (triggers the guard dialog)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Select a language filter option to trigger the guard dialog</li>
+<li>2. Press Tab within the dialog</li>
+<li>3. Press Escape or click Stay</li>
+</ol>",,,"1. The warning dialog appears; keyboard focus moves into it (accessibility focus behavior)
+2. Focus cycles between Stay and Discard buttons (focus trapped within dialog)
+3. The dialog closes; focus returns to the element that triggered the dialog (the language filter)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Network payload — PUT response body reflects committed data,,,,,Automated,Omeesha Mahanta,,,"The response reflects the committed payload — the saved row data appears in the response with matching `languageId`, name, and content",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row has been edited with a known Name and known RTE content. Network interception captures request and response.
+
+"""": persistence
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""NET-PAYLOAD-TEST""
+Sample input 2: ""PAYLOAD-CONTENT""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Edit a row: set Name to ""NET-PAYLOAD-TEST"", type ""PAYLOAD-CONTENT"" into Left Column</li>
+<li>2. Click Save and capture the save request payload</li>
+<li>3. Capture the response body</li>
+</ol>",,,"1. Save becomes enabled
+2. The request body contains: the edited row with `""languageId"":""en-US""`, the name ""NET-PAYLOAD-TEST"", and the RTE content (HTML-escaped)
+3. The response reflects the committed payload — the saved row data appears in the response with matching `languageId`, name, and content",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Volume — all rows render in one scroll view without pagination,,,,,Automated,Omeesha Mahanta,,,Each row name+language combination is unique across the visible set,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language filter: All.
+
+"""": empty-vol
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
+<li>1. Count all visible rows in the grid</li>
+<li>2. Scroll to the last row</li>
+<li>3. Verify no duplicate rows appear</li>
+</ol>",,,"1. All rows (~51 including residue) render in a single scroll view — no pagination controls present
+2. The last row is reachable by scrolling; content is read by anchoring on the row's unique name (not index)
+3. Each row name+language combination is unique across the visible set",,,,Master,S1620,Test Case (Steps),Regression,,,

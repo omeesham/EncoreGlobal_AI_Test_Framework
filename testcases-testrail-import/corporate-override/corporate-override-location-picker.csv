@@ -1,0 +1,127 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Typing a partial office number narrows picker rows; clearing restores the full list,,,,,Automated,Omeesha Mahanta,,,The location table restores to display more rows than the narrowed set.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""1107""
+Sample input 2: ""Search by Location Name, Number""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+<li>1. Open the Change Local Office picker dialog</li>
+<li>2. Type ""1107"" into the ""Search by Location Name, Number"" field</li>
+<li>3. at least one row with ""1107"" is visible</li>
+<li>4. Clear the search box</li>
+</ol>",,,"1. The ""Change Local Office"" picker dialog opens and displays the location list.
+2. The location table narrows to show only offices matching ""1107"".
+3. At least one row containing ""1107"" is visible in the table.
+4. The location table restores to display more rows than the narrowed set.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Picker Active checkbox defaults unchecked; toggling is a client-side filter — no location-lookup POST fires,,,,,Automated,Omeesha Mahanta,,,The picker closes and the original 1606 grid remains unaffected with no new location applied.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""1107""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+<li>1. Open the Change Local Office picker dialog - a location-lookup API call fires (baseline check proving the network listener works)</li>
+<li>2. assert postFired=true and locationCount > 0</li>
+<li>3. Assert: Active checkbox is UNCHECKED (is not checked / data-state=unchecked) by default</li>
+<li>4. Toggle Active to CHECKED - assert NO location-lookup API call fires (toggle is a client-side filter; server ignores activeOnly parameter)</li>
+<li>5. assert checkbox is CHECKED</li>
+<li>6. assert row list still renders rows</li>
+<li>7. Search ""1107"" while Active is CHECKED - list narrows to matching offices (search and Active compose)</li>
+<li>8. Clear search</li>
+<li>9. toggle Active back to UNCHECKED - assert still NO location-lookup API call fires</li>
+<li>10. assert checkbox is UNCHECKED</li>
+<li>11. assert rows visible</li>
+<li>12. Cancel</li>
+</ol>",,,"1. The picker dialog opens and a location-lookup API request fires.
+2. The network request is confirmed fired and the picker displays a non-zero location count.
+3. The Active checkbox is displayed unchecked by default.
+4. The Active checkbox becomes checked and no additional location-lookup API request fires.
+5. The Active checkbox is displayed checked.
+6. The location row list continues to display rows.
+7. The row list narrows to offices matching ""1107"" while the Active checkbox stays checked.
+8. The search box clears and the full row list is restored.
+9. The Active checkbox becomes unchecked and no additional location-lookup API request fires.
+10. The Active checkbox is displayed unchecked.
+11. The location row list is displayed with rows visible.
+12. The picker closes and the original 1606 grid remains unaffected with no new location applied.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Non-Revenue-Management user sees a read-only Override grid — no edit, no Save, no Import [blocked: every automation account we hold has equivalent access and no RBAC state is exposed on the Override screen; a second automation account WITHOUT the 1101 Revenue Management role would make this automatable immediately; see NM-2126]",,,,,Automated,Omeesha Mahanta,,,The Import button is absent or disabled.,,,"corporate-pricing-pg-override,functional",,"Logged in as a non-Revenue-Management user
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+<li>1. Navigate to the Corporate Pricing Override screen</li>
+<li>2. Attempt to click an Override Price cell</li>
+<li>3. Observe the Save button</li>
+<li>4. Observe the Import button</li>
+</ol>",,,"1. The Corporate Pricing Override screen loads in read-only mode.
+2. The Override Price cell does not switch into edit mode.
+3. The Save button is displayed disabled or hidden.
+4. The Import button is absent or disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Escape closes the location picker without applying a location,,,,,Automated,Omeesha Mahanta,,,The Save button remains disabled.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1606 selected (grid populated)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Change Local Office""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+<li>1. Open the ""Change Local Office"" picker dialog</li>
+<li>2. Press Escape</li>
+<li>3. Read the grid</li>
+<li>4. Save remains disabled (no location change applied)</li>
+</ol>",,,"1. The ""Change Local Office"" picker dialog opens.
+2. The picker dialog closes.
+3. The grid displays the same rows as before the picker was opened.
+4. The Save button remains disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancel closes the location picker without applying a location,,,,,Automated,Omeesha Mahanta,,,The Save button remains disabled.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1606 selected (grid populated)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Change Local Office""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+<li>1. Open the ""Change Local Office"" picker dialog</li>
+<li>2. Click the Close (X) button in the dialog header</li>
+<li>3. Read the grid</li>
+<li>4. Save remains disabled</li>
+</ol>",,,"1. The ""Change Local Office"" picker dialog opens.
+2. The picker dialog closes.
+3. The grid displays the same rows as before the picker was opened.
+4. The Save button remains disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,No-results empty state in the location picker,,,,,Automated,Omeesha Mahanta,,,Searching for a term that matches no office renders an explicit empty state - the picker does not show a silent blank table. The empty state is visually distinguishable from a loading state,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1606 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Change Local Office""
+Sample input 2: ""zzz999nonexistent""
+Sample input 3: ""no results""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+<li>1. Open the ""Change Local Office"" picker dialog</li>
+<li>2. Type a nonsense string (e.g. ""zzz999nonexistent"") into the search box</li>
+<li>3. Assert the empty state is announced (a ""no results"" message or zero-row indicator is visible, not a silent blank)</li>
+<li>4. Close the dialog (Cancel or Escape)</li>
+</ol>",,,"1. The ""Change Local Office"" picker dialog opens and displays the location list.
+2. The location list narrows to zero rows.
+3. A ""no results"" message or zero-row indicator is displayed.
+4. Searching for a term that matches no office renders an explicit empty state - the picker does not show a silent blank table. The empty state is visually distinguishable from a loading state",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Re-selecting the current office does not dirty the form (net-zero),,,,,Automated,Omeesha Mahanta,,,PG 2609 is present in the grid.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1606 already selected and the grid populated; Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Change Local Office""
+Sample input 2: ""1606""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+<li>1. Open the ""Change Local Office"" picker dialog</li>
+<li>2. Search ""1606"", check the office 1606 row, click Select</li>
+<li>3. Read Save button state</li>
+<li>4. Read the grid</li>
+<li>5. anchor row PG 2609 still present</li>
+</ol>",,,"1. The ""Change Local Office"" picker dialog opens.
+2. The picker dialog closes after the selection.
+3. The Save button remains disabled.
+4. The grid displays the same rows as before.
+5. PG 2609 is present in the grid.",,,,Master,S1620,Test Case (Steps),Regression,,,

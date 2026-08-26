@@ -1,0 +1,102 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Tab activates and surface renders with expected columns and rows,,,,,Automated,Omeesha Mahanta,,,"Both the ""Cancel"" button and the ""Save"" button are visible inside the tab 2 panel.",,,discount-optimization,,"Authenticated user; navigated to the Discount Optimization Settings page for office 1604; the page has completed its initial load (wait for the tab list to be visible - the parent surface takes roughly 22 seconds to first paint, so wait on a content condition such as the tab list becoming visible, never a fixed timeout)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Special Rate Exemptions by Service Type""",Medium,,Special_Rate_Exemptions,1,,Discount_Optimization > Special_Rate_Exemptions,"<ol>
+<li>1. Locate the tab with visible text ""Special Rate Exemptions by Service Type"" and click it.</li>
+<li>2. Wait for the service-type rows to appear inside the tab panel.</li>
+<li>3. Read the table column headers inside the tab panel.</li>
+<li>4. Count the data rows in the table body.</li>
+<li>5. Confirm the Cancel and Save buttons are present inside the tab panel</li>
+</ol>",,,"1. The tab becomes active and its panel is displayed.
+2. At least one row is visible inside the panel (content condition met; do not use a fixed wait).
+3. Exactly two columns are present: ""Service Type"" and ""Exempt"".
+4. At least one service-type row is present. The row count matches what the API returned (do not assert a specific number — membership is subject to change).
+5. Both the ""Cancel"" button and the ""Save"" button are visible inside the tab 2 panel.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save is disabled when no changes have been made (pristine state),,,,,Automated,Omeesha Mahanta,,,The Cancel button is also present; its enabled state may vary by implementation (assert only Save is disabled in pristine state).,,,discount-optimization,,"Tab 2 is active; rows are visible; no changes have been made since the panel loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Special_Rate_Exemptions,1,,Discount_Optimization > Special_Rate_Exemptions,"<ol>
+<li>1. Without toggling any checkbox or interacting with any row, read the Save button's enabled state.</li>
+<li>2. Confirm the Cancel button state</li>
+</ol>",,,"1. The Save button is disabled (greyed out).
+2. The Cancel button is also present; its enabled state may vary by implementation (assert only Save is disabled in pristine state).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search box filters rows; clearing restores the full list; no-match shows empty state,,,,,Automated,Omeesha Mahanta,,,The full list is restored (baseline row count).,,,discount-optimization,,"Tab 2 is active; all service-type rows are visible (full list)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""HSIA""
+Sample input 2: ""Search by service type""
+Sample input 3: ""Service Type""
+Sample input 4: ""ZZZNO-MATCH-99999""",Medium,,Special_Rate_Exemptions,1,,Discount_Optimization > Special_Rate_Exemptions,"<ol>
+<li>1. Read the number of visible rows (baseline count).</li>
+<li>2. Type a substring that matches a known service type (e.g., ""HSIA"") into the ""Search by service type"" input.</li>
+<li>3. Confirm that every visible row's ""Service Type"" cell contains the typed substring (case-insensitive).</li>
+<li>4. Clear the search input (set it to empty).</li>
+<li>5. Type a string that matches no service type (e.g., ""ZZZNO-MATCH-99999"").</li>
+<li>6. Clear the search input again</li>
+</ol>",,,"1. A positive number of rows is present; record it as the baseline.
+2. The row list narrows to only rows whose service-type name contains the typed substring. The row count is less than or equal to the baseline count.
+3. All visible rows match the filter term; non-matching rows are hidden.
+4. The full list of service-type rows is restored; the row count returns to the baseline.
+5. All service-type rows are hidden; an empty state is displayed (e.g., a ""no results"" message or an empty table body).
+6. The full list is restored (baseline row count).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search is case-insensitive,,,,,Automated,Omeesha Mahanta,,,Full list restored.,,,discount-optimization,,"Tab 2 is active; all service-type rows are visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""EQUIPMENT""
+Sample input 2: ""equipment""",Medium,,Special_Rate_Exemptions,1,,Discount_Optimization > Special_Rate_Exemptions,"<ol>
+<li>1. Type an uppercase-only version of a known service type substring (e.g., ""EQUIPMENT"") into the search box.</li>
+<li>2. Clear the input. Type the same substring in lowercase (e.g., ""equipment"").</li>
+<li>3. Clear the input</li>
+</ol>",,,"1. At least one row is visible, and every visible row's service-type name contains ""equipment"" (case-insensitive).
+2. Exactly the same set of rows is returned as in step 1 — the same service-type names appear, not merely the same count.
+3. Full list restored.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Save cycle — pristine disabled, enabled by valid change, change persists after reload; Cancel discards",,,,,Automated,Omeesha Mahanta,,,The Save completes; the row is back to its original state. Data is left clean.,,,discount-optimization,,"Tab 2 is active; rows are visible; no uncommitted changes
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Exempt Equipment Rental""",Medium,,Special_Rate_Exemptions,1,,Discount_Optimization > Special_Rate_Exemptions,"<ol>
+<li>1. Confirm Save is disabled in pristine state.</li>
+<li>2. Record the current checked state of the ""Exempt Equipment Rental"" row checkbox (the known-exempt row).</li>
+<li>3. Click the ""Exempt Equipment Rental"" checkbox to toggle it to the opposite state.</li>
+<li>4. Click the ""Cancel"" button.</li>
+<li>5. Toggle the ""Exempt Equipment Rental"" checkbox again to the opposite of its current (original) state.</li>
+<li>6. Click ""Save"".</li>
+<li>7. Reload the page</li>
+<li>8. navigate back to tab 2 and wait for rows to appear.</li>
+<li>9. Restore the original state: toggle the checkbox back to its original value from step 2 and save again</li>
+</ol>",,,"1. Save button is disabled; no changes pending.
+2. State is recorded (either checked or unchecked depending on current data).
+3. The checkbox toggles to the opposite value. The Save button becomes enabled.
+4. The checkbox returns to its pre-toggle state (the change is discarded). The Save button returns to disabled.
+5. The Save button becomes enabled again.
+6. The Save button is clicked; the page accepts the save (no error state; Save returns to disabled after the operation completes).
+7. The toggled value from step 5 persists: the ""Exempt Equipment Rental"" checkbox shows the checked state that was saved in step 6.
+8. The Save completes; the row is back to its original state. Data is left clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancel discards multiple simultaneous checkbox changes,,,,,Automated,Omeesha Mahanta,,,Both checkboxes return to their original states (both changes are discarded). Save is disabled.,,,discount-optimization,,"Tab 2 is active; rows are visible; no uncommitted changes
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Equipment Rental""
+Sample input 2: ""Digital Branding""",Medium,,Special_Rate_Exemptions,1,,Discount_Optimization > Special_Rate_Exemptions,"<ol>
+<li>1. Record the current checked state for at least two rows (e.g., ""Equipment Rental"" and ""Digital Branding"").</li>
+<li>2. Toggle both checkboxes to the opposite state.</li>
+<li>3. Click ""Cancel""</li>
+</ol>",,,"1. States recorded.
+2. Both checkboxes show the new state; Save is enabled.
+3. Both checkboxes return to their original states (both changes are discarded). Save is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
