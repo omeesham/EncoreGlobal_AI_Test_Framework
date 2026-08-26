@@ -10,6 +10,16 @@ test.describe('Location Business Types @locations @business-types', () => {
   // Per-test navigation guard. Presence in the page beats a url check, because every sub-tab of
   // Location Settings shares the same address.
   test.beforeEach(async ({ locationBusinessTypesPage }) => {
+    // Every test in this file calls test.setTimeout() from its OWN body to extend the budget
+    // past the 30s global default — but that call only takes effect if this beforeEach hook
+    // itself finishes within that default 30s first. navigateToSubTab()'s own readiness wait
+    // is already budgeted at 30s on its own (base.page.ts), leaving zero room for the
+    // navigation and tab click that precede it. A live environment slower than the ~9-15s
+    // this was tuned for (matching a pattern observed across other suites today) pushes the
+    // whole hook past 30s, timing out before any test body ever gets a chance to raise the
+    // ceiling. Setting a generous budget here — before any slow step runs — fixes that for
+    // every test in the file, without changing each test's own explicit test.setTimeout().
+    test.setTimeout(180_000);
     if (!(await locationBusinessTypesPage.isOnBusinessTypesTab())) {
       await locationBusinessTypesPage.navigateToBusinessTypesTab(OFFICE_NO);
     }
@@ -133,7 +143,10 @@ test.describe('Location Business Types @locations @business-types', () => {
 
   test('TC-LOC-BTY-016: Unsaved Changes Prompt Discard Leaves The Page And Drops The Edit', async ({ locationBusinessTypesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-BTY-001']);
-    test.setTimeout(90_000);
+    // Two full navigateFresh() reloads (in, then back in after discarding) — the single-reload
+    // toggle tests above already need 120s each; this test needs at least double that headroom,
+    // not the 90s it had (less than even a single reload's budget).
+    test.setTimeout(240_000);
     await locationBusinessTypesPage.navigateFresh(OFFICE_NO);
     await locationBusinessTypesPage.toggleCheckbox('chkBusinessTypeExpoServices');
     await expect.poll(() => locationBusinessTypesPage.isSaveEnabled(), { timeout: 5_000 }).toBe(true);
