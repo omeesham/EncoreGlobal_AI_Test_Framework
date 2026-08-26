@@ -144,11 +144,18 @@ export class ServiceChargePage extends BasePage {
    * confirmed active. Uses aria-selected rather than a heading — the page h1 stays
    * "Service Charge" on both tabs, so no History-specific heading exists.
    * Radix-generated tab ids must never be used — they shift between builds.
+   *
+   * Waits for the tab to be visible before clicking, with headroom well past the global
+   * 10 s action timeout. This app is Next.js/React, not Angular — waitForAngularStable()
+   * is a no-op here (no Angular testability API exists to wait on) — so right after a fresh
+   * navigation (e.g. via gotoHistory()) the Radix tab trigger may still be hydrating. A bare
+   * click racing that hydration under the default 10 s budget was observed to time out.
    */
   @step('Switch to the Service Charge History tab')
   async switchToHistoryTab(): Promise<void> {
     const tab = this.page.getByRole('tab', { name: sc.TAB_HISTORY_NAME, exact: true });
-    await tab.click();
+    await tab.waitFor({ state: 'visible', timeout: 30_000 });
+    await tab.click({ timeout: 30_000 });
     await expect(tab).toHaveAttribute('aria-selected', 'true', { timeout: 10_000 });
     await this.waitForAngularStable();
   }
@@ -447,9 +454,15 @@ export class ServiceChargePage extends BasePage {
    * disappearance alone is insufficient — rows exist in the DOM while still being
    * placeholders. This method first waits for all skeletons to clear, then polls until
    * getHistoryRows() returns at least one row. No fixed sleeps; uses web-first assertions.
+   *
+   * Timeout sizing: isolated live probes measured 40-58 s for a non-primary office's grid
+   * to clear its skeletons; under the full suite's concurrent load one run measured 20
+   * skeletons still present at the full 90 s mark. 150 s gives roughly 2.5-3.75x the
+   * isolated timing, matching this codebase's existing headroom convention elsewhere
+   * (e.g. resolveEnabledPercentageField's 60 s budget for an observed ~30 s enable delay).
    */
   @step('Wait for the Service Charge History grid to finish loading')
-  async waitUntilHistoryLoaded(timeout = 90_000): Promise<void> {
+  async waitUntilHistoryLoaded(timeout = 150_000): Promise<void> {
     await expect(this.page.locator(sc.skeleton)).toHaveCount(0, { timeout });
     await expect
       .poll(async () => (await this.getHistoryRows()).length > 0, { timeout: 30_000 })

@@ -183,13 +183,23 @@ export class DiscountOptimizationPage extends BasePage {
 
   // ---------------------------------------------------------------- tab 1 — search
 
-  /** Fills the Tab 1 search box and waits for the grid to filter. */
+  /**
+   * Fills the Tab 1 search box and waits for the grid to filter.
+   *
+   * Waits for the row count to move off its pre-search baseline AND THEN stop changing —
+   * the virtualized grid passes through partial/transitional row counts (same behaviour
+   * documented on clearSearchTab2()) before settling on the true filtered result. A single
+   * "count changed" check can return mid-transition and hand back a stale or partial row
+   * set that does not actually match the search term.
+   */
   @step('Search for a location by name or number')
   async search(term: string): Promise<void> {
+    const countBefore = await this.page.locator(ROWS_TAB1).count();
     const inp = this.page.locator(TXT_SEARCH_TAB1).first();
     await inp.click();
     await inp.pressSequentially(term, { delay: KEYSTROKE_DELAY_MS });
-    await this._waitForGridCountChange(ROWS_TAB1);
+    await this._waitForGridCountChangeFrom(ROWS_TAB1, countBefore);
+    await this._waitForGridCountStable(ROWS_TAB1);
   }
 
   /** Clears the Tab 1 search box and waits for the full list to restore. */
@@ -437,10 +447,20 @@ export class DiscountOptimizationPage extends BasePage {
     const prevValue = await this.getFirstRowCell(2);
     await menuItem.click();
     // Poll until the first row value changes — sort reorder settles after Angular stability.
-    const deadline = Date.now() + 15_000;
+    // The grid can briefly show zero rows (or detach/reattach the first row) mid-reorder, the
+    // same transitional behaviour documented on search/clear — getFirstRowCell() would then
+    // throw on a plain miss instead of a real "not yet changed" result. Treat a transient
+    // read failure as "still settling" and keep polling rather than aborting the wait.
+    // 45 s (not 15 s): a single failed textContent() read can itself burn the full 10 s
+    // default action timeout before the catch below sees it — 15 s left no room to retry.
+    const deadline = Date.now() + 45_000;
     while (Date.now() < deadline) {
-      const current = await this.getFirstRowCell(2);
-      if (current !== prevValue) break;
+      try {
+        const current = await this.getFirstRowCell(2);
+        if (current !== prevValue) break;
+      } catch {
+        // Transient miss during the reorder — keep polling.
+      }
       await this.page.waitForTimeout(300);
     }
     await this.waitForAngularStable();
@@ -692,22 +712,6 @@ export class DiscountOptimizationPage extends BasePage {
     while (Date.now() < deadline) {
       const count = await this.page.locator(rowSelector).count();
       if (count > 0) break;
-      await this.page.waitForTimeout(100);
-    }
-    await this.waitForAngularStable();
-  }
-
-  /**
-   * Waits until the row count for `rowSelector` differs from its value at call time,
-   * then waits for Angular to stabilise. Used after search input to confirm the client-side
-   * filter has actually run — Angular's zone may report stable before a debounce timer fires.
-   */
-  private async _waitForGridCountChange(rowSelector: string, timeout = 10_000): Promise<void> {
-    const before = await this.page.locator(rowSelector).count();
-    const deadline = Date.now() + timeout;
-    while (Date.now() < deadline) {
-      const now = await this.page.locator(rowSelector).count();
-      if (now !== before) break;
       await this.page.waitForTimeout(100);
     }
     await this.waitForAngularStable();

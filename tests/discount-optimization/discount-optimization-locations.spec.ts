@@ -73,11 +73,16 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   test('TC-DOP-OPT-004: Office 1604 (Parker Palm Springs) is present in its own locations list', async ({ dependencyGate }) => {
     dependencyGate([]);
+    const countBefore = await dop.getRowCount();
     await dop.search('1604');
     const rowTexts = await (dop as any).page.locator(ROWS_TAB1).allTextContents();
     // Searching "1604" returns the office's own row — the grid does not exclude the host office.
     const hasParkerPalmSprings = (rowTexts as string[]).some((t) => t.includes('Parker Palm Springs'));
     expect(hasParkerPalmSprings).toBe(true);
+    // The app persists the search term across page loads — leaving it set here would silently
+    // filter the grid for the very next test (TC-005), which assumes a clean baseline count.
+    await dop.clearSearch();
+    await expect.poll(() => dop.getRowCount(), { timeout: 45_000 }).toBe(countBefore);
   });
 
   // ---------------------------------------------------------------- search / filter
@@ -113,6 +118,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
   test('TC-DOP-OPT-006: Search is case-insensitive on location name', async ({ dependencyGate }) => {
     dependencyGate([]);
     const pg = (dop as any).page;
+    const countBefore = await dop.getRowCount();
     await dop.search(DOP_CASE_INSENSITIVE_FILTER);
     expect(await dop.getRowCount()).toBeGreaterThan(0);
     // Every returned row must match — not just the first one.
@@ -120,6 +126,11 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     for (const rowText of (allTexts as string[])) {
       expect((rowText as string).toLowerCase()).toContain(DOP_CASE_INSENSITIVE_FILTER.toLowerCase());
     }
+    // The app persists the search term across page loads (the same mechanism the sort
+    // tests clear via localStorage.clear()) — leaving it set here would silently filter
+    // the grid for every later test in the run. Restore the full list before finishing.
+    await dop.clearSearch();
+    await expect.poll(() => dop.getRowCount(), { timeout: 45_000 }).toBe(countBefore);
   });
 
   // ---------------------------------------------------------------- sorting
@@ -568,10 +579,17 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   test('TC-DOP-OPT-071: Search returns deactivated locations (NM-3210 coverage)', async ({ dependencyGate }) => {
     dependencyGate([]);
+    const countBefore = await dop.getRowCount();
     await dop.search(DOP_DEACTIVATED_ROW_FRAGMENT);
     expect(await dop.getRowCount()).toBeGreaterThan(0);
     const firstName = await dop.getFirstRowCell(3);
     expect(firstName.toLowerCase()).toContain(DOP_DEACTIVATED_ROW_FRAGMENT.toLowerCase());
+    // The app persists the search term across page loads (see TC-070's clearSearch() and the
+    // sort tests' localStorage.clear()) — leaving it set here would silently filter the grid
+    // for every later test in the run (observed: it hid rows TC-050/052/053/092 depend on).
+    // Restore the full list before finishing.
+    await dop.clearSearch();
+    await expect.poll(() => dop.getRowCount(), { timeout: 45_000 }).toBe(countBefore);
   });
 
   // ---------------------------------------------------------------- persistence (TC-DOP-OPT-050, TC-DOP-OPT-051)
@@ -579,7 +597,9 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
   /**
    * TC-DOP-OPT-050: Save round-trip — an Allow Special Rate toggle change persists after reload.
    *
-   * Toggles the Allow Special Rate switch on a dedicated row (InterContinental Chicago),
+   * Toggles the Allow Special Rate switch on a dedicated row (DOP_LOCATION_FOR_PERSISTENCE —
+   * see src/data/discount-optimization/discount-optimization.ts for why this points to
+   * "Hotel del Coronado" rather than the originally-authored "InterContinental Chicago"),
    * saves, reloads, and confirms the toggled value survived. Uses a dedicated row not shared
    * with any other test so state is clean regardless of execution order.
    */
@@ -897,8 +917,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
    *
    * Selects a new Special Rate Start Date via the calendar picker (the only method that
    * correctly updates Angular's component model), saves, reloads, and confirms the saved
-   * date survives the round-trip. Uses the same dedicated row (InterContinental Chicago) as
-   * TC-DOP-OPT-050 — the two tests use different fields (toggle vs date) so there is no
+   * date survives the round-trip. Uses the same dedicated row (DOP_LOCATION_FOR_PERSISTENCE)
+   * as TC-DOP-OPT-050 — the two tests use different fields (toggle vs date) so there is no
    * collision. The date is restored in a finally block.
    */
   test('TC-DOP-OPT-092: Save round-trip — a Special Rate Start Date change persists after reload', async ({ dependencyGate }) => {

@@ -38,11 +38,13 @@ import {
  * Company Matrix grid paint timeout.
  *
  * The grid container is mounted before its data arrives — waiting on the container alone
- * produced false "grid is empty" findings on the sibling module. This timeout is set to
- * 45 s, well above the observed ~22 s first-paint latency on comparable grids, to give
- * the 9-row tier dataset headroom without blocking indefinitely.
+ * produced false "grid is empty" findings on the sibling module. Originally set to 45 s
+ * based on an observed ~22 s first-paint latency on comparable grids (2026-08-19), but a
+ * live diagnostic probe on 2026-08-25 measured this grid actually taking ~83 s to replace
+ * its skeleton rows with real data — every test in this suite failed identically on that
+ * stale 45 s ceiling. 180 s gives roughly 2.2x the newly observed timing.
  */
-const GRID_READY_TIMEOUT_MS = 45_000;
+const GRID_READY_TIMEOUT_MS = 180_000;
 
 /**
  * Keystroke cadence for the typing helpers below. This page's numeric fields reformat their
@@ -362,17 +364,28 @@ export class CompanyMatrixPage extends BasePage {
   /** Reads the current value of the GAV Discount Threshold input in the criteria bar. */
   @step('Read the GAV Discount Threshold value from the criteria bar')
   async getCriteriaThreshold(): Promise<string> {
-    return this.page.locator(INP_GAV_DISCOUNT_THRESHOLD).inputValue();
+    const input = await this.readThresholdField();
+    return input.inputValue();
   }
 
   // ---------------------------------------------------------------- criteria bar — private helpers
 
   /**
-   * Returns the threshold input locator. Centralises the selector reference so all
-   * methods that drive this field resolve from one place.
+   * Returns the threshold input locator, after waiting for it to actually be usable.
+   * Centralises the selector reference so all methods that drive this field resolve
+   * from one place.
+   *
+   * A live probe on 2026-08-25 measured this field taking ~10 s to even attach to the
+   * DOM after waitForGrid() has already resolved — the threshold renders from a separate,
+   * later async load than the grid does. That gap sits right at the edge of Playwright's
+   * default 10 s action timeout, so a bare `.click()`/`.inputValue()` here intermittently
+   * (or consistently, depending on network jitter) timed out before the field ever
+   * appeared. 30 s gives roughly 3x the observed gap.
    */
   private async readThresholdField(): Promise<import('@playwright/test').Locator> {
-    return this.page.locator(INP_GAV_DISCOUNT_THRESHOLD);
+    const input = this.page.locator(INP_GAV_DISCOUNT_THRESHOLD);
+    await input.waitFor({ state: 'visible', timeout: 30_000 });
+    return input;
   }
 
   /**
@@ -572,6 +585,11 @@ export class CompanyMatrixPage extends BasePage {
    */
   @step('Read any visible validation messages on the page')
   async getVisibleValidationMessages(): Promise<string[]> {
+    // The threshold input can take ~10 s to attach to the DOM after the grid itself is
+    // ready (see readThresholdField()) — wait for it here too, or the scope walk below
+    // throws immediately on a field that simply hasn't rendered yet.
+    await this.readThresholdField();
+
     const INTERACTIVE_SELECTOR =
       'button,input,select,textarea,a,[role="combobox"],[role="button"],[role="tab"],[role="option"]';
 
@@ -923,8 +941,12 @@ export class CompanyMatrixPage extends BasePage {
    */
   @step('Click Export and wait for the file download to begin')
   async clickExportAndWaitForDownload(): Promise<Download> {
+    // No explicit timeout here defaults to the global 10 s action timeout, which is far too
+    // tight for this page's backend — the same class of gap already measured on the grid
+    // (~83 s) and the threshold field (~10 s just to attach). 90 s gives comfortable headroom
+    // for the export POST to generate the workbook before the download begins.
     const [download] = await Promise.all([
-      this.page.waitForEvent('download'),
+      this.page.waitForEvent('download', { timeout: 90_000 }),
       this.page.locator(BTN_EXPORT).first().click(),
     ]);
     return download;

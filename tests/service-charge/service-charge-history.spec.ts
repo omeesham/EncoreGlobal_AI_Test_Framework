@@ -8,6 +8,12 @@ import {
 
 const APP_IDX = SC_SERVICE_TYPE_INDEX['APP Downloaded'] as number; // 0
 
+/** Return a percentage value numerically different from `current`, in NN.NN format, within 0–100. */
+function differentPercentageFrom(current: string): string {
+  const num = parseFloat(current);
+  return (num >= 50 ? num - 10 : num + 10).toFixed(2);
+}
+
 /**
  * Service Charge — Service Charge History tab (NM-3344).
  *
@@ -22,7 +28,9 @@ const APP_IDX = SC_SERVICE_TYPE_INDEX['APP Downloaded'] as number; // 0
 
 
 test.describe('Service Charge History', () => {
-  // Suite-wide ceiling: 120 s per test. TC-SVC-HIS-012 declares { timeout: 240_000 } to override.
+  // Suite-wide ceiling: 120 s per test. TC-SVC-HIS-011 (360 s), TC-SVC-HIS-012 (240 s), and
+  // TC-SVC-HIS-013 (240 s) each override it via test.setTimeout() — each does multiple
+  // full-page or History-grid load cycles that don't fit the default budget.
   test.describe.configure({ timeout: 120_000 });
 
   let sc: ServiceChargePage;
@@ -243,6 +251,11 @@ test.describe('Service Charge History', () => {
   test('TC-SVC-HIS-011: History data is scoped per office — different offices show different row sets', async ({
     dependencyGate,
   }) => {
+    // Three full office navigations, each with its own tab switch and History-grid load
+    // (waitUntilHistoryLoaded() alone carries a 150 s budget for non-primary offices under
+    // load) — stacked, that can run well past the suite-wide 120 s ceiling. 360 s covers two
+    // slow (non-cache-warm) office loads back to back plus overhead.
+    test.setTimeout(360_000);
     dependencyGate([]);
 
     // Office 1604 (primary test office — beforeEach already landed here via goto()).
@@ -312,6 +325,11 @@ test.describe('Service Charge History', () => {
   test('TC-SVC-HIS-013: A Basic Information save adds a new row to Service Charge History', async ({
     dependencyGate,
   }) => {
+    // This test does two History-grid loads plus two Basic Information save cycles (main body
+    // + restore), each of which can take up to ~30-60 s per waitUntilLoaded()'s documented
+    // enable delay — the same shape TC-SVC-HIS-012 already overrides the suite-wide 120 s
+    // ceiling for.
+    test.setTimeout(240_000);
     dependencyGate([]);
 
     const AUTOMATION_USER = 's-prd-clickauto@psav.com';
@@ -335,9 +353,14 @@ test.describe('Service Charge History', () => {
     // Switch to Basic Information, edit one field, and save.
     await sc.switchToBasicInformationTab();
     const originalValue = await sc.getPercentageByIndex(APP_IDX);
+    // Derive the edit from the live value rather than hardcoding '1.00': if a prior run left
+    // the database already at '1.00' (e.g. an interrupted restore), writing '1.00' again is a
+    // net-zero edit — Save never enables and clickSave() hangs. differentPercentageFrom()
+    // guarantees the edit always differs from whatever the environment currently holds.
+    const editValue = differentPercentageFrom(originalValue);
 
     try {
-      await sc.setPercentageByIndex(APP_IDX, '1.00');
+      await sc.setPercentageByIndex(APP_IDX, editValue);
       await sc.clickSave();
       await sc.waitUntilLoaded();
 
@@ -352,16 +375,24 @@ test.describe('Service Charge History', () => {
       // shows the automation user's email address, not a GUID.
       const topRow = rowsAfterSave[0]!;
       expect(topRow[0]).toBe('APP Downloaded');
-      expect(topRow[1]).toContain('1.00 %');
+      expect(topRow[1]).toContain(`${editValue} %`);
       expect(topRow[2]).toBe(AUTOMATION_USER);
       expect(topRow[3]).toContain(todayDateStr);
     } finally {
       // Restore the original value regardless of any assertion failure.
       await sc.switchToBasicInformationTab();
       await sc.setPercentageByIndex(APP_IDX, originalValue);
-      if (await sc.isSaveEnabled()) {
+      // A single point-in-time isSaveEnabled() check races the app's own re-render: Save can
+      // flip back to disabled (net-zero edit, value already matches the database) between the
+      // check and the click, hanging clickSave() until its action timeout. Poll for Save to
+      // settle active first, and tolerate it never doing so — that just means the database
+      // already holds the correct value, so no save is needed.
+      try {
+        await sc.waitForSaveActive(3000);
         await sc.clickSave();
         await sc.waitUntilLoaded();
+      } catch {
+        // Net-zero restore — database already holds the correct value.
       }
     }
   });

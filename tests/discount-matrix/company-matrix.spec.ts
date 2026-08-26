@@ -68,8 +68,11 @@ test.describe('Discount Matrix — Company Matrix: header controls drive the gri
   let cmx: CompanyMatrixPage;
 
   test.beforeEach(async ({ authenticatedSession, config }) => {
-    // 180 s budget: first paint measured ~22 s; TC-005 and TC-007 each do multiple reloads.
-    test.setTimeout(180_000);
+    // 500 s default budget: a live probe on 2026-08-25 measured the grid taking ~83 s to
+    // load (waitForGrid()'s ceiling is now 180 s to match) — this beforeEach's own open()
+    // already spends up to that before the test body runs. 500 s covers two full-budget
+    // loads plus test-body overhead; TC-005 does up to four opens and overrides further.
+    test.setTimeout(500_000);
     cmx = new CompanyMatrixPage(authenticatedSession.page, config);
     await cmx.open(OFFICE);
     // open() already calls waitForGrid() — no second wait needed here.
@@ -229,6 +232,9 @@ test.describe('Discount Matrix — Company Matrix: header controls drive the gri
   test('TC-DSM-CMX-005: Header Save persists only the GAV threshold', async () => {
     // ⚠ This test writes to the live application. The finally block restores the original
     // threshold — do not remove the finally block.
+    // Up to four full grid loads (beforeEach + try-block open + up to two restore-loop
+    // opens), each up to waitForGrid()'s 180 s ceiling — override the describe default.
+    test.setTimeout(900_000);
 
     // Capture the rendered string exactly (e.g. "12.5%") so the restore is string-exact.
     // An integer round-trip (parseInt) would silently rewrite a fractional value like 12.5
@@ -401,7 +407,9 @@ test.describe('SBC — discount matrix company matrix', () => {
   let cmx: CompanyMatrixPage;
 
   test.beforeEach(async ({ authenticatedSession, config }) => {
-    test.setTimeout(180_000);
+    // See the header-controls describe above: waitForGrid()'s ceiling is 180 s (measured
+    // ~83 s live); 500 s covers this beforeEach's own open() plus test-body overhead.
+    test.setTimeout(500_000);
     cmx = new CompanyMatrixPage(authenticatedSession.page, config);
     await cmx.open(OFFICE);
   });
@@ -771,7 +779,10 @@ test.describe('Discount Matrix — Company Matrix: field input contracts', () =>
   let cmx: CompanyMatrixPage;
 
   test.beforeEach(async ({ authenticatedSession, config }) => {
-    test.setTimeout(180_000);
+    // See the header-controls describe above: waitForGrid()'s ceiling is 180 s (measured
+    // ~83 s live); 500 s covers this beforeEach's own open() plus test-body overhead.
+    // TC-038 and TC-039 each do three opens and override further below.
+    test.setTimeout(500_000);
     cmx = new CompanyMatrixPage(authenticatedSession.page, config);
     await cmx.open(OFFICE);
   });
@@ -1225,6 +1236,9 @@ test.describe('Discount Matrix — Company Matrix: field input contracts', () =>
   });
 
   test('TC-DSM-CMX-038: Threshold treats zero and empty as zero percent', async () => {
+    // Three full grid loads (beforeEach + two explicit open() calls) — override the
+    // describe default so two loads at waitForGrid()'s 180 s ceiling don't exhaust it.
+    test.setTimeout(700_000);
     // Trial 1: explicit zero.
     await cmx.setCriteriaThreshold('0');
 
@@ -1256,6 +1270,9 @@ test.describe('Discount Matrix — Company Matrix: field input contracts', () =>
   // mistyped entry can leave a zero in a field that previously held a real number, with no indication
   // anything went wrong.
   test('TC-DSM-CMX-039: Threshold silently refuses non-numeric input and resolves empty to zero', async () => {
+    // Three full grid loads (beforeEach + two explicit open() calls) — override the
+    // describe default so two loads at waitForGrid()'s 180 s ceiling don't exhaust it.
+    test.setTimeout(700_000);
     // Part 1 — Refusal: type 'abc' over the selection without clearing first.
     // The characters are refused at the input layer; the existing value is never replaced.
     const starting = await cmx.getCriteriaThreshold();

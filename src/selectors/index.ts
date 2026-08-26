@@ -10,6 +10,7 @@ import { SetupNotesSelectors } from './locations/notes';
 import { SetupLegalSelectors } from './locations/legal';
 import { SetupAutoAddonSelectors } from './locations/auto-addon';
 import { SetupHistorySelectors } from './locations/history';
+import { SetupBusinessTypesSelectors } from './locations/business-types';
 import { LocalOfficeSettingsSelectors } from './local-office/local-office-settings';
 import { LocalOfficeHistorySelectors } from './local-office/local-office-history';
 import { LocalOfficeEctSelectors } from './local-office/local-office-ect';
@@ -36,6 +37,7 @@ export { SetupNotesSelectors } from './locations/notes';
 export { SetupLegalSelectors } from './locations/legal';
 export { SetupAutoAddonSelectors } from './locations/auto-addon';
 export { SetupHistorySelectors } from './locations/history';
+export { SetupBusinessTypesSelectors } from './locations/business-types';
 export { LocalOfficeSettingsSelectors } from './local-office/local-office-settings';
 export { LocalOfficeHistorySelectors } from './local-office/local-office-history';
 export { LocalOfficeEctSelectors } from './local-office/local-office-ect';
@@ -53,6 +55,7 @@ export const LocationSettingsSelectors = {
   ...SetupLegalSelectors,
   ...SetupAutoAddonSelectors,
   ...SetupHistorySelectors,
+  ...SetupBusinessTypesSelectors,
 } as const;
 
 function buildAllSelectors(...objects: Record<string, string>[]): Record<string, string> {
@@ -84,6 +87,7 @@ export const ALL_SELECTORS = buildAllSelectors(
   SetupLegalSelectors,
   SetupAutoAddonSelectors,
   SetupHistorySelectors,
+  SetupBusinessTypesSelectors,
 );
 
 // Validate LOS selectors don't collide with non-Location modules.

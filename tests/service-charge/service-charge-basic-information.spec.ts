@@ -148,6 +148,10 @@ test.describe('Service Charge Basic Information', () => {
   test('TC-SVC-BAS-004: Saved percentage value persists after page reload', async ({
     dependencyGate,
   }) => {
+    // Same shape as TC-SVC-BAS-030: initial load + post-save settle + reload + restore-save
+    // settle can each take up to ~30-60 s (see waitUntilLoaded()'s comment on the ~30 s enable
+    // delay after every navigation/reload), so the suite-wide 120 s ceiling is too tight here.
+    test.setTimeout(240_000);
     dependencyGate([]);
 
     const editValue = differentPercentageFrom(baselineAudio);
@@ -407,6 +411,8 @@ test.describe('Service Charge Basic Information', () => {
   test('TC-SVC-BAS-020: Saving an edited percentage field persists the new value after reload', async ({
     dependencyGate,
   }) => {
+    // Same reload-persistence shape as TC-SVC-BAS-004/030 — needs the same extended budget.
+    test.setTimeout(240_000);
     dependencyGate([]);
 
     const editValue = differentPercentageFrom(baselineAudio);
@@ -434,6 +440,8 @@ test.describe('Service Charge Basic Information', () => {
   test('TC-SVC-BAS-021: Overwriting an edited value before saving persists the second value', async ({
     dependencyGate,
   }) => {
+    // Same reload-persistence shape as TC-SVC-BAS-004/030 — needs the same extended budget.
+    test.setTimeout(240_000);
     dependencyGate([]);
 
     const firstValue = differentPercentageFrom(baselineAudio);
@@ -466,6 +474,9 @@ test.describe('Service Charge Basic Information', () => {
     dependencyGate,
     authenticatedSession,
   }) => {
+    // This test navigates away and then reloads to clean up — two full page-load cycles on
+    // top of beforeEach's own load — which can run close to the suite-wide 120 s ceiling.
+    test.setTimeout(240_000);
     dependencyGate([]);
     const authPage = authenticatedSession.page;
 
@@ -504,6 +515,9 @@ test.describe('Service Charge Basic Information', () => {
   test('TC-SVC-BAS-023: Saving edits to multiple percentage fields in a single Save action', async ({
     dependencyGate,
   }) => {
+    // Same reload-persistence shape as TC-SVC-BAS-004/030, plus a second edited field and its
+    // own restore — needs at least as much budget.
+    test.setTimeout(240_000);
     dependencyGate([]);
 
     // Derive from baselines read in beforeEach so the write values differ from current state.
