@@ -1,0 +1,507 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Page loads with both tabs present and the Locations tab active by default,,,,,Automated,Omeesha Mahanta,,,"The ""Discount Optimization"" tab is selected and its content panel is shown by default.",,,discount-optimization,,"Authenticated; navigating to the Discount Optimization Settings page for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Navigate to the Discount Optimization Settings page for office 1604.</li>
+<li>2. Wait for the tab bar to appear.</li>
+<li>3. Observe which tab is active without clicking anything</li>
+</ol>",,,"1. The page loads and the Discount Optimization Settings heading is visible.
+2. Both tabs are visible: ""Discount Optimization"" and ""Special Rate Exemptions by Service Type"".
+3. The ""Discount Optimization"" tab is selected and its content panel is shown by default.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Locations grid renders rows and all four column headers after the slow first paint,,,,,Automated,Omeesha Mahanta,,,The grid shows more than zero rows; the exact count is not asserted because it reflects live data.,,,discount-optimization,,"On the Discount Optimization Settings page, Locations tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Wait for the grid row count to become non-zero (do not use a fixed timeout or networkidle).</li>
+<li>2. Read the column header row.</li>
+<li>3. Confirm the row count is greater than zero</li>
+</ol>",,,"1. The grid transitions from its ""0 locations found"" initial state to showing a non-zero number of rows.
+2. Four column headers are visible: ""ID"", ""Location Name"", ""Allow Special Rate"", and ""Special Rate Start Date"".
+3. The grid shows more than zero rows; the exact count is not asserted because it reflects live data.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Locations grid rows show ID and Location Name values,,,,,Automated,Omeesha Mahanta,,,The Location Name cell contains a non-empty text name.,,,discount-optimization,,"Grid has completed its first paint (row count non-zero)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Read the first visible row's ID cell.</li>
+<li>2. Read the first visible row's Location Name cell</li>
+</ol>",,,"1. The ID cell contains a non-empty numeric or alphanumeric location number.
+2. The Location Name cell contains a non-empty text name.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Office 1604 (Parker Palm Springs) is present in its own locations list,,,,,Automated,Omeesha Mahanta,,,Office 1604 appears as a row in the grid — the host office is included in its own list.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""1604""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Search for ""1604"" in the search box.</li>
+<li>2. Confirm that the row for office 1604 (Parker Palm Springs) is present</li>
+</ol>",,,"1. The grid filters to rows matching ""1604"".
+2. Office 1604 appears as a row in the grid — the host office is included in its own list.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search filters the grid; clearing restores all rows; no-match shows empty state,,,,,Automated,Omeesha Mahanta,,,The grid restores to the full row set.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2050""
+Sample input 2: ""ZZZZNOTAPLACE""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Note the row count before searching.</li>
+<li>2. Type a known location number (e.g. ""2050"") into the search box.</li>
+<li>3. Clear the search box.</li>
+<li>4. Type a string that matches no location (e.g. ""ZZZZNOTAPLACE"").</li>
+<li>5. Clear the search box again</li>
+</ol>",,,"1. The grid shows a non-zero number of rows.
+2. The grid filters immediately and shows only rows matching ""2050"". The filtered count is less than the unfiltered count.
+3. The grid restores to its full unfiltered row set (non-zero count matching the pre-search level).
+4. The grid shows the empty state — a message indicating zero locations found.
+5. The grid restores to the full row set.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search is case-insensitive on location name,,,,,Automated,Omeesha Mahanta,,,Grid restores to the full row set.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""abbey""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Type a location name fragment in lowercase (e.g. ""abbey"").</li>
+<li>2. Clear the search box</li>
+</ol>",,,"1. The grid filters to rows whose Location Name contains ""abbey"", regardless of case. Every visible row in the filtered results must contain the search term — not just the first row.
+2. Grid restores to the full row set.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,ID column header sort menu — Sort descending changes first visible row,,,,,Automated,Omeesha Mahanta,,,No sort-state attribute is present — this grid signals sort state through row reorder only. The absence of such an attribute does not mean sorting is disabled.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""ID""
+Sample input 2: ""Sort ascending""
+Sample input 3: ""Sort descending""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Locate the ""ID"" column header cell.</li>
+<li>2. Click the options menu button inside the ""ID"" column header.</li>
+<li>3. Click ""Sort ascending"".</li>
+<li>4. Note the first visible row's Location Name value as the ascending baseline.</li>
+<li>5. Re-open the header menu and click ""Sort descending"".</li>
+<li>6. Inspect the header cell for any accessible sort-state attribute</li>
+</ol>",,,"1. The header cell is visible.
+2. A two-item menu opens with ""Sort ascending"" and ""Sort descending"" options.
+3. The menu closes and the grid re-renders with rows in ascending ID order.
+4. A baseline name is captured.
+5. The menu closes; the first visible row's Location Name changes — the grid is now in descending ID order.
+6. No sort-state attribute is present — this grid signals sort state through row reorder only. The absence of such an attribute does not mean sorting is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Location Name column header sort menu opens and Sort descending reorders the grid,,,,,Automated,Omeesha Mahanta,,,No sort-state attribute is present — this grid does not signal sort state via an accessible attribute; its absence does not mean sorting is disabled.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Location Name""
+Sample input 2: ""Sort descending""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Locate the ""Location Name"" column header cell.</li>
+<li>2. Click the options menu button inside the ""Location Name"" column header.</li>
+<li>3. Note the first visible row's Location Name before sorting.</li>
+<li>4. Click ""Sort descending"".</li>
+<li>5. Inspect the header cell for any accessible sort-state attribute</li>
+</ol>",,,"1. The header cell is visible.
+2. A two-item menu opens with ""Sort ascending"" and ""Sort descending"" visible.
+3. A baseline name is captured.
+4. The menu closes; the grid re-renders. The first visible row's Location Name differs from the baseline — the grid is sorted in descending name order.
+5. No sort-state attribute is present — this grid does not signal sort state via an accessible attribute; its absence does not mean sorting is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Allow Special Rate column sort — Sort descending reorders the toggle value sequence,,,,,Automated,Omeesha Mahanta,,,No sort-state indicator is present — this grid signals sort state through row reorder only. The absence of such an indicator does not mean sorting is disabled.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Allow Special Rate""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Locate the ""Allow Special Rate"" column header cell.</li>
+<li>2. Click the options menu button inside the ""Allow Special Rate"" column header.</li>
+<li>3. Inspect the menu items.</li>
+<li>4. Dismiss the menu (Escape).</li>
+<li>5. Inspect the header cell for any sort-state indicator</li>
+</ol>",,,"1. The header cell is visible.
+2. A menu opens.
+3. ""Sort ascending"" and ""Sort descending"" are both present and visible.
+4. The menu closes without changing row order.
+5. No sort-state indicator is present — this grid signals sort state through row reorder only. The absence of such an indicator does not mean sorting is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special Rate Start Date column sort — Sort descending reorders the date sequence,,,,,Automated,Omeesha Mahanta,,,No sort-state indicator is present — this grid signals sort state through row reorder only. The absence of such an indicator does not mean sorting is disabled.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Special Rate Start Date""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Locate the ""Special Rate Start Date"" column header cell.</li>
+<li>2. Click the options menu button inside the ""Special Rate Start Date"" column header.</li>
+<li>3. Inspect the menu items.</li>
+<li>4. Dismiss the menu (Escape).</li>
+<li>5. Inspect the header cell for any sort-state indicator</li>
+</ol>",,,"1. The header cell is visible.
+2. A menu opens.
+3. ""Sort ascending"" and ""Sort descending"" are both present and visible.
+4. The menu closes without changing row order.
+5. No sort-state indicator is present — this grid signals sort state through row reorder only. The absence of such an indicator does not mean sorting is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Allow Special Rate toggle — toggling on enables Save,,,,,Automated,Omeesha Mahanta,,,Save is now enabled.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled (pristine form)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Confirm Save is disabled before any change.</li>
+<li>2. Find a row where Allow Special Rate is currently off and click its toggle button.</li>
+<li>3. Check the Save button state</li>
+</ol>",,,"1. The Save button is disabled.
+2. The toggle reflects the new state — the button's pressed visual state changes.
+3. Save is now enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Allow Special Rate toggle — reverting the toggle re-disables Save (NM-2918),,,,,Automated,Omeesha Mahanta,,,Save is disabled again — no net change means no save is needed.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Toggle the Allow Special Rate button on a row once (Save enables).</li>
+<li>2. Toggle the same button again to return to the original state.</li>
+<li>3. Check the Save button state</li>
+</ol>",,,"1. Save becomes enabled.
+2. The toggle returns to its original state.
+3. Save is disabled again — no net change means no save is needed.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Allow Special Rate toggle — Save stays disabled on pristine load (NM-2918),,,,,Automated,Omeesha Mahanta,,,Save is disabled immediately on load — the form is pristine.,,,discount-optimization,,"Fresh navigation to the Locations tab. Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Wait for the grid to load fully without touching any control.</li>
+<li>2. Read the Save button state</li>
+</ol>",,,"1. The grid displays rows.
+2. Save is disabled immediately on load — the form is pristine.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special Rate Start Date — valid date accepted and Save enabled,,,,,Automated,Omeesha Mahanta,,,Save is enabled.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Find a row with an existing date in the Special Rate Start Date column. Note the current value.</li>
+<li>2. Click the date input cell on that row and type a new valid date (e.g. 09/09/2019).</li>
+<li>3. Check the Save button state</li>
+</ol>",,,"1. Current date value is noted (e.g. `08/08/2019`).
+2. The date field updates to `09/09/2019`. No red border, no error icon.
+3. Save is enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special Rate Start Date — invalid entry shows red border and Save stays disabled,,,,,Automated,Omeesha Mahanta,,,Save remains disabled while the invalid date is present.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Click the date input on a row and type an invalid date (e.g. 13/40/2019).</li>
+<li>2. Move focus away from the cell (Tab).</li>
+<li>3. Check the Save button state</li>
+</ol>",,,"1. The date field accepts the typed text — no auto-correction occurs.
+2. The cell gains a red border (`border-red-500` CSS class) indicating the date is invalid. No accessible invalid-state attribute is used — live DOM inspection confirmed the red border is the only error signal.
+3. Save remains disabled while the invalid date is present.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special Rate Start Date — calendar picker opens and selects a date,,,,,Automated,Omeesha Mahanta,,,Save is enabled (the date has changed).,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Click the calendar icon (Open calendar) button on a row's Special Rate Start Date cell.</li>
+<li>2. Select a date from the picker.</li>
+<li>3. Check the Save button state</li>
+</ol>",,,"1. A date picker popover opens.
+2. The popover closes and the selected date appears in the date input cell.
+3. Save is enabled (the date has changed).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special Rate Start Date — manual entry does not shift digits between segments (NM-3067),,,,,Automated,Omeesha Mahanta,,,The date field shows `09/09/2019` — digits did not bleed from Month into Day or from Day into Year.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Click the date input on a row and type a date digit by digit (e.g. 0, 9, 0, 9, 2, 0, 1, 9).</li>
+<li>2. Read the resulting date value in the field</li>
+</ol>",,,"1. Each digit is entered as typed.
+2. The date field shows `09/09/2019` — digits did not bleed from Month into Day or from Day into Year.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Per-row remove — confirmation dialog appears; Cancel leaves the row intact,,,,,Automated,Omeesha Mahanta,,,The row remains in the grid; the row count has not decreased.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""The Abbey Resort""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Note the row count.</li>
+<li>2. Click the remove button on a visible row (e.g. the Remove button for ""The Abbey Resort"").</li>
+<li>3. Click the Cancel / dismiss option on the dialog.</li>
+<li>4. Confirm the row is still present and the row count is unchanged</li>
+</ol>",,,"1. Row count is recorded.
+2. A confirmation dialog or prompt appears asking whether to proceed with removal.
+3. The dialog closes.
+4. The row remains in the grid; the row count has not decreased.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Per-row remove — Save stays disabled after cancelling remove (NM-2918),,,,,Automated,Omeesha Mahanta,,,Save is still disabled — a cancelled remove does not constitute a pending change.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Click the remove button on a row.</li>
+<li>2. Cancel the dialog.</li>
+<li>3. Read the Save button state</li>
+</ol>",,,"1. Confirmation dialog appears.
+2. Dialog closes; row remains.
+3. Save is still disabled — a cancelled remove does not constitute a pending change.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save round-trip — an Allow Special Rate toggle change persists after reload,,,,,Automated,Omeesha Mahanta,,,The toggled value persists after reload. The change was not lost.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Confirm Save is disabled on a fresh pristine load.</li>
+<li>2. Make a valid change to a Allow Special Rate toggle on any row.</li>
+<li>3. Click Save.</li>
+<li>4. Reload the page and wait for the grid to complete its first paint.</li>
+<li>5. Confirm the changed value is still present on the same row</li>
+</ol>",,,"1. Save is disabled.
+2. Save becomes enabled.
+3. Save is submitted successfully.
+4. The page reloads.
+5. The toggled value persists after reload. The change was not lost.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save remains enabled after adding a location,,,,,Manual,Omeesha Mahanta,,,Save is enabled — the newly added row is a pending change.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Click the Add button.</li>
+<li>2. Complete the add form with a valid location and confirm (do not cancel).</li>
+<li>3. Read the Save button state</li>
+</ol>",,,"1. The add affordance opens.
+2. The new location appears in the grid as a pending row. Save is enabled.
+3. Save is enabled — the newly added row is a pending change.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save round-trip — two dirty rows both persist after a single save,,,,,Automated,Omeesha Mahanta,,,Row B's toggle reflects the value saved in step 4.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Confirm Save is disabled on a fresh load.</li>
+<li>2. Change the Allow Special Rate toggle on row A.</li>
+<li>3. Without saving, change the Allow Special Rate toggle on row B (a different row, not used by other tests).</li>
+<li>4. Click Save once.</li>
+<li>5. Reload the page and wait for the grid to complete its first paint.</li>
+<li>6. Confirm the changed toggle state on row A is still present.</li>
+<li>7. Confirm the changed toggle state on row B is still present</li>
+</ol>",,,"1. Save is disabled.
+2. Toggle state on row A changes. Save becomes enabled.
+3. Toggle state on row B changes. Save remains enabled.
+4. The save completes. Save becomes disabled.
+5. The page reloads.
+6. Row A's toggle reflects the value saved in step 4.
+7. Row B's toggle reflects the value saved in step 4.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pending edit survives the row being scrolled out of view,,,,,Automated,Omeesha Mahanta,,,Row shows the saved value.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Find the first available non-reserved row near the top of the grid and record its current toggle state.</li>
+<li>2. Change the toggle on the target row.</li>
+<li>3. Scroll the grid container far enough down that the target row moves well off screen (hundreds of rows away).</li>
+<li>4. Scroll back to the top of the grid.</li>
+<li>5. Read the target row's toggle state again.</li>
+<li>6. Click Save and reload the page.</li>
+<li>7. Confirm the changed toggle state persists after reload</li>
+</ol>",,,"1. Row is identified by location name.
+2. Toggle state changes; Save becomes enabled.
+3. The target row is no longer visible and has been unloaded from the page — the grid keeps only a window of rows loaded at a time.
+4. The target row reappears on the page, rebuilt from the saved state.
+5. The toggle still shows the changed value — the pending edit was not discarded by the re-render.
+6. Save completes; the page reloads.
+7. Row shows the saved value.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add — opens the add affordance; Cancel discards cleanly,,,,,Automated,Omeesha Mahanta,,,No row was added; the grid is unchanged; Save is still disabled.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Note the row count.</li>
+<li>2. Click the Add button.</li>
+<li>3. Click Cancel without entering anything.</li>
+<li>4. Confirm the row count is unchanged and Save is still disabled</li>
+</ol>",,,"1. Row count recorded.
+2. The add affordance (dialog or inline form) opens.
+3. The add affordance closes.
+4. No row was added; the grid is unchanged; Save is still disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add button is present and visible on the Locations tab,,,,,Automated,Omeesha Mahanta,,,The Add button is visible and enabled.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Look for the Add button in the Locations tab panel</li>
+</ol>",,,1. The Add button is visible and enabled.,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching tabs with no pending change does not show an unsaved-changes prompt (NM-3066),,,,,Automated,Omeesha Mahanta,,,Tab 1 loads again.,,,discount-optimization,,"On the Discount Optimization Settings page, Locations tab active, no changes made. Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Special Rate Exemptions by Service Type""
+Sample input 2: ""Discount Optimization""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Confirm no change has been made (Save is disabled).</li>
+<li>2. Click the ""Special Rate Exemptions by Service Type"" tab.</li>
+<li>3. Confirm no unsaved-changes dialog or prompt appeared.</li>
+<li>4. Click back to the ""Discount Optimization"" tab</li>
+</ol>",,,"1. Save is disabled.
+2. The tab switches to tab 2 immediately.
+3. No unsaved-changes prompt was shown — the switch was silent.
+4. Tab 1 loads again.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching from Tab 2 to Tab 1 with no pending change does not show an unsaved-changes prompt (NM-3066),,,,,Automated,Omeesha Mahanta,,,No unsaved-changes prompt was shown — the switch was silent.,,,discount-optimization,,"On the Discount Optimization Settings page, Locations tab active, no changes made. Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Special Rate Exemptions by Service Type""
+Sample input 2: ""Discount Optimization""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Confirm no change has been made (Save is disabled).</li>
+<li>2. Click the ""Special Rate Exemptions by Service Type"" tab.</li>
+<li>3. Click back to the ""Discount Optimization"" tab.</li>
+<li>4. Confirm no unsaved-changes dialog or prompt appeared</li>
+</ol>",,,"1. Save is disabled.
+2. Tab 2 loads with no prompt.
+3. Tab 1 loads immediately.
+4. No unsaved-changes prompt was shown — the switch was silent.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching from Tab 1 to Tab 2 with an unsaved change shows the unsaved-changes prompt; Stay holds on Tab 1; Discard proceeds to Tab 2 (NM-3066),,,,,Automated,Omeesha Mahanta,,,The dialog closes; Tab 2 panel becomes visible; the unsaved change is dropped.,,,discount-optimization,,"On the Discount Optimization Settings page, Locations tab active. Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Special Rate Exemptions by Service Type""
+Sample input 2: ""Stay""
+Sample input 3: ""Discard""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Confirm Save is disabled.</li>
+<li>2. Toggle Allow Special Rate for a known row.</li>
+<li>3. Click the ""Special Rate Exemptions by Service Type"" tab.</li>
+<li>4. Click ""Stay"".</li>
+<li>5. Click the ""Special Rate Exemptions by Service Type"" tab again.</li>
+<li>6. Click ""Discard""</li>
+</ol>",,,"1. Save is disabled.
+2. The row value changes and Save becomes enabled, confirming the edit is pending.
+3. A confirmation dialog appears with title ""Unsaved changes"", body ""Are you sure you want to leave this view? Any unsaved changes will be lost."", and buttons ""Stay"" and ""Discard"".
+4. The dialog closes; Tab 1 remains active; Save is still enabled, so the edit is still pending.
+5. The dialog appears again.
+6. The dialog closes; Tab 2 panel becomes visible; the unsaved change is dropped.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching from Tab 2 to Tab 1 with an unsaved change shows the unsaved-changes prompt; Stay holds on Tab 2; Discard proceeds to Tab 1 (NM-3066),,,,,Automated,Omeesha Mahanta,,,The dialog closes; Tab 1 panel becomes visible; the unsaved change is dropped.,,,discount-optimization,,"On the Discount Optimization Settings page, Tab 2 (Special Rate Exemptions by Service Type) active. Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Discount Optimization""
+Sample input 2: ""Stay""
+Sample input 3: ""Discard""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Switch to Tab</li>
+<li>2. 2. Toggle the Exempt checkbox for a known service type row.</li>
+<li>3. Click the ""Discount Optimization"" tab.</li>
+<li>4. Click ""Stay"".</li>
+<li>5. Click the ""Discount Optimization"" tab again.</li>
+<li>6. Click ""Discard""</li>
+</ol>",,,"1. Tab 2 renders with rows. Tab 2 Save is disabled.
+2. The checkbox value changes and Tab 2 Save becomes enabled, confirming the edit is pending.
+3. A confirmation dialog appears with title ""Unsaved changes"", body ""Are you sure you want to leave this view? Any unsaved changes will be lost."", and buttons ""Stay"" and ""Discard"".
+4. The dialog closes; Tab 2 remains active; Tab 2 Save is still enabled, so the edit is still pending.
+5. The dialog appears again.
+6. The dialog closes; Tab 1 panel becomes visible; the unsaved change is dropped.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search includes deactivated locations by name and clears correctly (NM-3210),,,,,Automated,Omeesha Mahanta,,,The grid restores to the original baseline row count.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Note the row count in the default view.</li>
+<li>2. Apply an Active filter (if a filter control is present) to show only active locations.</li>
+<li>3. Toggle to show inactive locations.</li>
+<li>4. Toggle back to the default (all) view</li>
+</ol>",,,"1. Baseline row count recorded.
+2. The grid shows a subset of rows corresponding to active locations.
+3. The grid updates to show inactive locations. The row set differs from the active view.
+4. The grid restores to the original baseline row count.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search returns deactivated locations (NM-3210 coverage),,,,,Automated,Omeesha Mahanta,,,"One or more rows with a deactivated location name are shown — deactivated locations are included, not silently excluded.",,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Deactivat""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Type a fragment of a known deactivated location name into the search box (e.g. ""Deactivat"").</li>
+<li>2. Confirm at least one deactivated row appears</li>
+</ol>",,,"1. The grid filters and shows rows whose name contains ""Deactivat"".
+2. One or more rows with a deactivated location name are shown — deactivated locations are included, not silently excluded.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Allow Special Rate toggle enables Save — NM-2917 regression lock,,,,,Automated,Omeesha Mahanta,,,Save is now enabled.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Confirm Save is disabled.</li>
+<li>2. Click the Allow Special Rate toggle button on any row.</li>
+<li>3. Read the Save button state</li>
+</ol>",,,"1. Save button is disabled.
+2. The toggle state changes.
+3. Save is now enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rejected save surfaces the failure and keeps the change pending,,,,,Automated,Omeesha Mahanta,,,"At least one of: an error element is visible, Save is still enabled, or the changed value is still present in the UI.",,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Configure the test so that any save attempt on the optimization endpoint returns a server error, while leaving normal page data loading unaffected.</li>
+<li>2. Change the Allow Special Rate toggle on a row.</li>
+<li>3. Click Save.</li>
+<li>4. Confirm the route interception fired.</li>
+<li>5. Assert the app does not behave as if the save succeeded</li>
+</ol>",,,"1. The interception is active; page data loads as normal.
+2. Toggle state changes; Save becomes enabled.
+3. The save request is sent; the route intercepts it and returns 500. The request never reaches the server.
+4. The interceptor was called — proving the request was stopped before the server.
+5. At least one of: an error element is visible, Save is still enabled, or the changed value is still present in the UI.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancelling an incomplete Add leaves Save disabled,,,,,Automated,Omeesha Mahanta,,,Save is still disabled — the form has no unsaved changes pending.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Select a Location""",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Confirm Save is disabled on a fresh load.</li>
+<li>2. Click the Add button.</li>
+<li>3. Click ""Select a Location"" to open the location picker.</li>
+<li>4. Cancel the picker dialog without selecting anything.</li>
+<li>5. Cancel the Add panel.</li>
+<li>6. Read the Save button state</li>
+</ol>",,,"1. Save is disabled.
+2. The Add panel opens with Update and Cancel buttons.
+3. The ""Change Local Office"" picker dialog appears with a search input.
+4. The picker closes.
+5. The Add panel closes.
+6. Save is still disabled — the form has no unsaved changes pending.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save round-trip — a Special Rate Start Date change persists after reload,,,,,Automated,Omeesha Mahanta,,,The date persists after reload. The change was not lost.,,,discount-optimization,,"Grid has completed its first paint
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
+<li>1. Confirm Save is disabled on a fresh pristine load.</li>
+<li>2. Open the calendar picker for a known row (InterContinental Chicago) and select a date one month ahead.</li>
+<li>3. Click Save.</li>
+<li>4. Reload the page and wait for the grid to complete its first paint.</li>
+<li>5. Confirm the saved date is still shown on the same row</li>
+</ol>",,,"1. Save is disabled.
+2. The calendar popover closes and the date input shows the selected date. Save becomes enabled.
+3. Save is submitted successfully and Save becomes disabled.
+4. The page reloads.
+5. The date persists after reload. The change was not lost.",,,,Master,S1620,Test Case (Steps),Regression,,,

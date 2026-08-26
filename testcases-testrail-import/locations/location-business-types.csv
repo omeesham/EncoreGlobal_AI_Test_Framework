@@ -1,0 +1,270 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Business Types Tab Renders All Items With Expected Labels,,,,,Automated,Omeesha Mahanta,,,"Every position shows its expected label, confirming the positional identifiers still line up with the intended business types.",,,locations,,"User is on the Location Settings page for location 1604. Any sub-tab may be active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Business Types""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Click the ""Business Types"" tab and wait for the checkbox list to mount.</li>
+<li>2. Count the rendered checkboxes.</li>
+<li>3. For each checkbox in turn, read the label rendered beside it and compare it with the expected name for that position</li>
+</ol>",,,"1. The Business Types panel becomes visible and its checkbox list renders.
+2. The rendered count equals the expected number of business types for this office.
+3. Every position shows its expected label, confirming the positional identifiers still line up with the intended business types.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Default State Of Business Type Items (location 1604),,,,,Automated,Omeesha Mahanta,,,"Save is disabled, because nothing has changed since load.",,,locations,,"Fresh page load of location 1604 settings, Business Types tab activated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Audio Visual""
+Sample input 2: ""Business Center Rentals""
+Sample input 3: ""Business Center Services""
+Sample input 4: ""Electrical Services""
+Sample input 5: ""Production""
+Sample input 6: ""Expo Services""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Observe ""Audio Visual"", ""Business Center Rentals"", ""Business Center Services"", ""Electrical Services"" and ""Production"".</li>
+<li>2. Observe ""Expo Services"", ""In-House"", ""Integrated Solutions"", ""Internet Services"" and ""Rigging Services"".</li>
+<li>3. Observe the Save button</li>
+</ol>",,,"1. All five are checked.
+2. All five are unchecked.
+3. Save is disabled, because nothing has changed since load.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Audio Visual Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The item returns to its default and the office is left unchanged.,,,locations,,"Location 1604 settings, Business Types tab activated, items at their office defaults
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Audio Visual""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""Audio Visual"".</li>
+<li>2. Toggle ""Audio Visual"" away from that state.</li>
+<li>3. Click Save and confirm with ""Ok"".</li>
+<li>4. Reload the page and return to the Business Types tab.</li>
+<li>5. Restore ""Audio Visual"" to its office default and save</li>
+</ol>",,,"1. It matches the recorded office default.
+2. The checkbox flips and Save becomes enabled.
+3. The save request to the business types endpoint returns success.
+4. ""Audio Visual"" still shows the toggled state, and Save is disabled.
+5. The item returns to its default and the office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Business Center Rentals Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"As TC-LOC-BTY-003
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Business Center Rentals""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""Business Center Rentals"".</li>
+<li>2. Toggle it away from that state, then Save and confirm.</li>
+<li>3. Reload and return to the Business Types tab.</li>
+<li>4. Restore the item to its default and save</li>
+</ol>",,,"1. It matches the recorded office default.
+2. Save enables, and the save request returns success.
+3. The toggled state persisted and Save is disabled.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Business Center Services Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"As TC-LOC-BTY-003
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Business Center Services""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""Business Center Services"".</li>
+<li>2. Toggle it away from that state, then Save and confirm.</li>
+<li>3. Reload and return to the Business Types tab.</li>
+<li>4. Restore the item to its default and save</li>
+</ol>",,,"1. It matches the recorded office default.
+2. Save enables, and the save request returns success.
+3. The toggled state persisted and Save is disabled.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Electrical Services Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"As TC-LOC-BTY-003
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Electrical Services""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""Electrical Services"".</li>
+<li>2. Toggle it away from that state, then Save and confirm.</li>
+<li>3. Reload and return to the Business Types tab.</li>
+<li>4. Restore the item to its default and save</li>
+</ol>",,,"1. It matches the recorded office default.
+2. Save enables, and the save request returns success.
+3. The toggled state persisted and Save is disabled.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Production Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"As TC-LOC-BTY-003
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Production""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""Production"".</li>
+<li>2. Toggle it away from that state, then Save and confirm.</li>
+<li>3. Reload and return to the Business Types tab.</li>
+<li>4. Restore the item to its default and save</li>
+</ol>",,,"1. It matches the recorded office default.
+2. Save enables, and the save request returns success.
+3. The toggled state persisted and Save is disabled.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Expo Services Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"As TC-LOC-BTY-003
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expo Services""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""Expo Services"".</li>
+<li>2. Check it, then Save and confirm.</li>
+<li>3. Reload and return to the Business Types tab.</li>
+<li>4. Uncheck it again and save</li>
+</ol>",,,"1. It is unchecked, matching the office default.
+2. Save enables, and the save request returns success.
+3. ""Expo Services"" is still checked and Save is disabled.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,In-House Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"As TC-LOC-BTY-003
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""In-House""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""In-House"".</li>
+<li>2. Check it, then Save and confirm.</li>
+<li>3. Reload and return to the Business Types tab.</li>
+<li>4. Uncheck it again and save</li>
+</ol>",,,"1. It is unchecked, matching the office default.
+2. Save enables, and the save request returns success.
+3. ""In-House"" is still checked and Save is disabled.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Integrated Solutions Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"As TC-LOC-BTY-003
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Integrated Solutions""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""Integrated Solutions"".</li>
+<li>2. Check it, then Save and confirm.</li>
+<li>3. Reload and return to the Business Types tab.</li>
+<li>4. Uncheck it again and save</li>
+</ol>",,,"1. It is unchecked, matching the office default.
+2. Save enables, and the save request returns success.
+3. ""Integrated Solutions"" is still checked and Save is disabled.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Internet Services Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"As TC-LOC-BTY-003
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Internet Services""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""Internet Services"".</li>
+<li>2. Check it, then Save and confirm.</li>
+<li>3. Reload and return to the Business Types tab.</li>
+<li>4. Uncheck it again and save</li>
+</ol>",,,"1. It is unchecked, matching the office default.
+2. Save enables, and the save request returns success.
+3. ""Internet Services"" is still checked and Save is disabled.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rigging Services Toggle Persists After Save And Reload,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"As TC-LOC-BTY-003
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Rigging Services""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Read the current state of ""Rigging Services"".</li>
+<li>2. Check it, then Save and confirm.</li>
+<li>3. Reload and return to the Business Types tab.</li>
+<li>4. Uncheck it again and save</li>
+</ol>",,,"1. It is unchecked, matching the office default.
+2. Save enables, and the save request returns success.
+3. ""Rigging Services"" is still checked and Save is disabled.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting A Toggle Re-Disables Save,,,,,Automated,Omeesha Mahanta,,,"Save becomes disabled again, because the form matches the saved values.",,,locations,,"Location 1604 settings, Business Types tab activated, items at office defaults
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expo Services""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Toggle ""Expo Services"".</li>
+<li>2. Toggle ""Expo Services"" back to its original state</li>
+</ol>",,,"1. Save becomes enabled.
+2. Save becomes disabled again, because the form matches the saved values.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save Dialog Cancel Discards Without Persisting,,,,,Automated,Omeesha Mahanta,,,"""Expo Services"" is back to its saved value, proving nothing was committed.",,,locations,,"Location 1604 settings, Business Types tab activated, items at office defaults
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expo Services""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Toggle ""Expo Services"" and click Save.</li>
+<li>2. Click ""Cancel"".</li>
+<li>3. Reload the page and return to the Business Types tab</li>
+</ol>",,,"1. The confirmation dialog appears with heading ""Save Changes"" and body ""Are you sure you want to save the changes?"".
+2. The dialog closes, the pending change is still shown, and Save is still enabled.
+3. ""Expo Services"" is back to its saved value, proving nothing was committed.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unsaved Changes Prompt Appears On Navigation Away And Stay Keeps The Edit,,,,,Automated,Omeesha Mahanta,,,"The prompt closes, the page is still the Location Settings page, and the pending change is still shown with Save enabled.",,,locations,,"Fresh navigation to location 1604 settings, Business Types tab activated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expo Services""
+Sample input 2: ""Home""
+Sample input 3: ""Stay""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Toggle ""Expo Services"".</li>
+<li>2. Click ""Home"" in the sidebar to navigate away.</li>
+<li>3. Click ""Stay""</li>
+</ol>",,,"1. Save becomes enabled.
+2. The unsaved changes prompt appears with heading ""Unsaved changes"".
+3. The prompt closes, the page is still the Location Settings page, and the pending change is still shown with Save enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unsaved Changes Prompt Discard Leaves The Page And Drops The Edit,,,,,Automated,Omeesha Mahanta,,,"""Expo Services"" is back to its saved value — the discarded edit was not committed.",,,locations,,"Fresh navigation to location 1604 settings, Business Types tab activated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expo Services""
+Sample input 2: ""Home""
+Sample input 3: ""Discard""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Toggle ""Expo Services"".</li>
+<li>2. Click ""Home"" in the sidebar, then click ""Discard"" on the prompt.</li>
+<li>3. Return to location 1604 settings and the Business Types tab</li>
+</ol>",,,"1. Save becomes enabled.
+2. The application navigates away from Location Settings.
+3. ""Expo Services"" is back to its saved value — the discarded edit was not committed.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sub-Tab Switch With Unsaved Changes Is Silent And Resets The Checkbox While Save Stays Enabled,,,,,Automated,Omeesha Mahanta,,,"""In-House"" shows its previously saved value again, yet Save is still enabled — the visible state and the pending-change state disagree. This mismatch is recorded as a known defect.",,,locations,,"Fresh navigation to location 1604 settings, Business Types tab activated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""In-House""
+Sample input 2: ""Local Information""
+Sample input 3: ""Business Types""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Toggle ""In-House"".</li>
+<li>2. Click the ""Local Information"" sub-tab.</li>
+<li>3. Click the ""Business Types"" sub-tab again and wait for the checkboxes to mount</li>
+</ol>",,,"1. The checkbox becomes checked and Save becomes enabled.
+2. The sub-tab switches with no unsaved changes prompt, and Save remains enabled.
+3. ""In-House"" shows its previously saved value again, yet Save is still enabled — the visible state and the pending-change state disagree. This mismatch is recorded as a known defect.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Multiple Business Type Changes Save Together,,,,,Automated,Omeesha Mahanta,,,The office is left unchanged.,,,locations,,"Fresh navigation to location 1604 settings, Business Types tab activated, items at office defaults
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expo Services""
+Sample input 2: ""In-House""
+Sample input 3: ""Production""",Medium,,Business_Types,1,,Locations > Business_Types,"<ol>
+<li>1. Check ""Expo Services"" and ""In-House"", and uncheck ""Production"".</li>
+<li>2. Click Save and confirm with ""Ok"".</li>
+<li>3. Reload the page and return to the Business Types tab.</li>
+<li>4. Restore all three items to their office defaults and save</li>
+</ol>",,,"1. All three show their new states and Save is enabled.
+2. The save request returns success.
+3. All three items show their changed states, confirming one save committed the whole set.
+4. The office is left unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,

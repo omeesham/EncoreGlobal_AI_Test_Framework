@@ -1,0 +1,255 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,"Export returns every location in the tenant, not just the selected office",,,,,Automated,Omeesha Mahanta,,,"The file contains many different Location Ids - hundreds of offices, not just the one selected on screen. Export is tenant-wide and takes no notice of the location picker",,,"corporate-pricing-pg-override,functional",,"On the Override screen with the fixture office selected and the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Click Export and capture the downloaded CSV</li>
+<li>2. Read the Location Id column from every data row</li>
+<li>3. Count the distinct values</li>
+</ol>",,,"1. The CSV file downloads.
+2. The Location Id values are displayed for every data row in the file.
+3. The file contains many different Location Ids - hundreds of offices, not just the one selected on screen. Export is tenant-wide and takes no notice of the location picker",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Export carries the full override population, well above any single office",,,,,Automated,Omeesha Mahanta,,,"The exported file carries thousands of rows and strictly more than the grid is showing, confirming it is the whole tenant rather than the current view",,,"corporate-pricing-pg-override,functional",,"On the Override screen with the fixture office selected and the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Read the grid row count</li>
+<li>2. Click Export and capture the CSV</li>
+<li>3. Count the data rows in the file</li>
+</ol>",,,"1. The current grid row count is displayed.
+2. The CSV file downloads.
+3. The exported file carries thousands of rows and strictly more than the grid is showing, confirming it is the whole tenant rather than the current view",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching to the Labor tab re-scopes the grid but not the export,,,,,Automated,Omeesha Mahanta,,,"The tab visibly re-scopes the grid but the two exports are identical, and the file still carries both Is Labor 0 and Is Labor 1 rows. The tab is a view filter the export ignores",,,"corporate-pricing-pg-override,functional",,"On the Override screen with an office selected that has rows on both the Equipment and Labor tabs
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. On the Equipment tab, export and record both the file content and the grid row count</li>
+<li>2. Switch to the Labor tab and confirm moved and the grid row count changed</li>
+<li>3. Export again</li>
+<li>4. Compare the two files and read the distinct Is Labor values in the second one</li>
+</ol>",,,"1. The CSV file downloads and the Equipment grid row count is displayed.
+2. The Labor tab becomes active and the grid displays a different row count.
+3. A second CSV file downloads.
+4. The tab visibly re-scopes the grid but the two exports are identical, and the file still carries both Is Labor 0 and Is Labor 1 rows. The tab is a view filter the export ignores",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing a different office re-scopes the grid but not the export,,,,,Automated,Omeesha Mahanta,,,"Choosing a different office visibly changes the grid, and the two exports are identical. The location picker does not scope the export",,,"corporate-pricing-pg-override,functional",,"On the Override screen with the fixture office selected and the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Export and record the file and the grid row count</li>
+<li>2. Open the Change Local Office picker and select office 1974</li>
+<li>3. Confirm the grid now shows a different number of rows</li>
+<li>4. Export again and compare the two files</li>
+</ol>",,,"1. The CSV file downloads and the grid row count is displayed.
+2. Office 1974 is selected and the picker closes.
+3. The grid displays a different row count.
+4. Choosing a different office visibly changes the grid, and the two exports are identical. The location picker does not scope the export",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Active only hides inactive rows in the grid; the export keeps them,,,,,Automated,Omeesha Mahanta,,,"Active only visibly removes rows from the grid, yet the exported file still contains Is Active = 0 rows. The filter never reaches the file",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1105 selected - the only walk-verified bed carrying inactive rows (9 total, 7 active)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. With Active only off, record the grid row count</li>
+<li>2. Check Active only and confirm the grid row count dropped</li>
+<li>3. Export and read the Is Active column</li>
+</ol>",,,"1. The grid row count is displayed with Active only off.
+2. The grid row count decreases.
+3. Active only visibly removes rows from the grid, yet the exported file still contains Is Active = 0 rows. The filter never reaches the file",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Currency filter empties the grid for an absent currency; the export still carries every currency,,,,,Automated,Omeesha Mahanta,,,The Currency filter visibly re-scopes the grid - down to zero rows for a currency with no data - while the export still carries every currency in the tenant,,,"corporate-pricing-pg-override,functional",,"On the Override screen with an office selected and the Currency filter at ALL
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Record the grid row count at Currency ALL</li>
+<li>2. Select a specific currency and confirm the grid row count changed</li>
+<li>3. Export and read the distinct Currency values in the file</li>
+</ol>",,,"1. The grid row count is displayed with Currency at ALL.
+2. The grid row count changes.
+3. The Currency filter visibly re-scopes the grid - down to zero rows for a currency with no data - while the export still carries every currency in the tenant",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The text filter narrows the grid; the export is unchanged,,,,,Automated,Omeesha Mahanta,,,The text filter visibly narrows the grid while the export is byte-for-byte unchanged. The needle is taken from a real row so the filter is guaranteed to match something,,,"corporate-pricing-pg-override,functional",,"On the Override screen with an office selected and no text filter applied
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Export and record the file and the grid row count</li>
+<li>2. Type the first six characters of the first row's Product Group Name into the filter box</li>
+<li>3. Confirm the grid narrowed but still shows at least one row</li>
+<li>4. Export again and compare the two files</li>
+</ol>",,,"1. The CSV file downloads and the grid row count is displayed.
+2. The grid narrows to rows matching the entered characters.
+3. At least one row remains displayed in the narrowed grid.
+4. The text filter visibly narrows the grid while the export is byte-for-byte unchanged. The needle is taken from a real row so the filter is guaranteed to match something",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rows-per-page changes how much of the grid is drawn; the export is unchanged,,,,,Automated,Omeesha Mahanta,,,Page size visibly changes how much of the grid is drawn while both exports are identical. Pagination is a view concern the export does not share,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1974 selected (161 Equipment rows, enough to span pages)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Set rows per page to 10, record how many rows are drawn, and export</li>
+<li>2. Set rows per page to 50 and confirm more rows are drawn</li>
+<li>3. Export again and compare the two files</li>
+</ol>",,,"1. 10 rows are displayed and the CSV file downloads.
+2. More rows are displayed on the page.
+3. Page size visibly changes how much of the grid is drawn while both exports are identical. Pagination is a view concern the export does not share",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Export on an empty, unscoped grid still returns the whole tenant",,,,,Automated,Omeesha Mahanta,,,"Export is enabled on an empty grid and downloads the entire tenant. What the screen shows and what the file contains are unrelated - this is the surprising branch, recorded deliberately so a future change to it is caught",,,"corporate-pricing-pg-override,functional",,"A fresh load of the Override screen with no office selected - the grid reads ""No results."" / ""0 items found""
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Confirm the grid is empty and shows zero rows</li>
+<li>2. Click Export (the button stays enabled on an empty grid)</li>
+<li>3. Count the data rows and the distinct Location Ids in the file</li>
+</ol>",,,"1. The grid displays ""No results."" and zero rows.
+2. The CSV file downloads.
+3. Export is enabled on an empty grid and downloads the entire tenant. What the screen shows and what the file contains are unrelated - this is the surprising branch, recorded deliberately so a future change to it is caught",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Equipment grid row count reconciles with the export rows for that office,,,,,Automated,Omeesha Mahanta,,,"The Is Labor = 0 rows for this office match the Equipment grid row count exactly, and the office's total rows in the file are greater than or equal to that. The file folds both tabs together; the grid shows one half at a time. This is why a raw ""grid count equals file count"" comparison would be wrong",,,"corporate-pricing-pg-override,functional",,"On the Override screen with the fixture office selected, the Equipment tab active and Active only off
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Read the grid row count</li>
+<li>2. Export and keep only the rows whose Location Id matches the selected office</li>
+<li>3. Split those rows on Is Labor</li>
+</ol>",,,"1. The current Equipment grid row count is displayed.
+2. The CSV file downloads containing rows for the selected office.
+3. The Is Labor = 0 rows for this office match the Equipment grid row count exactly, and the office's total rows in the file are greater than or equal to that. The file folds both tabs together; the grid shows one half at a time. This is why a raw ""grid count equals file count"" comparison would be wrong",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The CSV is well-formed — consistent line endings, a full column set on every row, and quoted inch marks",,,,,Automated,Omeesha Mahanta,,,"Line endings are plain LF with no carriage returns anywhere, every data row has the full nine fields, and product group names containing inch marks are correctly quoted with doubled quote characters. Checked on the raw bytes because reading the file as text hides the line-ending difference",,,"corporate-pricing-pg-override,functional",,"On the Override screen with the fixture office selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Export and read the raw bytes of the downloaded file</li>
+<li>2. Check the line endings on the bytes, not on the decoded text</li>
+<li>3. Split every data row and compare its field count to the header</li>
+<li>4. Find the rows that use doubled quotes and check the quoting is well formed</li>
+</ol>",,,"1. The CSV file downloads.
+2. The file's line endings are displayed as plain LF characters.
+3. Every data row displays the same field count as the header.
+4. Line endings are plain LF with no carriage returns anywhere, every data row has the full nine fields, and product group names containing inch marks are correctly quoted with doubled quote characters. Checked on the raw bytes because reading the file as text hides the line-ending difference",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The header row follows the requested locale while the data rows stay identical,,,,,Automated,Omeesha Mahanta,,,"French and Mexican Spanish translate the header row; German and British English fall back to the English header. In every case the data rows are identical to English - a locale that reformatted numbers would corrupt every row of a comma-delimited file, so this is the half that matters",,,"corporate-pricing-pg-override,functional",,"On the Override screen, signed in. The export endpoint is called directly because the Export button always sends en-US
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Request the export at en-US and record the header row and data rows</li>
+<li>2. Request it at each translating locale and compare the header and the data</li>
+<li>3. Request it at each fallback locale and compare the header</li>
+</ol>",,,"1. The CSV file downloads with an English header row.
+2. The header row is displayed translated for French and Mexican Spanish, with the data rows unchanged.
+3. French and Mexican Spanish translate the header row; German and British English fall back to the English header. In every case the data rows are identical to English - a locale that reformatted numbers would corrupt every row of a comma-delimited file, so this is the half that matters",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A malformed or unknown locale falls back to English instead of failing,,,,,Automated,Omeesha Mahanta,,,Every malformed or unknown locale returns 200 with the English header and the same data - the endpoint degrades gracefully instead of failing. Omitting the parameter behaves the same as English,,,"corporate-pricing-pg-override,functional",,"On the Override screen, signed in
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Request the export with each malformed locale value</li>
+<li>2. Compare each response status, header row and row count against en-US</li>
+<li>3. Request the export with the locale parameter omitted entirely</li>
+</ol>",,,"1. The export request returns HTTP 200 for every malformed locale value.
+2. The header row and row count match the English export.
+3. Every malformed or unknown locale returns 200 with the English header and the same data - the endpoint degrades gracefully instead of failing. Omitting the parameter behaves the same as English",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The grid loads for every healthy office, and office 1604 still fails the way we recorded it",,,,,Automated,Omeesha Mahanta,,,"Every healthy office returns 200. Office 1604 still returns a server error carrying the same duplicate-key signature that was recorded, or 200 if it has since been fixed. Reads the status code rather than the grid because the screen renders a failed request as ""0 items found"" - indistinguishable from a genuinely empty office, which would let an ordinary emptiness assertion pass on a broken screen",,,"corporate-pricing-pg-override,functional",,"On the Override screen, signed in
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Ask the grid's data endpoint for each known-healthy office and check the status code</li>
+<li>2. Ask it for office 1604 and check the status code and the error body</li>
+</ol>",,,"1. The data endpoint returns HTTP 200 for every known-healthy office.
+2. Every healthy office returns 200. Office 1604 still returns a server error carrying the same duplicate-key signature that was recorded, or 200 if it has since been fixed. Reads the status code rather than the grid because the screen renders a failed request as ""0 items found"" - indistinguishable from a genuinely empty office, which would let an ordinary emptiness assertion pass on a broken screen",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Tab, Currency and Active only combine without losing rows or breaking the export",,,,,Automated,Omeesha Mahanta,,,"Each filter added narrows the result or leaves it unchanged - never widens it - the tab still switches with two filters applied, and no combination of filters changes the exported file",,,"corporate-pricing-pg-override,functional",,"On the Override screen with the fixture office selected and no filters applied
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Export to establish a baseline file</li>
+<li>2. Record the unfiltered grid row count</li>
+<li>3. Apply Active only and record the count</li>
+<li>4. Add a specific Currency and record the count</li>
+<li>5. Switch to the Labor tab with both filters still applied</li>
+<li>6. Export again and compare against the baseline</li>
+</ol>",,,"1. The CSV file downloads as the baseline.
+2. The unfiltered grid row count is displayed.
+3. The grid row count decreases or stays the same with Active only applied.
+4. The grid row count decreases or stays the same with the Currency filter applied.
+5. The Labor tab becomes active with both filters still applied.
+6. Each filter added narrows the result or leaves it unchanged - never widens it - the tab still switches with two filters applied, and no combination of filters changes the exported file",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Rows-per-page survives a reload, and the export is unaffected either way",,,,,Automated,Omeesha Mahanta,,,Whether the page-size choice survives a reload is the app's decision and is read rather than assumed; what must hold either way is that the grid still renders rows and the export is identical to the baseline,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1974 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Export to establish a baseline file</li>
+<li>2. Set rows per page to 50 and confirm more rows are drawn than the default</li>
+<li>3. Reload the page and re-select the office</li>
+<li>4. Read the grid row count and export again</li>
+</ol>",,,"1. The CSV file downloads as the baseline.
+2. More rows are displayed on the page than the default.
+3. The page reloads and the grid re-populates for the selected office.
+4. Whether the page-size choice survives a reload is the app's decision and is read rather than assumed; what must hold either way is that the grid still renders rows and the export is identical to the baseline",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting the grid does not reorder the exported file,,,,,Automated,Omeesha Mahanta,,,"Sorting visibly re-orders the grid while the exported file keeps its own server-side order, unchanged. Note that sorting lives on the header dropdown, not on a header click - a header click is inert",,,"corporate-pricing-pg-override,functional",,"On the Override screen with the fixture office selected and no sort applied
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Export and record the file and the first row's Product Group Name</li>
+<li>2. Sort Product Group Name descending via the column header menu</li>
+<li>3. Confirm the first grid row changed</li>
+<li>4. Export again and compare the two files</li>
+</ol>",,,"1. The CSV file downloads and the first grid row's Product Group Name is displayed.
+2. The grid re-orders into descending Product Group Name order.
+3. The first displayed grid row changes.
+4. Sorting visibly re-orders the grid while the exported file keeps its own server-side order, unchanged. Note that sorting lives on the header dropdown, not on a header click - a header click is inert",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A row visible in the grid appears in the export with the same price, and text values survive intact",,,,,Automated,Omeesha Mahanta,,,"The override a user sees on screen is present in the exported file with the same price, so the grid and the file agree on the same record. Product group names with leading zeros (for example ""07A Compass Screen Set Kit"") keep them, which is what proves the value was not passed through a number type. The final row carries its full field set, proving the download was not truncated, and no character was mangled in decoding",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1105 selected and the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Read the first grid row's Product Group Id, Product Group Name and Override Price</li>
+<li>2. Click Export and capture the CSV</li>
+<li>3. Find the file row matching that office and product group</li>
+<li>4. Compare the Override Price numerically (the grid adds thousands separators)</li>
+<li>5. Collect every product group name that begins with a leading zero and check it survived as text</li>
+<li>6. Check the final data row is complete and the whole file decodes as valid UTF-8</li>
+</ol>",,,"1. The first grid row's Product Group Id, Product Group Name, and Override Price are displayed.
+2. The CSV file downloads.
+3. The matching row is found in the downloaded file.
+4. The file's Override Price value numerically matches the grid's displayed value.
+5. Every product group name with a leading zero is displayed intact as text in the file.
+6. The override a user sees on screen is present in the exported file with the same price, so the grid and the file agree on the same record. Product group names with leading zeros (for example ""07A Compass Screen Set Kit"") keep them, which is what proves the value was not passed through a number type. The final row carries its full field set, proving the download was not truncated, and no character was mangled in decoding",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Override Discount stays on the fraction scale, and the known percent-scale rows do not spread",,,,,Automated,Omeesha Mahanta,,,"Override Discount is stored as a fraction and displayed as a percentage - 0.06 in the file reads as ""6.00 %"" in the grid. A small number of rows break that convention and store a raw percentage instead (13, 14, 20), so the grid renders them as 1300.00 %, 1400.00 % and 2000.00 % - well above the 0-100 cap the app enforces when the value is typed in. Confirmed independently against the export file, the grid's data API and the rendered grid. The count is pinned in both directions: growth means the bad rows are spreading, and a drop to zero means they were cleaned up and this guard can be retired",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1105 selected and the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Export,1,,Corporate_Pricing_Pg_Override > Export,"<ol>
+<li>1. Click Export and capture the CSV</li>
+<li>2. Read every non-empty Override Discount value with its office and product group</li>
+<li>3. Split them into values at or below 1 (the fraction scale) and values above 1</li>
+<li>4. Check the fraction scale is overwhelmingly the norm</li>
+<li>5. Check the count of above-1 rows has not grown, and report each one as the percentage it renders</li>
+</ol>",,,"1. The CSV file downloads.
+2. The Override Discount values are displayed for every non-empty row in the file.
+3. The values are grouped into the fraction scale and the above-1 scale.
+4. The fraction-scale values make up the overwhelming majority of the rows.
+5. Override Discount is stored as a fraction and displayed as a percentage - 0.06 in the file reads as ""6.00 %"" in the grid. A small number of rows break that convention and store a raw percentage instead (13, 14, 20), so the grid renders them as 1300.00 %, 1400.00 % and 2000.00 % - well above the 0-100 cap the app enforces when the value is typed in. Confirmed independently against the export file, the grid's data API and the rendered grid. The count is pinned in both directions: growth means the bad rows are spreading, and a drop to zero means they were cleaned up and this guard can be retired",,,,Master,S1620,Test Case (Steps),Regression,,,

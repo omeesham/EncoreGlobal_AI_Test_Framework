@@ -1,0 +1,1120 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Metadata columns accept typed input,,,,,Automated,Omeesha Mahanta,,,The typed value appears in the cell,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Type a new value into the Service Charge Name cell of the first row</li>
+<li>2. Type a new value into the Service Charge Display Name cell of the same row</li>
+<li>3. Type a new value into the Report Column Name cell of the same row</li>
+</ol>",,,"1. The typed value appears in the cell
+2. The typed value appears in the cell
+3. The typed value appears in the cell",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save stays disabled while a required field is empty,,,,,Automated,Omeesha Mahanta,,,Save remains disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Leave the Service Charge Name empty and move focus away</li>
+</ol>",,,"1. A new empty row is added to the grid
+2. Save remains disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save enables when a new row is complete and unique,,,,,Automated,Omeesha Mahanta,,,Save becomes enabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter a Service Charge Name that is not already used</li>
+<li>3. Enter a Service Charge Display Name and a Report Column Name</li>
+<li>4. Move focus away from the last field</li>
+</ol>",,,"1. A new empty row is added to the grid
+2. The value appears in the cell
+3. Both values appear in their cells
+4. Save becomes enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Duplicate Service Charge Name disables Save,,,,,Automated,Omeesha Mahanta,,,Save becomes disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and at least one row already has a Service Charge Name
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row and complete every required field with unique values</li>
+<li>2. Change the new row's Service Charge Name to a name already used by another row in the same language</li>
+</ol>",,,"1. Save becomes enabled
+2. Save becomes disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Duplicate Service Charge Name is announced to the user,,,,,Automated,Omeesha Mahanta,,,"The field is marked invalid (`aria-invalid=""true""`), a red circular alert icon appears inside the cell, and hovering the icon reveals the tooltip text ""Duplicate Service Charge Name for this language."" Save remains disabled",,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row and complete every required field with unique values</li>
+<li>2. Change the new row's Service Charge Name to a name already used in the same language</li>
+<li>3. Look for a message explaining why the entry was rejected</li>
+</ol>",,,"1. Save becomes enabled
+2. Save becomes disabled
+3. The field is marked invalid (`aria-invalid=""true""`), a red circular alert icon appears inside the cell, and hovering the icon reveals the tooltip text ""Duplicate Service Charge Name for this language."" Save remains disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Service Charge Name accepts a long value,,,,,Automated,Omeesha Mahanta,,,The full value is accepted and retained,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Enter a 300 character value into a Service Charge Name cell</li>
+</ol>",,,1. The full value is accepted and retained,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A long Service Charge Name stays readable in the grid,,,,,Automated,Omeesha Mahanta,,,The stored value is the full 300 character string that was entered — no characters are discarded,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Enter a 300 character value into a Service Charge Name cell</li>
+<li>2. Read the stored value of the field</li>
+</ol>",,,"1. The full value is accepted
+2. The stored value is the full 300 character string that was entered — no characters are discarded",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A name of only spaces is treated as empty,,,,,Automated,Omeesha Mahanta,,,Save remains disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row and complete every field except Service Charge Name</li>
+<li>2. Enter only space characters into Service Charge Name and move focus away</li>
+</ol>",,,"1. Save remains disabled
+2. Save remains disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special characters are accepted and preserved,,,,,Automated,Omeesha Mahanta,,,The value is still displayed exactly as typed,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Enter a Service Charge Name containing punctuation and accented characters</li>
+<li>2. Move focus to another field</li>
+</ol>",,,"1. The value appears exactly as typed
+2. The value is still displayed exactly as typed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting an edited value returns Save to disabled,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change a Service Charge Name to a different unique value</li>
+<li>2. Change the same field back to its original value</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Language filter offers five options,,,,,Automated,Omeesha Mahanta,,,"The list shows All, English (Canada), US English, Spanish (Mexico), and French (Canada)",,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Open the page level Language filter</li>
+</ol>",,,"1. The list shows All, English (Canada), US English, Spanish (Mexico), and French (Canada)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Language filter defaults to US English,,,,,Automated,Omeesha Mahanta,,,The filter shows US English,,,service-charge-text,,"The Service Charge Text page has just been opened for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Read the current value of the page level Language filter</li>
+</ol>",,,1. The filter shows US English,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Selecting a language filters the grid,,,,,Automated,Omeesha Mahanta,,,The grid reloads and shows the rows for the selected language,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Note the number of rows currently displayed</li>
+<li>2. Select a different language in the page level filter</li>
+</ol>",,,"1. The row count is recorded
+2. The grid reloads and shows the rows for the selected language",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Selecting All shows every language,,,,,Automated,Omeesha Mahanta,,,The grid shows at least as many rows as the single language selection,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select a single language in the page level filter and note the row count</li>
+<li>2. Select All in the page level filter</li>
+</ol>",,,"1. The row count for that language is recorded
+2. The grid shows at least as many rows as the single language selection",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing language with unsaved changes prompts first,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Edit a Service Charge Name so the page has unsaved changes</li>
+<li>2. Select a different language in the page level filter</li>
+<li>3. Click Stay</li>
+<li>4. Restore the original value</li>
+</ol>",,,"1. Save becomes enabled
+2. A dialog appears with the message ""Unsaved changes  Are you sure you want to leave this view? Any unsaved changes will be lost."" and offers Stay and Discard buttons
+3. The dialog closes; the filter has not changed; the edited value is still present; Save is still enabled
+4. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The per row language control opens its own list,,,,,Automated,Omeesha Mahanta,,,A list of languages is displayed for that row,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Open the Language control on the first grid row</li>
+</ol>",,,1. A list of languages is displayed for that row,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The per row language list omits All,,,,,Automated,Omeesha Mahanta,,,The list shows the four languages and does not include All,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Open the Language control on the first grid row</li>
+</ol>",,,1. The list shows the four languages and does not include All,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking a Service Charge Text cell opens the editor,,,,,Automated,Omeesha Mahanta,,,The rich text editor opens and shows that row's content,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Click the Service Charge Text cell of the first row</li>
+</ol>",,,1. The rich text editor opens and shows that row's content,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Selecting a row does not make the page saveable,,,,,Automated,Omeesha Mahanta,,,Save is still disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Click the Service Charge Text cell of the first row</li>
+<li>2. Read the state of Save</li>
+</ol>",,,"1. The editor opens with that row's content
+2. Save is still disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The editor is unavailable until a row is selected,,,,,Automated,Omeesha Mahanta,,,The editor is not available for typing,,,service-charge-text,,"The Service Charge Text page has just been opened for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Read the state of the rich text editor before selecting any row</li>
+</ol>",,,1. The editor is not available for typing,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing the rich text marks the page as changed,,,,,Automated,Omeesha Mahanta,,,Save becomes enabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Click a Service Charge Text cell to open the editor</li>
+<li>2. Type additional text into the editor and apply it to the row</li>
+</ol>",,,"1. The editor opens with that row's content
+2. Save becomes enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching rows with unsaved editor changes prompts first,,,,,Automated,Omeesha Mahanta,,,The dialog closes and the original row remains selected in the editor,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Open the editor for one row and type additional text</li>
+<li>2. Click the Service Charge Text cell of a different row</li>
+<li>3. Click Stay in the confirmation dialog</li>
+</ol>",,,"1. The typed text appears in the editor
+2. A confirmation dialog appears asking whether to leave the current view
+3. The dialog closes and the original row remains selected in the editor",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An empty Service Charge Text loads a starting layout,,,,,Automated,Omeesha Mahanta,,,The editor opens showing a default starting layout rather than a blank area,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and a row has no Service Charge Text content
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Click the Service Charge Text cell of that row</li>
+</ol>",,,1. The editor opens showing a default starting layout rather than a blank area,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add row appends an empty row,,,,,Automated,Omeesha Mahanta,,,The grid contains one more row than before and the new row is empty,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Note the current number of grid rows</li>
+<li>2. Select Add row</li>
+</ol>",,,"1. The row count is recorded
+2. The grid contains one more row than before and the new row is empty",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A new empty row does not make the page saveable,,,,,Automated,Omeesha Mahanta,,,Save is still disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select Add row</li>
+<li>2. Read the state of Save</li>
+</ol>",,,"1. A new empty row is added
+2. Save is still disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Completing a new row makes the page saveable,,,,,Automated,Omeesha Mahanta,,,Save becomes enabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select Add row</li>
+<li>2. Complete every required field on the new row with values that are not already used</li>
+</ol>",,,"1. A new empty row is added and Save stays disabled
+2. Save becomes enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unsaved rows are discarded when the page is reloaded,,,,,Automated,Omeesha Mahanta,,,The grid returns to the original row count and Save is disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Note the current number of grid rows</li>
+<li>2. Select Add row and complete its required fields without saving</li>
+<li>3. Reload the page</li>
+</ol>",,,"1. The row count is recorded
+2. The grid contains one more row and Save is enabled
+3. The grid returns to the original row count and Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Filtering shows only the selected language,,,,,Automated,Omeesha Mahanta,,,Rows for more than one language are visible,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select a specific language in the page level filter</li>
+<li>2. Select All in the page level filter</li>
+</ol>",,,"1. Every visible row shows the selected language
+2. Rows for more than one language are visible",,,,Master,S1620,Test Case (Steps),Regression,,,
+,All five column headers are displayed,,,,,Automated,Omeesha Mahanta,,,"The headers read Language, Service Charge Name, Service Charge Display Name, Report Column Name, and Service Charge Text",,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Read the grid column headers</li>
+</ol>",,,"1. The headers read Language, Service Charge Name, Service Charge Display Name, Report Column Name, and Service Charge Text",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every row is reachable without paging,,,,,Automated,Omeesha Mahanta,,,That row is found without using any paging control,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Read the number of data rows in the grid</li>
+<li>2. Locate a row by its Service Charge Name rather than by position</li>
+</ol>",,,"1. The grid reports its full set of data rows
+2. That row is found without using any paging control",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saved values survive a reload,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change a Service Charge Display Name to a new unique value and save</li>
+<li>2. Reload the page</li>
+<li>3. Restore the original value and save again</li>
+</ol>",,,"1. The change is accepted and Save returns to disabled
+2. The changed value is still displayed
+3. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Edited Service Charge Name persists after save and reload,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Name of the first US English row to a different unique value</li>
+<li>2. Click Save</li>
+<li>3. Reload the page</li>
+<li>4. Restore the original Service Charge Name and save again</li>
+</ol>",,,"1. Save becomes enabled
+2. The Save button returns to disabled and no error is shown
+3. The changed Service Charge Name is still displayed
+4. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saved values survive a browser back and forward navigation,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first US English row to a different unique value</li>
+<li>2. Click Save</li>
+<li>3. Navigate to a different page using the browser back button</li>
+<li>4. Navigate forward to the Service Charge Text page</li>
+<li>5. Restore the original value and save again</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled
+3. The browser shows a different page
+4. The changed Service Charge Display Name is still displayed
+5. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,All three metadata fields saved in one operation all persist,,,,,Automated,Omeesha Mahanta,,,All three original values are displayed and Save returns to disabled,,,service-charge-text,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Name, Service Charge Display Name, and Report Column Name of one US English row to three different unique values</li>
+<li>2. Click Save</li>
+<li>3. Reload the page</li>
+<li>4. Restore all three original values and save again</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled
+3. All three changed values are still displayed on that row
+4. All three original values are displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Pairwise coverage of language filter, row action, and Save state — part one",,,,,Automated,Omeesha Mahanta,,,Save is disabled and the row count returns to its value before step 17,,,service-charge-text,,"The Service Charge Text page is open for office 1604. The original Service Charge Display Name and Report Column Name values for the first visible row under each filter are known.
+
+This test case and TC-036 together form a 2-way covering array over three factors:
+- F1 Language filter: All, English (Canada), US English, Spanish (Mexico), French (Canada) - 5 values
+- F2 Row action: no edit, edit a metadata field, edit the rich text editor, type back the original value - 4 values
+- F3 Save state: disabled, enabled - 2 values (F3 is a page-level condition, independent of F2; Save is enabled when every row has its three required fields filled and no Service Charge Name is duplicated within a language)
+
+""Factor analysis - pairs, coverage, and impossible exclusions:""
+
+| Factor pair | Total pairs | Covered | Excluded as impossible | Reason for exclusion |
+|---|---|---|---|---|
+| F1 x F2 | 20 | 20 | 0 | All 5 language values appear with all 4 row actions across the 20-row array |
+| F1 x F3 | 10 | 10 | 0 | Each language filter is observed with Save disabled (no-edit rows) and with Save enabled (edit-metadata rows) |
+| F2 x F3 | 8 | 7 | 1 | One pair is structurally impossible; all others are constructible by arranging a second row |
+
+F2 x F3 pairs and how each is covered or excluded:
+- (no-edit, disabled): covered - steps 1 and 6 (load page, read Save without editing)
+- (no-edit, enabled): ""impossible"" - a freshly loaded page with no change cannot have Save enabled; Save requires at least one field to differ from its loaded value and no invalid row to exist
+- (edit-metadata, enabled): covered - steps 2 and 7 (edit Display Name on one row to a new unique value)
+- (edit-metadata, disabled): covered - steps 11-13 (edit Display Name on row A while a second row has a blank required field; the page is dirty but invalid)
+- (edit-to-original, disabled): covered - steps 3 and 8 (type the original value back into the one changed field)
+- (edit-to-original, enabled): covered - steps 14-16 (change two fields on a row, revert only one; the page is still dirty and valid)
+- (edit-rte, enabled): covered - steps 4 and 9 (type into the rich text editor with no invalid row present)
+- (edit-rte, disabled): covered - steps 17-19 (type into the rich text editor while a second row has a blank required field)
+
+Grand totals: 38 pairs; 37 covered; 1 excluded as impossible. Every valid 2-way pair appears in at least one row of the array. This test case covers the All and English (Canada) filters plus the three second-row constructions for F2 x F3 completeness
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select All in the language filter and read the Save button state without editing any field</li>
+<li>2. Change the Service Charge Display Name of the first visible row to a different unique value</li>
+<li>3. Type the original Display Name back into that field and move focus away</li>
+<li>4. Click the Service Charge Text cell of the first visible row to open the rich text editor and type a word into it</li>
+<li>5. Reload the page to discard the unsaved editor change</li>
+<li>6. Select English (Canada) in the language filter and read the Save button state without editing any field</li>
+<li>7. Change the Service Charge Display Name of the first visible row to a different unique value</li>
+<li>8. Type the original Display Name back into that field and move focus away</li>
+<li>9. Click the Service Charge Text cell of the first visible row and type a word into the editor</li>
+<li>10. Reload the page to discard the unsaved editor change</li>
+<li>11. Add a new row and leave Service Charge Name, Service Charge Display Name, and Report Column Name all blank</li>
+<li>12. Change the Service Charge Display Name of the first existing row to a different unique value</li>
+<li>13. Reload the page to discard the edit and remove the new row</li>
+<li>14. Change the Service Charge Display Name of the first row to a different unique value, then also change the Report Column Name of the same row to a different value</li>
+<li>15. Type the original Service Charge Display Name back into the Display Name field and move focus away</li>
+<li>16. Reload the page to discard both changes</li>
+<li>17. Add a new row and leave Service Charge Name, Service Charge Display Name, and Report Column Name all blank</li>
+<li>18. Click the Service Charge Text cell of the first existing row to open the rich text editor and type a word</li>
+<li>19. Reload the page to discard the editor change and remove the new row</li>
+</ol>",,,"1. Save is disabled
+2. Save becomes enabled
+3. Save returns to disabled
+4. Save becomes enabled
+5. Save is disabled and the page shows the original content
+6. Save is disabled
+7. Save becomes enabled
+8. Save returns to disabled
+9. Save becomes enabled
+10. Save is disabled and the page shows the original content
+11. A new empty row is added and Save stays disabled
+12. Save stays disabled — the new row's required fields are empty, so the page is dirty but invalid
+13. Save is disabled and the row count returns to its value before step 11
+14. Save becomes enabled
+15. Save stays enabled — the Report Column Name is still changed, so the page is still dirty and valid
+16. Save is disabled and the row values return to their original state
+17. A new empty row is added and Save stays disabled
+18. Save stays disabled — the new row's required fields are empty, so the page is dirty but invalid
+19. Save is disabled and the row count returns to its value before step 17",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Pairwise coverage of language filter, row action, and Save state — part two",,,,,Automated,Omeesha Mahanta,,,Save is disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604. The original Service Charge Display Name values for the first visible row under each filter are known.
+
+This test case completes the 20-row covering array begun in TC-035, covering array rows 9-20 (US English, Spanish (Mexico), and French (Canada) filters)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select US English in the language filter and read the Save button state without editing any field</li>
+<li>2. Change the Service Charge Display Name of the first visible row to a different unique value</li>
+<li>3. Type the original Display Name back and move focus away</li>
+<li>4. Click the Service Charge Text cell of the first visible row and type a word into the editor</li>
+<li>5. Reload the page to discard the unsaved editor change</li>
+<li>6. Select Spanish (Mexico) in the language filter and read the Save button state without editing any field</li>
+<li>7. Change the Service Charge Display Name of the first visible row to a different unique value</li>
+<li>8. Type the original Display Name back and move focus away</li>
+<li>9. Click the Service Charge Text cell of the first visible row and type a word into the editor</li>
+<li>10. Reload the page to discard the unsaved editor change</li>
+<li>11. Select French (Canada) in the language filter and read the Save button state without editing any field</li>
+<li>12. Change the Service Charge Display Name of the first visible row to a different unique value</li>
+<li>13. Type the original Display Name back and move focus away</li>
+<li>14. Click the Service Charge Text cell of the first visible row and type a word into the editor</li>
+<li>15. Reload the page to discard the unsaved editor change</li>
+</ol>",,,"1. Save is disabled
+2. Save becomes enabled
+3. Save returns to disabled
+4. Save becomes enabled
+5. Save is disabled
+6. Save is disabled
+7. Save becomes enabled
+8. Save returns to disabled
+9. Save becomes enabled
+10. Save is disabled
+11. Save is disabled
+12. Save becomes enabled
+13. Save returns to disabled
+14. Save becomes enabled
+15. Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save stays disabled when all three required fields are blank,,,,,Automated,Omeesha Mahanta,,,Save stays disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Leave Service Charge Name, Service Charge Display Name, and Report Column Name all empty</li>
+</ol>",,,"1. A new empty row is added and Save stays disabled
+2. Save stays disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save stays disabled when only Service Charge Name is populated,,,,,Automated,Omeesha Mahanta,,,Save stays disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter a unique value into Service Charge Name only and move focus away</li>
+</ol>",,,"1. A new empty row is added and Save stays disabled
+2. Save stays disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save stays disabled when only Service Charge Display Name is populated,,,,,Automated,Omeesha Mahanta,,,Save stays disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter a value into Service Charge Display Name only and move focus away</li>
+</ol>",,,"1. A new empty row is added and Save stays disabled
+2. Save stays disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save stays disabled when only Report Column Name is populated,,,,,Automated,Omeesha Mahanta,,,Save stays disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter a value into Report Column Name only and move focus away</li>
+</ol>",,,"1. A new empty row is added and Save stays disabled
+2. Save stays disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save stays disabled when Service Charge Name and Display Name are populated but Report Column Name is blank,,,,,Automated,Omeesha Mahanta,,,Save stays disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter a unique value into Service Charge Name and a value into Service Charge Display Name, leave Report Column Name empty, and move focus away</li>
+</ol>",,,"1. A new empty row is added and Save stays disabled
+2. Save stays disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save stays disabled when Service Charge Name and Report Column Name are populated but Display Name is blank,,,,,Automated,Omeesha Mahanta,,,Save stays disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter a unique value into Service Charge Name and a value into Report Column Name, leave Service Charge Display Name empty, and move focus away</li>
+</ol>",,,"1. A new empty row is added and Save stays disabled
+2. Save stays disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save stays disabled when Service Charge Display Name and Report Column Name are populated but Name is blank,,,,,Automated,Omeesha Mahanta,,,Save stays disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter values into Service Charge Display Name and Report Column Name, leave Service Charge Name empty, and move focus away</li>
+</ol>",,,"1. A new empty row is added and Save stays disabled
+2. Save stays disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save enables when all three required fields are populated with unique values,,,,,Automated,Omeesha Mahanta,,,Save becomes enabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row</li>
+<li>2. Enter a Service Charge Name that is not already used in the same language, a Service Charge Display Name, and a Report Column Name</li>
+</ol>",,,"1. A new empty row is added and Save stays disabled
+2. Save becomes enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing any metadata field transitions the page from clean to dirty,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Verify Save is disabled</li>
+<li>2. Change the Service Charge Display Name of the first row to a different unique value</li>
+<li>3. Restore the original value</li>
+</ol>",,,"1. Save is disabled
+2. Save becomes enabled
+3. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Navigating away with unsaved changes triggers a browser confirmation,,,,,Automated,Omeesha Mahanta,,,The Service Charge Text page remains open and the edited value is still present,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Report Column Name of the first row to a different unique value</li>
+<li>2. Attempt to navigate to a different page by clicking a nav link</li>
+<li>3. Dismiss the dialog by staying on the page</li>
+</ol>",,,"1. Save becomes enabled
+2. A native browser dialog asks whether to leave the page
+3. The Service Charge Text page remains open and the edited value is still present",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing the language filter with unsaved changes shows an in-app confirmation and Stay preserves edits,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Name of the first US English row to a different unique value</li>
+<li>2. Select a different language in the page level filter</li>
+<li>3. Verify the grid while the dialog is open</li>
+<li>4. Click Stay</li>
+<li>5. Restore the original value</li>
+</ol>",,,"1. Save becomes enabled
+2. A dialog appears with the text ""Unsaved changes  Are you sure you want to leave this view? Any unsaved changes will be lost.  Stay  Discard""
+3. The row count has not changed and the edited value is still present
+4. The dialog closes, the language filter has not changed, the edited value is still present, and Save is still enabled
+5. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing Discard in the language filter confirmation applies the filter and loses unsaved changes,,,,,Automated,Omeesha Mahanta,,,"The dialog closes, the language filter changes to English (Canada), the grid shows only English (Canada) rows, and Save is disabled",,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Name of the first US English row to a different unique value</li>
+<li>2. Select English (Canada) in the page level filter</li>
+<li>3. Click Discard</li>
+</ol>",,,"1. Save becomes enabled
+2. A dialog appears asking whether to leave the current view
+3. The dialog closes, the language filter changes to English (Canada), the grid shows only English (Canada) rows, and Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clearing a required field disables Save and restoring it re-enables Save,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Clear the Service Charge Name field on the first row</li>
+<li>2. Type the original Service Charge Name value back into the field and move focus away</li>
+<li>3. Verify Save is enabled</li>
+<li>4. Restore the original value</li>
+</ol>",,,"1. Save stays disabled
+2. Save becomes enabled
+3. Save is enabled, confirming the page is dirty with a valid value
+4. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing a field and then typing back the original value returns Save to disabled,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Service Charge Display Name of the first row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first row to a different unique value</li>
+<li>2. Clear that field and type the original value back in, then move focus away</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A Service Charge Name that duplicates an existing name in a different language enables Save,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604. The Service Charge Name of the first US English row is known. The uniqueness constraint for Service Charge Names applies within a language only; the same name is valid across different languages
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select French (Canada) in the language filter and note the Service Charge Name of the first visible row</li>
+<li>2. Change the Service Charge Name of that row to the US English name noted in the Preconditions</li>
+<li>3. Restore the original French (Canada) Service Charge Name</li>
+</ol>",,,"1. The French (Canada) name is recorded
+2. Save becomes enabled
+3. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A required field left empty on any row keeps Save disabled for the whole page,,,,,Automated,Omeesha Mahanta,,,Save becomes disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Add a new row and fill all three required fields with unique values</li>
+<li>2. Clear the Service Charge Name field on that same new row</li>
+</ol>",,,"1. Save becomes enabled
+2. Save becomes disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The rich text editor is unavailable until a Service Charge Text cell is clicked,,,,,Automated,Omeesha Mahanta,,,Save is still disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and no row has been selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Verify that the rich text editor area is not available for typing</li>
+<li>2. Click the Service Charge Text cell of a row</li>
+<li>3. Verify that Save is still disabled after clicking the cell</li>
+</ol>",,,"1. The rich text editor is not present or not editable
+2. The rich text editor becomes present and editable
+3. Save is still disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing the language filter updates the grid contents,,,,,Automated,Omeesha Mahanta,,,The grid shows at least one row and every visible row has language English (Canada),,,service-charge-text,,"The Service Charge Text page is open for office 1604 with the US English filter active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select Spanish (Mexico) in the page level filter</li>
+<li>2. Select French (Canada) in the page level filter</li>
+<li>3. Select All in the page level filter</li>
+<li>4. Select English (Canada) in the page level filter</li>
+</ol>",,,"1. The grid shows at least one row and every visible row has language Spanish (Mexico)
+2. The grid shows at least one row and every visible row has language French (Canada)
+3. The grid shows rows covering more than one language; the total row count equals the sum of the row counts from all four individual language filters
+4. The grid shows at least one row and every visible row has language English (Canada)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Keyboard tab order within a row follows the visual column order,,,,,Automated,Omeesha Mahanta,,,Focus moves to the Service Charge Text cell in the same row,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Click the Service Charge Name cell of the first row to place focus there</li>
+<li>2. Press Tab</li>
+<li>3. Press Tab</li>
+<li>4. Press Tab</li>
+</ol>",,,"1. The Service Charge Name input has keyboard focus
+2. Focus moves to the Service Charge Display Name input in the same row
+3. Focus moves to the Report Column Name input in the same row
+4. Focus moves to the Service Charge Text cell in the same row",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking Save twice rapidly sends exactly one save request,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Service Charge Display Name of the first US English row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first US English row to a new unique value</li>
+<li>2. Click Save twice in rapid succession with no pause between clicks</li>
+<li>3. Verify the number of save requests issued to the service-charge-texts endpoint</li>
+<li>4. Reload the page</li>
+<li>5. Restore the original value and save again</li>
+</ol>",,,"1. Save becomes enabled
+2. The Save button disables itself immediately after the first click; the second click lands on a disabled button
+3. Exactly one request was sent and it returned a 200 response
+4. The changed value is still displayed, confirming the single save succeeded
+5. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing two rows before saving persists both edits in a single save,,,,,Automated,Omeesha Mahanta,,,Both original values are displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Service Charge Display Name values for the first and second US English rows are known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first US English row to a different unique value</li>
+<li>2. Change the Service Charge Display Name of the second US English row to a different unique value</li>
+<li>3. Click Save</li>
+<li>4. Reload the page</li>
+<li>5. Restore both original values and save again</li>
+</ol>",,,"1. Save becomes enabled
+2. Save remains enabled
+3. Save returns to disabled
+4. Both changed values are still displayed
+5. Both original values are displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing Stay in the language filter confirmation keeps all unsaved edits intact,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Name of the first US English row to a different unique value</li>
+<li>2. Select a different language in the page level filter</li>
+<li>3. Click Stay</li>
+<li>4. Verify the edited value is still in the Service Charge Name field</li>
+<li>5. Verify Save is still enabled</li>
+<li>6. Verify the language filter has not changed</li>
+<li>7. Restore the original value</li>
+</ol>",,,"1. Save becomes enabled
+2. A confirmation dialog appears asking whether to leave the current view
+3. The dialog closes
+4. The changed value is still present
+5. Save is enabled
+6. The filter still shows US English
+7. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The save request body includes all rows with the correct structure,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Service Charge Display Name of the first US English row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Intercept network requests to the save endpoint</li>
+<li>2. Change the Service Charge Display Name of the first US English row to a new unique value</li>
+<li>3. Click Save</li>
+<li>4. Inspect the request body</li>
+<li>5. Verify the response status</li>
+<li>6. Restore the original value and save again</li>
+</ol>",,,"1. Network interception is active
+2. Save becomes enabled
+3. A save request is sent to the service-charge-texts endpoint
+4. The body contains a rows array; the number of entries in the array equals the number of rows currently displayed in the grid under the active filter; each entry has the keys serviceChargeTextId, serviceChargeName, serviceChargeDisplayName, reportColumnName, languageId, displayText, and htmlDisplayText; the entry for the edited row has serviceChargeDisplayName matching the value entered in step 2
+5. The response status is 200
+6. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each language filter option shows the correct number of rows,,,,,Automated,Omeesha Mahanta,,,The total row count equals N_US + N_CA + N_MX + N_FR,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select US English in the page level filter and count the rows</li>
+<li>2. Select English (Canada) in the page level filter and count the rows</li>
+<li>3. Select Spanish (Mexico) in the page level filter and count the rows</li>
+<li>4. Select French (Canada) in the page level filter and count the rows</li>
+<li>5. Select All in the page level filter and count the rows</li>
+</ol>",,,"1. At least one row is displayed and every visible row has language US English; record this count as N_US
+2. At least one row is displayed and every visible row has language English (Canada); record this count as N_CA
+3. At least one row is displayed and every visible row has language Spanish (Mexico); record this count as N_MX
+4. At least one row is displayed and every visible row has language French (Canada); record this count as N_FR
+5. The total row count equals N_US + N_CA + N_MX + N_FR",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An off-screen row is readable by its Service Charge Name without using a row index,,,,,Automated,Omeesha Mahanta,,,Both values are readable without scrolling to a specific numeric row position,,,service-charge-text,,"The Service Charge Text page is open for office 1604 with the US English filter active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Search for a row whose Service Charge Name is known but whose position in the list is beyond the visible viewport</li>
+<li>2. Read the row's Service Charge Display Name and Report Column Name</li>
+</ol>",,,"1. The row is found by its Service Charge Name
+2. Both values are readable without scrolling to a specific numeric row position",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rich text editor content persists after save and reload,,,,,Automated,Omeesha Mahanta,,,The original content is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original rich text content of a US English row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Click the Service Charge Text cell of the first US English row to open the rich text editor</li>
+<li>2. Change the rich text content to a distinctly different value</li>
+<li>3. Click Save</li>
+<li>4. Reload the page</li>
+<li>5. Restore the original content and save again</li>
+</ol>",,,"1. The editor opens showing the current content
+2. Save becomes enabled
+3. Save returns to disabled
+4. The rich text cell for the edited row displays the new content
+5. The original content is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A newly added row with all fields filled persists after save and reload,,,,,Automated,Omeesha Mahanta,,,"The row count is original plus one and the new row's Name, Display Name, Report Column Name, and Language values match what was entered",,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the current row count under the active filter is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Click Add row</li>
+<li>2. Fill in a unique Service Charge Name, a Display Name, and a Report Column Name</li>
+<li>3. Click Save</li>
+<li>4. Reload the page</li>
+</ol>",,,"1. A new empty row appears at the bottom of the grid
+2. Save becomes enabled
+3. Save returns to disabled
+4. The row count is original plus one and the new row's Name, Display Name, Report Column Name, and Language values match what was entered",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing a row's per-row language persists after save and reload,,,,,Automated,Omeesha Mahanta,,,The original language is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 with the All filter active and the original language of the target row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Open the per-row language dropdown on a row and select a different language</li>
+<li>2. Click Save</li>
+<li>3. Reload the page with the All filter active</li>
+<li>4. Restore the original language and save again</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled
+3. The row appears with the new language value
+4. The original language is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Report Column Name edited in isolation persists after save and reload,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Report Column Name of the first US English row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Report Column Name of the first US English row to a new unique value</li>
+<li>2. Click Save</li>
+<li>3. Reload the page</li>
+<li>4. Restore the original value and save again</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled
+3. The Report Column Name cell shows the new value
+4. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A metadata edit on one row and a rich text edit on another row both persist in a single save,,,,,Automated,Omeesha Mahanta,,,Both original values are displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Display Name of the first US English row and the original rich text content of the second US English row are known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first US English row to a new unique value</li>
+<li>2. Open the rich text editor on the second US English row and change its content</li>
+<li>3. Click Save</li>
+<li>4. Reload the page</li>
+<li>5. Restore both original values and save again</li>
+</ol>",,,"1. Save becomes enabled
+2. Save remains enabled
+3. Save returns to disabled
+4. The first row's Display Name shows the new value AND the second row's rich text content shows the new content
+5. Both original values are displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing a row's language and editing its Name in the same save both persist,,,,,Automated,Omeesha Mahanta,,,Both original values are displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 with the All filter active and the original language and Name of the target row are known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Open the per-row language dropdown on a row and select a different language</li>
+<li>2. Change the Service Charge Name of the same row to a new value unique within the new language</li>
+<li>3. Click Save</li>
+<li>4. Reload the page with the All filter active</li>
+<li>5. Restore both original values and save again</li>
+</ol>",,,"1. Save becomes enabled
+2. Save remains enabled
+3. Save returns to disabled
+4. The row shows both the new language and the new Name
+5. Both original values are displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Edits saved under each of the four single-language filters all persist,,,,,Automated,Omeesha Mahanta,,,All original values are displayed and Save returns to disabled after each restore,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Display Name of one row per language is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select US English in the page filter, edit the Display Name of the first row to a new value, and click Save</li>
+<li>2. Reload the page under US English filter</li>
+<li>3. Select English (Canada) in the page filter, edit the Display Name of a row to a new value, and click Save</li>
+<li>4. Reload the page under English (Canada) filter</li>
+<li>5. Select Spanish (Mexico) in the page filter, edit the Display Name of a row to a new value, and click Save</li>
+<li>6. Reload the page under Spanish (Mexico) filter</li>
+<li>7. Select French (Canada) in the page filter, edit the Display Name of a row to a new value, and click Save</li>
+<li>8. Reload the page under French (Canada) filter</li>
+<li>9. Restore all four original values under their respective filters and save each</li>
+</ol>",,,"1. Save returns to disabled
+2. The edited value persists
+3. Save returns to disabled
+4. The edited value persists
+5. Save returns to disabled
+6. The edited value persists
+7. Save returns to disabled
+8. The edited value persists
+9. All original values are displayed and Save returns to disabled after each restore",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A dirty page with an invalid duplicate name still triggers the navigate-away prompt,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Name of the first US English row to a value that duplicates another row in the same language</li>
+<li>2. Attempt browser navigation away from the page</li>
+<li>3. Stay on the page</li>
+<li>4. Restore the original value</li>
+</ol>",,,"1. Save becomes disabled due to the duplicate
+2. The beforeunload confirmation dialog fires
+3. The page remains with the duplicate value still entered
+4. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Confirming navigation away discards all unsaved changes,,,,,Automated,Omeesha Mahanta,,,"The Display Name shows the original server-saved value, not the unsaved edit",,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Display Name of the first US English row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first US English row to a new unique value</li>
+<li>2. Attempt browser navigation away from the page</li>
+<li>3. Confirm navigation (leave the page)</li>
+<li>4. Navigate back to the Service Charge Text page</li>
+</ol>",,,"1. Save becomes enabled
+2. The beforeunload confirmation dialog fires
+3. Navigation succeeds and the page is left
+4. The Display Name shows the original server-saved value, not the unsaved edit",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"After a successful save, navigating away does not trigger a prompt",,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first US English row to a new unique value</li>
+<li>2. Click Save</li>
+<li>3. Attempt browser navigation away from the page</li>
+<li>4. Navigate back to the page and restore the original value and save</li>
+</ol>",,,"1. Save becomes enabled
+2. Save returns to disabled
+3. No beforeunload prompt appears and navigation succeeds
+4. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A rich text edit alone triggers the navigate-away prompt,,,,,Automated,Omeesha Mahanta,,,The original content is restored,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Open the rich text editor on the first US English row and change its content without touching any metadata field</li>
+<li>2. Attempt browser navigation away from the page</li>
+<li>3. Stay on the page</li>
+<li>4. Reload the page to discard changes</li>
+</ol>",,,"1. Save becomes enabled
+2. The beforeunload confirmation dialog fires
+3. The page remains with the RTE edit intact
+4. The original content is restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A failed save keeps the page dirty with Save re-enabled,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first US English row to a new unique value</li>
+<li>2. Intercept the save endpoint to return a 500 error</li>
+<li>3. Click Save</li>
+<li>4. Attempt browser navigation away from the page</li>
+<li>5. Stay on the page and remove the network interception</li>
+<li>6. Click Save again</li>
+<li>7. Reload the page</li>
+<li>8. Restore the original value and save</li>
+</ol>",,,"1. Save becomes enabled
+2. Network interception is active
+3. A visible error indication appears; Save re-enables after the failure
+4. The beforeunload confirmation dialog fires, proving the page is still dirty
+5. The page remains with the edit intact
+6. Save succeeds and returns to disabled
+7. The edited value persists
+8. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,All page controls are operable by keyboard without a mouse,,,,,Automated,Omeesha Mahanta,,,The page returns to its original state,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Use keyboard Tab and arrow keys to reach the page level language filter and activate it with Enter or Space</li>
+<li>2. Select a language option with Enter</li>
+<li>3. Tab to the Service Charge Name cell of the first row and type a value</li>
+<li>4. Tab through Display Name and Report Column Name entering values</li>
+<li>5. Tab to the Service Charge Text cell and activate it with Enter or Space</li>
+<li>6. Tab to the Add row button and activate it with Enter or Space</li>
+<li>7. Tab to the Save button and activate it with Enter or Space</li>
+<li>8. Reload the page to discard changes</li>
+</ol>",,,"1. The filter opens and options are navigable by keyboard
+2. The filter closes and the grid updates to show the selected language
+3. The input accepts keyboard text entry
+4. Each field accepts keyboard input in visual column order
+5. The rich text editor opens
+6. A new row is appended
+7. Save is triggered if enabled
+8. The page returns to its original state",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The unsaved-changes dialog traps focus until dismissed and returns focus afterward,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first US English row to a new unique value</li>
+<li>2. Change the page level language filter to trigger the unsaved-changes dialog</li>
+<li>3. Press Tab repeatedly to cycle through focusable elements</li>
+<li>4. Click Stay to dismiss the dialog</li>
+<li>5. Restore the original value</li>
+</ol>",,,"1. Save becomes enabled
+2. The confirmation dialog appears
+3. Focus cycles only within the dialog and does not escape to the page behind it
+4. The dialog closes and focus returns to the language filter control that initiated the dialog
+5. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A duplicate Service Charge Name rejection provides a visible explanation,,,,,Automated,Omeesha Mahanta,,,Save re-enables and the duplicate indication disappears,,,service-charge-text,,"The Service Charge Text page is open for office 1604 with at least two rows in the same language
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Name of one row to match an existing name in the same language</li>
+<li>2. Inspect the row for a visible indication explaining why Save is blocked</li>
+<li>3. Verify that the explanation is programmatically associated with the field</li>
+<li>4. Correct the name to a unique value</li>
+</ol>",,,"1. Save becomes disabled
+2. A visible message or visual marker at the row level indicates the duplicate name is the cause
+3. The indication is adjacent to or associated with the Service Charge Name field of the offending row
+4. Save re-enables and the duplicate indication disappears",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Two sessions editing the same row results in a conflict outcome, not a silent overwrite",,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 in two separate browser contexts (A and B) and the original Display Name of the first US English row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. In context A, change the Display Name of the first US English row to value X</li>
+<li>2. In context B, change the Display Name of the same row to value Y</li>
+<li>3. In context B, click Save</li>
+<li>4. In context A, click Save (now stale)</li>
+<li>5. Reload both contexts</li>
+<li>6. Restore the original value and save</li>
+</ol>",,,"1. Save becomes enabled in context A
+2. Save becomes enabled in context B
+3. Save succeeds and the row shows value Y
+4. The save either fails with a visible conflict indication or succeeds with a last-write-wins outcome; the final displayed value matches the accepted server result
+5. Both contexts show the same value reflecting the server's authoritative state
+6. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A save failure preserves edits and a retry succeeds,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Display Name of the first US English row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Change the Service Charge Display Name of the first US English row to a new unique value</li>
+<li>2. Intercept the save endpoint to return a 500 error for the first request only</li>
+<li>3. Click Save</li>
+<li>4. Click Save again (interception removed, real endpoint responds)</li>
+<li>5. Reload the page</li>
+<li>6. Restore the original value and save</li>
+</ol>",,,"1. Save becomes enabled
+2. Network interception is active
+3. A visible failure indication appears; the edited value remains in the field; Save re-enables
+4. Save succeeds and returns to disabled
+5. The edited value persists
+6. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Page level language filter dropdown recovers from a load failure,,,,,Automated,Omeesha Mahanta,,,The page loads normally with all five language filter options available and filtering works correctly,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Intercept the language filter data endpoint to return a 500 error on the next request</li>
+<li>2. Trigger a reload or action that re-fetches the language filter options</li>
+<li>3. Remove the interception and reload the page</li>
+</ol>",,,"1. Network interception is active
+2. A visible recovery state appears without corrupting the grid data
+3. The page loads normally with all five language filter options available and filtering works correctly",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Per-row language dropdown recovers from a load failure without changing the row's language,,,,,Automated,Omeesha Mahanta,,,The dropdown opens showing four language options (All is excluded) and functions normally,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original language of the target row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Intercept the row language options endpoint to return a 500 error on the next request</li>
+<li>2. Click the per-row language dropdown on the target row</li>
+<li>3. Remove the interception and click the dropdown again</li>
+</ol>",,,"1. Network interception is active
+2. The dropdown fails to load its options; the row's current language value remains unchanged
+3. The dropdown opens showing four language options (All is excluded) and functions normally",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The save response body reflects the committed metadata payload,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Display Name of the first US English row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Intercept network traffic on the save endpoint</li>
+<li>2. Change the Service Charge Display Name of the first US English row to a new unique value</li>
+<li>3. Click Save</li>
+<li>4. Inspect the response body</li>
+<li>5. Reload the page</li>
+<li>6. Restore the original value and save</li>
+</ol>",,,"1. Network listener is active
+2. Save becomes enabled
+3. A save request is sent and a response is received
+4. The response JSON contains the edited row with serviceChargeDisplayName matching the value entered in step 2 and includes server-assigned identifiers
+5. The displayed value matches the value confirmed in the response body
+6. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A one-row filtered view remains editable and saveable,,,,,Automated,Omeesha Mahanta,,,The original value is displayed and Save returns to disabled,,,service-charge-text,,"The Service Charge Text page is open for office 1604 and the original Display Name of the single Spanish (Mexico) row is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Select Spanish (Mexico) in the page level filter</li>
+<li>2. Locate the row by its Service Charge Name and change its Display Name to a new unique value</li>
+<li>3. Click Save</li>
+<li>4. Reload the page under the Spanish (Mexico) filter</li>
+<li>5. Restore the original value and save</li>
+</ol>",,,"1. The grid shows exactly one row
+2. Save becomes enabled
+3. Save returns to disabled
+4. The edited value persists and the row is found by its Service Charge Name
+5. The original value is displayed and Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An empty filtered result set renders a recovery state without row-index errors,,,,,Automated,Omeesha Mahanta,,,The grid loads normally with the expected rows and filtering works correctly,,,service-charge-text,,"The Service Charge Text page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Service_Charge_Text > Core,"<ol>
+<li>1. Intercept the grid data endpoint to return an empty row list for the next request</li>
+<li>2. Trigger a page reload or filter change that fetches grid data</li>
+<li>3. Remove the interception and reload the page</li>
+</ol>",,,"1. Network interception is active
+2. The grid displays a visible no-results or empty state without JavaScript errors or broken row rendering
+3. The grid loads normally with the expected rows and filtering works correctly",,,,Master,S1620,Test Case (Steps),Regression,,,

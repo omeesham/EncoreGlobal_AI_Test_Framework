@@ -1,0 +1,118 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Active-only removes inactive rows and restores the full set on uncheck (NM-2269),,,,,Automated,Omeesha Mahanta,,,Both Camlok rows are visible in the grid.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1105 selected; Active-only is OFF (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Filters,1,,Corporate_Pricing_Pg_Override > Filters,"<ol>
+<li>1. Read Active-only state and row count</li>
+<li>2. Check Active-only</li>
+<li>3. the Camlok #1 and Camlok #2 rows are absent</li>
+<li>4. Uncheck Active-only</li>
+<li>5. both Camlok rows are visible again</li>
+</ol>",,,"1. Active-only is displayed unchecked and 9 rows are visible.
+2. 7 rows are displayed.
+3. The Camlok #1 and Camlok #2 rows are not present in the grid.
+4. All 9 rows are displayed again.
+5. Both Camlok rows are visible in the grid.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Currency filter yields the exact row count for the present currency, 0 for an absent currency, and restores the full set",,,,,Automated,Omeesha Mahanta,,,Selecting the present currency yields the exact expected row count; selecting a currency with no matching rows yields exactly 0; selecting ALL restores the full set. Asserting both directions proves the filter reads its input - a filter that ignored the selection could not satisfy both the exact-count and the zero-count assertion,,,"corporate-pricing-pg-override,functional",,"On the Override screen with the standard test office selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Filters,1,,Corporate_Pricing_Pg_Override > Filters,"<ol>
+<li>1. Select the currency present in the data (USD) from the Currency dropdown</li>
+<li>2. Select a currency with no matching rows</li>
+<li>3. Select ALL</li>
+</ol>",,,"1. The grid narrows to the rows carrying the USD currency.
+2. The grid displays zero rows.
+3. Selecting the present currency yields the exact expected row count; selecting a currency with no matching rows yields exactly 0; selecting ALL restores the full set. Asserting both directions proves the filter reads its input - a filter that ignored the selection could not satisfy both the exact-count and the zero-count assertion",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Active-only and text filter applied simultaneously produce the correct intersection; filter order does not affect the result; resetting all restores the full row set (NM-2269),,,,,Automated,Omeesha Mahanta,,,All 9 rows are displayed.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1105 selected; no filters active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Camlok""",Medium,,Filters,1,,Corporate_Pricing_Pg_Override > Filters,"<ol>
+<li>1. Filter by text ""Camlok""</li>
+<li>2. Check Active-only on top</li>
+<li>3. Reset both filters</li>
+<li>4. Check Active-only first</li>
+<li>5. then filter ""Camlok"" on top</li>
+<li>6. Uncheck Active-only while ""Camlok"" text filter active</li>
+<li>7. Clear text filter</li>
+</ol>",,,"1. 2 rows matching ""Camlok"" are displayed.
+2. The grid displays zero rows.
+3. All 9 rows are displayed.
+4. 7 rows are displayed.
+5. The grid displays zero rows.
+6. 2 rows are displayed.
+7. All 9 rows are displayed.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,USD filter yields only USD rows — CAD row PG 425 absent,,,,,Automated,Omeesha Mahanta,,,The USD currency filter removes all non-USD rows from the grid. Exactly 10 rows remain (all USD). The single CAD row (PG 425) is absent. An inactive filter would leave all 11 rows visible - the assertion of exactly 10 with PG 425 absent distinguishes a working filter from an inactive one,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1145 selected; Equipment tab active; filter=ALL; 11 rows visible (10 USD + 1 CAD)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""USD""
+Sample input 2: ""Box Truss 20.5x20.5 - 5'""
+Sample input 3: ""Project Manager (Pre/Post) - Hourly""
+Sample input 4: ""ALL""",Medium,,Filters,1,,Corporate_Pricing_Pg_Override > Filters,"<ol>
+<li>1. Navigate to office 1145, Equipment tab</li>
+<li>2. confirm baseline: 11 rows visible with filter=ALL</li>
+<li>3. Select ""USD"" from the Currency dropdown</li>
+<li>4. Read visible row count</li>
+<li>5. Assert PG 425 (""Box Truss 20.5x20.5 - 5'"") is NOT present in the grid (this is the sole CAD row)</li>
+<li>6. Assert PG 4298 (""Project Manager (Pre/Post) - Hourly"") IS present (a known USD row)</li>
+<li>7. Reset filter to ""ALL""</li>
+</ol>",,,"1. Office 1145 loads on the Equipment tab.
+2. 11 rows are displayed with the Currency filter at ALL.
+3. The grid narrows to the rows carrying USD.
+4. 10 rows are displayed.
+5. PG 425 (""Box Truss 20.5x20.5 - 5'"") is absent from the grid.
+6. PG 4298 (""Project Manager (Pre/Post) - Hourly"") is displayed in the grid.
+7. The USD currency filter removes all non-USD rows from the grid. Exactly 10 rows remain (all USD). The single CAD row (PG 425) is absent. An inactive filter would leave all 11 rows visible - the assertion of exactly 10 with PG 425 absent distinguishes a working filter from an inactive one",,,,Master,S1620,Test Case (Steps),Regression,,,
+,CAD filter yields only CAD rows — single row PG 425 present,,,,,Automated,Omeesha Mahanta,,,The CAD currency filter removes all non-CAD rows. Exactly 1 row remains - PG 425. An inactive filter would leave all 11 rows (fail: count ≠ 1). A filter that clears everything would leave 0 rows (fail: count ≠ 1 and PG 425 absent). Only a correct filter yields exactly 1 row with PG 425 present,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1145 selected; Equipment tab active; filter=ALL; 11 rows visible (10 USD + 1 CAD)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""CAD""
+Sample input 2: ""Box Truss 20.5x20.5 - 5'""
+Sample input 3: ""Project Manager (Pre/Post) - Hourly""
+Sample input 4: ""ALL""",Medium,,Filters,1,,Corporate_Pricing_Pg_Override > Filters,"<ol>
+<li>1. Navigate to office 1145, Equipment tab</li>
+<li>2. confirm baseline: 11 rows visible with filter=ALL</li>
+<li>3. Select ""CAD"" from the Currency dropdown</li>
+<li>4. Read visible row count</li>
+<li>5. Assert PG 425 (""Box Truss 20.5x20.5 - 5'"") IS present (this is the sole CAD row)</li>
+<li>6. Assert PG 4298 (""Project Manager (Pre/Post) - Hourly"") is NOT present (a USD row must be filtered out)</li>
+<li>7. Reset filter to ""ALL""</li>
+</ol>",,,"1. Office 1145 loads on the Equipment tab.
+2. 11 rows are displayed with the Currency filter at ALL.
+3. The grid narrows to the row carrying CAD.
+4. 1 row is displayed.
+5. PG 425 (""Box Truss 20.5x20.5 - 5'"") is displayed in the grid.
+6. PG 4298 (""Project Manager (Pre/Post) - Hourly"") is absent from the grid.
+7. The CAD currency filter removes all non-CAD rows. Exactly 1 row remains - PG 425. An inactive filter would leave all 11 rows (fail: count ≠ 1). A filter that clears everything would leave 0 rows (fail: count ≠ 1 and PG 425 absent). Only a correct filter yields exactly 1 row with PG 425 present",,,,Master,S1620,Test Case (Steps),Regression,,,
+,MXN filter yields 0 rows on USD/CAD-only office,,,,,Automated,Omeesha Mahanta,,,MXN exists in the dropdown (it is a system-wide option) but office 1145 has zero MXN rows. The filter correctly yields an empty grid. An inactive filter would leave all 11 rows (fail: count ≠ 0). This proves the filter actively excludes non-matching rows even when the result set is empty,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1145 selected; Equipment tab active; filter=ALL; 11 rows visible (10 USD + 1 CAD; 0 MXN)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""MXN""
+Sample input 2: ""ALL""",Medium,,Filters,1,,Corporate_Pricing_Pg_Override > Filters,"<ol>
+<li>1. Navigate to office 1145, Equipment tab</li>
+<li>2. confirm baseline: 11 rows visible with filter=ALL</li>
+<li>3. Select ""MXN"" from the Currency dropdown</li>
+<li>4. Read visible row count</li>
+<li>5. Assert PG 425 is NOT present and PG 4298 is NOT present (grid is empty)</li>
+<li>6. Reset filter to ""ALL""</li>
+</ol>",,,"1. Office 1145 loads on the Equipment tab.
+2. 11 rows are displayed with the Currency filter at ALL.
+3. The grid narrows to zero rows.
+4. 0 rows are displayed.
+5. Neither PG 425 nor PG 4298 is displayed in the grid.
+6. MXN exists in the dropdown (it is a system-wide option) but office 1145 has zero MXN rows. The filter correctly yields an empty grid. An inactive filter would leave all 11 rows (fail: count ≠ 0). This proves the filter actively excludes non-matching rows even when the result set is empty",,,,Master,S1620,Test Case (Steps),Regression,,,

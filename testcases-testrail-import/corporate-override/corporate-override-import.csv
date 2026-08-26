@@ -1,0 +1,258 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Import dialog keeps Upload disabled until a file is attached,,,,,Automated,Omeesha Mahanta,,,The dialog closes without uploading any file.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with the certified import target office 4107 selected; no file attached
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""No file selected""",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Open the Import toolbar action</li>
+<li>2. Read the Upload button state before attaching a file</li>
+<li>3. the ""No file selected"" hint is shown</li>
+<li>4. Attach a file to the dialog's file input</li>
+<li>5. Cancel the dialog</li>
+</ol>",,,"1. The ""Import All Pricing Overrides"" dialog opens and a Cancel control is visible.
+2. The Upload button is displayed disabled.
+3. The ""No file selected"" hint text is displayed.
+4. The Upload button becomes enabled.
+5. The dialog closes without uploading any file.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Malformed CSV is rejected with a readable error and changes zero rows,,,,,Automated,Omeesha Mahanta,,,"A malformed CSV is rejected with a readable required-field error and the dialog stays open. After a reload the Override Price and row count are unchanged - the rejection prevented any mutation (the reload is the oracle, not the upload's own signal)",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; the target row (product group 4298) present with its baseline Override Price
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Capture the target row's Override Price and the visible row count before the import</li>
+<li>2. Open the Import dialog</li>
+<li>3. Read the rejection alert</li>
+<li>4. Reload + re-select office 4107 and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price and the grid row count are displayed.
+2. The Import dialog opens.
+3. A required-field rejection alert is displayed.
+4. A malformed CSV is rejected with a readable required-field error and the dialog stays open. After a reload the Override Price and row count are unchanged - the rejection prevented any mutation (the reload is the oracle, not the upload's own signal)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Empty CSV is rejected with a file-format error and changes zero rows,,,,,Automated,Omeesha Mahanta,,,An empty file is rejected with a readable file-format error (a distinct message from the malformed-row error) and the dialog stays open. After a reload the Override Price and row count are unchanged,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; the target row (product group 4298) present with its baseline Override Price
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Capture the target row's Override Price and the visible row count before the import</li>
+<li>2. Open the Import dialog</li>
+<li>3. Read the rejection alert</li>
+<li>4. Reload + re-select office 4107 and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price and the grid row count are displayed.
+2. The Import dialog opens.
+3. A file-format rejection alert is displayed.
+4. An empty file is rejected with a readable file-format error (a distinct message from the malformed-row error) and the dialog stays open. After a reload the Override Price and row count are unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Valid import round-trip updates the Override Price then restores it (office 4107 / product group 4298),,,,,Automated,Omeesha Mahanta,,,"A minimal valid import updates the target Override Price and restores it. The import commits directly (no preview) and upserts only the rows present in the file, so a location absent from the file is left untouched. A minimal file returns a clean HTTP 200 - unlike the full tenant dump, which stalls the client at ""Uploading... 50%"" with no response - giving the round-trip a deterministic completion signal",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present. The Export toolbar action produces the tenant-wide CSV (used here only to read the exact target row)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Export the CSV and extract the single target row (office 4107 / product group 4298) verbatim, together with the header line</li>
+<li>2. Read the target row's live baseline Override Price</li>
+<li>3. compute a modified value = baseline + 0.01</li>
+<li>4. Build a minimal 2-line file (header + the one target row) with only the Override Price rewritten</li>
+<li>5. upload it and wait for the import request to return</li>
+<li>6. Assert the import request is accepted (HTTP 200), then reload and assert the target's Override Price equals the modified value</li>
+<li>7. Canary: re-select office 1105 and assert its full row set is intact (a minimal import upserts only the rows in the file, so a location absent from the file must keep every row)</li>
+<li>8. Build and upload the baseline file the same way to restore</li>
+<li>9. reload and assert the Override Price is back to the original</li>
+</ol>",,,"1. The CSV file downloads and the target row is displayed with the header line.
+2. The target row's baseline Override Price is displayed.
+3. The modified value is calculated as the baseline plus 0.01.
+4. The minimal 2-line file is prepared with the rewritten Override Price.
+5. The import request is submitted and a response is returned.
+6. The import request returns HTTP 200 and the target row displays the modified Override Price after reload.
+7. Office 1105 displays its full, unchanged row set.
+8. The baseline file is uploaded and accepted.
+9. A minimal valid import updates the target Override Price and restores it. The import commits directly (no preview) and upserts only the rows present in the file, so a location absent from the file is left untouched. A minimal file returns a clean HTTP 200 - unlike the full tenant dump, which stalls the client at ""Uploading... 50%"" with no response - giving the round-trip a deterministic completion signal",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import rejects a row with an invalid currency and applies nothing,,,,,Automated,Omeesha Mahanta,,,"The invalid-currency row is refused (0 applied, 1 failed) and the grid is unchanged. Confirms a 200 response alone is not proof of application - the per-row result body is the oracle",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present. The import is a per-row partial-success upload that returns a result body with success/failure counts - a 200 response does not by itself mean a row applied
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's Override Price before the import</li>
+<li>2. Open the Import dialog</li>
+<li>3. Read the import result: the request returns HTTP 200 but reports 0 rows applied, 1 failed, with an error naming the Currency field</li>
+<li>4. Reload + re-select office 4107 and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price is displayed.
+2. The Import dialog opens.
+3. The import result displays HTTP 200 with 0 rows applied, 1 failed, and an error naming the Currency field.
+4. The invalid-currency row is refused (0 applied, 1 failed) and the grid is unchanged. Confirms a 200 response alone is not proof of application - the per-row result body is the oracle",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import rejects a negative Override Price and applies nothing,,,,,Automated,Omeesha Mahanta,,,The negative-price row is refused and the grid is unchanged,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's Override Price before the import</li>
+<li>2. Attach a file whose row sets a negative Override Price</li>
+<li>3. Read the result: HTTP 200, 0 applied, 1 failed, error naming the Override Price field</li>
+<li>4. Reload and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price is displayed.
+2. The file is attached and the Upload button becomes enabled.
+3. The import result displays HTTP 200 with 0 rows applied, 1 failed, and an error naming the Override Price field.
+4. The negative-price row is refused and the grid is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import rejects an Override Discount above 100 — the 100 cap is enforced on import too,,,,,Automated,Omeesha Mahanta,,,The over-100 discount row is refused - import enforces the same 100 cap as the grid (no import backdoor around the cap). The grid is unchanged,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present. The grid caps Max Discount at 100 on manual edit
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's Override Price before the import</li>
+<li>2. Attach a file whose row sets an Override Discount greater than 100</li>
+<li>3. Read the result: HTTP 200, 0 applied, 1 failed, error naming the Override Discount field</li>
+<li>4. Reload and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price is displayed.
+2. The file is attached and the Upload button becomes enabled.
+3. The import result displays HTTP 200 with 0 rows applied, 1 failed, and an error naming the Override Discount field.
+4. The over-100 discount row is refused - import enforces the same 100 cap as the grid (no import backdoor around the cap). The grid is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import rejects a non-numeric Override Price with a decimal-format error,,,,,Automated,Omeesha Mahanta,,,"After reloading, the grid still shows the original values; the invalid price was not persisted.",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's Override Price before the import</li>
+<li>2. Attach a file whose row sets a non-numeric Override Price</li>
+<li>3. Read the rejection alert</li>
+<li>4. Reload and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price is displayed.
+2. The file is attached and the Upload button becomes enabled.
+3. A decimal-format rejection alert is displayed naming the Override Price field.
+4. After reloading, the grid still shows the original values; the invalid price was not persisted.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import rejects a nonexistent Product Group Id and applies nothing,,,,,Automated,Omeesha Mahanta,,,The row referencing a nonexistent product group is refused (referential integrity) and the grid is unchanged,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's Override Price before the import</li>
+<li>2. Attach a file whose row references a product group id that does not exist</li>
+<li>3. Read the result: HTTP 200, 0 applied, 1 failed, error stating the product group id does not exist</li>
+<li>4. Reload and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price is displayed.
+2. The file is attached and the Upload button becomes enabled.
+3. The import result displays HTTP 200 with 0 rows applied, 1 failed, and an error stating the product group id does not exist.
+4. The row referencing a nonexistent product group is refused (referential integrity) and the grid is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import rejects a nonexistent Location and applies nothing,,,,,Automated,Omeesha Mahanta,,,The row referencing a nonexistent location is refused and the grid is unchanged,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's Override Price before the import</li>
+<li>2. Attach a file whose row references a location number that does not exist</li>
+<li>3. Read the result: HTTP 200, 0 applied, 1 failed, error stating the location does not exist</li>
+<li>4. Reload and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price is displayed.
+2. The file is attached and the Upload button becomes enabled.
+3. The import result displays HTTP 200 with 0 rows applied, 1 failed, and an error stating the location does not exist.
+4. The row referencing a nonexistent location is refused and the grid is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import rejects a row with too few columns naming the required fields,,,,,Automated,Omeesha Mahanta,,,A row with missing columns is rejected with a message naming the required Location / Product Group / Override Price fields; the grid is unchanged,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's Override Price before the import</li>
+<li>2. Attach a file whose data row has fewer columns than the header</li>
+<li>3. Read the rejection alert</li>
+<li>4. Reload and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price is displayed.
+2. The file is attached and the Upload button becomes enabled.
+3. A rejection alert is displayed naming the required fields.
+4. A row with missing columns is rejected with a message naming the required Location / Product Group / Override Price fields; the grid is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import ignores extra trailing columns and applies the valid row,,,,,Automated,Omeesha Mahanta,,,Extra trailing columns are ignored (not an error); the leading fields are taken and the row is applied. The grid holds the certified baseline value (no drift),,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present. The fixture keeps the certified baseline Override Price so acceptance is proven without changing the value
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Attach a file whose row carries two extra trailing columns beyond the header</li>
+<li>2. Read the result: HTTP 200, 1 applied, 0 failed</li>
+<li>3. Reload and re-read the grid</li>
+</ol>",,,"1. The file is attached and the Upload button becomes enabled.
+2. The import result displays HTTP 200 with 1 row applied and 0 failed.
+3. Extra trailing columns are ignored (not an error); the leading fields are taken and the row is applied. The grid holds the certified baseline value (no drift)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import rejects a header-only file with a file-format error,,,,,Automated,Omeesha Mahanta,,,"A header-only file is rejected with a ""Please check the upload file format."" message; the grid is unchanged",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's Override Price before the import</li>
+<li>2. Attach a file that has only the header and no data rows</li>
+<li>3. Read the rejection alert</li>
+<li>4. Reload and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price is displayed.
+2. The file is attached and the Upload button becomes enabled.
+3. A ""Please check the upload file format."" rejection alert is displayed.
+4. A header-only file is rejected with a ""Please check the upload file format."" message; the grid is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import blocks a non-CSV file — Upload stays disabled with an unsupported-type message,,,,,Automated,Omeesha Mahanta,,,"A non-CSV file leaves the Upload button disabled and the dialog shows ""Unsupported file type. Allowed:.csv"" - the upload never fires. The file-type gate is client-side",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Open the Import dialog</li>
+<li>2. Read the Upload button state and the dialog message</li>
+</ol>",,,"1. The Import dialog opens.
+2. A non-CSV file leaves the Upload button disabled and the dialog shows ""Unsupported file type. Allowed:.csv"" - the upload never fires. The file-type gate is client-side",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import dialog shows the attached file and dismisses without uploading,,,,,Automated,Omeesha Mahanta,,,"The dialog offers two redundant dismiss controls (Cancel and Close). Attaching a file clears the ""No file selected"" hint, and dismissing closes the dialog with nothing uploaded",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Open the Import dialog</li>
+<li>2. Attach a file</li>
+<li>3. Dismiss the dialog</li>
+</ol>",,,"1. The Import dialog opens.
+2. The attached file name is displayed, replacing the ""No file selected"" hint.
+3. The dialog offers two redundant dismiss controls (Cancel and Close). Attaching a file clears the ""No file selected"" hint, and dismissing closes the dialog with nothing uploaded",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A file mixing one valid row and one invalid row is a partial success — the valid row applies, the invalid one fails",,,,,Automated,Omeesha Mahanta,,,The upload is a partial success - the valid row applies (1 applied) while the invalid row fails independently (1 failed) with an error naming the nonexistent product group. Rows are NOT all-or-nothing. The target keeps its baseline value,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present. The import processes rows independently (a per-row partial-success upload), not all-or-nothing
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's baseline Override Price</li>
+<li>2. Build a two-row file: row 1 re-imports the target at its current baseline value (a valid row that changes nothing), row 2 references a nonexistent product group</li>
+<li>3. Upload the file and read the import result</li>
+<li>4. Reload + re-read the grid</li>
+</ol>",,,"1. The target row's baseline Override Price is displayed.
+2. The two-row file is prepared and attached.
+3. The import result displays 1 row applied and 1 row failed.
+4. The upload is a partial success - the valid row applies (1 applied) while the invalid row fails independently (1 failed) with an error naming the nonexistent product group. Rows are NOT all-or-nothing. The target keeps its baseline value",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A file with duplicate rows for the same override is accepted (both rows succeed, no duplicate error)",,,,,Automated,Omeesha Mahanta,,,"Both duplicate rows are accepted (2 applied, 0 failed) - the import does not reject duplicate keys; it is idempotent. The target keeps its baseline value",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's baseline Override Price</li>
+<li>2. Build a file with the same target row twice, both at the current baseline value (so the import changes nothing)</li>
+<li>3. Upload the file and read the import result</li>
+<li>4. Reload + re-read the grid</li>
+</ol>",,,"1. The target row's baseline Override Price is displayed.
+2. The duplicate-row file is prepared and attached.
+3. The import result displays 2 rows applied and 0 failed.
+4. Both duplicate rows are accepted (2 applied, 0 failed) - the import does not reject duplicate keys; it is idempotent. The target keeps its baseline value",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A large batch (6000 rows) is processed per-row without a stall or size limit,,,,,Automated,Omeesha Mahanta,,,"The large batch returns a normal per-row result (0 applied, 6000 failed) without a stall or a ""file too large"" error - there is no separate oversized-file gate, and a large all-invalid file does not exhibit the full-valid-dump stuck-upload behavior. The target is unchanged",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import,1,,Corporate_Pricing_Pg_Override > Import,"<ol>
+<li>1. Read the target row's baseline Override Price</li>
+<li>2. Build a 6000-row file, every row referencing a nonexistent product group (reject-safe - no row can change data)</li>
+<li>3. Upload the file and read the import result</li>
+<li>4. Reload + re-read the grid</li>
+</ol>",,,"1. The target row's baseline Override Price is displayed.
+2. The 6000-row file is prepared and attached.
+3. The import result displays 0 rows applied and 6000 rows failed.
+4. The large batch returns a normal per-row result (0 applied, 6000 failed) without a stall or a ""file too large"" error - there is no separate oversized-file gate, and a large all-invalid file does not exhibit the full-valid-dump stuck-upload behavior. The target is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,

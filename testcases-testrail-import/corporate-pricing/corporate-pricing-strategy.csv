@@ -1,0 +1,697 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Pricebook Details management page loads with the pricebook header,,,,,Automated,Omeesha Mahanta,,,The Pricebook Details management page loads and its header reflects the selected pricebook,,,corporate-pricing,,"On the Corporate Pricing Search page for office 1604, with the ""2022-NP Tier 1"" pricebook available to open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2022-NP Tier 1""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Navigate to the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604).</li>
+<li>2. Verify page title / heading.</li>
+<li>3. Verify the header reflects the chosen pricebook</li>
+</ol>",,,"1. The Pricebook Details management page opens for the ""2022-NP Tier 1"" pricebook.
+2. The page title/heading identifies it as the Pricebook Details page.
+3. The Pricebook Details management page loads and its header reflects the selected pricebook",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Header shows the Price Book Name,,,,,Automated,Omeesha Mahanta,,,"Header name equals the pricebook name ""2022-NP Tier 1""",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2022-NP Tier 1""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page for the ""2022-NP Tier 1"" pricebook.</li>
+<li>2. Read the header name</li>
+</ol>",,,"1. The Pricebook Details page for ""2022-NP Tier 1"" loads and displays its header.
+2. Header name equals the pricebook name ""2022-NP Tier 1""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Header shows the Price Book Type (Labor/Equipment),,,,,Automated,Omeesha Mahanta,,,"Header Type value is ""Equipment"" (one of Labor/Equipment)",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Labor/Equipment""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Read the ""Labor/Equipment"" header value</li>
+</ol>",,,"1. The Pricebook Details page loads and displays its header.
+2. Header Type value is ""Equipment"" (one of Labor/Equipment)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Header shows the Price Year,,,,,Automated,Omeesha Mahanta,,,"Header Year value is ""2022""",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Year""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Read the ""Year"" header value</li>
+</ol>",,,"1. The Pricebook Details page loads and displays its header.
+2. Header Year value is ""2022""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Header shows the Currency,,,,,Automated,Omeesha Mahanta,,,"Header Currency value is ""USD""",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Currency""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Read the ""Currency"" header value</li>
+</ol>",,,"1. The Pricebook Details page loads and displays its header.
+2. Header Currency value is ""USD""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Header shows the Active status,,,,,Automated,Omeesha Mahanta,,,"Header shows a clear active/inactive indicator (""Active"" for this pricebook)",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Read the Active-status indicator in the header</li>
+</ol>",,,"1. The Pricebook Details page loads and displays its header.
+2. Header shows a clear active/inactive indicator (""Active"" for this pricebook)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Header fields are reference-only (not editable),,,,,Automated,Omeesha Mahanta,,,No header field exposes an editable field - the header is presented as reference information only,,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Inspect the 5 header fields (Name, Type, Year, Currency, Active)</li>
+</ol>",,,"1. The Pricebook Details page loads and displays its header.
+2. No header field exposes an editable field - the header is presented as reference information only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tabs render — Pricing Strategy + Pricing Detail,,,,,Automated,Omeesha Mahanta,,,"Exactly two tabs render: ""Pricing Strategy"" and ""Pricing Detail""",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Read the tab buttons.</li>
+<li>3. Read the tab buttons</li>
+</ol>",,,"1. The Pricebook Details page loads and displays its header and tab row.
+2. The tab row is visible with labeled tab buttons.
+3. Exactly two tabs render: ""Pricing Strategy"" and ""Pricing Detail""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricing Strategy tab is selected by default on load,,,,,Automated,Omeesha Mahanta,,,The Pricing Strategy tab is active by default (its content area is shown),,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), opened in a fresh session
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page in a fresh session.</li>
+<li>2. Observe which tab content renders</li>
+</ol>",,,"1. The Pricebook Details page loads successfully in the fresh session.
+2. The Pricing Strategy tab is active by default (its content area is shown)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricing Detail tab is present and activates,,,,,Automated,Omeesha Mahanta,,,"Clicking ""Pricing Detail"" activates the Detail tab; its deeper behavior is covered by the Pricing Detail test suite",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pricing Detail""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Click the ""Pricing Detail"" tab</li>
+</ol>",,,"1. The Pricebook Details page loads with the Pricing Strategy tab active by default.
+2. Clicking ""Pricing Detail"" activates the Detail tab; its deeper behavior is covered by the Pricing Detail test suite",,,,Master,S1620,Test Case (Steps),Regression,,,
+,History tab is absent on the live site,,,,,Automated,Omeesha Mahanta,,,No History tab exists in the current version,,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""History""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Search the tab row for a ""History"" tab</li>
+</ol>",,,"1. The Pricebook Details page loads and displays its tab row.
+2. No History tab exists in the current version",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking an existing strategy loads its details,,,,,Automated,Omeesha Mahanta,,,Selecting a strategy loads its details into the editor (name field + flag checkboxes reflect the strategy),,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and the ""2022-NP Tier 1"" strategy present in the Price Strategies list
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2022-NP Tier 1""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Click the strategy ""2022-NP Tier 1"" in the Price Strategies list.</li>
+<li>3. Verify the editor shows the strategy name + flag checkboxes (Is Productions, Is Internal, Is GSO, Is Active)</li>
+</ol>",,,"1. The Pricebook Details page loads with the Price Strategies list displayed.
+2. Clicking ""2022-NP Tier 1"" selects it and highlights it in the Price Strategies list.
+3. Selecting a strategy loads its details into the editor (name field + flag checkboxes reflect the strategy)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Setting a location's Primary Pricing surfaces that office in the strategy grid,,,,,Automated,Omeesha Mahanta,,,Office 1604's Primary Equipment Pricing is restored to its original value and saved.,,,corporate-pricing,,"Office 1604's Location -> Pricing tab is reachable, and the ""2026-Tier 2 Resort B"" Equipment strategy (pricebook ""2026-PB5"") is selectable as a Primary Equipment Pricing option for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2026-Tier 2 Resort B""
+Sample input 2: ""Locations Using Pricing As Default""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. On office 1604's Pricing tab, set Primary Equipment Pricing to ""2026-Tier 2 Resort B"" and Save (skip the save when it is already selected).</li>
+<li>2. Open the ""2026-Tier 2 Resort B"" pricebook's Pricing Strategy tab and read the ""Locations Using Pricing As Default"" table.</li>
+<li>3. Restore office 1604's Primary Equipment Pricing to its original value</li>
+</ol>",,,"1. Office 1604's Primary Equipment Pricing field shows ""2026-Tier 2 Resort B"" as the selected value.
+2. The ""2026-Tier 2 Resort B"" pricebook's Pricing Strategy tab opens and displays the ""Locations Using Pricing As Default"" table.
+3. Office 1604's Primary Equipment Pricing is restored to its original value and saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Edit an existing strategy and Save persists the change,,,,,Automated,Omeesha Mahanta,,,The page reloads and the updated strategy name persists.,,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and the ""2022-NP Tier 1"" strategy at its default saved state
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2022-NP Tier 1""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Confirm the starting state (strategy = ""2022-NP Tier 1"").</li>
+<li>2. Edit the strategy name field (append a reversible marker).</li>
+<li>3. Click Save.</li>
+<li>4. Reload the page</li>
+</ol>",,,"1. The strategy name ""2022-NP Tier 1"" is shown in the list.
+2. The strategy name field accepts the edited value.
+3. The changes are saved and the updated strategy name appears in the list.
+4. The page reloads and the updated strategy name persists.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add New opens the New Pricing Strategy dialog and appends a row,,,,,Automated,Omeesha Mahanta,,,The strategy is removed from the list; no changes are committed.,,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and one existing strategy in the list
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""+""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Click the Add (""+"") button in the Price Strategies pane.</li>
+<li>3. Enter a Strategy Name and click ""Add"".</li>
+<li>4. Discard the new strategy (Remove) without Save</li>
+</ol>",,,"1. The Pricebook Details page loads with the Price Strategies pane displayed.
+2. Clicking ""+"" opens the New Pricing Strategy dialog.
+3. The typed Strategy Name is accepted and clicking ""Add"" closes the dialog.
+4. The strategy is removed from the list; no changes are committed.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Newly added strategy shows a Remove button,,,,,Automated,Omeesha Mahanta,,,A newly-added strategy row carries a Remove affordance,,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active, ready to add a new strategy via the dialog
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Add a new strategy via the dialog.</li>
+<li>2. Inspect the new strategy's list item.</li>
+<li>3. Discard (Remove) without Save</li>
+</ol>",,,"1. The new strategy appears as a row in the Price Strategies list.
+2. The new strategy's list item includes a visible Remove button.
+3. A newly-added strategy row carries a Remove affordance",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Legacy strategies do not show a Remove button,,,,,Automated,Omeesha Mahanta,,,A saved (legacy) strategy has no Remove control,,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and the existing (saved) ""2022-NP Tier 1"" strategy in the list
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page.</li>
+<li>2. Inspect the legacy strategy's list item</li>
+</ol>",,,"1. The Pricebook Details page loads with the legacy strategy listed.
+2. A saved (legacy) strategy has no Remove control",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Remove on a new strategy deletes it before commit,,,,,Automated,Omeesha Mahanta,,,"Removing a new (uncommitted) strategy deletes it from the list instantly, returning the form to clean",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and a newly added (unsaved) strategy in the list
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Add a new strategy via the dialog.</li>
+<li>2. Click the new strategy's Remove button.</li>
+<li>3. Verify state</li>
+</ol>",,,"1. The new strategy appears as a row in the Price Strategies list.
+2. Clicking Remove deletes the new strategy row from the list immediately.
+3. Removing a new (uncommitted) strategy deletes it from the list instantly, returning the form to clean",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Legacy strategies cannot be removed from the management view,,,,,Automated,Omeesha Mahanta,,,"There is no path to remove a legacy strategy from this management view (the Remove control is available only for newly-added strategies, never for saved ones)",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and an existing (saved) strategy visible in the list
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page with a legacy strategy visible.</li>
+<li>2. Look for any remove/delete control on the legacy strategy</li>
+</ol>",,,"1. The Pricebook Details page loads with the legacy strategy visible in the list.
+2. There is no path to remove a legacy strategy from this management view (the Remove control is available only for newly-added strategies, never for saved ones)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unmodified strategy list shows the clean state (Save disabled),,,,,Automated,Omeesha Mahanta,,,With no pending changes the page is clean - there is no separate state badge; the Save button's disabled state is the clean indicator,,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and no changes made
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page and make no changes.</li>
+<li>2. Observe the Save button</li>
+</ol>",,,"1. The Pricebook Details page loads with no pending changes.
+2. With no pending changes the page is clean - there is no separate state badge; the Save button's disabled state is the clean indicator",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing a strategy changes the state to dirty (Save enabled),,,,,Automated,Omeesha Mahanta,,,Editing any editable strategy field transitions the page to dirty (Save enables),,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active, a strategy selected, and no changes made (Save disabled)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page (clean).</li>
+<li>2. Edit the selected strategy's name field.</li>
+<li>3. Discard (reload / restore) without Save</li>
+</ol>",,,"1. The Pricebook Details page loads with the Save button disabled (clean state).
+2. The strategy name field accepts the typed edit and displays the new text.
+3. Editing any editable strategy field transitions the page to dirty (Save enables)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Adding a new strategy changes the state to dirty (Save enabled),,,,,Automated,Omeesha Mahanta,,,Adding a new strategy transitions the page to dirty (Save enables),,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and no changes made (Save disabled)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the Pricebook Details page (clean).</li>
+<li>2. Add a new strategy via the dialog.</li>
+<li>3. Discard (Remove) without Save</li>
+</ol>",,,"1. The Pricebook Details page loads with the Save button disabled (clean state).
+2. The new strategy is added and appears in the Price Strategies list.
+3. Adding a new strategy transitions the page to dirty (Save enables)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save commits pending strategy edits in one batch,,,,,Automated,Omeesha Mahanta,,,A single Save commits all pending edits + additions; both are reflected on reload; the page is restored to its starting state afterward,,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and the page at its default saved state
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Confirm the starting state.</li>
+<li>2. Edit the existing strategy (reversible marker) AND add a new strategy via the dialog.</li>
+<li>3. Click Save.</li>
+<li>4. Reload.</li>
+<li>5. Restore the starting state (remove the added strategy / revert the edit)</li>
+</ol>",,,"1. The strategy list shows the baseline strategies with the Save button disabled.
+2. The existing strategy shows the edited name and the new strategy appears in the list; Save becomes enabled.
+3. Clicking Save submits both the edit and the addition and the page displays a success indicator.
+4. The page reloads and displays the saved edit and the newly added strategy.
+5. A single Save commits all pending edits + additions; both are reflected on reload; the page is restored to its starting state afterward",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save provides confirmation feedback,,,,,Automated,Omeesha Mahanta,,,"After Save, a visible success indicator confirms the update",,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and the page at its default saved state
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Confirm the starting state.</li>
+<li>2. Make a reversible change and click Save.</li>
+<li>3. Observe the notifications area.</li>
+<li>4. Restore the starting state</li>
+</ol>",,,"1. The strategy list shows the baseline strategy with the Save button disabled.
+2. The change is accepted and clicking Save submits it to the server.
+3. The notifications area displays a success message confirming the save.
+4. After Save, a visible success indicator confirms the update",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save resets the state from dirty to clean after success,,,,,Automated,Omeesha Mahanta,,,After a successful Save the state indicator returns to clean (Save disabled),,,corporate-pricing,,"On the Pricebook Details page for the ""2022-NP Tier 1"" pricebook (office 1604), with the Pricing Strategy tab active and the page at its default saved state
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Confirm the starting state.</li>
+<li>2. Make a reversible change.</li>
+<li>3. Click Save and wait for success.</li>
+<li>4. Restore the starting state</li>
+</ol>",,,"1. The strategy list shows the baseline strategy with the Save button disabled.
+2. The change is accepted and the Save button becomes enabled.
+3. Clicking Save submits the change and a success indicator is displayed.
+4. After a successful Save the state indicator returns to clean (Save disabled)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add multiple strategies in one session (N=2),,,,,Automated,Omeesha Mahanta,,,Two new strategies append to the in-session list (Total goes from 1 to 2 to 3); both names render; Save is enabled. Reloading discards them (never committed),,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, Total: 1
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the New Pricing Strategy dialog, enter a unique name (strategy A), click Add.</li>
+<li>2. Open the dialog again, enter a second unique name (strategy B), click Add.</li>
+<li>3. Verify the Save button.</li>
+<li>4. Reload the page (discard)</li>
+</ol>",,,"1. Strategy A is added and the list Total increases from 1 to 2.
+2. Strategy B is added and the list Total increases from 2 to 3.
+3. The Save button is enabled.
+4. Two new strategies append to the in-session list (Total goes from 1 to 2 to 3); both names render; Save is enabled. Reloading discards them (never committed)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Add multiple strategies in one session (N=3, edge)",,,,,Automated,Omeesha Mahanta,,,Three new strategies append (Total becomes 4); Save stays enabled across multiple adds. In-session only,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, Total: 1
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Add three unique new strategies (A, B, C) via the dialog.</li>
+<li>2. Verify the Save button.</li>
+<li>3. Reload (discard)</li>
+</ol>",,,"1. All three strategies (A, B, C) are added and the list Total increases from 1 to 4.
+2. The Save button remains enabled.
+3. Three new strategies append (Total becomes 4); Save stays enabled across multiple adds. In-session only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Edit each row name independently in a multi-row session,,,,,Automated,Omeesha Mahanta,,,Each row's name edits independently within a multi-row session; the list reflects both renames. In-session only (no persist),,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Add two new strategies (A, B) via the dialog.</li>
+<li>2. Select A, edit its name in the editor to A2.</li>
+<li>3. Select B, edit its name in the editor to B2.</li>
+<li>4. Reload (discard)</li>
+</ol>",,,"1. Strategies A and B are added and both appear in the list.
+2. Strategy A's name field updates to A2 and the list reflects the renamed row.
+3. Strategy B's name field updates to B2 and the list reflects the renamed row.
+4. Each row's name edits independently within a multi-row session; the list reflects both renames. In-session only (no persist)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Remove each new strategy in sequence,,,,,Automated,Omeesha Mahanta,,,New (uncommitted) strategies remove one at a time (Total decrements each); after all new rows are removed the form is clean (Save disabled),,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, Total: 1
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Add three new strategies (A, B, C) via the dialog.</li>
+<li>2. Remove A via its Remove icon.</li>
+<li>3. Remove B.</li>
+<li>4. Remove C</li>
+</ol>",,,"1. Strategies A, B, and C are added and the list Total increases from 1 to 4.
+2. Strategy A is removed and the list Total decreases from 4 to 3.
+3. Strategy B is removed and the list Total decreases from 3 to 2.
+4. New (uncommitted) strategies remove one at a time (Total decrements each); after all new rows are removed the form is clean (Save disabled)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Removing the last strategy on a new pricebook leaves 0 strategies (delete-all),,,,,Automated,Omeesha Mahanta,,,Removing the only strategy on a new pricebook leaves zero strategies and disables Save (the ≥1-strategy gate). No commit,,,corporate-pricing,,"New Pricebook create page (add?type=equipment, office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Set Pricebook Name + Year, then add one strategy via the dialog.</li>
+<li>2. Remove that strategy (its Remove icon)</li>
+</ol>",,,"1. The Pricebook Name and Year are accepted and the new strategy appears in the list with Save enabled.
+2. Removing the only strategy on a new pricebook leaves zero strategies and disables Save (the ≥1-strategy gate). No commit",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Re-adding a strategy after delete-all re-enables Save,,,,,Automated,Omeesha Mahanta,,,Re-adding a strategy after delete-all re-enables Save. No commit,,,corporate-pricing,,"New Pricebook create page with Name + Year set and 0 strategies (Save disabled)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Add a strategy via the dialog</li>
+</ol>",,,1. Re-adding a strategy after delete-all re-enables Save. No commit,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting the strategy name disables Save,,,,,Automated,Omeesha Mahanta,,,Reverting the name to the saved value disables Save again - reverting to the original is detected as no net change,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, clean baseline
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2022-NP Tier 1""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Select the strategy and edit its name (append a marker).</li>
+<li>2. Clear the name back to the original ""2022-NP Tier 1""</li>
+</ol>",,,"1. The strategy is selected and the name field updates with the appended marker; Save becomes enabled.
+2. Reverting the name to the saved value disables Save again - reverting to the original is detected as no net change",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting a flag toggle disables Save,,,,,Automated,Omeesha Mahanta,,,Toggling a flag then reverting it disables Save (reverting to the original is no net change),,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, clean baseline
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Toggle Is Active off.</li>
+<li>2. Toggle Is Active back on</li>
+</ol>",,,"1. Is Active becomes unchecked and Save becomes enabled.
+2. Toggling a flag then reverting it disables Save (reverting to the original is no net change)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Partial revert keeps Save enabled until all changes revert,,,,,Automated,Omeesha Mahanta,,,"With two dirty fields, reverting one leaves Save enabled; reverting both disables Save. (Is Active is used as the second changeable field - Is Internal/Is GSO are disabled while Is Productions is checked.)",,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, clean baseline
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Edit the name AND toggle Is Active.</li>
+<li>2. Revert only the name.</li>
+<li>3. Revert Is Active</li>
+</ol>",,,"1. The name field shows the edited value and Is Active toggles state; Save is enabled.
+2. The name field returns to its original value and Save remains enabled.
+3. With two dirty fields, reverting one leaves Save enabled; reverting both disables Save. (Is Active is used as the second changeable field - Is Internal/Is GSO are disabled while Is Productions is checked.)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog Is Active defaults checked,,,,,Automated,Omeesha Mahanta,,,Is Active defaults to checked in the New Pricing Strategy dialog,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the New Pricing Strategy dialog and read the Is Active checkbox</li>
+</ol>",,,1. Is Active defaults to checked in the New Pricing Strategy dialog,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog Is GSO defaults unchecked,,,,,Automated,Omeesha Mahanta,,,Is GSO defaults to unchecked in the dialog,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the New Pricing Strategy dialog and read the Is GSO checkbox</li>
+</ol>",,,1. Is GSO defaults to unchecked in the dialog,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog Is Internal defaults unchecked,,,,,Automated,Omeesha Mahanta,,,Is Internal defaults to unchecked in the dialog,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the New Pricing Strategy dialog and read the Is Internal checkbox</li>
+</ol>",,,1. Is Internal defaults to unchecked in the dialog,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog Is Productions defaults unchecked,,,,,Automated,Omeesha Mahanta,,,Is Productions defaults to unchecked in the dialog,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the New Pricing Strategy dialog and read the Is Productions checkbox</li>
+</ol>",,,1. Is Productions defaults to unchecked in the dialog,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog Is Active (off) carries to the new in-session strategy,,,,,Automated,Omeesha Mahanta,,,A flag set in the dialog carries to the new in-session strategy (Is Active unchecked on the added row). In-session only,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the dialog, uncheck Is Active, enter a unique name, click Add.</li>
+<li>2. Select the new strategy.</li>
+<li>3. Reload (discard)</li>
+</ol>",,,"1. Is Active becomes unchecked in the dialog and the new strategy is added to the list.
+2. The new strategy's editor opens and shows Is Active unchecked.
+3. A flag set in the dialog carries to the new in-session strategy (Is Active unchecked on the added row). In-session only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog Is GSO carries to the new strategy,,,,,Automated,Omeesha Mahanta,,,Checking Is GSO in the dialog carries to the added in-session strategy. In-session only,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the dialog, check Is GSO, enter a unique name, click Add.</li>
+<li>2. Select the new strategy.</li>
+<li>3. Reload (discard)</li>
+</ol>",,,"1. Is GSO becomes checked in the dialog and the new strategy is added to the list.
+2. The new strategy's editor opens and shows Is GSO checked.
+3. Checking Is GSO in the dialog carries to the added in-session strategy. In-session only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog Is Internal carries to the new strategy,,,,,Automated,Omeesha Mahanta,,,Checking Is Internal in the dialog carries to the added in-session strategy. In-session only,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the dialog, check Is Internal, enter a unique name, click Add.</li>
+<li>2. Select the new strategy.</li>
+<li>3. Reload (discard)</li>
+</ol>",,,"1. Is Internal becomes checked in the dialog and the new strategy is added to the list.
+2. The new strategy's editor opens and shows Is Internal checked.
+3. Checking Is Internal in the dialog carries to the added in-session strategy. In-session only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog Is Productions carries + disables Is Internal/Is GSO,,,,,Automated,Omeesha Mahanta,,,Checking Is Productions carries to the new strategy AND disables Is Internal/Is GSO in the dialog (mutual-exclusion). In-session only,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the dialog, check Is Productions.</li>
+<li>2. Enter a unique name, click Add.</li>
+<li>3. Select the new strategy.</li>
+<li>4. Reload (discard)</li>
+</ol>",,,"1. Is Productions becomes checked and Is Internal/Is GSO become disabled in the dialog.
+2. The typed name is accepted and the new strategy is added to the list.
+3. The new strategy's editor opens and shows Is Productions checked.
+4. Checking Is Productions carries to the new strategy AND disables Is Internal/Is GSO in the dialog (mutual-exclusion). In-session only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Is Productions disables Is Internal and Is GSO (editor + dialog),,,,,Automated,Omeesha Mahanta,,,"Whenever Is Productions is checked (editor or dialog), Is Internal and Is GSO are disabled - a mutually-exclusive flag group",,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab. The test strategy has Is Productions checked
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Select the strategy in the editor.</li>
+<li>2. Open the New Pricing Strategy dialog and check Is Productions</li>
+</ol>",,,"1. The strategy opens in the editor with Is Productions checked and Is Internal/Is GSO disabled.
+2. Whenever Is Productions is checked (editor or dialog), Is Internal and Is GSO are disabled - a mutually-exclusive flag group",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Type and Currency are read-only reference fields after create,,,,,Automated,Omeesha Mahanta,,,On an existing pricebook the Type (Labor/Equipment) and Currency render as non-editable reference fields (the labor/currency values become locked once the pricebook is created). The strategy form itself exposes no labor/currency control,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Inspect the Pricebook Details header Type (Labor/Equipment) and Currency</li>
+</ol>",,,1. On an existing pricebook the Type (Labor/Equipment) and Currency render as non-editable reference fields (the labor/currency values become locked once the pricebook is created). The strategy form itself exposes no labor/currency control,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Empty Strategy Name blocks Add,,,,,Automated,Omeesha Mahanta,,,"With an empty Strategy Name the Add button is disabled (disabled-gate, no inline error)",,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the New Pricing Strategy dialog, leave Strategy Name empty</li>
+</ol>",,,"1. With an empty Strategy Name the Add button is disabled (disabled-gate, no inline error)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Whitespace-only name blocks Add,,,,,Automated,Omeesha Mahanta,,,A whitespace-only name keeps Add disabled (input trimmed),,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: "" """,Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the dialog, enter spaces only ("" "")</li>
+</ol>",,,1. A whitespace-only name keeps Add disabled (input trimmed),,,,Master,S1620,Test Case (Steps),Regression,,,
+,Duplicate strategy name is blocked with an inline error,,,,,Automated,Omeesha Mahanta,,,"A duplicate strategy name is rejected with the inline error ""A pricing strategy with this name already exists."" No row is added",,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab; an existing strategy named ""2022-NP Tier 1""
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2022-NP Tier 1""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the New Pricing Strategy dialog, enter the existing name ""2022-NP Tier 1"", click Add.</li>
+<li>2. Cancel the dialog (discard)</li>
+</ol>",,,"1. An inline error reads ""A pricing strategy with this name already exists."" and no row is added.
+2. A duplicate strategy name is rejected with the inline error ""A pricing strategy with this name already exists."" No row is added",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancel discards a pending strategy,,,,,Automated,Omeesha Mahanta,,,Cancel discards the pending strategy; the list and Total are unchanged,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, Total: 1
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the dialog, enter a unique name, click Cancel</li>
+</ol>",,,1. Cancel discards the pending strategy; the list and Total are unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Close (X) discards a pending strategy,,,,,Automated,Omeesha Mahanta,,,Close (X) discards the pending strategy like Cancel,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, Total: 1
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the dialog, enter a unique name, click the Close (X) control</li>
+</ol>",,,1. Close (X) discards the pending strategy like Cancel,,,,Master,S1620,Test Case (Steps),Regression,,,
+,New pricebook with 0 strategies has Save disabled,,,,,Automated,Omeesha Mahanta,,,"With Name + Year set but 0 strategies, Save is disabled (the ≥1-strategy gate). No commit",,,corporate-pricing,,"New Pricebook create page (add?type=equipment, office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Set Pricebook Name + Year, add no strategies</li>
+</ol>",,,"1. With Name + Year set but 0 strategies, Save is disabled (the ≥1-strategy gate). No commit",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Adding one strategy enables Save on a new pricebook,,,,,Automated,Omeesha Mahanta,,,Adding the first strategy (with Name + Year set) enables Save. No commit,,,corporate-pricing,,"New Pricebook create page with Name + Year set, 0 strategies (Save disabled)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Add one strategy via the dialog</li>
+</ol>",,,1. Adding the first strategy (with Name + Year set) enables Save. No commit,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Removing the last strategy re-disables Save on a new pricebook,,,,,Automated,Omeesha Mahanta,,,Removing the only strategy re-disables Save. No commit,,,corporate-pricing,,"New Pricebook create page with Name + Year + 1 strategy (Save enabled)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Remove the strategy</li>
+</ol>",,,1. Removing the only strategy re-disables Save. No commit,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Strategy Name field caps input at 100 characters,,,,,Automated,Omeesha Mahanta,,,The Strategy Name field caps input at 100 characters; a 255-char entry is truncated to 100,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the dialog, enter a 255-character name.</li>
+<li>2. Cancel (discard)</li>
+</ol>",,,"1. The Strategy Name field accepts input up to 100 characters and truncates the rest.
+2. The Strategy Name field caps input at 100 characters; a 255-char entry is truncated to 100",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special characters in the Strategy Name are accepted and preserved,,,,,Automated,Omeesha Mahanta,,,Special characters are accepted and preserved exactly (no corruption or HTML interpretation); Add is enabled,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2026""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Open the dialog and enter this literal name: ZZ-Test &amp; &lt;Strategy> ""2026"".</li>
+<li>2. Cancel (discard)</li>
+</ol>",,,"1. The Strategy Name field accepts and displays the special characters exactly as typed.
+2. Special characters are accepted and preserved exactly (no corruption or HTML interpretation); Add is enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A special-character name round-trips exactly across save and reload,,,,,Automated,Omeesha Mahanta,,,The page reloads and the strategy name shows the special-character value unchanged.,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, clean baseline
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""QA""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Rename the existing strategy to a special-character value 2022-NP Tier 1 &amp; ""QA"".</li>
+<li>2. Save and reload</li>
+</ol>",,,"1. The name field accepts the special-character value without error.
+2. The page reloads and the strategy name shows the special-character value unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A strategy flag reads correctly from its rendered checkbox,,,,,Automated,Omeesha Mahanta,,,A strategy flag's boolean state reads correctly from its rendered checkbox format; the flag's checked state is readable from its checkbox,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Select the strategy and read the Is Active flag's checked state from its rendered checkbox</li>
+</ol>",,,1. A strategy flag's boolean state reads correctly from its rendered checkbox format; the flag's checked state is readable from its checkbox,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every editor flag reads per its render format; the list has no boolean columns,,,,,Automated,Omeesha Mahanta,,,All four editor flags have their checked state readable from their checkboxes; the strategy list itself renders no boolean columns (booleans appear only in the editor),,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Read each editor flag (Is Productions / Is Internal / Is GSO / Is Active) checked + disabled state via the render.</li>
+<li>2. Inspect the strategy list (left pane)</li>
+</ol>",,,"1. Each editor flag's checked and disabled state is readable directly from its checkbox.
+2. All four editor flags have their checked state readable from their checkboxes; the strategy list itself renders no boolean columns (booleans appear only in the editor)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,0-strategy and 1-strategy states render correctly,,,,,Automated,Omeesha Mahanta,,,The 1-strategy list renders; the 0-strategy state renders its empty presentation and disables Save,,,corporate-pricing,,"New Pricebook create page (0-strategy) + Pricebook Details for ""2022-NP Tier 1"" (1-strategy)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. On the existing pricebook, the strategy list renders one row (Total: 1)</li>
+<li>2. On a new pricebook with 0 strategies, the empty-strategy state renders and Save is disabled</li>
+</ol>",,,"1. The strategy list displays exactly one row and Total reads 1.
+2. The 1-strategy list renders; the 0-strategy state renders its empty presentation and disables Save",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Strategy list renders at 0 / 1 / N strategies,,,,,Automated,Omeesha Mahanta,,,The strategy list renders correctly at 0 / 1 / N strategies and Total reflects the count,,,corporate-pricing,,"New Pricebook create page + Pricebook Details for ""2022-NP Tier 1""
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. 0 strategies (new pricebook).</li>
+<li>2. 1 strategy (existing test pricebook).</li>
+<li>3. N strategies (multi-add in-session on the test pricebook).</li>
+<li>4. Reload (discard)</li>
+</ol>",,,"1. The strategy list displays its empty-state presentation and Total reads 0.
+2. The strategy list displays exactly one row and Total reads 1.
+3. The strategy list displays all added rows and Total reflects the increased count.
+4. The strategy list renders correctly at 0 / 1 / N strategies and Total reflects the count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A saved strategy edit survives reload,,,,,Automated,Omeesha Mahanta,,,The page reloads and the renamed strategy persists in the list.,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, clean baseline
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Rename the existing strategy reversibly, Save, reload</li>
+</ol>",,,1. The page reloads and the renamed strategy persists in the list.,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Dirty survives sub-tab switch; nav-away prompts ""Unsaved changes""",,,,,Automated,Omeesha Mahanta,,,"Unsaved changes survive Strategy↔Detail sub-tab switches (silent); navigating away with unsaved changes raises the ""Unsaved changes"" prompt (Stay / Discard) and blocks navigation until resolved",,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, clean baseline
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Edit the strategy name (dirty), switch to the Pricing Detail tab.</li>
+<li>2. Trigger a full navigation away (the Corporate Pricing breadcrumb) while dirty.</li>
+<li>3. Click Discard</li>
+</ol>",,,"1. The Pricing Detail tab becomes active and the unsaved name edit remains intact.
+2. An ""Unsaved changes"" prompt is displayed with Stay and Discard options, and navigation is blocked.
+3. Unsaved changes survive Strategy↔Detail sub-tab switches (silent); navigating away with unsaved changes raises the ""Unsaved changes"" prompt (Stay / Discard) and blocks navigation until resolved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The strategy search box filters the list,,,,,Automated,Omeesha Mahanta,,,"The strategy search box filters the list - a non-matching query yields no rows (Total reflects the filtered count, 0), a matching query shows the strategy",,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab, Total: 1
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""zzzz""
+Sample input 2: ""Search strategies...""
+Sample input 3: ""2022""",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Type a non-matching query (""zzzz"") in ""Search strategies..."".</li>
+<li>2. Type a matching query (""2022"").</li>
+<li>3. Clear the search</li>
+</ol>",,,"1. The strategy list shows no rows and Total reads 0.
+2. The strategy list shows the matching strategy and Total reads 1.
+3. The strategy search box filters the list - a non-matching query yields no rows (Total reflects the filtered count, 0), a matching query shows the strategy",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search narrows to matching names among multiple strategies,,,,,Automated,Omeesha Mahanta,,,With multiple strategies the search narrows to matching names and Total reflects the filtered count; clearing restores the full list. In-session only,,,corporate-pricing,,"Pricebook Details for ""2022-NP Tier 1"" (office 1604), Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Strategy,1,,Corporate_Pricing > Strategy,"<ol>
+<li>1. Add two in-session strategies with distinct names (A, B).</li>
+<li>2. Filter by A's name.</li>
+<li>3. Clear the filter.</li>
+<li>4. Reload (discard)</li>
+</ol>",,,"1. Strategies A and B are added and both appear in the list.
+2. The list narrows to show only strategy A and Total reflects the filtered count.
+3. The full strategy list is restored and Total reflects the unfiltered count.
+4. With multiple strategies the search narrows to matching names and Total reflects the filtered count; clearing restores the full list. In-session only",,,,Master,S1620,Test Case (Steps),Regression,,,

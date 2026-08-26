@@ -1,0 +1,760 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Override screen loads with Equipment selected by default,,,,,Automated,Omeesha Mahanta,,,The Override screen loads and the Equipment tab is selected by default,,,"corporate-pricing-pg-override,functional",,"Authenticated on office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to the Product Group Override screen</li>
+<li>2. Read the active tab</li>
+</ol>",,,"1. The Product Group Override screen loads and is displayed.
+2. The Override screen loads and the Equipment tab is selected by default",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Equipment + Labor tabs render and switching activates the selected tab,,,,,Automated,Omeesha Mahanta,,,Both tabs render; switching updates the active tab,,,"corporate-pricing-pg-override,functional",,"On the Override screen with a location selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Click the Labor tab</li>
+<li>2. Click the Equipment tab</li>
+</ol>",,,"1. The Labor tab becomes active and its content is displayed.
+2. Both tabs render; switching updates the active tab",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid is location-gated — empty before a location is selected,,,,,Automated,Omeesha Mahanta,,,"The ""Select a location"" card is visible on screen.",,,"corporate-pricing-pg-override,functional",,"Fresh Override screen load, no location chosen
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Select a location""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Open the Override screen without selecting a location</li>
+<li>2. Read the grid</li>
+<li>3. the ""Select a location"" card is visible</li>
+</ol>",,,"1. The Override screen displays ""No results."" in the grid area.
+2. Zero data rows are displayed in the grid.
+3. The ""Select a location"" card is visible on screen.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Selecting a location populates the grid with the anchor row,,,,,Automated,Omeesha Mahanta,,,"The ""House Video Monitor - Specialty"" row is present in the grid.",,,"corporate-pricing-pg-override,functional",,"On the Override screen
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Select a location""
+Sample input 2: ""House Video Monitor - Specialty""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Open the ""Select a location"" picker, search 1604, check the row, click Select</li>
+<li>2. Read the grid</li>
+<li>3. the anchor ""House Video Monitor - Specialty"" is present</li>
+</ol>",,,"1. The grid populates with rows for office 1604.
+2. Rows are displayed in the grid.
+3. The ""House Video Monitor - Specialty"" row is present in the grid.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid renders all 10 column headers in order,,,,,Automated,Omeesha Mahanta,,,"All columns render, including the Updated By column",,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Read the grid column headers</li>
+</ol>",,,"1. All columns render, including the Updated By column",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Current Price column renders a value,,,,,Automated,Omeesha Mahanta,,,"The Current Price column displays a value (e.g. ""0.00""), not an empty cell",,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Read the Current Price cell of the anchor row</li>
+</ol>",,,"1. The Current Price column displays a value (e.g. ""0.00""), not an empty cell",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Active column renders as a Radix checkbox with readable aria-checked,,,,,Automated,Omeesha Mahanta,,,The Active column renders as a checkbox whose checked / unchecked state is readable,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Read the Active cell of the anchor row</li>
+</ol>",,,1. The Active column renders as a checkbox whose checked / unchecked state is readable,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor tab shows the empty state for office 1606 with headers rendered,,,,,Automated,Omeesha Mahanta,,,The column headers are still displayed.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Switch to the Labor tab</li>
+<li>2. Read the grid</li>
+<li>3. the column headers still render</li>
+</ol>",,,"1. The Labor tab becomes the active tab.
+2. Zero rows are displayed in the Labor grid.
+3. The column headers are still displayed.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Currency filter offers ALL/USD/CAD/MXN,,,,,Automated,Omeesha Mahanta,,,"The Currency filter lists ALL, USD, CAD, MXN (default ALL)",,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Open the Currency filter</li>
+<li>2. Read the option list</li>
+</ol>",,,"1. The Currency filter dropdown opens and displays its list of options.
+2. The Currency filter lists ALL, USD, CAD, MXN (default ALL)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Active-only filter defaults OFF and toggles,,,,,Automated,Omeesha Mahanta,,,The Active-only checkbox is displayed unchecked.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Read the Active-only checkbox</li>
+<li>2. Toggle it on</li>
+<li>3. toggle it off</li>
+</ol>",,,"1. The Active-only checkbox is displayed unchecked.
+2. The Active-only checkbox is displayed checked.
+3. The Active-only checkbox is displayed unchecked.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rows-per-page offers 10/20/30/40/50,,,,,Automated,Omeesha Mahanta,,,The rows-per-page control offers 10/20/30/40/50 (default 20),,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Open the rows-per-page control</li>
+<li>2. Read the list</li>
+</ol>",,,"1. The rows-per-page control opens and displays its list of values.
+2. The rows-per-page control offers 10/20/30/40/50 (default 20)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Client filter by Product Group Name narrows the grid,,,,,Automated,Omeesha Mahanta,,,The anchor row is present in the grid.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""House Video""
+Sample input 2: ""Filter Product Groups Override...""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Type ""House Video"" into the ""Filter Product Groups Override..."" input</li>
+<li>2. Read the grid</li>
+<li>3. the anchor row is present</li>
+</ol>",,,"1. The grid narrows to rows matching ""House Video"".
+2. Rows are displayed, at or below the unfiltered count.
+3. The anchor row is present in the grid.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Client filter by Product Group ID narrows to the matching row,,,,,Automated,Omeesha Mahanta,,,At least one row is displayed.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2605""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Type the Product Group ID ""2605"" into the filter</li>
+<li>2. Read the grid</li>
+<li>3. rows > 0</li>
+</ol>",,,"1. The grid narrows to rows matching ""2605"".
+2. The anchor row for product group 2605 is present in the grid.
+3. At least one row is displayed.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Client filter is scoped to ID and Name only,,,,,Automated,Omeesha Mahanta,,,The filter is scoped to Product Group ID and Name; a Currency value yields no matches (it does not match the Currency column),,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""USD""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Type a Currency value ""USD"" (present in every row's Currency column, no Product Group ID/Name)</li>
+<li>2. Clear the filter</li>
+</ol>",,,"1. The value ""USD"" is entered into the filter input and the grid re-renders.
+2. The filter is scoped to Product Group ID and Name; a Currency value yields no matches (it does not match the Currency column)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,No-match filter empties the grid; clearing restores rows,,,,,Automated,Omeesha Mahanta,,,A no-match filter renders an empty grid; clearing restores the rows,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Type a non-matching term</li>
+<li>2. Clear the filter</li>
+</ol>",,,"1. The non-matching term is entered into the filter input and the grid updates.
+2. A no-match filter renders an empty grid; clearing restores the rows",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Filter tolerates whitespace and special characters without crashing,,,,,Automated,Omeesha Mahanta,,,The filter accepts whitespace / special characters without erroring; the app stays responsive,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Type whitespace-only and special characters into the filter</li>
+<li>2. Clear the filter</li>
+</ol>",,,"1. The whitespace and special characters are entered into the filter input without error.
+2. The filter accepts whitespace / special characters without erroring; the app stays responsive",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking the Override Price cell reveals an editable numeric input,,,,,Automated,Omeesha Mahanta,,,The Override Price cell is click-to-edit - clicking reveals an editable numeric input pre-filled with the current value,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Click the Override Price cell of the anchor row</li>
+<li>2. Read the editor value, then press Escape (no change)</li>
+</ol>",,,"1. The Override Price cell switches to edit mode and displays a numeric input.
+2. The Override Price cell is click-to-edit - clicking reveals an editable numeric input pre-filled with the current value",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing the Override Price enables Save (dirty),,,,,Automated,Omeesha Mahanta,,,Committing a new Override Price dirties the form (Save enables),,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Edit the Override Price to a new value and commit (Enter)</li>
+<li>2. Observe the Save button</li>
+</ol>",,,"1. The new value is committed and the Override Price editor closes.
+2. Committing a new Override Price dirties the form (Save enables)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting the Override Price to its original value disables Save,,,,,Automated,Omeesha Mahanta,,,"Reverting to the saved value leaves the form with no net change, so the Save button becomes disabled again",,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Edit the Override Price to a new value</li>
+<li>2. Edit it back to the original saved value</li>
+</ol>",,,"1. The new value commits and the Save button becomes enabled.
+2. Reverting to the saved value leaves the form with no net change, so the Save button becomes disabled again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Override Price accepts a decimal value,,,,,Automated,Omeesha Mahanta,,,The Save button becomes enabled.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Edit the Override Price to a decimal (e.g. 123.45) and commit</li>
+<li>2. Save enabled</li>
+</ol>",,,"1. The Override Price cell displays the decimal value.
+2. The Save button becomes enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Override Price accepts boundary values (0 and a large number),,,,,Automated,Omeesha Mahanta,,,The Override Price accepts boundary values 0 and a large number (the client does not block them; no commit),,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Edit the Override Price to 0</li>
+<li>2. Edit it to a large number (e.g. 999999)</li>
+</ol>",,,"1. The value 0 is accepted and committed to the Override Price cell.
+2. The Override Price accepts boundary values 0 and a large number (the client does not block them; no commit)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Override Price input rejects non-numeric text,,,,,Automated,Omeesha Mahanta,,,The Override Price field accepts numbers only - non-numeric text is rejected (cleared to empty); no letters are retained. The editor is closed with Escape (no commit),,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""abc""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Open the Override Price editor and attempt to enter alphabetic text (""abc"")</li>
+</ol>",,,1. The Override Price field accepts numbers only - non-numeric text is rejected (cleared to empty); no letters are retained. The editor is closed with Escape (no commit),,,,Master,S1620,Test Case (Steps),Regression,,,
+,Max Discount % — out-of-range (>100) handling [blocked: field enters a stuck state on out-of-range entry; intended behavior unknown until the defect is fixed and live],,,,,Automated,Omeesha Mahanta,,,"01 (BVA: first value above the inclusive-100 cap) is rejected - editor stays open, is invalid, red border, Save disabled. ""Bug-evidence: no error message"" - [ ] displayed text is empty (defect #4: the screen has the mechanism to announce errors and never does). The editor IS escapable (Tab moves focus out - NOT a focus trap, cross-vendor verified). This supersedes the previously-skipped TC-CPR-OVR-023 whose skip reason (""intended behaviour unknown"") is now dead - the contract is established",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert full rejection signature BEFORE escape: committed=false, is invalid, border-color oklch(0.577 0.245 27.325), errorText empty, Save disabled, escapable=true</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 100.01 is entered into the Max Discount % field and Enter is pressed.
+3. 01 (BVA: first value above the inclusive-100 cap) is rejected - editor stays open, is invalid, red border, Save disabled. ""Bug-evidence: no error message"" - [ ] displayed text is empty (defect #4: the screen has the mechanism to announce errors and never does). The editor IS escapable (Tab moves focus out - NOT a focus trap, cross-vendor verified). This supersedes the previously-skipped TC-CPR-OVR-023 whose skip reason (""intended behaviour unknown"") is now dead - the contract is established",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Toggling the Active checkbox dirties the form (Save enables),,,,,Automated,Omeesha Mahanta,,,The Save button is now enabled.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Read the anchor row's Active state, then click the Active checkbox</li>
+<li>2. Observe the Save button</li>
+</ol>",,,"1. The Active checkbox flips to the opposite state.
+2. The Save button is now enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Override Price save-cycle persists after reload and restores,,,,,Automated,Omeesha Mahanta,,,The new Override Price value is displayed after reload.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected; test row 2605 at its default (445.00)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. (baseline) Ensure 2605 Override Price = 445.00</li>
+<li>2. Edit Override Price to a new value</li>
+<li>3. Save</li>
+<li>4. Reload + re-select location</li>
+</ol>",,,"1. Override Price for product group 2605 is confirmed at 445.00.
+2. The new value commits to the Override Price cell and the Save button becomes enabled.
+3. The save dialog is confirmed, the save request completes, and a success toast appears.
+4. The new Override Price value is displayed after reload.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Max Discount % save-cycle persists after reload and restores,,,,,Automated,Omeesha Mahanta,,,The Max Discount % value is displayed after reload.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected; test row 2605 at its default
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. (baseline) Ensure 2605 at default</li>
+<li>2. Edit Max Discount % to a value</li>
+<li>3. Save</li>
+</ol>",,,"1. Max Discount % for product group 2605 is confirmed at its default value.
+2. The new value commits to the Max Discount % cell and the Save button becomes enabled.
+3. The Max Discount % value is displayed after reload.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Active toggle save-cycle persists after reload and restores,,,,,Automated,Omeesha Mahanta,,,The toggled Active state is displayed after reload.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected; test row 2605 at its default Active state
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. (baseline) Ensure 2605 at default</li>
+<li>2. Toggle the Active checkbox</li>
+<li>3. Save</li>
+</ol>",,,"1. The Active state for product group 2605 is confirmed at its default.
+2. The Active checkbox toggles to the opposite state and the Save button becomes enabled.
+3. The toggled Active state is displayed after reload.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Save opens the ""Save Changes"" dialog; Cancel aborts without committing",,,,,Automated,Omeesha Mahanta,,,The Override Price value in the grid is unchanged.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected; test row 2605 at its default
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Edit the Override Price</li>
+<li>2. Click Save</li>
+<li>3. Click Cancel</li>
+<li>4. no commit</li>
+</ol>",,,"1. The new value commits to the cell and the Save button becomes enabled.
+2. The ""Save Changes"" dialog opens with ""Are you sure you want to save the changes?"" and Cancel/Save buttons.
+3. The dialog closes.
+4. The Override Price value in the grid is unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The ""Change Local Office"" picker gates Select until a row is checked; Cancel applies nothing",,,,,Automated,Omeesha Mahanta,,,"The picker is titled ""Change Local Office""; Select is disabled until a row is checked, then enabled; Cancel closes it without applying a location",,,"corporate-pricing-pg-override,functional",,"On the Override screen with no location selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Select a location""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Open the ""Select a location"" picker</li>
+<li>2. Read the Select button before checking any row</li>
+<li>3. Search the office and check its row</li>
+<li>4. Click Cancel</li>
+</ol>",,,"1. The ""Change Local Office"" picker dialog opens.
+2. The Select button is displayed disabled.
+3. The matching office row is displayed and its checkbox becomes checked.
+4. The picker is titled ""Change Local Office""; Select is disabled until a row is checked, then enabled; Cancel closes it without applying a location",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid Options lists every column; toggling one hides its header and it persists across reload,,,,,Automated,Omeesha Mahanta,,,Grid Options exposes a toggle per column plus Reset to Default; hiding a column removes its header and the hidden state persists across a reload,,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected; all columns visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Updated By""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Open Grid Options</li>
+<li>2. Toggle the ""Updated By"" column off</li>
+<li>3. Reload the page and re-select the location</li>
+<li>4. (baseline) Restore all columns before and after the test</li>
+</ol>",,,"1. The Grid Options panel opens and lists a toggle for every column.
+2. The ""Updated By"" column header is removed from the grid.
+3. The page reloads and the grid re-populates with the ""Updated By"" column still hidden.
+4. Grid Options exposes a toggle per column plus Reset to Default; hiding a column removes its header and the hidden state persists across a reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Export downloads a Product Group Overrides CSV directly (no dialog),,,,,Automated,Omeesha Mahanta,,,The file contains a header row and at least one data row.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Export""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Click the Override toolbar ""Export"" button</li>
+<li>2. Read the download</li>
+<li>3. the request hits corporate-price-pg-override/export?locale=en-US</li>
+<li>4. the file is a non-empty CSV with a header row</li>
+</ol>",,,"1. A CSV file downloads immediately.
+2. The downloaded file is named in the format ""ProductGroupOverrides_<timestamp>UTC.csv"".
+3. The download request is sent to the corporate-price-pg-override export endpoint.
+4. The file contains a header row and at least one data row.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Import opens the ""Import All Pricing Overrides"" dialog with a file input; Cancel closes it without uploading",,,,,Automated,Omeesha Mahanta,,,The dialog closes.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Import""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Click the Override toolbar ""Import"" button</li>
+<li>2. Read the dialog</li>
+<li>3. a file input exists</li>
+<li>4. Click Cancel</li>
+</ol>",,,"1. The ""Import All Pricing Overrides"" dialog opens.
+2. The dialog displays Browse, Cancel, Upload, and Close buttons.
+3. The dialog contains a file input control.
+4. The dialog closes.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing the Override Price on an inactive row auto-activates it (NM-1463),,,,,Automated,Omeesha Mahanta,,,Editing the Override Price on an inactive row automatically re-activates it. (No commit - staged edit discarded on the next navigation.),,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected; anchor row at its default (active)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Set the anchor row inactive (staged only)</li>
+<li>2. Edit the Override Price to a new value</li>
+<li>3. Observe Save</li>
+</ol>",,,"1. The Active checkbox becomes unchecked.
+2. The new value commits to the Override Price cell and the Active checkbox becomes checked again.
+3. Editing the Override Price on an inactive row automatically re-activates it. (No commit - staged edit discarded on the next navigation.)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Clicking a column header does not sort (no active sort state, row order unchanged)",,,,,Automated,Omeesha Mahanta,,,The Override grid headers are not sort triggers on this build - a header click sets no active sort state and does not reorder rows (consistent with the Search and Detail grids),,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Product Group Name""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Click a column header (e.g. ""Product Group Name"")</li>
+<li>2. Read the first row before and after</li>
+</ol>",,,"1. The grid row order remains unchanged and no sort indicator is displayed.
+2. The Override grid headers are not sort triggers on this build - a header click sets no active sort state and does not reorder rows (consistent with the Search and Detail grids)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every row shows a Current Price value on office 1606 (no blank cell) (NM-2206),,,,,Automated,Omeesha Mahanta,,,Current Price renders a value for every row on office 1606 + USD - the blank / red-circle state does not occur here,,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected (USD data)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Read the Current Price cell of every visible row</li>
+</ol>",,,1. Current Price renders a value for every row on office 1606 + USD - the blank / red-circle state does not occur here,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Max Discount % accepts values up to the 100 cap (inclusive),,,,,Automated,Omeesha Mahanta,,,The Save button becomes enabled.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected; anchor row at its default
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""100.00 %""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Edit the Max Discount % to a normal percentage (10)</li>
+<li>2. Edit it to the cap value (100)</li>
+<li>3. the cell shows ""100.00 %""</li>
+<li>4. Observe Save</li>
+</ol>",,,"1. The value 10 is accepted and displayed in the Max Discount % cell.
+2. The value 100 is accepted and displayed in the Max Discount % cell.
+3. The Max Discount % cell displays ""100.00 %"".
+4. The Save button becomes enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Every downloaded CSV row is well-formed with valid IDs, currency, 0/1 flags, and money fields",,,,,Automated,Omeesha Mahanta,,,"Every row in the downloaded file has the full 9-column shape, a numeric Location Id and Product Group Id, a supported Currency (USD/CAD/MXN), 0/1 values in the Is Labor and Is Active flag columns, an always-populated Current Price money value, an Override Price that is either blank or a money value, and an Override Discount that is either blank or a plain decimal. The file is a tenant-wide dump (not scoped to the selected location); Product Group Name is free text and is not asserted for content",,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Export""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Click the Override toolbar ""Export"" button</li>
+<li>2. Read the header row</li>
+<li>3. Validate every data row against its column's expected format</li>
+</ol>",,,"1. The Product Group Overrides CSV file downloads.
+2. The header row displays the full 9-column set.
+3. Every row in the downloaded file has the full 9-column shape, a numeric Location Id and Product Group Id, a supported Currency (USD/CAD/MXN), 0/1 values in the Is Labor and Is Active flag columns, an always-populated Current Price money value, an Override Price that is either blank or a money value, and an Override Discount that is either blank or a plain decimal. The file is a tenant-wide dump (not scoped to the selected location); Product Group Name is free text and is not asserted for content",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A blank Override Price renders as an em-dash in a muted style, not an empty cell (NM-1932)",,,,,Automated,Omeesha Mahanta,,,A blank/never-set Override Price renders the muted em-dash placeholder. Asserting empty-string would pass on the wrong render - the test asserts the em-dash explicitly (read-only bed; no mutation),,,"corporate-pricing-pg-override,functional",,"Office 1115 selected (Equipment tab); row ""01D Double Screen Set Kit"" carries a blank Override Price
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""01D Double Screen Set Kit""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Find the row ""01D Double Screen Set Kit""</li>
+<li>2. Read its Override Price cell text</li>
+<li>3. Read the cell markup</li>
+</ol>",,,"1. The row ""01D Double Screen Set Kit"" is displayed in the grid.
+2. The Override Price cell displays an em-dash.
+3. A blank/never-set Override Price renders the muted em-dash placeholder. Asserting empty-string would pass on the wrong render - the test asserts the em-dash explicitly (read-only bed; no mutation)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,-5 rejected on Override Price with full rejection oracle,,,,,Automated,Omeesha Mahanta,,,"-5 is rejected - the editor stays open, is invalid, red border, Save disabled. No error message is announced ([ ] displayed text is empty - defect #4). The editor is escapable via Tab (NOT a focus trap)",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert full rejection signature BEFORE escape: committed=false, is invalid, border-color oklch(0.577 0.245 27.325), errorText empty, Save disabled, escapable=true</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value -5 is entered into the Override Price field and Enter is pressed.
+3. -5 is rejected - the editor stays open, is invalid, red border, Save disabled. No error message is announced ([ ] displayed text is empty - defect #4). The editor is escapable via Tab (NOT a focus trap)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,-0.01 rejected on Override Price (BVA below-min),,,,,Automated,Omeesha Mahanta,,,"-0.01 (BVA: smallest step below zero) is rejected with the standard rejection signature - editor keeps -0.01, Save DISABLED",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert rejection: committed=false, is invalid, Save disabled</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value -0.01 is entered into the Override Price field and Enter is pressed.
+3. -0.01 (BVA: smallest step below zero) is rejected with the standard rejection signature - editor keeps -0.01, Save DISABLED",,,,Master,S1620,Test Case (Steps),Regression,,,
+,0.001 accepted on Override Price (3rd-decimal precision),,,,,Automated,Omeesha Mahanta,,,"001 commits (editor closes). ""Pending verification"" - decimal inputs are accepted per existing TCs; the exact display format for 3-decimal precision has not been confirmed (likely 0.00 due to 2-decimal rendering)",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, observe displayedValue</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 0.001 is entered into the Override Price field and Enter is pressed.
+3. 001 commits (editor closes). ""Pending verification"" - decimal inputs are accepted per existing TCs; the exact display format for 3-decimal precision has not been confirmed (likely 0.00 due to 2-decimal rendering)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,999999 accepted on Override Price — no hard upper max,,,,,Automated,Omeesha Mahanta,,,999999 commits - the Override Price field has no hard upper maximum. Save enables (value changed from baseline 152.00),,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, saveEnabled=true</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 999999 is entered into the Override Price field and Enter is pressed.
+3. 999999 commits - the Override Price field has no hard upper maximum. Save enables (value changed from baseline 152.00)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,1.2.3 silently commits as 1.23 on Override Price — multi-dot corruption defect,,,,,Automated,Omeesha Mahanta,,,The defect is documented: the app accepts 1.2.3 as 1.23 instead of rejecting the malformed multi-dot input.,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call (real keyboard input - browser swallows second dot)</li>
+<li>3. Assert the DEFECT: committed=true, displayedValue=1.23, saveEnabled=true</li>
+<li>4. ""Expected (asserting the BUG - test FAILS when app is fixed)"": 1.2.3 commits as 1.23 - the browser swallows the second decimal point and the app accepts the resulting value without rejection. When fixed, this input should be rejected (multi-dot is not a valid number). Failure signal: committed becomes false or displayedValue changes</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The characters 1.2.3 are typed into the Override Price field and Enter is pressed.
+3. The value commits as 1.23, the editor closes, and the Save button becomes enabled.
+4. The defect is documented: the app accepts 1.2.3 as 1.23 instead of rejecting the malformed multi-dot input.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,007 on Override Price — leading zeros stripped,,,,,Automated,Omeesha Mahanta,,,007 commits with leading zeros stripped - displays as 7.00 (no % suffix). Save ENABLED,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, observe displayedValue</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 007 is entered into the Override Price field and Enter is pressed.
+3. 007 commits with leading zeros stripped - displays as 7.00 (no % suffix). Save ENABLED",,,,Master,S1620,Test Case (Steps),Regression,,,
+,1e5 on Override Price — scientific notation handling,,,,,Automated,Omeesha Mahanta,,,"1e5 commits on Override Price - displays as 100,000.00. Save ENABLED. Max Discount % rejects 1e5 because the >100 cap fires, not because the app refuses scientific notation; Override Price has no such cap, so it accepts the value",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Observe whether committed or rejected</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 1e5 is entered into the Override Price field and Enter is pressed.
+3. 1e5 commits on Override Price - displays as 100,000.00. Save ENABLED. Max Discount % rejects 1e5 because the >100 cap fires, not because the app refuses scientific notation; Override Price has no such cap, so it accepts the value",,,,Master,S1620,Test Case (Steps),Regression,,,
+,50 commits as 50.00 % on Max Discount (mid-range),,,,,Automated,Omeesha Mahanta,,,50 commits and displays as 50.00 %. Save enables (changed from baseline),,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue=50.00 %, saveEnabled=true</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 50 is entered into the Max Discount % field and Enter is pressed.
+3. 50 commits and displays as 50.00 %. Save enables (changed from baseline)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,-0.01 rejected on Max Discount (BVA below-min),,,,,Automated,Omeesha Mahanta,,,"-0.01 (BVA: smallest step below the 0% floor) is rejected - editor keeps -0.01, Save DISABLED",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert rejection: committed=false, is invalid, Save disabled</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value -0.01 is entered into the Max Discount % field and Enter is pressed.
+3. -0.01 (BVA: smallest step below the 0% floor) is rejected - editor keeps -0.01, Save DISABLED",,,,Master,S1620,Test Case (Steps),Regression,,,
+,0.5 commits as 50.00% — 100x multiplier bug (HIGHEST SEVERITY),,,,,Automated,Omeesha Mahanta,,,The comparison against the corrected display value of 0.50 % is recorded so a future fix is caught immediately.,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""
+Sample input 2: ""100x multiplier bug""
+Sample input 3: ""When the app is fixed""
+Sample input 4: ""50.00 %""
+Sample input 5: ""0.50 %""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert the DEFECT: committed=true, displayedValue=50.00 %, saveEnabled=true</li>
+<li>4. ""Expected (asserting the BUG - test FAILS when app is fixed)"":</li>
+<li>5. Typing 0.5 into the Max Discount % field commits and displays as 50.00 %. This is a ""100x multiplier bug"": a user intending a half-percent discount cap (0.5%) silently gets a fifty-percent cap. The same stored value is produced by typing 50, so two fundamentally different business intents collapse to one stored number - with direct money impact.</li>
+<li>6. ""When the app is fixed"": displayedValue will become 0.50 % (the correct interpretation of 0.5 as a percentage). The test will FAIL on the expect(result.displayedValue). line, and the failure message will show Expected: ""50.00 %"" / Received: ""0.50 %"" - making the fix immediately visible</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 0.5 is entered into the Max Discount % field and Enter is pressed.
+3. The value commits and displays as 50.00 %, and the Save button becomes enabled.
+4. The 100x multiplier defect is documented: 0.5 is interpreted as fifty percent instead of half a percent.
+5. The stored value for 0.5 matches the stored value produced by typing 50, confirming the two intents collapse to one number.
+6. The comparison against the corrected display value of 0.50 % is recorded so a future fix is caught immediately.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,99.99 commits as 99.99 % on Max Discount (just-below-cap BVA),,,,,Automated,Omeesha Mahanta,,,99 commits and displays as 99.99 % (BVA: just below the inclusive 100 cap). Save ENABLED,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue=99.99 %</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 99.99 is entered into the Max Discount % field and Enter is pressed.
+3. 99 commits and displays as 99.99 % (BVA: just below the inclusive 100 cap). Save ENABLED",,,,Master,S1620,Test Case (Steps),Regression,,,
+,100.01 rejected on Max Discount with full oracle — supersedes TC-023,,,,,Automated,Omeesha Mahanta,,,"01 (BVA: first value above the inclusive-100 cap) is rejected - editor stays open, is invalid, red border, Save disabled. ""Bug-evidence: no error message"" - [ ] displayed text is empty (defect #4: the screen has the mechanism to announce errors and never does). The editor IS escapable (Tab moves focus out - NOT a focus trap, cross-vendor verified). This supersedes the previously-skipped TC-CPR-OVR-023 whose skip reason (""intended behaviour unknown"") is now dead - the contract is established",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert full rejection signature BEFORE escape: committed=false, is invalid, border-color oklch(0.577 0.245 27.325), errorText empty, Save disabled, escapable=true</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 100.01 is entered into the Max Discount % field and Enter is pressed.
+3. 01 (BVA: first value above the inclusive-100 cap) is rejected - editor stays open, is invalid, red border, Save disabled. ""Bug-evidence: no error message"" - [ ] displayed text is empty (defect #4: the screen has the mechanism to announce errors and never does). The editor IS escapable (Tab moves focus out - NOT a focus trap, cross-vendor verified). This supersedes the previously-skipped TC-CPR-OVR-023 whose skip reason (""intended behaviour unknown"") is now dead - the contract is established",,,,Master,S1620,Test Case (Steps),Regression,,,
+,abc blanks Max Discount to em-dash with Save enabled — commit+net-zero defect,,,,,Automated,Omeesha Mahanta,,,The Save button stays enabled even though the displayed value matches the original baseline.,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert the DEFECT: committed=true, displayedValue=-, saveEnabled=true</li>
+<li>4. ""Expected (asserting the BUG - test FAILS when app is fixed)"":</li>
+<li>5. abc commits (editor closes) and blanks the cell to -. Save stays ENABLED despite the displayed value matching the original baseline. Two bugs: (1) non-numeric input should be rejected, not committed</li>
+<li>6. (2) Save enables on what is effectively an unchanged result (baseline was already). When fixed, committed will become false (proper rejection) and/or saveEnabled will become false</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The characters abc are entered into the Max Discount % field and Enter is pressed.
+3. The cell blanks to an em-dash, the editor closes, and the Save button stays enabled.
+4. The defect is documented: non-numeric input blanks the cell instead of being rejected.
+5. The cell displays an em-dash after the non-numeric entry, with the value neither rejected nor retained.
+6. The Save button stays enabled even though the displayed value matches the original baseline.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,1.2.3 silently commits as 1.23 % on Max Discount — multi-dot corruption defect,,,,,Automated,Omeesha Mahanta,,,The defect is documented: the app accepts 1.2.3 as 1.23 % instead of rejecting the malformed multi-dot input.,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call (real keyboard input)</li>
+<li>3. Assert the DEFECT: committed=true, displayedValue=1.23 %, saveEnabled=true</li>
+<li>4. ""Expected (asserting the BUG - test FAILS when app is fixed)"": 1.2.3 commits as 1.23 % - the browser swallows the second dot during real keyboard typing, producing a plausible-looking but corrupted value. No warning, no rejection. Note: Override Price renders the same bug as 1.23 (no % suffix) - the two fields format differently. When fixed, this input should be rejected</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The characters 1.2.3 are typed into the Max Discount % field and Enter is pressed.
+3. The value commits as 1.23 %, the editor closes, and the Save button becomes enabled.
+4. The defect is documented: the app accepts 1.2.3 as 1.23 % instead of rejecting the malformed multi-dot input.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,1e5 rejected on Max Discount — scientific notation,,,,,Automated,Omeesha Mahanta,,,"1e5 is rejected - the editor stays open, is invalid, Save disabled. Verified on Equipment Max Discount %",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert rejection: committed=false, is invalid, Save disabled</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 1e5 is entered into the Max Discount % field and Enter is pressed.
+3. 1e5 is rejected - the editor stays open, is invalid, Save disabled. Verified on Equipment Max Discount %",,,,Master,S1620,Test Case (Steps),Regression,,,
+,007 commits as 7.00 % on Max Discount — leading zeros stripped,,,,,Automated,Omeesha Mahanta,,,007 commits as 7.00 % - leading zeros are stripped. Save enables,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue=7.00 %, saveEnabled=true</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 007 is entered into the Max Discount % field and Enter is pressed.
+3. 007 commits as 7.00 % - leading zeros are stripped. Save enables",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Max Discount % revert-to-original disables Save,,,,,Automated,Omeesha Mahanta,,,"Editing Max Discount % to 50 enables Save; reverting to the original empty value via Ctrl+A -> Delete -> Enter disables Save (true revert-to-original confirmed, no net change)",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active. Max Discount % baseline is - (empty)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Call</li>
+<li>3. Assert saveEnabledAfterEdit=true, saveDisabledAfterRevert=true</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The value 50 is entered, then the field is cleared and reverted to the original empty value.
+3. Editing Max Discount % to 50 enables Save; reverting to the original empty value via Ctrl+A -> Delete -> Enter disables Save (true revert-to-original confirmed, no net change)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Active toggle-then-revert disables Save,,,,,Automated,Omeesha Mahanta,,,"Toggling Active away from its saved state enables Save; toggling it back to the original state disables Save (no net change, no save needed)",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 4107 selected, Equipment tab active. Active baseline is checked (true)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Navigate to office 4107, Equipment tab, find row PG 4298</li>
+<li>2. Toggle the Active checkbox (uncheck)</li>
+<li>3. Toggle the Active checkbox again (recheck to original)</li>
+</ol>",,,"1. Office 4107 loads on the Equipment tab with row PG 4298 visible.
+2. The Active checkbox becomes unchecked and the Save button becomes enabled.
+3. Toggling Active away from its saved state enables Save; toggling it back to the original state disables Save (no net change, no save needed)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import rejects CSV with empty Override Price — whole-file rejection (NM-1940),,,,,Automated,Omeesha Mahanta,,,A rejection indicator is visible on screen confirming the import was not successful.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1606 selected; the import dialog open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Import""",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Open the Import dialog via the toolbar ""Import"" button</li>
+<li>2. Prepare and attach a CSV file containing at least one row with an empty Override Price cell (the minimum reproduction for this known defect)</li>
+<li>3. The upload fires (auto-submit on file-choose per agent-mistakes.md:206)</li>
+<li>4. Assert: the import is REJECTED (not success)</li>
+<li>5. the grid is unchanged (no rows modified)</li>
+<li>6. a rejection indicator is visible (error message or the dialog remains open with an error state)</li>
+</ol>",,,"1. The Import dialog opens.
+2. The file is attached and the Upload button becomes enabled.
+3. The upload request fires automatically.
+4. The import is rejected.
+5. The grid rows remain unchanged.
+6. A rejection indicator is visible on screen confirming the import was not successful.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Equipment dirty state persists through Labor tab visit,,,,,Automated,Omeesha Mahanta,,,Save remains enabled confirming the unsaved changes persisted across the tab round-trip.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1606 selected; Equipment tab active; grid clean (Save disabled)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Edit the anchor row (PG 2609) Override Price to a different value</li>
+<li>2. Click the Labor tab</li>
+<li>3. Assert: NO dialog fires (tab-switch is within the same page/URL - not a navigation event)</li>
+<li>4. Click back to the Equipment tab</li>
+<li>5. Assert: the staged edit is still present</li>
+<li>6. Save is still enabled (unsaved changes preserved across tab round-trip)</li>
+</ol>",,,"1. The new value commits to the Override Price cell and the Save button becomes enabled.
+2. The Labor tab becomes active with no dialog shown.
+3. No unsaved-changes dialog is displayed.
+4. The Equipment tab becomes active again.
+5. The staged Override Price edit is still displayed on the anchor row.
+6. Save remains enabled confirming the unsaved changes persisted across the tab round-trip.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor dirty state persists through Equipment tab visit,,,,,Automated,Omeesha Mahanta,,,Save remains enabled confirming the unsaved changes persisted across the tab round-trip.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1134 selected; Labor tab active; grid clean (Save disabled)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Edit Labor row PG 565 Override Price to a different value (e.g. 14)</li>
+<li>2. Click the Equipment tab</li>
+<li>3. Click back to the Labor tab</li>
+<li>4. Assert: the staged edit is still present</li>
+<li>5. Save is still enabled (unsaved changes preserved across tab round-trip)</li>
+</ol>",,,"1. The new value commits to the Override Price cell and the Save button becomes enabled.
+2. The Equipment tab becomes active with no dialog shown.
+3. The Labor tab becomes active again.
+4. The staged Override Price edit is still displayed on row PG 565.
+5. Save remains enabled confirming the unsaved changes persisted across the tab round-trip.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The export tolerates rows with no Override Price and never drops them (NM-1940),,,,,Automated,Omeesha Mahanta,,,"The file is allowed to contain rows with no Override Price and they are never dropped, while the vast majority of rows do carry one. Asserting the current contract rather than the desired one: the app's own import rejects these rows, so a test demanding a price on every row would fail on every run today",,,"corporate-pricing-pg-override,functional",,"On the Override screen with the fixture office selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Export and capture the CSV</li>
+<li>2. Read the Override Price column from every data row</li>
+<li>3. Count the blank values</li>
+</ol>",,,"1. The CSV file downloads.
+2. The Override Price values are displayed for every data row in the file.
+3. The file is allowed to contain rows with no Override Price and they are never dropped, while the vast majority of rows do carry one. Asserting the current contract rather than the desired one: the app's own import rejects these rows, so a test demanding a price on every row would fail on every run today",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Raw export with an empty Override Price row is rejected and changes nothing (NM-1940),,,,,Automated,Omeesha Mahanta,,,"The raw export is rejected on its empty-Override-Price row and the whole import aborts with no partial apply (full rollback). The target Override Price is unchanged after a reload. Documents the live regression where a freshly exported file cannot be re-imported without first removing its empty-price row. The row number is data-position-dependent, so the stable required-field message is asserted, not a fixed position",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 4107 selected; product group 4298 present with its baseline Override Price. The raw tenant-wide export still contains one empty-Override-Price row
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Core,1,,Corporate_Pricing_Pg_Override > Core,"<ol>
+<li>1. Capture the target row's Override Price before the import</li>
+<li>2. Export the tenant-wide CSV and confirm it still carries the empty-Override-Price row</li>
+<li>3. Open the Import dialog</li>
+<li>4. Read the rejection alert</li>
+<li>5. Reload + re-select office 4107 and re-read the grid</li>
+</ol>",,,"1. The target row's Override Price is displayed.
+2. The downloaded CSV file still contains the row with an empty Override Price.
+3. The Import dialog opens.
+4. A required-field rejection alert is displayed.
+5. The raw export is rejected on its empty-Override-Price row and the whole import aborts with no partial apply (full rollback). The target Override Price is unchanged after a reload. Documents the live regression where a freshly exported file cannot be re-imported without first removing its empty-price row. The row number is data-position-dependent, so the stable required-field message is asserted, not a fixed position",,,,Master,S1620,Test Case (Steps),Regression,,,

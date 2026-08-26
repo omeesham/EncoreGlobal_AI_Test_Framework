@@ -1,0 +1,185 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,History tab activates correctly and shows the right heading and columns,,,,,Automated,Omeesha Mahanta,,,"The headers are `Service Type`, `Service Charge Percentage`, `Modified By`, `Modified On` — verbatim, in that order.",,,service-charge,,"The Service Charge settings page is open for office 1604 with the Basic Information tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Service Charge History""",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Navigate to the Service Charge settings page for office 1604</li>
+<li>2. Click the ""Service Charge History"" tab</li>
+<li>3. Read the page &lt;h1> text</li>
+<li>4. Read the History section header</li>
+<li>5. Read the four column header texts in order</li>
+</ol>",,,"1. The page loads; the Basic Information tab trigger has `aria-selected=""true""` and the History tab trigger has `aria-selected=""false""`.
+2. The History tab trigger transitions to `aria-selected=""true""`; the Basic Information tab trigger transitions to `aria-selected=""false""`.
+3. The heading reads `Service Charge` (same on both tabs; office context is not in the h1).
+4. The header reads `Service Charge History : Parker Palm Springs` — office name is present.
+5. The headers are `Service Type`, `Service Charge Percentage`, `Modified By`, `Modified On` — verbatim, in that order.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid populates with data rows after the History tab loads,,,,,Automated,Omeesha Mahanta,,,"At least one row is present. (Office 1604 had 50 rows at last verification; the exact count may change as data changes, so the assertion is ≥ 1.)",,,service-charge,,"The Service Charge History tab is active for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""skeleton""",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Wait for any loading skeleton elements ([data-slot=""skeleton""]) inside the grid to disappear</li>
+<li>2. Count the visible data rows</li>
+</ol>",,,"1. The skeletons are gone; actual table rows are visible.
+2. At least one row is present. (Office 1604 had 50 rows at last verification; the exact count may change as data changes, so the assertion is ≥ 1.)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every visible row has four non-empty cells,,,,,Automated,Omeesha Mahanta,,,No cell is empty; each cell contains a non-whitespace string.,,,service-charge,,"The History grid for office 1604 is fully loaded (no skeletons)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Sample the first ten rows of the grid</li>
+<li>2. For each sampled row, read all four cell texts</li>
+</ol>",,,"1. Each row has exactly four cells.
+2. No cell is empty; each cell contains a non-whitespace string.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Service Charge Percentage cells render in ""24.00 %"" format",,,,,Automated,Omeesha Mahanta,,,All sampled cells match the same pattern.,,,service-charge,,"The History grid for office 1604 is fully loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Read the Service Charge Percentage cell text for the first row</li>
+<li>2. Repeat for at least two additional rows</li>
+</ol>",,,"1. The text matches the pattern `\d+\.\d{2} %` — a number with exactly two decimal places, one space, and a `%` sign.
+2. All sampled cells match the same pattern.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Modified On cells render in ""MM/DD/YYYY hh:mm:ss AM|PM"" format",,,,,Automated,Omeesha Mahanta,,,Format is consistent: e.g. `01/12/2023 09:19:51 AM`.,,,service-charge,,"The History grid for office 1604 is fully loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Read the Modified On cell text for the first row</li>
+<li>2. Confirm the year, month, and day fields are two or four digits each as expected</li>
+</ol>",,,"1. The text matches the pattern `MM/DD/YYYY hh:mm:ss AM` or `MM/DD/YYYY hh:mm:ss PM` — month/day/year, then 12-hour time with seconds and meridiem suffix.
+2. Format is consistent: e.g. `01/12/2023 09:19:51 AM`.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid default sort is Modified On descending (newest record first),,,,,Automated,Omeesha Mahanta,,,Modified On values are in non-ascending order — newer entries appear above older ones.,,,service-charge,,"The History grid for office 1604 is fully loaded with no user interaction on column headers
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Read the Modified On value of the first row</li>
+<li>2. Read the Modified On value of the second row</li>
+<li>3. Confirm overall ordering across the first ten rows</li>
+</ol>",,,"1. The date is later than the Modified On value of the second row.
+2. The date is later than or equal to the Modified On value of the third row.
+3. Modified On values are in non-ascending order — newer entries appear above older ones.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid is read-only — no interactive elements inside,,,,,Automated,Omeesha Mahanta,,,"All eight census counters are zero: filterInputCount, searchInputCount, dateRangePickerCount, paginationAriaLabelCount, roleNavigationCount, nextPrevButtonCount, pageSizeSelectorCount, loadMoreCount.",,,service-charge,,"The History grid for office 1604 is fully loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Run the full interactive-controls census on the History tab panel</li>
+</ol>",,,"1. All eight census counters are zero: filterInputCount, searchInputCount, dateRangePickerCount, paginationAriaLabelCount, roleNavigationCount, nextPrevButtonCount, pageSizeSelectorCount, loadMoreCount.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,No pagination control is present on the History tab,,,,,Automated,Omeesha Mahanta,,,No `load-more` button or infinite-scroll sentinel is present.,,,service-charge,,"The History grid for office 1604 is fully loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""page""",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Query for any element with accessible name containing ""page"", any element, any next/previous page buttons, and any page-size selector</li>
+<li>2. Confirm all rows load in a single viewport (no load-more trigger)</li>
+</ol>",,,"1. All queries return zero elements.
+2. No `load-more` button or infinite-scroll sentinel is present.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"No filter, search, or date-range control is present on the History tab",,,,,Automated,Omeesha Mahanta,,,Zero elements found.,,,service-charge,,"The History tab is active for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Query for any input inside the grid area</li>
+<li>2. Query for any global search input or date-range picker on the History tab panel</li>
+</ol>",,,"1. Zero inputs found.
+2. Zero elements found.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Modified By cells render a user identifier, not a raw GUID",,,,,Automated,Omeesha Mahanta,,,The cell value does not match the pattern `[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}`.,,,service-charge,,"The History grid for office 1604 is fully loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Read the Modified By cell text for the first row</li>
+<li>2. Confirm the value is not a raw UUID string</li>
+</ol>",,,"1. The text identifies the user who made the change — a display name, username, or human-readable identifier.
+2. The cell value does not match the pattern `[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}`.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,History data is scoped per office — different offices show different row sets,,,,,Automated,Omeesha Mahanta,,,"At least two offices must have different row counts, proving History is isolated per office.",,,service-charge,,"The automation account can navigate to the Service Charge History tab for offices 1604, 1101, and 1105. Office switches use the History-only navigation path (does not require Basic Information inputs to be editable)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Load the History tab for office 1604 and count the rows</li>
+<li>2. Navigate to office 1101 using the History-only path and load the History tab, then count the rows</li>
+<li>3. Navigate to office 1105 using the History-only path and load the History tab, then count the rows</li>
+<li>4. Confirm that the three row counts are not all identical</li>
+</ol>",,,"1. Office 1604 shows its own set of history rows (50 observed at last verification).
+2. Office 1101 shows a different row count from office 1604 (32 observed at last verification).
+3. Office 1105 shows a different row count from both (35 observed at last verification).
+4. At least two offices must have different row counts, proving History is isolated per office.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting the History grid by Modified On via the column header dropdown reorders rows,,,,,Automated,Omeesha Mahanta,,,"The two row 0 values are not equal, proving the grid reordered",,,service-charge,,"The History grid for office 1604 is fully loaded (at least 2 rows)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Modified On""
+Sample input 2: ""Sort ascending""
+Sample input 3: ""Sort descending""",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Click the ""Modified On"" column header to open its dropdown</li>
+<li>2. Click ""Sort ascending"" and wait for the grid to re-render</li>
+<li>3. Assert that row 0's Modified On date equals the minimum date of all visible rows</li>
+<li>4. Click the ""Modified On"" column header again and click ""Sort descending""</li>
+<li>5. Assert that descending row 0 differs from ascending row 0</li>
+</ol>",,,"1. A menu appears with ""Sort ascending"", ""Sort descending"", and ""Hide column"" items
+2. Row 0 now shows the oldest record
+3. Ascending row 0 carries the minimum visible date
+4. Row 0 now shows the most recent record
+5. The two row 0 values are not equal, proving the grid reordered",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A Basic Information save adds a new row to Service Charge History,,,,,Automated,Omeesha Mahanta,,,Field restored; History gets one more row from the restore save,,,service-charge,,"The Service Charge page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Switch to the History tab and record the current row count</li>
+<li>2. Switch to Basic Information, read the current APP Downloaded percentage, then edit it to 1.00</li>
+<li>3. Click Save</li>
+<li>4. Switch to the Service Charge History tab and wait for the grid to load</li>
+<li>5. Confirm a new row appeared at the top with: Service Type = APP Downloaded, Percentage = 1.00 %, Modified By = s-prd-clickauto@psav.com, Modified On = today's date</li>
+<li>6. Restore: switch to Basic Information, revert the field to its original value, and save</li>
+</ol>",,,"1. Baseline count captured
+2. Save becomes enabled
+3. Save completes; page reloads with the new value
+4. Grid is visible
+5. New row reflects the saved change; Modified By shows the automation user's email address
+6. Field restored; History gets one more row from the restore save",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Navigating to History tab with unsaved Basic Information edits triggers an Unsaved Changes modal,,,,,Automated,Omeesha Mahanta,,,"An ""Unsaved changes"" modal appears with **Stay** and **Discard** buttons. The application does not navigate to the History tab without user confirmation.",,,service-charge,,"The Service Charge settings page is open for office 1604 with the Basic Information tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Service Charge History""",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Edit any Service Charge Percentage value on the Basic Information tab without saving</li>
+<li>2. Click the ""Service Charge History"" tab without saving</li>
+</ol>",,,"1. The field shows an unsaved value; the Save button is enabled.
+2. An ""Unsaved changes"" modal appears with **Stay** and **Discard** buttons. The application does not navigate to the History tab without user confirmation.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Office context is preserved when switching from Basic Information to History tab,,,,,Automated,Omeesha Mahanta,,,"The same office (1604 / Parker Palm Springs) is still selected; the History grid shows the 1604 row set (≥ 1 row, consistent with the per-office row count observed for 1604).",,,service-charge,,"The Service Charge settings page is open for office 1604 (Parker Palm Springs) with the Basic Information tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Service Charge History""",Medium,,History,1,,Service_Charge > History,"<ol>
+<li>1. Confirm the currently selected office is office 1604</li>
+<li>2. Click the ""Service Charge History"" tab</li>
+<li>3. Confirm the office context after the tab switch</li>
+</ol>",,,"1. The office context shows 1604 / Parker Palm Springs.
+2. The History tab activates without triggering a full page reload.
+3. The same office (1604 / Parker Palm Springs) is still selected; the History grid shows the 1604 row set (≥ 1 row, consistent with the per-office row count observed for 1604).",,,,Master,S1620,Test Case (Steps),Regression,,,

@@ -1,0 +1,357 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Grid loads when all three header keys are set,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Open the route at office 1604. Wait for a non-zero tier-row count</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing Country re-keys the grid,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Country""
+Sample input 2: ""or""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Record the current tier-range list and the first row's 21 values. Change ""Country"" to a</li>
+<li>2. different option. Wait for the grid to settle on a non-zero row count ""or"" an empty state</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing Currency re-keys the grid,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Currency""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. As TC-002, changing ""Currency""</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing Business Tier re-keys the grid,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Business Tier""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. As TC-002, changing ""Business Tier""</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Header Save persists only the GAV threshold,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""GAV Discount Threshold""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Record the first tier row's 21 values. Edit ""GAV Discount Threshold"" to a valid new</li>
+<li>2. percentage. Click the header ""Save"". Reload the route</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Empty state when a header key is not set,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Drive the header to a (country, currency, businessTier) combination that has no matrix rows</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unsaved dialog edit is not carried across a header change,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Open Edit Tier on 0 - 1500, change one percentage to a valid new value, ""Cancel"". Then</li>
+<li>2. change a header control. Reload</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Column structure is exactly 3 groups × 7 buckets,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. (no steps defined)</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tier ranges are contiguous and non-overlapping,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. (no steps defined)</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Percentage cells are read-only in the grid,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. (no steps defined)</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Grid readiness is data-driven, not container-driven",,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. (no steps defined)</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every tier row exposes Delete and Edit controls,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. (no steps defined)</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog roster,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Open Edit on the row 0 - 1500</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Whole numbers get % appended unchanged,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. In Non-Peak 0-15, clear, type 14, Tab</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Decimals below 1 are multiplied by 100,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Trial 0.14, then 0.5, each in a fresh dialog</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Single-digit 1 renders 1%, not 100%",,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Clear Non-Peak 0-15, type 1, Tab</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Upper boundary: 100 accepted, 101 rejected",,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Trial 100, then 101, each in a fresh dialog</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Out-of-range values disable Update and are never persisted,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type 150, Tab, observe, then ""Cancel"". Re-read the grid row</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Out-of-range rejection shows no user-visible message,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Observed""
+Sample input 2: ""empty string""
+Sample input 3: ""Expected (correct behaviour)""
+Sample input 4: ""Status""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type 101, Tab. Query every element matching</li>
+<li>2. [],[class*=error],[class*=Error],[class*=invalid],[role=alert] and collect their text.</li>
+<li>3. ""Observed"": all matching elements return an ""empty string""</li>
+<li>4. the value still renders as</li>
+<li>5. 101% as though accepted</li>
+<li>6. Update is silently disabled.</li>
+<li>7. ""Expected (correct behaviour)"": a visible message explains why the value is rejected.</li>
+<li>8. ""Status"": intentionally asserts the defect - see DEFECT-1 in the a live walk artifact. Confirmed on</li>
+<li>9. 101, 150 and 3456, clean method, blur committal proven</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Negative values cannot be entered,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""before""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Clear the field, press Minus, read the value ""before"" any Tab, then press Digit1, Tab</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Empty and non-numeric input silently resolve to zero percent,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (measured live, with a passing control alongside)""
+Sample input 2: ""0%""
+Sample input 3: ""false""
+Sample input 4: ""Update stays enabled""
+Sample input 5: ""enabled""
+Sample input 6: ""This case previously read """,Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Clear the field and Tab. Separately, clear the field, type abc, and Tab.</li>
+<li>2. ""Expected (measured live, with a passing control alongside)"": both render ""0%"", validation error is</li>
+<li>3. ""false"", ""Update stays enabled"", and no message appears.</li>
+<li>4. | Trial | Before | After blur | validation error | Update |</li>
+<li>5. |---|---|---|---|---|</li>
+<li>6. | cleared | 17% | ""0%"" | false | ""enabled"" |</li>
+<li>7. | abc | 17% | ""0%"" | false | ""enabled"" |</li>
+<li>8. | 14 (control) | 17% | 14% | false | enabled |</li>
+<li>9. ""This case previously read ""both leave the field empty with is invalid and Update disabled.""""</li>
+<li>10. That came from a single unreplicated walk observation and is ""refuted"": the field is not rejecting</li>
+<li>11. anything, it is substituting zero. The control trial passed in the same run, so the harness is not in</li>
+<li>12. question.</li>
+<li>13. ""Status"": asserts ""observed"" behaviour, not agreed-correct behaviour. A user who mistypes into a</li>
+<li>14. percentage field gets a silent 0% with Save still available, so an unintended zero discount can be</li>
+<li>15. committed with no warning. Note the criteria-bar threshold field ""reverts to its previous value"" for</li>
+<li>16. the same input - see TC-039 - so two fields of the same class on one screen disagree</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Field 0 opens in a different format from fields 1–20,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""before touching anything""
+Sample input 2: ""Observed""
+Sample input 3: ""0.17""
+Sample input 4: ""Expected (correct behaviour)""
+Sample input 5: ""Status""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Open the dialog fresh and, ""before touching anything"", read the value of all 21 inputs.</li>
+<li>2. ""Observed"": index 0 renders raw ""0.17""</li>
+<li>3. indices 1-20 render %-formatted (17%, 20%, 12%, 15%, 7%, 10%). Same underlying value, two formats in one dialog.</li>
+<li>4. ""Expected (correct behaviour)"": all 21 render in one consistent format.</li>
+<li>5. ""Status"": intentionally asserts the defect - see DEFECT-</li>
+<li>6. Reproduced across three independent runs and</li>
+<li>7. eleven fresh dialog opens</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Repeated focus cycling does not alter an invalid value,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type 3456, Tab</li>
+<li>2. then click back into the field and Tab out, twice more (three cycles total, real pointer and keyboard)</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancel discards every pending edit,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Record the row's 21 values. Open Edit, change several fields to valid new values, click</li>
+<li>2. ""Cancel"". Re-read the row</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Export downloads a workbook named from the current criteria,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Export""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Load the tab and wait for a non-zero tier-row count. Click ""Export"" and capture the</li>
+<li>2. download event</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Export completes successfully and returns a spreadsheet,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Export""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Capture network traffic, click ""Export"", inspect the export request and its response</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Exported values match the grid, cell for cell",,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Read all 21 percentage values for each of the 9 tier rows from the rendered grid. Export.</li>
+<li>2. Parse the workbook. Diff every cell</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Exported workbook keeps its round-trip template shape,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Export and inspect the workbook structure</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Export identifier column carries the platform identifier,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Export and read the ID column</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add Tier opens with one End Tier field and a disabled confirm,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Add Tier""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Click ""Add Tier"". Read the dialog without typing</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"End Tier validation is submit-time, not blur-time",,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""without clicking confirm""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Open Add Tier. Enter 30000000 (above the current maximum of 20000000). Press Tab.</li>
+<li>2. Read the state ""without clicking confirm""</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,End Tier silently refuses non-numeric input,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Open Add Tier. Attempt to type abc into End Tier. Press Tab</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancelling Add Tier leaves the grid untouched,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Record the tier row count and the full ordered range list. Open Add Tier, enter a value,</li>
+<li>2. click ""Cancel"". Re-read the grid</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Threshold accepts a whole number and renders it as a percentage,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type 20 into GAV Discount Threshold with real keystrokes, press Tab</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Threshold multiplies a decimal below one by a hundred,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type 0.2, Tab</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Threshold keeps a fractional value above one,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type 12.5, Tab</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Threshold marks an out-of-range value invalid without saying why,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type 101, Tab. Sweep the page for any validation message</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Threshold treats zero and empty as zero percent,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type 0, Tab. Then clear the field entirely, Tab</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Threshold silently refuses non-numeric input and resolves empty to zero,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Refusal""
+Sample input 2: ""without deleting first""
+Sample input 3: ""Empty""
+Sample input 4: ""Expected (both measured live)""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. ""Refusal"" - select the existing value and type abc over it ""without deleting first"", Tab.</li>
+<li>2. ""Empty"" - clear the field, then type abc, Tab.</li>
+<li>3. ""Expected (both measured live)"":</li>
+<li>4. - Path 1</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unsaved threshold edit survives a tab switch and is discarded by a reload,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""without saving""
+Sample input 2: ""Expected (measured live)""
+Sample input 3: ""still there""
+Sample input 4: ""This case previously expected the tab switch itself to discard the edit.""
+Sample input 5: ""outside""
+Sample input 6: ""the value is gone""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Record the threshold. Type a different valid value, Tab, and - ""without saving"" - click the</li>
+<li>2. Region Weekly Peaks tab, then return to Company Matrix. Then reload the route.</li>
+<li>3. ""Expected (measured live)"":</li>
+<li>4. - After the tab round trip -> the typed value is ""still there"". No Unsaved-Changes prompt appears on</li>
+<li>5. the way out or back.</li>
+<li>6. - After the reload -> the threshold is back to its original value. Nothing was persisted.</li>
+<li>7. ""This case previously expected the tab switch itself to discard the edit."" It does not. The threshold</li>
+<li>8. lives in the page-level criteria bar, ""outside"" every tab panel - the same reason the Save button is a</li>
+<li>9. page header control - so switching tabs never unmounts it. The earlier ""the value is gone"" reading was</li>
+<li>10. taken after a ""fresh navigation"", not after switching back, and the two were conflated.</li>
+<li>11. ""Status"": asserts ""observed"" behaviour, not agreed-correct behaviour. A reported reproduction implies a prompt should exist here and none does</li>
+<li>12. whether that absence is intentional or a regression is</li>
+<li>13. unresolved. A user can leave a pending edit on screen, wander to another tab and come back with no</li>
+<li>14. indication anything is unsaved. Treat a future prompt as a change worth reporting, not a failure.</li>
+<li>15. ""Status"": this asserts ""observed"" behaviour, not agreed-correct behaviour. A reported reproduction implies a prompt should exist here. Whether its absence is an intentional change or a regression is unresolved -</li>
+<li>16. see the walk evidence. Treat a future appearance of a prompt as a change worth reporting, not a failure</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Threshold accepts exactly 100 as the valid upper boundary,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (measured live)""
+Sample input 2: ""Why it matters""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type 100, Tab.</li>
+<li>2. ""Expected (measured live)"": Renders 100%. validation error is false. Save button enabled. No</li>
+<li>3. validation message visible. Value reverts to 15% after reload - nothing was saved.</li>
+<li>4. ""Why it matters"": TC-037 covers 101 as invalid but nothing previously asserted that 100 itself</li>
+<li>5. is accepted. The boundary must be walked, not inferred</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Threshold silently refuses a negative sign and processes the remaining digits,,,,,Automated,Omeesha Mahanta,,,,,,discount-matrix,,"Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (measured live)""
+Sample input 2: ""Why it matters""",Medium,,Company_Matrix,1,,Discount_Matrix > Company_Matrix,"<ol>
+<li>1. Type -5, Tab.</li>
+<li>2. ""Expected (measured live)"": The minus sign is refused at the input layer. Only 5 reaches the</li>
+<li>3. field, which renders as 5%. validation error is false. Save button enabled. No validation message.</li>
+<li>4. Value reverts to 15% after reload - nothing was saved.</li>
+<li>5. ""Why it matters"": negative input is covered for the Edit Tier dialog but was untested for this</li>
+<li>6. field. The refusal is silent - the same pattern already recorded for non-numeric input (TC-039)</li>
+</ol>",,,,,,,Master,S1620,Test Case (Steps),Regression,,,

@@ -1,0 +1,232 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,"Each Import variant opens the shared ""Import"" Year(s)+Currency dialog",,,,,Automated,Omeesha Mahanta,,,"Every Import variant opens the same ""Import"" Year(s)+Currency precondition dialog with Continue disabled until both fields are set",,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. For each of the 4 Import variants: open Import and click the variant</li>
+<li>2. Confirm the dialog prompts to select 1-3 years and a currency, offers Cancel/Continue/Close, and Continue is disabled before any field is set</li>
+<li>3. Cancel the dialog</li>
+</ol>",,,"1. The same Import Year(s)+Currency precondition dialog opens for each of the 4 variants clicked.
+2. The dialog prompts for 1-3 years and a currency, offers Cancel, Continue and Close, and Continue is disabled before any field is set.
+3. Every Import variant opens the same ""Import"" Year(s)+Currency precondition dialog with Continue disabled until both fields are set",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Continue stays disabled with only Year(s) set,,,,,Automated,Omeesha Mahanta,,,Setting only Year(s) does not enable Continue,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open Import</li>
+<li>2. Select a year only</li>
+</ol>",,,"1. The Import Year(s)+Currency precondition dialog opens with Continue disabled.
+2. Setting only Year(s) does not enable Continue",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Continue stays disabled with only Currency set,,,,,Automated,Omeesha Mahanta,,,Setting only Currency does not enable Continue,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open Import</li>
+<li>2. Select a currency only</li>
+</ol>",,,"1. The Import Year(s)+Currency precondition dialog opens with Continue disabled.
+2. Setting only Currency does not enable Continue",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Continue enables when BOTH Year(s) and Currency are set,,,,,Automated,Omeesha Mahanta,,,Continue enables only once both Year(s) and Currency are set,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open Import</li>
+<li>2. Select a year and a currency</li>
+</ol>",,,"1. The Import Year(s)+Currency precondition dialog opens with Continue disabled.
+2. Continue enables only once both Year(s) and Currency are set",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Year(s) boundary — 1 accepted, 3 accepted, a 4th refused",,,,,Automated,Omeesha Mahanta,,,The Year(s) selector holds at three selections; the fourth year is not added.,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open the precondition dialog and select a single year</li>
+<li>2. cancel</li>
+<li>3. Reopen and select three years</li>
+<li>4. Attempt to add a fourth year (the option is present and clicked)</li>
+<li>5. the fourth is refused</li>
+</ol>",,,"1. The precondition dialog opens and one year is accepted in the Year(s) selector.
+2. The dialog closes without proceeding to the upload step.
+3. The dialog reopens and three years are shown as selected in the Year(s) selector.
+4. After clicking a fourth year option, the Year(s) selector still shows exactly three years selected.
+5. The Year(s) selector holds at three selections; the fourth year is not added.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Currency options present — USD, CAD, MXN",,,,,Automated,Omeesha Mahanta,,,"The Currency selector offers USD, CAD and MXN",,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open the precondition dialog and open the Currency selector</li>
+<li>2. Read the options</li>
+</ol>",,,"1. The precondition dialog opens and the Currency selector expands to show its options.
+2. The Currency selector offers USD, CAD and MXN",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancel on the precondition dialog aborts — no upload dialog opens,,,,,Automated,Omeesha Mahanta,,,Cancelling the precondition dialog aborts the flow before the upload dialog opens,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open the precondition dialog, set a year and a currency</li>
+<li>2. Click Cancel</li>
+</ol>",,,"1. The precondition dialog opens with the selected year and currency set and Continue enabled.
+2. Cancelling the precondition dialog aborts the flow before the upload dialog opens",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"An unchanged file diffs to ""no changes"" and offers nothing to publish",,,,,Automated,Omeesha Mahanta,,,An unchanged file is detected as no-change; nothing is staged and nothing can be published,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Build a file whose values match the current server pricebook exactly</li>
+<li>2. Open Import</li>
+<li>3. Choose the unchanged file</li>
+</ol>",,,"1. The generated file's values match the current server pricebook exactly.
+2. The Import Year(s)+Currency precondition dialog opens.
+3. An unchanged file is detected as no-change; nothing is staged and nothing can be published",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"An empty file is rejected as ""no matching pricebooks"" and runs no import",,,,,Automated,Omeesha Mahanta,,,No import is staged and nothing can be published.,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open the Import All upload dialog for a variant</li>
+<li>2. Choose an empty CSV file</li>
+<li>3. nothing is staged</li>
+</ol>",,,"1. The Import All upload dialog opens for the selected variant.
+2. The app reports that no server pricebooks match the uploaded empty file.
+3. No import is staged and nothing can be published.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A malformed CSV is rejected as ""no matching pricebooks"" and runs no import",,,,,Automated,Omeesha Mahanta,,,No import is staged and nothing can be published.,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open the Import All upload dialog for a variant</li>
+<li>2. Choose a malformed CSV (garbage rows, no valid header)</li>
+<li>3. nothing is staged</li>
+</ol>",,,"1. The Import All upload dialog opens for the selected variant.
+2. The app reports that no server pricebooks match the uploaded malformed file.
+3. No import is staged and nothing can be published.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A non-CSV file is rejected by type before any network,,,,,Automated,Omeesha Mahanta,,,A non-CSV file is rejected client-side by type; no import request is sent,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open the Import All upload dialog for a variant</li>
+<li>2. Choose a plain-text (.txt) file</li>
+</ol>",,,"1. The Import All upload dialog opens with a file input control.
+2. A non-CSV file is rejected client-side by type; no import request is sent",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancelling the publish modal after staging changes commits nothing,,,,,Automated,Omeesha Mahanta,,,Cancelling after staging commits nothing; the server value is unchanged,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Open the Import All upload dialog and choose a file that changes one price</li>
+<li>2. Click Cancel instead of Publish</li>
+<li>3. Confirm from a fresh export that the server value is unchanged</li>
+</ol>",,,"1. The changed price stages as a delta row in the Select items to publish modal.
+2. The Select items to publish modal closes and the staged change is discarded.
+3. Cancelling after staging commits nothing; the server value is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Import All publishes a changed price, it persists across reload, then restores",,,,,Automated,Omeesha Mahanta,,,"A published change persists across reload, and the value can be restored to its original - proven by re-downloading the export both times",,,corporate-pricing,,"On the Search screen with the grid loaded. Mutation-safe: mutates one product-group price in one pricebook (2026-LV-PB-9025 / product group 271) that no other test reads, and restores it
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Capture the target cell's current server value from a fresh export</li>
+<li>2. Build a file that changes only that one cell to a distinctive value</li>
+<li>3. open Import All</li>
+<li>4. Select the row and Publish</li>
+<li>5. Reload the page (the grid still renders) and confirm from a fresh export the value is the imported one (it persisted)</li>
+<li>6. Re-import the original value and Publish</li>
+<li>7. confirm from a fresh export the value is restored</li>
+</ol>",,,"1. The fresh export shows the target cell's current baseline server value.
+2. The generated file changes only the target cell, to the distinctive value.
+3. The Import All upload dialog opens with a file input control.
+4. The selected row publishes and the Select items to publish modal closes.
+5. After reload the grid still renders, and a fresh export shows the target cell holding the imported value.
+6. The original value publishes and the Select items to publish modal closes.
+7. A published change persists across reload, and the value can be restored to its original - proven by re-downloading the export both times",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The staged delta shows the exact changed cell (old price → new price), then Cancel commits nothing",,,,,Automated,Omeesha Mahanta,,,"The staged delta reflects the file precisely (one row: correct pricebook, product group, old price, new price); cancelling commits nothing",,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Select items to publish""",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Build a file that changes one price</li>
+<li>2. open Import All</li>
+<li>3. Read the ""Select items to publish"" modal</li>
+<li>4. Cancel without publishing</li>
+</ol>",,,"1. The generated file contains a single changed price, with all other cells unchanged.
+2. The Import All upload dialog opens with a file input control.
+3. The Select items to publish modal lists the one changed row with pricebook, product group, old and new price.
+4. The staged delta reflects the file precisely (one row: correct pricebook, product group, old price, new price); cancelling commits nothing",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Combination — a bounded pairwise of variant × Year(s) × Currency all reach the upload dialog,,,,,Automated,Omeesha Mahanta,,,Every variant x Year(s) x Currency combination in the pairwise set enables Continue and opens the correct titled upload dialog,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Import All <variant>""",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. For a bounded pairwise set of combinations across the 4 variants, a 1-year and a 3-year selection, and USD/CAD/MXN: open the variant, set Year(s) and Currency</li>
+<li>2. Confirm Continue enables and, on Continue, the ""Import All &lt;variant>"" upload dialog opens with a file input</li>
+<li>3. Close each without choosing a file</li>
+</ol>",,,"1. Each variant's precondition dialog accepts the selected Year(s) and Currency combination.
+2. Continue enables, and clicking it opens the correctly titled Import All upload dialog with a file input.
+3. Every variant x Year(s) x Currency combination in the pairwise set enables Continue and opens the correct titled upload dialog",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An Equipment file imported into the Labor variant matches no pricebooks (no commit),,,,,Automated,Omeesha Mahanta,,,Feeding an Equipment file into the Labor import matches no pricebooks and commits nothing,,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""All Labor Pricing""",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Build an Equipment-scoped changed file</li>
+<li>2. Open the ""All Labor Pricing"" import, set year + currency, Continue, and choose the Equipment file</li>
+<li>3. The Labor pricebooks differ, so the app reports none match</li>
+<li>4. nothing is staged and no import fires</li>
+</ol>",,,"1. The generated file contains a changed price scoped to an Equipment pricebook.
+2. The All Labor Pricing upload dialog opens, Continue enables, and the Equipment file is accepted for upload.
+3. The app reports that no pricebooks match the uploaded file.
+4. Feeding an Equipment file into the Labor import matches no pricebooks and commits nothing",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Publishing a subset of staged rows commits only the selected rows,,,,,Automated,Omeesha Mahanta,,,Both cells stage; publishing a strict subset commits only the checked row - the deselected staged row is left unchanged (only selected staged rows publish),,,corporate-pricing,,"On the Search screen with the grid loaded; the throwaway target cell at its captured baseline
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Select items to publish""",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Build an import file that changes TWO product-group cells in one pricebook - the throwaway target (271) and one untouched neighbour product group</li>
+<li>2. Open the Import All flow and choose the file - both changed cells stage in the ""Select items to publish"" modal</li>
+<li>3. Publish with ONLY the target row checked (the neighbour stays deselected)</li>
+<li>4. Re-export and confirm the target committed while the deselected neighbour is unchanged</li>
+<li>5. then restore the target</li>
+</ol>",,,"1. The generated file changes two product-group cells in one pricebook: the target (271) and one neighbouring group.
+2. The Select items to publish modal lists both changed rows: the target and the neighbouring product group.
+3. Only the checked target row publishes and the modal closes.
+4. A fresh export shows the target product group updated while the neighbouring product group is unchanged.
+5. Both cells stage; publishing a strict subset commits only the checked row - the deselected staged row is left unchanged (only selected staged rows publish)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A Labor-variant change stages a delta, then Cancel commits nothing",,,,,Automated,Omeesha Mahanta,,,"A real Labor delta positively stages (proving staging works for a variant other than Equipment, whose pricebook population differs); Cancel commits nothing and no import request fires",,,corporate-pricing,,"On the Search screen with the grid loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""All Labor Pricing""",Medium,,Import_All,1,,Corporate_Pricing > Import_All,"<ol>
+<li>1. Pick a real Labor target live from the Labor export (a product group with a numeric price in a Labor pricebook column)</li>
+<li>2. Build a single-cell change file for the Labor variant and open the ""All Labor Pricing"" import</li>
+<li>3. Choose the file - the app stages the one Labor delta in the publish modal</li>
+<li>4. Cancel without publishing - no Labor pricebook is mutated</li>
+</ol>",,,"1. The Labor export identifies a valid product group with a numeric price in a Labor pricebook column.
+2. The single-cell change file loads and the All Labor Pricing upload dialog opens.
+3. The Select items to publish modal stages the one Labor delta row.
+4. A real Labor delta positively stages (proving staging works for a variant other than Equipment, whose pricebook population differs); Cancel commits nothing and no import request fires",,,,Master,S1620,Test Case (Steps),Regression,,,

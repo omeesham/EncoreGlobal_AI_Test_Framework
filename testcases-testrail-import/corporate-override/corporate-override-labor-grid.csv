@@ -1,0 +1,737 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Labor tab renders a populated grid with real data on office 9460 (NM-2271),,,,,Automated,Omeesha Mahanta,,,"The Labor tab renders a populated grid with real data: rows are visible, the items-found total is in the triple digits, and the known anchor row is present",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 9460 selected; Labor tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""items found""
+Sample input 2: ""Banners Design""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Select office 9460 via the Change Local Office picker</li>
+<li>2. Read the visible row count</li>
+<li>3. Read the ""items found"" total</li>
+<li>4. Find the row ""Banners Design""</li>
+</ol>",,,"1. Office 9460 is selected and the Labor grid populates.
+2. Rows are displayed in the Labor grid.
+3. The ""items found"" total is displayed in the triple digits.
+4. The Labor tab renders a populated grid with real data: rows are visible, the items-found total is in the triple digits, and the known anchor row is present",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor grid text filter narrows to matching rows and clearing restores the page (NM-2271),,,,,Automated,Omeesha Mahanta,,,The visible row count increases back above the narrowed count.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 9460 selected; Labor tab active; no filter applied
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Banners""
+Sample input 2: ""Banners Design""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Read the visible row count (full page)</li>
+<li>2. Type ""Banners"" into the filter box</li>
+<li>3. the ""Banners Design"" row is visible</li>
+<li>4. Clear the filter</li>
+</ol>",,,"1. The visible row count on the full page is displayed.
+2. The grid narrows to rows matching ""Banners"" with a row count below the full page and above 0.
+3. The ""Banners Design"" row is visible in the grid.
+4. The visible row count increases back above the narrowed count.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor grid column sort orders Product Group Name ascending and descending (NM-2271),,,,,Automated,Omeesha Mahanta,,,The Labor grid sorts via the same header dropdown mechanism as Equipment. The oracle is self-verifying monotonic order - resilient to data drift on the shared bed,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 9460 selected; Labor tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Product Group Name""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Open the ""Product Group Name"" header dropdown</li>
+<li>2. Open the header dropdown</li>
+</ol>",,,"1. The header dropdown menu opens and displays sort options.
+2. The Labor grid sorts via the same header dropdown mechanism as Equipment. The oracle is self-verifying monotonic order - resilient to data drift on the shared bed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor Override Price save-cycle persists after reload and restores (NM-2271),,,,,Automated,Omeesha Mahanta,,,Override Price for row 655 displays 161.,,,"corporate-pricing-pg-override,functional",,"Office 1105 Labor row 655 ""General - Ops"" at its 160.00 baseline
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Baseline: restore row 655 to Override Price 160.00 / inactive (bounded-retry restore)</li>
+<li>2. Edit Override Price to 161</li>
+<li>3. Save</li>
+<li>4. Reload + re-select office 1105 + Labor tab</li>
+</ol>",,,"1. Override Price for row 655 is confirmed at 160.00 and the row is inactive.
+2. The new value commits to the Override Price cell and the Save button becomes enabled.
+3. The save dialog is confirmed and a success toast appears.
+4. Override Price for row 655 displays 161.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor Max Discount % save-cycle persists after reload and restores (NM-2271),,,,,Automated,Omeesha Mahanta,,,Max Discount % for row 655 displays 10 after reload.,,,"corporate-pricing-pg-override,functional",,"Office 1105 Labor row 655 at baseline (Max Discount unset ""-"")
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Baseline restore</li>
+<li>2. Save + confirm</li>
+</ol>",,,"1. Max Discount % for row 655 accepts the value 10 and the Save button becomes enabled.
+2. Max Discount % for row 655 displays 10 after reload.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor Active toggle save-cycle persists after reload and restores (NM-2271),,,,,Automated,Omeesha Mahanta,,,The toggled Active state is displayed after reload.,,,"corporate-pricing-pg-override,functional",,"Office 1105 Labor row 655 at baseline (inactive)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Baseline restore</li>
+<li>2. Save + confirm</li>
+</ol>",,,"1. The Active checkbox toggles to the opposite state and the Save button becomes enabled.
+2. The toggled Active state is displayed after reload.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Navigating away from a dirty grid raises the unsaved-changes dialog; Stay keeps the page and the edit (NM-2271),,,,,Automated,Omeesha Mahanta,,,The Save button remains enabled.,,,"corporate-pricing-pg-override,functional",,"Office 1105 Labor tab loaded; grid clean
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Stay""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Edit row 655 Override Price to a value differing from the saved one</li>
+<li>2. Click the in-app Home link</li>
+<li>3. Click ""Stay""</li>
+<li>4. the URL still points at the Override screen</li>
+<li>5. the staged edit is intact</li>
+<li>6. Save is still enabled</li>
+</ol>",,,"1. The new value commits to the cell and the Save button becomes enabled.
+2. The ""Unsaved changes"" dialog appears with the title, body text, and Stay and Discard buttons.
+3. The dialog closes.
+4. The URL continues to show the Override screen.
+5. The staged edit is still visible in the grid.
+6. The Save button remains enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Discard in the unsaved-changes dialog leaves the page and drops the edit (NM-2271),,,,,Automated,Omeesha Mahanta,,,Discard navigates away and the dropped edit never persists - proven by re-reading the value after a full reload,,,"corporate-pricing-pg-override,functional",,"Office 1105 Labor tab loaded; grid clean
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Edit row 655 Override Price</li>
+<li>2. Click the in-app Home link</li>
+<li>3. Assert navigation to the home page</li>
+<li>4. Re-open the Override screen + re-select 1105 + Labor tab</li>
+</ol>",,,"1. The new value commits to the Override Price cell and the Save button becomes enabled.
+2. An unsaved-changes dialog opens with a Discard option.
+3. The application navigates to the home page.
+4. Discard navigates away and the dropped edit never persists - proven by re-reading the value after a full reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Page navigation changes the visible rows and enables or disables the nav buttons at each end (NM-2271),,,,,Automated,Omeesha Mahanta,,,The visible row count is between 1 and the current rows-per-page setting.,,,"corporate-pricing-pg-override,functional",,"Office 9460 Labor tab loaded (multi-page data set); page 1; default rows-per-page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Go to first page""
+Sample input 2: ""Go to previous page""
+Sample input 3: ""Go to next page""
+Sample input 4: ""Go to last page""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. On page 1: ""Go to first page"" + ""Go to previous page"" disabled; ""Go to next page"" + ""Go to last page"" enabled</li>
+<li>2. read the first row name</li>
+<li>3. Click ""Go to next page""</li>
+<li>4. Click ""Go to last page""</li>
+<li>5. the visible row count is above 0 and no more than the rows-per-page setting</li>
+</ol>",,,"1. ""Go to first page"" and ""Go to previous page"" are disabled; ""Go to next page"" and ""Go to last page"" are enabled.
+2. The first row's Product Group Name is displayed.
+3. The first row displays a different Product Group Name and ""Go to previous page"" becomes enabled.
+4. ""Go to next page"" and ""Go to last page"" are disabled.
+5. The visible row count is between 1 and the current rows-per-page setting.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Raising rows-per-page shows more rows without changing the total (NM-2271),,,,,Automated,Omeesha Mahanta,,,A larger page size shows more rows on the page while the underlying record total stays constant. Relative assertions only,,,"corporate-pricing-pg-override,functional",,"Office 9460 Labor tab loaded; default rows-per-page (20)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""items found""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Read the visible row count and the ""items found"" total</li>
+<li>2. Change rows-per-page to 50</li>
+<li>3. Assert the visible row count increased and the ""items found"" total is unchanged</li>
+</ol>",,,"1. The visible row count and the ""items found"" total are displayed.
+2. The grid re-renders to display up to 50 rows per page.
+3. A larger page size shows more rows on the page while the underlying record total stays constant. Relative assertions only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A page-1 row reads back identically after paging to the last page and returning (NM-2271),,,,,Automated,Omeesha Mahanta,,,"content-based read integrity holds across a full page-range round trip on the largest available data set - no windowing or render corruption. content, never position",,,"corporate-pricing-pg-override,functional",,"Office 9460 Labor tab loaded; page 1
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Read the first row Product Group Name (content)</li>
+<li>2. Page to the last page</li>
+<li>3. Page back to the first page</li>
+</ol>",,,"1. The first row's Product Group Name is displayed.
+2. The grid advances to the last page and displays its rows.
+3. content-based read integrity holds across a full page-range round trip on the largest available data set - no windowing or render corruption. content, never position",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Enter opens the Override Price editor on a focused cell; Escape closes it without dirtying the form (NM-2271),,,,,Automated,Omeesha Mahanta,,,The Save button remains disabled.,,,"corporate-pricing-pg-override,functional",,"Office 1606 fixture row at its default; grid clean
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Focus the anchor row Override Price display cell (it is keyboard-focusable)</li>
+<li>2. Press Enter</li>
+<li>3. Press Escape</li>
+<li>4. Save remains disabled (no unsaved changes)</li>
+</ol>",,,"1. The Override Price display cell receives keyboard focus.
+2. The numeric editor opens and displays the current Override Price value.
+3. The editor closes without committing a change.
+4. The Save button remains disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Product Group picker appears only when a specific currency is selected (NM-2271),,,,,Automated,Omeesha Mahanta,,,"The add-override affordance is a currency-gated picker: absent on ALL, present with draggable rows once a specific currency is selected",,,"corporate-pricing-pg-override,functional",,"Office 4104 selected; Currency at its ALL default
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Product Groups""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. With Currency = ALL: the ""Product Groups"" picker panel (search box) is absent</li>
+<li>2. Select Currency = USD</li>
+<li>3. Count the picker draggable product-group rows</li>
+</ol>",,,"1. The ""Product Groups"" picker panel is absent from the screen.
+2. The ""Product Groups"" picker panel appears with a search box.
+3. The add-override affordance is a currency-gated picker: absent on ALL, present with draggable rows once a specific currency is selected",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dragging a picker row stages a new override row with no request until Save; Discard drops it (NM-2271),,,,,Automated,Omeesha Mahanta,,,"Drag staging is purely client-side (no request until Save), lands at 0.00/inactive, dirties the form, and evaporates on Discard - proven by a post-reload recount. Nothing is ever saved",,,"corporate-pricing-pg-override,functional",,"Office 4104 selected; Currency USD; picker visible; Equipment tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Read the grid row count</li>
+<li>2. Drag the picker first row into the Equipment grid panel</li>
+<li>3. Assert: row count +1</li>
+<li>4. ZERO save requests fired during the drag</li>
+<li>5. Save button enabled</li>
+<li>6. the staged row shows Override Price 0.00 and inactive</li>
+<li>7. Navigate Home</li>
+<li>8. Re-open + re-select 4104 + USD</li>
+</ol>",,,"1. The current grid row count is displayed.
+2. The dragged row is added to the Equipment grid.
+3. The grid row count increases by 1.
+4. No save request fires during the drag.
+5. The Save button becomes enabled.
+6. The staged row displays Override Price 0.00 and the Active checkbox unchecked.
+7. An unsaved-changes dialog opens, and Discard navigates to the home page.
+8. Drag staging is purely client-side (no request until Save), lands at 0.00/inactive, dirties the form, and evaporates on Discard - proven by a post-reload recount. Nothing is ever saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The picker serves the Labor tab and drag staging works there too (NM-2271),,,,,Automated,Omeesha Mahanta,,,"The same currency-gated picker serves Labor product groups, and drag staging behaves identically on the Labor tab",,,"corporate-pricing-pg-override,functional",,"Office 4104 selected; Currency USD; picker visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Switch to the Labor tab</li>
+<li>2. Read the Labor grid row count</li>
+<li>3. Assert the row count increased by 1 and Save enabled</li>
+<li>4. Navigate Home</li>
+</ol>",,,"1. The Labor tab becomes active and its grid, along with the product-group picker, is displayed.
+2. The current Labor grid row count is displayed.
+3. The Labor grid row count increases by 1 and the Save button becomes enabled.
+4. The same currency-gated picker serves Labor product groups, and drag staging behaves identically on the Labor tab",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking Override Price on Labor reveals editable number field,,,,,Automated,Omeesha Mahanta,,,The Override Price cell on Labor is click-to-edit - clicking reveals a field pre-filled with the current value (13.00 for PG 565),,,"corporate-pricing-pg-override,functional",,"Authenticated; on the Override screen with office 1134 selected, Labor tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134, find row by Product Group 565</li>
+<li>2. Click the Override Price cell (role=button)</li>
+<li>3. Read the editor value</li>
+<li>4. Press Escape</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab with the Product Group 565 row visible.
+2. The Override Price cell switches to edit mode.
+3. The editor displays the pre-filled value 13.00.
+4. The Override Price cell on Labor is click-to-edit - clicking reveals a field pre-filled with the current value (13.00 for PG 565)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,0 commits as 0.00 on Labor Override Price,,,,,Automated,Omeesha Mahanta,,,Override Price accepts 0 as a valid value; editor closes; cell displays 0.00; Save enables,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue='0.00', saveEnabled=true</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Override Price.
+2. The value 0 is entered into the Override Price field and Enter is pressed.
+3. Override Price accepts 0 as a valid value; editor closes; cell displays 0.00; Save enables",,,,Master,S1620,Test Case (Steps),Regression,,,
+,25.50 mid-decimal commits on Labor Override Price,,,,,Automated,Omeesha Mahanta,,,Override Price accepts a mid-range decimal; editor closes; cell displays 25.50; Save enables,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue='25.50', saveEnabled=true</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Override Price.
+2. The value 25.50 is entered into the Override Price field and Enter is pressed.
+3. Override Price accepts a mid-range decimal; editor closes; cell displays 25.50; Save enables",,,,Master,S1620,Test Case (Steps),Regression,,,
+,9999.99 large value commits on Labor Override Price,,,,,Automated,Omeesha Mahanta,,,"Override Price accepts a large value; editor closes; cell renders with thousands separator as 9,999.99; Save enables",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue='9,999.99', saveEnabled=true</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Override Price.
+2. The value 9999.99 is entered into the Override Price field and Enter is pressed.
+3. Override Price accepts a large value; editor closes; cell renders with thousands separator as 9,999.99; Save enables",,,,Master,S1620,Test Case (Steps),Regression,,,
+,-0.01 rejected on Labor Override Price (below-min boundary),,,,,Automated,Omeesha Mahanta,,,"-0.01 is rejected - editor stays open, is invalid, red border, Save disabled, no error message (defect #4), escapable via Tab",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert: committed=false, ariaInvalid='true', borderColor contains oklch(0.577 0.245 27.325), errorText='' (no message - defect #4), saveEnabled=false, escapable=true</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Override Price.
+2. The value -0.01 is entered into the Override Price field and Enter is pressed.
+3. -0.01 is rejected - editor stays open, is invalid, red border, Save disabled, no error message (defect #4), escapable via Tab",,,,Master,S1620,Test Case (Steps),Regression,,,
+,0.01 just above zero commits on Labor Override Price,,,,,Automated,Omeesha Mahanta,,,"The smallest positive decimal step commits - cell displays 0.01, Save enables",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 893 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue='0.01', saveEnabled=true</li>
+</ol>",,,"1. The Labor row for PG 893 is displayed with its original Override Price.
+2. The value 0.01 is entered into the Override Price field and Enter is pressed.
+3. The smallest positive decimal step commits - cell displays 0.01, Save enables",,,,Master,S1620,Test Case (Steps),Regression,,,
+,12.345 third-decimal precision on Labor Override Price [TODO-UNVERIFIED display],,,,,Automated,Omeesha Mahanta,,,"A 3rd-decimal-place input commits (editor closes, Save enables). Exact displayed format is ""Pending verification"" - precision/rounding behavior on Override Price has not been probed",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pending verification""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert committed=true</li>
+<li>4. read displayedValue - ""Pending verification"": expected 12.35 (rounded) or 12.345 (3 decimals) or 12.34 (truncated)</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Override Price.
+2. The value 12.345 is entered into the Override Price field and Enter is pressed.
+3. The value commits and the Override Price editor closes.
+4. A 3rd-decimal-place input commits (editor closes, Save enables). Exact displayed format is ""Pending verification"" - precision/rounding behavior on Override Price has not been probed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,999999.99 above-max probe on Labor Override Price [TODO-UNVERIFIED],,,,,Automated,Omeesha Mahanta,,,"""Pending verification"" - no confirmed hard max for Override Price exists. If accepted: displays 999,999.99. If rejected: full rejection signature applies. TC-021 on Equipment states ""a large number"" is accepted, so acceptance is the expected path",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pending verification""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 893 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue='999,999.99', saveEnabled=true - ""Pending verification"": no confirmed hard max for Override Price</li>
+<li>4. if rejected, apply override rejection signature instead</li>
+</ol>",,,"1. The Labor row for PG 893 is displayed with its original Override Price.
+2. The value 999999.99 is entered into the Override Price field and Enter is pressed.
+3. The value commits and displays as 999,999.99, and the Save button becomes enabled.
+4. ""Pending verification"" - no confirmed hard max for Override Price exists. If accepted: displays 999,999.99. If rejected: full rejection signature applies. TC-021 on Equipment states ""a large number"" is accepted, so acceptance is the expected path",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"abc blanks Override Price to dash, Save enabled — defect evidence (Labor)",,,,,Automated,Omeesha Mahanta,,,The defect is documented: non-numeric input blanks the Override Price cell instead of being rejected.,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert the DEFECT: committed=true, displayedValue='-' (em-dash, blanked), saveEnabled=true</li>
+<li>4. ""Expected (asserting the BUG - test FAILS when app is fixed)"": abc is not rejected - it blanks the cell to - and Save stays enabled, meaning an emptied price can be saved. When the app is fixed, committed will become false (proper rejection) and this test fails loudly</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Override Price.
+2. The characters abc are entered into the Override Price field and Enter is pressed.
+3. The cell blanks to an em-dash, the editor closes, and the Save button stays enabled.
+4. The defect is documented: non-numeric input blanks the Override Price cell instead of being rejected.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,1.2.3 silently corrupts Override Price to 1.23 — defect evidence (Labor),,,,,Automated,Omeesha Mahanta,,,The defect is documented: the app accepts 1.2.3 as 1.23 instead of rejecting the malformed multi-dot input.,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Call - real keyboard input (method rule)</li>
+<li>3. Assert the DEFECT: committed=true, displayedValue='1.23' (no % suffix - Override Price format), saveEnabled=true</li>
+<li>4. ""Expected (asserting the BUG - test FAILS when app is fixed)"": 1.2.3 (a typo) is not rejected - the browser swallows the second dot, committing 1.23 as if valid. When fixed, the app will reject 1.2.3 and committed will become false</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Override Price.
+2. The characters 1.2.3 are typed into the Override Price field and Enter is pressed.
+3. The value commits as 1.23, the editor closes, and the Save button becomes enabled.
+4. The defect is documented: the app accepts 1.2.3 as 1.23 instead of rejecting the malformed multi-dot input.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,-5 rejected on Labor Override Price with full affordance oracle,,,,,Automated,Omeesha Mahanta,,,-5 is rejected with the full override rejection signature. The rejection is LOUD (visual cues) but SILENT (no error text - defect #4). Editor stays open; Save is disabled; focus is NOT trapped,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Call - captures step-5 order BEFORE escape</li>
+<li>3. Assert rejection oracle (all 7 affordances):</li>
+<li>4. - committed = false (editor stays open, value NOT committed)</li>
+<li>5. - ariaInvalid = 'true'</li>
+<li>6. - borderColor contains oklch(0.577 0.245 27.325) (red)</li>
+<li>7. - errorText = '' (empty - defect #4: no error message ever shown)</li>
+<li>8. - saveEnabled = false (Save DISABLED)</li>
+<li>9. - escapable = true (Tab moves focus out - NOT a focus trap)</li>
+<li>10. Assert [ ] displayed text is empty (defect #4 evidence)</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Override Price.
+2. The value -5 is entered into the Override Price field and Enter is pressed.
+3. The editor remains open with the rejected value -5 still displayed.
+4. The value is not committed and the Override Price editor stays open.
+5. The field is displayed marked as invalid.
+6. The field border is displayed in red.
+7. No error message text is displayed next to the field.
+8. The Save button is displayed disabled.
+9. Pressing Tab moves focus out of the field.
+10. -5 is rejected with the full override rejection signature. The rejection is LOUD (visual cues) but SILENT (no error text - defect #4). Editor stays open; Save is disabled; focus is NOT trapped",,,,Master,S1620,Test Case (Steps),Regression,,,
+,007 leading zeros stripped to 7.00 on Labor Override Price,,,,,Automated,Omeesha Mahanta,,,Leading zeros are stripped - 007 commits as 7.00 (no % suffix on Override Price). Save enables,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 893 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue='7.00', saveEnabled=true</li>
+</ol>",,,"1. The Labor row for PG 893 is displayed with its original Override Price.
+2. The value 007 is entered into the Override Price field and Enter is pressed.
+3. Leading zeros are stripped - 007 commits as 7.00 (no % suffix on Override Price). Save enables",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"1e5 commits as 100,000.00 on Labor Override Price",,,,,Automated,Omeesha Mahanta,,,"1e5 commits on Override Price and displays as 100,000.00. Save enables. Max Discount % rejects 1e5 because the >100 cap fires (1e5 = 100000 > 100), not because the app refuses scientific notation; Override Price has no such cap, so it accepts the value",,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 893 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert committed=true, displayedValue='100,000.00', saveEnabled=true</li>
+</ol>",,,"1. The Labor row for PG 893 is displayed with its original Override Price.
+2. The value 1e5 is entered into the Override Price field and Enter is pressed.
+3. 1e5 commits on Override Price and displays as 100,000.00. Save enables. Max Discount % rejects 1e5 because the >100 cap fires (1e5 = 100000 > 100), not because the app refuses scientific notation; Override Price has no such cap, so it accepts the value",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting Override Price to original disables Save on Labor,,,,,Automated,Omeesha Mahanta,,,Editing Override Price to 99.99 enables Save; reverting to the original 13.00 disables Save (no net change). No data is committed - reload would restore regardless,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Call</li>
+<li>3. Assert saveEnabledAfterEdit=true, saveDisabledAfterRevert=true</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Override Price.
+2. The value 99.99 is entered, then the field is reverted to the original value 13.00.
+3. Editing Override Price to 99.99 enables Save; reverting to the original 13.00 disables Save (no net change). No data is committed - reload would restore regardless",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Active toggle-then-revert disables Save on Labor,,,,,Automated,Omeesha Mahanta,,,Toggling Active then toggling back to the original state leaves zero net change - Save returns to disabled. No data is committed,,,"corporate-pricing-pg-override,functional",,"On the Override screen, office 1134, Labor tab, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
+<li>2. Read initial Active state</li>
+<li>3. Toggle the Active checkbox</li>
+<li>4. Toggle the Active checkbox again (revert to original state)</li>
+</ol>",,,"1. The Labor row for PG 565 is displayed with its original Active state.
+2. The Active checkbox state is displayed.
+3. The Active checkbox flips to the opposite state and the Save button becomes enabled.
+4. Toggling Active then toggling back to the original state leaves zero net change - Save returns to disabled. No data is committed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,0 commits as 0.00 % — min valid,,,,,Automated,Omeesha Mahanta,,,The value commits and displays as 0.00 %. Save becomes enabled.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 565</li>
+<li>3. Call</li>
+<li>4. Assert value commits as 0.00 %</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 565 is displayed.
+3. The value 0 is entered into the Max Discount % field and Enter is pressed.
+4. The value commits and displays as 0.00 %. Save becomes enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,50 commits as 50.00 % — mid-value,,,,,Automated,Omeesha Mahanta,,,The value commits and displays as 50.00 %. Save becomes enabled.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 893</li>
+<li>3. Call</li>
+<li>4. Assert value commits as 50.00 %</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 893 is displayed.
+3. The value 50 is entered into the Max Discount % field and Enter is pressed.
+4. The value commits and displays as 50.00 %. Save becomes enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,100 commits as 100.00 % — inclusive cap,,,,,Automated,Omeesha Mahanta,,,The value commits and displays as 100.00 %. Save becomes enabled.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 565</li>
+<li>3. Call</li>
+<li>4. Assert value commits as 100.00 %</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 565 is displayed.
+3. The value 100 is entered into the Max Discount % field and Enter is pressed.
+4. The value commits and displays as 100.00 %. Save becomes enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,-0.01 rejected — just below minimum,,,,,Automated,Omeesha Mahanta,,,The value is rejected with an invalid-state indicator. Save remains disabled and the field is escapable.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 893</li>
+<li>3. Call</li>
+<li>4. Assert result matches override rejection signature</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 893 is displayed.
+3. The value -0.01 is entered into the Max Discount % field and Enter is pressed.
+4. The value is rejected with an invalid-state indicator. Save remains disabled and the field is escapable.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"0.5 commits as 50.00 % — 100x misread defect (highest severity, money bug)",,,,,Automated,Omeesha Mahanta,,,The defect baseline is recorded: 50.00 % is the value displayed for input 0.5 on the Labor tab's Max Discount % field.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""
+Sample input 2: ""When the app is fixed""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 565</li>
+<li>3. Call</li>
+<li>4. Assert the DEFECT: value commits as 50.00 % instead of the correct 0.50 %</li>
+<li>5. ""Expected (asserting the BUG - test FAILS when app is fixed)"":</li>
+<li>6. - committed = true (editor closes - the app accepted this)</li>
+<li>7. - displayedValue = '50.00 %' (WRONG - should be 0.50 %; a half-percent cap silently becomes fifty percent)</li>
+<li>8. - saveEnabled = true</li>
+<li>9. ""When the app is fixed"": displayedValue will change to '0.50 %'. The test fails, naming both values - the 100x multiplier bug is gone</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 565 is displayed.
+3. The value 0.5 is entered into the Max Discount % field and Enter is pressed.
+4. The value commits and displays as 50.00 % instead of the correct 0.50 %.
+5. The 100x multiplier defect is documented for the Labor tab's Max Discount % field.
+6. The editor closes, confirming the app accepted the entry.
+7. The cell displays 50.00 % instead of the intended 0.50 %.
+8. The Save button becomes enabled.
+9. The defect baseline is recorded: 50.00 % is the value displayed for input 0.5 on the Labor tab's Max Discount % field.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,99.99 commits as 99.99 % — just below cap,,,,,Automated,Omeesha Mahanta,,,The value commits and displays as 99.99 %. Save becomes enabled.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 893</li>
+<li>3. Call</li>
+<li>4. Assert value commits as 99.99 %</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 893 is displayed.
+3. The value 99.99 is entered into the Max Discount % field and Enter is pressed.
+4. The value commits and displays as 99.99 %. Save becomes enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,150 (>100) rejected with full affordance,,,,,Automated,Omeesha Mahanta,,,The value is rejected with an invalid-state indicator. Save remains disabled and the field is escapable.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 565</li>
+<li>3. Call</li>
+<li>4. Assert result matches override rejection signature</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 565 is displayed.
+3. The value 150 is entered into the Max Discount % field and Enter is pressed.
+4. The value is rejected with an invalid-state indicator. Save remains disabled and the field is escapable.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,-5 rejected with full affordance,,,,,Automated,Omeesha Mahanta,,,The value is rejected with an invalid-state indicator. Save remains disabled and the field is escapable.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 893</li>
+<li>3. Call</li>
+<li>4. Assert result matches override rejection signature</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 893 is displayed.
+3. The value -5 is entered into the Max Discount % field and Enter is pressed.
+4. The value is rejected with an invalid-state indicator. Save remains disabled and the field is escapable.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"abc blanks cell to dash, Save stays enabled — blank-commits defect",,,,,Automated,Omeesha Mahanta,,,The defect baseline is recorded: the Max Discount % cell blanks to an em-dash on the Labor tab with Save left enabled.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""
+Sample input 2: ""When the app is fixed""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 565</li>
+<li>3. Call</li>
+<li>4. Assert the DEFECT: value blanks to - and Save remains enabled</li>
+<li>5. ""Expected (asserting the BUG - test FAILS when app is fixed)"":</li>
+<li>6. - committed = true (editor closes - the app accepted this non-numeric input)</li>
+<li>7. - displayedValue = '-' (cell blanked - an emptied discount cap can be saved)</li>
+<li>8. - saveEnabled = true (WRONG - a blanked value should not be saveable)</li>
+<li>9. ""When the app is fixed"": either the input is rejected (editor stays open, committed=false) or Save is disabled. The test fails, exposing the fix</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 565 is displayed.
+3. The characters abc are entered into the Max Discount % field and Enter is pressed.
+4. The cell blanks to an em-dash and the Save button remains enabled.
+5. The defect is documented for the Labor tab's Max Discount % field.
+6. The editor closes, confirming the app accepted the non-numeric input.
+7. The cell displays an em-dash.
+8. The Save button stays enabled.
+9. The defect baseline is recorded: the Max Discount % cell blanks to an em-dash on the Labor tab with Save left enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,1.2.3 silently corrupts to 1.23 % — multi-dot defect,,,,,Automated,Omeesha Mahanta,,,The defect baseline is recorded: 1.2.3 commits as 1.23 % on the Labor tab's Max Discount % field.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""
+Sample input 2: ""When the app is fixed""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 893</li>
+<li>3. Call</li>
+<li>4. Assert the DEFECT: value commits as 1.23 % (second dot swallowed)</li>
+<li>5. ""Expected (asserting the BUG - test FAILS when app is fixed)"":</li>
+<li>6. - committed = true (editor closes - should have been rejected)</li>
+<li>7. - displayedValue = '1.23 %' (WRONG - a multi-dot input is silently corrupted)</li>
+<li>8. - saveEnabled = true</li>
+<li>9. ""When the app is fixed"": the input is rejected (editor stays open, committed=false, is invalid). The test fails, naming the change</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 893 is displayed.
+3. The characters 1.2.3 are typed into the Max Discount % field and Enter is pressed.
+4. The value commits as 1.23 % with the second dot dropped.
+5. The defect is documented for the Labor tab's Max Discount % field.
+6. The editor closes, confirming the app accepted the malformed entry.
+7. The cell displays 1.23 % instead of being rejected.
+8. The Save button becomes enabled.
+9. The defect baseline is recorded: 1.2.3 commits as 1.23 % on the Labor tab's Max Discount % field.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,007 commits as 7.00 % — leading zeros stripped,,,,,Automated,Omeesha Mahanta,,,The value commits with leading zeros stripped and displays as 7.00 %. Save becomes enabled.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 565</li>
+<li>3. Call</li>
+<li>4. Assert value commits with leading zeros stripped</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 565 is displayed.
+3. The value 007 is entered into the Max Discount % field and Enter is pressed.
+4. The value commits with leading zeros stripped and displays as 7.00 %. Save becomes enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,1e5 (scientific notation) rejected with full affordance,,,,,Automated,Omeesha Mahanta,,,The value is rejected with an invalid-state indicator. Save remains disabled and the field is escapable.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 893 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 893</li>
+<li>3. Call</li>
+<li>4. Assert result matches override rejection signature</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 893 is displayed.
+3. The value 1e5 is entered into the Max Discount % field and Enter is pressed.
+4. The value is rejected with an invalid-state indicator. Save remains disabled and the field is escapable.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save-cycle — reverting Max Discount % to original disables Save on Labor,,,,,Automated,Omeesha Mahanta,,,Save enables after editing to a new value and disables after reverting to the original value.,,,"corporate-pricing-pg-override,functional",,"Authenticated, office 1134 selected, Labor tab active, PG 565 row visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to Labor tab on office 1134</li>
+<li>2. Find row by product group anchor PG 565</li>
+<li>3. Call</li>
+<li>4. Assert Save enables after edit, then disables after revert</li>
+</ol>",,,"1. Office 1134 loads on the Labor tab.
+2. The row for Product Group 565 is displayed.
+3. The value 50 is entered, then the field is reverted to the original value 14.00.
+4. Save enables after editing to a new value and disables after reverting to the original value.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sort produces verifiable monotonic order on Labor tab,,,,,Automated,Omeesha Mahanta,,,The Product Group values are displayed in non-decreasing order.,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1134 selected; Labor tab active; 2 rows visible (PG 565, PG 893); no filter or sort active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""565""
+Sample input 2: ""Product Group""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Read the visible row count</li>
+<li>2. Type ""565"" into the text filter</li>
+<li>3. Open the ""Product Group"" column header dropdown</li>
+<li>4. Assert: still 1 row visible (filter survives the sort)</li>
+<li>5. the row is PG 565</li>
+<li>6. Clear the text filter</li>
+<li>7. assert sort order is maintained (Product Group values non-decreasing)</li>
+</ol>",,,"1. 2 rows are displayed.
+2. 1 row is displayed.
+3. The column header dropdown menu opens and the sort is applied.
+4. 1 row is still displayed after the sort.
+5. PG 565 is the visible row.
+6. Both rows are displayed again.
+7. The Product Group values are displayed in non-decreasing order.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Select 10 → grid shows exactly 10 rows,,,,,Automated,Omeesha Mahanta,,,"Selecting ""10"" re-renders the grid to show exactly 10 rows on page 1. The pagination updates to reflect 10-row pages. The default of 20 differs from 10, so this assertion ""fails if the control does nothing"" (an inactive control yields 20 visible rows ≠ 10)",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 9460 selected (via corp pricing override labor volume bed); Labor tab active; grid populated with 212 rows; default rows-per-page is 20
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""10""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to office 9460, Labor tab (via volume bed constant)</li>
+<li>2. Confirm the grid loads with the default page size (20 visible rows)</li>
+<li>3. Open the rows-per-page selector and choose ""10""</li>
+<li>4. Count visible grid rows</li>
+<li>5. Confirm pagination state is consistent (page indicator shows page 1 of a page count > what 20/page would produce)</li>
+</ol>",,,"1. Office 9460 loads on the Labor tab with 212 rows available.
+2. 20 rows are displayed on the page.
+3. The grid re-renders to display 10 rows on the page.
+4. 10 rows are displayed.
+5. Selecting ""10"" re-renders the grid to show exactly 10 rows on page 1. The pagination updates to reflect 10-row pages. The default of 20 differs from 10, so this assertion ""fails if the control does nothing"" (an inactive control yields 20 visible rows ≠ 10)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Select 30 → grid shows exactly 30 rows,,,,,Automated,Omeesha Mahanta,,,"Selecting ""30"" re-renders the grid to show exactly 30 rows on page 1. The pagination updates to reflect 30-row pages. The default of 20 differs from 30, so this assertion ""fails if the control does nothing"" (an inactive control yields 20 visible rows ≠ 30)",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 9460 selected (via corp pricing override labor volume bed); Labor tab active; grid populated with 212 rows; default rows-per-page is 20
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""30""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to office 9460, Labor tab (via volume bed constant)</li>
+<li>2. Confirm the grid loads with the default page size (20 visible rows)</li>
+<li>3. Open the rows-per-page selector and choose ""30""</li>
+<li>4. Count visible grid rows</li>
+<li>5. Confirm pagination state is consistent (page count decreased relative to default 20-per-page)</li>
+</ol>",,,"1. Office 9460 loads on the Labor tab with 212 rows available.
+2. 20 rows are displayed on the page.
+3. The grid re-renders to display 30 rows on the page.
+4. 30 rows are displayed.
+5. Selecting ""30"" re-renders the grid to show exactly 30 rows on page 1. The pagination updates to reflect 30-row pages. The default of 20 differs from 30, so this assertion ""fails if the control does nothing"" (an inactive control yields 20 visible rows ≠ 30)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Select 40 → grid shows exactly 40 rows,,,,,Automated,Omeesha Mahanta,,,"Selecting ""40"" re-renders the grid to show exactly 40 rows on page 1. The pagination updates to reflect 40-row pages. The default of 20 differs from 40, so this assertion ""fails if the control does nothing"" (an inactive control yields 20 visible rows ≠ 40)",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 9460 selected (via corp pricing override labor volume bed); Labor tab active; grid populated with 212 rows; default rows-per-page is 20
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""40""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to office 9460, Labor tab (via volume bed constant)</li>
+<li>2. Confirm the grid loads with the default page size (20 visible rows)</li>
+<li>3. Open the rows-per-page selector and choose ""40""</li>
+<li>4. Count visible grid rows</li>
+<li>5. Confirm pagination state is consistent (page count decreased relative to default 20-per-page)</li>
+</ol>",,,"1. Office 9460 loads on the Labor tab with 212 rows available.
+2. 20 rows are displayed on the page.
+3. The grid re-renders to display 40 rows on the page.
+4. 40 rows are displayed.
+5. Selecting ""40"" re-renders the grid to show exactly 40 rows on page 1. The pagination updates to reflect 40-row pages. The default of 20 differs from 40, so this assertion ""fails if the control does nothing"" (an inactive control yields 20 visible rows ≠ 40)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Select 50 → grid shows exactly 50 rows,,,,,Automated,Omeesha Mahanta,,,"Selecting ""50"" re-renders the grid to show exactly 50 rows on page 1. The pagination updates to reflect 50-row pages. The default of 20 differs from 50, so this assertion ""fails if the control does nothing"" (an inactive control yields 20 visible rows ≠ 50)",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 9460 selected (via corp pricing override labor volume bed); Labor tab active; grid populated with 212 rows; default rows-per-page is 20
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""50""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+<li>1. Navigate to office 9460, Labor tab (via volume bed constant)</li>
+<li>2. Confirm the grid loads with the default page size (20 visible rows)</li>
+<li>3. Open the rows-per-page selector and choose ""50""</li>
+<li>4. Count visible grid rows</li>
+<li>5. Confirm pagination state is consistent (page count decreased relative to default 20-per-page)</li>
+</ol>",,,"1. Office 9460 loads on the Labor tab with 212 rows available.
+2. 20 rows are displayed on the page.
+3. The grid re-renders to display 50 rows on the page.
+4. 50 rows are displayed.
+5. Selecting ""50"" re-renders the grid to show exactly 50 rows on page 1. The pagination updates to reflect 50-row pages. The default of 20 differs from 50, so this assertion ""fails if the control does nothing"" (an inactive control yields 20 visible rows ≠ 50)",,,,Master,S1620,Test Case (Steps),Regression,,,

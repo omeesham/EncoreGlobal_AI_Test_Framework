@@ -1,0 +1,403 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Editing a percentage field to a valid mid-range value is accepted,,,,,Automated,Omeesha Mahanta,,,The field reverts to `24.00 %` and Save becomes disabled after reload,,,service-charge,,"The Service Charge Basic Information page is open for office 1604 and the page is in its default state
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Service Charge page on the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing (service-charge-percentage-8, default 24.00 %) and clear the value</li>
+<li>3. Type 50.00 into the field and move focus away</li>
+<li>4. Restore: clear the field, type 24.00, and save</li>
+</ol>",,,"1. The tab loads and 79 rows are visible
+2. The field is empty and focus is in the field
+3. The field retains `50.00` and Save becomes enabled
+4. The field reverts to `24.00 %` and Save becomes disabled after reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing a percentage field to 0.00 is accepted and enables Save,,,,,Automated,Omeesha Mahanta,,,The field is restored to `24.00 %`,,,service-charge,,"The Service Charge Basic Information page is open for office 1604 with the Audio Conferencing row showing 24.00 %
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Service Charge page on the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing and clear the value</li>
+<li>3. Type 0.00 and move focus away</li>
+<li>4. Restore: clear the field, type 24.00, and save</li>
+</ol>",,,"1. The tab loads and 79 rows are visible
+2. The field is empty
+3. The field retains `0.00` and Save becomes enabled
+4. The field is restored to `24.00 %`",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing a percentage field to 100.00 is accepted,,,,,Automated,Omeesha Mahanta,,,The field is restored,,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Service Charge page on the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing and clear the value</li>
+<li>3. Type 100.00 and move focus away</li>
+<li>4. Restore: return the field to its original value and save</li>
+</ol>",,,"1. The tab loads
+2. The field is empty
+3. The field accepts the value: input.value shows ""100.00 %"", `aria-invalid` is absent, and Save becomes enabled
+4. The field is restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saved percentage value persists after page reload,,,,,Automated,Omeesha Mahanta,,,The field is restored to `24.00 %`,,,service-charge,,"The Service Charge Basic Information page is open for office 1604 and the Audio Conferencing percentage (service-charge-percentage-8) has its default value 24.00 %
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Service Charge page on the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing, clear it, and type 30.00</li>
+<li>3. Click Save</li>
+<li>4. Reload the page and re-open the Basic Information tab</li>
+<li>5. Restore: click the field, clear it, type 24.00, click Save, and reload</li>
+</ol>",,,"1. The tab loads
+2. The field shows `30.00` and Save is enabled
+3. Save completes without error
+4. The Audio Conferencing percentage reads `30.00 %`
+5. The field is restored to `24.00 %`",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering a value just below zero (negative boundary),,,,,Automated,Omeesha Mahanta,,,"After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing and clear the value</li>
+<li>3. Type -0.01 while the field remains focused</li>
+<li>4. Press Tab to move focus away and observe the Save button</li>
+</ol>",,,"1. The tab loads
+2. The field is empty
+3. The value remains in the field and the field is marked invalid while focused with `aria-invalid=""true""`
+4. After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering a value just above 100,,,,,Automated,Omeesha Mahanta,,,"After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing and clear the value</li>
+<li>3. Type 100.01 while the field remains focused</li>
+<li>4. Press Tab to move focus away and observe the Save button</li>
+</ol>",,,"1. The tab loads
+2. The field is empty
+3. The value remains in the field and the field is marked invalid while focused with `aria-invalid=""true""`
+4. After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering a value with three decimal places silently rounds to two,,,,,Automated,Omeesha Mahanta,,,"The value is silently rounded to ""24.00 %"" — the third decimal is discarded; `aria-invalid` is absent",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing and clear the value</li>
+<li>3. Type 24.005 and move focus away</li>
+</ol>",,,"1. The tab loads
+2. The field is empty
+3. The value is silently rounded to ""24.00 %"" — the third decimal is discarded; `aria-invalid` is absent",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting an edited field to its original value keeps Save disabled,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled — reverting to the original value must not enable Save,,,service-charge,,"The Service Charge Basic Information page is open for office 1604 with the zero-default field APP Downloaded (service-charge-percentage-0) at 0.00 %
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the APP Downloaded percentage input and clear the value</li>
+<li>3. Type 0.00 and move focus away</li>
+</ol>",,,"1. The tab loads and Save is disabled
+2. Save may enable or remain disabled during the clear
+3. Save returns to disabled — reverting to the original value must not enable Save",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering alphabetic text into a percentage field is flagged while focused,,,,,Automated,Omeesha Mahanta,,,"After focus moves away, the app may restore the stored value and clear the invalid flag; Save remains disabled throughout",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the row-0 percentage field for App Quality Assurance and type abc</li>
+<li>3. While the field is still focused, observe its invalid state</li>
+<li>4. Press Tab to move focus away and observe the Save button</li>
+</ol>",,,"1. The tab loads
+2. The letters are accepted into the field
+3. The field is flagged invalid while focused: `aria-invalid=""true""`, red border, and error icon are shown
+4. After focus moves away, the app may restore the stored value and clear the invalid flag; Save remains disabled throughout",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering a malformed decimal value is flagged while focused,,,,,Automated,Omeesha Mahanta,,,"After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing and type 1.2.3</li>
+<li>3. While the field is still focused, observe its invalid state</li>
+<li>4. Press Tab to move focus away and observe the Save button</li>
+</ol>",,,"1. The tab loads
+2. The string appears verbatim in the field
+3. The string remains verbatim in the field and the field is marked invalid while focused with `aria-invalid=""true""`
+4. After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering a negative number into a percentage field,,,,,Automated,Omeesha Mahanta,,,"After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing and type -5</li>
+<li>3. While the field is still focused, observe its invalid state</li>
+<li>4. Press Tab to move focus away and observe the Save button</li>
+</ol>",,,"1. The tab loads
+2. The value remains in the field
+3. The field is marked invalid while focused with `aria-invalid=""true""`
+4. After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering a leading-zero number normalises to the standard format,,,,,Automated,Omeesha Mahanta,,,"The value is normalised to ""24.00 %"" — leading zero stripped, standard two-decimal format applied; `aria-invalid` is absent",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the percentage input for APP Downloaded and type 024</li>
+<li>3. Move focus away</li>
+</ol>",,,"1. The tab loads
+2. The characters appear in the field
+3. The value is normalised to ""24.00 %"" — leading zero stripped, standard two-decimal format applied; `aria-invalid` is absent",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering scientific notation is accepted by the validator,,,,,Automated,Omeesha Mahanta,,,`aria-invalid` is absent — the validator accepts scientific notation as a valid numeric value; display format after normalisation is not specified,,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to the Basic Information tab</li>
+<li>2. Click the Audio Conferencing percentage input and type 2e1</li>
+<li>3. Move focus away</li>
+</ol>",,,"1. The tab loads
+2. The characters appear
+3. `aria-invalid` is absent — the validator accepts scientific notation as a valid numeric value; display format after normalisation is not specified",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clearing a percentage field completely is treated as valid by the validator,,,,,Automated,Omeesha Mahanta,,,"The application normalises the cleared field to ""0.00 %"" — the field does not remain empty; `aria-invalid` is absent",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to the Basic Information tab</li>
+<li>2. Click the Audio Conferencing percentage input and select all text</li>
+<li>3. Delete the selection (keyboard clear via fill) and move focus away</li>
+</ol>",,,"1. The tab loads
+2. All text selected
+3. The application normalises the cleared field to ""0.00 %"" — the field does not remain empty; `aria-invalid` is absent",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering whitespace only into a percentage field is treated as valid,,,,,Automated,Omeesha Mahanta,,,`aria-invalid` is absent — the validator does not flag whitespace-only input,,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to the Basic Information tab</li>
+<li>2. Click the Audio Conferencing percentage input, clear it, and type spaces</li>
+<li>3. Move focus away</li>
+</ol>",,,"1. The tab loads
+2. Whitespace appears or is stripped
+3. `aria-invalid` is absent — the validator does not flag whitespace-only input",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pasting a very long numeric string is rejected by the validator,,,,,Automated,Omeesha Mahanta,,,"After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to the Basic Information tab</li>
+<li>2. Click the APP Downloaded percentage input, clear it, and paste a 50-digit numeric string (12345678901234567890123456789012345678901234567890)</li>
+<li>3. While the field is still focused, observe its invalid state</li>
+<li>4. Press Tab to move focus away and observe the Save button</li>
+</ol>",,,"1. The tab loads
+2. The full 50-digit string stays in the field verbatim while focused
+3. The field is marked invalid while focused with `aria-invalid=""true""`
+4. After focus leaves, the app may restore the stored value and clear the invalid marking; Save remains disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The percent suffix is part of input.value — the application renders it, not the user",,,,,Automated,Omeesha Mahanta,,,"input.value contains "" %"" — the application appends the percent suffix; user types the number only",,,service-charge,,"The Service Charge Basic Information page is open for office 1604 with inputs enabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to the Basic Information tab</li>
+<li>2. Read the raw input.value of service-charge-percentage-0 (APP Downloaded) without clicking it</li>
+</ol>",,,"1. The tab loads and inputs are enabled
+2. input.value contains "" %"" — the application appends the percent suffix; user types the number only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing any percentage field enables the Save button,,,,,Automated,Omeesha Mahanta,,,Changes are discarded and Save is disabled again,,,service-charge,,"The Service Charge Basic Information page is open for office 1604 and Save is disabled (no unsaved edits)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing, clear it, and type 50.00</li>
+<li>3. Reload the page without saving</li>
+</ol>",,,"1. Save (`service-charge-save`) is disabled
+2. Save transitions from disabled to enabled
+3. Changes are discarded and Save is disabled again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting an edited percentage field to its original value disables Save,,,,,Automated,Omeesha Mahanta,,,Save returns to disabled — reverting to the original value must not leave the form dirty,,,service-charge,,"The Service Charge Basic Information page is open for office 1604 and Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the Audio Conferencing percentage input, clear it, and type 50.00</li>
+<li>3. Clear the field again and type 24.00 (the original value) and move focus away</li>
+</ol>",,,"1. Save is disabled
+2. Save becomes enabled
+3. Save returns to disabled — reverting to the original value must not leave the form dirty",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saving an edited percentage field persists the new value after reload,,,,,Automated,Omeesha Mahanta,,,The field is restored to `24.00 %` and Save completes,,,service-charge,,"The Service Charge Basic Information page is open for office 1604 and the Audio Conferencing field shows 24.00 %
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the percentage input for Audio Conferencing, clear it, and type 30.00</li>
+<li>3. Click Save</li>
+<li>4. Reload the page and re-open the Basic Information tab</li>
+<li>5. Click the field, clear it, type 24.00, and click Save</li>
+</ol>",,,"1. The tab loads with Audio Conferencing showing `24.00 %`
+2. The field shows `30.00` and Save enables
+3. Save completes; no error dialog
+4. Audio Conferencing shows `30.00 %`
+5. The field is restored to `24.00 %` and Save completes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Overwriting an edited value before saving persists the second value,,,,,Automated,Omeesha Mahanta,,,The field is restored to `24.00 %`,,,service-charge,,"The Service Charge Basic Information page is open for office 1604 and Audio Conferencing shows 24.00 %
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the Audio Conferencing percentage input and type 30.00</li>
+<li>3. Without saving, clear the field again and type 40.00</li>
+<li>4. Click Save</li>
+<li>5. Reload the page</li>
+<li>6. Restore: click the field, clear it, type 24.00, and click Save</li>
+</ol>",,,"1. The tab loads
+2. Save enables
+3. The field shows `40.00`; Save remains enabled
+4. Save completes
+5. Audio Conferencing shows `40.00 %` — only the final pre-save value was persisted
+6. The field is restored to `24.00 %`",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Navigating away from the page with unsaved edits triggers a confirmation prompt,,,,,Automated,Omeesha Mahanta,,,Navigation is cancelled; the page remains open with the edit still present. Reload or discard the edit to restore clean state.,,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Edit any percentage field so that Save enables</li>
+<li>3. Press the browser Back button</li>
+<li>4. Dismiss the dialog (stay on page)</li>
+</ol>",,,"1. The tab loads
+2. Save is enabled (form is dirty)
+3. The browser's native leave-page dialog appears (type: `beforeunload`). Browser-back triggers the browser's native dialog; in-app tab navigation shows the application's ""Unsaved changes"" modal (Stay / Discard). Both behaviours were confirmed on the live site.
+4. Navigation is cancelled; the page remains open with the edit still present. Reload or discard the edit to restore clean state.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saving edits to multiple percentage fields in a single Save action,,,,,Automated,Omeesha Mahanta,,,Both fields are restored,,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Edit the Audio Conferencing field to 30.00</li>
+<li>3. Edit the Equipment Rental field (service-charge-percentage-23) to 25.00</li>
+<li>4. Click Save</li>
+<li>5. Reload the page and re-open the Basic Information tab</li>
+<li>6. Restore: return both fields to their original values (24.00 % each) and click Save</li>
+</ol>",,,"1. The tab loads
+2. Save enables
+3. Save remains enabled
+4. Save completes without error
+5. Both Audio Conferencing reads `30.00 %` and Equipment Rental reads `25.00 %`
+6. Both fields are restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Service Type column renders correct labels,,,,,Automated,Omeesha Mahanta,,,"The label reads ""APP Downloaded""",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Read the Service Type label for row 8</li>
+<li>3. Read the Service Type label for row 0</li>
+</ol>",,,"1. The tab loads
+2. The label reads ""Audio Conferencing"" — matches the inventory-catalogued name for that index
+3. The label reads ""APP Downloaded""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking a Service Type label cell does not open any editor or dialog,,,,,Automated,Omeesha Mahanta,,,Same result — the cell is static and non-interactive,,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the Service Type label cell for Audio Conferencing</li>
+<li>3. Click the Service Type label cell for APP Downloaded</li>
+</ol>",,,"1. The tab loads
+2. No editor opens, no dialog appears, and Save remains disabled
+3. Same result — the cell is static and non-interactive",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save button is disabled on page load with no edits,,,,,Automated,Omeesha Mahanta,,,The Save button has the `disabled` attribute — it is not clickable,,,service-charge,,"The Service Charge Basic Information page for office 1604 has just been loaded with no prior unsaved changes
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Without making any edit, read the disabled state of the Save button (service-charge-save)</li>
+</ol>",,,"1. The page loads
+2. The Save button has the `disabled` attribute — it is not clickable",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save button enables after any percentage edit,,,,,Automated,Omeesha Mahanta,,,Changes are discarded and Save is disabled again,,,service-charge,,"The Service Charge Basic Information page is open for office 1604 and Save is disabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Click the Audio Conferencing percentage input, clear it, and type 50.00</li>
+<li>3. Reload the page without saving</li>
+</ol>",,,"1. Save is disabled
+2. Save loses its `disabled` attribute and becomes clickable
+3. Changes are discarded and Save is disabled again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Column headers render with correct labels,,,,,Automated,Omeesha Mahanta,,,"The headers read exactly `Service Type` and `Service Charge Percentage` (two columns, no extra columns, no truncation)",,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Read the text of the two column headers</li>
+</ol>",,,"1. The tab loads
+2. The headers read exactly `Service Type` and `Service Charge Percentage` (two columns, no extra columns, no truncation)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,All 79 rows render and a named row is readable,,,,,Automated,Omeesha Mahanta,,,No pagination control exists — all 79 rows are displayed at once,,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Audio Conferencing""
+Sample input 2: ""load more""",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Count the total number of data rows in the table</li>
+<li>3. Locate the row with Service Type ""Audio Conferencing"" using a content</li>
+<li>4. NEEDS-LIVE-CONFIRM: verify that no pagination control or ""load more"" button is present</li>
+</ol>",,,"1. The tab loads
+2. 79 rows are present
+3. The row is readable and its percentage input (`service-charge-percentage-8`) is accessible
+4. No pagination control exists — all 79 rows are displayed at once",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A saved value persists after page reload (surface persistence),,,,,Automated,Omeesha Mahanta,,,The field is restored,,,service-charge,,"The Service Charge Basic Information page is open for office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Basic_Information,1,,Service_Charge > Basic_Information,"<ol>
+<li>1. Navigate to Location Settings for office 1604 and open the Basic Information tab</li>
+<li>2. Edit the Audio Conferencing percentage to a new value and click Save</li>
+<li>3. Reload the page and re-open the Basic Information tab</li>
+<li>4. NEEDS-LIVE-CONFIRM: verify that no column sort affordance (sortable column header) is present</li>
+<li>5. Restore: return the field to its original value and save</li>
+</ol>",,,"1. The tab loads
+2. Save completes
+3. The edited value is still shown — the change survived a full page reload
+4. No sort control is present — row order is application-defined and fixed
+5. The field is restored",,,,Master,S1620,Test Case (Steps),Regression,,,

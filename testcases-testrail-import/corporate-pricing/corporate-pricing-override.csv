@@ -1,0 +1,15 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,"The Search action bar ""Pricing Override"" button navigates to the Override screen",,,,,Automated,Omeesha Mahanta,,,"The page heading reads ""Product Group Override"".",,,corporate-pricing,,"Authenticated on the Corporate Pricing Search screen
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pricing Override""
+Sample input 2: ""Product Group Override""",Medium,,Override_Link,1,,Corporate_Pricing > Override_Link,"<ol>
+<li>1. Click the Search action bar ""Pricing Override"" button</li>
+<li>2. Read the URL and heading</li>
+<li>3. heading is ""Product Group Override""</li>
+</ol>",,,"1. The app navigates away from the Search screen toward the Product Group Override screen.
+2. The current URL contains `/pg-override`, confirming the navigation succeeded.
+3. The page heading reads ""Product Group Override"".",,,,Master,S1620,Test Case (Steps),Regression,,,
