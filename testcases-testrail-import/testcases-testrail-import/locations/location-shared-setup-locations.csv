@@ -1,0 +1,871 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Verify tab loads with table and Add button,,,,,Automated,Omeesha Mahanta,,,Tab renders table with 5-column layout and Add button at bottom,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to Setup > Location > 1604 and click the ""Shared Setup Locations"" tab. Verify the tab activates and the panel is visible.</li>
+<li>2. Verify the Shared Setup Locations table is visible.</li>
+<li>3. Verify the ""Add"" button is visible in the last table row and is enabled</li>
+</ol>",,,"1. The Shared Setup Locations tab becomes active and its panel is displayed.
+2. The Shared Setup Locations table is visible on the panel.
+3. Tab renders table with 5-column layout and Add button at bottom",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify column headers,,,,,Automated,Omeesha Mahanta,,,"5 columns with headers ""Local Office"", ""Local Office Name"", ""Primary Office"", ""Shares Inventory"", and one empty header",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Local Office""
+Sample input 3: ""Local Office Name""
+Sample input 4: ""Primary Office""
+Sample input 5: ""Shares Inventory""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads.</li>
+<li>2. Inspect the column headers from left to right and verify the order is: ""Local Office"", ""Local Office Name"", ""Primary Office"", ""Shares Inventory"", and one empty actions column</li>
+</ol>",,,"1. The Shared Setup Locations tab loads and its content is displayed.
+2. 5 columns with headers ""Local Office"", ""Local Office Name"", ""Primary Office"", ""Shares Inventory"", and one empty header",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify self-location row default state,,,,,Automated,Omeesha Mahanta,,,"Self-location (1604) row: Primary Office locked-checked, Shares Inventory editable-unchecked, Delete disabled",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""1604""
+Sample input 3: ""Parker Palm Springs""
+Sample input 4: ""Primary Office""
+Sample input 5: ""Shares Inventory""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads.</li>
+<li>2. Locate the first data row and verify the cells show ""1604"" and ""Parker Palm Springs"".</li>
+<li>3. Verify the ""Primary Office"" checkbox is checked and disabled.</li>
+<li>4. Verify the ""Shares Inventory"" checkbox is unchecked and editable.</li>
+<li>5. Verify the ""Delete"" button is disabled</li>
+</ol>",,,"1. The Shared Setup Locations tab loads and its content is displayed.
+2. The first data row displays ""1604"" and ""Parker Palm Springs"" in its cells.
+3. The Primary Office checkbox is checked and disabled.
+4. The Shares Inventory checkbox is unchecked and enabled for editing.
+5. Self-location (1604) row: Primary Office locked-checked, Shares Inventory editable-unchecked, Delete disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Primary Office is read-only for self-location,,,,,Automated,Omeesha Mahanta,,,Primary Office cannot be unchecked for the self-location; clicking it has no effect because the checkbox is disabled,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Primary Office""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads.</li>
+<li>2. Attempt to click the ""Primary Office"" checkbox in the row for office 1604 and verify no interaction occurs because the checkbox is disabled.</li>
+<li>3. Verify the checkbox state is unchanged and still checked</li>
+</ol>",,,"1. The Shared Setup Locations tab loads and its content is displayed.
+2. The click has no effect because the Primary Office checkbox is disabled for the self-location row.
+3. Primary Office cannot be unchecked for the self-location; clicking it has no effect because the checkbox is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Delete button disabled for self-location,,,,,Automated,Omeesha Mahanta,,,Delete button is disabled for self-location; self-row cannot be removed,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads.</li>
+<li>2. Inspect the ""Delete"" button for row 1604 and verify it is disabled.</li>
+<li>3. Attempt to click ""Delete"" and verify no action occurs</li>
+</ol>",,,"1. The Shared Setup Locations tab loads and its content is displayed.
+2. The Delete button for row 1604 is disabled.
+3. Delete button is disabled for self-location; self-row cannot be removed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Shares Inventory toggle ON enables Save,,,,,Automated,Omeesha Mahanta,,,"Toggling Shares Inventory marks form as dirty, enables left-panel Save",,,locations,,"Shares Inventory is unchecked for 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Shares Inventory""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads with the left-panel ""Save"" button disabled.</li>
+<li>2. Click the ""Shares Inventory"" checkbox in the row for office 1604 and verify it becomes checked.</li>
+<li>3. Observe the left-panel ""Save"" button and verify it becomes enabled</li>
+</ol>",,,"1. The tab loads and the left-panel Save button is disabled.
+2. The Shares Inventory checkbox for office 1604 becomes checked.
+3. Toggling Shares Inventory marks form as dirty, enables left-panel Save",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting Shares Inventory disables Save,,,,,Automated,Omeesha Mahanta,,,"Reverting to original state removes unsaved changes, Save disables",,,locations,,"Shares Inventory is unchecked for 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Shares Inventory""
+
+Note: Blocked — reverting Shares Inventory on an added row to its original state leaves the form marked as changed, so Save stays enabled even though there is no net change. Pending an application fix",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads.</li>
+<li>2. Click ""Shares Inventory"" and verify it becomes checked with ""Save"" enabled.</li>
+<li>3. Click ""Shares Inventory"" again and verify it becomes unchecked, reverting to the original state.</li>
+<li>4. Observe the ""Save"" button state and verify it is disabled again</li>
+</ol>",,,"1. The Shared Setup Locations tab loads and its content is displayed.
+2. Shares Inventory becomes checked and the left-panel Save button becomes enabled.
+3. Shares Inventory becomes unchecked again, matching its original state.
+4. Reverting to original state removes unsaved changes, Save disables",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Shares Inventory save and persist,,,,,Automated,Omeesha Mahanta,,,Checked state persists after save + reload,,,locations,,"Shares Inventory is unchecked for 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Shares Inventory""
+Sample input 3: ""Save Changes""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads.</li>
+<li>2. Click ""Shares Inventory"" and verify it becomes checked.</li>
+<li>3. Click the left-panel ""Save"" and verify the ""Save Changes"" dialog appears with ""Save"" and ""Cancel"" buttons.</li>
+<li>4. Click ""Save"" in the dialog and verify the data is saved and the dialog closes.</li>
+<li>5. Reload the page and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the ""Shares Inventory"" checkbox for row 1604 is still checked</li>
+</ol>",,,"1. The Shared Setup Locations tab loads and its content is displayed.
+2. The Shares Inventory checkbox becomes checked.
+3. The Save Changes dialog appears with Save and Cancel buttons.
+4. The data is saved and the Save Changes dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. Checked state persists after save + reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add button opens Change Local Office dialog,,,,,Automated,Omeesha Mahanta,,,"Add opens ""Change Local Office"" dialog with search, results table, Select/Cancel buttons. Cancel closes without changes",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Change Local Office""
+Sample input 3: ""Search by Location Name, Number""
+Sample input 4: ""Select""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads.</li>
+<li>2. Click ""Add"" in the last table row and verify the ""Change Local Office"" dialog opens.</li>
+<li>3. Verify the dialog heading reads ""Change Local Office"".</li>
+<li>4. Verify the search input with placeholder ""Search by Location Name, Number"" is present.</li>
+<li>5. Verify the results table has 3 columns (checkbox, Local Office, Local Office Name) and is visible with rows.</li>
+<li>6. Verify the ""Select"" button is disabled because no row is selected.</li>
+<li>7. Verify the ""Cancel"" button is enabled.</li>
+<li>8. Click ""Cancel"" and verify the dialog closes with no changes to the main table</li>
+</ol>",,,"1. The Shared Setup Locations tab loads and its content is displayed.
+2. The Change Local Office dialog opens.
+3. The dialog heading reads ""Change Local Office"".
+4. The search input with placeholder ""Search by Location Name, Number"" is present in the dialog.
+5. The results table shows 3 columns (checkbox, Local Office, Local Office Name) and is visible with rows.
+6. The Select button is disabled while no row is selected.
+7. The Cancel button is enabled.
+8. Add opens ""Change Local Office"" dialog with search, results table, Select/Cancel buttons. Cancel closes without changes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog search filters by location name,,,,,Automated,Omeesha Mahanta,,,Search input filters results table by location name substring match,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Miami""
+Sample input 3: ""Miami Marriott Biscayne Bay""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab, click ""Add"", and verify the dialog opens with a large number of rows.</li>
+<li>2. Type ""Miami"" in the search input and verify the results filter to rows containing ""Miami"" in the location name.</li>
+<li>3. Verify the filtered rows show matching names such as ""Miami Marriott Biscayne Bay"".</li>
+<li>4. Click ""Cancel"" to close</li>
+</ol>",,,"1. The Change Local Office dialog opens showing a large number of rows.
+2. The results filter to rows whose location name contains ""Miami"".
+3. The filtered rows display matching names such as ""Miami Marriott Biscayne Bay"".
+4. Search input filters results table by location name substring match",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog search filters by location number,,,,,Automated,Omeesha Mahanta,,,Search input filters results table by location number match,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""990002""
+Sample input 3: ""990002 - Test Server1""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab, click ""Add"", and verify the dialog opens.</li>
+<li>2. Type ""990002"" in the search input and verify the results filter to 1 row showing ""990002 - Test Server1"".</li>
+<li>3. Verify the exact match is shown.</li>
+<li>4. Click ""Cancel"" to close</li>
+</ol>",,,"1. The Change Local Office dialog opens.
+2. The results filter to exactly 1 row showing ""990002 - Test Server1"".
+3. The row ""990002 - Test Server1"" is displayed as the exact match.
+4. Search input filters results table by location number match",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dialog row selection enables Select button,,,,,Automated,Omeesha Mahanta,,,Selecting a row checkbox enables the Select button,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Select""
+Sample input 3: ""1099""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab, click ""Add"", and verify the dialog opens.</li>
+<li>2. Verify the ""Select"" button is disabled because no row is selected.</li>
+<li>3. Search for ""1099"" and verify 1 result row appears.</li>
+<li>4. Click the row checkbox and verify it becomes checked.</li>
+<li>5. Verify the ""Select"" button is now enabled</li>
+</ol>",,,"1. The Change Local Office dialog opens.
+2. The Select button is disabled while no row is selected.
+3. Exactly 1 result row appears for the ""1099"" search.
+4. The row checkbox becomes checked.
+5. Selecting a row checkbox enables the Select button",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add location via dialog Select button,,,,,Automated,Omeesha Mahanta,,,Selecting a location and clicking Select adds it to the table and Save becomes enabled,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""1099""
+Sample input 3: ""Select""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify only the self-row for office 1604 is present.</li>
+<li>2. Click ""Add"" and verify the dialog opens.</li>
+<li>3. Search for a location such as ""1099"" and verify the results filter.</li>
+<li>4. Check the row checkbox and verify the ""Select"" button becomes enabled.</li>
+<li>5. Click ""Select"" and verify the dialog closes with a new row appearing in the table.</li>
+<li>6. Verify the new row shows the correct Local Office number and Local Office Name.</li>
+<li>7. Verify the left-panel ""Save"" button is enabled because there are unsaved changes</li>
+</ol>",,,"1. Only the self-row for office 1604 is present in the table.
+2. The Change Local Office dialog opens.
+3. The results filter to match the ""1099"" search term.
+4. The Select button becomes enabled after the row checkbox is checked.
+5. The dialog closes and a new row appears in the main table.
+6. The new row displays Local Office ""1099"" with its matching Local Office Name.
+7. Selecting a location and clicking Select adds it to the table and Save becomes enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Non-self row state verification,,,,,Automated,Omeesha Mahanta,,,"Non-self rows: Primary Office disabled+unchecked, Shares Inventory checked+editable, Delete enabled",,,locations,,"A non-self location has been added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Primary Office""
+Sample input 2: ""Shares Inventory""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Inspect the added non-self row in the table.</li>
+<li>2. Verify the ""Primary Office"" checkbox is unchecked and disabled.</li>
+<li>3. Verify the ""Shares Inventory"" checkbox is checked and editable.</li>
+<li>4. Verify the ""Delete"" button is enabled</li>
+</ol>",,,"1. The added non-self row is visible in the table.
+2. The Primary Office checkbox is unchecked and disabled.
+3. The Shares Inventory checkbox is checked and enabled for editing.
+4. Non-self rows: Primary Office disabled+unchecked, Shares Inventory checked+editable, Delete enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Delete non-self row (instant, no confirmation)",,,,,Automated,Omeesha Mahanta,,,Delete immediately removes the non-self row without any confirmation dialog,,,locations,,"A non-self location has been added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Verify the table has 2 or more data rows (self plus at least one added row).</li>
+<li>2. Click ""Delete"" on the added non-self row and verify the row is immediately removed from the table with no confirmation dialog.</li>
+<li>3. Verify the table returns to only the self-row (1604) and the ""Add"" row.</li>
+<li>4. Verify the left-panel ""Save"" button is still enabled because there are unsaved changes from the add and delete cycle</li>
+</ol>",,,"1. The table displays 2 or more data rows, the self-row plus at least one added row.
+2. The non-self row is removed from the table immediately with no confirmation dialog shown.
+3. The table shows only the self-row (1604) and the Add row.
+4. Delete immediately removes the non-self row without any confirmation dialog",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancel dialog does not modify table,,,,,Automated,Omeesha Mahanta,,,Cancelling dialog after selecting a row makes no changes to the table,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Miami""
+Sample input 3: ""1233 - Miami Marriott Biscayne Bay""
+Sample input 4: ""Select""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify only the self-row is present.</li>
+<li>2. Click ""Add"" and verify the dialog opens.</li>
+<li>3. Search for ""Miami"" and verify results appear.</li>
+<li>4. Check a row checkbox such as ""1233 - Miami Marriott Biscayne Bay"" and verify ""Select"" becomes enabled.</li>
+<li>5. Click ""Cancel"" instead of ""Select"" and verify the dialog closes.</li>
+<li>6. Verify the main table still has only the self-row (1604) with no new row added.</li>
+<li>7. Verify the left-panel ""Save"" button is disabled because no unsaved changes was created</li>
+</ol>",,,"1. Only the self-row is present in the table.
+2. The Change Local Office dialog opens.
+3. Results matching ""Miami"" appear in the dialog.
+4. The Select button becomes enabled after the row checkbox is checked.
+5. The dialog closes without selecting the row.
+6. The main table still shows only the self-row (1604), with no new row added.
+7. Cancelling dialog after selecting a row makes no changes to the table",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tab uses left-panel Save (no dedicated Save),,,,,Automated,Omeesha Mahanta,,,"No dedicated Save inside this tab; save uses left-panel Save with ""Save Changes"" confirmation dialog",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Shares Inventory""
+Sample input 3: ""Save Changes""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads.</li>
+<li>2. Inspect the Shared Setup Locations panel for a local ""Save"" button and verify none is found inside the panel.</li>
+<li>3. Toggle ""Shares Inventory"" and verify the left-panel ""Save"" becomes enabled.</li>
+<li>4. Click the left-panel ""Save"" and verify the ""Save Changes"" dialog appears with ""Save"" and ""Cancel"" buttons.</li>
+<li>5. Click ""Save"" in the dialog and verify changes are saved</li>
+</ol>",,,"1. The Shared Setup Locations tab loads and its content is displayed.
+2. No local Save button is present inside the Shared Setup Locations panel.
+3. The left-panel Save button becomes enabled after Shares Inventory is toggled.
+4. The Save Changes dialog appears with Save and Cancel buttons.
+5. No dedicated Save inside this tab; save uses left-panel Save with ""Save Changes"" confirmation dialog",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify a location added via the dialog persists after save and reload,,,,,Automated,Omeesha Mahanta,,,Added location persists after save + reload round-trip,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Miami""
+Sample input 3: ""Select""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Reload and navigate to the ""Shared Setup Locations"" tab to confirm a clean state with only the self-row.</li>
+<li>2. Click ""Add"", search for ""Miami"", select the first available result, and click ""Select"".</li>
+<li>3. Verify the table now has 2 rows.</li>
+<li>4. Click ""Save"" and confirm the dialog, then verify the save succeeds.</li>
+<li>5. Reload the page and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table still has 2 rows and the added location data matches</li>
+</ol>",,,"1. The tab shows a clean state with only the self-row present.
+2. The selected Miami location is added and the dialog closes.
+3. The table now shows 2 rows.
+4. The save completes successfully.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. Added location persists after save + reload round-trip",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify a Shares Inventory toggle persists after save and reload,,,,,Automated,Omeesha Mahanta,,,Non-self Shares Inventory toggle persists after save + reload,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shares Inventory""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Setup: add the first available location via name search, save, and reload.</li>
+<li>2. Verify the non-self row has ""Shares Inventory"" checked by default.</li>
+<li>3. Toggle ""Shares Inventory"" off on the non-self row and verify ""Save"" becomes enabled.</li>
+<li>4. Click ""Save"" and verify it succeeds.</li>
+<li>5. Reload and navigate back and verify the non-self ""Shares Inventory"" is unchecked</li>
+</ol>",,,"1. The added location is saved and remains present after the reload.
+2. The non-self row shows Shares Inventory checked by default.
+3. Shares Inventory on the non-self row becomes unchecked and the Save button becomes enabled.
+4. The save completes successfully.
+5. Non-self Shares Inventory toggle persists after save + reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify a deleted location stays removed after save and reload,,,,,Automated,Omeesha Mahanta,,,Deleted location stays removed after save + reload,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Setup: add the first available location, save, and reload to confirm 2 rows.</li>
+<li>2. Delete the non-self row and verify it is removed instantly with ""Save"" becoming enabled.</li>
+<li>3. Click ""Save"" and verify it succeeds.</li>
+<li>4. Reload and navigate back and verify only the self-row remains</li>
+</ol>",,,"1. The table shows 2 rows after the location is added, saved, and reloaded.
+2. The non-self row is removed instantly and the Save button becomes enabled.
+3. The save completes successfully.
+4. Deleted location stays removed after save + reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify Shares Inventory plus an added location both persist after reload,,,,,Automated,Omeesha Mahanta,,,Multiple changes (self SI toggle + add location) persist together,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shares Inventory""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Reload to a clean state and verify ""Shares Inventory"" is unchecked with 1 row.</li>
+<li>2. Toggle ""Shares Inventory"" on for the self-row.</li>
+<li>3. Add a location via the name search dialog.</li>
+<li>4. Click ""Save"" and verify it succeeds.</li>
+<li>5. Reload and verify ""Shares Inventory"" is checked and the added row is present</li>
+</ol>",,,"1. The table shows 1 row with Shares Inventory unchecked.
+2. Shares Inventory for the self-row becomes checked.
+3. The selected location is added as a new row in the table.
+4. The save completes successfully.
+5. Multiple changes (self SI toggle + add location) persist together",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify cancelling the Save dialog discards changes after reload,,,,,Automated,Omeesha Mahanta,,,Cancelling the Save dialog does NOT persist changes,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shares Inventory""
+Sample input 2: ""Save Changes""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Reload to a clean state and verify ""Shares Inventory"" is unchecked.</li>
+<li>2. Toggle ""Shares Inventory"" on and verify ""Save"" becomes enabled.</li>
+<li>3. Click ""Save"" and verify the ""Save Changes"" dialog appears.</li>
+<li>4. Click ""Cancel"" in the dialog and verify the dialog closes while the form stays dirty.</li>
+<li>5. Reload without saving and verify ""Shares Inventory"" reverts to unchecked and was not persisted</li>
+</ol>",,,"1. Shares Inventory is unchecked in the clean state.
+2. Shares Inventory becomes checked and the Save button becomes enabled.
+3. The Save Changes dialog appears.
+4. The dialog closes and the form remains in its unsaved (dirty) state.
+5. Cancelling the Save dialog does NOT persist changes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Browser warns before leaving the page when there are unsaved changes,,,,,Automated,Omeesha Mahanta,,,Unsaved changes trigger the browser's leave-page confirmation on navigation/reload,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shares Inventory""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Reload to a clean state.</li>
+<li>2. Toggle ""Shares Inventory"" and verify the form has unsaved changes with ""Save"" enabled.</li>
+<li>3. Trigger a page reload and verify the browser's leave-page confirmation dialog fires.</li>
+<li>4. Dismiss the dialog to stay on the page and verify the page remains</li>
+</ol>",,,"1. The page reloads to its clean, unmodified state.
+2. The form has unsaved changes and the Save button is enabled.
+3. The browser's leave-page confirmation dialog appears.
+4. Unsaved changes trigger the browser's leave-page confirmation on navigation/reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Already-added location absent from Change Local Office dialog,,,,,Automated,Omeesha Mahanta,,,Dialog excludes locations already associated with this office,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+
+Note: Blocked — the Change Local Office dialog still lists a location that was already added to the office. Pending an application fix",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Setup: add the first available location and save.</li>
+<li>2. Read the added location's number from the table.</li>
+<li>3. Click ""Add"" and verify the dialog opens.</li>
+<li>4. Search for the added location's number and verify no results are returned (already associated).</li>
+<li>5. Verify the added location is absent from the dialog results</li>
+</ol>",,,"1. The location is added to the table and the save completes successfully.
+2. The added location's number is visible in the table.
+3. The Change Local Office dialog opens.
+4. No results are returned because the location is already associated with this office.
+5. Dialog excludes locations already associated with this office",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each column header shows its expected label,,,,,Automated,Omeesha Mahanta,,,Each of the 5 column headers is addressed and verified individually,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Local Office""
+Sample input 3: ""Local Office Name""
+Sample input 4: ""Primary Office""
+Sample input 5: ""Shares Inventory""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Navigate to the ""Shared Setup Locations"" tab and verify it loads.</li>
+<li>2. Verify the ""Local Office"" column header is visible.</li>
+<li>3. Verify the ""Local Office Name"" column header is visible.</li>
+<li>4. Verify the ""Primary Office"" column header is visible.</li>
+<li>5. Verify the ""Shares Inventory"" column header is visible.</li>
+<li>6. Verify the actions column header is visible</li>
+</ol>",,,"1. The Shared Setup Locations tab loads and its content is displayed.
+2. The Local Office column header is visible.
+3. The Local Office Name column header is visible.
+4. The Primary Office column header is visible.
+5. The Shares Inventory column header is visible.
+6. Each of the 5 column headers is addressed and verified individually",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Dialog number-search ""1233"" returns exactly the Miami Marriott office",,,,,Automated,Omeesha Mahanta,,,"Number-search ""1233"" returns exactly one row for the Miami Marriott Biscayne Bay office",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""1233""
+Sample input 3: ""Local Office""
+Sample input 4: ""Local Office Name""
+Sample input 5: ""Miami Marriott""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Reload and navigate to the ""Shared Setup Locations"" tab and ensure a clean state.</li>
+<li>2. Click ""Add"" and verify the dialog opens.</li>
+<li>3. Search for ""1233"" and verify 1 result row is returned.</li>
+<li>4. Read the first dialog row and verify ""Local Office"" = ""1233"" and ""Local Office Name"" contains ""Miami Marriott"".</li>
+<li>5. Click ""Cancel"" to close the dialog</li>
+</ol>",,,"1. The tab loads showing the clean state with only the self-row.
+2. The Change Local Office dialog opens.
+3. Exactly 1 result row is returned for the ""1233"" search.
+4. The first dialog row shows Local Office ""1233"" and a Local Office Name containing ""Miami Marriott"".
+5. Number-search ""1233"" returns exactly one row for the Miami Marriott Biscayne Bay office",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Combined self SI + add non-Miami row (Chicago) + save persists both after reload,,,,,Automated,Omeesha Mahanta,,,Multiple changes (self SI toggle + non-Miami add) persist together after save + reload,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Shares Inventory""
+Sample input 3: ""Chicago""
+Sample input 4: ""Select""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Reload and navigate to the ""Shared Setup Locations"" tab and ensure a clean state.</li>
+<li>2. Toggle ""Shares Inventory"" on for the self-row and verify ""Save"" becomes enabled.</li>
+<li>3. Click ""Add"" and verify the dialog opens. Search for ""Chicago"".</li>
+<li>4. Verify the dialog row count is within the configured maximum search results.</li>
+<li>5. Select the first dialog row and verify the ""Select"" button becomes enabled.</li>
+<li>6. Click ""Select"" and verify the dialog closes with a new row added to the main table.</li>
+<li>7. Click the left-panel ""Save"", confirm the dialog, and verify the save succeeds.</li>
+<li>8. Reload and navigate back and verify ""Shares Inventory"" is checked and the added Chicago row is present</li>
+</ol>",,,"1. The tab loads showing the clean state with only the self-row.
+2. Shares Inventory for the self-row becomes checked and the Save button becomes enabled.
+3. The dialog opens and the results filter to locations matching ""Chicago"".
+4. The dialog row count stays within the configured maximum search results.
+5. The Select button becomes enabled after the first dialog row is selected.
+6. The dialog closes and a new row is added to the main table.
+7. The save completes successfully.
+8. Multiple changes (self SI toggle + non-Miami add) persist together after save + reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify switching tabs with unsaved changes shows the Unsaved dialog,,,,,Automated,Omeesha Mahanta,,,Tab switch with dirty form shows Unsaved Changes dialog; Stay preserves both tab focus and unsaved changes,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Shares Inventory""
+Sample input 3: ""Location Management History""
+Sample input 4: ""Unsaved Changes""
+Sample input 5: ""Stay""
+Sample input 6: ""Basic Information""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Reload and navigate to the ""Shared Setup Locations"" tab and ensure a clean state.</li>
+<li>2. Toggle ""Shares Inventory"" and verify ""Save"" becomes enabled.</li>
+<li>3. Click the ""Location Management History"" top-level tab and verify the ""Unsaved Changes"" dialog appears.</li>
+<li>4. Click ""Stay"" in the dialog and verify the dialog closes.</li>
+<li>5. Verify the active top-level tab still shows ""Basic Information"" (the parent tab of Shared Setup Locations).</li>
+<li>6. Verify ""Save"" is still enabled because the unsaved changes is preserved</li>
+</ol>",,,"1. The tab loads showing the clean state with only the self-row.
+2. Shares Inventory becomes checked and the Save button becomes enabled.
+3. The Unsaved Changes dialog appears.
+4. The dialog closes and navigation to the other tab is cancelled.
+5. The active top-level tab remains ""Basic Information"".
+6. Tab switch with dirty form shows Unsaved Changes dialog; Stay preserves both tab focus and unsaved changes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Five rapid Add-button clicks open exactly one dialog,,,,,Automated,Omeesha Mahanta,,,Opening the dialog repeatedly in quick succession still shows only one dialog,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Reload and navigate to the ""Shared Setup Locations"" tab and ensure a clean state.</li>
+<li>2. Watch for any error on the page.</li>
+<li>3. Rapidly click the ""Add"" button 5 times in quick succession.</li>
+<li>4. Verify exactly 1 dialog is open after the clicks settle.</li>
+<li>5. Verify there is no dialog stacking (count = 1)</li>
+</ol>",,,"1. The tab loads showing the clean state with only the self-row.
+2. The page displays no errors at this point.
+3. The Add button responds to the clicks without producing a page error.
+4. Exactly 1 Change Local Office dialog is open.
+5. Opening the dialog repeatedly in quick succession still shows only one dialog",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify three added location rows persist after save and reload,,,,,Automated,Omeesha Mahanta,,,All three non-Miami rows persist after save + reload; small-N (3-row) smoke variant for multi-add coverage,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+Sample input 2: ""Select""
+
+Note: Blocked — the per-row Delete control intermittently stops responding after a row is added, saved and the page reloaded, so the cleanup step cannot complete reliably. Pending an application fix",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Reload and navigate to the ""Shared Setup Locations"" tab and ensure a clean state.</li>
+<li>2. For each search query in Chicago, Boston, and Marriott: click ""Add"" and verify the dialog opens. Search the query and verify the row count is within the configured maximum. Select the first dialog row and verify ""Select"" becomes enabled. Click ""Select"" and verify the row is added to the main table.</li>
+<li>3. Click the left-panel ""Save"", confirm the dialog, and verify the save succeeds.</li>
+<li>4. Reload and navigate back and verify the table has 4 data rows (self plus 3 added)</li>
+</ol>",,,"1. The tab loads showing the clean state with only the self-row.
+2. Each of the three searched locations (Chicago, Boston, Marriott) is added as a new row in the main table.
+3. The save completes successfully.
+4. All three non-Miami rows persist after save + reload; small-N (3-row) smoke variant for multi-add coverage",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify deleting a middle row persists after save and reload,,,,,Automated,Omeesha Mahanta,,,Deleting middle row preserves rows 0 and 2 across save+reload,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+
+Note: Blocked — the per-row Delete control intermittently stops responding after a row is added, saved and the page reloaded, so the cleanup step cannot complete reliably. Pending an application fix",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state.</li>
+<li>2. Add 3 non-Miami rows (Chicago, Dallas, Denver) by searching for and adding each. Save and reload. Then identify the middle-added row (Dallas) and delete it.</li>
+<li>3. Verify ""Save"" is enabled.</li>
+<li>4. Click ""Save"" and confirm the dialog.</li>
+<li>5. Verify ""Save"" is disabled after the save completes.</li>
+<li>6. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>7. Verify the table has 3 rows (self plus 2 remaining) and the remaining offices are Chicago and Denver, not Dallas.</li>
+<li>8. Restore the table to a clean state</li>
+</ol>",,,"1. The table displays only the self-row in its clean state.
+2. The Dallas row is removed from the table, leaving the self-row plus Chicago and Denver.
+3. The Save button is enabled.
+4. The save completes and the confirmation dialog closes.
+5. The Save button is disabled after the save completes.
+6. The page reloads and the Shared Setup Locations tab is displayed again.
+7. The table shows 3 rows with Chicago and Denver remaining, and Dallas absent.
+8. Deleting middle row preserves rows 0 and 2 across save+reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify adding five location rows persists after save and reload,,,,,Automated,Omeesha Mahanta,,,5-row boundary push persists across save+reload,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+
+Note: Blocked — the per-row Delete control intermittently stops responding after a row is added, saved and the page reloaded, so the cleanup step cannot complete reliably. Pending an application fix",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state.</li>
+<li>2. Add 5 non-Miami rows (Chicago, Boston, Dallas, Denver, Atlanta).</li>
+<li>3. Verify ""Save"" is enabled and the table shows 6 rows (self plus 5).</li>
+<li>4. Click ""Save"" and confirm the dialog.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table shows 6 rows and all 5 office codes are present.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table displays only the self-row in its clean state.
+2. All 5 searched locations are added as new rows in the table.
+3. The Save button is enabled and the table shows 6 rows, the self-row plus the 5 added rows.
+4. The save completes and the confirmation dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The table shows 6 rows with all 5 added office codes present.
+7. 5-row boundary push persists across save+reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify a single-character search shows at least one result,,,,,Automated,Omeesha Mahanta,,,1-char search filter renders ≥1 row in dialog; no form leak after cancel + reload,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Change Local Office""
+Sample input 2: ""A""
+Sample input 3: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state (only the self-row) and open the ""Change Local Office"" dialog.</li>
+<li>2. Type a single character ""A"" in the search input.</li>
+<li>3. Verify at least one row is rendered in the dialog.</li>
+<li>4. Click ""Cancel"" to close the dialog without saving.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table still shows only the self-row with no leaked additions.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table shows only the self-row and the Change Local Office dialog opens.
+2. The results filter to locations matching the single character ""A"".
+3. At least one row is rendered in the dialog.
+4. The dialog closes without saving any changes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The table still shows only the self-row, with no leaked additions.
+7. 1-char search filter renders ≥1 row in dialog; no form leak after cancel + reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify a very long search string does not crash the dialog,,,,,Automated,Omeesha Mahanta,,,"200-char paste does not break dialog rendering; either 0 results or ""No results."" cleanly",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""X""
+Sample input 2: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state and click ""Add"" to open the dialog.</li>
+<li>2. Type a string of 200 repeated ""X"" characters in the search input.</li>
+<li>3. Verify the dialog is still visible and the table state is stable with no JavaScript error.</li>
+<li>4. Click ""Cancel"" to close the dialog.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table shows only the self-row.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table shows only the self-row and the Change Local Office dialog opens.
+2. The 200-character string is accepted in the search input without error.
+3. The dialog remains visible and stable with no JavaScript error.
+4. The dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The table shows only the self-row.
+7. 200-char paste does not break dialog rendering; either 0 results or ""No results."" cleanly",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify clearing the search restores the full row count,,,,,Automated,Omeesha Mahanta,,,Clearing the search input restores the unfiltered row count; baseline is bulk catalog (~3000+),,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Atlanta""
+Sample input 2: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state and click ""Add"" to open the dialog.</li>
+<li>2. Search for ""Atlanta"" to filter to a small number of rows, then clear the search input.</li>
+<li>3. Verify the dialog row count is restored to the bulk catalog size (3000 or more rows).</li>
+<li>4. Click ""Cancel"" to close the dialog.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table shows only the self-row.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table shows only the self-row and the Change Local Office dialog opens.
+2. The results filter to Atlanta rows, then clearing the input restores the full row count.
+3. The dialog row count is restored to the bulk catalog size of 3000 or more rows.
+4. The dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The table shows only the self-row.
+7. Clearing the search input restores the unfiltered row count; baseline is bulk catalog (~3000+)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search special chars return clean empty-state (no crash),,,,,Automated,Omeesha Mahanta,,,"Special chars produce either zero real rows or ""No results."" placeholder; no crash, Select stays disabled",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Select""
+Sample input 2: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state and click ""Add"" to open the dialog.</li>
+<li>2. Type the mixed special characters string in the search input.</li>
+<li>3. Verify the dialog is still visible and the ""Select"" button stays disabled because no valid row is selected.</li>
+<li>4. Click ""Cancel"" to close the dialog.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table shows only the self-row.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table shows only the self-row and the Change Local Office dialog opens.
+2. The special characters string is accepted in the search input without error.
+3. The dialog remains visible and the Select button stays disabled.
+4. The dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The table shows only the self-row.
+7. Special chars produce either zero real rows or ""No results."" placeholder; no crash, Select stays disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search whitespace-only filter does not crash,,,,,Automated,Omeesha Mahanta,,,"Whitespace-only input either treats as empty (full bulk) or shows ""No results.""; no crash",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Select""
+Sample input 2: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state and click ""Add"" to open the dialog.</li>
+<li>2. Type three spaces in the search input.</li>
+<li>3. Verify the dialog is still visible and the ""Select"" button stays disabled.</li>
+<li>4. Click ""Cancel"" to close the dialog.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table shows only the self-row.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table shows only the self-row and the Change Local Office dialog opens.
+2. The whitespace-only input is accepted in the search field without error.
+3. The dialog remains visible and the Select button stays disabled.
+4. The dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The table shows only the self-row.
+7. Whitespace-only input either treats as empty (full bulk) or shows ""No results.""; no crash",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search leading/trailing whitespace still matches base term,,,,,Automated,Omeesha Mahanta,,,Filter trims (or doesn't) whitespace consistently; Atlanta rows render,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: "" Atlanta ""
+Sample input 2: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state and click ""Add"" to open the dialog.</li>
+<li>2. Type "" Atlanta "" with leading and trailing spaces in the search input.</li>
+<li>3. Verify at least one row is shown and the count is less than the maximum (filtered to the Atlanta region).</li>
+<li>4. Click ""Cancel"" to close the dialog.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table shows only the self-row.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table shows only the self-row and the Change Local Office dialog opens.
+2. The results filter to Atlanta rows despite the leading and trailing spaces.
+3. At least one row is shown and the count is below the maximum, filtered to the Atlanta region.
+4. The dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The table shows only the self-row.
+7. Filter trims (or doesn't) whitespace consistently; Atlanta rows render",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify retyping a search after clearing swaps the results,,,,,Automated,Omeesha Mahanta,,,"Re-typing replaces previous filter; final state shows Boston rows, not Atlanta",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Atlanta""
+Sample input 2: ""Boston""
+Sample input 3: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state and click ""Add"" to open the dialog.</li>
+<li>2. Search for ""Atlanta"", then clear and retype ""Boston"" in the search input.</li>
+<li>3. Verify the first visible dialog row does not contain ""Atlanta"" in the name (final state shows Boston rows).</li>
+<li>4. Click ""Cancel"" to close the dialog.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table shows only the self-row.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table shows only the self-row and the Change Local Office dialog opens.
+2. The results update to show Boston rows in place of the earlier Atlanta results.
+3. The first visible dialog row does not contain ""Atlanta"" in its name and shows a Boston result instead.
+4. The dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The table shows only the self-row.
+7. Re-typing replaces previous filter; final state shows Boston rows, not Atlanta",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search edit-cycle: clear-via-input-clear restores baseline,,,,,Automated,Omeesha Mahanta,,,Clearing input via clear restores rows to bulk count (catalog ~3000+ post-filter),,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Atlanta""
+Sample input 2: ""Shared Setup Locations""",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state and click ""Add"" to open the dialog.</li>
+<li>2. Search for ""Atlanta"" and capture the row count, then clear the search input completely.</li>
+<li>3. Verify the restored row count is greater than the filtered count (bulk catalog restored).</li>
+<li>4. Click ""Cancel"" to close the dialog.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the table shows only the self-row.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table shows only the self-row and the Change Local Office dialog opens.
+2. The row count updates for the Atlanta filter, then clearing the input restores the full row count.
+3. The restored row count exceeds the filtered count, confirming the bulk catalog is restored.
+4. The dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The table shows only the self-row.
+7. Clearing input via clear restores rows to bulk count (catalog ~3000+ post-filter)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify deleting all non-self rows persists after save and reload,,,,,Automated,Omeesha Mahanta,,,Bulk-delete of all non-self rows persists; baseline 1-row state restored after save+reload,,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shared Setup Locations""
+
+Note: Blocked — the per-row Delete control intermittently stops responding after a row is added, saved and the page reloaded, so the cleanup step cannot complete reliably. Pending an application fix",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state.</li>
+<li>2. Add 2 non-Miami rows (Atlanta, Boston), save, reload, then delete both non-self rows.</li>
+<li>3. Verify only the self-row remains in the table.</li>
+<li>4. Click ""Save"" and confirm the dialog.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify only the self-row persisted.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table displays only the self-row in its clean state.
+2. Both non-self rows (Atlanta, Boston) are removed from the table.
+3. Only the self-row remains in the table.
+4. The save completes and the confirmation dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. Only the self-row persists after the reload.
+7. Bulk-delete of all non-self rows persists; baseline 1-row state restored after save+reload",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify editing one row Shares Inventory does not change another on save,,,,,Automated,Omeesha Mahanta,,,Toggling non-self SI does NOT affect self SI across the save+reload cycle (cross-row save independence),,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shares Inventory""
+Sample input 2: ""Shared Setup Locations""
+
+Note: Blocked — the per-row Delete control intermittently stops responding after a row is added, saved and the page reloaded, so the cleanup step cannot complete reliably. Pending an application fix",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state and confirm ""Shares Inventory"" for the self-row is unchecked (the default).</li>
+<li>2. Add 1 non-Miami row (Atlanta), save, and reload. Then toggle the non-self row ""Shares Inventory"" off (default is checked, so this changes it to unchecked) and save.</li>
+<li>3. Click ""Save"" and confirm the dialog.</li>
+<li>4. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>5. Verify the self-row ""Shares Inventory"" is still unchecked (unchanged) and the non-self row ""Shares Inventory"" is unchecked (was changed).</li>
+<li>6. Restore the table to a clean state</li>
+</ol>",,,"1. The table is in its clean state and the self-row Shares Inventory is unchecked.
+2. The Atlanta row persists after the reload, and its Shares Inventory checkbox becomes unchecked.
+3. The save completes and the confirmation dialog closes.
+4. The page reloads and the Shared Setup Locations tab is displayed again.
+5. The self-row Shares Inventory remains unchecked and the non-self row Shares Inventory is unchecked as changed.
+6. Toggling non-self SI does NOT affect self SI across the save+reload cycle (cross-row save independence)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify toggling one row Shares Inventory does not flip another pre-save,,,,,Automated,Omeesha Mahanta,,,Toggling non-self SI does NOT change self SI in-page (pre-save assertion),,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shares Inventory""
+Sample input 2: ""Shared Setup Locations""
+
+Note: Blocked — the per-row Delete control intermittently stops responding after a row is added, saved and the page reloaded, so the cleanup step cannot complete reliably. Pending an application fix",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state and confirm ""Shares Inventory"" for the self-row is unchecked.</li>
+<li>2. Add 1 non-Miami row (Atlanta), save, and reload. Capture the self-row ""Shares Inventory"" state (unchecked). Then toggle the non-self row ""Shares Inventory"" off without saving.</li>
+<li>3. Verify in-page state before save: the self-row ""Shares Inventory"" is still unchecked (untouched) and the non-self row ""Shares Inventory"" is now unchecked (was checked by default, now toggled).</li>
+<li>4. Click ""Save"" and confirm the dialog to commit the toggle and clean up the unsaved changes.</li>
+<li>5. Reload and navigate back to the ""Shared Setup Locations"" tab.</li>
+<li>6. Verify the self-row ""Shares Inventory"" is still unchecked after save.</li>
+<li>7. Restore the table to a clean state</li>
+</ol>",,,"1. The table is in its clean state and the self-row Shares Inventory is unchecked.
+2. The Atlanta row persists after the reload, and its Shares Inventory checkbox becomes unchecked without being saved.
+3. The self-row Shares Inventory remains unchecked and the non-self row Shares Inventory shows unchecked before saving.
+4. The save completes and the confirmation dialog closes.
+5. The page reloads and the Shared Setup Locations tab is displayed again.
+6. The self-row Shares Inventory remains unchecked after the save.
+7. Toggling non-self SI does NOT change self SI in-page (pre-save assertion)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Verify a Shares Inventory checkbox persists across an on-off save cycle,,,,,Automated,Omeesha Mahanta,,,"SI toggled ON persists as checked, and toggled OFF persists as unchecked (a full round-trip of the toggle state)",,,locations,,"Office 1604 is open in Navigator. Shared Setup Locations tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Shares Inventory""
+Sample input 2: ""Note""
+
+Note: Blocked — the per-row Delete control intermittently stops responding after a row is added, saved and the page reloaded, so the cleanup step cannot complete reliably. Pending an application fix",Medium,,Shared_Setup_Locations,1,,Locations > Shared_Setup_Locations,"<ol>
+<li>1. Ensure the table is in a clean state.</li>
+<li>2. Toggle ""Shares Inventory"" on for the self-row, save, reload, verify it is checked, then toggle ""Shares Inventory"" off, save, and reload.</li>
+<li>3. Note: the final save and reload are the second of two reloads in the round-trip. The intermediate save occurs within step 2.</li>
+<li>4. After the final reload, verify the self-row ""Shares Inventory"" is unchecked (final state).</li>
+<li>5. Restore the table to a clean state.</li>
+<li>6. ""Note"": This case performs both legs of the round-trip in a single action step. The final save, reload, and post-reload check cover only the final leg. The persisted result is verified via the final reload, with the intermediate state captured inline in the action step</li>
+</ol>",,,"1. The table displays only the self-row in its clean state.
+2. Shares Inventory shows checked after the first save and reload, then unchecked after the second.
+3. The intermediate save performed earlier in this test completes successfully.
+4. The self-row Shares Inventory is unchecked after the final reload.
+5. The table returns to its original clean state.
+6. SI toggled ON persists as checked, and toggled OFF persists as unchecked (a full round-trip of the toggle state)",,,,Master,S1620,Test Case (Steps),Regression,,,

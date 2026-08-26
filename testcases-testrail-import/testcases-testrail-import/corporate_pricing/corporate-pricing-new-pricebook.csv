@@ -1,0 +1,588 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,New Pricebook (Equipment) create page loads via the type route param,,,,,Automated,Omeesha Mahanta,,,The Equipment New Pricebook create page loads from its ?type=equipment route (this is the Equipment Pricing option of the + New menu),,,corporate-pricing,,"Authenticated on office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Navigate to the New Pricebook create page with the Equipment type route param.</li>
+<li>2. Verify the page title and heading</li>
+</ol>",,,"1. The New Pricebook create page loads with the Equipment type parameter applied in the URL.
+2. The Equipment New Pricebook create page loads from its ?type=equipment route (this is the Equipment Pricing option of the + New menu)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricebook Name field is present and editable,,,,,Automated,Omeesha Mahanta,,,"The Pricebook Name field (label ""Pricebook Name"") is present and accepts input",,,corporate-pricing,,"On the Equipment New Pricebook page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the create page.</li>
+<li>2. Enter a value into the Pricebook Name field</li>
+</ol>",,,"1. The New Pricebook create page loads and displays the Pricebook Name field.
+2. The Pricebook Name field (label ""Pricebook Name"") is present and accepts input",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Price Book Type shows Equipment and is read-only (route-param-fixed),,,,,Automated,Omeesha Mahanta,,,"Type shows ""Equipment"" and is disabled - it is fixed by the route parameter, not a user-selectable dropdown on this page (the Equipment/Labor choice is made on the previous screen)",,,corporate-pricing,,"On the Equipment New Pricebook page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Labor / Equipment""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the create page.</li>
+<li>2. Read the ""Labor / Equipment"" type control.</li>
+<li>3. Inspect its enabled state</li>
+</ol>",,,"1. The New Pricebook create page loads and displays the Price Book Type control.
+2. The Type control renders and displays its current value.
+3. Type shows ""Equipment"" and is disabled - it is fixed by the route parameter, not a user-selectable dropdown on this page (the Equipment/Labor choice is made on the previous screen)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Price Year field is present and editable,,,,,Automated,Omeesha Mahanta,,,"The Price Year field (label ""Price Year"", placeholder ""e.g. 2026"") is present and accepts a valid year",,,corporate-pricing,,"On the Equipment New Pricebook page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2026""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the create page.</li>
+<li>2. Enter ""2026"" into the Price Year field</li>
+</ol>",,,"1. The New Pricebook create page loads and displays the Price Year field.
+2. The Price Year field (label ""Price Year"", placeholder ""e.g. 2026"") is present and accepts a valid year",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Currency defaults to USD,,,,,Automated,Omeesha Mahanta,,,Currency defaults to USD on first load,,,corporate-pricing,,"On the Equipment New Pricebook page in a fresh load
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the create page.</li>
+<li>2. Read the Currency control's value</li>
+</ol>",,,"1. The New Pricebook create page loads and displays the Currency control.
+2. Currency defaults to USD on first load",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Currency dropdown offers USD, CAD, MXN",,,,,Automated,Omeesha Mahanta,,,"The Currency dropdown lists USD, CAD, and MXN",,,corporate-pricing,,"On the Equipment New Pricebook page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the create page.</li>
+<li>2. Open the Currency dropdown.</li>
+<li>3. Read the option list</li>
+</ol>",,,"1. The New Pricebook create page loads and displays the Currency control.
+2. The Currency dropdown expands and displays its list of options.
+3. The Currency dropdown lists USD, CAD, and MXN",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tabs render - Pricing Strategy + Pricing Detail,,,,,Automated,Omeesha Mahanta,,,Both tabs render above the shared header,,,corporate-pricing,,"On the Equipment New Pricebook page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the create page.</li>
+<li>2. Read the tab buttons</li>
+</ol>",,,"1. The New Pricebook create page loads and displays its tab buttons.
+2. Both tabs render above the shared header",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Single-character Pricebook Name keeps the form savable,,,,,Automated,Omeesha Mahanta,,,A 1-character name satisfies the Name requirement (Save enabled),,,corporate-pricing,,"On the Equipment New Pricebook page with a valid Year and one strategy already added (so Name is the only variable)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""A""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Set Year=2026 and add one strategy.</li>
+<li>2. Enter a single character ""A"" as the Pricebook Name.</li>
+<li>3. Observe the Save button</li>
+</ol>",,,"1. The Price Year field holds 2026 and the strategy list shows one added strategy.
+2. The Pricebook Name field accepts and displays the single character ""A"".
+3. A 1-character name satisfies the Name requirement (Save enabled)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Long Pricebook Name (250 chars) is accepted,,,,,Automated,Omeesha Mahanta,,,A long name is accepted and the name is not shortened; the form stays savable,,,corporate-pricing,,"On the Equipment New Pricebook page with a valid Year and one strategy added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Enter a 250-character Pricebook Name.</li>
+<li>2. Observe the Save button</li>
+</ol>",,,"1. The Pricebook Name field accepts the full 250-character name and does not shorten it.
+2. A long name is accepted and the name is not shortened; the form stays savable",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special characters in Pricebook Name are accepted,,,,,Automated,Omeesha Mahanta,,,Special characters are accepted in the Name field; the form stays savable,,,corporate-pricing,,"On the Equipment New Pricebook page with a valid Year and one strategy added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Q""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Enter a name containing these literal special characters: AT&T <Tag> #1 ""Q"" é.</li>
+<li>2. Observe the Save button</li>
+</ol>",,,"1. The Pricebook Name field accepts and displays the special characters exactly as typed.
+2. Special characters are accepted in the Name field; the form stays savable",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Empty Pricebook Name blocks Save,,,,,Automated,Omeesha Mahanta,,,An empty name blocks Save (Name is mandatory),,,corporate-pricing,,"On the Equipment New Pricebook page with a valid Year and one strategy added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Leave the Pricebook Name empty.</li>
+<li>2. Observe the Save button</li>
+</ol>",,,"1. The Pricebook Name field remains empty.
+2. An empty name blocks Save (Name is mandatory)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Whitespace-only Pricebook Name is treated as empty (blocks Save),,,,,Automated,Omeesha Mahanta,,,A whitespace-only name is treated as empty and blocks Save,,,corporate-pricing,,"On the Equipment New Pricebook page with a valid Year and one strategy added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: "" """,Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Enter only spaces ("" "") as the Pricebook Name.</li>
+<li>2. Observe the Save button</li>
+</ol>",,,"1. The Pricebook Name field contains only the space characters entered.
+2. A whitespace-only name is treated as empty and blocks Save",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Empty Price Year blocks Save,,,,,Automated,Omeesha Mahanta,,,An empty Price Year blocks Save (Year is required),,,corporate-pricing,,"On the Equipment New Pricebook page with a valid Name and one strategy added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Leave the Price Year empty.</li>
+<li>2. Observe the Save button</li>
+</ol>",,,"1. The Price Year field remains empty.
+2. An empty Price Year blocks Save (Year is required)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Non-numeric Price Year input is rejected,,,,,Automated,Omeesha Mahanta,,,The Price Year input does not accept alphabetic characters,,,corporate-pricing,,"On the Equipment New Pricebook page; Price Year holds a valid value
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""abcd""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Attempt to enter alphabetic text (""abcd"") into Price Year</li>
+</ol>",,,1. The Price Year input does not accept alphabetic characters,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Valid Price Year keeps the form savable (decimal/short not blocked),,,,,Automated,Omeesha Mahanta,,,A valid 4-digit year keeps the form savable; the page does not block a decimal or short year,,,corporate-pricing,,"On the Equipment New Pricebook page with a valid Name and one strategy added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2026""
+Sample input 2: ""20.5""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Enter ""2026"" and observe the Save button.</li>
+<li>2. Enter a decimal ""20.5"" and observe the Save button</li>
+</ol>",,,"1. Entering the valid year 2026 completes the required fields and the Save button becomes enabled.
+2. A valid 4-digit year keeps the form savable; the page does not block a decimal or short year",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"New Pricing Strategy opens the add dialog (Name + flags, no Type field)",,,,,Automated,Omeesha Mahanta,,,"The add dialog presents a Strategy Name and the four flag toggles (there is no separate ""Type"" selection in the dialog)",,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""New Pricing Strategy""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Click ""New Pricing Strategy"".</li>
+<li>2. Inspect the dialog</li>
+</ol>",,,"1. The New Pricing Strategy dialog opens.
+2. The add dialog presents a Strategy Name and the four flag toggles (there is no separate ""Type"" selection in the dialog)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Strategy dialog defaults - Is Active checked,,,,,Automated,Omeesha Mahanta,,,"The dialog defaults to Is Active checked, the other flags unchecked",,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Strategy tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the New Pricing Strategy dialog.</li>
+<li>2. Read the flag states</li>
+</ol>",,,"1. The New Pricing Strategy dialog opens and displays its flag toggles.
+2. The dialog defaults to Is Active checked, the other flags unchecked",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Adding a strategy appends it to the list,,,,,Automated,Omeesha Mahanta,,,"Adding a strategy via the dialog appends it (Total goes from 0 to 1, empty state cleared)",,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Strategy tab, zero strategies (""No strategies yet"", Total: 0)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the dialog, enter a Strategy Name, click ""Add"".</li>
+<li>2. Read the strategy list</li>
+</ol>",,,"1. The dialog closes and the new strategy is added to the list.
+2. Adding a strategy via the dialog appends it (Total goes from 0 to 1, empty state cleared)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Adding a second strategy lists both,,,,,Automated,Omeesha Mahanta,,,A second strategy appends to the list (Total becomes 2),,,corporate-pricing,,"On the Equipment New Pricebook page with one strategy already added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Add a second strategy via the dialog.</li>
+<li>2. Read the count</li>
+</ol>",,,"1. The dialog closes and the second strategy is added to the list.
+2. A second strategy appends to the list (Total becomes 2)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add with an empty Strategy Name does nothing,,,,,Automated,Omeesha Mahanta,,,"While the Strategy Name is empty, the Add button is disabled (the empty-name guard) - no strategy can be added and the dialog stays open",,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Strategy tab, the dialog open with an empty Strategy Name
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the New Pricing Strategy dialog and leave the Strategy Name empty.</li>
+<li>2. Observe the Add button</li>
+</ol>",,,"1. The New Pricing Strategy dialog remains open with the Strategy Name field empty.
+2. While the Strategy Name is empty, the Add button is disabled (the empty-name guard) - no strategy can be added and the dialog stays open",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save is disabled on the empty create form,,,,,Automated,Omeesha Mahanta,,,Save is disabled on the empty form,,,corporate-pricing,,"On a freshly-loaded Equipment New Pricebook page (nothing entered)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the create page and leave all fields empty.</li>
+<li>2. Observe the Save button</li>
+</ol>",,,"1. The create page loads with all fields empty and no strategies added.
+2. Save is disabled on the empty form",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save stays disabled without a strategy (≥1 strategy required),,,,,Automated,Omeesha Mahanta,,,Save stays disabled until at least one pricing strategy is added (a strategy is required to save),,,corporate-pricing,,"On the Equipment New Pricebook page with Name + Year filled and zero strategies
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Enter a valid Name and Year.</li>
+<li>2. Add no strategy.</li>
+<li>3. Observe the Save button</li>
+</ol>",,,"1. The Pricebook Name and Price Year fields hold the entered valid values.
+2. The strategy list remains empty with zero strategies added.
+3. Save stays disabled until at least one pricing strategy is added (a strategy is required to save)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save enables with Name + Year + one strategy and no product groups,,,,,Automated,Omeesha Mahanta,,,"With a Name, a Year, and at least one strategy - and zero product groups - Save is enabled (saving with no product groups is permitted)",,,corporate-pricing,,"On the Equipment New Pricebook page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Enter a valid Name and Year.</li>
+<li>2. Add one strategy.</li>
+<li>3. Add no product groups.</li>
+<li>4. Observe the Save button</li>
+</ol>",,,"1. The Pricebook Name and Price Year fields hold the entered valid values.
+2. The strategy list shows one added strategy (Total: 1).
+3. The Pricing Detail grid remains empty with zero product groups added.
+4. With a Name, a Year, and at least one strategy - and zero product groups - Save is enabled (saving with no product groups is permitted)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Save opens the confirmation dialog, and Cancel aborts without committing",,,,,Automated,Omeesha Mahanta,,,"Clicking Save opens the ""Save Changes"" confirmation dialog, and Cancel closes it without saving. The test intentionally stops at the confirmation step and does not complete the save, because a created pricebook cannot be removed through the UI (so confirming would leave a permanent record)",,,corporate-pricing,,"On the Equipment New Pricebook page with a savable form (Name + Year + one strategy)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Click the enabled Save button.</li>
+<li>2. Click ""Cancel"" in the confirmation dialog that appears</li>
+</ol>",,,"1. The ""Save Changes"" confirmation dialog appears.
+2. Clicking Save opens the ""Save Changes"" confirmation dialog, and Cancel closes it without saving. The test intentionally stops at the confirmation step and does not complete the save, because a created pricebook cannot be removed through the UI (so confirming would leave a permanent record)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricing Detail tab shows the Product Groups source list (Equipment catalog),,,,,Automated,Omeesha Mahanta,,,"The Pricing Detail tab in create mode shows the Equipment product-group source list (assert presence / > 0, never an exact count)",,,corporate-pricing,,"On the Equipment New Pricebook page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pricing Detail""
+Sample input 2: ""Product Groups""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Click the ""Pricing Detail"" tab.</li>
+<li>2. Read the left ""Product Groups"" source list</li>
+</ol>",,,"1. The Pricing Detail tab becomes active and its content is displayed.
+2. The Pricing Detail tab in create mode shows the Equipment product-group source list (assert presence / > 0, never an exact count)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Double-clicking a product group adds it to the pricebook grid,,,,,Automated,Omeesha Mahanta,,,Double-clicking a product group in the source list adds it to the new pricebook's grid with a starting price of 0.00,,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Detail tab, empty pricebook grid
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Balloon Light Decor""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Double-click a known product group in the source list (e.g. ""Balloon Light Decor"").</li>
+<li>2. Read the grid</li>
+</ol>",,,"1. The double-clicked product group is added to the pricebook grid.
+2. Double-clicking a product group in the source list adds it to the new pricebook's grid with a starting price of 0.00",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Adding multiple product groups appends rows,,,,,Automated,Omeesha Mahanta,,,Each double-click appends a distinct product-group row,,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Detail tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Double-click a first product group.</li>
+<li>2. Double-click a second, different product group.</li>
+<li>3. Read the grid by content</li>
+</ol>",,,"1. The first product group is added to the pricebook grid.
+2. The second product group appends as a new row in the pricebook grid.
+3. Each double-click appends a distinct product-group row",,,,Master,S1620,Test Case (Steps),Regression,,,
+,New Pricebook (Labor) create page loads with Type read-only as Labor,,,,,Automated,Omeesha Mahanta,,,"The Labor create page loads from ?type=labor (the Labor Pricing option of the + New menu); Type shows ""Labor"" and is read-only",,,corporate-pricing,,"Authenticated on office 1604
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Navigate to the New Pricebook create page with the Labor type route param.</li>
+<li>2. Read the Type control</li>
+</ol>",,,"1. The New Pricebook create page loads with the Labor type parameter applied in the URL.
+2. The Labor create page loads from ?type=labor (the Labor Pricing option of the + New menu); Type shows ""Labor"" and is read-only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor flow header parity + Save gating,,,,,Automated,Omeesha Mahanta,,,"The Labor flow mirrors Equipment (same header fields, USD default, strategy dialog) and gates Save identically (Name + Year + ≥1 strategy)",,,corporate-pricing,,"On the Labor New Pricebook page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Read the header.</li>
+<li>2. Verify Save is disabled initially.</li>
+<li>3. Enter Name + Year + add a strategy via the dialog</li>
+</ol>",,,"1. The header renders the Pricebook Name, Price Year, Currency, and Type fields.
+2. The Save button is disabled on the initial load.
+3. The Labor flow mirrors Equipment (same header fields, USD default, strategy dialog) and gates Save identically (Name + Year + ≥1 strategy)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor Pricing Detail shows a Labor-specific product-group catalog,,,,,Automated,Omeesha Mahanta,,,"The Labor Pricing Detail source list contains Labor/service product groups (a different catalog than Equipment) - the ?type= route param selects the catalog. Assert by content/> 0, never exact count",,,corporate-pricing,,"On the Labor New Pricebook page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pricing Detail""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Click the ""Pricing Detail"" tab.</li>
+<li>2. Read the Product Groups source list</li>
+</ol>",,,"1. The Pricing Detail tab becomes active and displays the Labor product-group source list.
+2. The Labor Pricing Detail source list contains Labor/service product groups (a different catalog than Equipment) - the ?type= route param selects the catalog. Assert by content/> 0, never exact count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saving a new pricebook persists it - created book reloads + is found by Search with its product group,,,,,Automated,Omeesha Mahanta,,,"The commit redirects to /details/<new-guid> (the record now exists). On reload of the new book's Pricing Detail tab, the added product group (Balloon Light Decor) is still present (content-based, never a count). The new book is discoverable by its unique name on the Search screen. If this ever fails on ""can't add"", the likely cause is the unique source product groups have been used up (the UI has no delete to recycle them) - escalate then, not pre-emptively",,,corporate-pricing,,"On the Equipment New Pricebook page (office 1604). This environment is single-tenant (ours), so committing a real pricebook is accepted (user-authorized). A created pricebook is irreversible via the UI (no delete/deactivate), so this test leaves a permanent record by design
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Save Changes""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Build a savable, non-empty pricebook: enter a unique Pricebook Name (fixed prefix + a passed-in run-stamp from the pricebook run stamp env var, falling back to the test-runner pid - never a clock/random value), enter a Price Year, add one strategy via the dialog, switch to the Pricing Detail tab and add one product group (Balloon Light Decor).</li>
+<li>2. Confirm Save is enabled, click Save, and confirm the ""Save Changes"" dialog (COMMIT).</li>
+<li>3. After the commit redirects to the new pricebook's Details page, reload that Details page and read the Pricing Detail grid.</li>
+<li>4. Open the Corporate Pricing Search screen, turn Active-Only off, filter by the unique name, and Search</li>
+</ol>",,,"1. The form now holds a unique Pricebook Name, a valid Price Year, one strategy, and one added product group, making it ready to save.
+2. Confirming the ""Save Changes"" dialog commits the pricebook and redirects to its new Details page.
+3. The reloaded Details page displays the Pricing Detail grid with the previously added product group still present.
+4. The commit redirects to /details/<new-guid> (the record now exists). On reload of the new book's Pricing Detail tab, the added product group (Balloon Light Decor) is still present (content-based, never a count). The new book is discoverable by its unique name on the Search screen. If this ever fails on ""can't add"", the likely cause is the unique source product groups have been used up (the UI has no delete to recycle them) - escalate then, not pre-emptively",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dragging a product group (real pointer sequence) adds it to the create grid,,,,,Automated,Omeesha Mahanta,,,The dragged product group (Balloon Light Decor) is added to the new pricebook's grid. This is the create-mode drag baseline check - it proves the drag interaction works when adding is allowed (the same interaction proves no-add in the management-mode Detail tab),,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Detail tab, empty pricebook grid
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Drag a known product group from the source list onto the pricebook grid using a real full pointer sequence - move to the source, press, move across in steps, then release.</li>
+<li>2. Read the grid by content</li>
+</ol>",,,"1. Releasing the drag adds the product group as a new row in the pricebook grid.
+2. The dragged product group (Balloon Light Decor) is added to the new pricebook's grid. This is the create-mode drag baseline check - it proves the drag interaction works when adding is allowed (the same interaction proves no-add in the management-mode Detail tab)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Drag-add -> edit New Price + Max Discount (keyboard) -> Save reachable (NO-COMMIT),,,,,Automated,Omeesha Mahanta,,,The drag-added row lands in the grid; with a complete header the form is savable; clicking Save opens the confirmation dialog and Cancel aborts without committing (NO-COMMIT - a created pricebook is irreversible). New Price / Max Discount on a freshly-added create row start at 0.00 and are editable by keyboard (cell-level edit is covered by the Pricing Detail band TC-CPR-DET-*; the New-Pricebook angle here is the drag-add -> savable path),,,corporate-pricing,,"On the Equipment New Pricebook page with a valid Name + Year + one strategy already set
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Save Changes""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. On the Pricing Detail tab, drag a product group onto the grid (real pointer sequence).</li>
+<li>2. Confirm the dragged row landed in the grid.</li>
+<li>3. Confirm Save is enabled (Name + Year + ≥1 strategy + the added group).</li>
+<li>4. Click Save, then Cancel the ""Save Changes"" dialog</li>
+</ol>",,,"1. The dragged product group drops into the pricebook grid as a new row.
+2. The newly dragged row remains visible in the grid on inspection.
+3. The Save button is enabled.
+4. The drag-added row lands in the grid; with a complete header the form is savable; clicking Save opens the confirmation dialog and Cancel aborts without committing (NO-COMMIT - a created pricebook is irreversible). New Price / Max Discount on a freshly-added create row start at 0.00 and are editable by keyboard (cell-level edit is covered by the Pricing Detail band TC-CPR-DET-*; the New-Pricebook angle here is the drag-add -> savable path)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,New ▾ menu presents Equipment Pricing + Labor Pricing items,,,,,Automated,Omeesha Mahanta,,,"The New ▾ menu opens and presents exactly two items - ""Equipment Pricing"" and ""Labor Pricing"" (the two New-Pricebook create routes), driven via a real dropdown interaction (not a URL)",,,corporate-pricing,,"On the Corporate Pricing Search screen (office 1604)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""New""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Click the toolbar ""New"" split-button to open its dropdown menu.</li>
+<li>2. Read the menu items</li>
+</ol>",,,"1. The New ▾ dropdown menu opens.
+2. The New ▾ menu opens and presents exactly two items - ""Equipment Pricing"" and ""Labor Pricing"" (the two New-Pricebook create routes), driven via a real dropdown interaction (not a URL)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,New ▾ -> Equipment Pricing navigates to the Equipment create route,,,,,Automated,Omeesha Mahanta,,,"Selecting ""Equipment Pricing"" from the New ▾ menu navigates to the Equipment New Pricebook create page (add?type=equipment) - driven by the menu-item click, not by typing the URL",,,corporate-pricing,,"On the Corporate Pricing Search screen
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Equipment Pricing""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the New ▾ menu.</li>
+<li>2. Click ""Equipment Pricing""</li>
+</ol>",,,"1. The New ▾ dropdown menu opens and displays its menu items.
+2. Selecting ""Equipment Pricing"" from the New ▾ menu navigates to the Equipment New Pricebook create page (add?type=equipment) - driven by the menu-item click, not by typing the URL",,,,Master,S1620,Test Case (Steps),Regression,,,
+,New ▾ -> Labor Pricing navigates to the Labor create route,,,,,Automated,Omeesha Mahanta,,,"Selecting ""Labor Pricing"" from the New ▾ menu navigates to the Labor New Pricebook create page (add?type=labor) - driven by the menu-item click, not by typing the URL",,,corporate-pricing,,"On the Corporate Pricing Search screen
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Labor Pricing""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Open the New ▾ menu.</li>
+<li>2. Click ""Labor Pricing""</li>
+</ol>",,,"1. The New ▾ dropdown menu opens and displays its menu items.
+2. Selecting ""Labor Pricing"" from the New ▾ menu navigates to the Labor New Pricebook create page (add?type=labor) - driven by the menu-item click, not by typing the URL",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"An existing pricebook opens in management mode (both tabs, Save disabled on clean load)",,,,,Automated,Omeesha Mahanta,,,"An existing pricebook opens in management mode with both tabs (Pricing Strategy + Pricing Detail); the create-mode ""New Pricebook"" heading is absent (this is a managed record, not the create form); Save is disabled on a clean load. The deep inline-edit / save-cycle / persist-on-reload coverage for this surface is owned by the Pricing Detail band (TC-CPR-DET-*) and the Strategy band (TC-CPR-STR-*) - cited here, not duplicated",,,corporate-pricing,,"A saved pricebook fixture exists (2021-PB6, the Pricing Detail fixture). Management mode is reversible (reload discards unsaved edits), unlike create
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Navigate to the existing pricebook's Details page (management mode).</li>
+<li>2. Read the tab labels and the page heading.</li>
+<li>3. Read the Save button's enabled state on a clean (unedited) load</li>
+</ol>",,,"1. The existing pricebook's Details page loads in management mode.
+2. The page displays the Pricing Strategy and Pricing Detail tab labels along with the page heading.
+3. An existing pricebook opens in management mode with both tabs (Pricing Strategy + Pricing Detail); the create-mode ""New Pricebook"" heading is absent (this is a managed record, not the create form); Save is disabled on a clean load. The deep inline-edit / save-cycle / persist-on-reload coverage for this surface is owned by the Pricing Detail band (TC-CPR-DET-*) and the Strategy band (TC-CPR-STR-*) - cited here, not duplicated",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Management-mode inline Max Discount edit enables Save (save-gate; NO-COMMIT),,,,,Automated,Omeesha Mahanta,,,"A management-mode inline Max Discount edit makes the form dirty and enables Save (the save-gate). The test stops at Save-enable and discards via reload - it does not commit, so the fixture is unchanged. (The full inline-edit / dirty-lever asymmetry / persist-after-save coverage is owned by TC-CPR-DET-*; this asserts only the create->manage save-gate transition.)",,,corporate-pricing,,"On an existing pricebook's Pricing Detail tab (management mode), Save disabled on clean load
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Edit an anchored row's Max Discount via keyboard to a value different from the current one (Max Discount is the reliable dirty lever - a New-Price-only edit does not reliably enable Save, a known quirk).</li>
+<li>2. Observe the Save button.</li>
+<li>3. Do NOT commit - discard by reloading (management-mode edits are reversible)</li>
+</ol>",,,"1. The Max Discount cell accepts the new keyboard-entered value and displays it.
+2. The Save button becomes enabled.
+3. A management-mode inline Max Discount edit makes the form dirty and enables Save (the save-gate). The test stops at Save-enable and discards via reload - it does not commit, so the fixture is unchanged. (The full inline-edit / dirty-lever asymmetry / persist-after-save coverage is owned by TC-CPR-DET-*; this asserts only the create->manage save-gate transition.)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Empty Price Year shows a visible required/invalid indicator (Save disabled),,,,,Automated,Omeesha Mahanta,,,With Price Year empty the field reports is invalid AND renders a visible red/destructive border (it is NOT silently disabled with no indicator); entering a valid year clears the invalid state (is valid) and the red border. The current build clearly indicates the required/invalid state,,,corporate-pricing,,"On a freshly-loaded Equipment New Pricebook page (Price Year empty)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. On a fresh create page, read the Price Year field's invalid state with the year empty.</li>
+<li>2. Enter a valid year and re-read the invalid state</li>
+</ol>",,,"1. With the Price Year field empty, it reports an invalid state and shows a red/destructive border.
+2. With Price Year empty the field reports is invalid AND renders a visible red/destructive border (it is NOT silently disabled with no indicator); entering a valid year clears the invalid state (is valid) and the red border. The current build clearly indicates the required/invalid state",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An existing pricebook name raises no client-side inline uniqueness error,,,,,Automated,Omeesha Mahanta,,,"Entering an existing pricebook name raises no client-side inline uniqueness error (validation error stays false, no ""already exists"" text) and does not block the form client-side - unlike strategy names, which DO validate uniqueness client-side. Pricebook-name uniqueness is not enforced client-side; the server-side rule cannot be exercised here without committing two duplicate pricebooks, which is irreversible, so this stays a no-commit client-side-only check",,,corporate-pricing,,"On the Equipment New Pricebook page; an existing pricebook name is known
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Enter the name of an EXISTING pricebook into the Pricebook Name field.</li>
+<li>2. Blur the field and wait briefly for any async validation.</li>
+<li>3. Read the Name field's invalid state and check for an inline uniqueness error</li>
+</ol>",,,"1. The Pricebook Name field displays the entered existing pricebook name.
+2. The field loses focus and the wait period elapses, allowing any asynchronous validation to run.
+3. Entering an existing pricebook name raises no client-side inline uniqueness error (validation error stays false, no ""already exists"" text) and does not block the form client-side - unlike strategy names, which DO validate uniqueness client-side. Pricebook-name uniqueness is not enforced client-side; the server-side rule cannot be exercised here without committing two duplicate pricebooks, which is irreversible, so this stays a no-commit client-side-only check",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search pricebook-name cells navigate to the pricebook Details (link-cell render-state),,,,,Automated,Omeesha Mahanta,,,"The pricebook-name cell is a link affordance and clicking it navigates to that pricebook's Details page (details/<guid>) in management mode - the ""pricebook links navigate"" render-state check. A non-link where a link is expected would be investigated as a potential issue, never reported blindly",,,corporate-pricing,,"On the Corporate Pricing Search screen with the pricebook list rendered
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Read a known pricebook-name cell in the Search grid's first column.</li>
+<li>2. Click the pricebook-name cell</li>
+</ol>",,,"1. The pricebook-name cell is visible in the grid's first column, rendered as a link/button affordance.
+2. The pricebook-name cell is a link affordance and clicking it navigates to that pricebook's Details page (details/<guid>) in management mode - the ""pricebook links navigate"" render-state check. A non-link where a link is expected would be investigated as a potential issue, never reported blindly",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every rendered pricebook-name cell is a navigable link + Currency renders (render-state DEEP),,,,,Automated,Omeesha Mahanta,,,"Every rendered pricebook-name cell carries the link affordance (no non-link where a link is expected); the Currency column renders a currency code (e.g. USD). Navigation of a link cell is proven by TC-CPR-NPB-041. Asserted by content/affordance, never an exact row count",,,corporate-pricing,,"On the Corporate Pricing Search screen with the pricebook list rendered
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Enumerate every pricebook-name cell on the first page of the grid.</li>
+<li>2. Assert each carries the link/button affordance (structural - never a strict count).</li>
+<li>3. Click a sample (the first) and confirm it navigates to Details.</li>
+<li>4. Read a row's Currency cell</li>
+</ol>",,,"1. The enumeration returns the full set of pricebook-name cells rendered on the page.
+2. Every enumerated cell carries the link/button affordance with no plain-text exceptions.
+3. Clicking the first pricebook-name cell navigates to that pricebook's Details page.
+4. Every rendered pricebook-name cell carries the link affordance (no non-link where a link is expected); the Currency column renders a currency code (e.g. USD). Navigation of a link cell is proven by TC-CPR-NPB-041. Asserted by content/affordance, never an exact row count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search boolean columns render per the table's boolean format (render-state DEEP),,,,,Automated,Omeesha Mahanta,,,"The boolean columns render per the table's boolean format (Unicode -> for TRUE / empty for FALSE on this grid); a TRUE cell and a FALSE cell are distinguishable by their render, not assumed. No strict count",,,corporate-pricing,,"On the Corporate Pricing Search screen with the pricebook list rendered
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Read the grid headers (the 5 boolean columns: Is GSO / Is Internal / Is Labor / Is Active / Is Productions).</li>
+<li>2. Read the boolean cell render for those columns across the visible rows</li>
+</ol>",,,"1. The grid header row displays all five boolean column labels: Is GSO, Is Internal, Is Labor, Is Active, Is Productions.
+2. The boolean columns render per the table's boolean format (Unicode -> for TRUE / empty for FALSE on this grid); a TRUE cell and a FALSE cell are distinguishable by their render, not assumed. No strict count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Create-mode empty-state hint reads verbatim + a one-product grid renders (empty-vol QUICK),,,,,Automated,Omeesha Mahanta,,,"The empty-state hint reads verbatim ""No items added yet - Double-click or drag product groups from the sidebar""; after one add the grid renders exactly that one product group (content-based, the 1-item volume case)",,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Detail tab, empty pricebook grid
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Read the empty-state hint on the empty destination grid.</li>
+<li>2. Add one product group and read the grid</li>
+</ol>",,,"1. The empty destination grid displays its empty-state hint text.
+2. The empty-state hint reads verbatim ""No items added yet - Double-click or drag product groups from the sidebar""; after one add the grid renders exactly that one product group (content-based, the 1-item volume case)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Create-mode 0/1/N volume + source-catalog virtualization integrity (empty-vol DEEP),,,,,Automated,Omeesha Mahanta,,,"The grid renders 0 -> 1 -> N states by content (never a strict count). The source catalog is virtualized; an off-screen product group not initially on the page is reachable by content once filtered via the source search - virtualization integrity holds (content-based reads, not a count)",,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Detail tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Confirm the destination grid is empty (0 rows / empty-state).</li>
+<li>2. Add a first product group (1 row), then a second distinct group (N rows) - content-based.</li>
+<li>3. In the (virtualized ~3707-item) source list, type a known off-screen group name into the source search and confirm it becomes reachable/visible by content</li>
+</ol>",,,"1. The destination grid shows zero rows and its empty-state message.
+2. The grid shows one row after the first add, then two distinct rows after the second add.
+3. The grid renders 0 -> 1 -> N states by content (never a strict count). The source catalog is virtualized; an off-screen product group not initially on the page is reachable by content once filtered via the source search - virtualization integrity holds (content-based reads, not a count)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Create-mode unsaved changes survives a Strategy ↔ Detail tab switch (persistence QUICK),,,,,Automated,Omeesha Mahanta,,,"The in-session unsaved changes survives the tab switch - the added strategy (Total: 1) and the added product-group row are both still present after switching tabs and back (no loss, no reset)",,,corporate-pricing,,"On the Equipment New Pricebook page with one strategy added and one product group added (dirty, unsaved)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Add a strategy (Pricing Strategy tab) and a product group (Pricing Detail tab) - the form is now dirty.</li>
+<li>2. Switch to the Pricing Strategy tab, then back to the Pricing Detail tab.</li>
+<li>3. Read the strategy count and the grid</li>
+</ol>",,,"1. The strategy list shows one strategy and the Pricing Detail grid shows one added product group.
+2. Each tab becomes active and displays its content as it is selected.
+3. The in-session unsaved changes survives the tab switch - the added strategy (Total: 1) and the added product-group row are both still present after switching tabs and back (no loss, no reset)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Create-mode dirty discards on navigate-away (beforeunload) -> reload shows empty form (persistence DEEP),,,,,Automated,Omeesha Mahanta,,,"An unsaved create form is NOT persisted - navigating away triggers the beforeunload guard and, on reload of the create page, the form is empty (Name blank, zero strategies). NO-COMMIT discipline: nothing was saved",,,corporate-pricing,,"On the Equipment New Pricebook page with Name + Year + a strategy set (dirty, unsaved). The test fixture auto-accepts the beforeunload dialog
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Make the create form dirty (Name + Year + one strategy).</li>
+<li>2. Navigate away (re-open the fresh create page) - the dirty form guards via beforeunload.</li>
+<li>3. Read the create form fields after reload</li>
+</ol>",,,"1. The form holds the entered Name, Year, and one added strategy, and is in a dirty (unsaved) state.
+2. A beforeunload confirmation prompt appears when navigating away from the dirty form.
+3. An unsaved create form is NOT persisted - navigating away triggers the beforeunload guard and, on reload of the create page, the form is empty (Name blank, zero strategies). NO-COMMIT discipline: nothing was saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Removing the only strategy returns Save to disabled - no net change (persistence DEEP),,,,,Automated,Omeesha Mahanta,,,"Removing the only strategy returns the form to its pre-strategy state - Save goes back to disabled (≥1 strategy required; reverting the change leaves no net difference). The Save gate tracks the live precondition, not a one-way latch",,,corporate-pricing,,"On the Equipment New Pricebook page with Name + Year set
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. With Name + Year set, add one strategy</li>
+<li>2. Remove that strategy (its in-session Remove control).</li>
+<li>3. Observe the Save button</li>
+</ol>",,,"1. The strategy list shows one added strategy and the Save button becomes enabled.
+2. The strategy is removed and the strategy list returns to zero entries.
+3. Removing the only strategy returns the form to its pre-strategy state - Save goes back to disabled (≥1 strategy required; reverting the change leaves no net difference). The Save gate tracks the live precondition, not a one-way latch",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Source-list search filters the product-group catalog to matches (result-fidelity QUICK),,,,,Automated,Omeesha Mahanta,,,"The source-list search filters the product-group catalog to items matching the query (the searched group is present; the result set reflects the query - result-fidelity). content-based, never a strict count",,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Detail tab, full source catalog rendered
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Search ID or Name...""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Type a known product-group name fragment into the source ""Search ID or Name..."" box.</li>
+<li>2. Read the visible source rows</li>
+</ol>",,,"1. The source search box displays the typed text and the source list updates as it is typed.
+2. The source-list search filters the product-group catalog to items matching the query (the searched group is present; the result set reflects the query - result-fidelity). content-based, never a strict count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Source search by exact name narrows then clears to restore the full catalog (result-fidelity DEEP),,,,,Automated,Omeesha Mahanta,,,Searching the source list by an exact name narrows it to the matching item(s); clearing the search restores the full catalog (> 1 item again). The result set faithfully reflects the query and its clearing - never a strict count,,,corporate-pricing,,"On the Equipment New Pricebook page, Pricing Detail tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Record that the unfiltered source catalog has many items (> 1).</li>
+<li>2. Search the source list for an exact group name</li>
+<li>3. Clear the source search</li>
+</ol>",,,"1. The unfiltered source catalog displays more than one product group.
+2. The source list narrows to show only the matching product group.
+3. Searching the source list by an exact name narrows it to the matching item(s); clearing the search restores the full catalog (> 1 item again). The result set faithfully reflects the query and its clearing - never a strict count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Labor Save opens the confirmation dialog, and Cancel aborts without committing",,,,,Automated,Omeesha Mahanta,,,"On the Labor route, clicking Save opens the same ""Save Changes"" confirmation dialog as Equipment, and Cancel closes it without saving - proving the Save action is reachable on the Labor route (not merely that the button enables). The test stops at the confirmation step because a created pricebook cannot be removed through the UI. This is the Labor counterpart of the Equipment dialog->Cancel test (TC-CPR-NPB-024); the Labor route previously had only a Save-enable check",,,corporate-pricing,,"On the Labor New Pricebook page with a savable form (Name + Year + one strategy)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Click the enabled Save button.</li>
+<li>2. Click ""Cancel"" in the confirmation dialog that appears</li>
+</ol>",,,"1. The ""Save Changes"" confirmation dialog appears.
+2. On the Labor route, clicking Save opens the same ""Save Changes"" confirmation dialog as Equipment, and Cancel closes it without saving - proving the Save action is reachable on the Labor route (not merely that the button enables). The test stops at the confirmation step because a created pricebook cannot be removed through the UI. This is the Labor counterpart of the Equipment dialog->Cancel test (TC-CPR-NPB-024); the Labor route previously had only a Save-enable check",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saving a new Labor pricebook persists it - created book reloads + is found by Search with its product group,,,,,Automated,Omeesha Mahanta,,,"The commit redirects to /details/<new-guid> (the record now exists). On reload of the new book's Pricing Detail tab, the added Labor product group (Banners Design) is still present (content-based, never a count). The new book is discoverable by its unique name on the Search screen ""only when the ""Is Labor"" filter is turned on"" - the Search hides Labor pricebooks by default (a Labor-vs-Equipment behavior the Equipment commit test does not exercise). If this ever fails on ""can't add"", the likely cause is the unique source product groups have been used up (the UI has no delete to recycle them) - escalate then, not pre-emptively",,,corporate-pricing,,"On the Labor New Pricebook page (office 1604). This environment is single-tenant (ours), so committing a real Labor pricebook is accepted (user-authorized). A created pricebook is irreversible via the UI (no delete/deactivate), so this test leaves a permanent record by design
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Save Changes""
+Sample input 2: ""Is Labor""",Medium,,New_Pricebook,1,,Corporate_Pricing > New_Pricebook,"<ol>
+<li>1. Build a savable, non-empty Labor pricebook: enter a unique Pricebook Name (a distinct Labor prefix + a passed-in run-stamp from the pricebook run stamp env var, falling back to the test-runner pid - never a clock/random value), enter a Price Year, add one strategy via the dialog, switch to the Pricing Detail tab and add one Labor product group (Banners Design).</li>
+<li>2. Confirm Save is enabled, click Save, and confirm the ""Save Changes"" dialog (COMMIT).</li>
+<li>3. After the commit redirects to the new pricebook's Details page, reload that Details page and read the Pricing Detail grid.</li>
+<li>4. Open the Corporate Pricing Search screen, turn Active-Only off, turn the ""Is Labor"" filter ON, filter by the unique name, and Search</li>
+</ol>",,,"1. The form holds a unique Labor Pricebook Name, a valid Price Year, one strategy, and one added Labor product group (Banners Design).
+2. Confirming the ""Save Changes"" dialog commits the Labor pricebook and redirects to its new Details page.
+3. The reloaded Details page displays the Pricing Detail grid with the added Labor product group still present.
+4. The commit redirects to /details/<new-guid> (the record now exists). On reload of the new book's Pricing Detail tab, the added Labor product group (Banners Design) is still present (content-based, never a count). The new book is discoverable by its unique name on the Search screen ""only when the ""Is Labor"" filter is turned on"" - the Search hides Labor pricebooks by default (a Labor-vs-Equipment behavior the Equipment commit test does not exercise). If this ever fails on ""can't add"", the likely cause is the unique source product groups have been used up (the UI has no delete to recycle them) - escalate then, not pre-emptively",,,,Master,S1620,Test Case (Steps),Regression,,,

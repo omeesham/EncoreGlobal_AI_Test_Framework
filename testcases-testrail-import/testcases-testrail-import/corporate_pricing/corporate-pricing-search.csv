@@ -1,0 +1,867 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Page loads and shows the default pricebook list,,,,,Automated,Omeesha Mahanta,,,"When the page opens, the grid populates once with the default pricebook list and does not reload on its own while idle. The default view reflects the default filters: Active Only on, Is Internal off, Is Labor off, first page of results",,,corporate-pricing,,"Authenticated; navigating to the Corporate Pricing Search page fresh
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open the Corporate Pricing Search page for office 1604.</li>
+<li>2. Wait for the results grid to populate.</li>
+<li>3. Watch the grid while the page sits idle</li>
+</ol>",,,"1. The Corporate Pricing Search page loads and is displayed for office 1604
+2. The results grid populates with the default pricebook list
+3. When the page opens, the grid populates once with the default pricebook list and does not reload on its own while idle. The default view reflects the default filters: Active Only on, Is Internal off, Is Labor off, first page of results",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Results grid shows the expected pricebook columns,,,,,Automated,Omeesha Mahanta,,,"All expected columns are present - ""Price Book"", ""Price Book Strategy"", ""Price Year"", ""Is GSO"", ""Is Internal"", ""Is Labor"", ""Is Active"", ""Is Productions"", and ""Currency"". The grid shows nine columns in total",,,corporate-pricing,,"On the Search page after initial load
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Read the grid header row.</li>
+<li>2. Confirm each expected column is present.</li>
+<li>3. Count the columns shown</li>
+</ol>",,,"1. The grid header row is visible with a title displayed for each column
+2. Each expected column is present in the grid header row
+3. All expected columns are present - ""Price Book"", ""Price Book Strategy"", ""Price Year"", ""Is GSO"", ""Is Internal"", ""Is Labor"", ""Is Active"", ""Is Productions"", and ""Currency"". The grid shows nine columns in total",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search filter baseline / default state,,,,,Automated,Omeesha Mahanta,,,"All filters are at their defaults: Pricebook and Pricing Strategy empty, Location ""All Locations"", Currency ""All Currencies"", Is Internal and Is Labor unchecked, and Active Only checked. The item-count footer reads in the normal ""N items found"" format",,,corporate-pricing,,"Fresh page load (no interaction)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""All Locations""
+Sample input 2: ""All Currencies""
+Sample input 3: ""Active Only is checked""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Observe the 7 filters without interacting.</li>
+<li>2. Verify Pricebook + Pricing Strategy inputs are empty.</li>
+<li>3. Verify Location shows ""All Locations"" and Currency shows ""All Currencies"".</li>
+<li>4. Verify Is Internal + Is Labor checkboxes are unchecked.</li>
+<li>5. Verify ""Active Only is checked"" (default).</li>
+<li>6. Verify the item-count footer matches the N items found pattern</li>
+</ol>",,,"1. All seven filters (Pricebook, Pricing Strategy, Location, Currency, Is Internal, Is Labor, Active Only) are visible on the page
+2. The Pricebook and Pricing Strategy input fields are empty
+3. The Location field shows ""All Locations"" and the Currency field shows ""All Currencies""
+4. The Is Internal and Is Labor checkboxes are unchecked
+5. The Active Only checkbox is checked by default
+6. All filters are at their defaults: Pricebook and Pricing Strategy empty, Location ""All Locations"", Currency ""All Currencies"", Is Internal and Is Labor unchecked, and Active Only checked. The item-count footer reads in the normal ""N items found"" format",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Boolean columns render a visible indicator for true and empty for false,,,,,Automated,Omeesha Mahanta,,,Boolean columns show a check mark for true and an empty cell for false. At least one check mark is present among the displayed rows; every boolean cell is either a check mark or empty (no other text),,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Read the boolean columns (Is GSO, Is Internal, Is Labor, Is Active, Is Productions) across the rendered rows.</li>
+<li>2. Confirm true cells show a check mark and false cells are empty</li>
+</ol>",,,"1. The five boolean columns each display a value for every rendered row
+2. Boolean columns show a check mark for true and an empty cell for false. At least one check mark is present among the displayed rows; every boolean cell is either a check mark or empty (no other text)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Pricebook text filter stages on type, then Search narrows the grid",,,,,Automated,Omeesha Mahanta,,,"Typing stages the filter (the grid does not change immediately). Clicking Search applies the pricebook-name filter, and the grid narrows to rows whose Price Book name contains the typed value. Observed example - typing ""2021-PB6"" narrows the grid to ""1 items found"" (the 2021-PB6 row). Clearing the filter and clicking Search restores the broader list",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pricebook""
+Sample input 2: ""Search""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Type part of a pricebook name into the ""Pricebook"" filter.</li>
+<li>2. Observe the grid (it does NOT change yet - the filter is staged).</li>
+<li>3. Click ""Search"".</li>
+<li>4. Observe the grid narrow to the matching rows</li>
+</ol>",,,"1. The Pricebook filter field accepts and displays the typed text
+2. The grid remains unchanged while the typed value stays staged in the filter
+3. The grid reloads and narrows to rows matching the typed Pricebook filter
+4. Typing stages the filter (the grid does not change immediately). Clicking Search applies the pricebook-name filter, and the grid narrows to rows whose Price Book name contains the typed value. Observed example - typing ""2021-PB6"" narrows the grid to ""1 items found"" (the 2021-PB6 row). Clearing the filter and clicking Search restores the broader list",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Pricing Strategy text filter stages, then Search applies it",,,,,Automated,Omeesha Mahanta,,,Pricing Strategy is a free-text filter. Typing stages the filter; clicking Search applies it and narrows the grid to matching strategy names; clearing the field and clicking Search restores the list,,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pricing Strategy""
+Sample input 2: ""Enter strategy""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Confirm ""Pricing Strategy"" is a free-text box (placeholder ""Enter strategy""), not a dropdown.</li>
+<li>2. Type part of a strategy name.</li>
+<li>3. Observe the grid is unchanged (staged).</li>
+<li>4. Click Search and observe the grid narrow.</li>
+<li>5. Clear the field and click Search to restore the list</li>
+</ol>",,,"1. The Pricing Strategy field is a free-text box showing the placeholder ""Enter strategy"", not a dropdown
+2. The Pricing Strategy field accepts and displays the typed text
+3. The grid remains unchanged while the strategy filter stays staged
+4. The grid reloads and narrows to rows matching the staged Pricing Strategy filter
+5. Pricing Strategy is a free-text filter. Typing stages the filter; clicking Search applies it and narrows the grid to matching strategy names; clearing the field and clicking Search restores the list",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Currency dropdown options + select-then-Search narrows,,,,,Automated,Omeesha Mahanta,,,"The Currency dropdown lists exactly [All Currencies, USD, CAD, MXN]. Selecting a value stages it (no immediate change); clicking Search applies the currency filter and the grid reflects the chosen currency; resetting to ""All Currencies"" and clicking Search restores the full set",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Currency""
+Sample input 2: ""All Currencies""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open the ""Currency"" dropdown.</li>
+<li>2. Verify the options: All Currencies, USD, CAD, MXN.</li>
+<li>3. Select a currency (e.g. USD).</li>
+<li>4. Observe the grid is unchanged (staged).</li>
+<li>5. Click Search and observe the grid reload its results.</li>
+<li>6. Clear back to ""All Currencies"" and click Search to restore</li>
+</ol>",,,"1. The Currency dropdown opens and displays its list of options
+2. The Currency dropdown lists exactly All Currencies, USD, CAD, and MXN
+3. The selected currency (USD) is displayed in the Currency field
+4. The grid remains unchanged while the selected currency stays staged
+5. The grid reloads and updates to reflect the selected currency filter
+6. The Currency dropdown lists exactly [All Currencies, USD, CAD, MXN]. Selecting a value stages it (no immediate change); clicking Search applies the currency filter and the grid reflects the chosen currency; resetting to ""All Currencies"" and clicking Search restores the full set",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Location dropdown default + searchable options present,,,,,Automated,Omeesha Mahanta,,,"Location defaults to ""All Locations"" and opens a searchable popover listing the location options (more than 200). The narrowing behavior for each individual location is covered separately",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""All Locations""
+Sample input 2: ""Clear selection""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Verify the Location filter default shows ""All Locations"".</li>
+<li>2. Open the dropdown.</li>
+<li>3. Verify it renders many location options (a searchable popover; first entry ""Clear selection"", then rows showing each office number and name).</li>
+<li>4. Press Escape to close</li>
+</ol>",,,"1. The Location filter shows ""All Locations"" by default
+2. The Location dropdown opens and displays a searchable popover
+3. The popover lists ""Clear selection"" first, followed by rows showing each office number and name
+4. Location defaults to ""All Locations"" and opens a searchable popover listing the location options (more than 200). The narrowing behavior for each individual location is covered separately",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Is Internal checkbox stages then Search narrows to internal pricebooks,,,,,Automated,Omeesha Mahanta,,,Ticking Is Internal stages the filter (the checkbox shows as checked; the grid stays unchanged). Clicking Search applies the internal-only filter and narrows the grid to internal rows. Unticking and clicking Search restores the list,,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Is Internal""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Tick the ""Is Internal"" checkbox.</li>
+<li>2. Observe the grid is unchanged (the filter is staged, not yet applied).</li>
+<li>3. Click Search.</li>
+<li>4. Observe that the grid narrows to internal pricebooks.</li>
+<li>5. Untick the checkbox and click Search to restore the list</li>
+</ol>",,,"1. The Is Internal checkbox becomes checked
+2. The grid remains unchanged while the Is Internal filter stays staged
+3. Clicking Search applies the staged Is Internal filter and reloads the grid
+4. The grid narrows to display only internal pricebooks
+5. Ticking Is Internal stages the filter (the checkbox shows as checked; the grid stays unchanged). Clicking Search applies the internal-only filter and narrows the grid to internal rows. Unticking and clicking Search restores the list",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Is Labor checkbox stages then Search narrows,,,,,Automated,Omeesha Mahanta,,,"Is Labor stages while ticked, then applies on Search; the grid narrows to labor rows; unticking and clicking Search restores the list",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Is Labor""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Tick ""Is Labor"".</li>
+<li>2. Observe the filter is staged (the grid is unchanged).</li>
+<li>3. Click Search and observe that the grid narrows to labor rows.</li>
+<li>4. Untick the checkbox and click Search to restore the list</li>
+</ol>",,,"1. The Is Labor checkbox becomes checked
+2. The grid remains unchanged while the Is Labor filter stays staged
+3. Clicking Search applies the Is Labor filter and the grid updates to show only labor rows
+4. Is Labor stages while ticked, then applies on Search; the grid narrows to labor rows; unticking and clicking Search restores the list",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Active Only default-checked, unchecking and Search reveals inactive rows",,,,,Automated,Omeesha Mahanta,,,"Active Only defaults to checked (the page loads showing active pricebooks only). Unchecking stages the change; clicking Search re-queries without the active-only restriction, so inactive pricebooks appear alongside active ones. Re-checking and clicking Search returns to active-only",,,corporate-pricing,,"Fresh page load (Active Only checked by default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Verify Active Only is checked.</li>
+<li>2. Uncheck it.</li>
+<li>3. Observe the change is staged (the grid is unchanged).</li>
+<li>4. Click Search and observe that the grid now includes inactive pricebooks as well.</li>
+<li>5. Re-check Active Only and click Search to return to active-only</li>
+</ol>",,,"1. The Active Only checkbox is checked
+2. The Active Only checkbox becomes unchecked
+3. The grid remains unchanged while the unchecked state stays staged
+4. The grid reloads and includes inactive pricebooks alongside active ones
+5. Active Only defaults to checked (the page loads showing active pricebooks only). Unchecking stages the change; clicking Search re-queries without the active-only restriction, so inactive pricebooks appear alongside active ones. Re-checking and clicking Search returns to active-only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset clears every filter input and restores the full list,,,,,Automated,Omeesha Mahanta,,,"Reset clears the text inputs (Pricebook and Pricing Strategy become empty), resets the dropdowns to ""All Locations""/""All Currencies"", returns the checkboxes to their defaults (Is Internal and Is Labor unchecked, ""Active Only re-checked""), AND restores the grid to the full original list - and the full list returns instantly. A second Reset on the already-clean state has no effect",,,corporate-pricing,,"At least one text filter typed, one dropdown selected, one checkbox toggled, and a Search performed (grid narrowed)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Reset""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. With filters applied and the grid narrowed, click ""Reset"".</li>
+<li>2. Observe every input</li>
+</ol>",,,"1. Clicking Reset restores the grid and all filter inputs to their default state instantly
+2. Reset clears the text inputs (Pricebook and Pricing Strategy become empty), resets the dropdowns to ""All Locations""/""All Currencies"", returns the checkboxes to their defaults (Is Internal and Is Labor unchecked, ""Active Only re-checked""), AND restores the grid to the full original list - and the full list returns instantly. A second Reset on the already-clean state has no effect",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The grid does not change while typing or selecting filters (staged until Search),,,,,Automated,Omeesha Mahanta,,,"The grid does not change during typing, toggling, or selecting - the filters are held until Search is clicked",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Type into the Pricebook filter.</li>
+<li>2. Toggle the Is Internal checkbox.</li>
+<li>3. Open the Currency dropdown and select a value.</li>
+<li>4. Observe the grid after each action</li>
+</ol>",,,"1. The Pricebook filter field accepts and displays the typed text
+2. The Is Internal checkbox toggles to checked
+3. The selected currency value is displayed in the Currency field
+4. The grid does not change during typing, toggling, or selecting - the filters are held until Search is clicked",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search applies the staged filters all at once,,,,,Automated,Omeesha Mahanta,,,"Clicking Search applies the staged filter (the internal-only filter) and the grid re-renders to show the matching rows. This confirms the filters are applied only when Search is clicked, not instantly as values are entered",,,corporate-pricing,,"On the Search page; a filter staged (for example, Is Internal ticked)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Search""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. With Is Internal staged, click ""Search"".</li>
+<li>2. Observe the grid update</li>
+</ol>",,,"1. Clicking Search applies the staged Is Internal filter and the grid reloads
+2. Clicking Search applies the staged filter (the internal-only filter) and the grid re-renders to show the matching rows. This confirms the filters are applied only when Search is clicked, not instantly as values are entered",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking a Price Book name navigates to the Pricebook Details route,,,,,Automated,Omeesha Mahanta,,,"The browser opens that pricebook's Corporate Pricing Details page (a details URL that includes the pricebook's unique identifier); the page heading reads ""Corporate Pricing Details""",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2021-PB6""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Click a Price Book name in the grid (for example, ""2021-PB6"").</li>
+<li>2. Observe where it lands</li>
+</ol>",,,"1. Clicking the Price Book name begins navigation away from the Search page toward the pricebook's Details page
+2. The browser opens that pricebook's Corporate Pricing Details page (a details URL that includes the pricebook's unique identifier); the page heading reads ""Corporate Pricing Details""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,New Equipment Pricing option opens the equipment add page,,,,,Automated,Omeesha Mahanta,,,"The browser opens the add-pricing page in ""equipment"" mode - the destination carries an ""equipment"" type indicator, so the add page knows to create an equipment pricing record (a required behavior)",,,corporate-pricing,,"On the Search page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""New""
+Sample input 2: ""Equipment Pricing""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Click the ""New"" button (it opens a menu).</li>
+<li>2. Click ""Equipment Pricing"".</li>
+<li>3. Observe where it lands</li>
+</ol>",,,"1. Clicking the New button opens a menu listing pricing type options
+2. Clicking Equipment Pricing begins navigation to the add-pricing page in equipment mode
+3. The browser opens the add-pricing page in ""equipment"" mode - the destination carries an ""equipment"" type indicator, so the add page knows to create an equipment pricing record (a required behavior)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,New Labor Pricing option opens the labor add page,,,,,Automated,Omeesha Mahanta,,,"The browser opens the add-pricing page in ""labor"" mode - the destination carries a ""labor"" type indicator, so the add page knows to create a labor pricing record (a required behavior)",,,corporate-pricing,,"On the Search page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""New""
+Sample input 2: ""Labor Pricing""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Click the ""New"" button.</li>
+<li>2. Click ""Labor Pricing"".</li>
+<li>3. Observe where it lands</li>
+</ol>",,,"1. Clicking the New button opens a menu listing pricing type options
+2. Clicking Labor Pricing begins navigation to the add-pricing page in labor mode
+3. The browser opens the add-pricing page in ""labor"" mode - the destination carries a ""labor"" type indicator, so the add page knows to create a labor pricing record (a required behavior)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Action-bar buttons are present and the New control behaves as a button,,,,,Automated,Omeesha Mahanta,,,"The action bar shows: New, Pricing Override, Loc Pricing Export, Loc Pricing Import, Export, Import, Grid Options - all present as buttons. ""New"" behaves as a button (opens the Equipment/Labor menu). The ""Pricing Override"" button is present; its destination page is not yet built, so where it leads is checked separately once that page ships",,,corporate-pricing,,"On the Search page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""New""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Locate the action-bar buttons.</li>
+<li>2. Confirm each is present.</li>
+<li>3. Confirm ""New"" is a focusable, clickable button (opens its menu)</li>
+</ol>",,,"1. The action bar is visible with its full set of buttons displayed
+2. Each expected action-bar button is present
+3. The action bar shows: New, Pricing Override, Loc Pricing Export, Loc Pricing Import, Export, Import, Grid Options - all present as buttons. ""New"" behaves as a button (opens the Equipment/Labor menu). The ""Pricing Override"" button is present; its destination page is not yet built, so where it leads is checked separately once that page ships",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricebook no-match input returns zero results,,,,,Automated,Omeesha Mahanta,,,"Clicking Search applies the Pricebook-name filter and the grid shows ""0 items found"" - a clean empty result, no error",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""ZZZ-NOPE-NOMATCH-9999""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Type a pricebook name that matches nothing (e.g. ""ZZZ-NOPE-NOMATCH-9999"").</li>
+<li>2. Click Search.</li>
+<li>3. Observe the grid</li>
+</ol>",,,"1. The Pricebook filter field accepts and displays the typed text
+2. The grid reloads and shows ""0 items found""
+3. Clicking Search applies the Pricebook-name filter and the grid shows ""0 items found"" - a clean empty result, no error",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricebook 250-character overflow accepted with no error and returns zero results,,,,,Automated,Omeesha Mahanta,,,"The field accepts all 250 characters (no length limit); the field shows no validation error and focus can leave it naturally; Search returns ""0 items found"" and the page does not crash",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Type a 250-character value into the Pricebook filter.</li>
+<li>2. Confirm the field staged the full value (no length cap).</li>
+<li>3. Confirm a natural Tab moves focus out of the field.</li>
+<li>4. Click Search</li>
+</ol>",,,"1. The Pricebook field accepts and displays all 250 typed characters
+2. The field retains the full 250-character value with no truncation
+3. Pressing Tab moves focus out of the field naturally
+4. The field accepts all 250 characters (no length limit); the field shows no validation error and focus can leave it naturally; Search returns ""0 items found"" and the page does not crash",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricebook special characters accepted literally with no error and no crash,,,,,Automated,Omeesha Mahanta,,,"The field accepts the special characters literally (no validation error); the value is accepted as a literal text filter; the grid shows ""0 items found""; the page stays healthy (no error page). A natural Tab moves focus out of the field - no focus-trap",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Type a string of special characters (%_'""<>&#) into the Pricebook filter.</li>
+<li>2. Confirm the field staged the literal text and shows no validation error.</li>
+<li>3. Click Search.</li>
+<li>4. Confirm the page did not throw an error</li>
+</ol>",,,"1. The Pricebook field accepts and displays the typed special characters
+2. The field stages the literal text with no validation error shown
+3. The grid reloads and shows ""0 items found"" with no error
+4. The field accepts the special characters literally (no validation error); the value is accepted as a literal text filter; the grid shows ""0 items found""; the page stays healthy (no error page). A natural Tab moves focus out of the field - no focus-trap",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricebook whitespace-only input returns the full unfiltered list,,,,,Automated,Omeesha Mahanta,,,"The whitespace-only value stages and submits; the server treats it as no meaningful filter and returns the full list (the item count shows the full size, not zero); no error",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: "" """,Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Type only spaces ("" "") into the Pricebook filter.</li>
+<li>2. Confirm the field accepts it and a natural Tab moves focus out.</li>
+<li>3. Click Search</li>
+</ol>",,,"1. The Pricebook field accepts the spaces and shows them staged in the input
+2. The field accepts the value and Tab moves focus out of the field naturally
+3. The whitespace-only value stages and submits; the server treats it as no meaningful filter and returns the full list (the item count shows the full size, not zero); no error",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricing Strategy no-match filter returns zero results,,,,,Automated,Omeesha Mahanta,,,"Clicking Search applies the Pricing-Strategy-name filter and the grid shows ""0 items found""",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pricing Strategy""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Type a strategy name that matches nothing into the ""Pricing Strategy"" filter.</li>
+<li>2. Click Search.</li>
+<li>3. Observe that the grid updates</li>
+</ol>",,,"1. The Pricing Strategy field accepts and displays the typed text
+2. The grid reloads and shows ""0 items found""
+3. Clicking Search applies the Pricing-Strategy-name filter and the grid shows ""0 items found""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Currency each-option (USD/CAD/MXN) submits the matching currency,,,,,Automated,Omeesha Mahanta,,,Each currency selection stages (no immediate change) and clicking Search applies the selected currency; the grid updates to reflect the chosen currency,,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. For each currency (USD, CAD, MXN): open the Currency dropdown, select it, click Search, observe the grid update, then Reset</li>
+</ol>",,,1. Each currency selection stages (no immediate change) and clicking Search applies the selected currency; the grid updates to reflect the chosen currency,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Location filter narrows the grid by the chosen office (representative),,,,,Automated,Omeesha Mahanta,,,Selecting a specific location stages it and clicking Search applies the location filter; the grid narrows to that location's pricebooks (count is at or below the full list),,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Clear selection""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open the Location dropdown.</li>
+<li>2. Select the first real location option (skip ""Clear selection"").</li>
+<li>3. Click Search.</li>
+<li>4. Observe that the grid updates</li>
+</ol>",,,"1. The Location dropdown opens and displays a searchable popover of locations
+2. The selected location is displayed in the Location field
+3. The grid reloads and narrows to the selected location's pricebooks
+4. Selecting a specific location stages it and clicking Search applies the location filter; the grid narrows to that location's pricebooks (count is at or below the full list)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Is Internal toggle and revert restores the baseline,,,,,Automated,Omeesha Mahanta,,,Ticking applies the internal-only filter and the grid changes to internal rows; unticking and clicking Search restores the baseline count. The toggle is symmetric,,,corporate-pricing,,"Fresh page load (Is Internal unchecked)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Note the baseline count.</li>
+<li>2. Tick Is Internal and click Search.</li>
+<li>3. Note the new count.</li>
+<li>4. Untick Is Internal and click Search.</li>
+<li>5. Compare to baseline</li>
+</ol>",,,"1. The ""items found"" footer displays the current baseline count
+2. The grid reloads and narrows to internal rows only
+3. The ""items found"" footer displays the updated count for internal rows
+4. The grid reloads and returns to the unfiltered baseline list
+5. Ticking applies the internal-only filter and the grid changes to internal rows; unticking and clicking Search restores the baseline count. The toggle is symmetric",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Is Labor toggle and revert restores the baseline count,,,,,Automated,Omeesha Mahanta,,,Ticking applies the labor filter and the grid switches to the labor population (which may be LARGER than the non-labor default - not a narrowing); unticking and clicking Search restores the baseline count,,,corporate-pricing,,"Fresh page load (Is Labor unchecked)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Note the baseline count.</li>
+<li>2. Tick Is Labor and click Search.</li>
+<li>3. Note the new count.</li>
+<li>4. Untick Is Labor and click Search.</li>
+<li>5. Compare to baseline</li>
+</ol>",,,"1. The ""items found"" footer displays the current baseline count
+2. The grid reloads and switches to show the labor population
+3. The ""items found"" footer displays the updated count for labor rows
+4. The grid reloads and returns to the unfiltered baseline list
+5. Ticking applies the labor filter and the grid switches to the labor population (which may be LARGER than the non-labor default - not a narrowing); unticking and clicking Search restores the baseline count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Active Only toggle and revert restores the active-only baseline,,,,,Automated,Omeesha Mahanta,,,Unchecking Active Only drops the active-only restriction entirely; the grid reveals inactive pricebooks alongside active ones (count grows to at least the baseline). Re-checking restores the active-only view and the baseline count,,,corporate-pricing,,"Fresh page load (Active Only checked by default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Note the baseline count (Active Only checked by default).</li>
+<li>2. Uncheck Active Only and click Search.</li>
+<li>3. Note the new count.</li>
+<li>4. Re-check Active Only and click Search.</li>
+<li>5. Compare to baseline</li>
+</ol>",,,"1. The ""items found"" footer displays the active-only baseline count
+2. The grid reloads and includes inactive pricebooks alongside active ones
+3. The ""items found"" footer displays the updated count including inactive rows
+4. The grid reloads and returns to showing active pricebooks only
+5. Unchecking Active Only drops the active-only restriction entirely; the grid reveals inactive pricebooks alongside active ones (count grows to at least the baseline). Re-checking restores the active-only view and the baseline count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset restores the full list and is repeatable,,,,,Automated,Omeesha Mahanta,,,"The first Reset restores the full list and clears the inputs. A second Reset on the already-clean state has no further effect - the result is unchanged. After both resets, all inputs are cleared (Pricebook empty, Is Internal unchecked)",,,corporate-pricing,,"On the Search page; several filters applied and the grid narrowed
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Apply a text filter and a checkbox, then click Search.</li>
+<li>2. Click Reset and note the result.</li>
+<li>3. Click Reset a second time and note the result</li>
+</ol>",,,"1. The grid reloads and narrows according to the applied text filter and checkbox
+2. Clicking Reset clears the inputs and restores the grid to the full list
+3. The first Reset restores the full list and clears the inputs. A second Reset on the already-clean state has no further effect - the result is unchanged. After both resets, all inputs are cleared (Pricebook empty, Is Internal unchecked)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Combined multi-filter applies every staged filter at once,,,,,Automated,Omeesha Mahanta,,,"Staging multiple filters does not change the grid; clicking Search applies all the staged filters together (Pricebook name, Currency, and Is Internal) and the grid narrows by all conditions at once",,,corporate-pricing,,"Fresh page load
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Stage a Pricebook text value, a Currency selection, and the Is Internal checkbox together (no Search yet).</li>
+<li>2. Confirm the grid does not change yet while staging.</li>
+<li>3. Click Search once.</li>
+<li>4. Observe that the grid updates</li>
+</ol>",,,"1. All three values (Pricebook text, Currency selection, Is Internal checkbox) are staged in their fields
+2. The grid remains unchanged while the three filters stay staged
+3. The grid reloads and narrows by all three staged filters together
+4. Staging multiple filters does not change the grid; clicking Search applies all the staged filters together (Pricebook name, Currency, and Is Internal) and the grid narrows by all conditions at once",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid Options menu opens and exposes column toggles and Reset to Default View,,,,,Automated,Omeesha Mahanta,,,"The Grid Options menu opens and presents ""Reset to Default View"" plus one toggle entry per grid column (9 total). All 9 toggles are visible in the menu before any column has been hidden",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Grid Options""
+Sample input 2: ""Reset to Default View""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Click the ""Grid Options"" button and expect a menu or panel to open.</li>
+<li>2. Read the list of items in the menu.</li>
+<li>3. Confirm ""Reset to Default View"" is present.</li>
+<li>4. Confirm exactly 9 column-toggle items are present, one for each column: Price Book, Price Book Strategy, Price Year, Is GSO, Is Internal, Is Labor, Is Active, Is Productions, Currency</li>
+</ol>",,,"1. Clicking Grid Options opens a menu panel
+2. The menu displays a list of items, including toggles for each grid column
+3. The ""Reset to Default View"" option is present in the menu
+4. The Grid Options menu opens and presents ""Reset to Default View"" plus one toggle entry per grid column (9 total). All 9 toggles are visible in the menu before any column has been hidden",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Toggling a column off hides it from the grid and persists on reload,,,,,Automated,Omeesha Mahanta,,,"After toggling ""Is GSO"" off, the ""Is GSO"" column disappears from the grid (no header, no cells). After a full page reload, ""Is GSO"" remains hidden - the column-visibility setting is persisted (not reset on navigation)",,,corporate-pricing,,"On the Search page with all 9 columns visible (default state)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Is GSO""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open Grid Options.</li>
+<li>2. Click the toggle for ""Is GSO"" to turn it off.</li>
+<li>3. Close the menu and observe the grid.</li>
+<li>4. Reload the page and observe the grid again</li>
+</ol>",,,"1. The Grid Options menu opens
+2. The ""Is GSO"" toggle switches to off in the menu
+3. The menu closes and the ""Is GSO"" column disappears from the grid
+4. After toggling ""Is GSO"" off, the ""Is GSO"" column disappears from the grid (no header, no cells). After a full page reload, ""Is GSO"" remains hidden - the column-visibility setting is persisted (not reset on navigation)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset to Default View restores all 9 columns and persists on reload,,,,,Automated,Omeesha Mahanta,,,"After ""Reset to Default View"", all 9 columns reappear in the grid. After a full page reload, all 9 columns are still present - the reset to defaults is persisted and survives navigation",,,corporate-pricing,,"At least one column has been hidden via Grid Options (e.g. SRC-032 left ""Is GSO"" hidden). On the Search page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Reset to Default View""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open Grid Options.</li>
+<li>2. Click ""Reset to Default View"".</li>
+<li>3. Close the menu and observe the grid.</li>
+<li>4. Reload the page and observe the grid again</li>
+</ol>",,,"1. The Grid Options menu opens
+2. Clicking ""Reset to Default View"" restores all toggles to enabled in the menu
+3. The menu closes and all 9 columns reappear in the grid
+4. After ""Reset to Default View"", all 9 columns reappear in the grid. After a full page reload, all 9 columns are still present - the reset to defaults is persisted and survives navigation",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Currency filter set to USD shows only USD rows in the grid,,,,,Automated,Omeesha Mahanta,,,"Every visible row in the Currency column shows ""USD"". No row shows ""CAD"", ""MXN"", or any other value. The ""N items found"" text reflects the narrowed set",,,corporate-pricing,,"On the Search page with results loaded. Currency filter set to ""All Currencies"" (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""USD""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open the Currency dropdown and select ""USD"".</li>
+<li>2. Click Search and wait for the grid to re-render.</li>
+<li>3. Read the Currency column value for every visible row</li>
+</ol>",,,"1. ""USD"" is displayed as the selected value in the Currency field
+2. The grid reloads and re-renders with the USD currency filter applied
+3. Every visible row in the Currency column shows ""USD"". No row shows ""CAD"", ""MXN"", or any other value. The ""N items found"" text reflects the narrowed set",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Is Internal filter ON shows only internal rows in the grid,,,,,Automated,Omeesha Mahanta,,,"Every visible row shows a checkmark in the Is Internal column. No row has an empty Is Internal cell. The ""N items found"" text reflects the narrowed set",,,corporate-pricing,,"On the Search page with results loaded. Is Internal checkbox unchecked (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Is Internal""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Tick the ""Is Internal"" checkbox.</li>
+<li>2. Click Search and wait for the grid to re-render.</li>
+<li>3. Read the ""Is Internal"" column value for every visible row</li>
+</ol>",,,"1. The Is Internal checkbox becomes checked
+2. The grid reloads and re-renders with the Is Internal filter applied
+3. Every visible row shows a checkmark in the Is Internal column. No row has an empty Is Internal cell. The ""N items found"" text reflects the narrowed set",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Is Labor filter ON returns the labor pricebook population,,,,,Automated,Omeesha Mahanta,,,"Every visible row shows a checkmark in the Is Labor column. The returned item count may be LARGER than the baseline (the labor population is a separate set, not a subset of the default view). No non-labor row appears",,,corporate-pricing,,"On the Search page with results loaded. Is Labor checkbox unchecked (default). Note the baseline ""items found"" count
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Is Labor""
+Sample input 2: ""items found""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Tick ""Is Labor"".</li>
+<li>2. Click Search and wait for the grid to re-render.</li>
+<li>3. Read the Is Labor column value for every visible row.</li>
+<li>4. Note the new ""items found"" count and compare to baseline</li>
+</ol>",,,"1. The Is Labor checkbox becomes checked
+2. The grid reloads and re-renders with the Is Labor filter applied
+3. The Is Labor column displays a value for every visible row
+4. Every visible row shows a checkmark in the Is Labor column. The returned item count may be LARGER than the baseline (the labor population is a separate set, not a subset of the default view). No non-labor row appears",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Active Only OFF reveals inactive rows and ON restricts to active rows,,,,,Automated,Omeesha Mahanta,,,"With Active Only OFF, at least one row has an empty Is Active cell (an inactive pricebook is now visible) and the ""items found"" count is at or above the Active-Only baseline. With Active Only ON, every visible row shows a checkmark in the Is Active column and the count returns to the baseline",,,corporate-pricing,,"Fresh page load (Active Only checked by default). Note the baseline ""items found"" count
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Active Only""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Uncheck ""Active Only"".</li>
+<li>2. Click Search and wait for the grid to re-render.</li>
+<li>3. Confirm the Is Active column has at least one empty cell (inactive row present).</li>
+<li>4. Re-check ""Active Only"".</li>
+<li>5. Click Search and wait for the grid to re-render.</li>
+<li>6. Read the Is Active column for every visible row</li>
+</ol>",,,"1. The Active Only checkbox becomes unchecked
+2. The grid reloads and re-renders including inactive pricebooks
+3. The Is Active column shows at least one empty cell for an inactive row
+4. The Active Only checkbox becomes checked again
+5. The grid reloads and re-renders showing only active pricebooks
+6. With Active Only OFF, at least one row has an empty Is Active cell (an inactive pricebook is now visible) and the ""items found"" count is at or above the Active-Only baseline. With Active Only ON, every visible row shows a checkmark in the Is Active column and the count returns to the baseline",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Location filter narrows the grid to rows belonging to the selected location,,,,,Automated,Omeesha Mahanta,,,"After selecting a specific location and clicking Search, the grid narrows to pricebooks belonging to that location's office number. The ""items found"" count is at or below the all-locations baseline. No row from a different location appears (within the visible sample)",,,corporate-pricing,,"On the Search page with results loaded. Location filter at ""All Locations"" (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""items found""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open the Location dropdown and select one specific location (read the option label to capture the office number).</li>
+<li>2. Click Search and wait for the grid to re-render.</li>
+<li>3. Verify the ""items found"" count is at or below the unfiltered baseline.</li>
+<li>4. Spot-check a sample of visible rows to confirm they belong to the selected location (e.g. via the Price Book name or any location-identifying cell)</li>
+</ol>",,,"1. The selected location is displayed in the Location field
+2. The grid reloads and re-renders narrowed to the selected location
+3. The ""items found"" count is at or below the unfiltered baseline count
+4. After selecting a specific location and clicking Search, the grid narrows to pricebooks belonging to that location's office number. The ""items found"" count is at or below the all-locations baseline. No row from a different location appears (within the visible sample)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricing Strategy text filter narrows the grid to matching rows,,,,,Automated,Omeesha Mahanta,,,"Every visible row's Price Book Strategy value contains the entered string (contains match - the filter is a name/substring filter, not an exact-match filter). The ""items found"" count reflects the narrowed set",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Pricing Strategy""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Type a partial or full strategy name known to exist into the ""Pricing Strategy"" text filter.</li>
+<li>2. Click Search and wait for the grid to re-render.</li>
+<li>3. Read the Price Book Strategy column for every visible row</li>
+</ol>",,,"1. The Pricing Strategy field accepts and displays the typed text
+2. The grid reloads and re-renders narrowed to matching strategy rows
+3. Every visible row's Price Book Strategy value contains the entered string (contains match - the filter is a name/substring filter, not an exact-match filter). The ""items found"" count reflects the narrowed set",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricebook text filter narrows the grid (contains match or exact ID match),,,,,Automated,Omeesha Mahanta,,,A partial name entry returns every row whose Price Book name contains the entered string (contains semantics). An ID-style exact entry returns only the exact-matching row(s). Every visible row satisfies the filter condition,,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2021-PB6""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Type a partial pricebook name substring (e.g. a prefix that should match multiple rows) into the Pricebook filter.</li>
+<li>2. Click Search and wait for the grid to re-render.</li>
+<li>3. Verify every visible row's Price Book column contains the entered substring.</li>
+<li>4. Clear the filter, type an exact ID-style value (e.g. ""2021-PB6""), click Search.</li>
+<li>5. Verify the returned row's Price Book column matches exactly</li>
+</ol>",,,"1. The Pricebook field accepts and displays the typed substring
+2. The grid reloads and re-renders narrowed to rows containing the substring
+3. Every visible row's Price Book column contains the entered substring
+4. The grid reloads and narrows to the row matching the exact ID-style value
+5. A partial name entry returns every row whose Price Book name contains the entered string (contains semantics). An ID-style exact entry returns only the exact-matching row(s). Every visible row satisfies the filter condition",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Multi-filter combined search applies all criteria simultaneously,,,,,Automated,Omeesha Mahanta,,,"Every sampled row satisfies all three criteria simultaneously: Is Labor column shows a checkmark, Currency column = ""USD"", Is Active column shows a checkmark. No row violates any of the three conditions. The ""items found"" count reflects the intersection",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""USD""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Set Is Labor to checked, Currency to ""USD"", Active Only to checked (default).</li>
+<li>2. Click Search and wait for the grid to re-render.</li>
+<li>3. For a sample of visible rows (at least the first 5, or all rows if fewer than 5 returned), read Is Labor, Currency, and Is Active column values</li>
+</ol>",,,"1. The Is Labor and Active Only checkboxes are checked, and the Currency field shows ""USD""
+2. The grid reloads and re-renders narrowed by all three criteria together
+3. Every sampled row satisfies all three criteria simultaneously: Is Labor column shows a checkmark, Currency column = ""USD"", Is Active column shows a checkmark. No row violates any of the three conditions. The ""items found"" count reflects the intersection",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Filter application order does not affect the result set,,,,,Automated,Omeesha Mahanta,,,"The ""items found"" count is identical between both filter-application orders. The first N visible rows are the same set in both runs (order of row appearance may vary; content of the set does not). Filter staging order has no effect on the final results",,,corporate-pricing,,"On the Search page with results loaded. Three distinct filters chosen: (A) Currency=USD, (B) Is Internal=checked, (C) Active Only=checked (default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""items found""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Apply filters in order A, B, C (Currency first, then Is Internal, then Active Only). Click Search. Record the ""items found"" count and the Price Book names of the first N visible rows.</li>
+<li>2. Click Reset. Verify the grid returns to the unfiltered state.</li>
+<li>3. Apply the same filters in order C, B, A (Active Only first, then Is Internal, then Currency). Click Search.</li>
+<li>4. Record the ""items found"" count and the first N row names again.</li>
+<li>5. Compare the two runs</li>
+</ol>",,,"1. The grid reloads and narrows by Currency, Is Internal, and Active Only applied in that order
+2. Clicking Reset returns the grid to the unfiltered state
+3. The grid reloads and narrows by the same three criteria applied in reverse order
+4. The ""items found"" count and the first N row names are displayed for the reverse-order result
+5. The ""items found"" count is identical between both filter-application orders. The first N visible rows are the same set in both runs (order of row appearance may vary; content of the set does not). Filter staging order has no effect on the final results",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset restores the unfiltered baseline (Grid Options visibility unchanged),,,,,Automated,Omeesha Mahanta,,,"After Reset: all filter inputs return to their defaults (Pricebook empty, Pricing Strategy empty, Location=""All Locations"", Currency=""All Currencies"", Is Internal=unchecked, Is Labor=unchecked, Active Only=checked); the grid count returns to the baseline unfiltered value. Grid Options column visibility is NOT affected by Reset - a hidden column remains hidden",,,corporate-pricing,,"On the Search page with results loaded. Note the unfiltered ""items found"" count (baseline). Optionally: hide one column via Grid Options before this test to verify column visibility is independent of Reset
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Stage at least 3 filters (e.g. Pricebook text, Currency=USD, Is Internal=checked). Click Search - observe the narrowed count.</li>
+<li>2. Click Reset.</li>
+<li>3. Observe the grid and all filter inputs.</li>
+<li>4. If a column was hidden before this test, verify it is still hidden after Reset</li>
+</ol>",,,"1. The grid reloads and narrows according to the three staged filters
+2. Clicking Reset clears the filter inputs and reloads the grid
+3. The grid shows the full unfiltered list and all filter inputs display their default values
+4. After Reset: all filter inputs return to their defaults (Pricebook empty, Pricing Strategy empty, Location=""All Locations"", Currency=""All Currencies"", Is Internal=unchecked, Is Labor=unchecked, Active Only=checked); the grid count returns to the baseline unfiltered value. Grid Options column visibility is NOT affected by Reset - a hidden column remains hidden",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Result fidelity - a single filter returns rows that actually match the query,,,,,Automated,Omeesha Mahanta,,,"Every visible row satisfies the filter. No row with a different currency appears. The ""items found"" count reflects the narrowed set",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Apply one filter (e.g. Currency = USD).</li>
+<li>2. Click Search.</li>
+<li>3. Read the Currency column for every visible row</li>
+</ol>",,,"1. ""USD"" is displayed as the selected value in the Currency field
+2. The grid reloads and narrows to rows where the Currency filter is set to USD
+3. Every visible row satisfies the filter. No row with a different currency appears. The ""items found"" count reflects the narrowed set",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Result fidelity across all filter types and combined scenarios,,,,,Automated,Omeesha Mahanta,,,All filter types individually return only matching rows. Combined filters apply AND semantics - no cross-criteria row appears. Typing or selecting stages the filters without changing the grid; clicking Search applies them. ID-style filter matches exactly; name/strategy filter matches by contains. Any cross-criteria row in the result is a defect,,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2021-PB6""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. For each filter type (Pricebook text, Pricing Strategy text, Currency dropdown, Location dropdown, Is Internal, Is Labor, Active Only): stage the filter, click Search, read the relevant column for all visible rows, confirm every row satisfies the criterion.</li>
+<li>2. Confirm that typing or selecting a filter does not change the grid.</li>
+<li>3. Confirm clicking Search applies all the staged filters at once.</li>
+<li>4. Apply a combined filter (at least 3 criteria). Confirm every visible row satisfies all criteria simultaneously (AND semantics).</li>
+<li>5. Stage a Pricebook ID-style value (e.g. ""2021-PB6"") - confirm exact-match semantics. Stage a partial name - confirm contains-match semantics.</li>
+<li>6. Confirm a cross-criteria row (e.g. a CAD row returned by a USD filter) is treated as a defect</li>
+</ol>",,,"1. Each filter type, once searched, narrows the grid so every visible row satisfies that filter's criterion
+2. The grid remains unchanged while filters are typed or selected
+3. Clicking Search applies all staged filters together and the grid reloads
+4. Every visible row satisfies all the combined filter criteria simultaneously
+5. The ID-style value returns only the exact-matching row, and the partial name returns rows containing that substring
+6. All filter types individually return only matching rows. Combined filters apply AND semantics - no cross-criteria row appears. Typing or selecting stages the filters without changing the grid; clicking Search applies them. ID-style filter matches exactly; name/strategy filter matches by contains. Any cross-criteria row in the result is a defect",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pagination page-size change re-renders correctly and next-page works,,,,,Automated,Omeesha Mahanta,,,"Changing the page size re-renders the grid so that the number of visible rows does not exceed the selected page size, and no error appears. The ""Go to next page"" button navigates to the next page of results. The ""items found"" count remains consistent across the page change",,,corporate-pricing,,"On the Search page with the default 50-row page size. Grid has more than 10 rows
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""10""
+Sample input 2: ""Go to next page""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open the page-size dropdown and select ""10"".</li>
+<li>2. Wait for the grid to re-render.</li>
+<li>3. Confirm no error appears.</li>
+<li>4. Confirm the grid shows no more than one page of rows (the page size).</li>
+<li>5. Click ""Go to next page"".</li>
+<li>6. Confirm the grid re-renders with the next page of results</li>
+</ol>",,,"1. ""10"" is displayed as the selected page size
+2. The grid re-renders with no more than 10 rows visible
+3. No error message or error page appears
+4. The grid displays no more rows than the selected page size
+5. The grid advances to and displays the next page of results
+6. Changing the page size re-renders the grid so that the number of visible rows does not exceed the selected page size, and no error appears. The ""Go to next page"" button navigates to the next page of results. The ""items found"" count remains consistent across the page change",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Pagination covers all page sizes, boundary nav states, and row continuity",,,,,Automated,Omeesha Mahanta,,,"All five page sizes render without error. Page 1 disables first/prev buttons; last page disables next/last buttons. The final page may contain fewer rows than the page size (partial page). No row appears twice across pages; no rows are skipped. The ""items found"" count is stable across all pagination actions",,,corporate-pricing,,"On the Search page with results loaded. Grid has sufficient rows to exercise multiple pages (use the unfiltered default state which has many rows)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Go to first page""
+Sample input 2: ""Go to previous page""
+Sample input 3: ""Go to last page""
+Sample input 4: ""Go to next page""
+Sample input 5: ""items found""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. For each page size [10, 20, 30, 40, 50]: set the page-size dropdown, verify the grid renders with at most that many rows.</li>
+<li>2. Navigate to page 1 - assert ""Go to first page"" and ""Go to previous page"" are disabled.</li>
+<li>3. Navigate to the last page (click ""Go to last page"") and confirm ""Go to next page"" and ""Go to last page"" are disabled. Confirm the last page may have fewer rows than the selected page size.</li>
+<li>4. Navigate through all pages at page size 10. Collect the Price Book name from the first cell of each page and confirm no name appears on more than one page and no gaps in the sequence suggest skipped rows.</li>
+<li>5. Confirm the ""items found"" count remains unchanged throughout all pagination operations</li>
+</ol>",,,"1. The grid renders with no more rows than each selected page size (10, 20, 30, 40, 50)
+2. The ""Go to first page"" and ""Go to previous page"" buttons are disabled on page 1
+3. The ""Go to next page"" and ""Go to last page"" buttons are disabled on the last page, and its row count is at most the page size
+4. Each page's first Price Book name is unique across all pages, with no duplicates or gaps in the sequence
+5. All five page sizes render without error. Page 1 disables first/prev buttons; last page disables next/last buttons. The final page may contain fewer rows than the page size (partial page). No row appears twice across pages; no rows are skipped. The ""items found"" count is stable across all pagination actions",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting ascending and descending by clicking a column header,,,,,Automated,Omeesha Mahanta,,,"Clicking a column header is intended to sort the grid by that column - once for ascending, again for descending - and clicking a different header moves the sort to that column, with the first row changing to reflect the new order. Observed in testing: clicking a header did not reorder the grid, so this behavior should be confirmed on the live site",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Price Year""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Confirm each of the 9 column headers is a clickable button.</li>
+<li>2. Click a column header (e.g. ""Price Year"") once and observe whether the grid reorders into ascending order.</li>
+<li>3. Click the same header again and observe whether the order flips to descending.</li>
+<li>4. Click a different column header and observe whether the sort moves to the new column.</li>
+<li>5. Record the first-row value before and after each click</li>
+</ol>",,,"1. Each of the 9 column headers is displayed as a clickable button
+2. The grid reorders into ascending order by the Price Year column
+3. The grid reorders into descending order by the Price Year column
+4. The sort moves to the newly clicked column and the grid reorders accordingly
+5. Clicking a column header is intended to sort the grid by that column - once for ascending, again for descending - and clicking a different header moves the sort to that column, with the first row changing to reflect the new order. Observed in testing: clicking a header did not reorder the grid, so this behavior should be confirmed on the live site",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Combination - filter + paginate together return a coherent set,,,,,Automated,Omeesha Mahanta,,,"Every visible row on page 2 of the filtered result still shows ""USD"" in the Currency column. Pagination within a filtered result set does not break the filter - rows on subsequent pages satisfy the active filter",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Apply a single filter (e.g. Currency = USD). Click Search.</li>
+<li>2. Change the page size to 10.</li>
+<li>3. Navigate to page 2 (if available).</li>
+<li>4. Read the Currency column for all visible rows on page 2</li>
+</ol>",,,"1. The grid reloads and narrows to rows where the Currency filter is set to USD
+2. The grid re-renders with no more than 10 rows visible
+3. The grid advances to and displays page 2 of the filtered results
+4. Every visible row on page 2 of the filtered result still shows ""USD"" in the Currency column. Pagination within a filtered result set does not break the filter - rows on subsequent pages satisfy the active filter",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Combination multi-filter, Reset, and order-independence in one deep case",,,,,Automated,Omeesha Mahanta,,,AND semantics hold for all combined-filter scenarios - no row violates any active criterion. Reset clears ALL filters (not just some) and restores the unfiltered baseline. Filter application order does not affect results. Adding more filter criteria narrows or maintains the result set (never expands it beyond the intersection),,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""items found""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Apply a 3-filter combination (Currency=USD, Is Internal=checked, Active Only=checked). Verify every visible row satisfies all 3 criteria (all three filters apply together).</li>
+<li>2. Click Reset. Verify all filter inputs are cleared/defaulted AND the grid count returns to the unfiltered baseline. No filter residue remains.</li>
+<li>3. Apply the same 3 filters in reverse order (Active Only first, then Is Internal, then Currency). Click Search.</li>
+<li>4. Compare the ""items found"" count and first N row names to the forward-order result.</li>
+<li>5. Apply 4 filters simultaneously (add Is Labor=checked). Verify AND semantics still hold across 4 criteria</li>
+</ol>",,,"1. Every visible row satisfies all three criteria: Currency set to USD, Is Internal checked, and Active Only checked
+2. Clicking Reset clears all filter inputs to their defaults and the grid count returns to the unfiltered baseline
+3. The grid reloads and narrows by the same three criteria applied in reverse order
+4. The ""items found"" count and first N row names match the forward-order result
+5. AND semantics hold for all combined-filter scenarios - no row violates any active criterion. Reset clears ALL filters (not just some) and restores the unfiltered baseline. Filter application order does not affect results. Adding more filter criteria narrows or maintains the result set (never expands it beyond the intersection)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Render state smoke check for pricebook link navigation and boolean format,,,,,Automated,Omeesha Mahanta,,,The Price Book name cell is a link. Clicking it navigates to the Details route. At least one boolean cell in Is Active shows a check mark for a true value. No boolean cell shows unexpected text,,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Locate any Price Book name cell in the grid. Confirm it is a clickable link.</li>
+<li>2. Click the Price Book name.</li>
+<li>3. Confirm navigation to the Corporate Pricing Details page for that pricebook.</li>
+<li>4. Navigate back. Read the Is Active column for one row. Confirm the value is either a check mark or empty</li>
+</ol>",,,"1. The Price Book name cell is displayed as a clickable link
+2. Clicking the Price Book name begins navigation to its Details page
+3. The browser lands on the Corporate Pricing Details page for that pricebook
+4. The Price Book name cell is a link. Clicking it navigates to the Details route. At least one boolean cell in Is Active shows a check mark for a true value. No boolean cell shows unexpected text",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Render state deep check of link-cells, all boolean columns, and currency values",,,,,Automated,Omeesha Mahanta,,,"All sampled Price Book name cells are link elements that navigate to the correct Details route. All 5 boolean columns show a check mark for true and are empty for false - no other text. All Currency cells contain a valid currency code (USD, CAD, MXN)",,,corporate-pricing,,"On the Search page with results loaded (unfiltered default, all 9 columns visible)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. For a sample of Price Book name cells (e.g. the first 5 visible rows), confirm each is a link. Click each link, confirm it navigates to the correct Corporate Pricing Details page for that pricebook, and navigate back. A cell that is not a link where a link is expected is a defect - investigate before reporting.</li>
+<li>2. For each of the 5 boolean columns (Is GSO, Is Internal, Is Labor, Is Active, Is Productions), read all visible cells. Confirm every cell is either a check mark or empty string - no other text.</li>
+<li>3. For the Currency column, read all visible cells. Confirm every cell value is one of: USD, CAD, MXN. No unexpected currency code or blank cell (unless the row genuinely has no currency) should appear</li>
+</ol>",,,"1. Each sampled Price Book name cell is a link that navigates to the correct Corporate Pricing Details page for that pricebook
+2. Every cell in the 5 boolean columns shows either a check mark or an empty string, with no other text
+3. All sampled Price Book name cells are link elements that navigate to the correct Details route. All 5 boolean columns show a check mark for true and are empty for false - no other text. All Currency cells contain a valid currency code (USD, CAD, MXN)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,No-match filter shows the empty-state message and zero items found,,,,,Automated,Omeesha Mahanta,,,"The grid body has zero data rows. The ""items found"" text reads ""0 items found"". An empty-state message reading exactly ""No results."" (with the period) is displayed. No error page or script error appears",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""ZZZ-NOPE-NOMATCH-9999""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Enter a pricebook name that matches nothing (e.g. ""ZZZ-NOPE-NOMATCH-9999"") into the Pricebook filter.</li>
+<li>2. Click Search and wait for the grid to settle.</li>
+<li>3. Observe the grid body, item count text, and any empty-state message</li>
+</ol>",,,"1. The Pricebook field accepts and displays the typed text
+2. The grid reloads and settles showing zero data rows
+3. The grid body has zero data rows. The ""items found"" text reads ""0 items found"". An empty-state message reading exactly ""No results."" (with the period) is displayed. No error page or script error appears",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Empty and volume states across 0-row, 1-row, and large N-row results",,,,,Automated,Omeesha Mahanta,,,"All three result states (0, 1, and many rows) render correctly with their indicators. Off-screen rows can still be found by name after scrolling. The ""items found"" text always reflects the actual result count and reads in the normal ""N items found"" format",,,corporate-pricing,,"On the Search page with results loaded
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""0-row state""
+Sample input 2: ""0 items found""
+Sample input 3: ""No results.""
+Sample input 4: ""1-row state""
+Sample input 5: ""2021-PB6""
+Sample input 6: ""1 items found""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. ""0-row state"": apply a no-match filter and click Search. Confirm ""0 items found"", ""No results."" verbatim message, and no data rows visible in the grid body.</li>
+<li>2. ""1-row state"": apply a filter that is known to return exactly one row (e.g. the exact pricebook ID ""2021-PB6""). Confirm ""1 items found"" and exactly one data row visible in the grid body.</li>
+<li>3. ""Large N-row state"": load the default unfiltered view. Confirm that a row which is not visible in the initial view can still be found by its Price Book name after scrolling.</li>
+<li>4. ""Volume integrity"": confirm the ""items found"" count reads in the normal ""N items found"" format</li>
+</ol>",,,"1. The grid shows ""0 items found"", the ""No results."" message, and no data rows in the grid body
+2. The grid shows ""1 items found"" and exactly one data row in the grid body
+3. The off-screen row becomes visible and is found by its Price Book name after scrolling
+4. All three result states (0, 1, and many rows) render correctly with their indicators. Off-screen rows can still be found by name after scrolling. The ""items found"" text always reflects the actual result count and reads in the normal ""N items found"" format",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Persistence - a page-size change or an active filter survives a reload,,,,,Automated,Omeesha Mahanta,,,"After a full page reload, the page-size setting is still set to 10 (it did not revert to the default). The grid renders with no more rows than the selected page size. The page-size setting is persisted across navigation",,,corporate-pricing,,"On the Search page with the default state (50 rows, no filters applied beyond Active Only default)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Change the page size to 10.</li>
+<li>2. Reload the page.</li>
+<li>3. Observe the page-size dropdown value and the grid row count</li>
+</ol>",,,"1. ""10"" is displayed as the selected page size and the grid re-renders accordingly
+2. The page reloads and redisplays the Search page
+3. After a full page reload, the page-size setting is still set to 10 (it did not revert to the default). The grid renders with no more rows than the selected page size. The page-size setting is persisted across navigation",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Persistence of page-size, filters, and column visibility across reload and back",,,,,Automated,Omeesha Mahanta,,,Page-size setting persists across reload. Column-visibility setting (Grid Options) persists across reload and browser-back. Active filters after a Search persist across reload OR are cleanly reset - the behavior is observable and consistent (no partial or corrupt state). Nav-away with a staged-but-unsearched filter either presents a discard confirmation or discards silently - both are acceptable; the case asserts which behavior occurs,,,corporate-pricing,,"On the Search page. Default state (all columns visible, 50-row page size, no active filters beyond Active Only)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Is GSO""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Set the page size to 20.</li>
+<li>2. Reload the page.</li>
+<li>3. Confirm the page size is still 20 (page-size persistence).</li>
+<li>4. Apply Currency=USD and click Search.</li>
+<li>5. Reload the page.</li>
+<li>6. Confirm whether the Currency filter is still set to USD and the grid reflects USD results, or whether the grid has returned to the unfiltered state with Active Only still checked. Either outcome is acceptable. Record which one occurs.</li>
+<li>7. Hide the ""Is GSO"" column via Grid Options.</li>
+<li>8. Reload the page.</li>
+<li>9. Confirm ""Is GSO"" is still hidden (column-visibility persistence).</li>
+<li>10. Navigate to a pricebook Details page by clicking a pricebook link, then use browser back.</li>
+<li>11. Confirm the page size and column visibility are intact after returning via browser back.</li>
+<li>12. Type a value into the Pricebook filter without clicking Search, then navigate away (for example, click a pricebook link).</li>
+<li>13. Observe whether the app shows a confirmation prompt or silently discards the staged value</li>
+</ol>",,,"1. ""20"" is displayed as the selected page size and the grid re-renders accordingly
+2. The page reloads and redisplays the Search page
+3. The page-size dropdown still shows 20 after the reload
+4. The grid reloads and narrows to rows where the Currency filter is set to USD
+5. The page reloads and redisplays the Search page
+6. The Currency field shows either USD with matching results, or the unfiltered state with Active Only checked
+7. The ""Is GSO"" column disappears from the grid
+8. The page reloads and redisplays the Search page
+9. The ""Is GSO"" column remains hidden after the reload
+10. The browser returns to the Search page after navigating back
+11. The page size and column visibility remain unchanged after returning via browser back
+12. The browser navigates away to the pricebook's Details page
+13. Page-size setting persists across reload. Column-visibility setting (Grid Options) persists across reload and browser-back. Active filters after a Search persist across reload OR are cleanly reset - the behavior is observable and consistent (no partial or corrupt state). Nav-away with a staged-but-unsearched filter either presents a discard confirmation or discards silently - both are acceptable; the case asserts which behavior occurs",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every grid column toggle is enabled (checked) by default,,,,,Automated,Omeesha Mahanta,,,The Grid Options menu shows every grid column enabled (checked) by default. The per-column toggle listing + Reset to Default View are covered by TC-CPR-SRC-031,,,corporate-pricing,,"On the Search screen with the grid loaded (office 1604); all columns visible (baseline)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open Grid Options</li>
+<li>2. Read the column toggles</li>
+</ol>",,,"1. The Grid Options menu opens and displays the column toggles
+2. The Grid Options menu shows every grid column enabled (checked) by default. The per-column toggle listing + Reset to Default View are covered by TC-CPR-SRC-031",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Toggling a hidden column back ON restores its header,,,,,Automated,Omeesha Mahanta,,,"Toggling a hidden column back ON via its individual checkbox restores its header. The bulk ""Reset to Default View"" path is covered by TC-CPR-SRC-033",,,corporate-pricing,,"On the Search screen with the grid loaded (office 1604); ""Is GSO"" column visible (baseline)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Is GSO""",Medium,,Search,1,,Corporate_Pricing > Search,"<ol>
+<li>1. Open Grid Options, uncheck ""Is GSO"", close</li>
+<li>2. Open Grid Options, re-check ""Is GSO"", close</li>
+</ol>",,,"1. The ""Is GSO"" column disappears from the grid after the menu closes
+2. Toggling a hidden column back ON via its individual checkbox restores its header. The bulk ""Reset to Default View"" path is covered by TC-CPR-SRC-033",,,,Master,S1620,Test Case (Steps),Regression,,,

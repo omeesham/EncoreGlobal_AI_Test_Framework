@@ -1,0 +1,197 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Client filter by Product Group Name narrows the grid,,,,,Automated,,,,The filter narrows the rendered grid by Product Group Name (no Search button),,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""House Video""
+Sample input 2: ""Filter Product Groups Override...""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Type ""House Video"" into the ""Filter Product Groups Override..."" input</li>
+<li>2. Read the grid</li>
+</ol>",,,"1. The text ""House Video"" is entered into the filter input and the grid updates immediately.
+2. The filter narrows the rendered grid by Product Group Name (no Search button)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Client filter by Product Group ID narrows to the matching row,,,,,Automated,,,,The client filter matches the Product Group ID column,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""2605""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Type the Product Group ID ""2605"" into the filter</li>
+<li>2. Read the grid</li>
+</ol>",,,"1. The Product Group ID ""2605"" is entered into the filter input and the grid updates immediately.
+2. The client filter matches the Product Group ID column",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Client filter is scoped to ID and Name only,,,,,Automated,,,,The filter is scoped to Product Group ID and Name; a Currency value yields no matches (it does not match the Currency column),,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""USD""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Type a Currency value ""USD"" (present in every row's Currency column, no Product Group ID/Name)</li>
+<li>2. Clear the filter</li>
+</ol>",,,"1. The value ""USD"" is entered into the filter input and the grid re-renders.
+2. The filter is scoped to Product Group ID and Name; a Currency value yields no matches (it does not match the Currency column)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"No-match filter empties the grid, and clearing restores rows",,,,,Automated,,,,A no-match filter renders an empty grid; clearing restores the rows,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Type a non-matching term</li>
+<li>2. Clear the filter</li>
+</ol>",,,"1. The non-matching term is entered into the filter input and the grid updates.
+2. A no-match filter renders an empty grid; clearing restores the rows",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Filter tolerates whitespace and special characters without crashing,,,,,Automated,,,,The filter accepts whitespace / special characters without erroring; the app stays responsive,,,"corporate-pricing-pg-override,functional",,"On the Override screen with 1604 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Type whitespace-only and special characters into the filter</li>
+<li>2. Clear the filter</li>
+</ol>",,,"1. The whitespace and special characters are entered into the filter input without error.
+2. The filter accepts whitespace / special characters without erroring; the app stays responsive",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Clicking a column header does not sort (no active sort state, row order unchanged)",,,,,Automated,,,,The Override grid headers are not sort triggers on this build - a header click sets no active sort state and does not reorder rows (consistent with the Search and Detail grids),,,"corporate-pricing-pg-override,functional",,"On the Override screen with location 1606 selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Product Group Name""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Click a column header (e.g. ""Product Group Name"")</li>
+<li>2. Read the first row before and after</li>
+</ol>",,,"1. The grid row order remains unchanged and no sort indicator is displayed.
+2. The Override grid headers are not sort triggers on this build - a header click sets no active sort state and does not reorder rows (consistent with the Search and Detail grids)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Text filter ""Camlok"" narrows the grid to matching rows; clearing restores the full set",,,,,Automated,,,,"Typing ""Camlok"" narrows the grid to exactly the 2 Camlok product rows. The specific row identities (""Camlok #1 - 50' (Set of 5 Conductors)"" and ""Camlok #2 - 10'"") are confirmed, not just the count. Clearing the filter restores the full 9-row set",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1105 selected; text filter is empty; all 9 rows visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Camlok""
+Sample input 2: ""Filter Product Groups Override...""
+Sample input 3: ""Camlok #1 - 50' (Set of 5 Conductors)""
+Sample input 4: ""Camlok #2 - 10'""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Read visible row count</li>
+<li>2. Type ""Camlok"" into the ""Filter Product Groups Override..."" text box</li>
+<li>3. Assert the two visible rows are ""Camlok #1 - 50' (Set of 5 Conductors)"" and ""Camlok #2 - 10'"" (specific product identities, not just count)</li>
+<li>4. Clear the text filter</li>
+</ol>",,,"1. All 9 rows are displayed in the grid.
+2. The grid narrows to the rows matching ""Camlok"".
+3. Only ""Camlok #1 - 50' (Set of 5 Conductors)"" and ""Camlok #2 - 10'"" are displayed in the grid.
+4. Typing ""Camlok"" narrows the grid to exactly the 2 Camlok product rows. The specific row identities (""Camlok #1 - 50' (Set of 5 Conductors)"" and ""Camlok #2 - 10'"") are confirmed, not just the count. Clearing the filter restores the full 9-row set",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Product Group Name column sort: ascending first cell matches walk oracle and order is non-decreasing; descending matches walk oracle and order is non-increasing,,,,,Automated,,,,"Sorting ascending puts ""07A Compass Screen Set Kit"" first and the full column is non-decreasing. Sorting descending puts ""Whiteboard Supply - Marker 4 Pk"" first and the full column is non-increasing. The sort mechanism is a header dropdown menu - not a header-click toggle",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1105 selected; grid showing 9 rows
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Product Group Name""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Open the ""Product Group Name"" column header dropdown menu</li>
+<li>2. Read the first cell of Product Group Name</li>
+<li>3. Read all visible Product Group Name cells</li>
+<li>4. Open the header dropdown again</li>
+<li>5. Read the first cell</li>
+<li>6. Read all visible Product Group Name cells</li>
+</ol>",,,"1. The column header dropdown menu opens and displays sort options.
+2. The first row's Product Group Name is displayed as ""07A Compass Screen Set Kit"".
+3. The Product Group Name column is displayed in non-decreasing order.
+4. The column header dropdown menu opens and displays sort options.
+5. The first row's Product Group Name is displayed as ""Whiteboard Supply - Marker 4 Pk"".
+6. Sorting ascending puts ""07A Compass Screen Set Kit"" first and the full column is non-decreasing. Sorting descending puts ""Whiteboard Supply - Marker 4 Pk"" first and the full column is non-increasing. The sort mechanism is a header dropdown menu - not a header-click toggle",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Product Group column sort: ascending values are non-decreasing; descending values are non-increasing - self-verifying monotonic oracle,,,,,Automated,,,,"The ""Product Group"" column (numeric product group IDs) sorts correctly in both directions via the same header dropdown mechanism confirmed in TC-CPR-OVR-045. Monotonic ordering is asserted numerically (not as strings, since the app sorts by numeric value - e.g. 2 before 10) without relying on any fixed first-cell value. Confirms the sort mechanism is consistent across columns",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1105 selected; grid showing 9 rows
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Product Group""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Open the ""Product Group"" column header dropdown menu</li>
+<li>2. Read all visible Product Group cells</li>
+<li>3. Open the header dropdown again</li>
+<li>4. Read all visible Product Group cells</li>
+</ol>",,,"1. The column header dropdown menu opens and displays sort options.
+2. The Product Group column is displayed in non-decreasing numeric order.
+3. The column header dropdown menu opens and displays sort options.
+4. The ""Product Group"" column (numeric product group IDs) sorts correctly in both directions via the same header dropdown mechanism confirmed in TC-CPR-OVR-045. Monotonic ordering is asserted numerically (not as strings, since the app sorts by numeric value - e.g. 2 before 10) without relying on any fixed first-cell value. Confirms the sort mechanism is consistent across columns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Text filter and column sort applied together: filtered rows match the filter and are correctly ordered,,,,,Automated,,,,"Applying a text filter and a column sort simultaneously produces a result set that satisfies both constraints: every row matches the filter text (contains ""Camlok""), the row count is 2, and the column order is non-decreasing. The filter survives the sort without resetting. Clearing the filter restores the full 9-row set",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1105 selected; no filters active; all 9 rows visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Camlok""
+Sample input 2: ""Sort ascending""
+Sample input 3: ""Product Group Name""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Apply text filter ""Camlok""</li>
+<li>2. Apply ""Sort ascending"" on the ""Product Group Name"" column</li>
+<li>3. Clear the text filter</li>
+</ol>",,,"1. The grid narrows to the 2 rows matching ""Camlok"".
+2. The 2 filtered rows re-order into non-decreasing Product Group Name order.
+3. Applying a text filter and a column sort simultaneously produces a result set that satisfies both constraints: every row matches the filter text (contains ""Camlok""), the row count is 2, and the column order is non-decreasing. The filter survives the sort without resetting. Clearing the filter restores the full 9-row set",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor grid text filter narrows to matching rows and clearing restores the page,,,,,Automated,,,,The client-side text filter works identically on the Labor tab: it narrows the grid to matching rows and clearing it restores the fuller page. Relative row-count assertions only (no brittle totals),,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 9460 selected; Labor tab active; no filter applied
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Banners""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Read the visible row count (full page)</li>
+<li>2. Type ""Banners"" into the filter box</li>
+<li>3. Clear the filter</li>
+</ol>",,,"1. The full page of Labor rows is displayed.
+2. The grid narrows to the rows matching ""Banners"".
+3. The client-side text filter works identically on the Labor tab: it narrows the grid to matching rows and clearing it restores the fuller page. Relative row-count assertions only (no brittle totals)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor grid column sort orders Product Group Name ascending and descending,,,,,Automated,,,,The Labor grid sorts via the same header dropdown mechanism as Equipment. The oracle is self-verifying monotonic order - resilient to data drift on the shared bed,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 9460 selected; Labor tab active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Product Group Name""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Open the ""Product Group Name"" header dropdown</li>
+<li>2. Open the header dropdown</li>
+</ol>",,,"1. The header dropdown menu opens and displays sort options.
+2. The Labor grid sorts via the same header dropdown mechanism as Equipment. The oracle is self-verifying monotonic order - resilient to data drift on the shared bed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Text filter narrows grid and empty filter shows no results,,,,,Automated,,,,"A 1-character input is the minimum boundary for the text filter. The grid must respond without crashing, erroring, or ignoring the input. On office 1606, ""H"" matches ""House Video Monitor"" rows so the count will narrow - but the assertion is relative (≤ baseline), not a fixed number",,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1606 selected; all rows visible (no active filter)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""H""
+Sample input 2: ""Filter Product Groups Override...""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Read the visible row count (baseline)</li>
+<li>2. Type a single character ""H"" into the ""Filter Product Groups Override..."" input</li>
+<li>3. Assert: visible row count is ≥ 0 and ≤ the baseline count</li>
+<li>4. no unhandled errors</li>
+<li>5. the grid is still interactive</li>
+<li>6. Clear the filter</li>
+</ol>",,,"1. The baseline row count is displayed.
+2. The grid updates to show rows matching ""H"".
+3. The visible row count is displayed at or below the baseline count.
+4. No error message or broken state is displayed.
+5. The grid remains interactive and responsive.
+6. A 1-character input is the minimum boundary for the text filter. The grid must respond without crashing, erroring, or ignoring the input. On office 1606, ""H"" matches ""House Video Monitor"" rows so the count will narrow - but the assertion is relative (≤ baseline), not a fixed number",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sort produces verifiable monotonic order on Labor tab,,,,,Automated,,,,Filter and sort compose without resetting each other on the Labor tab. Applying a sort while a text filter is active does not clear the filter; clearing the filter preserves the active sort. The 2-row dataset on 1134 is minimal but exercises the composition,,,"corporate-pricing-pg-override,functional",,"On the Override screen with office 1134 selected; Labor tab active; 2 rows visible (PG 565, PG 893); no filter or sort active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""565""
+Sample input 2: ""Product Group""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
+<li>1. Read the visible row count</li>
+<li>2. Type ""565"" into the text filter</li>
+<li>3. Open the ""Product Group"" column header dropdown</li>
+<li>4. Assert: still 1 row visible (filter survives the sort)</li>
+<li>5. the row is PG 565</li>
+<li>6. Clear the text filter</li>
+</ol>",,,"1. 2 rows are displayed: PG 565 and PG 893.
+2. The grid narrows to the single row for PG 565.
+3. The column header dropdown menu opens and displays sort options.
+4. 1 row is still displayed after the sort is applied.
+5. The remaining row is displayed as PG 565.
+6. Filter and sort compose without resetting each other on the Labor tab. Applying a sort while a text filter is active does not clear the filter; clearing the filter preserves the active sort. The 2-row dataset on 1134 is minimal but exercises the composition",,,,Master,S1620,Test Case (Steps),Regression,,,
