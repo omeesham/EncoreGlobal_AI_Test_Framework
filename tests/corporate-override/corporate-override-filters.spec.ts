@@ -7,10 +7,16 @@ import { CorporatePricingOverrideSelectors } from '../../src/selectors/corporate
 
 const GRID_ROW = CorporatePricingOverrideSelectors.ovrGridRowAny;
 
-test.describe('Corporate Pricing — Product Group Override: Active-only and text-filter effects (NM-2269) @corporate-pricing @override', () => {
-  // Office 1105 has 9 Equipment rows (7 active, 2 inactive — Camlok #1 and Camlok #2).
-  // This office is the only walk-verified bed with inactive rows for the Active-only effect tests.
-  test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
+test.describe('Corporate Pricing — Product Group Override: filters — Active-only, text & currency (NM-2269) @corporate-pricing @override', () => {
+  // Two beds in one suite:
+  //  - TC-041..043 (Active-only / text-filter effects): office 1105 — the only walk-verified bed
+  //    with inactive rows (9 Equipment rows: 7 active, 2 inactive — Camlok #1 and Camlok #2).
+  //  - TC-124..126 (currency filter): office 1145 (multi-currency bed) — each test navigates itself.
+  const ACTIVE_ONLY_BED_IDS = ['TC-CPR-OVR-041', 'TC-CPR-OVR-042', 'TC-CPR-OVR-043'];
+  const BED = OVERRIDE_CURRENCY_BED;
+  test.beforeEach(async ({ corporatePricingOverridePage: p }, testInfo) => {
+    // Baseline reset applies only to the office-1105 filter-effect tests.
+    if (!ACTIVE_ONLY_BED_IDS.some((id) => testInfo.title.startsWith(id))) return;
     test.setTimeout(90_000);
     // Per-test baseline: full reload + location re-select resets all filter state
     // (Active-only OFF, Currency ALL, text filter empty).
@@ -88,11 +94,8 @@ test.describe('Corporate Pricing — Product Group Override: Active-only and tex
     await p.clearFilter();
     expect(await p.getVisibleRowCount()).toBe(CORP_PRICING_OVERRIDE_ACTIVE_BED.totalRows);
   });
-});
 
-test.describe('Override Currency Filter — Office 1145 (multi-currency bed)', () => {
-  const BED = OVERRIDE_CURRENCY_BED;
-
+  // ── Currency filter — Office 1145 (multi-currency bed) ──
   test('TC-CPR-OVR-124: USD filter yields only USD rows — CAD row PG 425 absent', async ({ corporatePricingOverridePage: overridePage }) => {
     await overridePage.navigateToEquipmentRow(BED.office, BED.office, BED.rows.usdAnchor.productGroupId);
 

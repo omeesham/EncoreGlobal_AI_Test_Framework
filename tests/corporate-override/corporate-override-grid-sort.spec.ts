@@ -6,11 +6,35 @@ import {
   CORP_PRICING_OVERRIDE_SORT_BED,
 } from '../../src/data/corporate-override/override';
 
-test.describe('Corporate Pricing — Product Group Override: grid text filter + sort effects (NM-2270) @corporate-pricing @override', () => {
-  // Office 1105: 9 Equipment rows total; verified sort oracles and filter counts.
-  test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
-    test.setTimeout(90_000);
-    await p.reloadAndReselect(CORP_PRICING_OVERRIDE_SORT_BED.office);
+test.describe('Corporate Pricing — Product Group Override: grid text filter, sort & Grid Options (NM-2270) @corporate-pricing @override', () => {
+  // Three test beds in one suite — per-test setup is dispatched by TC id so each
+  // group keeps exactly the baseline it had when the groups were separate describes:
+  //  - TC-044..046, TC-048: office 1105 sort/filter bed (9 Equipment rows; verified sort oracles).
+  //  - TC-047: Grid Options bed — column visibility is a server-persisted preference,
+  //    restored before AND after the test.
+  //  - TC-115: toolbar text-filter boundary — navigates itself, no shared baseline.
+  const SORT_FILTER_IDS = ['TC-CPR-OVR-044', 'TC-CPR-OVR-045', 'TC-CPR-OVR-046', 'TC-CPR-OVR-048'];
+
+  const GRID_OPTIONS_IDS = ['TC-CPR-OVR-047'];
+
+  const BED = CORP_PRICING_OVERRIDE_FIXTURE;
+
+  const startsWithAny = (title: string, ids: string[]) => ids.some((id) => title.startsWith(id));
+
+  test.beforeEach(async ({ corporatePricingOverridePage: p }, testInfo) => {
+    if (startsWithAny(testInfo.title, SORT_FILTER_IDS)) {
+      test.setTimeout(90_000);
+      await p.reloadAndReselect(CORP_PRICING_OVERRIDE_SORT_BED.office);
+    } else if (startsWithAny(testInfo.title, GRID_OPTIONS_IDS)) {
+      test.setTimeout(120_000);
+      await p.ensureAllGridColumnsVisible(CORP_PRICING_OVERRIDE_SORT_BED.office);
+    }
+  });
+
+  test.afterEach(async ({ corporatePricingOverridePage: p }, testInfo) => {
+    if (!startsWithAny(testInfo.title, GRID_OPTIONS_IDS)) return;
+    test.setTimeout(120_000);
+    await p.ensureAllGridColumnsVisible(CORP_PRICING_OVERRIDE_SORT_BED.office);
   });
 
   // @fcc TC-CPR-OVR-044
@@ -84,6 +108,24 @@ test.describe('Corporate Pricing — Product Group Override: grid text filter + 
     }
   });
 
+  // @fcc TC-CPR-OVR-047
+  test('TC-CPR-OVR-047: Hiding "Max Discount %" via Grid Options reduces visible column count; Reset to Default restores all columns (NM-2270)', { tag: '@mutation' }, async ({ corporatePricingOverridePage: p }) => {
+    // Baseline: all 10 columns visible (verified)
+    expect(await p.getColumnCount()).toBe(CORP_PRICING_OVERRIDE_SORT_BED.gridDefaultColumnCount);
+
+    // Hide "Max Discount %" — visible column count must drop to 9 (verified)
+    await p.openGridOptions();
+    await p.toggleGridColumn(CORP_PRICING_OVERRIDE_SORT_BED.gridHideTestColumn);
+    await p.closeGridOptions();
+    expect(await p.getColumnCount()).toBe(CORP_PRICING_OVERRIDE_SORT_BED.gridHiddenColumnCount);
+
+    // Reset to Default — all 10 columns must be restored
+    await p.openGridOptions();
+    await p.resetGridToDefault();
+    await p.closeGridOptions();
+    expect(await p.getColumnCount()).toBe(CORP_PRICING_OVERRIDE_SORT_BED.gridDefaultColumnCount);
+  });
+
   // @fcc TC-CPR-OVR-048
   test('TC-CPR-OVR-048: Text filter and column sort applied together: filtered rows match the filter and are correctly ordered (NM-2270)', async ({ corporatePricingOverridePage: p }) => {
     const PGN_COL = CORP_PRICING_OVERRIDE.columnIndex.productGroupName;
@@ -108,41 +150,8 @@ test.describe('Corporate Pricing — Product Group Override: grid text filter + 
     await p.clearFilter();
     expect(await p.getVisibleRowCount()).toBe(CORP_PRICING_OVERRIDE_ACTIVE_BED.totalRows);
   });
-});
 
-test.describe('Corporate Pricing — Product Group Override: Grid Options column hide and Reset to Default (NM-2270) @corporate-pricing @override @mutation', () => {
-  // Column visibility is a server-persisted preference — restore all columns before and after each test.
-  test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
-    test.setTimeout(120_000);
-    await p.ensureAllGridColumnsVisible(CORP_PRICING_OVERRIDE_SORT_BED.office);
-  });
-  test.afterEach(async ({ corporatePricingOverridePage: p }) => {
-    test.setTimeout(120_000);
-    await p.ensureAllGridColumnsVisible(CORP_PRICING_OVERRIDE_SORT_BED.office);
-  });
-
-  // @fcc TC-CPR-OVR-047
-  test('TC-CPR-OVR-047: Hiding "Max Discount %" via Grid Options reduces visible column count; Reset to Default restores all columns (NM-2270)', async ({ corporatePricingOverridePage: p }) => {
-    // Baseline: all 10 columns visible (verified)
-    expect(await p.getColumnCount()).toBe(CORP_PRICING_OVERRIDE_SORT_BED.gridDefaultColumnCount);
-
-    // Hide "Max Discount %" — visible column count must drop to 9 (verified)
-    await p.openGridOptions();
-    await p.toggleGridColumn(CORP_PRICING_OVERRIDE_SORT_BED.gridHideTestColumn);
-    await p.closeGridOptions();
-    expect(await p.getColumnCount()).toBe(CORP_PRICING_OVERRIDE_SORT_BED.gridHiddenColumnCount);
-
-    // Reset to Default — all 10 columns must be restored
-    await p.openGridOptions();
-    await p.resetGridToDefault();
-    await p.closeGridOptions();
-    expect(await p.getColumnCount()).toBe(CORP_PRICING_OVERRIDE_SORT_BED.gridDefaultColumnCount);
-  });
-});
-
-test.describe('Override Toolbar — Text Filter Boundary', () => {
-  const BED = CORP_PRICING_OVERRIDE_FIXTURE;
-
+  // ── Toolbar text-filter boundary ──
   test('TC-CPR-OVR-115: Text filter narrows grid and empty filter shows no results', async ({ corporatePricingOverridePage: overridePage }) => {
     await overridePage.navigateToEquipmentRow(BED.office, BED.office, BED.mutationRowAnchor.productGroupId);
 

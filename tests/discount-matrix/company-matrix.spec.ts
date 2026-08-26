@@ -59,7 +59,7 @@ function headerContains(headers: string[], label: string): boolean {
   return headers.some((h) => h.replace(/\s/g, '').includes(stripped));
 }
 
-test.describe('Discount Matrix — Company Matrix: header controls drive the grid', () => {
+test.describe('Discount Matrix — Company Matrix: header controls, surface behaviour & field input contracts', () => {
   /**
    * No dependencyGate calls appear in this describe — every test navigates fresh via
    * open() and asserts independently, so none depends on another test's outcome.
@@ -76,42 +76,6 @@ test.describe('Discount Matrix — Company Matrix: header controls drive the gri
     cmx = new CompanyMatrixPage(authenticatedSession.page, config);
     await cmx.open(OFFICE);
     // open() already calls waitForGrid() — no second wait needed here.
-  });
-
-  /**
-   * Every criteria-bar control participates in the key the grid is loaded against, so each
-   * control is exercised against this submodule rather than tested once in isolation. A
-   * header change that fails to re-key the grid would leave a user reading one country's
-   * numbers under another country's label.
-   */
-
-  test('TC-DSM-CMX-001: Grid loads when all three header keys are set', async () => {
-    const rowCount = await cmx.getRowCount();
-    expect(rowCount, 'grid must have at least one tier row').toBeGreaterThan(0);
-    // Measured 9 rows at authoring time — not used as an oracle; tier membership is configuration.
-
-    expect(await cmx.getCriteriaCountry(), 'Country default').toBe(DEFAULT_COUNTRY);
-    expect(await cmx.getCriteriaCurrency(), 'Currency default').toBe(DEFAULT_CURRENCY);
-    expect(await cmx.getCriteriaBusinessTier(), 'Business Tier default').toBe(DEFAULT_BUSINESS_TIER);
-
-    const headers = await cmx.getColumnHeaders();
-    for (const group of COLUMN_GROUPS) {
-      expect(headerContains(headers, group), `column group "${group}" must appear in headers`).toBe(true);
-    }
-    for (const bucket of DAY_BUCKETS) {
-      expect(headerContains(headers, bucket), `day bucket "${bucket}" must appear in headers`).toBe(true);
-    }
-
-    const tierLabels = await cmx.getTierRangeLabels();
-    // First label read at runtime — "0 - 1500" was the measured value at authoring time.
-    const firstLabel = tierLabels[0];
-    expect(firstLabel, 'first tier label must be non-empty').toBeTruthy();
-
-    const firstRowValues = await cmx.getRowValues(firstLabel!);
-    expect(firstRowValues, 'first row must have exactly 21 percentage cells').toHaveLength(21);
-    for (const val of firstRowValues) {
-      expect(val, 'no cell value in the first row may be an empty string').not.toBe('');
-    }
   });
 
   // ---------------------------------------------------------------- shared helper for 002/003/004
@@ -191,6 +155,53 @@ test.describe('Discount Matrix — Company Matrix: header controls drive the gri
       }
     }
   }
+
+  // ---------------------------------------------------------------- shared helper for export tests
+
+  /** Triggers export, resolves the downloaded file, and returns the parsed DiscountMatrix sheet. */
+  async function downloadAndParseSheet(page: CompanyMatrixPage) {
+    const download = await page.clickExportAndWaitForDownload();
+    const filePath = await download.path();
+    const workbook = XLSX.readFile(filePath!);
+    const sheet = workbook.Sheets['DiscountMatrix']!;
+    return { download, sheet };
+  }
+
+  /**
+   * Every criteria-bar control participates in the key the grid is loaded against, so each
+   * control is exercised against this submodule rather than tested once in isolation. A
+   * header change that fails to re-key the grid would leave a user reading one country's
+   * numbers under another country's label.
+   */
+
+  test('TC-DSM-CMX-001: Grid loads when all three header keys are set', async () => {
+    const rowCount = await cmx.getRowCount();
+    expect(rowCount, 'grid must have at least one tier row').toBeGreaterThan(0);
+    // Measured 9 rows at authoring time — not used as an oracle; tier membership is configuration.
+
+    expect(await cmx.getCriteriaCountry(), 'Country default').toBe(DEFAULT_COUNTRY);
+    expect(await cmx.getCriteriaCurrency(), 'Currency default').toBe(DEFAULT_CURRENCY);
+    expect(await cmx.getCriteriaBusinessTier(), 'Business Tier default').toBe(DEFAULT_BUSINESS_TIER);
+
+    const headers = await cmx.getColumnHeaders();
+    for (const group of COLUMN_GROUPS) {
+      expect(headerContains(headers, group), `column group "${group}" must appear in headers`).toBe(true);
+    }
+    for (const bucket of DAY_BUCKETS) {
+      expect(headerContains(headers, bucket), `day bucket "${bucket}" must appear in headers`).toBe(true);
+    }
+
+    const tierLabels = await cmx.getTierRangeLabels();
+    // First label read at runtime — "0 - 1500" was the measured value at authoring time.
+    const firstLabel = tierLabels[0];
+    expect(firstLabel, 'first tier label must be non-empty').toBeTruthy();
+
+    const firstRowValues = await cmx.getRowValues(firstLabel!);
+    expect(firstRowValues, 'first row must have exactly 21 percentage cells').toHaveLength(21);
+    for (const val of firstRowValues) {
+      expect(val, 'no cell value in the first row may be an empty string').not.toBe('');
+    }
+  });
 
   test('TC-DSM-CMX-002: Changing Country re-keys the grid', async () => {
     // Measured 2026-08-19 on office 1604: United States → Mexico produced 9 rows → 2 rows
@@ -399,21 +410,9 @@ test.describe('Discount Matrix — Company Matrix: header controls drive the gri
       'First row values must match the pre-edit snapshot — nothing from a cancelled edit may survive a reload',
     ).toEqual(snapshotValues);
   });
-});
 
-// Read-only surface-behaviour tests. None of the tests below clicks Save, opens a dialog,
-// or changes a dropdown — they only read the grid as it loads on open().
-test.describe('SBC — discount matrix company matrix', () => {
-  let cmx: CompanyMatrixPage;
-
-  test.beforeEach(async ({ authenticatedSession, config }) => {
-    // See the header-controls describe above: waitForGrid()'s ceiling is 180 s (measured
-    // ~83 s live); 500 s covers this beforeEach's own open() plus test-body overhead.
-    test.setTimeout(500_000);
-    cmx = new CompanyMatrixPage(authenticatedSession.page, config);
-    await cmx.open(OFFICE);
-  });
-
+  // ── SBC — read-only surface-behaviour tests. None of the tests below clicks Save, opens a
+  // dialog, or changes a dropdown — they only read the grid as it loads on open(). ──
   test('TC-DSM-CMX-008: Column structure is exactly 3 groups × 7 buckets', async () => {
     // getColumnHeaderRows() returns one array per header row. We do not assert which
     // header row holds the groups and which holds the buckets — that layout was not
@@ -527,266 +526,14 @@ test.describe('SBC — discount matrix company matrix', () => {
     }
   });
 
-  // ---------------------------------------------------------------- shared helper for export tests
-
-  /** Triggers export, resolves the downloaded file, and returns the parsed DiscountMatrix sheet. */
-  async function downloadAndParseSheet(page: CompanyMatrixPage) {
-    const download = await page.clickExportAndWaitForDownload();
-    const filePath = await download.path();
-    const workbook = XLSX.readFile(filePath!);
-    const sheet = workbook.Sheets['DiscountMatrix']!;
-    return { download, sheet };
-  }
-
-  // ---------------------------------------------------------------- export tests
-
-  test('TC-DSM-CMX-025: Export downloads a workbook named from the current criteria', async () => {
-    const currency = await cmx.getCriteriaCurrency();
-    const businessTier = await cmx.getCriteriaBusinessTier();
-
-    const download = await cmx.clickExportAndWaitForDownload();
-    const suggestedFilename = download.suggestedFilename();
-
-    // The filename shape is DiscountMatrix-{country}-{currency}-{tier}.xlsx.
-    // The country segment is a country code (e.g. "US"), not the full name shown in the
-    // criteria bar (e.g. "United States"). The mapping between them was not measured, so
-    // only the currency and tier segments are asserted against the criteria bar.
-    expect(
-      suggestedFilename,
-      'Filename must match the shape DiscountMatrix-<country>-<currency>-<tier>.xlsx',
-    ).toMatch(/^DiscountMatrix-[^-]+-[^-]+-[^-]+\.xlsx$/);
-
-    const parts = suggestedFilename.replace('.xlsx', '').split('-');
-    // parts[0] = 'DiscountMatrix', parts[1] = country code, parts[2] = currency, parts[3] = tier
-    expect(parts[2], 'Second filename segment must equal the criteria bar currency').toBe(currency);
-    expect(parts[3], 'Third filename segment must equal the criteria bar business tier').toBe(businessTier);
-  });
-
-  test('TC-DSM-CMX-026: Export completes successfully and returns a spreadsheet', async () => {
-    const { download, sheet } = await downloadAndParseSheet(cmx);
-
-    expect(await download.failure(), 'Download must report no failure').toBeNull();
-
-    const filePath = await download.path();
-    const fileSize = statSync(filePath!).size;
-    expect(fileSize, 'Downloaded file must be larger than zero bytes').toBeGreaterThan(0);
-
-    expect(sheet, 'Workbook must contain a sheet named DiscountMatrix').toBeTruthy();
-  });
-
-  test('TC-DSM-CMX-027: Exported values match the grid, cell for cell', async () => {
-    // Read the full grid first so the export and grid reads are decoupled.
-    const tierLabels = await cmx.getTierRangeLabels();
-    const gridData = new Map<string, string[]>();
-    for (const label of tierLabels) {
-      gridData.set(label, await cmx.getRowValues(label));
-    }
-
-    const { sheet } = await downloadAndParseSheet(cmx);
-    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true }) as unknown[][];
-    // Data rows start at index 3 (workbook rows 4–12; rows 0–2 are instruction, headers, day-buckets).
-    const dataRows = rows.slice(3);
-
-    let comparisonCount = 0;
-
-    for (const exportRow of dataRows) {
-      const row = exportRow as unknown[];
-      // Match by Revenue Tier (column D, index 3) — never by row index.
-      const revenueTier = String(row[3] ?? '');
-      const gridRow = gridData.get(revenueTier);
-      if (!gridRow) continue;
-
-      for (let colIdx = 0; colIdx < 21; colIdx++) {
-        const gridRaw = gridRow[colIdx] ?? '';
-        // The grid renders percentages as "17%"; the export writes bare numbers (17).
-        const gridNum = parseFloat(gridRaw.replace('%', '').trim());
-        const exportNum = row[colIdx + 4] as number;
-
-        expect(
-          exportNum,
-          `Mismatch: tier "${revenueTier}", column index ${colIdx} — grid "${gridRaw}", export ${exportNum}`,
-        ).toBe(gridNum);
-        comparisonCount++;
-      }
-    }
-
-    // A fidelity check that compares nothing is not a pass — a silently-skipped row cannot pass as agreement.
-    expect(
-      comparisonCount,
-      `Expected ${tierLabels.length * 21} comparisons (${tierLabels.length} tiers × 21 columns) but performed ${comparisonCount}`,
-    ).toBe(tierLabels.length * 21);
-  });
-
-  test('TC-DSM-CMX-028: Exported workbook keeps its round-trip template shape', async () => {
-    const { sheet } = await downloadAndParseSheet(cmx);
-    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true }) as unknown[][];
-
-    // Row 1: instruction string — this is what the Import button consumes. A change breaks the round trip.
-    // The cell is line-wrapped in the workbook file; whitespace (including newlines) is normalised to a
-    // single space on both sides so a cosmetic re-wrap does not fail this test, but a wording change still will.
-    const instructionRaw = String((rows[0] as unknown[])[0] ?? '');
-    const instructionNorm = instructionRaw.replace(/\s+/g, ' ').trim();
-    expect(
-      instructionNorm,
-      'Row 1 must hold the round-trip template instruction — a change to it breaks the Import button',
-    ).toBe('Edit only the Discount percent for each booking window. No formatting just numbers');
-
-    // Row 2: four fixed columns then three group headers (merged cells; only the first cell of each merge is populated).
-    const headerRow = rows[1] as unknown[];
-    expect(headerRow[0], 'Row 2 cell A must be "ID"').toBe('ID');
-    expect(headerRow[1], 'Row 2 cell B must be "Country"').toBe('Country');
-    expect(headerRow[2], 'Row 2 cell C must be "Currency"').toBe('Currency');
-    expect(headerRow[3], 'Row 2 cell D must be "Revenue Tier"').toBe('Revenue Tier');
-    expect(headerRow[4], 'Row 2 must carry the Non-Peak group header at column E — a change breaks the Import button').toBe('Non-Peak Booking Windows by Days');
-    expect(headerRow[11], 'Row 2 must carry the Standard group header at column L — a change breaks the Import button').toBe('Standard Booking Windows by Days');
-    expect(headerRow[18], 'Row 2 must carry the Peak group header at column S — a change breaks the Import button').toBe('Peak Booking Windows by Days');
-
-    // Row 3: seven day-bucket sub-headers per group.
-    // The export writes "365+" with no space; the grid renders "365 +". The two label sets
-    // are deliberately not compared to each other.
-    const buckets = ['0-15', '16-30', '31-60', '61-90', '91-180', '181-365', '365+'];
-    const subHeaderRow = rows[2] as unknown[];
-    for (let g = 0; g < 3; g++) {
-      for (let b = 0; b < 7; b++) {
-        const cellIdx = 4 + g * 7 + b;
-        expect(
-          subHeaderRow[cellIdx],
-          `Row 3 column ${cellIdx} must be day-bucket "${buckets[b]}" — a change breaks the Import button`,
-        ).toBe(buckets[b]);
-      }
-    }
-  });
-
-  test('TC-DSM-CMX-029: Export identifier column carries the platform identifier', async () => {
-    // Each data row's ID column holds a GUID-form identifier. This is expected behaviour
-    // after the platform's data-store migration — the assertion pins the format, not a defect.
-    const { sheet } = await downloadAndParseSheet(cmx);
-    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true }) as unknown[][];
-    const dataRows = rows.slice(3);
-
-    const guidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-
-    for (const exportRow of dataRows) {
-      const row = exportRow as unknown[];
-      const id = String(row[0] ?? '');
-      expect(id, 'Each data row ID must be a non-empty string').toBeTruthy();
-      expect(
-        guidPattern.test(id),
-        `ID "${id}" must be in GUID form — expected after the platform's data-store migration`,
-      ).toBe(true);
-    }
-  });
-
-  // ---------------------------------------------------------------- Add Tier dialog tests
+  // ── Field input contracts ──
+  // IMPORTANT: No field-input test clicks Update. Whether Update writes to the server
+  // or only to local grid state has never been measured. Clicking it could persist a change
+  // to a live office with no verified way to reverse it. All tests exit through Cancel only.
   //
-  // None of the tests below click the Add Tier confirm button. Clicking confirm would
-  // create a real tier on office 1604 with no cleanup path available. This boundary is
-  // the point of these cases, not an omission. A future batch that runs the commit
-  // end-to-end requires both a mutation decision for this office and a verified cleanup path.
-
-  test('TC-DSM-CMX-030: Add Tier opens with one End Tier field and a disabled confirm', async () => {
-    await cmx.openAddTierDialog();
-
-    const title = await cmx.getAddTierDialogTitle();
-    expect(title, 'Add Tier dialog title must be "Adding Tier"').toBe('Adding Tier');
-
-    // There is no Start Tier field — the new tier's start is derived. A case expecting to
-    // set a tier's start would be written against a control that does not exist.
-    const inputCount = await cmx.getAddTierDialogInputCount();
-    expect(inputCount, 'Add Tier dialog must contain exactly one input — there is no Start Tier field').toBe(1);
-
-    const labels = await cmx.getAddTierDialogFieldLabels();
-    expect(
-      labels.some((l) => l.includes('End Tier')),
-      'At least one field label must mention "End Tier"',
-    ).toBe(true);
-
-    const confirmEnabled = await cmx.isAddTierConfirmEnabled();
-    expect(confirmEnabled, 'Confirm button must be disabled on dialog open').toBe(false);
-
-    await cmx.clickAddTierCancel();
-  });
-
-  test('TC-DSM-CMX-031: End Tier validation is submit-time, not blur-time', async () => {
-    // This case deliberately stops before clicking confirm. Completing it end-to-end
-    // requires a mutation decision for office 1604 and a cleanup path that has not been
-    // established. Related ticket: NM-3237.
-    await cmx.openAddTierDialog();
-
-    await cmx.setAddTierEndValue('30000000');
-
-    const value = await cmx.getAddTierEndValue();
-    expect(value, 'End Tier input must reflect the typed value before submission').toBe('30000000');
-
-    const ariaInvalid = await cmx.getAddTierEndAriaInvalid();
-    expect(ariaInvalid, 'aria-invalid must be absent before submission — validation is submit-time, not blur-time').toBeNull();
-
-    const messages = await cmx.getVisibleValidationMessages();
-    expect(messages, `No validation message must be visible before the form is submitted — found: ${JSON.stringify(messages)}`).toHaveLength(0);
-
-    const confirmEnabled = await cmx.isAddTierConfirmEnabled();
-    expect(confirmEnabled, 'Confirm button must become enabled once a value is entered').toBe(true);
-
-    await cmx.clickAddTierCancel();
-  });
-
-  test('TC-DSM-CMX-032: End Tier silently refuses non-numeric input', async () => {
-    // The refusal is silent by design at the input layer — this asserts the control cannot
-    // be driven into an invalid state, not that an error message appears.
-    await cmx.openAddTierDialog();
-
-    await cmx.setAddTierEndValue('abc');
-
-    const value = await cmx.getAddTierEndValue();
-    expect(value, 'End Tier input must be empty after a non-numeric entry attempt').toBe('');
-
-    const ariaInvalid = await cmx.getAddTierEndAriaInvalid();
-    expect(ariaInvalid, 'aria-invalid must be absent when the field is empty').toBeNull();
-
-    const messages = await cmx.getVisibleValidationMessages();
-    expect(messages, `No validation message must appear for a silently refused non-numeric entry — found: ${JSON.stringify(messages)}`).toHaveLength(0);
-
-    const confirmEnabled = await cmx.isAddTierConfirmEnabled();
-    expect(confirmEnabled, 'Confirm button must remain disabled when the field is empty').toBe(false);
-
-    await cmx.clickAddTierCancel();
-  });
-
-  test('TC-DSM-CMX-033: Cancelling Add Tier leaves the grid untouched', async () => {
-    // This is the guard proving every Add Tier case above is non-mutating and the suite stays re-runnable.
-    const rowCountBefore = await cmx.getRowCount();
-    const rangeLabelsBefore = await cmx.getTierRangeLabels();
-
-    await cmx.openAddTierDialog();
-    await cmx.setAddTierEndValue('500');
-    await cmx.clickAddTierCancel();
-
-    const rowCountAfter = await cmx.getRowCount();
-    const rangeLabelsAfter = await cmx.getTierRangeLabels();
-
-    expect(rowCountAfter, 'Row count must be unchanged after cancelling Add Tier').toBe(rowCountBefore);
-    expect(rangeLabelsAfter, 'Tier range list must be unchanged after cancelling Add Tier').toEqual(rangeLabelsBefore);
-  });
-});
-
-// IMPORTANT: No test in this describe clicks Update. Whether Update writes to the server
-// or only to local grid state has never been measured. Clicking it could persist a change
-// to a live office with no verified way to reverse it. All tests exit through Cancel only.
-//
-// This describe holds two field groups: the Edit Tier dialog's percentage inputs (TC-013–TC-024)
-// and the criteria bar's GAV Discount Threshold field (TC-034–TC-040).
-test.describe('Discount Matrix — Company Matrix: field input contracts', () => {
-  let cmx: CompanyMatrixPage;
-
-  test.beforeEach(async ({ authenticatedSession, config }) => {
-    // See the header-controls describe above: waitForGrid()'s ceiling is 180 s (measured
-    // ~83 s live); 500 s covers this beforeEach's own open() plus test-body overhead.
-    // TC-038 and TC-039 each do three opens and override further below.
-    test.setTimeout(500_000);
-    cmx = new CompanyMatrixPage(authenticatedSession.page, config);
-    await cmx.open(OFFICE);
-  });
-
+  // Two field groups: the Edit Tier dialog's percentage inputs (TC-013–TC-024)
+  // and the criteria bar's GAV Discount Threshold field (TC-034–TC-040).
+  //
   // Value trials use index 1, not index 0. Index 0 opens in a different format (raw decimal
   // e.g. "0.17") from indices 1–20 (percent-formatted e.g. "17%"). Using index 0 would
   // confound every value assertion. TC-022 is the one test that deliberately reads index 0.
@@ -1157,6 +904,236 @@ test.describe('Discount Matrix — Company Matrix: field input contracts', () =>
       after,
       'All 21 row values must equal the pre-dialog baseline — Cancel must discard every pending edit',
     ).toEqual(baseline);
+  });
+
+  // ---------------------------------------------------------------- export tests
+
+  test('TC-DSM-CMX-025: Export downloads a workbook named from the current criteria', async () => {
+    const currency = await cmx.getCriteriaCurrency();
+    const businessTier = await cmx.getCriteriaBusinessTier();
+
+    const download = await cmx.clickExportAndWaitForDownload();
+    const suggestedFilename = download.suggestedFilename();
+
+    // The filename shape is DiscountMatrix-{country}-{currency}-{tier}.xlsx.
+    // The country segment is a country code (e.g. "US"), not the full name shown in the
+    // criteria bar (e.g. "United States"). The mapping between them was not measured, so
+    // only the currency and tier segments are asserted against the criteria bar.
+    expect(
+      suggestedFilename,
+      'Filename must match the shape DiscountMatrix-<country>-<currency>-<tier>.xlsx',
+    ).toMatch(/^DiscountMatrix-[^-]+-[^-]+-[^-]+\.xlsx$/);
+
+    const parts = suggestedFilename.replace('.xlsx', '').split('-');
+    // parts[0] = 'DiscountMatrix', parts[1] = country code, parts[2] = currency, parts[3] = tier
+    expect(parts[2], 'Second filename segment must equal the criteria bar currency').toBe(currency);
+    expect(parts[3], 'Third filename segment must equal the criteria bar business tier').toBe(businessTier);
+  });
+
+  test('TC-DSM-CMX-026: Export completes successfully and returns a spreadsheet', async () => {
+    const { download, sheet } = await downloadAndParseSheet(cmx);
+
+    expect(await download.failure(), 'Download must report no failure').toBeNull();
+
+    const filePath = await download.path();
+    const fileSize = statSync(filePath!).size;
+    expect(fileSize, 'Downloaded file must be larger than zero bytes').toBeGreaterThan(0);
+
+    expect(sheet, 'Workbook must contain a sheet named DiscountMatrix').toBeTruthy();
+  });
+
+  test('TC-DSM-CMX-027: Exported values match the grid, cell for cell', async () => {
+    // Read the full grid first so the export and grid reads are decoupled.
+    const tierLabels = await cmx.getTierRangeLabels();
+    const gridData = new Map<string, string[]>();
+    for (const label of tierLabels) {
+      gridData.set(label, await cmx.getRowValues(label));
+    }
+
+    const { sheet } = await downloadAndParseSheet(cmx);
+    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true }) as unknown[][];
+    // Data rows start at index 3 (workbook rows 4–12; rows 0–2 are instruction, headers, day-buckets).
+    const dataRows = rows.slice(3);
+
+    let comparisonCount = 0;
+
+    for (const exportRow of dataRows) {
+      const row = exportRow as unknown[];
+      // Match by Revenue Tier (column D, index 3) — never by row index.
+      const revenueTier = String(row[3] ?? '');
+      const gridRow = gridData.get(revenueTier);
+      if (!gridRow) continue;
+
+      for (let colIdx = 0; colIdx < 21; colIdx++) {
+        const gridRaw = gridRow[colIdx] ?? '';
+        // The grid renders percentages as "17%"; the export writes bare numbers (17).
+        const gridNum = parseFloat(gridRaw.replace('%', '').trim());
+        const exportNum = row[colIdx + 4] as number;
+
+        expect(
+          exportNum,
+          `Mismatch: tier "${revenueTier}", column index ${colIdx} — grid "${gridRaw}", export ${exportNum}`,
+        ).toBe(gridNum);
+        comparisonCount++;
+      }
+    }
+
+    // A fidelity check that compares nothing is not a pass — a silently-skipped row cannot pass as agreement.
+    expect(
+      comparisonCount,
+      `Expected ${tierLabels.length * 21} comparisons (${tierLabels.length} tiers × 21 columns) but performed ${comparisonCount}`,
+    ).toBe(tierLabels.length * 21);
+  });
+
+  test('TC-DSM-CMX-028: Exported workbook keeps its round-trip template shape', async () => {
+    const { sheet } = await downloadAndParseSheet(cmx);
+    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true }) as unknown[][];
+
+    // Row 1: instruction string — this is what the Import button consumes. A change breaks the round trip.
+    // The cell is line-wrapped in the workbook file; whitespace (including newlines) is normalised to a
+    // single space on both sides so a cosmetic re-wrap does not fail this test, but a wording change still will.
+    const instructionRaw = String((rows[0] as unknown[])[0] ?? '');
+    const instructionNorm = instructionRaw.replace(/\s+/g, ' ').trim();
+    expect(
+      instructionNorm,
+      'Row 1 must hold the round-trip template instruction — a change to it breaks the Import button',
+    ).toBe('Edit only the Discount percent for each booking window. No formatting just numbers');
+
+    // Row 2: four fixed columns then three group headers (merged cells; only the first cell of each merge is populated).
+    const headerRow = rows[1] as unknown[];
+    expect(headerRow[0], 'Row 2 cell A must be "ID"').toBe('ID');
+    expect(headerRow[1], 'Row 2 cell B must be "Country"').toBe('Country');
+    expect(headerRow[2], 'Row 2 cell C must be "Currency"').toBe('Currency');
+    expect(headerRow[3], 'Row 2 cell D must be "Revenue Tier"').toBe('Revenue Tier');
+    expect(headerRow[4], 'Row 2 must carry the Non-Peak group header at column E — a change breaks the Import button').toBe('Non-Peak Booking Windows by Days');
+    expect(headerRow[11], 'Row 2 must carry the Standard group header at column L — a change breaks the Import button').toBe('Standard Booking Windows by Days');
+    expect(headerRow[18], 'Row 2 must carry the Peak group header at column S — a change breaks the Import button').toBe('Peak Booking Windows by Days');
+
+    // Row 3: seven day-bucket sub-headers per group.
+    // The export writes "365+" with no space; the grid renders "365 +". The two label sets
+    // are deliberately not compared to each other.
+    const buckets = ['0-15', '16-30', '31-60', '61-90', '91-180', '181-365', '365+'];
+    const subHeaderRow = rows[2] as unknown[];
+    for (let g = 0; g < 3; g++) {
+      for (let b = 0; b < 7; b++) {
+        const cellIdx = 4 + g * 7 + b;
+        expect(
+          subHeaderRow[cellIdx],
+          `Row 3 column ${cellIdx} must be day-bucket "${buckets[b]}" — a change breaks the Import button`,
+        ).toBe(buckets[b]);
+      }
+    }
+  });
+
+  test('TC-DSM-CMX-029: Export identifier column carries the platform identifier', async () => {
+    // Each data row's ID column holds a GUID-form identifier. This is expected behaviour
+    // after the platform's data-store migration — the assertion pins the format, not a defect.
+    const { sheet } = await downloadAndParseSheet(cmx);
+    const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true }) as unknown[][];
+    const dataRows = rows.slice(3);
+
+    const guidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+    for (const exportRow of dataRows) {
+      const row = exportRow as unknown[];
+      const id = String(row[0] ?? '');
+      expect(id, 'Each data row ID must be a non-empty string').toBeTruthy();
+      expect(
+        guidPattern.test(id),
+        `ID "${id}" must be in GUID form — expected after the platform's data-store migration`,
+      ).toBe(true);
+    }
+  });
+
+  // ---------------------------------------------------------------- Add Tier dialog tests
+  //
+  // None of the tests below click the Add Tier confirm button. Clicking confirm would
+  // create a real tier on office 1604 with no cleanup path available. This boundary is
+  // the point of these cases, not an omission. A future batch that runs the commit
+  // end-to-end requires both a mutation decision for this office and a verified cleanup path.
+
+  test('TC-DSM-CMX-030: Add Tier opens with one End Tier field and a disabled confirm', async () => {
+    await cmx.openAddTierDialog();
+
+    const title = await cmx.getAddTierDialogTitle();
+    expect(title, 'Add Tier dialog title must be "Adding Tier"').toBe('Adding Tier');
+
+    // There is no Start Tier field — the new tier's start is derived. A case expecting to
+    // set a tier's start would be written against a control that does not exist.
+    const inputCount = await cmx.getAddTierDialogInputCount();
+    expect(inputCount, 'Add Tier dialog must contain exactly one input — there is no Start Tier field').toBe(1);
+
+    const labels = await cmx.getAddTierDialogFieldLabels();
+    expect(
+      labels.some((l) => l.includes('End Tier')),
+      'At least one field label must mention "End Tier"',
+    ).toBe(true);
+
+    const confirmEnabled = await cmx.isAddTierConfirmEnabled();
+    expect(confirmEnabled, 'Confirm button must be disabled on dialog open').toBe(false);
+
+    await cmx.clickAddTierCancel();
+  });
+
+  test('TC-DSM-CMX-031: End Tier validation is submit-time, not blur-time', async () => {
+    // This case deliberately stops before clicking confirm. Completing it end-to-end
+    // requires a mutation decision for office 1604 and a cleanup path that has not been
+    // established. Related ticket: NM-3237.
+    await cmx.openAddTierDialog();
+
+    await cmx.setAddTierEndValue('30000000');
+
+    const value = await cmx.getAddTierEndValue();
+    expect(value, 'End Tier input must reflect the typed value before submission').toBe('30000000');
+
+    const ariaInvalid = await cmx.getAddTierEndAriaInvalid();
+    expect(ariaInvalid, 'aria-invalid must be absent before submission — validation is submit-time, not blur-time').toBeNull();
+
+    const messages = await cmx.getVisibleValidationMessages();
+    expect(messages, `No validation message must be visible before the form is submitted — found: ${JSON.stringify(messages)}`).toHaveLength(0);
+
+    const confirmEnabled = await cmx.isAddTierConfirmEnabled();
+    expect(confirmEnabled, 'Confirm button must become enabled once a value is entered').toBe(true);
+
+    await cmx.clickAddTierCancel();
+  });
+
+  test('TC-DSM-CMX-032: End Tier silently refuses non-numeric input', async () => {
+    // The refusal is silent by design at the input layer — this asserts the control cannot
+    // be driven into an invalid state, not that an error message appears.
+    await cmx.openAddTierDialog();
+
+    await cmx.setAddTierEndValue('abc');
+
+    const value = await cmx.getAddTierEndValue();
+    expect(value, 'End Tier input must be empty after a non-numeric entry attempt').toBe('');
+
+    const ariaInvalid = await cmx.getAddTierEndAriaInvalid();
+    expect(ariaInvalid, 'aria-invalid must be absent when the field is empty').toBeNull();
+
+    const messages = await cmx.getVisibleValidationMessages();
+    expect(messages, `No validation message must appear for a silently refused non-numeric entry — found: ${JSON.stringify(messages)}`).toHaveLength(0);
+
+    const confirmEnabled = await cmx.isAddTierConfirmEnabled();
+    expect(confirmEnabled, 'Confirm button must remain disabled when the field is empty').toBe(false);
+
+    await cmx.clickAddTierCancel();
+  });
+
+  test('TC-DSM-CMX-033: Cancelling Add Tier leaves the grid untouched', async () => {
+    // This is the guard proving every Add Tier case above is non-mutating and the suite stays re-runnable.
+    const rowCountBefore = await cmx.getRowCount();
+    const rangeLabelsBefore = await cmx.getTierRangeLabels();
+
+    await cmx.openAddTierDialog();
+    await cmx.setAddTierEndValue('500');
+    await cmx.clickAddTierCancel();
+
+    const rowCountAfter = await cmx.getRowCount();
+    const rangeLabelsAfter = await cmx.getTierRangeLabels();
+
+    expect(rowCountAfter, 'Row count must be unchanged after cancelling Add Tier').toBe(rowCountBefore);
+    expect(rangeLabelsAfter, 'Tier range list must be unchanged after cancelling Add Tier').toEqual(rangeLabelsBefore);
   });
 
   // ---------------------------------------------------------------- GAV Discount Threshold field (criteria bar)

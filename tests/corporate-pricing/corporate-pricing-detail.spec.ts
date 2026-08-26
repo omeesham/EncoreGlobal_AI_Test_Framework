@@ -21,8 +21,22 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
   // ceiling (this is a per-test timeout, not a fixed wait).
   test.describe.configure({ timeout: 150_000 });
 
-  test.beforeEach(async ({ corporatePricingDetailPage: p }) => {
-    await p.ensureDefaultState();
+  // Per-test baseline dispatched by TC number:
+  //  - TC-001..036, TC-038..043 (management mode): full fixture restore.
+  //  - TC-044..055 (surface behaviors): plain page open, no restore.
+  //  - TC-037 (create-mode positive control): navigates itself on the New Pricebook page.
+  const tcNum = (title: string) => {
+    const m = title.match(/^TC-CPR-DET-(\d+)/);
+    return m ? parseInt(m[1]!, 10) : -1;
+  };
+
+  test.beforeEach(async ({ corporatePricingDetailPage: p }, testInfo) => {
+    const n = tcNum(testInfo.title);
+    if (n >= 1 && n <= 43 && n !== 37) {
+      await p.ensureDefaultState();
+    } else if (n >= 44 && n <= 55) {
+      await p.open();
+    }
   });
 
   test('TC-CPR-DET-001: Pricing Detail tab activates and the product-group grid renders', async ({ corporatePricingDetailPage: p }) => {
@@ -293,6 +307,24 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(typeof (await p.getNewPrice(name))).toBe('string');
   });
 
+  // ── Create-mode positive control ──
+  test('TC-CPR-DET-037: In create mode both double-click and a full-pointer drag add a product-group row', async ({ corporatePricingNewPricebookPage: np }) => {
+    await np.open('equipment');
+    await np.clickDetailTab();
+    // Content-anchored: the grid may start with a placeholder row, so assert the added group is
+    // PRESENT by name rather than counting rows (count is confounded by the placeholder).
+    await np.addProductGroupByName(DETAIL.anchorA.name); // double-click ADD
+    await expect.poll(async () => (await np.getDetailGridRows()).join(' | '), {
+      message: 'double-click adds the product group', timeout: 10_000,
+    }).toContain(DETAIL.anchorA.name);
+
+    await np.dragProductGroupByName(DETAIL.anchorB.name); // full-pointer drag ADD (the positive-control primitive)
+    await expect.poll(async () => (await np.getDetailGridRows()).join(' | '), {
+      message: 'full-pointer drag adds another product group', timeout: 10_000,
+    }).toContain(DETAIL.anchorB.name);
+    // No commit — the create page is intentionally non-persisting; this only proves the add primitive fires.
+  });
+
   test('TC-CPR-DET-038: Editing and saving a row New Price does not silently change its Max Discount', async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorB.name;
     const mdBefore = await p.getMaxDiscount(name);
@@ -353,36 +385,8 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.getMaxDiscountAfterFocus(name)).toBe('1'); // and shows "1" on focus
     await p.ensureDefaultState();
   });
-});
 
-test.describe('Corporate Pricing — Pricing Detail create-mode positive control @corporate-pricing @detail', () => {
-  test.describe.configure({ timeout: 150_000 });
-
-  test('TC-CPR-DET-037: In create mode both double-click and a full-pointer drag add a product-group row', async ({ corporatePricingNewPricebookPage: np }) => {
-    await np.open('equipment');
-    await np.clickDetailTab();
-    // Content-anchored: the grid may start with a placeholder row, so assert the added group is
-    // PRESENT by name rather than counting rows (count is confounded by the placeholder).
-    await np.addProductGroupByName(DETAIL.anchorA.name); // double-click ADD
-    await expect.poll(async () => (await np.getDetailGridRows()).join(' | '), {
-      message: 'double-click adds the product group', timeout: 10_000,
-    }).toContain(DETAIL.anchorA.name);
-
-    await np.dragProductGroupByName(DETAIL.anchorB.name); // full-pointer drag ADD (the positive-control primitive)
-    await expect.poll(async () => (await np.getDetailGridRows()).join(' | '), {
-      message: 'full-pointer drag adds another product group', timeout: 10_000,
-    }).toContain(DETAIL.anchorB.name);
-    // No commit — the create page is intentionally non-persisting; this only proves the add primitive fires.
-  });
-});
-
-test.describe('SBC — Pricing Detail surface behaviors @corporate-pricing @detail', () => {
-  test.describe.configure({ timeout: 150_000 });
-
-  test.beforeEach(async ({ corporatePricingDetailPage: p }) => {
-    await p.open();
-  });
-
+  // ── SBC — surface behaviors ──
   // The Detail grid renders every product-group row at once: it exposes NO rows-per-page selector,
   // NO page-navigation buttons, and its column headers are not sort triggers. These cases assert
   // that observed reality (a divergence from the speculative "paginated/sortable" expectation).

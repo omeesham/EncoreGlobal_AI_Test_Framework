@@ -9,7 +9,6 @@ import {
 import { OFFICE_NO } from '../../src/data/common';
 
 test.describe('Location Account and Address @locations @account-address', () => {
-
   // Per-test navigation guard.
   // DOM-presence beats url.includes — Encore sub-tabs share `settings/location` URL,
   // so the URL match returns true after a sibling spec like Notes even when this tab
@@ -30,140 +29,6 @@ test.describe('Location Account and Address @locations @account-address', () => 
     // test's own fill is a real change (Save actually enables) and side-steps the known issue that
     // clearing Phone 2 to empty does not persist — this reset never sets it empty.
     await locationAccountAddressPage.ensureDefaultState({ phone2: PHONE2_BASELINE });
-  });
-
-  //     @locations @account-address tags, no @fcc tag (per the tagging convention).
-  //     The Master launcher's select→Master-field-update→persist cycle had ZERO coverage (TC-012 only
-  //     proved the dialog OPENS from Master). Per-launcher coverage: a Venue TC can NOT
-  //     discharge a Master cell — the SAME dialog persists from Master but NOT from Venue (TC-027). ───
-
-  test('TC-LOC-ACC-032: Master Bill To selection updates Master display + leaves Venue unchanged + enables Save', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
-    dependencyGate(['TC-LOC-ACC-001']);
-    test.setTimeout(90_000);
-    await expect.poll(() => pg.getMasterCityText(), { timeout: 10_000 }).toBe(MASTER_BILL_TO_ORIGINAL.city);
-    const venueBefore = await pg.getVenueCityText();
-    // Select an alternate address via the MASTER launcher
-    await pg.openMasterAddressDialog();
-    await pg.selectAddressRow(ALT_ADDRESS.address1);
-    await expect.poll(() => pg.getMasterCityText(), { timeout: 5_000 }).toBe(ALT_ADDRESS.city);
-    // Venue/Branch display is UNCHANGED — the Master selection is isolated from Venue
-    expect(await pg.getVenueCityText()).toBe(venueBefore);
-    // Save enables (form dirty — NOT display-only)
-    await expect.poll(() => pg.isSaveEnabled(), { timeout: 5_000 }).toBe(true);
-    await pg.reloadAndNavigate(OFFICE_NO);
-    await expect.poll(() => pg.getMasterCityText(), { timeout: 10_000 }).toBe(MASTER_BILL_TO_ORIGINAL.city);
-  });
-
-  test('TC-LOC-ACC-033: Master Bill To selection persists through save+reload (restore anchored original)', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
-    dependencyGate(['TC-LOC-ACC-001']);
-    test.setTimeout(150_000);
-    await saveAndVerifyCase({
-      id: 'TC-LOC-ACC-033',
-      label: 'Master Bill To select alt -> save -> persists -> restore anchored original',
-      // Anchor check: Master must start at the original (loud fail if a prior run leaked an alternate).
-      baseline: async () => {
-        await expect.poll(() => pg.getMasterCityText(), { timeout: 10_000 }).toBe(MASTER_BILL_TO_ORIGINAL.city);
-      },
-      act: async () => {
-        await pg.openMasterAddressDialog();
-        await pg.selectAddressRow(ALT_ADDRESS.address1);
-      },
-      expectBeforeSave: async () => {
-        await expect.poll(() => pg.getMasterCityText(), { timeout: 5_000 }).toBe(ALT_ADDRESS.city);
-        await expect.poll(() => pg.isSaveEnabled(), { timeout: 5_000 }).toBe(true);
-      },
-      saveAndConfirm: () => pg.saveAndConfirm(),
-      reload: () => pg.reloadAndNavigate(OFFICE_NO),
-      expectAfterReload: async () => {
-        // Master Bill To selection PERSISTS through save+reload (diverges from the Venue selection, TC-027).
-        // Read-after-write window (ACC-020 pattern): the save commits a beat AFTER clickSave() returns; a
-        // single reload's getLocationDetail can fire before the commit lands and serve the pre-save value
-        // (the loaded page does not auto-refetch). Re-navigate each poll until the persisted value is read —
-        // this still proves persistence (Master == the saved alternate after a reload), without weakening intent.
-        await expect.poll(async () => {
-          await pg.reloadAndNavigate(OFFICE_NO);
-          return pg.getMasterCityText();
-        }, { timeout: 60_000, intervals: [1_000], message: 'Master Bill To should persist as the saved alternate after reload' }).toBe(ALT_ADDRESS.city);
-        expect(await pg.getMasterAddressBlock()).toContain(ALT_ADDRESS.address1);
-      },
-      // Restore office-1604 to the anchored original by re-selecting the unique "8899 Beverly Blvd Ste 412"
-      // row, then VERIFY the restore landed (re-navigate poll — same read-after-write window) so nothing leaks.
-      cleanup: async () => {
-        await pg.openMasterAddressDialog();
-        await pg.selectAddressRow(MASTER_BILL_TO_ORIGINAL.address1);
-        await pg.saveAndConfirm();
-        await expect.poll(async () => {
-          await pg.reloadAndNavigate(OFFICE_NO);
-          return pg.getMasterCityText();
-        }, { timeout: 60_000, intervals: [1_000], message: 'Master Bill To should restore to the anchored original' }).toBe(MASTER_BILL_TO_ORIGINAL.city);
-      },
-    });
-  });
-
-  //     existing describe, same @locations @account-address tags, no separate fcc-tag.
-  //     Save-cycle case uses the field-coverage runner; filter cases use ordinary test() (no save). ───
-
-  // Clearing Phone 2 and saving does NOT persist empty; the prior
-  // value reappears on reload. This case asserts the CORRECT (fixed) behavior, so it is fixme'd
-  // until the app bug is resolved. Un-fixme when the clear-not-persisting issue closes.
-  // FIXME TC-LOC-ACC-029 (Blocked — clearing the Phone 2 field and saving does not persist the empty value; the previous value reappears after reload. Pending an application fix.)
-  test.fixme('TC-LOC-ACC-029: Phone 2 cleared value persists empty after reload', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
-    dependencyGate([]);
-    test.setTimeout(60_000);
-    await saveAndVerifyCase({
-      id: 'TC-LOC-ACC-029',
-      label: 'Phone 2 clear -> save -> empty persists after reload',
-      // Seed a value first (Phone 2 baseline is empty) so clearing is a real, dirtying change.
-      baseline: async () => {
-        await pg.ensureDefaultState();
-        await pg.fillPhone2(TEST_PHONE2_VALUE);
-        await pg.saveAndConfirm();
-      },
-      act: () => pg.fillPhone2(''),
-      expectBeforeSave: async () => {
-        await expect.poll(() => pg.isSaveEnabled(), { timeout: 5_000 }).toBe(true);
-      },
-      saveAndConfirm: () => pg.saveAndConfirm(),
-      expectAfterSave: async () => {
-        expect(await pg.isSaveEnabled()).toBe(false);
-      },
-      reload: () => pg.reloadAndNavigate(OFFICE_NO),
-      expectAfterReload: async () => {
-        expect(await pg.getPhone2Value()).toBe('');
-      },
-      cleanup: () => pg.ensureDefaultState(),
-    });
-  });
-
-  test('TC-LOC-ACC-030: Account List Account Number filter returns matching account', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
-    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
-    dependencyGate([]);
-    test.setTimeout(90_000);
-    await pg.openAccountListDialog();
-    await pg.searchAccountByNumber(ACCOUNT_NUMBER_SEARCH.number);
-    // Poll budget (45s) ≥ the page object's inner search budget so the TEST owns the deadline. The
-    // Account-Number backend search is slow/variable (~29s measured live 2026-06-02).
-    // searchAccountByNumber already blocks until the row renders, so this poll confirms the
-    // expected account text (AC000107 → Parker Palm Springs, verified live) and resolves once present.
-    await expect.poll(
-      () => pg.accountListResultsContain(ACCOUNT_NUMBER_SEARCH.expectedResult),
-      { timeout: 45_000, message: 'Account Number filter should return the matching account' },
-    ).toBe(true);
-    await pg.cancelAccountListDialog();
-  });
-
-  test('TC-LOC-ACC-031: Address dialog search filter then clear restores full set', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
-    dependencyGate([]);
-    test.setTimeout(60_000);
-    await pg.openVenueAddressDialog();
-    const initialRows = await pg.getAddressRowCount();
-    expect(initialRows).toBeGreaterThan(1);
-    await pg.searchAddress(ADDRESS_SEARCH.filterTerm);
-    expect(await pg.getAddressRowCount()).toBeLessThan(initialRows);
-    // Clear the client-side filter -> full row set restores
-    await pg.searchAddress('');
-    await expect.poll(() => pg.getAddressRowCount(), { timeout: 5_000 }).toBe(initialRows);
-    await pg.cancelAddressDialog();
   });
 
   test('TC-LOC-ACC-001: Navigate to Account and Address tab; two-card layout visible', async ({ locationAccountAddressPage, dependencyGate }) => {
@@ -491,6 +356,140 @@ test.describe('Location Account and Address @locations @account-address', () => 
         await locationAccountAddressPage.reloadAndNavigate(OFFICE_NO);
       }
     }
+  });
+
+  //     existing describe, same @locations @account-address tags, no separate fcc-tag.
+  //     Save-cycle case uses the field-coverage runner; filter cases use ordinary test() (no save). ───
+
+  // Clearing Phone 2 and saving does NOT persist empty; the prior
+  // value reappears on reload. This case asserts the CORRECT (fixed) behavior, so it is fixme'd
+  // until the app bug is resolved. Un-fixme when the clear-not-persisting issue closes.
+  // FIXME TC-LOC-ACC-029 (Blocked — clearing the Phone 2 field and saving does not persist the empty value; the previous value reappears after reload. Pending an application fix.)
+  test.fixme('TC-LOC-ACC-029: Phone 2 cleared value persists empty after reload', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+    dependencyGate([]);
+    test.setTimeout(60_000);
+    await saveAndVerifyCase({
+      id: 'TC-LOC-ACC-029',
+      label: 'Phone 2 clear -> save -> empty persists after reload',
+      // Seed a value first (Phone 2 baseline is empty) so clearing is a real, dirtying change.
+      baseline: async () => {
+        await pg.ensureDefaultState();
+        await pg.fillPhone2(TEST_PHONE2_VALUE);
+        await pg.saveAndConfirm();
+      },
+      act: () => pg.fillPhone2(''),
+      expectBeforeSave: async () => {
+        await expect.poll(() => pg.isSaveEnabled(), { timeout: 5_000 }).toBe(true);
+      },
+      saveAndConfirm: () => pg.saveAndConfirm(),
+      expectAfterSave: async () => {
+        expect(await pg.isSaveEnabled()).toBe(false);
+      },
+      reload: () => pg.reloadAndNavigate(OFFICE_NO),
+      expectAfterReload: async () => {
+        expect(await pg.getPhone2Value()).toBe('');
+      },
+      cleanup: () => pg.ensureDefaultState(),
+    });
+  });
+
+  test('TC-LOC-ACC-030: Account List Account Number filter returns matching account', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+    test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
+    dependencyGate([]);
+    test.setTimeout(90_000);
+    await pg.openAccountListDialog();
+    await pg.searchAccountByNumber(ACCOUNT_NUMBER_SEARCH.number);
+    // Poll budget (45s) ≥ the page object's inner search budget so the TEST owns the deadline. The
+    // Account-Number backend search is slow/variable (~29s measured live 2026-06-02).
+    // searchAccountByNumber already blocks until the row renders, so this poll confirms the
+    // expected account text (AC000107 → Parker Palm Springs, verified live) and resolves once present.
+    await expect.poll(
+      () => pg.accountListResultsContain(ACCOUNT_NUMBER_SEARCH.expectedResult),
+      { timeout: 45_000, message: 'Account Number filter should return the matching account' },
+    ).toBe(true);
+    await pg.cancelAccountListDialog();
+  });
+
+  test('TC-LOC-ACC-031: Address dialog search filter then clear restores full set', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+    dependencyGate([]);
+    test.setTimeout(60_000);
+    await pg.openVenueAddressDialog();
+    const initialRows = await pg.getAddressRowCount();
+    expect(initialRows).toBeGreaterThan(1);
+    await pg.searchAddress(ADDRESS_SEARCH.filterTerm);
+    expect(await pg.getAddressRowCount()).toBeLessThan(initialRows);
+    // Clear the client-side filter -> full row set restores
+    await pg.searchAddress('');
+    await expect.poll(() => pg.getAddressRowCount(), { timeout: 5_000 }).toBe(initialRows);
+    await pg.cancelAddressDialog();
+  });
+
+  //     @locations @account-address tags, no @fcc tag (per the tagging convention).
+  //     The Master launcher's select→Master-field-update→persist cycle had ZERO coverage (TC-012 only
+  //     proved the dialog OPENS from Master). Per-launcher coverage: a Venue TC can NOT
+  //     discharge a Master cell — the SAME dialog persists from Master but NOT from Venue (TC-027). ───
+
+  test('TC-LOC-ACC-032: Master Bill To selection updates Master display + leaves Venue unchanged + enables Save', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+    dependencyGate(['TC-LOC-ACC-001']);
+    test.setTimeout(90_000);
+    await expect.poll(() => pg.getMasterCityText(), { timeout: 10_000 }).toBe(MASTER_BILL_TO_ORIGINAL.city);
+    const venueBefore = await pg.getVenueCityText();
+    // Select an alternate address via the MASTER launcher
+    await pg.openMasterAddressDialog();
+    await pg.selectAddressRow(ALT_ADDRESS.address1);
+    await expect.poll(() => pg.getMasterCityText(), { timeout: 5_000 }).toBe(ALT_ADDRESS.city);
+    // Venue/Branch display is UNCHANGED — the Master selection is isolated from Venue
+    expect(await pg.getVenueCityText()).toBe(venueBefore);
+    // Save enables (form dirty — NOT display-only)
+    await expect.poll(() => pg.isSaveEnabled(), { timeout: 5_000 }).toBe(true);
+    await pg.reloadAndNavigate(OFFICE_NO);
+    await expect.poll(() => pg.getMasterCityText(), { timeout: 10_000 }).toBe(MASTER_BILL_TO_ORIGINAL.city);
+  });
+
+  test('TC-LOC-ACC-033: Master Bill To selection persists through save+reload (restore anchored original)', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+    dependencyGate(['TC-LOC-ACC-001']);
+    test.setTimeout(150_000);
+    await saveAndVerifyCase({
+      id: 'TC-LOC-ACC-033',
+      label: 'Master Bill To select alt -> save -> persists -> restore anchored original',
+      // Anchor check: Master must start at the original (loud fail if a prior run leaked an alternate).
+      baseline: async () => {
+        await expect.poll(() => pg.getMasterCityText(), { timeout: 10_000 }).toBe(MASTER_BILL_TO_ORIGINAL.city);
+      },
+      act: async () => {
+        await pg.openMasterAddressDialog();
+        await pg.selectAddressRow(ALT_ADDRESS.address1);
+      },
+      expectBeforeSave: async () => {
+        await expect.poll(() => pg.getMasterCityText(), { timeout: 5_000 }).toBe(ALT_ADDRESS.city);
+        await expect.poll(() => pg.isSaveEnabled(), { timeout: 5_000 }).toBe(true);
+      },
+      saveAndConfirm: () => pg.saveAndConfirm(),
+      reload: () => pg.reloadAndNavigate(OFFICE_NO),
+      expectAfterReload: async () => {
+        // Master Bill To selection PERSISTS through save+reload (diverges from the Venue selection, TC-027).
+        // Read-after-write window (ACC-020 pattern): the save commits a beat AFTER clickSave() returns; a
+        // single reload's getLocationDetail can fire before the commit lands and serve the pre-save value
+        // (the loaded page does not auto-refetch). Re-navigate each poll until the persisted value is read —
+        // this still proves persistence (Master == the saved alternate after a reload), without weakening intent.
+        await expect.poll(async () => {
+          await pg.reloadAndNavigate(OFFICE_NO);
+          return pg.getMasterCityText();
+        }, { timeout: 60_000, intervals: [1_000], message: 'Master Bill To should persist as the saved alternate after reload' }).toBe(ALT_ADDRESS.city);
+        expect(await pg.getMasterAddressBlock()).toContain(ALT_ADDRESS.address1);
+      },
+      // Restore office-1604 to the anchored original by re-selecting the unique "8899 Beverly Blvd Ste 412"
+      // row, then VERIFY the restore landed (re-navigate poll — same read-after-write window) so nothing leaks.
+      cleanup: async () => {
+        await pg.openMasterAddressDialog();
+        await pg.selectAddressRow(MASTER_BILL_TO_ORIGINAL.address1);
+        await pg.saveAndConfirm();
+        await expect.poll(async () => {
+          await pg.reloadAndNavigate(OFFICE_NO);
+          return pg.getMasterCityText();
+        }, { timeout: 60_000, intervals: [1_000], message: 'Master Bill To should restore to the anchored original' }).toBe(MASTER_BILL_TO_ORIGINAL.city);
+      },
+    });
   });
 
 });

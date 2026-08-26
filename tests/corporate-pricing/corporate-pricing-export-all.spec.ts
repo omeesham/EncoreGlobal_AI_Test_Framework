@@ -27,9 +27,24 @@ function expectWellFormedExportMatrix(
     expect(row).toHaveLength(r.headers.length); // no ragged / malformed product-group row
   }
 }
-test.describe('Corporate Pricing — Export ▾ dialog contract (NM-2264) @corporate-pricing @export-all', () => {
-  test.beforeEach(async ({ corporatePricingSearchPage: p }) => {
-    test.setTimeout(90_000);
+test.describe('Corporate Pricing — Export ▾ dialog contract, download round-trip & surface DEEP (NM-2264) @corporate-pricing @export-all', () => {
+  const YEAR = EXP.defaultYear;
+  const YEARSETS: string[][] = [[YEAR], ['2026', '2027', '2028']]; // 1-year and 3-year selections
+
+  // Same baseline for every test (fresh page open); only the per-group timeout differs:
+  //  - TC-001..009, TC-017 (dialog contract): 90s.
+  //  - TC-010..013 (real download round-trip): 150s — several real downloads + file reads per test.
+  //  - TC-014..016 (surface-behavior DEEP): 200s — multiple downloads / continues per test.
+  const tcNum = (title: string) => {
+    const m = title.match(/^TC-CPR-EXA-(\d+)/);
+    return m ? parseInt(m[1]!, 10) : -1;
+  };
+
+  test.beforeEach(async ({ corporatePricingSearchPage: p }, testInfo) => {
+    const n = tcNum(testInfo.title);
+    if (n >= 10 && n <= 13) test.setTimeout(150_000);
+    else if (n >= 14 && n <= 16) test.setTimeout(200_000);
+    else test.setTimeout(90_000);
     await p.open();
   });
 
@@ -110,23 +125,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract (NM-2264) @corpo
     }
   });
 
-  // The Export ▾ menu itself dismisses on an outside-click (standard dropdown behavior); the
-  // per-variant dialog contract above covers what each variant opens.
-  test('TC-CPR-EXA-017: Export menu dismisses on outside-click', async ({ corporatePricingSearchPage: p }) => {
-    await p.openExportMenu();
-    expect((await p.getMenuVariants()).length).toBeGreaterThan(0); // menu confirmed open
-    expect(await p.dismissToolbarMenuWithOutsideClick()).toBe(true); // closes on outside-click
-  });
-});
-
-test.describe('Corporate Pricing — Export ▾ real download round-trip (NM-2264) @corporate-pricing @export-all', () => {
-  const YEAR = EXP.defaultYear;
-
-  test.beforeEach(async ({ corporatePricingSearchPage: p }) => {
-    test.setTimeout(150_000); // several real downloads + file reads per test
-    await p.open();
-  });
-
+  // ── Real download round-trip ──
   test('TC-CPR-EXA-010: All Equipment Pricing — real download + no duplicate product groups', async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadExportVariant('All Equipment Pricing', [YEAR], 'USD');
     expect(r.filename, 'The export should download the Equipment Pricing file').toBe('EquipmentPricings.csv');
@@ -210,17 +209,8 @@ test.describe('Corporate Pricing — Export ▾ real download round-trip (NM-226
     const missingPricebooks = laborPricebooks.filter((c) => !maxCols.has(c));
     expect(missingPricebooks).toEqual([]);
   });
-});
 
-test.describe('Corporate Pricing — Export ▾ surface-behavior DEEP (NM-2264) @corporate-pricing @export-all', () => {
-  const YEAR = EXP.defaultYear;
-  const YEARSETS: string[][] = [[YEAR], ['2026', '2027', '2028']]; // 1-year and 3-year selections
-
-  test.beforeEach(async ({ corporatePricingSearchPage: p }) => {
-    test.setTimeout(200_000); // multiple downloads / continues per test
-    await p.open();
-  });
-
+  // ── Surface-behavior DEEP ──
   test('TC-CPR-EXA-014: Combination DEEP — bounded pairwise variant x Year x Currency', async ({ corporatePricingSearchPage: p }) => {
     // A bounded pairwise covering array over {4 variants} x {1yr, 3yr} x {USD, CAD, MXN} — NOT the full
     // cartesian product. Indices are [variantIndex, yearsetIndex, currencyIndex]; every pair of factor
@@ -278,5 +268,13 @@ test.describe('Corporate Pricing — Export ▾ surface-behavior DEEP (NM-2264) 
     // CAD Equipment carries no pricebooks: the export is a valid, non-empty CSV whose pricebook-column
     // scope is exactly empty (live-confirmed: CAD = 0, USD = 79).
     expect(p.exportPricebookColumns(cad.headers).length).toBe(0);
+  });
+
+  // The Export ▾ menu itself dismisses on an outside-click (standard dropdown behavior); the
+  // per-variant dialog contract above covers what each variant opens.
+  test('TC-CPR-EXA-017: Export menu dismisses on outside-click', async ({ corporatePricingSearchPage: p }) => {
+    await p.openExportMenu();
+    expect((await p.getMenuVariants()).length).toBeGreaterThan(0); // menu confirmed open
+    expect(await p.dismissToolbarMenuWithOutsideClick()).toBe(true); // closes on outside-click
   });
 });

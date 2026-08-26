@@ -59,7 +59,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.open(TNC_OFFICE);
   });
 
-
   // ------------------------------------------------------------ language filter (page level)
 
   test('TC-TNC-CORE-001: Language filter offers five options', async ({ dependencyGate }) => {
@@ -68,13 +67,11 @@ test.describe('Terms and Conditions', () => {
     expect(options).toEqual([...TNC_FILTER_LANGUAGES]);
   });
 
-
   test('TC-TNC-CORE-002: Language filter defaults to US English', async ({ dependencyGate }) => {
     dependencyGate([]);
     const selected = await tnc.getSelectedFilterLanguage();
     expect(selected).toContain(TNC_DEFAULT_LANGUAGE);
   });
-
 
   test('TC-TNC-CORE-003: Selecting a language filters the grid rows', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -91,7 +88,6 @@ test.describe('Terms and Conditions', () => {
       expect(lang).toContain('English (Canada)');
     }
   });
-
 
   test('TC-TNC-CORE-004: Selecting All shows rows across all languages', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -116,20 +112,17 @@ test.describe('Terms and Conditions', () => {
     expect(languages.size).toBeGreaterThanOrEqual(2);
   });
 
-
   test('TC-TNC-CORE-005: Language filter first option is All', async ({ dependencyGate }) => {
     dependencyGate([]);
     const options = await tnc.getFilterLanguages();
     expect(options[0]).toBe('All');
   });
 
-
   test('TC-TNC-CORE-006: Language filter last option is French (Canada)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const options = await tnc.getFilterLanguages();
     expect(options[options.length - 1]).toBe('French (Canada)');
   });
-
 
   // ------------------------------------------------------------ per-row language
 
@@ -138,7 +131,6 @@ test.describe('Terms and Conditions', () => {
     const options = await tnc.getRowLanguages(0);
     expect(options).toEqual([...TNC_ROW_LANGUAGES]);
   });
-
 
   test('TC-TNC-CORE-008: Changing per-row language enables Save', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -152,7 +144,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.selectRowLanguage(rowIdx, targetLang);
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
-
 
   test('TC-TNC-CORE-009: Changing per-row language persists the value', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -189,7 +180,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   test('TC-TNC-CORE-010: Reverting per-row language to saved value disables Save', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -204,7 +194,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.selectRowLanguage(reIdx, originalLang.trim());
     expect(await tnc.waitUntilSaveDisabled()).toBe(true);
   });
-
 
   // ------------------------------------------------------------ name validation
 
@@ -221,7 +210,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.setRowName(row, originalName);
   });
 
-
   test('TC-TNC-CORE-012: Name accepts a mid-length value', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -229,7 +217,6 @@ test.describe('Terms and Conditions', () => {
     expect((await tnc.getRowName(row)).length).toBe(50);
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
-
 
   // Skipped while an application behaviour question is open. The test enters a 260-character name
   // and expects Save to become enabled, but the application rejects that length. The intended
@@ -241,7 +228,6 @@ test.describe('Terms and Conditions', () => {
     expect((await tnc.getRowName(row)).length).toBe(260);
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
-
 
   test('TC-TNC-CORE-014: Name with special characters persists byte-exact through save and reload', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -264,7 +250,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-
   test('TC-TNC-CORE-015: Whitespace-only name is rejected — Save disabled, aria-invalid', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -277,7 +262,6 @@ test.describe('Terms and Conditions', () => {
     // Restore
     await tnc.setRowName(row, originalName);
   });
-
 
   test('TC-TNC-CORE-016: Duplicate name within the same language blocks Save', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -296,7 +280,6 @@ test.describe('Terms and Conditions', () => {
     // Restore
     await tnc.setRowName(row, originalName);
   });
-
 
   test('TC-TNC-CORE-017: Duplicate name across a different language blocks Save', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -317,7 +300,6 @@ test.describe('Terms and Conditions', () => {
     // Restore
     await tnc.setRowName(row, originalName);
   });
-
 
   test('TC-TNC-CORE-018: Name edit then save persists through reload', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -340,7 +322,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-
   test('TC-TNC-CORE-019: Reverting a name edit returns Save to disabled', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -351,7 +332,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.setRowName(row, originalName);
     expect(await tnc.waitUntilSaveDisabled()).toBe(true);
   });
-
 
   test('TC-TNC-CORE-020: Clearing a name disables Save with red border and aria-invalid', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -369,7 +349,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.setRowName(row, originalName);
   });
 
-
   // ------------------------------------------------------------ rich-text editor
 
   test('TC-TNC-CORE-021: Clicking an HTML cell opens the shared editor', async ({ dependencyGate }) => {
@@ -379,7 +358,6 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isEditorVisible()).toBe(true);
   });
 
-
   test('TC-TNC-CORE-022: Clicking a cell alone does not enable Save', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -388,7 +366,6 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isSaveDisabled()).toBe(true);
   });
 
-
   test('TC-TNC-CORE-023: Typing in the editor enables Save', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -396,7 +373,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.typeInEditor(' probe');
     expect(await tnc.waitUntilSaveEnabled()).toBe(true);
   });
-
 
   test('TC-TNC-CORE-024: Left Column rich text persists through save and reload', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -424,7 +400,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-
   test('TC-TNC-CORE-025: Right Column rich text persists through save and reload', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -449,7 +424,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus2).toBeGreaterThanOrEqual(200);
     expect(restoreStatus2).toBeLessThan(300);
   });
-
 
   test('TC-TNC-CORE-026: Bottom Column rich text persists through save and reload', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -476,7 +450,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus3).toBeLessThan(300);
   });
 
-
   // ------------------------------------------------------------ add row
 
   test('TC-TNC-CORE-027: Add row appends at the bottom with defaults', async ({ dependencyGate }) => {
@@ -497,14 +470,12 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isSaveDisabled()).toBe(true);
   });
 
-
   // ------------------------------------------------------------ save button
 
   test('TC-TNC-CORE-028: Save is disabled at rest', async ({ dependencyGate }) => {
     dependencyGate([]);
     expect(await tnc.isSaveDisabled()).toBe(true);
   });
-
 
   test('TC-TNC-CORE-029: Save commits directly without a confirmation dialog', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -530,7 +501,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreResult.status).toBeLessThan(300);
   });
 
-
   // ------------------------------------------------------------ surface/behavior families
 
   test('TC-TNC-CORE-030: Language filter returns only matching rows (result-fidelity)', async ({ dependencyGate }) => {
@@ -547,7 +517,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   test('TC-TNC-CORE-031: Language filter combined with row content (combination)', async ({ dependencyGate }) => {
     dependencyGate([]);
     // Switch to English (Canada) and note a row name
@@ -563,7 +532,6 @@ test.describe('Terms and Conditions', () => {
     const allNames = await tnc.getAllNames();
     expect(allNames).not.toContain(canadaRowName);
   });
-
 
   test('TC-TNC-CORE-032: HTML cell displays rendered content, not raw markup (render-state)', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -588,7 +556,6 @@ test.describe('Terms and Conditions', () => {
     expect(preview).not.toMatch(/<[a-z]+[^>]*>/i);
   });
 
-
   // ------------------------------------------------------------ empty-vol / isolation / cross-language
 
   test('TC-TNC-CORE-033: A newly added row with no fields filled keeps Save disabled', async ({ dependencyGate }) => {
@@ -611,7 +578,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   test('TC-TNC-CORE-034: Edited name persists through save and reload (persistence)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -633,7 +599,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-
   test('TC-TNC-CORE-035: Reverting an edit returns Save to disabled (persistence — revert)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -644,49 +609,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.setRowName(row, originalName);
     expect(await tnc.waitUntilSaveDisabled()).toBe(true);
   });
-
-
-  // ------------------------------------------------------------ grid structure
-
-  // TC-TNC-CORE-036: Column resize does not persist
-  // REMOVED FROM EXECUTABLE SPEC — the resize handle is a raw <button> with no testid,
-  // and automating drag-resize without a stable selector produces a brittle, non-deterministic
-  // test. Recorded as NOT-AUTOMATED in the output report so the coverage gap is visible
-  // where stakeholders actually look, rather than hidden behind a permanent skip.
-
-  // ------------------------------------------------------------ DEEP: save-gating validation (TC-059, 060-068, 070-080)
-
-  // Skipped while an application behaviour question is open. The check expects cross-language
-  // name uniqueness to be enforced, but the application currently allows duplicate names across
-  // languages. The intended behaviour has been queried with the client and this check will be
-  // updated once the answer arrives.
-  test.skip('TC-TNC-CORE-059: Name uniqueness is enforced across languages', async ({ dependencyGate }) => {
-    dependencyGate([]);
-    await tnc.selectFilterLanguage('All');
-
-    // Find an existing row and get its name
-    const names = await tnc.getAllNames();
-    expect(names.length).toBeGreaterThanOrEqual(2);
-
-    // Use a second row to type the first row's name — uniqueness triggers across languages
-    const duplicateName = names[0]!;
-    const targetRowIdx = await tnc.findRowByName(names[1]!);
-    const originalLang = await tnc.getRowLanguage(targetRowIdx);
-    const differentLang = TNC_ROW_LANGUAGES.find(l => !originalLang.includes(l))!;
-
-    // Change language to something different, then type a duplicate name
-    await tnc.selectRowLanguage(targetRowIdx, differentLang);
-    // Re-resolve after language change (potential re-sort)
-    const resolvedIdx = await tnc.findRowByName(names[1]!);
-    await tnc.setRowName(resolvedIdx, duplicateName);
-
-    // Re-resolve after name edit for validation read
-    // Validation must stay anchored to the control just edited — use resolvedIdx
-    const validation = await tnc.getNameValidationState(resolvedIdx);
-    expect(validation.ariaInvalid).toBe(true);
-    expect(await tnc.isSaveDisabled()).toBe(true);
-  });
-
 
   // ------------------------------------------------------------ regression armour
 
@@ -728,7 +650,6 @@ test.describe('Terms and Conditions', () => {
     expect(contentAAgain).toBe(originalContentA);
   });
 
-
   test('TC-TNC-CORE-038: Typed HTML entities are stored as escaped literals, not rendered as markup (NM-3163)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -764,7 +685,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-
   test('TC-TNC-CORE-039: Switching cells with unsaved editor content raises a guard dialog (NM-2191)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -781,7 +701,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.clickStay();
     expect(await tnc.isEditorVisible()).toBe(true);
   });
-
 
   test('TC-TNC-CORE-040: Discarding unsaved editor content on cell switch clears the edit', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -809,7 +728,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoredText).toBe(originalText);
   });
 
-
   test('TC-TNC-CORE-041: Changing the language filter with unsaved edits raises a guard dialog (NM-2191)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -829,7 +747,6 @@ test.describe('Terms and Conditions', () => {
     // Restore
     await tnc.setRowName(row, originalName);
   });
-
 
   test('TC-TNC-CORE-042: Editor content across columns uses the same shared panel', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -880,7 +797,6 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.getEditorText()).toBe(originalLeft);
   });
 
-
   test('TC-TNC-CORE-043: No guard dialog when editing a different row while one row is name-dirty', async ({ dependencyGate }) => {
     dependencyGate([]);
     const names = await tnc.getAllNames();
@@ -894,7 +810,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.setRowName(1, names[1] + ' also');
     expect(await tnc.isUnsavedDialogOpen()).toBe(false);
   });
-
 
   // ------------------------------------------------------------ defect evidence
 
@@ -943,7 +858,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-
   /**
    * Known application issue: UI shows success when save returns HTTP 500 — silent data loss.
    *
@@ -983,7 +897,6 @@ test.describe('Terms and Conditions', () => {
     // The app currently disables Save on 500 identically to 2xx — this assertion proves the bug.
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
-
 
   /**
    * TC-TNC-CORE-046: Bold formatting round-trip — type text, apply Bold, save, reload,
@@ -1034,7 +947,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-
   // ------------------------------------------------------------ deep cases (L2)
 
   // Skipped while an application issue is open. Saving this content currently returns a server
@@ -1065,7 +977,6 @@ test.describe('Terms and Conditions', () => {
     expect(r1).toBeLessThan(300);
   });
 
-
   test('TC-TNC-CORE-048: RTE entity encoding — HTML entity reference typed persists as double-escaped', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -1088,7 +999,6 @@ test.describe('Terms and Conditions', () => {
     expect(r2).toBeGreaterThanOrEqual(200);
     expect(r2).toBeLessThan(300);
   });
-
 
   test('TC-TNC-CORE-049: RTE entity encoding — angle brackets typed persist as escaped entities', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1115,7 +1025,6 @@ test.describe('Terms and Conditions', () => {
     expect(r3).toBeLessThan(300);
   });
 
-
   test('TC-TNC-CORE-050: RTE entity encoding — nested markup with entities persists byte-exact', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -1138,7 +1047,6 @@ test.describe('Terms and Conditions', () => {
     expect(r4).toBeGreaterThanOrEqual(200);
     expect(r4).toBeLessThan(300);
   });
-
 
   // ------------------------------------------------------------ persistence deep cases
 
@@ -1166,7 +1074,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeGreaterThanOrEqual(200);
     expect(restoreStatus).toBeLessThan(300);
   });
-
 
   // Skipped while an application behaviour question is open. The application trims
   // whitespace-only text on save, so the check that expects it preserved cannot pass. The intended
@@ -1200,7 +1107,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-
   test('TC-TNC-CORE-053: RTE long content (300 characters) persists byte-exact through save and reload', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -1226,7 +1132,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeGreaterThanOrEqual(200);
     expect(restoreStatus).toBeLessThan(300);
   });
-
 
   test('TC-TNC-CORE-055: Editor state isolation — switching from Left to Right Column shows correct content', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1286,7 +1191,6 @@ test.describe('Terms and Conditions', () => {
       expect(r2).toBeLessThan(300);
     }
   });
-
 
   test('TC-TNC-CORE-056: Editor state isolation — switching between rows in the same column', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1352,7 +1256,6 @@ test.describe('Terms and Conditions', () => {
       expect(r2).toBeLessThan(300);
     }
   });
-
 
   test('TC-TNC-CORE-057: Editor state isolation — multi-cell alternation does not leak content', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1438,7 +1341,6 @@ test.describe('Terms and Conditions', () => {
       expect(r3).toBeLessThan(300);
     }
   });
-
 
   test('TC-TNC-CORE-058: Content saved under one language does not alter another language\'s content', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1550,6 +1452,46 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
+  // ------------------------------------------------------------ grid structure
+
+  // TC-TNC-CORE-036: Column resize does not persist
+  // REMOVED FROM EXECUTABLE SPEC — the resize handle is a raw <button> with no testid,
+  // and automating drag-resize without a stable selector produces a brittle, non-deterministic
+  // test. Recorded as NOT-AUTOMATED in the output report so the coverage gap is visible
+  // where stakeholders actually look, rather than hidden behind a permanent skip.
+
+  // ------------------------------------------------------------ DEEP: save-gating validation (TC-059, 060-068, 070-080)
+
+  // Skipped while an application behaviour question is open. The check expects cross-language
+  // name uniqueness to be enforced, but the application currently allows duplicate names across
+  // languages. The intended behaviour has been queried with the client and this check will be
+  // updated once the answer arrives.
+  test.skip('TC-TNC-CORE-059: Name uniqueness is enforced across languages', async ({ dependencyGate }) => {
+    dependencyGate([]);
+    await tnc.selectFilterLanguage('All');
+
+    // Find an existing row and get its name
+    const names = await tnc.getAllNames();
+    expect(names.length).toBeGreaterThanOrEqual(2);
+
+    // Use a second row to type the first row's name — uniqueness triggers across languages
+    const duplicateName = names[0]!;
+    const targetRowIdx = await tnc.findRowByName(names[1]!);
+    const originalLang = await tnc.getRowLanguage(targetRowIdx);
+    const differentLang = TNC_ROW_LANGUAGES.find(l => !originalLang.includes(l))!;
+
+    // Change language to something different, then type a duplicate name
+    await tnc.selectRowLanguage(targetRowIdx, differentLang);
+    // Re-resolve after language change (potential re-sort)
+    const resolvedIdx = await tnc.findRowByName(names[1]!);
+    await tnc.setRowName(resolvedIdx, duplicateName);
+
+    // Re-resolve after name edit for validation read
+    // Validation must stay anchored to the control just edited — use resolvedIdx
+    const validation = await tnc.getNameValidationState(resolvedIdx);
+    expect(validation.ariaInvalid).toBe(true);
+    expect(await tnc.isSaveDisabled()).toBe(true);
+  });
 
   test('TC-TNC-CORE-060: Multiple rows edited — single save commits all as a unit', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1596,7 +1538,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   test('TC-TNC-CORE-061: Batch save persists language change', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -1623,7 +1564,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreResult.status).toBeGreaterThanOrEqual(200);
     expect(restoreResult.status).toBeLessThan(300);
   });
-
 
   test('TC-TNC-CORE-062: Save failure via route interception — form stays dirty, documenting a known application issue', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
@@ -1653,7 +1593,6 @@ test.describe('Terms and Conditions', () => {
     await page.unroute('**/terms-conditions-texts');
   });
 
-
   test('TC-TNC-CORE-063: Name field — 1 character minimum positive', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -1662,7 +1601,6 @@ test.describe('Terms and Conditions', () => {
     expect(validation.ariaInvalid).toBe(false);
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
-
 
   // Skipped while an application behaviour question is open. Same as TC-TNC-CORE-013 — the
   // application rejects a 260-character name. The intended maximum has been queried with the
@@ -1678,7 +1616,6 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
 
-
   test('TC-TNC-CORE-065: Name field — empty triggers red border and blocks Save', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -1689,7 +1626,6 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isSaveDisabled()).toBe(true);
   });
 
-
   test('TC-TNC-CORE-066: Name field — whitespace-only triggers silent block', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -1698,7 +1634,6 @@ test.describe('Terms and Conditions', () => {
     expect(validation.ariaInvalid).toBe(true);
     expect(await tnc.isSaveDisabled()).toBe(true);
   });
-
 
   test('TC-TNC-CORE-067: Name field — duplicate name triggers silent block', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1712,7 +1647,6 @@ test.describe('Terms and Conditions', () => {
     expect(validation.ariaInvalid).toBe(true);
     expect(await tnc.isSaveDisabled()).toBe(true);
   });
-
 
   test('TC-TNC-CORE-068: Name field — special characters persist byte-exact', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1765,7 +1699,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   // ------------------------------------------------------------ state transitions
 
   test('TC-TNC-CORE-070: State transition — Clean to Dirty via name edit', async ({ dependencyGate }) => {
@@ -1776,7 +1709,6 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
 
-
   test('TC-TNC-CORE-071: State transition — Clean to Dirty via language change', async ({ dependencyGate }) => {
     dependencyGate([]);
     expect(await tnc.isSaveDisabled()).toBe(true);
@@ -1786,7 +1718,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.selectRowLanguage(rowIdx, targetLang);
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
-
 
   test('TC-TNC-CORE-073: State transition — Dirty to Saving to Save-OK', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1816,7 +1747,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   test('TC-TNC-CORE-074: State transition — Dirty to Save-Failed', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
     const page = authenticatedSession.page;
@@ -1842,7 +1772,6 @@ test.describe('Terms and Conditions', () => {
 
     await page.unroute('**/terms-conditions-texts');
   });
-
 
   test('TC-TNC-CORE-075: State transition — Dirty triggers beforeunload on navigate away', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
@@ -1881,7 +1810,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   test('TC-TNC-CORE-076: State transition — Language filter change on dirty form raises guard (Stay)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -1903,7 +1831,6 @@ test.describe('Terms and Conditions', () => {
     expect(filter).toContain('US English');
   });
 
-
   test('TC-TNC-CORE-077: State transition — Language filter change on dirty form (Discard)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -1919,7 +1846,6 @@ test.describe('Terms and Conditions', () => {
     const filter = await tnc.getSelectedFilterLanguage();
     expect(filter).toContain('English (Canada)');
   });
-
 
   test('TC-TNC-CORE-078: No guard dialog when editing a different row while one is dirty (NM-2191 gap)', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1938,7 +1864,6 @@ test.describe('Terms and Conditions', () => {
     expect(dialogVisible).toBe(false);
   });
 
-
   test('TC-TNC-CORE-079: Validation-Error to Fix returns to Dirty', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -1954,7 +1879,6 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
 
-
   test('TC-TNC-CORE-080: Reverting edit to original value disables Save', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -1966,7 +1890,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.setRowName(rowIdx, originalName);
     expect(await tnc.waitUntilSaveDisabled()).toBe(true);
   });
-
 
   // ------------------------------------------------------------ integration & error-guessing (batch 2)
 
@@ -2017,7 +1940,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   test('TC-TNC-CORE-083: Integration — T&C required per language on Legal tab (NM-825/NM-664)', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
     const page = authenticatedSession.page;
@@ -2038,7 +1960,6 @@ test.describe('Terms and Conditions', () => {
     // The Legal tab's Terms dropdown must include at least one T&C name from US English
     expect(termsOptions.some(opt => opt.includes(sentinel))).toBe(true);
   });
-
 
   test('TC-TNC-CORE-084: Error-guessing — double-click race on Save button', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
@@ -2086,7 +2007,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   test('TC-TNC-CORE-085: Error-guessing — save-failure retry succeeds after interception removed', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
     const page = authenticatedSession.page;
@@ -2129,7 +2049,6 @@ test.describe('Terms and Conditions', () => {
     expect(restoreResult.status).toBeGreaterThanOrEqual(200);
     expect(restoreResult.status).toBeLessThan(300);
   });
-
 
   test('TC-TNC-CORE-086: Error-guessing — language switched mid-RTE-edit', async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -2186,7 +2105,6 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-
   test('TC-TNC-CORE-087: Error-guessing — browser-back after successful save', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
     const page = authenticatedSession.page;
@@ -2235,7 +2153,6 @@ test.describe('Terms and Conditions', () => {
       }
     }
   });
-
 
   // ------------------------------------------------------------ accessibility
 
@@ -2318,7 +2235,6 @@ test.describe('Terms and Conditions', () => {
     expect(focusSequence.length).toBeGreaterThanOrEqual(5);
   });
 
-
   // Rich text editor (Tiptap/ProseMirror) does not release focus on Escape (WCAG 2.1.2).
   // Skipped while an application issue is open. Pressing Escape should release focus from the
   // rich text editor, but the application keeps focus trapped — after pressing Escape,
@@ -2360,7 +2276,6 @@ test.describe('Terms and Conditions', () => {
     // Reload to discard unsaved edit — no persistence needed
     await tnc.reloadAndWait(TNC_OFFICE);
   });
-
 
   // Unsaved-changes dialog does not restore focus to trigger element on dismiss via Stay (WCAG 2.4.3).
   // Skipped while an application issue is open. Dismissing the unsaved-changes dialog should
@@ -2438,7 +2353,6 @@ test.describe('Terms and Conditions', () => {
     await tnc.reloadAndWait(TNC_OFFICE);
   });
 
-
   // ------------------------------------------------------------ network payload
 
   test('TC-TNC-CORE-091: Network payload — PUT response body reflects committed data', async ({ dependencyGate, authenticatedSession }) => {
@@ -2491,7 +2405,6 @@ test.describe('Terms and Conditions', () => {
       }
     }
   });
-
 
   // ------------------------------------------------------------ volume
 

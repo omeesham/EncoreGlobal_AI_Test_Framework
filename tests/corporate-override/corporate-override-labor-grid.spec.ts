@@ -27,15 +27,77 @@ const DEFAULTS = {
   active: CORP_PRICING_OVERRIDE_FIXTURE.mutationRowAnchor.activeDefault,
 };
 
-test.describe('Corporate Pricing — Product Group Override: populated Labor grid (NM-2271) @corporate-pricing @override', () => {
-  // Office 9460 carries the only known triple-digit Labor override data set ("212 items found",
-  // verified live 2026-07-20). A reload always lands on the Equipment tab, so each test re-selects
-  // the location and switches to Labor as its per-test baseline.
-  test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
-    test.setTimeout(120_000);
-    await p.reloadAndReselect(CORP_PRICING_OVERRIDE_LABOR_VOLUME_BED.office, CORP_PRICING_OVERRIDE_LABOR_VOLUME_BED.office);
-    await p.switchOverrideTab('Labor');
-    await p.waitForGridRows();
+test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271) @corporate-pricing @override', () => {
+  // One suite, several test beds. Per-test setup/teardown is dispatched by TC id so every
+  // group keeps exactly the baseline it had when the groups were separate describes.
+  //
+  // Volume bed — office 9460 carries the only known triple-digit Labor override data set
+  // ("212 items found", verified live 2026-07-20). A reload always lands on the Equipment tab,
+  // so each volume-bed test re-selects the location and switches to Labor as its baseline.
+  const V_BED = CORP_PRICING_OVERRIDE_LABOR_VOLUME_BED;
+  // Labor mutation fixture: office 1105, row 655 "General - Ops" (default 160.00, inactive).
+  // Save mechanism verified live 2026-07-20 with a committed round-trip (160 → 161 → 160,
+  // backend save call returned 200 + success toast + persistence across reload).
+  const L_LOC = CORP_PRICING_OVERRIDE_LABOR_BED.office;
+  const L_ANCHOR = CORP_PRICING_OVERRIDE_LABOR_BED.mutationRowAnchor.productGroupName;
+  const L_DEFAULTS = {
+    overridePrice: CORP_PRICING_OVERRIDE_LABOR_BED.mutationRowAnchor.overridePriceDefault,
+    active: CORP_PRICING_OVERRIDE_LABOR_BED.mutationRowAnchor.activeDefault,
+  };
+  // Unsaved-changes guard bed — 1105, small and well-known.
+  const G_LOC = CORP_PRICING_OVERRIDE_LABOR_BED.office;
+  const G_ANCHOR = CORP_PRICING_OVERRIDE_LABOR_BED.mutationRowAnchor.productGroupName;
+  // Currency-gated picker bed — office 4104 (one Equipment override row, zero Labor rows).
+  const K_BED = CORP_PRICING_OVERRIDE_PICKER_BED;
+  // BVA bed — Labor rows PG 565 (Override Price 13.00, Max Discount 14.00 %) and
+  // PG 893 (Override Price 12.00, Max Discount 6.00 %).
+  const BED = OVERRIDE_BVA_OFFICES.labor;
+  const ROW_PG565 = BED.rows[0].productGroupId;
+  const ROW_PG893 = BED.rows[1].productGroupId;
+  const ROW_1 = BED.rows[0].productGroupId; // PG 565, baseline 14.00 %
+  const ROW_2 = BED.rows[1].productGroupId; // PG 893, baseline 6.00 %
+
+  // Per-group TC-id sets driving the dispatched hooks below.
+  const POPULATED_GRID_IDS = ['TC-CPR-OVR-049', 'TC-CPR-OVR-050', 'TC-CPR-OVR-051'];
+  const SAVE_CYCLE_IDS = ['TC-CPR-OVR-052', 'TC-CPR-OVR-053', 'TC-CPR-OVR-054'];
+  const UNSAVED_GUARD_IDS = ['TC-CPR-OVR-055', 'TC-CPR-OVR-056'];
+  const PAGINATION_VOLUME_IDS = ['TC-CPR-OVR-057', 'TC-CPR-OVR-058', 'TC-CPR-OVR-059'];
+  const KEYBOARD_IDS = ['TC-CPR-OVR-061'];
+  const PICKER_IDS = ['TC-CPR-OVR-062', 'TC-CPR-OVR-063', 'TC-CPR-OVR-064'];
+  const RPP_IDS = ['TC-CPR-OVR-120', 'TC-CPR-OVR-121', 'TC-CPR-OVR-122', 'TC-CPR-OVR-123'];
+  const startsWithAny = (title: string, ids: string[]) => ids.some((id) => title.startsWith(id));
+
+  test.beforeEach(async ({ corporatePricingOverridePage: p }, testInfo) => {
+    const t = testInfo.title;
+    if (startsWithAny(t, POPULATED_GRID_IDS) || startsWithAny(t, PAGINATION_VOLUME_IDS)) {
+      test.setTimeout(120_000);
+      await p.reloadAndReselect(V_BED.office, V_BED.office);
+      await p.switchOverrideTab('Labor');
+      await p.waitForGridRows();
+    } else if (startsWithAny(t, UNSAVED_GUARD_IDS)) {
+      test.setTimeout(150_000);
+      await p.reloadAndReselect(G_LOC, G_LOC);
+      await p.switchOverrideTab('Labor');
+      await p.waitForGridRows();
+    } else if (startsWithAny(t, KEYBOARD_IDS)) {
+      test.setTimeout(90_000);
+      await p.reloadAndReselect(LOC);
+    } else if (startsWithAny(t, PICKER_IDS)) {
+      test.setTimeout(150_000);
+      await p.reloadAndReselect(K_BED.office, K_BED.office);
+    } else if (startsWithAny(t, RPP_IDS)) {
+      // Navigate to office 9460 Labor tab — reload ensures default 20-row page size
+      await p.reloadAndReselectTab(V_BED.office, V_BED.office, 'Labor');
+      // Sanity: the volume bed has 100+ rows, so page 1 at default 20 shows exactly 20
+      const defaultRows = await p.getVisibleRowCount();
+      expect(defaultRows).toBe(20);
+    }
+  });
+
+  test.afterEach(async ({ corporatePricingOverridePage: p }, testInfo) => {
+    if (!startsWithAny(testInfo.title, SAVE_CYCLE_IDS)) return;
+    test.setTimeout(180_000);
+    await p.ensureDefaultState(L_ANCHOR, L_DEFAULTS, L_LOC, L_LOC, 'Labor'); // belt-and-suspenders restore (per-test baseline)
   });
 
   test('TC-CPR-OVR-049: Labor tab renders a populated grid with real data on office 9460 (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
@@ -78,25 +140,9 @@ test.describe('Corporate Pricing — Product Group Override: populated Labor gri
       expect(prev >= curr, 'descending order holds at row ' + i + ': "' + prev + '" >= "' + curr + '"').toBe(true);
     }
   });
-});
 
-test.describe('Corporate Pricing — Product Group Override: Labor save-cycle (mutation, fixture-restored) (NM-2271) @corporate-pricing @override @mutation', () => {
-  // Labor mutation fixture: office 1105, row 655 "General - Ops" (default 160.00, inactive).
-  // Save mechanism verified live 2026-07-20 with a committed round-trip (160 → 161 → 160,
-  // backend save call returned 200 + success toast + persistence across reload).
-  const L_LOC = CORP_PRICING_OVERRIDE_LABOR_BED.office;
-  const L_ANCHOR = CORP_PRICING_OVERRIDE_LABOR_BED.mutationRowAnchor.productGroupName;
-  const L_DEFAULTS = {
-    overridePrice: CORP_PRICING_OVERRIDE_LABOR_BED.mutationRowAnchor.overridePriceDefault,
-    active: CORP_PRICING_OVERRIDE_LABOR_BED.mutationRowAnchor.activeDefault,
-  };
-
-  test.afterEach(async ({ corporatePricingOverridePage: p }) => {
-    test.setTimeout(180_000);
-    await p.ensureDefaultState(L_ANCHOR, L_DEFAULTS, L_LOC, L_LOC, 'Labor'); // belt-and-suspenders restore (per-test baseline)
-  });
-
-  test('TC-CPR-OVR-052: Labor Override Price save-cycle persists after reload and restores (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
+  // ── Labor save-cycle (mutation, fixture-restored) ──
+  test('TC-CPR-OVR-052: Labor Override Price save-cycle persists after reload and restores (NM-2271)', { tag: '@mutation' }, async ({ corporatePricingOverridePage: p }) => {
     test.setTimeout(180_000);
     await saveAndVerifyCase({
       id: 'TC-CPR-OVR-052',
@@ -122,7 +168,7 @@ test.describe('Corporate Pricing — Product Group Override: Labor save-cycle (m
     });
   });
 
-  test('TC-CPR-OVR-053: Labor Max Discount % save-cycle persists after reload and restores (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
+  test('TC-CPR-OVR-053: Labor Max Discount % save-cycle persists after reload and restores (NM-2271)', { tag: '@mutation' }, async ({ corporatePricingOverridePage: p }) => {
     test.setTimeout(180_000);
     await saveAndVerifyCase({
       id: 'TC-CPR-OVR-053',
@@ -150,7 +196,7 @@ test.describe('Corporate Pricing — Product Group Override: Labor save-cycle (m
     });
   });
 
-  test('TC-CPR-OVR-054: Labor Active toggle save-cycle persists after reload and restores (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
+  test('TC-CPR-OVR-054: Labor Active toggle save-cycle persists after reload and restores (NM-2271)', { tag: '@mutation' }, async ({ corporatePricingOverridePage: p }) => {
     test.setTimeout(180_000);
     let original: boolean = L_DEFAULTS.active;
     await saveAndVerifyCase({
@@ -177,22 +223,11 @@ test.describe('Corporate Pricing — Product Group Override: Labor save-cycle (m
       cleanup: () => p.ensureDefaultState(L_ANCHOR, L_DEFAULTS, L_LOC, L_LOC, 'Labor'),
     });
   });
-});
 
-test.describe('Corporate Pricing — Product Group Override: unsaved-changes guard (NM-2271) @corporate-pricing @override', () => {
+  // ── Unsaved-changes guard ──
   // The guard dialog fires on IN-APP link navigation away from a dirty grid (verified live: a direct
   // URL change triggers the browser's own leave-page prompt instead, never this dialog). Staged edits
   // here are never saved; each path ends by leaving via Discard or reloading clean.
-  const G_LOC = CORP_PRICING_OVERRIDE_LABOR_BED.office; // 1105 — small, well-known bed
-  const G_ANCHOR = CORP_PRICING_OVERRIDE_LABOR_BED.mutationRowAnchor.productGroupName;
-
-  test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
-    test.setTimeout(150_000);
-    await p.reloadAndReselect(G_LOC, G_LOC);
-    await p.switchOverrideTab('Labor');
-    await p.waitForGridRows();
-  });
-
   test('TC-CPR-OVR-055: Navigating away from a dirty grid raises the unsaved-changes dialog; Stay keeps the page and the edit (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
     const row = await p.findRowByProductGroup(G_ANCHOR);
     expect(row).not.toBeNull();
@@ -237,18 +272,8 @@ test.describe('Corporate Pricing — Product Group Override: unsaved-changes gua
     expect(rowAfter).not.toBeNull();
     expect(parseFloat(await p.readOverridePrice(rowAfter!)), 'the discarded edit did not persist').toBe(original);
   });
-});
 
-test.describe('Corporate Pricing — Product Group Override: Labor grid pagination and volume (NM-2271) @corporate-pricing @override', () => {
-  const V_BED = CORP_PRICING_OVERRIDE_LABOR_VOLUME_BED;
-
-  test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
-    test.setTimeout(120_000);
-    await p.reloadAndReselect(V_BED.office, V_BED.office);
-    await p.switchOverrideTab('Labor');
-    await p.waitForGridRows();
-  });
-
+  // ── Labor grid pagination and volume (office 9460) ──
   test('TC-CPR-OVR-057: Page navigation changes the visible rows and enables or disables the nav buttons at each end (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
     // Page 1: backward navigation disabled, forward enabled (the bed spans multiple pages)
     const p1 = await p.getPaginationButtonStates();
@@ -295,14 +320,8 @@ test.describe('Corporate Pricing — Product Group Override: Labor grid paginati
     expect(await p.getFirstRowCellText(CORP_PRICING_OVERRIDE.columnIndex.productGroupName), 'the page-1 anchor row reads back identically after the round trip').toBe(anchorText);
     expect(await p.findRowByProductGroup(anchorText)).not.toBeNull();
   });
-});
 
-test.describe('Corporate Pricing — Product Group Override: keyboard access to editable cells (NM-2271) @corporate-pricing @override', () => {
-  test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
-    test.setTimeout(90_000);
-    await p.reloadAndReselect(LOC);
-  });
-
+  // ── Keyboard access to editable cells ──
   test('TC-CPR-OVR-061: Enter opens the Override Price editor on a focused cell; Escape closes it without dirtying the form (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
     const row = await p.findRowByProductGroup(ANCHOR);
     expect(row).not.toBeNull();
@@ -311,21 +330,13 @@ test.describe('Corporate Pricing — Product Group Override: keyboard access to 
     await p.closeEditorWithKeyboard();
     expect(await p.isOverrideSaveEnabled(), 'Escape cancels cleanly — no dirty state').toBe(false);
   });
-});
 
-test.describe('Corporate Pricing — Product Group Override: currency-gated picker and drag-to-add (NM-2271) @corporate-pricing @override @mutation', () => {
+  // ── Currency-gated picker and drag-to-add ──
   // Office 4104: one Equipment override row, zero Labor rows. Selecting a specific currency
   // (USD — not ALL) reveals the Product Group picker in the left search area; dragging a picker
   // row into the grid stages a new override row client-side. All staged rows are discarded via
   // the unsaved-changes dialog — nothing is saved.
-  const K_BED = CORP_PRICING_OVERRIDE_PICKER_BED;
-
-  test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
-    test.setTimeout(150_000);
-    await p.reloadAndReselect(K_BED.office, K_BED.office);
-  });
-
-  test('TC-CPR-OVR-062: The Product Group picker appears only when a specific currency is selected (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
+  test('TC-CPR-OVR-062: The Product Group picker appears only when a specific currency is selected (NM-2271)', { tag: '@mutation' }, async ({ corporatePricingOverridePage: p }) => {
     // Default currency ALL: no picker
     expect(await p.isProductGroupPickerVisible(), 'no picker panel while Currency is ALL').toBe(false);
     // A specific currency reveals the picker with draggable product-group rows
@@ -334,7 +345,7 @@ test.describe('Corporate Pricing — Product Group Override: currency-gated pick
     expect(await p.getPickerDraggableRowCount(), 'the picker lists draggable product-group rows').toBeGreaterThan(0);
   });
 
-  test('TC-CPR-OVR-063: Dragging a picker row stages a new override row with no request until Save; Discard drops it (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
+  test('TC-CPR-OVR-063: Dragging a picker row stages a new override row with no request until Save; Discard drops it (NM-2271)', { tag: '@mutation' }, async ({ corporatePricingOverridePage: p }) => {
     await p.selectCurrency(K_BED.gatingCurrency);
     await expect.poll(() => p.isProductGroupPickerVisible(), { timeout: 15_000 }).toBe(true);
     // The currency switch re-renders the grid — wait for its rows before taking the baseline count
@@ -373,7 +384,7 @@ test.describe('Corporate Pricing — Product Group Override: currency-gated pick
     await expect.poll(() => p.getVisibleRowCount(), { timeout: 15_000 }).toBe(rowsBefore); // staged row gone
   });
 
-  test('TC-CPR-OVR-064: The picker serves the Labor tab and drag staging works there too (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
+  test('TC-CPR-OVR-064: The picker serves the Labor tab and drag staging works there too (NM-2271)', { tag: '@mutation' }, async ({ corporatePricingOverridePage: p }) => {
     await p.selectCurrency(K_BED.gatingCurrency);
     await expect.poll(() => p.isProductGroupPickerVisible(), { timeout: 15_000 }).toBe(true);
     await p.switchOverrideTab('Labor');
@@ -389,13 +400,8 @@ test.describe('Corporate Pricing — Product Group Override: currency-gated pick
     await p.navigateHomeExpectUnsavedDialog();
     await p.discardAndLeave();
   });
-});
 
-test.describe('Override BVA — Labor Override Price', () => {
-  const BED = OVERRIDE_BVA_OFFICES.labor;
-  const ROW_PG565 = BED.rows[0].productGroupId; // PG 565 — Override Price 13.00
-  const ROW_PG893 = BED.rows[1].productGroupId; // PG 893 — Override Price 12.00
-
+  // ── BVA — Labor Override Price (PG 565 / PG 893) ──
   test('TC-CPR-OVR-083: Clicking Override Price on Labor reveals editable number field', async ({ corporatePricingOverridePage: overridePage }) => {
     const row = await overridePage.navigateToLaborRow(BED.office, BED.office, ROW_PG565);
 
@@ -567,12 +573,8 @@ test.describe('Override BVA — Labor Override Price', () => {
     expect(result.saveEnabledAfterEdit).toBe(true);
     expect(result.saveDisabledAfterRevert).toBe(true);
   });
-});
 
-test.describe('Override BVA — Labor Active', () => {
-  const BED = OVERRIDE_BVA_OFFICES.labor;
-  const ROW_PG565 = BED.rows[0].productGroupId;
-
+  // ── BVA — Labor Active ──
   test('TC-CPR-OVR-097: Active toggle-then-revert disables Save on Labor', async ({ corporatePricingOverridePage: overridePage }) => {
     const row = await overridePage.navigateToLaborRow(BED.office, BED.office, ROW_PG565);
 
@@ -592,14 +594,8 @@ test.describe('Override BVA — Labor Active', () => {
     const finalChecked = await activeCheckbox.getAttribute('aria-checked');
     expect(finalChecked).toBe(initialChecked);
   });
-});
 
-
-test.describe('Override BVA — Labor Max Discount % (LOT-C)', () => {
-  const BED = OVERRIDE_BVA_OFFICES.labor;
-  const ROW_1 = BED.rows[0].productGroupId; // PG 565, baseline 14.00 %
-  const ROW_2 = BED.rows[1].productGroupId; // PG 893, baseline 6.00 %
-
+  // ── BVA — Labor Max Discount % (LOT-C) ──
   // --- Positive (P1–P3) ---
 
   test('TC-CPR-OVR-098: 0 commits as 0.00 % — min valid', async ({ corporatePricingOverridePage: overridePage }) => {
@@ -780,10 +776,8 @@ test.describe('Override BVA — Labor Max Discount % (LOT-C)', () => {
     expect(result.saveEnabledAfterEdit, 'Save should enable when Max Discount is edited').toBe(true);
     expect(result.saveDisabledAfterRevert, 'Save should disable when reverted to original value').toBe(true);
   });
-});
 
-test.describe('Override SBC — Labor Sort Ordering', () => {
-
+  // ── SBC — Labor sort ordering ──
   test('TC-CPR-OVR-118: Sort produces verifiable monotonic order on Labor tab', async ({ corporatePricingOverridePage: overridePage }) => {
     // Office 9460 has 212 Labor rows (live-verified); default page size 20 — enough for sort proof
     await overridePage.reloadAndReselectTab(
@@ -811,19 +805,8 @@ test.describe('Override SBC — Labor Sort Ordering', () => {
       expect(descValues[i]!).toBeLessThanOrEqual(descValues[i - 1]!);
     }
   });
-});
 
-test.describe('Override Pagination — Rows-Per-Page Re-renders Grid (office 9460 Labor)', () => {
-  const BED = CORP_PRICING_OVERRIDE_LABOR_VOLUME_BED;
-
-  test.beforeEach(async ({ corporatePricingOverridePage: overridePage }) => {
-    // Navigate to office 9460 Labor tab — reload ensures default 20-row page size
-    await overridePage.reloadAndReselectTab(BED.office, BED.office, 'Labor');
-    // Sanity: the volume bed has 100+ rows, so page 1 at default 20 shows exactly 20
-    const defaultRows = await overridePage.getVisibleRowCount();
-    expect(defaultRows).toBe(20);
-  });
-
+  // ── Pagination — rows-per-page re-renders grid (office 9460 Labor) ──
   test('TC-CPR-OVR-120: Select 10 → grid shows exactly 10 rows', async ({ corporatePricingOverridePage: overridePage }) => {
     // Change rows-per-page to 10 via the page-size dropdown (not a native select)
     await overridePage.setRowsPerPage('10');
@@ -838,7 +821,7 @@ test.describe('Override Pagination — Rows-Per-Page Re-renders Grid (office 946
     // Assert: pagination state updated — "items found" text still shows total ≥ 100
     const paginationText = await overridePage.page.locator('text=/\\d+ items found/').textContent();
     const totalItems = parseInt(paginationText!.match(/(\d+) items found/)![1]!, 10);
-    expect(totalItems).toBeGreaterThanOrEqual(BED.minExpectedRows);
+    expect(totalItems).toBeGreaterThanOrEqual(V_BED.minExpectedRows);
   });
 
   test('TC-CPR-OVR-121: Select 30 → grid shows exactly 30 rows', async ({ corporatePricingOverridePage: overridePage }) => {
@@ -854,7 +837,7 @@ test.describe('Override Pagination — Rows-Per-Page Re-renders Grid (office 946
     // Assert: pagination total unchanged (the control changed page size, not data)
     const paginationText = await overridePage.page.locator('text=/\\d+ items found/').textContent();
     const totalItems = parseInt(paginationText!.match(/(\d+) items found/)![1]!, 10);
-    expect(totalItems).toBeGreaterThanOrEqual(BED.minExpectedRows);
+    expect(totalItems).toBeGreaterThanOrEqual(V_BED.minExpectedRows);
   });
 
   test('TC-CPR-OVR-122: Select 40 → grid shows exactly 40 rows', async ({ corporatePricingOverridePage: overridePage }) => {
@@ -870,7 +853,7 @@ test.describe('Override Pagination — Rows-Per-Page Re-renders Grid (office 946
     // Assert: pagination total unchanged
     const paginationText = await overridePage.page.locator('text=/\\d+ items found/').textContent();
     const totalItems = parseInt(paginationText!.match(/(\d+) items found/)![1]!, 10);
-    expect(totalItems).toBeGreaterThanOrEqual(BED.minExpectedRows);
+    expect(totalItems).toBeGreaterThanOrEqual(V_BED.minExpectedRows);
   });
 
   test('TC-CPR-OVR-123: Select 50 → grid shows exactly 50 rows', async ({ corporatePricingOverridePage: overridePage }) => {
@@ -886,6 +869,6 @@ test.describe('Override Pagination — Rows-Per-Page Re-renders Grid (office 946
     // Assert: pagination total unchanged
     const paginationText = await overridePage.page.locator('text=/\\d+ items found/').textContent();
     const totalItems = parseInt(paginationText!.match(/(\d+) items found/)![1]!, 10);
-    expect(totalItems).toBeGreaterThanOrEqual(BED.minExpectedRows);
+    expect(totalItems).toBeGreaterThanOrEqual(V_BED.minExpectedRows);
   });
 });

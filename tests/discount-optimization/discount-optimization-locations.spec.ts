@@ -413,6 +413,216 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     expect(await dop.isSaveDisabled()).toBe(true);
   });
 
+  // ---------------------------------------------------------------- persistence (TC-DOP-OPT-050, TC-DOP-OPT-051)
+
+  /**
+   * TC-DOP-OPT-050: Save round-trip — an Allow Special Rate toggle change persists after reload.
+   *
+   * Toggles the Allow Special Rate switch on a dedicated row (DOP_LOCATION_FOR_PERSISTENCE —
+   * see src/data/discount-optimization/discount-optimization.ts for why this points to
+   * "Hotel del Coronado" rather than the originally-authored "InterContinental Chicago"),
+   * saves, reloads, and confirms the toggled value survived. Uses a dedicated row not shared
+   * with any other test so state is clean regardless of execution order.
+   */
+  test('TC-DOP-OPT-050: Save round-trip — an Allow Special Rate toggle change persists after reload', async ({ dependencyGate }) => {
+    dependencyGate([]);
+    test.setTimeout(240_000);
+    const PERSISTENCE_LOCATION = DOP_LOCATION_FOR_PERSISTENCE;
+    const originalState = await dop.getToggleState(PERSISTENCE_LOCATION);
+    try {
+      expect(await dop.isSaveDisabled()).toBe(true);
+      await dop.toggleDiscount(PERSISTENCE_LOCATION);
+      const changedState = await dop.getToggleState(PERSISTENCE_LOCATION);
+      expect(changedState).not.toBe(originalState);
+      expect(await dop.waitUntilSaveEnabled()).toBe(true);
+      await dop.clickSave();
+      expect(await dop.waitUntilSaveDisabled(15_000)).toBe(true);
+      await dop.reloadAndWait(DOP_OFFICE);
+      // Row is looked up by location name — not by index — to survive any re-sort on reload.
+      const persistedState = await dop.getToggleState(PERSISTENCE_LOCATION);
+      expect(persistedState).toBe(changedState);
+    } finally {
+      // Restore: put the row back to its original toggle state.
+      const currentState = await dop.getToggleState(PERSISTENCE_LOCATION);
+      if (currentState !== originalState) {
+        await dop.toggleDiscount(PERSISTENCE_LOCATION);
+        if (await dop.isSaveEnabled()) {
+          await dop.clickSave();
+          await dop.waitUntilSaveDisabled(15_000);
+        }
+      }
+    }
+  });
+
+  // ---------------------------------------------------------------- batch-dirty persistence (TC-DOP-OPT-052)
+
+  /**
+   * TC-DOP-OPT-052: Two dirty rows both persist after a single save.
+   *
+   * Every existing mutation test dirties exactly one row. This test dirties two distinct
+   * rows without saving between changes, then saves once and reloads — confirming the batch
+   * POST carries both changes. If the form drops one row's pending change, this test catches
+   * it. Both rows are restored in a finally block.
+   */
+  test('TC-DOP-OPT-052: Save round-trip — two dirty rows both persist after a single save', async ({ dependencyGate }) => {
+    dependencyGate([]);
+    test.setTimeout(300_000);
+    const pg = (dop as any).page;
+
+    // Pick the first two rows not reserved by other tests.
+    const RESERVED = new Set([DOP_LOCATION_FOR_PERSISTENCE, DOP_LOCATION_FOR_TOGGLE]);
+    const rawLabels: string[] = await pg.evaluate(() => {
+      const btns = Array.from(document.querySelectorAll('button[aria-label^="Allow Special Rate for "]'));
+      return (btns as HTMLButtonElement[]).slice(0, 50).map((b) => b.getAttribute('aria-label') ?? '');
+    });
+    const pickedNames: string[] = [];
+    for (const label of rawLabels) {
+      if (pickedNames.length >= 2) break;
+      const name = label.replace('Allow Special Rate for ', '');
+      if (name && !RESERVED.has(name)) pickedNames.push(name);
+    }
+    expect(pickedNames.length).toBe(2);
+    const [locA, locB] = pickedNames as [string, string];
+
+    const stateA = await dop.getToggleState(locA);
+    const stateB = await dop.getToggleState(locB);
+    let testBodyCompleted = false;
+
+    try {
+      // Change row A, then row B — no save between changes.
+      await dop.toggleDiscount(locA);
+      expect(await dop.getToggleState(locA)).not.toBe(stateA);
+      await (dop as any)._dismissAlertDialogIfPresent();
+      await dop.toggleDiscount(locB);
+      expect(await dop.getToggleState(locB)).not.toBe(stateB);
+
+      // A single save must carry both dirty rows.
+      expect(await dop.waitUntilSaveEnabled()).toBe(true);
+      await dop.clickSave();
+      expect(await dop.waitUntilSaveDisabled(15_000)).toBe(true);
+
+      await dop.reloadAndWait(DOP_OFFICE);
+      // Both changes must survive the reload — confirming the batch was posted correctly.
+      expect(await dop.getToggleState(locA)).toBe(!stateA);
+      expect(await dop.getToggleState(locB)).toBe(!stateB);
+      testBodyCompleted = true;
+    } finally {
+      if (!testBodyCompleted) {
+        // Test failed before reload — discard any pending changes.
+        await dop.reloadAndWait(DOP_OFFICE);
+      }
+      // Restore both rows to their original states.
+      let needSave = false;
+      const currentA = await dop.getToggleState(locA);
+      if (currentA !== stateA) { await dop.toggleDiscount(locA); needSave = true; }
+      await (dop as any)._dismissAlertDialogIfPresent();
+      const currentB = await dop.getToggleState(locB);
+      if (currentB !== stateB) { await dop.toggleDiscount(locB); needSave = true; }
+      if (needSave && await dop.isSaveEnabled()) {
+        await dop.clickSave();
+        await dop.waitUntilSaveDisabled(15_000);
+      }
+    }
+  });
+
+  // ---------------------------------------------------------------- virtual-scroll persistence (TC-DOP-OPT-053)
+
+  /**
+   * TC-DOP-OPT-053: Pending edit survives the row being scrolled out of view.
+   *
+   * The grid holds 2154 rows. If the grid uses virtual DOM recycling (rows removed from the
+   * DOM as they scroll out of the viewport), a pending edit that lives only in the DOM node
+   * would be silently discarded. This test scrolls far enough to push the target row out of
+   * the DOM, then scrolls back and asserts the pending value is still shown.
+   *
+   * Critical: the test asserts that the row genuinely left the DOM mid-test. If the grid
+   * renders all rows at once (no recycling), this assertion will fail — in that case the test
+   * cannot exercise the intended failure mode and reports a structural BLOCKED result.
+   */
+  test('TC-DOP-OPT-053: Pending edit survives the row being scrolled out of view', async ({ dependencyGate }) => {
+    dependencyGate([]);
+    test.setTimeout(300_000);
+    const pg = (dop as any).page;
+
+    // Pick the third non-reserved row so TC-DOP-OPT-053 is disjoint from TC-DOP-OPT-052,
+    // which takes the first two non-reserved rows. Using the same row as 052 would make them
+    // silently test the same location under stable DOM ordering.
+    const RESERVED = new Set([DOP_LOCATION_FOR_PERSISTENCE, DOP_LOCATION_FOR_TOGGLE]);
+    const rawLabels: string[] = await pg.evaluate(() => {
+      const btns = Array.from(document.querySelectorAll('button[aria-label^="Allow Special Rate for "]'));
+      return (btns as HTMLButtonElement[]).slice(0, 20).map((b) => b.getAttribute('aria-label') ?? '');
+    });
+    let locName = '';
+    let nonReservedCount = 0;
+    for (const label of rawLabels) {
+      const name = label.replace('Allow Special Rate for ', '');
+      if (name && !RESERVED.has(name)) {
+        nonReservedCount++;
+        // Skip the first two — those are the rows TC-DOP-OPT-052 picks.
+        if (nonReservedCount >= 3) { locName = name; break; }
+      }
+    }
+    expect(locName.length).toBeGreaterThan(0);
+
+    const stateBefore = await dop.getToggleState(locName);
+    let testBodyCompleted = false;
+
+    try {
+      // Change the target row.
+      await dop.toggleDiscount(locName);
+      expect(await dop.getToggleState(locName)).not.toBe(stateBefore);
+
+      // Scroll the grid container far enough to push the row out of the DOM.
+      const box = await pg.locator(TBL_CONTAINER).boundingBox();
+      if (box) {
+        await pg.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        await pg.mouse.wheel(0, 200_000);
+      }
+      await (dop as any).waitForAngularStable();
+
+      // The row must have left the DOM — confirming virtual DOM recycling occurred.
+      // If count is still > 0, the grid renders all rows at once and cannot exercise recycling.
+      const countAfterScroll = await pg.locator(`button[aria-label="Allow Special Rate for ${locName}"]`).count();
+      expect(countAfterScroll).toBe(0);
+
+      // Scroll back to the top to bring the row back into view.
+      if (box) {
+        await pg.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+        await pg.mouse.wheel(0, -200_000);
+      }
+      await (dop as any).waitForAngularStable();
+
+      // Wait for the row to reappear in the DOM.
+      await expect.poll(
+        () => pg.locator(`button[aria-label="Allow Special Rate for ${locName}"]`).count(),
+        { timeout: 10_000 },
+      ).toBeGreaterThan(0);
+
+      // The pending edit must still be reflected — not silently discarded by the re-render.
+      expect(await dop.getToggleState(locName)).not.toBe(stateBefore);
+
+      // Save and reload — confirm the change persisted end-to-end.
+      expect(await dop.waitUntilSaveEnabled()).toBe(true);
+      await dop.clickSave();
+      expect(await dop.waitUntilSaveDisabled(15_000)).toBe(true);
+      await dop.reloadAndWait(DOP_OFFICE);
+      expect(await dop.getToggleState(locName)).toBe(!stateBefore);
+      testBodyCompleted = true;
+    } finally {
+      if (!testBodyCompleted) {
+        await dop.reloadAndWait(DOP_OFFICE);
+      }
+      const current = await dop.getToggleState(locName);
+      if (current !== stateBefore) {
+        await dop.toggleDiscount(locName);
+        if (await dop.isSaveEnabled()) {
+          await dop.clickSave();
+          await dop.waitUntilSaveDisabled(15_000);
+        }
+      }
+    }
+  });
+
   // ---------------------------------------------------------------- add
 
   test('TC-DOP-OPT-060: Add — opens the add affordance; Cancel discards cleanly', async ({ dependencyGate }) => {
@@ -592,263 +802,18 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     await expect.poll(() => dop.getRowCount(), { timeout: 45_000 }).toBe(countBefore);
   });
 
-  // ---------------------------------------------------------------- persistence (TC-DOP-OPT-050, TC-DOP-OPT-051)
+  // ---------------------------------------------------------------- NM-2917 regression lock
 
-  /**
-   * TC-DOP-OPT-050: Save round-trip — an Allow Special Rate toggle change persists after reload.
-   *
-   * Toggles the Allow Special Rate switch on a dedicated row (DOP_LOCATION_FOR_PERSISTENCE —
-   * see src/data/discount-optimization/discount-optimization.ts for why this points to
-   * "Hotel del Coronado" rather than the originally-authored "InterContinental Chicago"),
-   * saves, reloads, and confirms the toggled value survived. Uses a dedicated row not shared
-   * with any other test so state is clean regardless of execution order.
-   */
-  test('TC-DOP-OPT-050: Save round-trip — an Allow Special Rate toggle change persists after reload', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-072: Allow Special Rate toggle enables Save — NM-2917 regression lock', async ({ dependencyGate }) => {
     dependencyGate([]);
-    test.setTimeout(240_000);
-    const PERSISTENCE_LOCATION = DOP_LOCATION_FOR_PERSISTENCE;
-    const originalState = await dop.getToggleState(PERSISTENCE_LOCATION);
+    const stateBefore = await dop.getToggleState(DOP_LOCATION_FOR_TOGGLE);
     try {
       expect(await dop.isSaveDisabled()).toBe(true);
-      await dop.toggleDiscount(PERSISTENCE_LOCATION);
-      const changedState = await dop.getToggleState(PERSISTENCE_LOCATION);
-      expect(changedState).not.toBe(originalState);
-      expect(await dop.waitUntilSaveEnabled()).toBe(true);
-      await dop.clickSave();
-      expect(await dop.waitUntilSaveDisabled(15_000)).toBe(true);
-      await dop.reloadAndWait(DOP_OFFICE);
-      // Row is looked up by location name — not by index — to survive any re-sort on reload.
-      const persistedState = await dop.getToggleState(PERSISTENCE_LOCATION);
-      expect(persistedState).toBe(changedState);
+      await dop.toggleDiscount(DOP_LOCATION_FOR_TOGGLE);
+      expect(await dop.isSaveEnabled()).toBe(true);
     } finally {
-      // Restore: put the row back to its original toggle state.
-      const currentState = await dop.getToggleState(PERSISTENCE_LOCATION);
-      if (currentState !== originalState) {
-        await dop.toggleDiscount(PERSISTENCE_LOCATION);
-        if (await dop.isSaveEnabled()) {
-          await dop.clickSave();
-          await dop.waitUntilSaveDisabled(15_000);
-        }
-      }
-    }
-  });
-
-  /**
-   * TC-DOP-OPT-091: Cancelling an incomplete Add leaves Save disabled.
-   *
-   * Add flow (observed 2026-08-11): clicking Add opens an "Add Location" right-panel with
-   * Cancel/Update buttons. "Select a Location" opens a "Change Local Office" modal that has
-   * a search input and a table (columns: Local Office, Local Office Name). The location
-   * picker does NOT use [role="option"] — it is a search-driven table.
-   *
-   * Coverage scope: this test asserts (a) the Add panel opens with the expected structure,
-   * (b) the "Change Local Office" picker dialog is reachable, and (c) cancelling the Add
-   * flow leaves Save disabled (no dirty state). TC-DOP-OPT-051 (the NM-3063 core assertion —
-   * Save must be enabled after completing an Add) is not automated: the picker shows
-   * "No results." on offices 1604, 1605, and 1101 — all local offices are already present
-   * in each list and none can be added.
-   */
-  test('TC-DOP-OPT-091: Cancelling an incomplete Add leaves Save disabled', async ({ dependencyGate }) => {
-    dependencyGate([]);
-    test.setTimeout(180_000);
-    const pg = (dop as any).page;
-    expect(await dop.isSaveDisabled()).toBe(true);
-    await dop.clickAdd();
-
-    // Add Location panel opens — Update and Cancel buttons appear on the right.
-    const updateBtn = pg.locator('button:text-is("Update")').first();
-    await expect(updateBtn).toBeVisible({ timeout: 15_000 });
-    const cancelPanelBtn = pg.locator('button:text-is("Cancel")').first();
-    await expect(cancelPanelBtn).toBeVisible({ timeout: 5_000 });
-
-    // "Select a Location" opens the "Change Local Office" picker dialog.
-    const selectLocationLink = pg.locator('text="Select a Location"').first();
-    await selectLocationLink.click();
-    const pickerDialog = pg.locator('[role="dialog"]').filter({ hasText: 'Change Local Office' }).first();
-    await expect(pickerDialog).toBeVisible({ timeout: 10_000 });
-
-    // The picker shows a search input and a table. For office 1604 all local offices are
-    // already in the optimization list — no rows are available to select.
-    const searchBox = pickerDialog.locator('input').first();
-    await expect(searchBox).toBeVisible({ timeout: 5_000 });
-
-    // Cancel the picker, then cancel the Add panel — no dirty state should remain.
-    const cancelPickerBtn = pickerDialog.locator('button:text-is("Cancel")').first();
-    await cancelPickerBtn.click();
-    await expect(pickerDialog).not.toBeVisible({ timeout: 5_000 });
-
-    await cancelPanelBtn.click();
-    await expect(updateBtn).not.toBeVisible({ timeout: 5_000 });
-
-    // Cancelling an incomplete Add must not leave Save in a dirty state.
-    expect(await dop.isSaveDisabled()).toBe(true);
-  });
-
-  // ---------------------------------------------------------------- batch-dirty persistence (TC-DOP-OPT-052)
-
-  /**
-   * TC-DOP-OPT-052: Two dirty rows both persist after a single save.
-   *
-   * Every existing mutation test dirties exactly one row. This test dirties two distinct
-   * rows without saving between changes, then saves once and reloads — confirming the batch
-   * POST carries both changes. If the form drops one row's pending change, this test catches
-   * it. Both rows are restored in a finally block.
-   */
-  test('TC-DOP-OPT-052: Save round-trip — two dirty rows both persist after a single save', async ({ dependencyGate }) => {
-    dependencyGate([]);
-    test.setTimeout(300_000);
-    const pg = (dop as any).page;
-
-    // Pick the first two rows not reserved by other tests.
-    const RESERVED = new Set([DOP_LOCATION_FOR_PERSISTENCE, DOP_LOCATION_FOR_TOGGLE]);
-    const rawLabels: string[] = await pg.evaluate(() => {
-      const btns = Array.from(document.querySelectorAll('button[aria-label^="Allow Special Rate for "]'));
-      return (btns as HTMLButtonElement[]).slice(0, 50).map((b) => b.getAttribute('aria-label') ?? '');
-    });
-    const pickedNames: string[] = [];
-    for (const label of rawLabels) {
-      if (pickedNames.length >= 2) break;
-      const name = label.replace('Allow Special Rate for ', '');
-      if (name && !RESERVED.has(name)) pickedNames.push(name);
-    }
-    expect(pickedNames.length).toBe(2);
-    const [locA, locB] = pickedNames as [string, string];
-
-    const stateA = await dop.getToggleState(locA);
-    const stateB = await dop.getToggleState(locB);
-    let testBodyCompleted = false;
-
-    try {
-      // Change row A, then row B — no save between changes.
-      await dop.toggleDiscount(locA);
-      expect(await dop.getToggleState(locA)).not.toBe(stateA);
-      await (dop as any)._dismissAlertDialogIfPresent();
-      await dop.toggleDiscount(locB);
-      expect(await dop.getToggleState(locB)).not.toBe(stateB);
-
-      // A single save must carry both dirty rows.
-      expect(await dop.waitUntilSaveEnabled()).toBe(true);
-      await dop.clickSave();
-      expect(await dop.waitUntilSaveDisabled(15_000)).toBe(true);
-
-      await dop.reloadAndWait(DOP_OFFICE);
-      // Both changes must survive the reload — confirming the batch was posted correctly.
-      expect(await dop.getToggleState(locA)).toBe(!stateA);
-      expect(await dop.getToggleState(locB)).toBe(!stateB);
-      testBodyCompleted = true;
-    } finally {
-      if (!testBodyCompleted) {
-        // Test failed before reload — discard any pending changes.
-        await dop.reloadAndWait(DOP_OFFICE);
-      }
-      // Restore both rows to their original states.
-      let needSave = false;
-      const currentA = await dop.getToggleState(locA);
-      if (currentA !== stateA) { await dop.toggleDiscount(locA); needSave = true; }
-      await (dop as any)._dismissAlertDialogIfPresent();
-      const currentB = await dop.getToggleState(locB);
-      if (currentB !== stateB) { await dop.toggleDiscount(locB); needSave = true; }
-      if (needSave && await dop.isSaveEnabled()) {
-        await dop.clickSave();
-        await dop.waitUntilSaveDisabled(15_000);
-      }
-    }
-  });
-
-  // ---------------------------------------------------------------- virtual-scroll persistence (TC-DOP-OPT-053)
-
-  /**
-   * TC-DOP-OPT-053: Pending edit survives the row being scrolled out of view.
-   *
-   * The grid holds 2154 rows. If the grid uses virtual DOM recycling (rows removed from the
-   * DOM as they scroll out of the viewport), a pending edit that lives only in the DOM node
-   * would be silently discarded. This test scrolls far enough to push the target row out of
-   * the DOM, then scrolls back and asserts the pending value is still shown.
-   *
-   * Critical: the test asserts that the row genuinely left the DOM mid-test. If the grid
-   * renders all rows at once (no recycling), this assertion will fail — in that case the test
-   * cannot exercise the intended failure mode and reports a structural BLOCKED result.
-   */
-  test('TC-DOP-OPT-053: Pending edit survives the row being scrolled out of view', async ({ dependencyGate }) => {
-    dependencyGate([]);
-    test.setTimeout(300_000);
-    const pg = (dop as any).page;
-
-    // Pick the third non-reserved row so TC-DOP-OPT-053 is disjoint from TC-DOP-OPT-052,
-    // which takes the first two non-reserved rows. Using the same row as 052 would make them
-    // silently test the same location under stable DOM ordering.
-    const RESERVED = new Set([DOP_LOCATION_FOR_PERSISTENCE, DOP_LOCATION_FOR_TOGGLE]);
-    const rawLabels: string[] = await pg.evaluate(() => {
-      const btns = Array.from(document.querySelectorAll('button[aria-label^="Allow Special Rate for "]'));
-      return (btns as HTMLButtonElement[]).slice(0, 20).map((b) => b.getAttribute('aria-label') ?? '');
-    });
-    let locName = '';
-    let nonReservedCount = 0;
-    for (const label of rawLabels) {
-      const name = label.replace('Allow Special Rate for ', '');
-      if (name && !RESERVED.has(name)) {
-        nonReservedCount++;
-        // Skip the first two — those are the rows TC-DOP-OPT-052 picks.
-        if (nonReservedCount >= 3) { locName = name; break; }
-      }
-    }
-    expect(locName.length).toBeGreaterThan(0);
-
-    const stateBefore = await dop.getToggleState(locName);
-    let testBodyCompleted = false;
-
-    try {
-      // Change the target row.
-      await dop.toggleDiscount(locName);
-      expect(await dop.getToggleState(locName)).not.toBe(stateBefore);
-
-      // Scroll the grid container far enough to push the row out of the DOM.
-      const box = await pg.locator(TBL_CONTAINER).boundingBox();
-      if (box) {
-        await pg.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
-        await pg.mouse.wheel(0, 200_000);
-      }
-      await (dop as any).waitForAngularStable();
-
-      // The row must have left the DOM — confirming virtual DOM recycling occurred.
-      // If count is still > 0, the grid renders all rows at once and cannot exercise recycling.
-      const countAfterScroll = await pg.locator(`button[aria-label="Allow Special Rate for ${locName}"]`).count();
-      expect(countAfterScroll).toBe(0);
-
-      // Scroll back to the top to bring the row back into view.
-      if (box) {
-        await pg.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
-        await pg.mouse.wheel(0, -200_000);
-      }
-      await (dop as any).waitForAngularStable();
-
-      // Wait for the row to reappear in the DOM.
-      await expect.poll(
-        () => pg.locator(`button[aria-label="Allow Special Rate for ${locName}"]`).count(),
-        { timeout: 10_000 },
-      ).toBeGreaterThan(0);
-
-      // The pending edit must still be reflected — not silently discarded by the re-render.
-      expect(await dop.getToggleState(locName)).not.toBe(stateBefore);
-
-      // Save and reload — confirm the change persisted end-to-end.
-      expect(await dop.waitUntilSaveEnabled()).toBe(true);
-      await dop.clickSave();
-      expect(await dop.waitUntilSaveDisabled(15_000)).toBe(true);
-      await dop.reloadAndWait(DOP_OFFICE);
-      expect(await dop.getToggleState(locName)).toBe(!stateBefore);
-      testBodyCompleted = true;
-    } finally {
-      if (!testBodyCompleted) {
-        await dop.reloadAndWait(DOP_OFFICE);
-      }
-      const current = await dop.getToggleState(locName);
-      if (current !== stateBefore) {
-        await dop.toggleDiscount(locName);
-        if (await dop.isSaveEnabled()) {
-          await dop.clickSave();
-          await dop.waitUntilSaveDisabled(15_000);
-        }
+      if (await dop.getToggleState(DOP_LOCATION_FOR_TOGGLE) !== stateBefore) {
+        await dop.toggleDiscount(DOP_LOCATION_FOR_TOGGLE);
       }
     }
   });
@@ -908,6 +873,57 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
       // Reload discards any pending state — the intercepted save wrote nothing to the server.
       await dop.reloadAndWait(DOP_OFFICE);
     }
+  });
+
+  /**
+   * TC-DOP-OPT-091: Cancelling an incomplete Add leaves Save disabled.
+   *
+   * Add flow (observed 2026-08-11): clicking Add opens an "Add Location" right-panel with
+   * Cancel/Update buttons. "Select a Location" opens a "Change Local Office" modal that has
+   * a search input and a table (columns: Local Office, Local Office Name). The location
+   * picker does NOT use [role="option"] — it is a search-driven table.
+   *
+   * Coverage scope: this test asserts (a) the Add panel opens with the expected structure,
+   * (b) the "Change Local Office" picker dialog is reachable, and (c) cancelling the Add
+   * flow leaves Save disabled (no dirty state). TC-DOP-OPT-051 (the NM-3063 core assertion —
+   * Save must be enabled after completing an Add) is not automated: the picker shows
+   * "No results." on offices 1604, 1605, and 1101 — all local offices are already present
+   * in each list and none can be added.
+   */
+  test('TC-DOP-OPT-091: Cancelling an incomplete Add leaves Save disabled', async ({ dependencyGate }) => {
+    dependencyGate([]);
+    test.setTimeout(180_000);
+    const pg = (dop as any).page;
+    expect(await dop.isSaveDisabled()).toBe(true);
+    await dop.clickAdd();
+
+    // Add Location panel opens — Update and Cancel buttons appear on the right.
+    const updateBtn = pg.locator('button:text-is("Update")').first();
+    await expect(updateBtn).toBeVisible({ timeout: 15_000 });
+    const cancelPanelBtn = pg.locator('button:text-is("Cancel")').first();
+    await expect(cancelPanelBtn).toBeVisible({ timeout: 5_000 });
+
+    // "Select a Location" opens the "Change Local Office" picker dialog.
+    const selectLocationLink = pg.locator('text="Select a Location"').first();
+    await selectLocationLink.click();
+    const pickerDialog = pg.locator('[role="dialog"]').filter({ hasText: 'Change Local Office' }).first();
+    await expect(pickerDialog).toBeVisible({ timeout: 10_000 });
+
+    // The picker shows a search input and a table. For office 1604 all local offices are
+    // already in the optimization list — no rows are available to select.
+    const searchBox = pickerDialog.locator('input').first();
+    await expect(searchBox).toBeVisible({ timeout: 5_000 });
+
+    // Cancel the picker, then cancel the Add panel — no dirty state should remain.
+    const cancelPickerBtn = pickerDialog.locator('button:text-is("Cancel")').first();
+    await cancelPickerBtn.click();
+    await expect(pickerDialog).not.toBeVisible({ timeout: 5_000 });
+
+    await cancelPanelBtn.click();
+    await expect(updateBtn).not.toBeVisible({ timeout: 5_000 });
+
+    // Cancelling an incomplete Add must not leave Save in a dirty state.
+    expect(await dop.isSaveDisabled()).toBe(true);
   });
 
   // ---------------------------------------------------------------- date persistence (TC-DOP-OPT-092)
@@ -992,22 +1008,6 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
           await dop.clickSave();
           await dop.waitUntilSaveDisabled(15_000);
         }
-      }
-    }
-  });
-
-  // ---------------------------------------------------------------- NM-2917 regression lock
-
-  test('TC-DOP-OPT-072: Allow Special Rate toggle enables Save — NM-2917 regression lock', async ({ dependencyGate }) => {
-    dependencyGate([]);
-    const stateBefore = await dop.getToggleState(DOP_LOCATION_FOR_TOGGLE);
-    try {
-      expect(await dop.isSaveDisabled()).toBe(true);
-      await dop.toggleDiscount(DOP_LOCATION_FOR_TOGGLE);
-      expect(await dop.isSaveEnabled()).toBe(true);
-    } finally {
-      if (await dop.getToggleState(DOP_LOCATION_FOR_TOGGLE) !== stateBefore) {
-        await dop.toggleDiscount(DOP_LOCATION_FOR_TOGGLE);
       }
     }
   });

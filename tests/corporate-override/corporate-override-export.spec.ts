@@ -18,11 +18,16 @@ test.describe('Corporate Pricing Override — Export (NM-2272)', () => {
   const EXPORT = CORP_PRICING_OVERRIDE.export;
   const GRID_API = CORP_PRICING_OVERRIDE.gridApi;
 
-  test.describe('scope, fidelity & pager', () => {
-    test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
-      test.setTimeout(120_000);
-      await p.reloadAndReselect(LOC);
-    });
+  // TC-145/146 reconcile grid rows against the file on the office-1105 active bed;
+  // every other test runs scope/fidelity/pager checks from the default fixture office.
+  const RECONCILIATION_IDS = ['TC-CPR-OVR-145', 'TC-CPR-OVR-146'];
+  test.beforeEach(async ({ corporatePricingOverridePage: p }, testInfo) => {
+    test.setTimeout(120_000);
+    const office = RECONCILIATION_IDS.some((id) => testInfo.title.startsWith(id))
+      ? CORP_PRICING_OVERRIDE_ACTIVE_BED.office
+      : LOC;
+    await p.reloadAndReselect(office);
+  });
 
   test('TC-CPR-OVR-127: Export returns every location in the tenant, not just the selected office', async ({ corporatePricingOverridePage: p }) => {
     const r = await p.downloadOverrideExport();
@@ -285,14 +290,7 @@ test.describe('Corporate Pricing Override — Export (NM-2272)', () => {
     expect(after.content).toBe(before.content); // the file keeps its own server-side order
   });
 
-  });
-
-  test.describe('grid-to-file reconciliation', () => {
-    test.beforeEach(async ({ corporatePricingOverridePage: p }) => {
-      test.setTimeout(120_000);
-      await p.reloadAndReselect(CORP_PRICING_OVERRIDE_ACTIVE_BED.office);
-    });
-
+  // ── grid-to-file reconciliation (office 1105 active bed) ──
   test('TC-CPR-OVR-145: A row visible in the grid appears in the export with the same price, and text values survive intact', async ({ corporatePricingOverridePage: p }) => {
     const COL = CORP_PRICING_OVERRIDE.columnIndex;
     const productGroupId = await p.getFirstRowCellText(COL.productGroup);
@@ -353,7 +351,5 @@ test.describe('Corporate Pricing Override — Export (NM-2272)', () => {
     for (const d of overScale) {
       expect(d.value * 100, `office ${d.office} / product group ${d.productGroup} renders as ${d.value * 100}%`).toBeGreaterThan(EXPORT.discountScale.percentCap);
     }
-  });
-
   });
 });

@@ -8,7 +8,9 @@ const GRID_ROW = CorporatePricingOverrideSelectors.ovrGridRowAny;
 
 const LOC = CORP_PRICING_OVERRIDE_FIXTURE.office; // location picker search needle ('1606')
 
-test.describe('Corporate Pricing — Product Group Override: Change Local Office picker search & Active filter @corporate-pricing @override', () => {
+test.describe('Corporate Pricing — Product Group Override: location picker — search, Active filter, RBAC gate & dismissal @corporate-pricing @override', () => {
+  const BED = CORP_PRICING_OVERRIDE_FIXTURE;
+
   test('TC-CPR-OVR-038: Typing a partial office number narrows picker rows; clearing restores the full list', async ({ corporatePricingOverridePage: p }) => {
     test.setTimeout(90_000);
     await p.reloadAndReselect(LOC);
@@ -70,9 +72,8 @@ test.describe('Corporate Pricing — Product Group Override: Change Local Office
       expect(await p.getVisibleRowCount()).toBeGreaterThan(0);
     });
   });
-});
 
-test.describe('Corporate Pricing — Product Group Override: RBAC access gate @corporate-pricing @override', () => {
+  // ── RBAC access gate ──
   // PERMANENTLY NOT AUTOMATABLE — owner-confirmed 2026-07-20.
   //
   // The deny-path (non-RM user sees no edit cell, no Save, no Import on the Override grid) requires
@@ -89,13 +90,10 @@ test.describe('Corporate Pricing — Product Group Override: RBAC access gate @c
   // provided by TC-CPR-OVR-017, TC-CPR-OVR-018, and TC-CPR-OVR-032.
   test.skip('TC-CPR-OVR-040: Non-Revenue-Management user sees a read-only Override grid — no edit, no Save, no Import [blocked: every automation account we hold has equivalent access and no RBAC state is exposed on the Override screen; a second automation account WITHOUT the 1101 Revenue Management role would make this automatable immediately; see NM-2126]', async () => {
     // Body intentionally empty — this test is permanently unautomatable.
-    // See the describe-block comment above for the investigation evidence.
+    // See the comment block above for the investigation evidence.
   });
-});
 
-test.describe('Override Toolbar — Location Picker Dismissal', () => {
-  const BED = CORP_PRICING_OVERRIDE_FIXTURE;
-
+  // ── Toolbar location-picker dismissal ──
   test('TC-CPR-OVR-111: Escape closes the location picker without applying a location', async ({ corporatePricingOverridePage: overridePage }) => {
     await overridePage.navigateToEquipmentRow(BED.office, BED.office, BED.mutationRowAnchor.productGroupId);
     const rowCountBefore = await overridePage.getVisibleRowCount();

@@ -12,11 +12,29 @@ import { DETAIL } from '../../src/data/corporate-pricing/detail';
  * Divergences raised: Type is disabled, the strategy dialog has no Type field, a decimal year is
  * accepted client-side, there is no delete, and ≥1 strategy is required before Save.
  */
-test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricing @new-pricebook', () => {
-  test.beforeEach(async ({ corporatePricingNewPricebookPage: p }) => {
-    await p.open('equipment'); // baseline: fresh, empty create page
-  });
+test.describe('Corporate Pricing — New Pricebook: create (Equipment + Labor), New menu & management mode @corporate-pricing @new-pricebook', () => {
+  // Per-test baseline dispatched by TC number — each group keeps the baseline its describe had:
+  //  - Labor create flow (TC-028..030, TC-051, TC-052): fresh, empty Labor create page.
+  //  - New menu + pricebook-list render-state (TC-034..036, TC-041..043): the Search screen.
+  //  - Management mode (TC-037, TC-038): navigates itself.
+  //  - Everything else (Equipment create flow): fresh, empty Equipment create page.
+  const LABOR_TCS = [28, 29, 30, 51, 52];
 
+  const SEARCH_TCS = [34, 35, 36, 41, 42, 43];
+
+  const MGMT_TCS = [37, 38];
+
+  const tcNum = (title: string) => {
+    const m = title.match(/^TC-CPR-NPB-(\d+)/);
+    return m ? parseInt(m[1]!, 10) : -1;
+  };
+
+  test.beforeEach(async ({ corporatePricingNewPricebookPage: p, corporatePricingSearchPage: sp }, testInfo) => {
+    const n = tcNum(testInfo.title);
+    if (LABOR_TCS.includes(n)) await p.open('labor'); // baseline: fresh, empty create page
+    else if (SEARCH_TCS.includes(n)) await sp.open();
+    else if (!MGMT_TCS.includes(n)) await p.open('equipment'); // baseline: fresh, empty create page
+  });
 
   test('TC-CPR-NPB-001: Equipment create page loads via the type route param', async ({ corporatePricingNewPricebookPage: p }) => {
     expect(await p.getHeading()).toBe('New Pricebook');
@@ -52,7 +70,6 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     expect(tabs, 'Pricing Strategy tab should be visible').toContain('Pricing Strategy');
     expect(tabs, 'Pricing Detail tab should be visible').toContain('Pricing Detail');
   });
-
 
   test('TC-CPR-NPB-008: Single-character Pricebook Name keeps the form savable', async ({ corporatePricingNewPricebookPage: p }) => {
     await p.setYear(NEW_PRICEBOOK.validYear);
@@ -90,7 +107,6 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-
   test('TC-CPR-NPB-013: Empty Price Year blocks Save', async ({ corporatePricingNewPricebookPage: p }) => {
     await p.setName(NEW_PRICEBOOK.validName);
     await p.addStrategy();
@@ -113,7 +129,6 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     expect(await p.getYear()).toBe(NEW_PRICEBOOK.decimalYear);
     expect(await p.isSaveEnabled()).toBe(true);
   });
-
 
   test('TC-CPR-NPB-016: New Pricing Strategy (+) opens the add dialog (Name + flags, no Type field)', async ({ corporatePricingNewPricebookPage: p }) => {
     await p.openAddStrategyDialog();
@@ -160,7 +175,6 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     await p.cancelAddDialog();
   });
 
-
   test('TC-CPR-NPB-021: Save is disabled on the empty create form', async ({ corporatePricingNewPricebookPage: p }) => {
     expect(await p.isSaveEnabled()).toBe(false);
   });
@@ -193,7 +207,6 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     expect(p.page.url()).toContain('/add');
   });
 
-
   test('TC-CPR-NPB-025: Pricing Detail tab shows the Product Groups source list (Equipment catalog)', async ({ corporatePricingNewPricebookPage: p }) => {
     test.setTimeout(90_000); // heavy detail tab (~3707 source items)
     await p.clickDetailTab();
@@ -219,6 +232,33 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     const rows = (await p.getDetailGridRows()).join(' | ');
     expect(rows).toContain(NEW_PRICEBOOK.equipmentGroupA);
     expect(rows).toContain(NEW_PRICEBOOK.equipmentGroupB);
+  });
+
+  // ── Labor create flow ──
+  test('TC-CPR-NPB-028: Labor create page loads via the type route param; Type shows Labor (read-only)', async ({ corporatePricingNewPricebookPage: p }) => {
+    expect(await p.getHeading()).toBe('New Pricebook');
+    expect(p.page.url()).toContain('type=labor');
+    expect(await p.getTypeValue()).toBe(NEW_PRICEBOOK.typeDisplay.labor);
+    expect(await p.isTypeDisabled()).toBe(true);
+  });
+
+  test('TC-CPR-NPB-029: Labor flow header parity + Save gating', async ({ corporatePricingNewPricebookPage: p }) => {
+    expect(await p.getCurrencyValue()).toBe(NEW_PRICEBOOK.currencyDefault);
+    expect(await p.isSaveEnabled()).toBe(false); // empty
+    await p.setName(NEW_PRICEBOOK.validName);
+    await p.setYear(NEW_PRICEBOOK.validYear);
+    await p.addStrategy();
+    expect(await p.isSaveEnabled()).toBe(true);
+  });
+
+  test('TC-CPR-NPB-030: Labor Pricing Detail shows a Labor-specific product-group catalog', async ({ corporatePricingNewPricebookPage: p }) => {
+    test.setTimeout(90_000);
+    await p.clickDetailTab();
+    expect(await p.getSourceGroupCount()).toBeGreaterThan(0);
+    const sample = (await p.getSourceGroupSample(40)).join(' | ');
+    // At least one known Labor product group is present (different catalog than Equipment).
+    const hit = NEW_PRICEBOOK.laborGroupSample.some((g) => sample.includes(g));
+    expect(hit).toBe(true);
   });
 
   // e2e is single-tenant (ours). This test SAVES a real pricebook. If it ever fails on "can't add",
@@ -253,7 +293,6 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     expect(row, `created pricebook "${name}" should be found in Search after save`).not.toBeNull();
   });
 
-
   test('TC-CPR-NPB-032: Dragging a product group (real pointer sequence) adds it to the create grid', async ({ corporatePricingNewPricebookPage: p }) => {
     test.setTimeout(90_000); // heavy detail tab (~3707 source items)
     await p.clickDetailTab();
@@ -277,6 +316,58 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     expect(p.page.url()).toContain('/add');
   });
 
+  // ── New menu + pricebook-list render-state ──
+  // The toolbar New menu is the affordance that LEADS to the create pages, and the pricebook list's
+  // render-state (link cells, boolean columns) — both reached from the Corporate Pricing Search screen.
+  test('TC-CPR-NPB-034: New menu presents Equipment Pricing + Labor Pricing items', async ({ corporatePricingSearchPage: sp }) => {
+    const items = await sp.getNewMenuItemTexts();
+    expect(items).toContain('Equipment Pricing');
+    expect(items).toContain('Labor Pricing');
+  });
+
+  test('TC-CPR-NPB-035: New menu → Equipment Pricing navigates to the Equipment create route', async ({ corporatePricingSearchPage: sp }) => {
+    await sp.clickNewEquipmentPricing(); // driven by the menu-item click, not a typed URL
+    await sp.page.waitForURL(/\/add\?type=equipment/i, { timeout: 15_000 });
+    expect(sp.page.url()).toContain('type=equipment');
+  });
+
+  test('TC-CPR-NPB-036: New menu → Labor Pricing navigates to the Labor create route', async ({ corporatePricingSearchPage: sp }) => {
+    await sp.clickNewLaborPricing();
+    await sp.page.waitForURL(/\/add\?type=labor/i, { timeout: 15_000 });
+    expect(sp.page.url()).toContain('type=labor');
+  });
+
+  // ── Update existing pricebook (management mode) ──
+  // An existing (saved) pricebook opens in management mode — the same Details surface the create flow
+  // redirects to after a save. The deep inline-edit / save-cycle / persist coverage for this surface is
+  // owned by the Pricing Detail (TC-CPR-DET-*) + Pricing Strategy (TC-CPR-STR-*) bands; these two assert
+  // only the create→manage entry: management mode loads with both tabs + a working save-gate.
+  test('TC-CPR-NPB-037: An existing pricebook opens in management mode (both tabs, Save disabled on clean load)', async ({ corporatePricingDetailPage: dp }) => {
+    test.setTimeout(150_000); // heavy management-mode grid (~2430 rows)
+    await dp.open(); // opens the saved pricebook Details + activates the Pricing Detail tab
+    await test.step('Confirm the Pricing Strategy tab is present', async () => {
+      expect(await dp.page.locator('button:has-text("Pricing Strategy")').count()).toBeGreaterThan(0);
+    });
+    await test.step('Confirm the Pricing Detail tab is present', async () => {
+      expect(await dp.page.locator('button:has-text("Pricing Detail")').count()).toBeGreaterThan(0);
+    });
+    await test.step('Confirm this is not the create form', async () => {
+      expect(await dp.page.locator('h1:has-text("New Pricebook")').count()).toBe(0); // not the create form
+    });
+    expect(await dp.isSaveEnabled()).toBe(false); // clean load → Save disabled
+  });
+
+  test('TC-CPR-NPB-038: Management-mode Max Discount edit enables Save (save-gate; no commit)', async ({ corporatePricingDetailPage: dp }) => {
+    test.setTimeout(150_000);
+    await dp.open();
+    expect(await dp.isSaveEnabled()).toBe(false);
+    // Max Discount is the reliable dirty lever (a New-Price-only edit does not reliably enable Save).
+    const current = await dp.getMaxDiscount(DETAIL.anchorA.name);
+    const next = current.startsWith('12') ? '7' : DETAIL.maxDiscountEdit.value; // a value different from the current
+    await dp.setMaxDiscount(DETAIL.anchorA.name, next);
+    expect(await dp.isSaveEnabled()).toBe(true); // the edit enables Save (the save-gate)
+    await dp.page.reload(); // discard — management-mode edits are reversible; never commit in CI
+  });
 
   test('TC-CPR-NPB-039: Empty Price Year shows a visible required/invalid indicator', async ({ corporatePricingNewPricebookPage: p }) => {
     const empty = await p.getYearValidationState();
@@ -294,6 +385,43 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     expect(res.hasInlineUniquenessError).toBe(false); // no "already exists" message client-side
   });
 
+  test('TC-CPR-NPB-041: Search pricebook-name cells navigate to the pricebook Details', async ({ corporatePricingSearchPage: sp }) => {
+    const cells = await sp.getPricebookNameCells();
+    expect(cells.length).toBeGreaterThan(0);
+    const first = cells.find((c) => c.text.length > 0);
+    expect(first, 'a non-empty pricebook-name cell should exist').toBeTruthy();
+    await sp.clickPricebookName(first!.text);
+    await sp.page.waitForURL(/\/details\//i, { timeout: 30_000 });
+    expect(sp.page.url()).toContain('/details/'); // the link-cell navigates
+  });
+
+  test('TC-CPR-NPB-042: Every rendered pricebook-name cell is a navigable link + Currency renders', async ({ corporatePricingSearchPage: sp }) => {
+    const cells = (await sp.getPricebookNameCells()).filter((c) => c.text.length > 0);
+    expect(cells.length).toBeGreaterThan(0);
+    // Every populated name cell carries the link affordance (a non-link where a link is expected would be a defect).
+    expect(cells.every((c) => c.isLink)).toBe(true);
+    const headers = await sp.getGridHeaders();
+    const currencyIdx = headers.findIndex((h) => /currency/i.test(h));
+    expect(currencyIdx).toBeGreaterThanOrEqual(0);
+    // The Currency column fills from a second request that lands after the rows render (cells show "-"
+    // until then) — wait for it to resolve so the read is deterministic under load.
+    await sp.waitForCurrencyColumnResolved();
+    expect(await sp.getRowCellText(0, currencyIdx)).toMatch(/USD|CAD|MXN/);
+    // Navigation of a link cell is proven by the link-cell test (TC-CPR-NPB-041); this asserts the
+    // structural render-state — every populated name cell is a link and the Currency column renders.
+  });
+
+  test('TC-CPR-NPB-043: Search boolean columns render per the table boolean format', async ({ corporatePricingSearchPage: sp }) => {
+    const headers = await sp.getGridHeaders();
+    for (const col of ['Is GSO', 'Is Internal', 'Is Labor', 'Is Active', 'Is Productions']) {
+      expect(headers, `boolean column "${col}" should be present`).toContain(col);
+    }
+    const activeIdx = headers.findIndex((h) => /^is active$/i.test(h));
+    expect(activeIdx).toBeGreaterThanOrEqual(0);
+    const firstRow = sp.page.locator('tbody tr').first();
+    const isActive = await sp.readBooleanCell(firstRow, activeIdx); // parses ✔ / empty into a boolean
+    expect(typeof isActive).toBe('boolean'); // the boolean render is read consistently
+  });
 
   test('TC-CPR-NPB-044: Create-mode empty-state hint reads verbatim + a one-product grid renders', async ({ corporatePricingNewPricebookPage: p }) => {
     test.setTimeout(90_000);
@@ -320,7 +448,6 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     const sample = (await p.getSourceGroupSample(10)).join(' | ');
     expect(sample).toContain(NEW_PRICEBOOK.equipmentGroupA);
   });
-
 
   test('TC-CPR-NPB-046: Create-mode dirty state survives a Strategy ↔ Detail tab switch', async ({ corporatePricingNewPricebookPage: p }) => {
     test.setTimeout(90_000);
@@ -354,7 +481,6 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     expect(await p.isSaveEnabled()).toBe(false); // ≥1 strategy required — Save tracks the live precondition
   });
 
-
   test('TC-CPR-NPB-049: Source-list search filters the product-group catalog to matches', async ({ corporatePricingNewPricebookPage: p }) => {
     test.setTimeout(90_000);
     await p.clickDetailTab();
@@ -372,38 +498,6 @@ test.describe('Corporate Pricing — New Pricebook (Equipment) @corporate-pricin
     expect((await p.getSourceGroupSample(10)).join(' | ')).toContain(NEW_PRICEBOOK.equipmentGroupA);
     await p.clearSourceFilter();
     expect(await p.getSourceGroupCount()).toBeGreaterThan(1); // full catalog restored
-  });
-});
-
-test.describe('Corporate Pricing — New Pricebook (Labor) @corporate-pricing @new-pricebook', () => {
-  test.beforeEach(async ({ corporatePricingNewPricebookPage: p }) => {
-    await p.open('labor'); // baseline: fresh, empty create page
-  });
-
-  test('TC-CPR-NPB-028: Labor create page loads via the type route param; Type shows Labor (read-only)', async ({ corporatePricingNewPricebookPage: p }) => {
-    expect(await p.getHeading()).toBe('New Pricebook');
-    expect(p.page.url()).toContain('type=labor');
-    expect(await p.getTypeValue()).toBe(NEW_PRICEBOOK.typeDisplay.labor);
-    expect(await p.isTypeDisabled()).toBe(true);
-  });
-
-  test('TC-CPR-NPB-029: Labor flow header parity + Save gating', async ({ corporatePricingNewPricebookPage: p }) => {
-    expect(await p.getCurrencyValue()).toBe(NEW_PRICEBOOK.currencyDefault);
-    expect(await p.isSaveEnabled()).toBe(false); // empty
-    await p.setName(NEW_PRICEBOOK.validName);
-    await p.setYear(NEW_PRICEBOOK.validYear);
-    await p.addStrategy();
-    expect(await p.isSaveEnabled()).toBe(true);
-  });
-
-  test('TC-CPR-NPB-030: Labor Pricing Detail shows a Labor-specific product-group catalog', async ({ corporatePricingNewPricebookPage: p }) => {
-    test.setTimeout(90_000);
-    await p.clickDetailTab();
-    expect(await p.getSourceGroupCount()).toBeGreaterThan(0);
-    const sample = (await p.getSourceGroupSample(40)).join(' | ');
-    // At least one known Labor product group is present (different catalog than Equipment).
-    const hit = NEW_PRICEBOOK.laborGroupSample.some((g) => sample.includes(g));
-    expect(hit).toBe(true);
   });
 
   // The Labor route shares the same page-level Save button + "Save Changes" dialog as Equipment; these
@@ -454,102 +548,5 @@ test.describe('Corporate Pricing — New Pricebook (Labor) @corporate-pricing @n
     await sp.searchAndWaitForList();
     const row = await sp.findRowByName(name);
     expect(row, `created Labor pricebook "${name}" should be found in Search after save`).not.toBeNull();
-  });
-});
-
-// The toolbar New menu is the affordance that LEADS to the create pages, and the pricebook list's
-// render-state (link cells, boolean columns) — both reached from the Corporate Pricing Search screen.
-test.describe('Corporate Pricing — New menu + pricebook-list render-state @corporate-pricing @new-pricebook', () => {
-  test.beforeEach(async ({ corporatePricingSearchPage: sp }) => {
-    await sp.open();
-  });
-
-  test('TC-CPR-NPB-034: New menu presents Equipment Pricing + Labor Pricing items', async ({ corporatePricingSearchPage: sp }) => {
-    const items = await sp.getNewMenuItemTexts();
-    expect(items).toContain('Equipment Pricing');
-    expect(items).toContain('Labor Pricing');
-  });
-
-  test('TC-CPR-NPB-035: New menu → Equipment Pricing navigates to the Equipment create route', async ({ corporatePricingSearchPage: sp }) => {
-    await sp.clickNewEquipmentPricing(); // driven by the menu-item click, not a typed URL
-    await sp.page.waitForURL(/\/add\?type=equipment/i, { timeout: 15_000 });
-    expect(sp.page.url()).toContain('type=equipment');
-  });
-
-  test('TC-CPR-NPB-036: New menu → Labor Pricing navigates to the Labor create route', async ({ corporatePricingSearchPage: sp }) => {
-    await sp.clickNewLaborPricing();
-    await sp.page.waitForURL(/\/add\?type=labor/i, { timeout: 15_000 });
-    expect(sp.page.url()).toContain('type=labor');
-  });
-
-  test('TC-CPR-NPB-041: Search pricebook-name cells navigate to the pricebook Details', async ({ corporatePricingSearchPage: sp }) => {
-    const cells = await sp.getPricebookNameCells();
-    expect(cells.length).toBeGreaterThan(0);
-    const first = cells.find((c) => c.text.length > 0);
-    expect(first, 'a non-empty pricebook-name cell should exist').toBeTruthy();
-    await sp.clickPricebookName(first!.text);
-    await sp.page.waitForURL(/\/details\//i, { timeout: 30_000 });
-    expect(sp.page.url()).toContain('/details/'); // the link-cell navigates
-  });
-
-  test('TC-CPR-NPB-042: Every rendered pricebook-name cell is a navigable link + Currency renders', async ({ corporatePricingSearchPage: sp }) => {
-    const cells = (await sp.getPricebookNameCells()).filter((c) => c.text.length > 0);
-    expect(cells.length).toBeGreaterThan(0);
-    // Every populated name cell carries the link affordance (a non-link where a link is expected would be a defect).
-    expect(cells.every((c) => c.isLink)).toBe(true);
-    const headers = await sp.getGridHeaders();
-    const currencyIdx = headers.findIndex((h) => /currency/i.test(h));
-    expect(currencyIdx).toBeGreaterThanOrEqual(0);
-    // The Currency column fills from a second request that lands after the rows render (cells show "-"
-    // until then) — wait for it to resolve so the read is deterministic under load.
-    await sp.waitForCurrencyColumnResolved();
-    expect(await sp.getRowCellText(0, currencyIdx)).toMatch(/USD|CAD|MXN/);
-    // Navigation of a link cell is proven by the link-cell test (TC-CPR-NPB-041); this asserts the
-    // structural render-state — every populated name cell is a link and the Currency column renders.
-  });
-
-  test('TC-CPR-NPB-043: Search boolean columns render per the table boolean format', async ({ corporatePricingSearchPage: sp }) => {
-    const headers = await sp.getGridHeaders();
-    for (const col of ['Is GSO', 'Is Internal', 'Is Labor', 'Is Active', 'Is Productions']) {
-      expect(headers, `boolean column "${col}" should be present`).toContain(col);
-    }
-    const activeIdx = headers.findIndex((h) => /^is active$/i.test(h));
-    expect(activeIdx).toBeGreaterThanOrEqual(0);
-    const firstRow = sp.page.locator('tbody tr').first();
-    const isActive = await sp.readBooleanCell(firstRow, activeIdx); // parses ✔ / empty into a boolean
-    expect(typeof isActive).toBe('boolean'); // the boolean render is read consistently
-  });
-});
-
-// An existing (saved) pricebook opens in management mode — the same Details surface the create flow
-// redirects to after a save. The deep inline-edit / save-cycle / persist coverage for this surface is
-// owned by the Pricing Detail (TC-CPR-DET-*) + Pricing Strategy (TC-CPR-STR-*) bands; these two assert
-// only the create→manage entry: management mode loads with both tabs + a working save-gate.
-test.describe('Corporate Pricing — Update existing pricebook (management mode) @corporate-pricing @new-pricebook', () => {
-  test('TC-CPR-NPB-037: An existing pricebook opens in management mode (both tabs, Save disabled on clean load)', async ({ corporatePricingDetailPage: dp }) => {
-    test.setTimeout(150_000); // heavy management-mode grid (~2430 rows)
-    await dp.open(); // opens the saved pricebook Details + activates the Pricing Detail tab
-    await test.step('Confirm the Pricing Strategy tab is present', async () => {
-      expect(await dp.page.locator('button:has-text("Pricing Strategy")').count()).toBeGreaterThan(0);
-    });
-    await test.step('Confirm the Pricing Detail tab is present', async () => {
-      expect(await dp.page.locator('button:has-text("Pricing Detail")').count()).toBeGreaterThan(0);
-    });
-    await test.step('Confirm this is not the create form', async () => {
-      expect(await dp.page.locator('h1:has-text("New Pricebook")').count()).toBe(0); // not the create form
-    });
-    expect(await dp.isSaveEnabled()).toBe(false); // clean load → Save disabled
-  });
-
-  test('TC-CPR-NPB-038: Management-mode Max Discount edit enables Save (save-gate; no commit)', async ({ corporatePricingDetailPage: dp }) => {
-    test.setTimeout(150_000);
-    await dp.open();
-    expect(await dp.isSaveEnabled()).toBe(false);
-    // Max Discount is the reliable dirty lever (a New-Price-only edit does not reliably enable Save).
-    const current = await dp.getMaxDiscount(DETAIL.anchorA.name);
-    const next = current.startsWith('12') ? '7' : DETAIL.maxDiscountEdit.value; // a value different from the current
-    await dp.setMaxDiscount(DETAIL.anchorA.name, next);
-    expect(await dp.isSaveEnabled()).toBe(true); // the edit enables Save (the save-gate)
-    await dp.page.reload(); // discard — management-mode edits are reversible; never commit in CI
   });
 });

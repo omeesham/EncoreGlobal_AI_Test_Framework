@@ -27,10 +27,82 @@ const importAllFixture = (name: string): string =>
   resolve(__dirname, '../../src/data/corporate-pricing/fixtures/import-all', name);
 const RT = IMP_ALL.roundTrip;
 
-test.describe('Corporate Pricing — Import ▾ All precondition dialog (NM-2265) @corporate-pricing @toolbar-io', () => {
-  test.beforeEach(async ({ corporatePricingSearchPage: p }) => {
-    test.setTimeout(90_000);
+test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff outcomes, round-trip & surface (NM-2265) @corporate-pricing @toolbar-io', () => {
+  type SearchPage = import('../../src/pages/corporate-pricing/corporate-pricing-search.page').CorporatePricingSearchPage;
+
+  let original: string | null = null;
+
+  let canaries: Awaited<ReturnType<SearchPage['captureImportAllMergeCanaries']>> | null = null;
+
+  async function openImportAllUpload(p: SearchPage): Promise<void> {
+    await p.openImportAllUploadFor(RT.variant, [...RT.years], RT.currency);
+  }
+
+  /** Import ONE cell back to `value` for `productGroupId` and publish it — the shared restore procedure used
+   *  by the afterEach safety-net AND the in-test restores, so the mutation-undo logic has ONE definition.
+   *  Returns whether a commit was published (false when the value already equals the server → nothing staged). */
+  async function publishImportAllCell(p: SearchPage, productGroupId: string, value: string): Promise<boolean> {
+    const fix = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId, pricebook: RT.pricebook, newValue: value });
+    try {
+      await p.openImportAllUploadFor(RT.variant, [...RT.years], RT.currency);
+      const outcome = await p.chooseImportAllFile(fix.path);
+      if (outcome.kind !== 'staged') return false; // value already equals the server value — nothing to publish
+      return (await p.publishStagedImport()).success;
+    } finally {
+      p.removeTempFixture(fix.path);
+    }
+  }
+
+  // Per-test baseline dispatched by TC number — each group keeps exactly the baseline it had
+  // when the groups were separate describes:
+  //  - TC-001..007 (precondition dialog): 90s + fresh page open.
+  //  - TC-008..012 (diff outcomes): 120s — opening the flow + a real server-pricebook diff on file choose.
+  //  - TC-013, TC-017 (real round-trip, @mutation): 360s — several real exports + publishes + a reload +
+  //    the merge-survival re-reads; captures the target start value plus two untouched merge canaries,
+  //    guards against a leaked sentinel, and gets a verified afterEach safety restore.
+  //  - TC-014..016, TC-018 (surface-behavior): 200s.
+  const tcNum = (title: string) => {
+    const m = title.match(/^TC-CPR-IMA-(\d+)/);
+    return m ? parseInt(m[1]!, 10) : -1;
+  };
+
+  const isRoundTrip = (n: number) => n === 13 || n === 17;
+
+  test.beforeEach(async ({ corporatePricingSearchPage: p }, testInfo) => {
+    const n = tcNum(testInfo.title);
+    if (isRoundTrip(n)) {
+      test.setTimeout(360_000); // several real exports + publishes + a reload + the merge-survival re-reads
+      await p.open(); // per-test baseline: fresh search-grid load
+      // One export captures the target's start value AND two untouched reference cells (a different product
+      // group + a different pricebook column) used to prove the commit MERGES rather than REPLACES.
+      canaries = await p.captureImportAllMergeCanaries({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
+      original = canaries.target.value;
+      // Dirty-start guard: the target must NOT already sit at the sentinel testValue — that would mean a prior
+      // run leaked its mutation; fail loudly rather than adopting the corrupted value as this run's baseline.
+      expect(original, `target ${RT.productGroupId}/${RT.pricebook} started at the sentinel ${RT.testValue} — a prior run leaked a mutation`).not.toBe(RT.testValue);
+      return;
+    }
+    if (n >= 8 && n <= 12) test.setTimeout(120_000); // opening the flow + a real server-pricebook diff on file choose
+    else if ((n >= 14 && n <= 16) || n === 18) test.setTimeout(200_000);
+    else test.setTimeout(90_000);
     await p.open();
+  });
+
+  test.afterEach(async ({ corporatePricingSearchPage: p }, testInfo) => {
+    if (!isRoundTrip(tcNum(testInfo.title))) return;
+    test.setTimeout(360_000); // the safety-restore may run a full import + publish + verify — match the body budget
+    if (original === null) return;
+    // Safety restore — reverting shared server state MUST verify persistence and fail loudly (never trust
+    // the publish call, never mask a failure as a passing note): an unrestored corporate-price mutation
+    // leaks to the shared server and cascades into every later run. If the target is not back at its
+    // captured original (e.g. the test threw mid-way), re-import the original and re-read to confirm; a
+    // restore that cannot be confirmed FAILS the test rather than passing with a silent annotation.
+    const current = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
+    if (current === original) return; // already clean — the test body restored it
+    const restorePublished = await publishImportAllCell(p, RT.productGroupId, original);
+    expect(restorePublished, `afterEach restore of ${RT.productGroupId}/${RT.pricebook} to ${original} must publish a real commit — a non-staged restore means the pre-restore read was stale and the mutation may still be live`).toBe(true);
+    const restored = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
+    expect(restored, `afterEach must restore ${RT.productGroupId}/${RT.pricebook} to its original ${original} — an unrestored corporate price leaks to the shared server`).toBe(original);
   });
 
   test('TC-CPR-IMA-001: Each Import variant opens the shared "Import" Year(s)+Currency dialog', async ({ corporatePricingSearchPage: p }) => {
@@ -91,18 +163,8 @@ test.describe('Corporate Pricing — Import ▾ All precondition dialog (NM-2265
     expect(await p.cancelImportAllDialog()).toBe(true); // dialog closes
     expect(await p.importDialogCount()).toBe(0); // no upload dialog appeared (count-based — a crash throws here, it never silently passes)
   });
-});
 
-test.describe('Corporate Pricing — Import ▾ All diff outcomes (NM-2265) @corporate-pricing @toolbar-io', () => {
-  test.beforeEach(async ({ corporatePricingSearchPage: p }) => {
-    test.setTimeout(120_000); // opening the flow + a real server-pricebook diff on file choose
-    await p.open();
-  });
-
-  async function openImportAllUpload(p: import('../../src/pages/corporate-pricing/corporate-pricing-search.page').CorporatePricingSearchPage): Promise<void> {
-    await p.openImportAllUploadFor(RT.variant, [...RT.years], RT.currency);
-  }
-
+  // ── Diff outcomes ──
   test('TC-CPR-IMA-008: An unchanged file diffs to "no changes" and offers nothing to publish', async ({ corporatePricingSearchPage: p }) => {
     const current = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
     const noChange = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook, newValue: current });
@@ -212,57 +274,9 @@ test.describe('Corporate Pricing — Import ▾ All diff outcomes (NM-2265) @cor
     const after = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
     expect(after).toBe(changed.previousValue);
   });
-});
 
-test.describe('Corporate Pricing — Import ▾ All real round-trip (NM-2265) @corporate-pricing @toolbar-io @mutation', () => {
-  type SearchPage = import('../../src/pages/corporate-pricing/corporate-pricing-search.page').CorporatePricingSearchPage;
-  let original: string | null = null;
-  let canaries: Awaited<ReturnType<SearchPage['captureImportAllMergeCanaries']>> | null = null;
-
-  /** Import ONE cell back to `value` for `productGroupId` and publish it — the shared restore procedure used
-   *  by the afterEach safety-net AND the in-test restores, so the mutation-undo logic has ONE definition.
-   *  Returns whether a commit was published (false when the value already equals the server → nothing staged). */
-  async function publishImportAllCell(p: SearchPage, productGroupId: string, value: string): Promise<boolean> {
-    const fix = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId, pricebook: RT.pricebook, newValue: value });
-    try {
-      await p.openImportAllUploadFor(RT.variant, [...RT.years], RT.currency);
-      const outcome = await p.chooseImportAllFile(fix.path);
-      if (outcome.kind !== 'staged') return false; // value already equals the server value — nothing to publish
-      return (await p.publishStagedImport()).success;
-    } finally {
-      p.removeTempFixture(fix.path);
-    }
-  }
-
-  test.beforeEach(async ({ corporatePricingSearchPage: p }) => {
-    test.setTimeout(360_000); // several real exports + publishes + a reload + the merge-survival re-reads
-    await p.open(); // per-test baseline: fresh search-grid load
-    // One export captures the target's start value AND two untouched reference cells (a different product
-    // group + a different pricebook column) used to prove the commit MERGES rather than REPLACES.
-    canaries = await p.captureImportAllMergeCanaries({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
-    original = canaries.target.value;
-    // Dirty-start guard: the target must NOT already sit at the sentinel testValue — that would mean a prior
-    // run leaked its mutation; fail loudly rather than adopting the corrupted value as this run's baseline.
-    expect(original, `target ${RT.productGroupId}/${RT.pricebook} started at the sentinel ${RT.testValue} — a prior run leaked a mutation`).not.toBe(RT.testValue);
-  });
-
-  test.afterEach(async ({ corporatePricingSearchPage: p }) => {
-    test.setTimeout(360_000); // the safety-restore may run a full import + publish + verify — match the body budget
-    if (original === null) return;
-    // Safety restore — reverting shared server state MUST verify persistence and fail loudly (never trust
-    // the publish call, never mask a failure as a passing note): an unrestored corporate-price mutation
-    // leaks to the shared server and cascades into every later run. If the target is not back at its
-    // captured original (e.g. the test threw mid-way), re-import the original and re-read to confirm; a
-    // restore that cannot be confirmed FAILS the test rather than passing with a silent annotation.
-    const current = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
-    if (current === original) return; // already clean — the test body restored it
-    const restorePublished = await publishImportAllCell(p, RT.productGroupId, original);
-    expect(restorePublished, `afterEach restore of ${RT.productGroupId}/${RT.pricebook} to ${original} must publish a real commit — a non-staged restore means the pre-restore read was stale and the mutation may still be live`).toBe(true);
-    const restored = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
-    expect(restored, `afterEach must restore ${RT.productGroupId}/${RT.pricebook} to its original ${original} — an unrestored corporate price leaks to the shared server`).toBe(original);
-  });
-
-  test('TC-CPR-IMA-013: Import All publishes a changed price, it persists across reload, then restores', async ({ corporatePricingSearchPage: p }) => {
+  // ── Real round-trip (mutation, canary-guarded) ──
+  test('TC-CPR-IMA-013: Import All publishes a changed price, it persists across reload, then restores', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
     const changed = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook, newValue: RT.testValue });
     try {
       expect(changed.previousValue).toBe(original); // the fixture builder and the beforeEach read the same start value
@@ -314,58 +328,7 @@ test.describe('Corporate Pricing — Import ▾ All real round-trip (NM-2265) @c
     expect(restored, 'the target cell must be restored to its original value').toBe(original);
   });
 
-  test('TC-CPR-IMA-017: Publishing a subset of staged rows commits only the selected rows', async ({ corporatePricingSearchPage: p }) => {
-    // Stage TWO changed cells in the same pricebook — the target (271) and one untouched neighbour product
-    // group — then publish ONLY the target. The neighbour is staged-but-deselected, so it must NOT commit.
-    const neighbourId = canaries!.otherRow.productGroupId;
-    const neighbourOriginal = canaries!.otherRow.value;
-    const multi = await p.buildImportAllMultiCellFixture({
-      variant: RT.variant, years: [...RT.years], currency: RT.currency, pricebook: RT.pricebook,
-      changes: [
-        { productGroupId: RT.productGroupId, newValue: RT.testValue },
-        { productGroupId: neighbourId, newValue: '333.33' }, // a distinct sentinel so both cells are real deltas
-      ],
-    });
-    try {
-      await p.openImportAllUploadFor(RT.variant, [...RT.years], RT.currency);
-      const staged = await p.chooseImportAllFile(multi.path);
-      expect(staged.kind).toBe('staged');
-      expect(staged.staged).toHaveLength(2); // both changed cells are staged (multi-row staging)
-      const publish = await p.publishStagedImport({ onlyProductGroupIds: [RT.productGroupId] });
-      expect(publish.success).toBe(true);
-      expect(publish.status).toBe(200);
-    } finally {
-      p.removeTempFixture(multi.path);
-    }
-
-    // Read back from a fresh export, then RESTORE both cells BEFORE asserting — so a bug that wrongly
-    // committed the deselected neighbour cannot leak a mutation when the assertion throws. Each restore is
-    // verified (never trust the publish call on shared server state); the neighbour is NOT covered by the
-    // afterEach net (that guards only the target), so its undo is confirmed here or the test fails loudly.
-    await p.open();
-    const targetAfter = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
-    const neighbourAfter = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: neighbourId, pricebook: RT.pricebook });
-    if (targetAfter !== original) {
-      expect(await publishImportAllCell(p, RT.productGroupId, original!), 'restore of the target cell must publish a real commit').toBe(true);
-    }
-    if (neighbourAfter !== neighbourOriginal) {
-      // The deselected neighbour was wrongly committed (a real partial-publish bug) — undo it and CONFIRM.
-      expect(await publishImportAllCell(p, neighbourId, neighbourOriginal), 'undo of the wrongly-committed neighbour must publish').toBe(true);
-      const neighbourRestored = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: neighbourId, pricebook: RT.pricebook });
-      expect(neighbourRestored, `the neighbour ${neighbourId} must be restored to ${neighbourOriginal} — an unrestored price leaks to the shared server`).toBe(neighbourOriginal);
-    }
-
-    expect(targetAfter, 'the selected row was published').toBe(RT.testValue);
-    expect(neighbourAfter, `the deselected staged row (${neighbourId}) must NOT be committed — only selected rows publish`).toBe(neighbourOriginal);
-  });
-});
-
-test.describe('Corporate Pricing — Import ▾ All surface-behavior (NM-2265) @corporate-pricing @toolbar-io', () => {
-  test.beforeEach(async ({ corporatePricingSearchPage: p }) => {
-    test.setTimeout(200_000);
-    await p.open();
-  });
-
+  // ── Surface-behavior ──
   test('TC-CPR-IMA-014: The staged delta shows the exact changed cell (old price → new price), then Cancel commits nothing', async ({ corporatePricingSearchPage: p }) => {
     const changed = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook, newValue: RT.testValue });
     let importFired = false;
@@ -445,6 +408,51 @@ test.describe('Corporate Pricing — Import ▾ All surface-behavior (NM-2265) @
     } finally {
       p.removeTempFixture(eqFile.path);
     }
+  });
+
+  test('TC-CPR-IMA-017: Publishing a subset of staged rows commits only the selected rows', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
+    // Stage TWO changed cells in the same pricebook — the target (271) and one untouched neighbour product
+    // group — then publish ONLY the target. The neighbour is staged-but-deselected, so it must NOT commit.
+    const neighbourId = canaries!.otherRow.productGroupId;
+    const neighbourOriginal = canaries!.otherRow.value;
+    const multi = await p.buildImportAllMultiCellFixture({
+      variant: RT.variant, years: [...RT.years], currency: RT.currency, pricebook: RT.pricebook,
+      changes: [
+        { productGroupId: RT.productGroupId, newValue: RT.testValue },
+        { productGroupId: neighbourId, newValue: '333.33' }, // a distinct sentinel so both cells are real deltas
+      ],
+    });
+    try {
+      await p.openImportAllUploadFor(RT.variant, [...RT.years], RT.currency);
+      const staged = await p.chooseImportAllFile(multi.path);
+      expect(staged.kind).toBe('staged');
+      expect(staged.staged).toHaveLength(2); // both changed cells are staged (multi-row staging)
+      const publish = await p.publishStagedImport({ onlyProductGroupIds: [RT.productGroupId] });
+      expect(publish.success).toBe(true);
+      expect(publish.status).toBe(200);
+    } finally {
+      p.removeTempFixture(multi.path);
+    }
+
+    // Read back from a fresh export, then RESTORE both cells BEFORE asserting — so a bug that wrongly
+    // committed the deselected neighbour cannot leak a mutation when the assertion throws. Each restore is
+    // verified (never trust the publish call on shared server state); the neighbour is NOT covered by the
+    // afterEach net (that guards only the target), so its undo is confirmed here or the test fails loudly.
+    await p.open();
+    const targetAfter = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
+    const neighbourAfter = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: neighbourId, pricebook: RT.pricebook });
+    if (targetAfter !== original) {
+      expect(await publishImportAllCell(p, RT.productGroupId, original!), 'restore of the target cell must publish a real commit').toBe(true);
+    }
+    if (neighbourAfter !== neighbourOriginal) {
+      // The deselected neighbour was wrongly committed (a real partial-publish bug) — undo it and CONFIRM.
+      expect(await publishImportAllCell(p, neighbourId, neighbourOriginal), 'undo of the wrongly-committed neighbour must publish').toBe(true);
+      const neighbourRestored = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: neighbourId, pricebook: RT.pricebook });
+      expect(neighbourRestored, `the neighbour ${neighbourId} must be restored to ${neighbourOriginal} — an unrestored price leaks to the shared server`).toBe(neighbourOriginal);
+    }
+
+    expect(targetAfter, 'the selected row was published').toBe(RT.testValue);
+    expect(neighbourAfter, `the deselected staged row (${neighbourId}) must NOT be committed — only selected rows publish`).toBe(neighbourOriginal);
   });
 
   test('TC-CPR-IMA-018: A Labor-variant change stages a delta, then Cancel commits nothing', async ({ corporatePricingSearchPage: p }) => {

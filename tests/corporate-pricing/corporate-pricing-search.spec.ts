@@ -12,14 +12,253 @@ import { CORP_PRICING_SEARCH } from '../../src/data/corporate-pricing/search';
  * React/Next.js + shadcn DataTable (NOT Angular). Network listeners filter `/navigator/api/`.
  * Checkboxes via .check()/.uncheck(). No fixed waits. No hardcoded 591.
  */
-test.describe('Corporate Pricing — Search FCC: BVA, each-option, combined & reset @corporate-pricing @search', () => {
+test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surface behaviors @corporate-pricing @search', () => {
+  // Read-only screen → a fresh nav IS the per-test baseline: it resets every staged filter.
+  // The FCC band (TC-019..030) opens without a location; every other test opens on office 1604
+  // (the per-test guard its original describes used).
+  const FCC_BAND = (n: number) => n >= 19 && n <= 30;
 
-  test.beforeEach(async ({ corporatePricingSearchPage: cp }) => {
+  const tcNum = (title: string) => {
+    const m = title.match(/^TC-CPR-SRC-(\d+)/);
+    return m ? parseInt(m[1]!, 10) : -1;
+  };
+
+  test.beforeEach(async ({ corporatePricingSearchPage: cp }, testInfo) => {
     test.setTimeout(120_000);
-    // Read-only screen → a fresh nav IS the per-test baseline: it resets every staged filter.
-    await cp.open();
+    if (FCC_BAND(tcNum(testInfo.title))) await cp.open();
+    else await cp.open('1604');
   });
 
+  // ── Core search behavior ──
+
+  test('TC-CPR-SRC-001: Component loads and calls the Pricebook list endpoint exactly once', async ({ corporatePricingSearchPage: cp }) => {
+    const counter = cp.attachListCallCounter();
+    try {
+      await cp.open('1604'); // re-navigate with the counter attached
+      expect(counter.count()).toBe(1); // exactly one /pricing/strategies call on mount
+      expect(await cp.getVisibleRowCount()).toBeGreaterThan(0); // grid populated
+      // default query reflects the default filter state (Active Only checked)
+      expect(counter.urls()[0]).toContain('isActive=true');
+    } finally {
+      counter.dispose();
+    }
+  });
+
+  test('TC-CPR-SRC-002: Grid shows all 8 named columns; live renders 9 (8↔9 split raised)', async ({ corporatePricingSearchPage: cp }) => {
+    const headers = await cp.getColumnHeaders();
+    // all 7 directly-named columns present
+    for (const name of ['Price Book', 'Price Book Strategy', 'Price Year', 'Is GSO', 'Is Internal', 'Is Labor', 'Is Active']) {
+      expect(headers).toContain(name);
+    }
+    // the requirements' "Productions Currency" is covered by the live split → both must be present
+    expect(headers).toContain('Is Productions');
+    expect(headers).toContain('Currency');
+    // live renders 9 (divergence raised as a clarification, not silently absorbed)
+    expect(await cp.getColumnCount()).toBe(CORP_PRICING_SEARCH.liveColumnCount);
+  });
+
+  test('TC-CPR-SRC-003: Filter baseline / default state', async ({ corporatePricingSearchPage: cp }) => {
+    expect(await cp.getPricebookFilterValue()).toBe('');
+    expect(await cp.getStrategyFilterValue()).toBe('');
+    expect(await cp.getLocationDefaultText()).toContain('All Locations');
+    expect(await cp.getCurrencyDefaultText()).toContain('All Currencies');
+    expect(await cp.getCheckboxState('isInternal')).toBe(false);
+    expect(await cp.getCheckboxState('isLabor')).toBe(false);
+    expect(await cp.getCheckboxState('activeOnly')).toBe(true); // default CHECKED
+    expect(await cp.getItemCountText()).toMatch(CORP_PRICING_SEARCH.itemCountPattern);
+  });
+
+  test('TC-CPR-SRC-004: Boolean columns render Unicode ✔ / empty', async ({ corporatePricingSearchPage: cp }) => {
+    const { hasTrue, allValid } = await cp.booleanCellsValid();
+    expect(hasTrue).toBe(true); // at least one ✔ among rendered rows
+    expect(allValid).toBe(true); // every boolean cell is ✔ or empty
+  });
+
+  test('TC-CPR-SRC-005: Pricebook filter stages on type, then Search narrows server-side', async ({ corporatePricingSearchPage: cp }) => {
+    const counter = cp.attachListCallCounter();
+    try {
+      const before = await cp.getItemCountNumber();
+      await cp.fillPricebookFilter(CORP_PRICING_SEARCH.pricebookFilterSample.value);
+      expect(counter.count()).toBe(0); // staged — no call on type
+      expect(await cp.getItemCountNumber()).toBe(before); // grid unchanged while staged
+
+      const url = await cp.searchAndWaitForList();
+      expect(url).toContain(`pricebookName=${CORP_PRICING_SEARCH.pricebookFilterSample.value}`);
+      // poll for the count to settle (server response → grid re-render has a brief lag)
+      await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeLessThan(before);
+      const row = await cp.findRowByName(CORP_PRICING_SEARCH.pricebookFilterSample.expectedName);
+      expect(row).not.toBeNull();
+
+      // clearing + Search broadens again. NOTE: the broadened query reverts to the default
+      // (isActive=true, no name) which equals the initial-load query → the app serves it from cache
+      // and fires NO new request (verified via trace — only 2 strategies calls total). So do NOT wait
+      // for a response here; just click Search and assert the grid broadens (no fixed sleep).
+      await cp.clearPricebookFilter();
+      await cp.clickSearch();
+      await expect.poll(async () => cp.getItemCountNumber(), { timeout: 15_000 }).toBeGreaterThan(1);
+    } finally {
+      counter.dispose();
+    }
+  });
+
+  test('TC-CPR-SRC-006: Pricing Strategy is a text filter (not a dropdown); stages then Search applies', async ({ corporatePricingSearchPage: cp }) => {
+    expect(await cp.getStrategyFilterValue()).toBe(''); // it is an <input> (would throw if a dropdown)
+    const counter = cp.attachListCallCounter();
+    try {
+      await cp.fillStrategyFilter('Tier');
+      expect(counter.count()).toBe(0); // staged — no call on type
+      expect(await cp.getStrategyFilterValue()).toBe('Tier');
+
+      await cp.searchAndWaitForList(); // Search fires exactly one server query
+      expect(counter.count()).toBe(1);
+    } finally {
+      counter.dispose();
+    }
+  });
+
+  test('TC-CPR-SRC-007: Currency dropdown options + select stages then Search applies', async ({ corporatePricingSearchPage: cp }) => {
+    const opts = await cp.getCurrencyOptions();
+    expect(opts).toEqual([...CORP_PRICING_SEARCH.currencyOptions]); // [All Currencies, USD, CAD, MXN]
+
+    const counter = cp.attachListCallCounter();
+    try {
+      await cp.selectCurrency('USD');
+      expect(counter.count()).toBe(0); // selection staged — no call
+      await cp.searchAndWaitForList();
+      expect(counter.count()).toBe(1); // Search submits the server query
+    } finally {
+      counter.dispose();
+    }
+  });
+
+  test('TC-CPR-SRC-008: Location dropdown default + searchable options present', async ({ corporatePricingSearchPage: cp }) => {
+    expect(await cp.getLocationDefaultText()).toContain('All Locations');
+    // Virtualized/lazy popover (live 2652) — poll until it populates; exact count NOT asserted.
+    await expect
+      .poll(async () => (await cp.getLocationOptions()).length, { timeout: 15_000 })
+      .toBeGreaterThan(CORP_PRICING_SEARCH.locationOptionFloor);
+    const opts = await cp.getLocationOptions();
+    expect(opts).toContain(CORP_PRICING_SEARCH.locationFirstEntry); // "Clear selection" present
+  });
+
+  test('TC-CPR-SRC-009: Is Internal stages then Search narrows to internal pricebooks', async ({ corporatePricingSearchPage: cp }) => {
+    const counter = cp.attachListCallCounter();
+    try {
+      const before = await cp.getItemCountNumber();
+      await cp.setCheckbox('isInternal', true);
+      expect(await cp.getCheckboxState('isInternal')).toBe(true);
+      expect(counter.count()).toBe(0); // staged
+      expect(await cp.getItemCountNumber()).toBe(before); // grid unchanged while staged
+
+      const url = await cp.searchAndWaitForList();
+      expect(url).toContain('isInternal=true');
+      await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeLessThan(before); // narrowed to internal rows
+    } finally {
+      counter.dispose();
+    }
+  });
+
+  test('TC-CPR-SRC-010: Is Labor stages then Search submits the labor filter', async ({ corporatePricingSearchPage: cp }) => {
+    const counter = cp.attachListCallCounter();
+    try {
+      await cp.setCheckbox('isLabor', true);
+      expect(await cp.getCheckboxState('isLabor')).toBe(true);
+      expect(counter.count()).toBe(0); // staged
+      const url = await cp.searchAndWaitForList();
+      expect(url).toContain('isLabor=true');
+    } finally {
+      counter.dispose();
+    }
+  });
+
+  test('TC-CPR-SRC-011: Active Only default-checked; unchecking + Search reveals inactive rows', async ({ corporatePricingSearchPage: cp }) => {
+    expect(await cp.getCheckboxState('activeOnly')).toBe(true); // default
+    const before = await cp.getItemCountNumber();
+    await cp.setCheckbox('activeOnly', false);
+    expect(await cp.getCheckboxState('activeOnly')).toBe(false);
+    await cp.searchAndWaitForList();
+    // turning off Active Only includes inactive pricebooks too → count does not shrink
+    await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeGreaterThanOrEqual(before);
+  });
+
+  test('TC-CPR-SRC-012: Reset clears every filter input and restores the full list', async ({ corporatePricingSearchPage: cp }) => {
+    // stage + apply a narrowing filter
+    await cp.fillPricebookFilter(CORP_PRICING_SEARCH.pricebookFilterSample.value);
+    await cp.setCheckbox('isInternal', true);
+    await cp.searchAndWaitForList();
+    const narrowed = await cp.getItemCountNumber();
+
+    await cp.clickReset();
+
+    expect(await cp.getPricebookFilterValue()).toBe('');
+    expect(await cp.getStrategyFilterValue()).toBe('');
+    expect(await cp.getCheckboxState('isInternal')).toBe(false);
+    expect(await cp.getCheckboxState('isLabor')).toBe(false);
+    expect(await cp.getCheckboxState('activeOnly')).toBe(true); // default restored
+    expect(await cp.getLocationDefaultText()).toContain('All Locations');
+    expect(await cp.getCurrencyDefaultText()).toContain('All Currencies');
+    // full list restored (client-side) — count back above the narrowed subset
+    await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeGreaterThan(narrowed);
+  });
+
+  test('TC-CPR-SRC-013: No network request fires while typing or selecting filters (client-side staging)', async ({ corporatePricingSearchPage: cp }) => {
+    const counter = cp.attachListCallCounter();
+    try {
+      await cp.fillPricebookFilter('abc');
+      await cp.setCheckbox('isInternal', true);
+      await cp.getCurrencyOptions(); // open + close dropdown
+      expect(counter.count()).toBe(0); // zero list calls during staging (staged client-side)
+    } finally {
+      counter.dispose();
+    }
+  });
+
+  test('TC-CPR-SRC-014: Search submits the staged filters as a single server query', async ({ corporatePricingSearchPage: cp }) => {
+    const counter = cp.attachListCallCounter();
+    try {
+      await cp.setCheckbox('isInternal', true);
+      expect(counter.count()).toBe(0);
+      const url = await cp.searchAndWaitForList();
+      expect(counter.count()).toBe(1); // exactly one server query on Search
+      expect(url).toContain('/navigator/api/location/pricing/strategies');
+      expect(url).toContain('isInternal=true');
+    } finally {
+      counter.dispose();
+    }
+  });
+
+  test('TC-CPR-SRC-015: Clicking a Price Book name navigates to the Pricebook Details route', async ({ corporatePricingSearchPage: cp }) => {
+    await cp.clickPricebookName(CORP_PRICING_SEARCH.pricebookFilterSample.expectedName);
+    await expect(cp.page).toHaveURL(/\/corporate-pricing\/details\/[0-9a-f-]+/i);
+    await test.step('Confirm the Corporate Pricing Details heading appears', async () => {
+      await expect(cp.page.locator('h1', { hasText: 'Corporate Pricing Details' })).toBeVisible();
+    });
+  });
+
+  test('TC-CPR-SRC-016: New Equipment Pricing option opens the equipment add page', async ({ corporatePricingSearchPage: cp }) => {
+    await cp.clickNewEquipmentPricing();
+    await expect(cp.page).toHaveURL(/\/corporate-pricing\/add\?type=equipment/i, { timeout: 15_000 });
+  });
+
+  test('TC-CPR-SRC-017: New Labor Pricing option opens the labor add page', async ({ corporatePricingSearchPage: cp }) => {
+    await cp.clickNewLaborPricing();
+    await expect(cp.page).toHaveURL(/\/corporate-pricing\/add\?type=labor/i, { timeout: 15_000 });
+  });
+
+  test('TC-CPR-SRC-018: Action-bar buttons are present and New behaves as a button', async ({ corporatePricingSearchPage: cp }) => {
+    // Assert via the shadow-pierced textContent set (Playwright's :text-is misses these labels at the
+    // test render). Poll until the action bar has rendered (it lands shortly after the grid row).
+    await expect
+      .poll(async () => (await cp.getAllButtonTexts()).filter((t) => CORP_PRICING_SEARCH.actionButtons.includes(t as never)).length, { timeout: 10_000 })
+      .toBe(CORP_PRICING_SEARCH.actionButtons.length);
+    const btns = await cp.getAllButtonTexts();
+    for (const label of CORP_PRICING_SEARCH.actionButtons) {
+      expect(btns, `action-bar button "${label}" present`).toContain(label);
+    }
+    // New opens its Equipment/Labor menu (affordance) — then dismiss
+    await cp.openNewMenu();
+    await cp.page.keyboard.press('Escape');
+  });
 
   test('TC-CPR-SRC-019: Pricebook no-match input returns zero results server-side', async ({ corporatePricingSearchPage: cp }) => {
     await cp.fillPricebookFilter(CORP_PRICING_SEARCH.fcc.pricebookNoMatch);
@@ -68,7 +307,6 @@ test.describe('Corporate Pricing — Search FCC: BVA, each-option, combined & re
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBe(0);
   });
 
-
   test('TC-CPR-SRC-024: Currency each-option (USD/CAD/MXN) submits the matching currencyId', async ({ corporatePricingSearchPage: cp }) => {
     for (const [name, id] of Object.entries(CORP_PRICING_SEARCH.fcc.currencyId)) {
       await cp.selectCurrency(name);
@@ -88,7 +326,6 @@ test.describe('Corporate Pricing — Search FCC: BVA, each-option, combined & re
     expect(url).toContain(`${CORP_PRICING_SEARCH.fcc.params.location}=${officeNo}`);
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeLessThanOrEqual(baseline);
   });
-
 
   test('TC-CPR-SRC-026: Is Internal toggle + revert restores the baseline', async ({ corporatePricingSearchPage: cp }) => {
     const base = await cp.getItemCountNumber();
@@ -122,7 +359,6 @@ test.describe('Corporate Pricing — Search FCC: BVA, each-option, combined & re
     await cp.clickSearch(); // re-checked query equals the default load → cached
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 15_000 }).toBe(base);
   });
-
 
   test('TC-CPR-SRC-029: Reset is idempotent and fires no server request', async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
@@ -161,263 +397,7 @@ test.describe('Corporate Pricing — Search FCC: BVA, each-option, combined & re
     }
   });
 
-});
-
-test.describe('Corporate Pricing — Search @corporate-pricing @search', () => {
-
-  test.beforeEach(async ({ corporatePricingSearchPage: cp }) => {
-    test.setTimeout(120_000);
-    // Per-test nav guard: fresh navigation resets all staged filter state (read-only screen — no
-    // ensureDefaultState needed; a fresh load IS the baseline). Mirrors the per-test guard pattern.
-    await cp.open('1604');
-  });
-
-
-  test('TC-CPR-SRC-001: Component loads and calls the Pricebook list endpoint exactly once', async ({ corporatePricingSearchPage: cp }) => {
-    const counter = cp.attachListCallCounter();
-    try {
-      await cp.open('1604'); // re-navigate with the counter attached
-      expect(counter.count()).toBe(1); // exactly one /pricing/strategies call on mount
-      expect(await cp.getVisibleRowCount()).toBeGreaterThan(0); // grid populated
-      // default query reflects the default filter state (Active Only checked)
-      expect(counter.urls()[0]).toContain('isActive=true');
-    } finally {
-      counter.dispose();
-    }
-  });
-
-  test('TC-CPR-SRC-002: Grid shows all 8 named columns; live renders 9 (8↔9 split raised)', async ({ corporatePricingSearchPage: cp }) => {
-    const headers = await cp.getColumnHeaders();
-    // all 7 directly-named columns present
-    for (const name of ['Price Book', 'Price Book Strategy', 'Price Year', 'Is GSO', 'Is Internal', 'Is Labor', 'Is Active']) {
-      expect(headers).toContain(name);
-    }
-    // the requirements' "Productions Currency" is covered by the live split → both must be present
-    expect(headers).toContain('Is Productions');
-    expect(headers).toContain('Currency');
-    // live renders 9 (divergence raised as a clarification, not silently absorbed)
-    expect(await cp.getColumnCount()).toBe(CORP_PRICING_SEARCH.liveColumnCount);
-  });
-
-  test('TC-CPR-SRC-003: Filter baseline / default state', async ({ corporatePricingSearchPage: cp }) => {
-    expect(await cp.getPricebookFilterValue()).toBe('');
-    expect(await cp.getStrategyFilterValue()).toBe('');
-    expect(await cp.getLocationDefaultText()).toContain('All Locations');
-    expect(await cp.getCurrencyDefaultText()).toContain('All Currencies');
-    expect(await cp.getCheckboxState('isInternal')).toBe(false);
-    expect(await cp.getCheckboxState('isLabor')).toBe(false);
-    expect(await cp.getCheckboxState('activeOnly')).toBe(true); // default CHECKED
-    expect(await cp.getItemCountText()).toMatch(CORP_PRICING_SEARCH.itemCountPattern);
-  });
-
-  test('TC-CPR-SRC-004: Boolean columns render Unicode ✔ / empty', async ({ corporatePricingSearchPage: cp }) => {
-    const { hasTrue, allValid } = await cp.booleanCellsValid();
-    expect(hasTrue).toBe(true); // at least one ✔ among rendered rows
-    expect(allValid).toBe(true); // every boolean cell is ✔ or empty
-  });
-
-
-  test('TC-CPR-SRC-005: Pricebook filter stages on type, then Search narrows server-side', async ({ corporatePricingSearchPage: cp }) => {
-    const counter = cp.attachListCallCounter();
-    try {
-      const before = await cp.getItemCountNumber();
-      await cp.fillPricebookFilter(CORP_PRICING_SEARCH.pricebookFilterSample.value);
-      expect(counter.count()).toBe(0); // staged — no call on type
-      expect(await cp.getItemCountNumber()).toBe(before); // grid unchanged while staged
-
-      const url = await cp.searchAndWaitForList();
-      expect(url).toContain(`pricebookName=${CORP_PRICING_SEARCH.pricebookFilterSample.value}`);
-      // poll for the count to settle (server response → grid re-render has a brief lag)
-      await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeLessThan(before);
-      const row = await cp.findRowByName(CORP_PRICING_SEARCH.pricebookFilterSample.expectedName);
-      expect(row).not.toBeNull();
-
-      // clearing + Search broadens again. NOTE: the broadened query reverts to the default
-      // (isActive=true, no name) which equals the initial-load query → the app serves it from cache
-      // and fires NO new request (verified via trace — only 2 strategies calls total). So do NOT wait
-      // for a response here; just click Search and assert the grid broadens (no fixed sleep).
-      await cp.clearPricebookFilter();
-      await cp.clickSearch();
-      await expect.poll(async () => cp.getItemCountNumber(), { timeout: 15_000 }).toBeGreaterThan(1);
-    } finally {
-      counter.dispose();
-    }
-  });
-
-  test('TC-CPR-SRC-006: Pricing Strategy is a text filter (not a dropdown); stages then Search applies', async ({ corporatePricingSearchPage: cp }) => {
-    expect(await cp.getStrategyFilterValue()).toBe(''); // it is an <input> (would throw if a dropdown)
-    const counter = cp.attachListCallCounter();
-    try {
-      await cp.fillStrategyFilter('Tier');
-      expect(counter.count()).toBe(0); // staged — no call on type
-      expect(await cp.getStrategyFilterValue()).toBe('Tier');
-
-      await cp.searchAndWaitForList(); // Search fires exactly one server query
-      expect(counter.count()).toBe(1);
-    } finally {
-      counter.dispose();
-    }
-  });
-
-
-  test('TC-CPR-SRC-007: Currency dropdown options + select stages then Search applies', async ({ corporatePricingSearchPage: cp }) => {
-    const opts = await cp.getCurrencyOptions();
-    expect(opts).toEqual([...CORP_PRICING_SEARCH.currencyOptions]); // [All Currencies, USD, CAD, MXN]
-
-    const counter = cp.attachListCallCounter();
-    try {
-      await cp.selectCurrency('USD');
-      expect(counter.count()).toBe(0); // selection staged — no call
-      await cp.searchAndWaitForList();
-      expect(counter.count()).toBe(1); // Search submits the server query
-    } finally {
-      counter.dispose();
-    }
-  });
-
-  test('TC-CPR-SRC-008: Location dropdown default + searchable options present', async ({ corporatePricingSearchPage: cp }) => {
-    expect(await cp.getLocationDefaultText()).toContain('All Locations');
-    // Virtualized/lazy popover (live 2652) — poll until it populates; exact count NOT asserted.
-    await expect
-      .poll(async () => (await cp.getLocationOptions()).length, { timeout: 15_000 })
-      .toBeGreaterThan(CORP_PRICING_SEARCH.locationOptionFloor);
-    const opts = await cp.getLocationOptions();
-    expect(opts).toContain(CORP_PRICING_SEARCH.locationFirstEntry); // "Clear selection" present
-  });
-
-
-  test('TC-CPR-SRC-009: Is Internal stages then Search narrows to internal pricebooks', async ({ corporatePricingSearchPage: cp }) => {
-    const counter = cp.attachListCallCounter();
-    try {
-      const before = await cp.getItemCountNumber();
-      await cp.setCheckbox('isInternal', true);
-      expect(await cp.getCheckboxState('isInternal')).toBe(true);
-      expect(counter.count()).toBe(0); // staged
-      expect(await cp.getItemCountNumber()).toBe(before); // grid unchanged while staged
-
-      const url = await cp.searchAndWaitForList();
-      expect(url).toContain('isInternal=true');
-      await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeLessThan(before); // narrowed to internal rows
-    } finally {
-      counter.dispose();
-    }
-  });
-
-  test('TC-CPR-SRC-010: Is Labor stages then Search submits the labor filter', async ({ corporatePricingSearchPage: cp }) => {
-    const counter = cp.attachListCallCounter();
-    try {
-      await cp.setCheckbox('isLabor', true);
-      expect(await cp.getCheckboxState('isLabor')).toBe(true);
-      expect(counter.count()).toBe(0); // staged
-      const url = await cp.searchAndWaitForList();
-      expect(url).toContain('isLabor=true');
-    } finally {
-      counter.dispose();
-    }
-  });
-
-  test('TC-CPR-SRC-011: Active Only default-checked; unchecking + Search reveals inactive rows', async ({ corporatePricingSearchPage: cp }) => {
-    expect(await cp.getCheckboxState('activeOnly')).toBe(true); // default
-    const before = await cp.getItemCountNumber();
-    await cp.setCheckbox('activeOnly', false);
-    expect(await cp.getCheckboxState('activeOnly')).toBe(false);
-    await cp.searchAndWaitForList();
-    // turning off Active Only includes inactive pricebooks too → count does not shrink
-    await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeGreaterThanOrEqual(before);
-  });
-
-
-  test('TC-CPR-SRC-012: Reset clears every filter input and restores the full list', async ({ corporatePricingSearchPage: cp }) => {
-    // stage + apply a narrowing filter
-    await cp.fillPricebookFilter(CORP_PRICING_SEARCH.pricebookFilterSample.value);
-    await cp.setCheckbox('isInternal', true);
-    await cp.searchAndWaitForList();
-    const narrowed = await cp.getItemCountNumber();
-
-    await cp.clickReset();
-
-    expect(await cp.getPricebookFilterValue()).toBe('');
-    expect(await cp.getStrategyFilterValue()).toBe('');
-    expect(await cp.getCheckboxState('isInternal')).toBe(false);
-    expect(await cp.getCheckboxState('isLabor')).toBe(false);
-    expect(await cp.getCheckboxState('activeOnly')).toBe(true); // default restored
-    expect(await cp.getLocationDefaultText()).toContain('All Locations');
-    expect(await cp.getCurrencyDefaultText()).toContain('All Currencies');
-    // full list restored (client-side) — count back above the narrowed subset
-    await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeGreaterThan(narrowed);
-  });
-
-
-  test('TC-CPR-SRC-013: No network request fires while typing or selecting filters (client-side staging)', async ({ corporatePricingSearchPage: cp }) => {
-    const counter = cp.attachListCallCounter();
-    try {
-      await cp.fillPricebookFilter('abc');
-      await cp.setCheckbox('isInternal', true);
-      await cp.getCurrencyOptions(); // open + close dropdown
-      expect(counter.count()).toBe(0); // zero list calls during staging (staged client-side)
-    } finally {
-      counter.dispose();
-    }
-  });
-
-  test('TC-CPR-SRC-014: Search submits the staged filters as a single server query', async ({ corporatePricingSearchPage: cp }) => {
-    const counter = cp.attachListCallCounter();
-    try {
-      await cp.setCheckbox('isInternal', true);
-      expect(counter.count()).toBe(0);
-      const url = await cp.searchAndWaitForList();
-      expect(counter.count()).toBe(1); // exactly one server query on Search
-      expect(url).toContain('/navigator/api/location/pricing/strategies');
-      expect(url).toContain('isInternal=true');
-    } finally {
-      counter.dispose();
-    }
-  });
-
-
-  test('TC-CPR-SRC-015: Clicking a Price Book name navigates to the Pricebook Details route', async ({ corporatePricingSearchPage: cp }) => {
-    await cp.clickPricebookName(CORP_PRICING_SEARCH.pricebookFilterSample.expectedName);
-    await expect(cp.page).toHaveURL(/\/corporate-pricing\/details\/[0-9a-f-]+/i);
-    await test.step('Confirm the Corporate Pricing Details heading appears', async () => {
-      await expect(cp.page.locator('h1', { hasText: 'Corporate Pricing Details' })).toBeVisible();
-    });
-  });
-
-  test('TC-CPR-SRC-016: New Equipment Pricing option opens the equipment add page', async ({ corporatePricingSearchPage: cp }) => {
-    await cp.clickNewEquipmentPricing();
-    await expect(cp.page).toHaveURL(/\/corporate-pricing\/add\?type=equipment/i, { timeout: 15_000 });
-  });
-
-  test('TC-CPR-SRC-017: New Labor Pricing option opens the labor add page', async ({ corporatePricingSearchPage: cp }) => {
-    await cp.clickNewLaborPricing();
-    await expect(cp.page).toHaveURL(/\/corporate-pricing\/add\?type=labor/i, { timeout: 15_000 });
-  });
-
-
-  test('TC-CPR-SRC-018: Action-bar buttons are present and New behaves as a button', async ({ corporatePricingSearchPage: cp }) => {
-    // Assert via the shadow-pierced textContent set (Playwright's :text-is misses these labels at the
-    // test render). Poll until the action bar has rendered (it lands shortly after the grid row).
-    await expect
-      .poll(async () => (await cp.getAllButtonTexts()).filter((t) => CORP_PRICING_SEARCH.actionButtons.includes(t as never)).length, { timeout: 10_000 })
-      .toBe(CORP_PRICING_SEARCH.actionButtons.length);
-    const btns = await cp.getAllButtonTexts();
-    for (const label of CORP_PRICING_SEARCH.actionButtons) {
-      expect(btns, `action-bar button "${label}" present`).toContain(label);
-    }
-    // New opens its Equipment/Labor menu (affordance) — then dismiss
-    await cp.openNewMenu();
-    await cp.page.keyboard.press('Escape');
-  });
-
-});
-
-test.describe('Corporate Pricing — Search: Grid Options + filter→grid content @corporate-pricing @search', () => {
-
-  test.beforeEach(async ({ corporatePricingSearchPage: cp }) => {
-    test.setTimeout(120_000);
-    await cp.open('1604');
-  });
-
+  // ── Grid Options + filter→grid content ──
 
   test('TC-CPR-SRC-031: Grid Options menu exposes a toggle per column and Reset to Default View', async ({ corporatePricingSearchPage: cp }) => {
     await cp.openGridOptions();
@@ -461,34 +441,6 @@ test.describe('Corporate Pricing — Search: Grid Options + filter→grid conten
       await cp.ensureAllGridColumnsVisible();
     }
   });
-
-  // Every grid column starts enabled — the "all-on" default state (SRC-031 covers the per-column
-  // toggle listing + the Reset option).
-  test('TC-CPR-SRC-057: Every grid column toggle is enabled (checked) by default', async ({ corporatePricingSearchPage: cp }) => {
-    await cp.openGridOptions();
-    const cols = await cp.getGridOptionColumns();
-    expect(cols.length).toBeGreaterThan(0);
-    expect(cols.every((c) => c.checked)).toBe(true); // all columns shown by default
-    await cp.closeGridOptions();
-  });
-
-  // Individually re-toggling a hidden column back ON restores it (SRC-033 covers the bulk "Reset to
-  // Default View"; this is the per-column path).
-  test('TC-CPR-SRC-058: Toggling a hidden column back ON restores its header', async ({ corporatePricingSearchPage: cp }) => {
-    try {
-      await cp.openGridOptions();
-      await cp.toggleGridColumn('Is GSO'); // hide
-      await cp.closeGridOptions();
-      expect(await cp.isGridColumnVisible('Is GSO')).toBe(false);
-      await cp.openGridOptions();
-      await cp.toggleGridColumn('Is GSO'); // show again
-      await cp.closeGridOptions();
-      expect(await cp.isGridColumnVisible('Is GSO')).toBe(true); // restored via individual re-toggle
-    } finally {
-      await cp.ensureAllGridColumnsVisible();
-    }
-  });
-
 
   test('TC-CPR-SRC-034: Currency = USD returns rows that all show USD in the Currency column', async ({ corporatePricingSearchPage: cp }) => {
     await cp.selectCurrency('USD');
@@ -556,7 +508,6 @@ test.describe('Corporate Pricing — Search: Grid Options + filter→grid conten
     expect((await cp.readColumnForVisibleRows('Price Book')).some((n) => n.includes('2021-PB6'))).toBe(true);
   });
 
-
   test('TC-CPR-SRC-041: Combined filters return rows that satisfy every active criterion (AND)', async ({ corporatePricingSearchPage: cp }) => {
     await cp.setCheckbox('isLabor', true);
     await cp.selectCurrency('USD'); // Active Only stays checked (default)
@@ -613,15 +564,7 @@ test.describe('Corporate Pricing — Search: Grid Options + filter→grid conten
     }
   });
 
-});
-
-test.describe('SBC — Search surface behaviors @corporate-pricing @search', () => {
-
-  test.beforeEach(async ({ corporatePricingSearchPage: cp }) => {
-    test.setTimeout(120_000);
-    await cp.open('1604');
-  });
-
+  // ── SBC — surface behaviors ──
   test('TC-CPR-SRC-044: A single filter returns only rows that match the query', async ({ corporatePricingSearchPage: cp }) => {
     await cp.selectCurrency('USD');
     await cp.searchAndWaitForList();
@@ -799,6 +742,33 @@ test.describe('SBC — Search surface behaviors @corporate-pricing @search', () 
       await cp.page.goBack();
       await cp.waitForGridLoaded();
       expect(await cp.isGridColumnVisible('Is GSO')).toBe(false); // still hidden after browser-back
+    } finally {
+      await cp.ensureAllGridColumnsVisible();
+    }
+  });
+
+  // Every grid column starts enabled — the "all-on" default state (SRC-031 covers the per-column
+  // toggle listing + the Reset option).
+  test('TC-CPR-SRC-057: Every grid column toggle is enabled (checked) by default', async ({ corporatePricingSearchPage: cp }) => {
+    await cp.openGridOptions();
+    const cols = await cp.getGridOptionColumns();
+    expect(cols.length).toBeGreaterThan(0);
+    expect(cols.every((c) => c.checked)).toBe(true); // all columns shown by default
+    await cp.closeGridOptions();
+  });
+
+  // Individually re-toggling a hidden column back ON restores it (SRC-033 covers the bulk "Reset to
+  // Default View"; this is the per-column path).
+  test('TC-CPR-SRC-058: Toggling a hidden column back ON restores its header', async ({ corporatePricingSearchPage: cp }) => {
+    try {
+      await cp.openGridOptions();
+      await cp.toggleGridColumn('Is GSO'); // hide
+      await cp.closeGridOptions();
+      expect(await cp.isGridColumnVisible('Is GSO')).toBe(false);
+      await cp.openGridOptions();
+      await cp.toggleGridColumn('Is GSO'); // show again
+      await cp.closeGridOptions();
+      expect(await cp.isGridColumnVisible('Is GSO')).toBe(true); // restored via individual re-toggle
     } finally {
       await cp.ensureAllGridColumnsVisible();
     }
