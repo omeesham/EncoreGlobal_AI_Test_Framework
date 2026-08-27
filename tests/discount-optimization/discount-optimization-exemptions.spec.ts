@@ -8,7 +8,7 @@ import { ROWS_TAB2 } from '../../src/selectors/discount-optimization/discount-op
  * Route: /navigator/locations/1604/settings/discount-optimization-settings (tab 2)
  *
  * Each test navigates fresh, switches to tab 2, and asserts independently.
- * TC-DOP-EXM-020 is the only mutating test; it restores the original state in its
+ * TC-DOP-EXM-005 is the only mutating test; it restores the original state in its
  * finally block. All other tests are read-only.
  *
  * Exempt column: assertions use aria-checked on the Radix checkbox element.
@@ -18,7 +18,7 @@ import { ROWS_TAB2 } from '../../src/selectors/discount-optimization/discount-op
  * No hardcoded row counts — NM-3340 (open, Blocker) will change service-type membership.
  *
  * Omitted from this file (declared):
- * - None: all 6 authored cases (TC-DOP-EXM-001, 002, 010, 011, 020, 021) are implemented.
+ * - None: all 6 authored cases (TC-DOP-EXM-001..006) are implemented.
  */
 
 const OFFICE = '1604';
@@ -70,7 +70,7 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
   });
 
 
-  test('TC-DOP-EXM-010: Search box filters rows; clearing restores the full list; no-match shows empty state', async ({ dependencyGate }) => {
+  test('TC-DOP-EXM-003: Search box filters rows; clearing restores the full list; no-match shows empty state', async ({ dependencyGate }) => {
     dependencyGate(['TC-DOP-EXM-001']);
 
     const baselineCount = await dop.getTab2RowCount();
@@ -109,8 +109,8 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
   });
 
 
-  test('TC-DOP-EXM-011: Search is case-insensitive', async ({ dependencyGate }) => {
-    dependencyGate(['TC-DOP-EXM-010']);
+  test('TC-DOP-EXM-004: Search is case-insensitive', async ({ dependencyGate }) => {
+    dependencyGate(['TC-DOP-EXM-003']);
 
     await dop.searchTab2('EQUIPMENT');
     const countUpper = await dop.getTab2RowCount();
@@ -144,7 +144,7 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
   });
 
 
-  test('TC-DOP-EXM-020: Save cycle — pristine disabled, enabled by valid change, change persists after reload; Cancel discards', async ({ dependencyGate }) => {
+  test('TC-DOP-EXM-005: Save cycle — pristine disabled, enabled by valid change, change persists after reload; Cancel discards', async ({ dependencyGate }) => {
     dependencyGate(['TC-DOP-EXM-001']);
 
     // Step 1: Save disabled in pristine state
@@ -191,7 +191,7 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
   });
 
 
-  test('TC-DOP-EXM-021: Cancel discards multiple simultaneous checkbox changes', async ({ dependencyGate }) => {
+  test('TC-DOP-EXM-006: Cancel discards multiple simultaneous checkbox changes', async ({ dependencyGate }) => {
     dependencyGate(['TC-DOP-EXM-001']);
 
     const stateA = await dop.getExemptState(ROW_EQUIPMENT_RENTAL);

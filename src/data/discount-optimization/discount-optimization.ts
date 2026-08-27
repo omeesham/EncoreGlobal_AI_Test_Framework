@@ -20,8 +20,8 @@ export const DOP_NO_MATCH_FILTER = 'ZZZZNOTAPLACE';
 export const DOP_LOCATION_FOR_TOGGLE = 'The Abbey Resort';
 
 /**
- * Dedicated row for the save-persistence tests (TC-DOP-OPT-050, TC-DOP-OPT-052,
- * TC-DOP-OPT-053, TC-DOP-OPT-092).
+ * Dedicated row for the save-persistence tests (TC-DOP-OPT-020, TC-DOP-OPT-022,
+ * TC-DOP-OPT-023, TC-DOP-OPT-035).
  *
  * Originally "InterContinental Chicago" (ID 1121, per the live walk on 2026-08-11), but a
  * live diagnostic probe on 2026-08-26 confirmed that row no longer exists anywhere in the
