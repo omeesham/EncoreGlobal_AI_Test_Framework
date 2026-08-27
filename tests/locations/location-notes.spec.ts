@@ -26,6 +26,24 @@ import {
 
 // 26 net-new tests + 1 DEFERRED (4000-char exact-limit persist — not implemented). Each test is
 // independent: own baseline, own cleanup.
+
+// Shared body for the special-content persistence cases. Registered from two call
+// sites so tests stay in TC-id order: 013 before 014, then 018..020 after 017.
+function registerSpecialContentTest(tc: (typeof SPECIAL_CONTENT_TESTS)[number]): void {
+  test(`TC-LOC-NTS-${tc.tcId}: ${tc.name}`, async ({ locationNotesPage, dependencyGate }) => {
+    dependencyGate(['TC-LOC-NTS-001']);
+    test.setTimeout(60_000);
+ // Ensure clean state before each iteration — prior test's cleanup may have
+ // left saved notes in DB (e.g. if saveAndConfirm succeeded but ensureEmptyState failed).
+    await locationNotesPage.ensureEmptyState();
+    await locationNotesPage.fillNote(0, tc.text);
+    await locationNotesPage.saveAndConfirm();
+    await locationNotesPage.reloadAndNavigateToNotesTab();
+    expect(await locationNotesPage.getNoteValue(0)).toBe(tc.text);
+    await locationNotesPage.ensureEmptyState();
+  });
+}
+
 test.describe('Location Notes @locations @notes', () => {
   // Per-test navigation guard — DOM-presence beats url.includes
   // (shared `settings/location` URL across sub-tabs).
@@ -185,19 +203,8 @@ test.describe('Location Notes @locations @notes', () => {
     expect(await locationNotesPage.isDefaultEmptyState()).toBe(true);
   });
 
-  for (const tc of SPECIAL_CONTENT_TESTS) {
-    test(`TC-LOC-NTS-${tc.tcId}: ${tc.name}`, async ({ locationNotesPage, dependencyGate }) => {
-      dependencyGate(['TC-LOC-NTS-001']);
-      test.setTimeout(60_000);
- // Ensure clean state before each iteration — prior test's cleanup may have
- // left saved notes in DB (e.g. if saveAndConfirm succeeded but ensureEmptyState failed).
-      await locationNotesPage.ensureEmptyState();
-      await locationNotesPage.fillNote(0, tc.text);
-      await locationNotesPage.saveAndConfirm();
-      await locationNotesPage.reloadAndNavigateToNotesTab();
-      expect(await locationNotesPage.getNoteValue(0)).toBe(tc.text);
-      await locationNotesPage.ensureEmptyState();
-    });
+  for (const tc of SPECIAL_CONTENT_TESTS.filter((t) => t.tcId === '013')) {
+    registerSpecialContentTest(tc);
   }
 
   test('TC-LOC-NTS-014: Add multiple rows and verify sequential positions', async ({ locationNotesPage, dependencyGate }) => {
@@ -259,6 +266,10 @@ test.describe('Location Notes @locations @notes', () => {
     expect(await locationNotesPage.isAddButtonVisible()).toBe(true);
     await locationNotesPage.discardChangesViaReload();
   });
+
+  for (const tc of SPECIAL_CONTENT_TESTS.filter((t) => t.tcId !== '013')) {
+    registerSpecialContentTest(tc);
+  }
 
   test('TC-LOC-NTS-021: Paste exceeds 4000 char limit — counter shows overage', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
