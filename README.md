@@ -137,6 +137,66 @@ Those are marked `"finalOutcome": "flaky"` in `failure-summary.json` and still c
 
 ---
 
+## TestRail integration
+
+Opt-in: when a run finishes, every result is pushed to TestRail as a test run
+(pass/fail, duration, error details, spec location). It is **inert by default** —
+nothing happens until `TESTRAIL_ENABLED=true` and the connection vars are set.
+
+### Where to configure
+
+Copy the variables from [`.env.testrail.example`](.env.testrail.example) into
+`.env.local` (dotenv-flow picks it up automatically), or set them as CI
+environment variables:
+
+```bash
+TESTRAIL_ENABLED=true
+TESTRAIL_HOST=https://encore.testrail.net
+TESTRAIL_USERNAME=you@company.com
+TESTRAIL_API_KEY=<from TestRail: My Settings > API Keys>
+TESTRAIL_PROJECT_ID=8
+TESTRAIL_SUITE_ID=1620
+```
+
+Then run the suite normally (`npm test`). On completion the reporter prints:
+
+```
+[testrail] pushed 30 results (28 passed, 2 failed) -> https://encore.testrail.net/index.php?/runs/view/57
+```
+
+Each execution creates a fresh run containing exactly the cases that ran.
+Optional: `TESTRAIL_MILESTONE_ID` (attach runs to the current sprint's milestone),
+`TESTRAIL_RUN_ID` (append to one fixed run instead of creating one),
+`TESTRAIL_RUN_NAME`, `TESTRAIL_CLOSE_RUN=true`.
+
+### How tests map to TestRail cases
+
+Per test, in priority order:
+
+1. **Explicit TestRail id** — a `C<number>` in the title (`C123: Login works`,
+   `[C123] Login works`) or a tag (`@C123`).
+2. **TC display id** — the TestRail case whose title contains the same
+   `TC-…` token as the spec title (only fires when cases were imported with the
+   id kept in the title).
+3. **Case title** — the spec title minus its `TC-ID: ` prefix, matched against
+   the TestRail case title (punctuation and case folded). This is the one that
+   fires for cases imported from `testcases-testrail-import/`, whose generated
+   titles deliberately drop the TC-id prefix.
+
+Strategy 3 depends on the spec → workbook → CSV title alignment that
+`npm run check:alignment` enforces, so a title edit that skips the workbook will
+silently stop matching — run the check after renaming tests. A test only gets a
+result when its case actually exists in the TestRail suite; anything not yet
+imported is listed as unmatched.
+
+Tests that match no case, or whose title matches more than one case, are listed
+as warnings in the run output — never dropped silently and never guessed.
+Skipped tests are not posted (TestRail keeps them "Untested"). A TestRail outage
+or bad credentials can never fail the build; the reporter logs a warning and all
+local reports remain intact.
+
+---
+
 ## Running it on GitHub Actions
 
 1. **Put this project in a GitHub repository.** The folder you cloned is the repository root — the workflow file's paths assume that layout.
