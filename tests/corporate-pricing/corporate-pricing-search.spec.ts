@@ -31,7 +31,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
 
   // ── Core search behavior ──
 
-  test('TC-CPR-SRC-001: Component loads and calls the Pricebook list endpoint exactly once', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-001: Component loads and calls the Pricebook list endpoint exactly once', { tag: '@C99928' }, async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
     try {
       await cp.open('1604'); // re-navigate with the counter attached
@@ -44,7 +44,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-002: Grid shows all 8 named columns; live renders 9 (8↔9 split raised)', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-002: Grid shows all 8 named columns; live renders 9 (8↔9 split raised)', { tag: '@C99929' }, async ({ corporatePricingSearchPage: cp }) => {
     const headers = await cp.getColumnHeaders();
     // all 7 directly-named columns present
     for (const name of ['Price Book', 'Price Book Strategy', 'Price Year', 'Is GSO', 'Is Internal', 'Is Labor', 'Is Active']) {
@@ -57,7 +57,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect(await cp.getColumnCount()).toBe(CORP_PRICING_SEARCH.liveColumnCount);
   });
 
-  test('TC-CPR-SRC-003: Filter baseline / default state', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-003: Filter baseline / default state', { tag: '@C99930' }, async ({ corporatePricingSearchPage: cp }) => {
     expect(await cp.getPricebookFilterValue()).toBe('');
     expect(await cp.getStrategyFilterValue()).toBe('');
     expect(await cp.getLocationDefaultText()).toContain('All Locations');
@@ -68,13 +68,13 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect(await cp.getItemCountText()).toMatch(CORP_PRICING_SEARCH.itemCountPattern);
   });
 
-  test('TC-CPR-SRC-004: Boolean columns render Unicode ✔ / empty', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-004: Boolean columns render Unicode ✔ / empty', { tag: '@C99931' }, async ({ corporatePricingSearchPage: cp }) => {
     const { hasTrue, allValid } = await cp.booleanCellsValid();
     expect(hasTrue).toBe(true); // at least one ✔ among rendered rows
     expect(allValid).toBe(true); // every boolean cell is ✔ or empty
   });
 
-  test('TC-CPR-SRC-005: Pricebook filter stages on type, then Search narrows server-side', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-005: Pricebook filter stages on type, then Search narrows server-side', { tag: '@C99932' }, async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
     try {
       const before = await cp.getItemCountNumber();
@@ -101,7 +101,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-006: Pricing Strategy is a text filter (not a dropdown); stages then Search applies', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-006: Pricing Strategy is a text filter (not a dropdown); stages then Search applies', { tag: '@C99933' }, async ({ corporatePricingSearchPage: cp }) => {
     expect(await cp.getStrategyFilterValue()).toBe(''); // it is an <input> (would throw if a dropdown)
     const counter = cp.attachListCallCounter();
     try {
@@ -116,7 +116,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-007: Currency dropdown options + select stages then Search applies', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-007: Currency dropdown options + select stages then Search applies', { tag: '@C99934' }, async ({ corporatePricingSearchPage: cp }) => {
     const opts = await cp.getCurrencyOptions();
     expect(opts).toEqual([...CORP_PRICING_SEARCH.currencyOptions]); // [All Currencies, USD, CAD, MXN]
 
@@ -131,7 +131,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-008: Location dropdown default + searchable options present', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-008: Location dropdown default + searchable options present', { tag: '@C99935' }, async ({ corporatePricingSearchPage: cp }) => {
     expect(await cp.getLocationDefaultText()).toContain('All Locations');
     // Virtualized/lazy popover (live 2652) — poll until it populates; exact count NOT asserted.
     await expect
@@ -141,7 +141,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect(opts).toContain(CORP_PRICING_SEARCH.locationFirstEntry); // "Clear selection" present
   });
 
-  test('TC-CPR-SRC-009: Is Internal stages then Search narrows to internal pricebooks', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-009: Is Internal stages then Search narrows to internal pricebooks', { tag: '@C99936' }, async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
     try {
       const before = await cp.getItemCountNumber();
@@ -158,7 +158,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-010: Is Labor stages then Search submits the labor filter', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-010: Is Labor stages then Search submits the labor filter', { tag: '@C99937' }, async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
     try {
       await cp.setCheckbox('isLabor', true);
@@ -171,7 +171,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-011: Active Only default-checked; unchecking + Search reveals inactive rows', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-011: Active Only default-checked; unchecking + Search reveals inactive rows', { tag: '@C99938' }, async ({ corporatePricingSearchPage: cp }) => {
     expect(await cp.getCheckboxState('activeOnly')).toBe(true); // default
     const before = await cp.getItemCountNumber();
     await cp.setCheckbox('activeOnly', false);
@@ -181,7 +181,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeGreaterThanOrEqual(before);
   });
 
-  test('TC-CPR-SRC-012: Reset clears every filter input and restores the full list', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-012: Reset clears every filter input and restores the full list', { tag: '@C99939' }, async ({ corporatePricingSearchPage: cp }) => {
     // stage + apply a narrowing filter
     await cp.fillPricebookFilter(CORP_PRICING_SEARCH.pricebookFilterSample.value);
     await cp.setCheckbox('isInternal', true);
@@ -201,7 +201,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeGreaterThan(narrowed);
   });
 
-  test('TC-CPR-SRC-013: No network request fires while typing or selecting filters (client-side staging)', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-013: No network request fires while typing or selecting filters (client-side staging)', { tag: '@C99940' }, async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
     try {
       await cp.fillPricebookFilter('abc');
@@ -213,7 +213,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-014: Search submits the staged filters as a single server query', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-014: Search submits the staged filters as a single server query', { tag: '@C99941' }, async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
     try {
       await cp.setCheckbox('isInternal', true);
@@ -227,7 +227,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-015: Clicking a Price Book name navigates to the Pricebook Details route', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-015: Clicking a Price Book name navigates to the Pricebook Details route', { tag: '@C99942' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.clickPricebookName(CORP_PRICING_SEARCH.pricebookFilterSample.expectedName);
     await expect(cp.page).toHaveURL(/\/corporate-pricing\/details\/[0-9a-f-]+/i);
     await test.step('Confirm the Corporate Pricing Details heading appears', async () => {
@@ -235,17 +235,17 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     });
   });
 
-  test('TC-CPR-SRC-016: New Equipment Pricing option opens the equipment add page', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-016: New Equipment Pricing option opens the equipment add page', { tag: '@C99943' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.clickNewEquipmentPricing();
     await expect(cp.page).toHaveURL(/\/corporate-pricing\/add\?type=equipment/i, { timeout: 15_000 });
   });
 
-  test('TC-CPR-SRC-017: New Labor Pricing option opens the labor add page', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-017: New Labor Pricing option opens the labor add page', { tag: '@C99944' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.clickNewLaborPricing();
     await expect(cp.page).toHaveURL(/\/corporate-pricing\/add\?type=labor/i, { timeout: 15_000 });
   });
 
-  test('TC-CPR-SRC-018: Action-bar buttons are present and New behaves as a button', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-018: Action-bar buttons are present and New behaves as a button', { tag: '@C99945' }, async ({ corporatePricingSearchPage: cp }) => {
     // Assert via the shadow-pierced textContent set (Playwright's :text-is misses these labels at the
     // test render). Poll until the action bar has rendered (it lands shortly after the grid row).
     await expect
@@ -260,14 +260,14 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await cp.page.keyboard.press('Escape');
   });
 
-  test('TC-CPR-SRC-019: Pricebook no-match input returns zero results server-side', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-019: Pricebook no-match input returns zero results server-side', { tag: '@C99946' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.fillPricebookFilter(CORP_PRICING_SEARCH.fcc.pricebookNoMatch);
     const url = await cp.searchAndWaitForList();
     expect(url).toContain(`${CORP_PRICING_SEARCH.fcc.params.pricebook}=${CORP_PRICING_SEARCH.fcc.pricebookNoMatch}`);
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBe(0);
   });
 
-  test('TC-CPR-SRC-020: Pricebook accepts a 250-char value with no truncation; server returns zero, no crash', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-020: Pricebook accepts a 250-char value with no truncation; server returns zero, no crash', { tag: '@C99947' }, async ({ corporatePricingSearchPage: cp }) => {
     const probe = await cp.probePricebookBoundary(CORP_PRICING_SEARCH.fcc.pricebookOverflow);
     expect(probe.stagedLen).toBe(250); // no maxlength truncation
     expect(probe.ariaInvalid).toBeNull(); // (a): no false rejection signal
@@ -278,7 +278,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBe(0);
   });
 
-  test('TC-CPR-SRC-021: Pricebook accepts special characters literally, URL-encodes them, no crash, escapable', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-021: Pricebook accepts special characters literally, URL-encodes them, no crash, escapable', { tag: '@C99948' }, async ({ corporatePricingSearchPage: cp }) => {
     const probe = await cp.probePricebookBoundary(CORP_PRICING_SEARCH.fcc.pricebookSpecial);
     expect(probe.staged).toBe(CORP_PRICING_SEARCH.fcc.pricebookSpecial); // accepted literally
     expect(probe.ariaInvalid).toBeNull(); // (a)
@@ -289,7 +289,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBe(0);
   });
 
-  test('TC-CPR-SRC-022: Pricebook whitespace-only returns the full list (server ignores whitespace)', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-022: Pricebook whitespace-only returns the full list (server ignores whitespace)', { tag: '@C99949' }, async ({ corporatePricingSearchPage: cp }) => {
     const probe = await cp.probePricebookBoundary(CORP_PRICING_SEARCH.fcc.pricebookWhitespace);
     expect(probe.escaped).toBe(true); // (b)
     expect(probe.pageError).toBe(0);
@@ -300,14 +300,14 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect(await cp.getItemCountText()).toMatch(CORP_PRICING_SEARCH.itemCountPattern);
   });
 
-  test('TC-CPR-SRC-023: Pricing Strategy no-match filter (pricingStrategyName) returns zero results', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-023: Pricing Strategy no-match filter (pricingStrategyName) returns zero results', { tag: '@C99950' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.fillStrategyFilter(CORP_PRICING_SEARCH.fcc.strategyNoMatch);
     const url = await cp.searchAndWaitForList();
     expect(url).toContain(`${CORP_PRICING_SEARCH.fcc.params.strategy}=${CORP_PRICING_SEARCH.fcc.strategyNoMatch}`);
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBe(0);
   });
 
-  test('TC-CPR-SRC-024: Currency each-option (USD/CAD/MXN) submits the matching currencyId', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-024: Currency each-option (USD/CAD/MXN) submits the matching currencyId', { tag: '@C99951' }, async ({ corporatePricingSearchPage: cp }) => {
     for (const [name, id] of Object.entries(CORP_PRICING_SEARCH.fcc.currencyId)) {
       await cp.selectCurrency(name);
       const url = await cp.searchAndWaitForList();
@@ -317,7 +317,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-025: Location filter submits locationNo and narrows the grid (representative)', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-025: Location filter submits locationNo and narrows the grid (representative)', { tag: '@C99952' }, async ({ corporatePricingSearchPage: cp }) => {
     const baseline = await cp.getItemCountNumber();
     const label = await cp.selectFirstRealLocation(); // e.g. "1101 - Corporate Office …"
     const officeNo = (label.match(/^(\d+)/) ?? [])[1];
@@ -327,7 +327,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeLessThanOrEqual(baseline);
   });
 
-  test('TC-CPR-SRC-026: Is Internal toggle + revert restores the baseline', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-026: Is Internal toggle + revert restores the baseline', { tag: '@C99953' }, async ({ corporatePricingSearchPage: cp }) => {
     const base = await cp.getItemCountNumber();
     await cp.setCheckbox('isInternal', true);
     const url = await cp.searchAndWaitForList();
@@ -337,7 +337,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 15_000 }).toBe(base);
   });
 
-  test('TC-CPR-SRC-027: Is Labor toggle + revert restores the baseline (labor is a different set, not a narrow)', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-027: Is Labor toggle + revert restores the baseline (labor is a different set, not a narrow)', { tag: '@C99954' }, async ({ corporatePricingSearchPage: cp }) => {
     const base = await cp.getItemCountNumber();
     await cp.setCheckbox('isLabor', true);
     const url = await cp.searchAndWaitForList();
@@ -348,7 +348,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 15_000 }).toBe(base);
   });
 
-  test('TC-CPR-SRC-028: Active Only uncheck omits isActive and reveals inactive rows; re-check restores', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-028: Active Only uncheck omits isActive and reveals inactive rows; re-check restores', { tag: '@C99955' }, async ({ corporatePricingSearchPage: cp }) => {
     const base = await cp.getItemCountNumber();
     expect(await cp.getCheckboxState('activeOnly')).toBe(true); // default checked
     await cp.setCheckbox('activeOnly', false);
@@ -360,7 +360,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 15_000 }).toBe(base);
   });
 
-  test('TC-CPR-SRC-029: Reset is idempotent and fires no server request', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-029: Reset is idempotent and fires no server request', { tag: '@C99956' }, async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
     try {
       await cp.fillPricebookFilter(CORP_PRICING_SEARCH.fcc.pricebookBroad);
@@ -379,7 +379,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-030: Combined multi-filter submits a single server query carrying every staged filter', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-030: Combined multi-filter submits a single server query carrying every staged filter', { tag: '@C99957' }, async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
     try {
       await cp.fillPricebookFilter(CORP_PRICING_SEARCH.fcc.pricebookBroad);
@@ -399,7 +399,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
 
   // ── Grid Options + filter→grid content ──
 
-  test('TC-CPR-SRC-031: Grid Options menu exposes a toggle per column and Reset to Default View', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-031: Grid Options menu exposes a toggle per column and Reset to Default View', { tag: '@C99958' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.openGridOptions();
     const labels = (await cp.getGridOptionColumns()).map((c) => c.label);
     for (const name of CORP_PRICING_SEARCH.liveColumns) {
@@ -411,7 +411,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await cp.closeGridOptions();
   });
 
-  test('TC-CPR-SRC-032: Toggling a column off hides it and the setting persists across a reload', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-032: Toggling a column off hides it and the setting persists across a reload', { tag: '@C99959' }, async ({ corporatePricingSearchPage: cp }) => {
     try {
       expect(await cp.isGridColumnVisible('Is GSO')).toBe(true);
       await cp.openGridOptions();
@@ -425,7 +425,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-033: Reset to Default View restores all columns and persists across a reload', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-033: Reset to Default View restores all columns and persists across a reload', { tag: '@C99960' }, async ({ corporatePricingSearchPage: cp }) => {
     try {
       await cp.openGridOptions();
       await cp.toggleGridColumn('Is GSO');
@@ -442,7 +442,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-034: Currency = USD returns rows that all show USD in the Currency column', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-034: Currency = USD returns rows that all show USD in the Currency column', { tag: '@C99961' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.selectCurrency('USD');
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getTbodyRowCount(), { timeout: 10_000 }).toBeGreaterThan(0);
@@ -451,7 +451,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     for (const v of vals) expect(v).toBe('USD');
   });
 
-  test('TC-CPR-SRC-035: Is Internal returns rows that are all marked Internal', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-035: Is Internal returns rows that are all marked Internal', { tag: '@C99962' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.setCheckbox('isInternal', true);
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getTbodyRowCount(), { timeout: 10_000 }).toBeGreaterThan(0);
@@ -460,14 +460,14 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     for (const b of bools) expect(b).toBe(true);
   });
 
-  test('TC-CPR-SRC-036: Is Labor returns the labor population (every row marked Labor)', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-036: Is Labor returns the labor population (every row marked Labor)', { tag: '@C99963' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.setCheckbox('isLabor', true);
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getTbodyRowCount(), { timeout: 10_000 }).toBeGreaterThan(0);
     for (const b of await cp.readBooleanColumnForVisibleRows('Is Labor')) expect(b).toBe(true);
   });
 
-  test('TC-CPR-SRC-037: Active Only off reveals an inactive row; on restricts to active rows', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-037: Active Only off reveals an inactive row; on restricts to active rows', { tag: '@C99964' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.setCheckbox('activeOnly', false);
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getTbodyRowCount(), { timeout: 10_000 }).toBeGreaterThan(0);
@@ -478,14 +478,14 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => (await cp.readBooleanColumnForVisibleRows('Is Active')).every((b) => b === true), { timeout: 15_000 }).toBe(true);
   });
 
-  test('TC-CPR-SRC-038: Location filter narrows the grid to the selected location', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-038: Location filter narrows the grid to the selected location', { tag: '@C99965' }, async ({ corporatePricingSearchPage: cp }) => {
     const baseline = await cp.getItemCountNumber();
     await cp.selectFirstRealLocation();
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBeLessThanOrEqual(baseline);
   });
 
-  test('TC-CPR-SRC-039: Pricing Strategy filter narrows to rows whose strategy contains the entered text', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-039: Pricing Strategy filter narrows to rows whose strategy contains the entered text', { tag: '@C99966' }, async ({ corporatePricingSearchPage: cp }) => {
     const sample = (await cp.readColumnForVisibleRows('Price Book Strategy')).find((s) => s.length > 0) ?? '';
     const needle = (sample.split(/\s+/)[0] || 'Tier');
     await cp.fillStrategyFilter(needle);
@@ -496,7 +496,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-040: Pricebook filter narrows by name-contains and by exact ID', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-040: Pricebook filter narrows by name-contains and by exact ID', { tag: '@C99967' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.fillPricebookFilter('2'); // broad substring
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getTbodyRowCount(), { timeout: 10_000 }).toBeGreaterThan(0);
@@ -508,7 +508,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect((await cp.readColumnForVisibleRows('Price Book')).some((n) => n.includes('2021-PB6'))).toBe(true);
   });
 
-  test('TC-CPR-SRC-041: Combined filters return rows that satisfy every active criterion (AND)', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-041: Combined filters return rows that satisfy every active criterion (AND)', { tag: '@C99968' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.setCheckbox('isLabor', true);
     await cp.selectCurrency('USD'); // Active Only stays checked (default)
     await cp.searchAndWaitForList();
@@ -527,7 +527,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-042: Filter application order does not change the result set', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-042: Filter application order does not change the result set', { tag: '@C99969' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.selectCurrency('USD');
     await cp.setCheckbox('isInternal', true);
     await cp.searchAndWaitForList();
@@ -542,7 +542,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect((await cp.getFirstNPriceBookNames(5)).sort()).toEqual(names1.sort());
   });
 
-  test('TC-CPR-SRC-043: Reset from a multi-filter state restores the baseline; column visibility is unaffected', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-043: Reset from a multi-filter state restores the baseline; column visibility is unaffected', { tag: '@C99970' }, async ({ corporatePricingSearchPage: cp }) => {
     try {
       const baseline = await cp.getItemCountNumber();
       await cp.openGridOptions();
@@ -565,14 +565,14 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
   });
 
   // ── SBC — surface behaviors ──
-  test('TC-CPR-SRC-044: A single filter returns only rows that match the query', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-044: A single filter returns only rows that match the query', { tag: '@C99971' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.selectCurrency('USD');
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getTbodyRowCount(), { timeout: 10_000 }).toBeGreaterThan(0);
     for (const v of await cp.readColumnForVisibleRows('Currency')) expect(v).toBe('USD');
   });
 
-  test('TC-CPR-SRC-045: Filters stage client-side, Search fires one query, and rows match (incl. exact-ID)', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-045: Filters stage client-side, Search fires one query, and rows match (incl. exact-ID)', { tag: '@C99972' }, async ({ corporatePricingSearchPage: cp }) => {
     const counter = cp.attachListCallCounter();
     try {
       await cp.fillPricebookFilter('2');
@@ -593,7 +593,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     }
   });
 
-  test('TC-CPR-SRC-046: Changing the page size re-renders the grid and next-page navigation works', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-046: Changing the page size re-renders the grid and next-page navigation works', { tag: '@C99973' }, async ({ corporatePricingSearchPage: cp }) => {
     const pageErrors: string[] = [];
     cp.page.on('pageerror', (e) => pageErrors.push(e.message));
     await cp.setPageSize('10');
@@ -605,7 +605,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect(pageErrors, 'no uncaught page exceptions during paging').toEqual([]);
   });
 
-  test('TC-CPR-SRC-047: All page sizes render; page-1/last-page nav disabled-states; no duplicate rows across pages', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-047: All page sizes render; page-1/last-page nav disabled-states; no duplicate rows across pages', { tag: '@C99974' }, async ({ corporatePricingSearchPage: cp }) => {
     for (const size of ['10', '20', '30', '40', '50']) {
       await cp.setPageSize(size);
       expect(await cp.getPageSizeValue()).toBe(size);
@@ -624,7 +624,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect(await cp.isPageNavDisabled('last')).toBe(true);
   });
 
-  test('TC-CPR-SRC-048: Column headers are buttons, but clicking does not reorder the grid (sort is inactive)', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-048: Column headers are buttons, but clicking does not reorder the grid (sort is inactive)', { tag: '@C99975' }, async ({ corporatePricingSearchPage: cp }) => {
     // Live behaviour on this build: a header click sets no aria-sort and leaves row order unchanged.
     expect(await cp.columnHeaderHasButton('Price Year')).toBe(true);
     const firstBefore = (await cp.getFirstNPriceBookNames(1))[0];
@@ -633,7 +633,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect((await cp.getFirstNPriceBookNames(1))[0]).toBe(firstBefore);
   });
 
-  test('TC-CPR-SRC-049: Pagination within a filtered result keeps the filter applied', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-049: Pagination within a filtered result keeps the filter applied', { tag: '@C99976' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.selectCurrency('USD');
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getTbodyRowCount(), { timeout: 10_000 }).toBeGreaterThan(0);
@@ -642,7 +642,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     for (const v of await cp.readColumnForVisibleRows('Currency')) expect(v).toBe('USD'); // still USD on the next page
   });
 
-  test('TC-CPR-SRC-050: Multi-filter AND holds; adding a criterion never widens the result; Reset clears all', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-050: Multi-filter AND holds; adding a criterion never widens the result; Reset clears all', { tag: '@C99977' }, async ({ corporatePricingSearchPage: cp }) => {
     const baseline = await cp.getItemCountNumber();
     await cp.selectCurrency('USD');
     await cp.setCheckbox('isInternal', true);
@@ -662,7 +662,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBe(baseline);
   });
 
-  test('TC-CPR-SRC-051: A pricebook name cell is a navigating link; a boolean column reads as checkmark/empty', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-051: A pricebook name cell is a navigating link; a boolean column reads as checkmark/empty', { tag: '@C99978' }, async ({ corporatePricingSearchPage: cp }) => {
     expect(await cp.getPricebookLinkCellCount()).toBeGreaterThan(0); // name cells render as links
     for (const v of await cp.readColumnForVisibleRows('Is Active')) {
       expect(['', CORP_PRICING_SEARCH.booleanTrueMarker]).toContain(v); // checkmark or empty, no stray text
@@ -673,7 +673,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect(cp.page).toHaveURL(/\/corporate-pricing\/details\/[0-9a-f-]+/i);
   });
 
-  test('TC-CPR-SRC-052: All boolean columns use checkmark/empty; currency values are valid; name cells navigate', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-052: All boolean columns use checkmark/empty; currency values are valid; name cells navigate', { tag: '@C99979' }, async ({ corporatePricingSearchPage: cp }) => {
     for (const col of CORP_PRICING_SEARCH.booleanColumns) {
       for (const v of await cp.readColumnForVisibleRows(col)) {
         expect(['', CORP_PRICING_SEARCH.booleanTrueMarker], `boolean column "${col}" cell`).toContain(v);
@@ -694,7 +694,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     await expect(cp.page).toHaveURL(/\/corporate-pricing\/details\/[0-9a-f-]+/i);
   });
 
-  test('TC-CPR-SRC-053: A no-match filter shows "No results.", 0 items found, and zero rows', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-053: A no-match filter shows "No results.", 0 items found, and zero rows', { tag: '@C99980' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.fillPricebookFilter('ZZZ-NOPE-NOMATCH-9999');
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBe(0);
@@ -702,7 +702,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect(await cp.hasNoResultsMessage()).toBe(true); // verbatim "No results."
   });
 
-  test('TC-CPR-SRC-054: Zero, one, and many-row states render; an off-screen row reads by content anchor', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-054: Zero, one, and many-row states render; an off-screen row reads by content anchor', { tag: '@C99981' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.fillPricebookFilter('ZZZ-NOPE-NOMATCH-9999');
     await cp.searchAndWaitForList();
     await expect.poll(async () => cp.getItemCountNumber(), { timeout: 10_000 }).toBe(0);
@@ -717,7 +717,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect(await cp.findRowByName(CORP_PRICING_SEARCH.pricebookFilterSample.expectedName)).not.toBeNull(); // off-screen, by content
   });
 
-  test('TC-CPR-SRC-055: A page-size change is honored and survives a reload as a valid page size', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-055: A page-size change is honored and survives a reload as a valid page size', { tag: '@C99982' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.setPageSize('10');
     expect(await cp.getPageSizeValue()).toBe('10');
     expect(await cp.getTbodyRowCount()).toBeLessThanOrEqual(10);
@@ -725,7 +725,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     expect(['10', '50']).toContain(await cp.getPageSizeValue()); // persisted (10) or reset to default (50) — both valid, no corrupt state
   });
 
-  test('TC-CPR-SRC-056: Column visibility persists across reload and browser-back; nav-away does not crash', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-056: Column visibility persists across reload and browser-back; nav-away does not crash', { tag: '@C99983' }, async ({ corporatePricingSearchPage: cp }) => {
     // Sort persistence is not applicable on this build (header-click sort is inactive — see SRC-048).
     try {
       await cp.openGridOptions();
@@ -749,7 +749,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
 
   // Every grid column starts enabled — the "all-on" default state (SRC-031 covers the per-column
   // toggle listing + the Reset option).
-  test('TC-CPR-SRC-057: Every grid column toggle is enabled (checked) by default', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-057: Every grid column toggle is enabled (checked) by default', { tag: '@C99984' }, async ({ corporatePricingSearchPage: cp }) => {
     await cp.openGridOptions();
     const cols = await cp.getGridOptionColumns();
     expect(cols.length).toBeGreaterThan(0);
@@ -759,7 +759,7 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
 
   // Individually re-toggling a hidden column back ON restores it (SRC-033 covers the bulk "Reset to
   // Default View"; this is the per-column path).
-  test('TC-CPR-SRC-058: Toggling a hidden column back ON restores its header', async ({ corporatePricingSearchPage: cp }) => {
+  test('TC-CPR-SRC-058: Toggling a hidden column back ON restores its header', { tag: '@C99985' }, async ({ corporatePricingSearchPage: cp }) => {
     try {
       await cp.openGridOptions();
       await cp.toggleGridColumn('Is GSO'); // hide

@@ -175,6 +175,10 @@ Per test, in priority order:
 
 1. **Explicit TestRail id** — a `C<number>` in the title (`C123: Login works`,
    `[C123] Login works`) or a tag (`@C123`).
+   Every `tests/corporate-pricing/` test carries its case id this way, as a
+   Playwright tag option: `test('TC-CPR-DET-001: …', { tag: '@C99703' }, …)`.
+   The tag lives in the options object, not the title, so titles stay aligned
+   with the workbooks.
 2. **TC display id** — the TestRail case whose title contains the same
    `TC-…` token as the spec title (only fires when cases were imported with the
    id kept in the title).

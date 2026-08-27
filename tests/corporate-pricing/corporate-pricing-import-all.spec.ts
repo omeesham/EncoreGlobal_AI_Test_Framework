@@ -105,7 +105,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     expect(restored, `afterEach must restore ${RT.productGroupId}/${RT.pricebook} to its original ${original} — an unrestored corporate price leaks to the shared server`).toBe(original);
   });
 
-  test('TC-CPR-IMA-001: Each Import variant opens the shared "Import" Year(s)+Currency dialog', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-001: Each Import variant opens the shared "Import" Year(s)+Currency dialog', { tag: '@C99777' }, async ({ corporatePricingSearchPage: p }) => {
     for (const v of VARIANTS) {
       await p.openImportAllVariantDialog(v.label);
       const info = await p.getImportAllDialogInfo();
@@ -117,26 +117,26 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     }
   });
 
-  test('TC-CPR-IMA-002: Continue stays disabled with only Year(s) set', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-002: Continue stays disabled with only Year(s) set', { tag: '@C99778' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openImportAllVariantDialog('All Equipment Pricing');
     await p.setImportAllYears([IMP_ALL.precondition.defaultYear]);
     expect(await p.isImportAllContinueEnabled()).toBe(false); // Currency still required
   });
 
-  test('TC-CPR-IMA-003: Continue stays disabled with only Currency set', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-003: Continue stays disabled with only Currency set', { tag: '@C99779' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openImportAllVariantDialog('All Equipment Pricing');
     await p.setImportAllCurrency('USD');
     expect(await p.isImportAllContinueEnabled()).toBe(false); // Year(s) still required
   });
 
-  test('TC-CPR-IMA-004: Continue enables when BOTH Year(s) and Currency are set', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-004: Continue enables when BOTH Year(s) and Currency are set', { tag: '@C99780' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openImportAllVariantDialog('All Equipment Pricing');
     await p.setImportAllYears([IMP_ALL.precondition.defaultYear]);
     await p.setImportAllCurrency('USD');
     expect(await p.isImportAllContinueEnabled()).toBe(true);
   });
 
-  test('TC-CPR-IMA-005: Year(s) boundary — 1 accepted, 3 accepted, a 4th refused', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-005: Year(s) boundary — 1 accepted, 3 accepted, a 4th refused', { tag: '@C99781' }, async ({ corporatePricingSearchPage: p }) => {
     // Minimum: a single year is accepted.
     await p.openImportAllVariantDialog('All Equipment Pricing');
     await p.setImportAllYears([IMP_ALL.precondition.defaultYear]);
@@ -150,13 +150,13 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     expect(afterFourth).toEqual(['2026', '2027', '2028']); // stays at 3 — the 4th was refused, not merely absent
   });
 
-  test('TC-CPR-IMA-006: Currency options present — USD, CAD, MXN', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-006: Currency options present — USD, CAD, MXN', { tag: '@C99782' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openImportAllVariantDialog('All Equipment Pricing');
     const options = await p.getImportAllCurrencyOptions();
     for (const c of CUR) expect(options).toContain(c.code);
   });
 
-  test('TC-CPR-IMA-007: Cancel on the precondition dialog aborts — no upload dialog opens', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-007: Cancel on the precondition dialog aborts — no upload dialog opens', { tag: '@C99783' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openImportAllVariantDialog('All Equipment Pricing');
     await p.setImportAllYears([IMP_ALL.precondition.defaultYear]);
     await p.setImportAllCurrency('USD');
@@ -165,7 +165,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
   });
 
   // ── Diff outcomes ──
-  test('TC-CPR-IMA-008: An unchanged file diffs to "no changes" and offers nothing to publish', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-008: An unchanged file diffs to "no changes" and offers nothing to publish', { tag: '@C99784' }, async ({ corporatePricingSearchPage: p }) => {
     const current = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
     const noChange = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook, newValue: current });
     let importFired = false;
@@ -194,7 +194,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     }
   });
 
-  test('TC-CPR-IMA-009: An empty file is rejected as "no matching pricebooks" and runs no import', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-009: An empty file is rejected as "no matching pricebooks" and runs no import', { tag: '@C99785' }, async ({ corporatePricingSearchPage: p }) => {
     let importFired = false;
     const onReq = (req: import('@playwright/test').Request): void => {
       if (req.url().includes(CORP_PRICING_IMPORT_ALL_API) && req.method() !== 'GET') importFired = true;
@@ -210,7 +210,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     await p.closeImportDialog();
   });
 
-  test('TC-CPR-IMA-010: A malformed CSV is rejected as "no matching pricebooks" and runs no import', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-010: A malformed CSV is rejected as "no matching pricebooks" and runs no import', { tag: '@C99786' }, async ({ corporatePricingSearchPage: p }) => {
     let importFired = false;
     const onReq = (req: import('@playwright/test').Request): void => {
       if (req.url().includes(CORP_PRICING_IMPORT_ALL_API) && req.method() !== 'GET') importFired = true;
@@ -226,7 +226,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     await p.closeImportDialog();
   });
 
-  test('TC-CPR-IMA-011: A non-CSV file is rejected by type before any network', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-011: A non-CSV file is rejected by type before any network', { tag: '@C99787' }, async ({ corporatePricingSearchPage: p }) => {
     let importFired = false;
     const onReq = (req: import('@playwright/test').Request): void => {
       if (req.url().includes(CORP_PRICING_IMPORT_ALL_API)) importFired = true;
@@ -241,7 +241,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     await p.closeImportDialog();
   });
 
-  test('TC-CPR-IMA-012: Cancelling the publish modal after staging changes commits nothing', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-012: Cancelling the publish modal after staging changes commits nothing', { tag: '@C99788' }, async ({ corporatePricingSearchPage: p }) => {
     const changed = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook, newValue: RT.testValue });
     let importFired = false;
     const onReq = (req: import('@playwright/test').Request): void => {
@@ -276,7 +276,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
   });
 
   // ── Real round-trip (mutation, canary-guarded) ──
-  test('TC-CPR-IMA-013: Import All publishes a changed price, it persists across reload, then restores', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-013: Import All publishes a changed price, it persists across reload, then restores', { tag: ['@mutation', '@C99789'] }, async ({ corporatePricingSearchPage: p }) => {
     const changed = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook, newValue: RT.testValue });
     try {
       expect(changed.previousValue).toBe(original); // the fixture builder and the beforeEach read the same start value
@@ -329,7 +329,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
   });
 
   // ── Surface-behavior ──
-  test('TC-CPR-IMA-014: The staged delta shows the exact changed cell (old price → new price), then Cancel commits nothing', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-014: The staged delta shows the exact changed cell (old price → new price), then Cancel commits nothing', { tag: '@C99790' }, async ({ corporatePricingSearchPage: p }) => {
     const changed = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook, newValue: RT.testValue });
     let importFired = false;
     const onReq = (req: import('@playwright/test').Request): void => {
@@ -359,7 +359,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     expect(after, 'the target cell is unchanged after Cancel — nothing was committed').toBe(changed.previousValue);
   });
 
-  test('TC-CPR-IMA-015: Combination — a bounded pairwise of variant × Year(s) × Currency all reach the upload dialog', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-015: Combination — a bounded pairwise of variant × Year(s) × Currency all reach the upload dialog', { tag: '@C99791' }, async ({ corporatePricingSearchPage: p }) => {
     const yearsets: string[][] = [['2026'], ['2026', '2027', '2028']]; // 1-year and 3-year selections
     // A bounded pairwise covering array over {4 variants} × {1yr, 3yr} × {USD, CAD, MXN} — indices are
     // [variantIndex, yearsetIndex, currencyIndex]; every pair of factor levels appears at least once.
@@ -384,7 +384,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     }
   });
 
-  test('TC-CPR-IMA-016: An Equipment file imported into the Labor variant matches no pricebooks (no commit)', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-016: An Equipment file imported into the Labor variant matches no pricebooks (no commit)', { tag: '@C99792' }, async ({ corporatePricingSearchPage: p }) => {
     // Build an Equipment-scoped changed file, then feed it to the LABOR import — the labor server pricebook
     // columns differ, so the diff matches nothing and stages nothing (the app's cross-variant guard).
     const eqFile = await p.buildImportAllSingleCellFixture({ variant: 'All Equipment Pricing', years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook, newValue: RT.testValue });
@@ -410,7 +410,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     }
   });
 
-  test('TC-CPR-IMA-017: Publishing a subset of staged rows commits only the selected rows', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-017: Publishing a subset of staged rows commits only the selected rows', { tag: ['@mutation', '@C99793'] }, async ({ corporatePricingSearchPage: p }) => {
     // Stage TWO changed cells in the same pricebook — the target (271) and one untouched neighbour product
     // group — then publish ONLY the target. The neighbour is staged-but-deselected, so it must NOT commit.
     const neighbourId = canaries!.otherRow.productGroupId;
@@ -455,7 +455,7 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     expect(neighbourAfter, `the deselected staged row (${neighbourId}) must NOT be committed — only selected rows publish`).toBe(neighbourOriginal);
   });
 
-  test('TC-CPR-IMA-018: A Labor-variant change stages a delta, then Cancel commits nothing', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-IMA-018: A Labor-variant change stages a delta, then Cancel commits nothing', { tag: '@C99794' }, async ({ corporatePricingSearchPage: p }) => {
     const LABOR = 'All Labor Pricing';
     // Pick a real Labor target live — a product group with a numeric price in a Labor pricebook column (the
     // Labor pricebook population differs from Equipment, so this proves staging on that distinct scope).

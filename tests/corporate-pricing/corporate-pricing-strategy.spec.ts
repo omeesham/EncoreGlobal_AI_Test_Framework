@@ -36,61 +36,61 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     await p.ensureDefaultState();
   });
 
-  test('TC-CPR-STR-001: Pricebook Details management page loads with the pricebook header', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-001: Pricebook Details management page loads with the pricebook header', { tag: '@C99865' }, async ({ corporatePricingStrategyPage: p }) => {
     await test.step('Confirm the Corporate Pricing Details heading is visible', async () => {
       await expect(p.page.getByRole('heading', { name: 'Corporate Pricing Details' })).toBeVisible();
     });
     expect(await p.getHeaderField('name')).toBe(STRATEGY.header.name);
   });
 
-  test('TC-CPR-STR-002: Header shows the Price Book Name', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-002: Header shows the Price Book Name', { tag: '@C99866' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.getHeaderField('name')).toBe(STRATEGY.header.name);
   });
 
-  test('TC-CPR-STR-003: Header shows the Price Book Type (Labor/Equipment)', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-003: Header shows the Price Book Type (Labor/Equipment)', { tag: '@C99867' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.getHeaderField('type')).toBe(STRATEGY.header.type);
   });
 
-  test('TC-CPR-STR-004: Header shows the Price Year', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-004: Header shows the Price Year', { tag: '@C99868' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.getHeaderField('year')).toBe(STRATEGY.header.year);
   });
 
-  test('TC-CPR-STR-005: Header shows the Currency', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-005: Header shows the Currency', { tag: '@C99869' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.getHeaderField('currency')).toBe(STRATEGY.header.currency);
   });
 
-  test('TC-CPR-STR-006: Header shows the Active status', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-006: Header shows the Active status', { tag: '@C99870' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.getHeaderField('active')).toBe(STRATEGY.header.active);
   });
 
-  test('TC-CPR-STR-007: Header fields are reference-only (not editable)', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-007: Header fields are reference-only (not editable)', { tag: '@C99871' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.headerFieldsAreReadOnly()).toBe(true);
   });
 
-  test('TC-CPR-STR-008: Tabs render — Pricing Strategy + Pricing Detail', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-008: Tabs render — Pricing Strategy + Pricing Detail', { tag: '@C99872' }, async ({ corporatePricingStrategyPage: p }) => {
     const tabs = await p.getTabs();
     expect(tabs).toContain('Pricing Strategy');
     expect(tabs).toContain('Pricing Detail');
   });
 
-  test('TC-CPR-STR-009: Pricing Strategy tab is selected by default on load', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-009: Pricing Strategy tab is selected by default on load', { tag: '@C99873' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.isStrategyTabActive(), 'Pricing Strategy tab is active by default').toBe(true);
   });
 
-  test('TC-CPR-STR-010: Pricing Detail tab is present and activates', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-010: Pricing Detail tab is present and activates', { tag: '@C99874' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.getTabs()).toContain('Pricing Detail');
     await p.clickDetailTab();
     // Strategy pane should no longer be the active content once Detail is selected.
     expect(await p.isStrategyTabActive()).toBe(false);
   });
 
-  test('TC-CPR-STR-011: History tab is absent on the live site', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-011: History tab is absent on the live site', { tag: '@C99875' }, async ({ corporatePricingStrategyPage: p }) => {
     // The requirements specify a 3rd "History" tab; live shows only 2. Divergence raised as a
     // clarification; behavior gated to a future History coverage pass.
     expect(await p.hasHistoryTab()).toBe(false);
   });
 
-  test('TC-CPR-STR-012: Clicking an existing strategy loads its details', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-012: Clicking an existing strategy loads its details', { tag: '@C99876' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.selectStrategy(STRATEGY.fixtureStrategyName);
     expect(await p.getStrategyName()).toBe(STRATEGY.fixtureStrategyName);
     // Flag checkboxes render (editor populated).
@@ -98,7 +98,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(typeof isProductions.checked).toBe('boolean');
   });
 
-  test('TC-CPR-STR-013: Setting a location\'s Primary Pricing surfaces that office in the strategy grid', async ({ corporatePricingStrategyPage: strategyPage, locationPricingPage }) => {
+  test('TC-CPR-STR-013: Setting a location\'s Primary Pricing surfaces that office in the strategy grid', { tag: '@C99877' }, async ({ corporatePricingStrategyPage: strategyPage, locationPricingPage }) => {
     // Cross-surface integration (location save-cycle + strategy reload) — give it room.
     test.setTimeout(120_000);
     // The strategy's "Locations Using Pricing As Default" grid is a read-only back-reference: an
@@ -154,7 +154,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     }
   });
 
-  test('TC-CPR-STR-014: Edit an existing strategy and Save persists the change', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-014: Edit an existing strategy and Save persists the change', { tag: '@C99878' }, async ({ corporatePricingStrategyPage: p }) => {
     test.setTimeout(60_000); // live save-cycle: 2 saves + 2 reloads
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
@@ -170,7 +170,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.getStrategyName()).toBe(STRATEGY.reversibleEdit.restoredName);
   });
 
-  test('TC-CPR-STR-015: Add New opens the New Pricing Strategy dialog and appends a row', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-015: Add New opens the New Pricing Strategy dialog and appends a row', { tag: '@C99879' }, async ({ corporatePricingStrategyPage: p }) => {
     const before = await p.getStrategyTotal();
     await p.openAddStrategyDialog();
     expect(await p.isAddDialogOpen()).toBe(true);
@@ -182,17 +182,17 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.getStrategyTotal()).toBe(before);
   });
 
-  test('TC-CPR-STR-016: Newly added strategy shows a Remove button', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-016: Newly added strategy shows a Remove button', { tag: '@C99880' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.addStrategy(STRATEGY.newStrategyPayload.name);
     expect(await p.isRemoveVisible(STRATEGY.newStrategyPayload.name)).toBe(true);
     await p.removeStrategy(STRATEGY.newStrategyPayload.name);
   });
 
-  test('TC-CPR-STR-017: Legacy strategies do not show a Remove button', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-017: Legacy strategies do not show a Remove button', { tag: '@C99881' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.isRemoveVisible(STRATEGY.fixtureStrategyName)).toBe(false);
   });
 
-  test('TC-CPR-STR-018: Remove on a new strategy deletes it before commit', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-018: Remove on a new strategy deletes it before commit', { tag: '@C99882' }, async ({ corporatePricingStrategyPage: p }) => {
     const before = await p.getStrategyTotal();
     await p.addStrategy(STRATEGY.newStrategyPayload.name);
     expect(await p.getStrategyTotal()).toBe(before + 1);
@@ -202,15 +202,15 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.isSaveEnabled()).toBe(false); // back to clean
   });
 
-  test('TC-CPR-STR-019: Legacy strategies cannot be removed from the management view', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-019: Legacy strategies cannot be removed from the management view', { tag: '@C99883' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.isRemoveVisible(STRATEGY.fixtureStrategyName)).toBe(false);
   });
 
-  test('TC-CPR-STR-020: Unmodified strategy list shows the clean state (Save disabled)', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-020: Unmodified strategy list shows the clean state (Save disabled)', { tag: '@C99884' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-STR-021: Editing a strategy changes the state to dirty (Save enabled)', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-021: Editing a strategy changes the state to dirty (Save enabled)', { tag: '@C99885' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.isSaveEnabled()).toBe(false);
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
@@ -220,14 +220,14 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.getStrategyName()).not.toBe(STRATEGY.reversibleEdit.editedName);
   });
 
-  test('TC-CPR-STR-022: Adding a new strategy changes the state to dirty (Save enabled)', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-022: Adding a new strategy changes the state to dirty (Save enabled)', { tag: '@C99886' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.isSaveEnabled()).toBe(false);
     await p.addStrategy(STRATEGY.newStrategyPayload.name);
     expect(await p.isSaveEnabled()).toBe(true);
     await p.removeStrategy(STRATEGY.newStrategyPayload.name);
   });
 
-  test('TC-CPR-STR-023: Save commits pending strategy edits in one batch', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-023: Save commits pending strategy edits in one batch', { tag: '@C99887' }, async ({ corporatePricingStrategyPage: p }) => {
     test.setTimeout(60_000); // live save-cycle
     // NOTE: a saved NEW strategy is not UI-removable, so the batch-commit is exercised via a
     // reversible existing-strategy edit; full new-strategy persistence is deferred to a follow-up
@@ -244,7 +244,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     await p.saveAndConfirm();
   });
 
-  test('TC-CPR-STR-024: Save provides confirmation feedback', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-024: Save provides confirmation feedback', { tag: '@C99888' }, async ({ corporatePricingStrategyPage: p }) => {
     test.setTimeout(60_000); // live save-cycle
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
@@ -264,7 +264,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     await p.saveAndConfirm();
   });
 
-  test('TC-CPR-STR-025: Save resets the state from dirty to clean after success', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-025: Save resets the state from dirty to clean after success', { tag: '@C99889' }, async ({ corporatePricingStrategyPage: p }) => {
     test.setTimeout(60_000); // live save-cycle
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
@@ -286,7 +286,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
   // (the per-test `ensureDefaultState()` baseline) discards them, because a committed new strategy is
   // irreversible (a saved strategy becomes legacy with no Remove). Save-cycle tests use the only
   // UI-reversible save: editing the EXISTING strategy's name then restoring it.
-  test('TC-CPR-STR-026: Add multiple strategies in one session (N=2)', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-026: Add multiple strategies in one session (N=2)', { tag: '@C99890' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.getStrategyTotal()).toBe(1);
     await p.addStrategy(STRATEGY.deep.alpha);
     expect(await p.getStrategyTotal()).toBe(2);
@@ -297,7 +297,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.isSaveEnabled()).toBe(true); // dirty; never saved — reload discards
   });
 
-  test('TC-CPR-STR-027: Add multiple strategies in one session (N=3, edge)', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-027: Add multiple strategies in one session (N=3, edge)', { tag: '@C99891' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.addStrategy(STRATEGY.deep.alpha);
     await p.addStrategy(STRATEGY.deep.bravo);
     await p.addStrategy(STRATEGY.deep.charlie);
@@ -306,7 +306,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.isSaveEnabled()).toBe(true);
   });
 
-  test('TC-CPR-STR-028: Edit each row name independently in a multi-row session', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-028: Edit each row name independently in a multi-row session', { tag: '@C99892' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.addStrategy(STRATEGY.deep.alpha);
     await p.addStrategy(STRATEGY.deep.bravo);
     await p.selectStrategy(STRATEGY.deep.alpha);
@@ -316,7 +316,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.getStrategyName()).toBe(STRATEGY.deep.bravo); // independent of alpha's edit
   });
 
-  test('TC-CPR-STR-029: Remove each new strategy in sequence', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-029: Remove each new strategy in sequence', { tag: '@C99893' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.addStrategy(STRATEGY.deep.alpha);
     await p.addStrategy(STRATEGY.deep.bravo);
     await p.addStrategy(STRATEGY.deep.charlie);
@@ -330,7 +330,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.isSaveEnabled()).toBe(false); // back to the clean legacy-only baseline
   });
 
-  test('TC-CPR-STR-030: Removing the last strategy on a new pricebook leaves 0 strategies (delete-all)', async ({ corporatePricingNewPricebookPage: np }) => {
+  test('TC-CPR-STR-030: Removing the last strategy on a new pricebook leaves 0 strategies (delete-all)', { tag: '@C99894' }, async ({ corporatePricingNewPricebookPage: np }) => {
     await np.setName(NEW_PRICEBOOK.validName);
     await np.setYear(NEW_PRICEBOOK.validYear);
     await np.addStrategy();
@@ -340,7 +340,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await np.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-STR-031: Re-adding a strategy after delete-all re-enables Save', async ({ corporatePricingNewPricebookPage: np }) => {
+  test('TC-CPR-STR-031: Re-adding a strategy after delete-all re-enables Save', { tag: '@C99895' }, async ({ corporatePricingNewPricebookPage: np }) => {
     await np.setName(NEW_PRICEBOOK.validName);
     await np.setYear(NEW_PRICEBOOK.validYear);
     await np.addStrategy();
@@ -350,7 +350,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await np.isSaveEnabled()).toBe(true);
   });
 
-  test('TC-CPR-STR-032: Reverting the strategy name disables Save', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-032: Reverting the strategy name disables Save', { tag: '@C99896' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
     expect(await p.isSaveEnabled()).toBe(true);
@@ -358,7 +358,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-STR-033: Reverting a flag toggle disables Save', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-033: Reverting a flag toggle disables Save', { tag: '@C99897' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.selectFirstStrategy();
     expect(await p.isSaveEnabled()).toBe(false);
     await p.setEditorFlag('Is Active', false);
@@ -367,7 +367,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-STR-034: Partial revert keeps Save enabled until all changes revert', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-034: Partial revert keeps Save enabled until all changes revert', { tag: '@C99898' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
     await p.setEditorFlag('Is Active', false);
@@ -378,49 +378,49 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-STR-035: Dialog Is Active defaults checked', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-035: Dialog Is Active defaults checked', { tag: '@C99899' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     expect((await p.getDialogFlag('Is Active')).checked).toBe(true);
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-036: Dialog Is GSO defaults unchecked', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-036: Dialog Is GSO defaults unchecked', { tag: '@C99900' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     expect((await p.getDialogFlag('Is GSO')).checked).toBe(false);
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-037: Dialog Is Internal defaults unchecked', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-037: Dialog Is Internal defaults unchecked', { tag: '@C99901' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     expect((await p.getDialogFlag('Is Internal')).checked).toBe(false);
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-038: Dialog Is Productions defaults unchecked', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-038: Dialog Is Productions defaults unchecked', { tag: '@C99902' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     expect((await p.getDialogFlag('Is Productions')).checked).toBe(false);
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-039: Dialog Is Active (off) carries to the new in-session strategy', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-039: Dialog Is Active (off) carries to the new in-session strategy', { tag: '@C99903' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.addStrategyWithFlags(STRATEGY.deep.inactiveFlag, { 'Is Active': false });
     await p.selectStrategy(STRATEGY.deep.inactiveFlag);
     expect((await p.getFlag('Is Active')).checked).toBe(false);
   });
 
-  test('TC-CPR-STR-040: Dialog Is GSO carries to the new strategy', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-040: Dialog Is GSO carries to the new strategy', { tag: '@C99904' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.addStrategyWithFlags(STRATEGY.deep.gsoFlag, { 'Is GSO': true });
     await p.selectStrategy(STRATEGY.deep.gsoFlag);
     expect((await p.getFlag('Is GSO')).checked).toBe(true);
   });
 
-  test('TC-CPR-STR-041: Dialog Is Internal carries to the new strategy', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-041: Dialog Is Internal carries to the new strategy', { tag: '@C99905' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.addStrategyWithFlags(STRATEGY.deep.internalFlag, { 'Is Internal': true });
     await p.selectStrategy(STRATEGY.deep.internalFlag);
     expect((await p.getFlag('Is Internal')).checked).toBe(true);
   });
 
-  test('TC-CPR-STR-042: Dialog Is Productions carries + disables Is Internal/Is GSO', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-042: Dialog Is Productions carries + disables Is Internal/Is GSO', { tag: '@C99906' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     await p.setDialogFlag('Is Productions', true);
     expect((await p.getDialogFlag('Is Internal')).disabled).toBe(true);
@@ -431,7 +431,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect((await p.getFlag('Is Productions')).checked).toBe(true);
   });
 
-  test('TC-CPR-STR-043: Is Productions disables Is Internal and Is GSO (editor + dialog)', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-043: Is Productions disables Is Internal and Is GSO (editor + dialog)', { tag: '@C99907' }, async ({ corporatePricingStrategyPage: p }) => {
     // Editor: the fixture strategy has Is Productions checked → the other two are disabled.
     await p.selectStrategy(STRATEGY.fixtureStrategyName);
     expect((await p.getFlag('Is Productions')).checked).toBe(true);
@@ -445,26 +445,26 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-044: Type and Currency are read-only reference fields after create', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-044: Type and Currency are read-only reference fields after create', { tag: '@C99908' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.headerFieldsAreReadOnly()).toBe(true);
     expect(await p.getHeaderField('type')).toBe(STRATEGY.header.type);
     expect(await p.getHeaderField('currency')).toBe(STRATEGY.header.currency);
   });
 
-  test('TC-CPR-STR-045: Empty Strategy Name blocks Add', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-045: Empty Strategy Name blocks Add', { tag: '@C99909' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     expect(await p.isDialogAddEnabled()).toBe(false);
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-046: Whitespace-only name blocks Add', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-046: Whitespace-only name blocks Add', { tag: '@C99910' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     await p.fillDialogName('   ');
     expect(await p.isDialogAddEnabled()).toBe(false);
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-047: Duplicate strategy name is blocked with an inline error', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-047: Duplicate strategy name is blocked with an inline error', { tag: '@C99911' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     await p.fillDialogName(STRATEGY.deep.duplicateName);
     await p.clickDialogAddExpectingRejection();
@@ -474,7 +474,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-048: Cancel discards a pending strategy', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-048: Cancel discards a pending strategy', { tag: '@C99912' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     await p.fillDialogName(STRATEGY.deep.alpha);
     await p.cancelAddDialog();
@@ -482,7 +482,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.getStrategyTotal()).toBe(1);
   });
 
-  test('TC-CPR-STR-049: Close (X) discards a pending strategy', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-049: Close (X) discards a pending strategy', { tag: '@C99913' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     await p.fillDialogName(STRATEGY.deep.alpha);
     await p.closeAddDialog();
@@ -494,14 +494,14 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
   // TC-CPR-STR-030, 031, 050, 051, 052, 058, 059. The create flow is NO-COMMIT — Save reachability is
   // asserted without ever persisting (a committed pricebook is irreversible). Each test starts from a
   // fresh, always-empty create page (per the dispatched beforeEach).
-  test('TC-CPR-STR-050: New pricebook with 0 strategies has Save disabled', async ({ corporatePricingNewPricebookPage: np }) => {
+  test('TC-CPR-STR-050: New pricebook with 0 strategies has Save disabled', { tag: '@C99914' }, async ({ corporatePricingNewPricebookPage: np }) => {
     await np.setName(NEW_PRICEBOOK.validName);
     await np.setYear(NEW_PRICEBOOK.validYear);
     expect(await np.getStrategyTotal()).toBeLessThanOrEqual(0);
     expect(await np.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-STR-051: Adding one strategy enables Save on a new pricebook', async ({ corporatePricingNewPricebookPage: np }) => {
+  test('TC-CPR-STR-051: Adding one strategy enables Save on a new pricebook', { tag: '@C99915' }, async ({ corporatePricingNewPricebookPage: np }) => {
     await np.setName(NEW_PRICEBOOK.validName);
     await np.setYear(NEW_PRICEBOOK.validYear);
     expect(await np.isSaveEnabled()).toBe(false);
@@ -510,7 +510,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await np.isSaveEnabled()).toBe(true);
   });
 
-  test('TC-CPR-STR-052: Removing the last strategy re-disables Save on a new pricebook', async ({ corporatePricingNewPricebookPage: np }) => {
+  test('TC-CPR-STR-052: Removing the last strategy re-disables Save on a new pricebook', { tag: '@C99916' }, async ({ corporatePricingNewPricebookPage: np }) => {
     await np.setName(NEW_PRICEBOOK.validName);
     await np.setYear(NEW_PRICEBOOK.validYear);
     await np.addStrategy();
@@ -519,14 +519,14 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await np.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-STR-053: Strategy Name field caps input at 100 characters', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-053: Strategy Name field caps input at 100 characters', { tag: '@C99917' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     await p.fillDialogName(STRATEGY.deep.overLengthName);
     expect((await p.getDialogName()).length).toBe(STRATEGY.deep.nameMaxLength);
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-054: Special characters in the Strategy Name are accepted and preserved', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-054: Special characters in the Strategy Name are accepted and preserved', { tag: '@C99918' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.openAddStrategyDialog();
     await p.fillDialogName(STRATEGY.deep.specialName);
     expect(await p.getDialogName()).toBe(STRATEGY.deep.specialName);
@@ -534,7 +534,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     await p.cancelAddDialog();
   });
 
-  test('TC-CPR-STR-055: A special-character name round-trips exactly across save and reload', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-055: A special-character name round-trips exactly across save and reload', { tag: '@C99919' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.deep.specialPersistName);
     expect(await p.isSaveEnabled()).toBe(true);
@@ -549,12 +549,12 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.getStrategyName()).toBe(STRATEGY.fixtureStrategyName);
   });
 
-  test('TC-CPR-STR-056: A strategy flag reads correctly from its rendered checkbox', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-056: A strategy flag reads correctly from its rendered checkbox', { tag: '@C99920' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.selectStrategy(STRATEGY.fixtureStrategyName);
     expect((await p.getFlag('Is Active')).checked).toBe(true);
   });
 
-  test('TC-CPR-STR-057: Every editor flag reads per its render format; the list has no boolean columns', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-057: Every editor flag reads per its render format; the list has no boolean columns', { tag: '@C99921' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.selectStrategy(STRATEGY.fixtureStrategyName);
     expect((await p.getFlag('Is Productions')).checked).toBe(true);
     expect((await p.getFlag('Is Active')).checked).toBe(true);
@@ -566,7 +566,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(listCheckboxes).toBe(0);
   });
 
-  test('TC-CPR-STR-058: 0-strategy and 1-strategy states render correctly', async ({ corporatePricingNewPricebookPage: np }) => {
+  test('TC-CPR-STR-058: 0-strategy and 1-strategy states render correctly', { tag: '@C99922' }, async ({ corporatePricingNewPricebookPage: np }) => {
     await np.setName(NEW_PRICEBOOK.validName);
     await np.setYear(NEW_PRICEBOOK.validYear);
     expect(await np.hasNoStrategiesYet()).toBe(true); // 0-strategy empty state
@@ -575,7 +575,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await np.getStrategyTotal()).toBe(1); // 1-row list renders
   });
 
-  test('TC-CPR-STR-059: Strategy list renders at 0 / 1 / N strategies', async ({ corporatePricingNewPricebookPage: np }) => {
+  test('TC-CPR-STR-059: Strategy list renders at 0 / 1 / N strategies', { tag: '@C99923' }, async ({ corporatePricingNewPricebookPage: np }) => {
     await np.setName(NEW_PRICEBOOK.validName);
     await np.setYear(NEW_PRICEBOOK.validYear);
     expect(await np.hasNoStrategiesYet()).toBe(true); // 0
@@ -585,7 +585,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await np.getStrategyTotal()).toBe(2); // N
   });
 
-  test('TC-CPR-STR-060: A saved strategy edit survives reload', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-060: A saved strategy edit survives reload', { tag: '@C99924' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
     await p.saveAndConfirm();
@@ -596,7 +596,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     await p.saveAndConfirm();
   });
 
-  test('TC-CPR-STR-061: Dirty survives sub-tab switch; nav-away prompts "Unsaved changes"', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-061: Dirty survives sub-tab switch; nav-away prompts "Unsaved changes"', { tag: '@C99925' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
     expect(await p.isSaveEnabled()).toBe(true);
@@ -610,7 +610,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     await p.resolveUnsavedChangesPrompt('Stay'); // remain on the page; reload (next baseline) discards the edit
   });
 
-  test('TC-CPR-STR-062: The strategy search box filters the list', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-062: The strategy search box filters the list', { tag: '@C99926' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.searchStrategies('zzzz');
     expect(await p.getStrategyTotal()).toBe(0);
     expect(await p.hasStrategy(STRATEGY.fixtureStrategyName)).toBe(false);
@@ -620,7 +620,7 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.getStrategyTotal()).toBe(1);
   });
 
-  test('TC-CPR-STR-063: Search narrows to matching names among multiple strategies', async ({ corporatePricingStrategyPage: p }) => {
+  test('TC-CPR-STR-063: Search narrows to matching names among multiple strategies', { tag: '@C99927' }, async ({ corporatePricingStrategyPage: p }) => {
     await p.addStrategy(STRATEGY.deep.alpha);
     await p.addStrategy(STRATEGY.deep.bravo);
     expect(await p.getStrategyTotal()).toBe(3);

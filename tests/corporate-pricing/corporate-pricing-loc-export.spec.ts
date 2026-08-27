@@ -8,31 +8,31 @@ test.describe('Corporate Pricing — Loc Pricing Export file round-trip (NM-2262
     await p.open();
   });
 
-  test('TC-CPR-LEX-001: Loc Pricing Export downloads a real CSV file with the expected timestamped filename', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LEX-001: Loc Pricing Export downloads a real CSV file with the expected timestamped filename', { tag: '@C99758' }, async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadLocPricingExport();
     expect(r.filename).toMatch(LOC.filenamePattern); // LocationPricebooks_<YYYYMMDD>_<HHMMSS>UTC.csv
   });
 
-  test('TC-CPR-LEX-002: Downloaded Loc Pricing Export file is non-empty and parseable as CSV', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LEX-002: Downloaded Loc Pricing Export file is non-empty and parseable as CSV', { tag: '@C99759' }, async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadLocPricingExport();
     expect(r.content.length, 'The exported file should not be empty').toBeGreaterThan(0);
     expect(r.content).toContain(','); // the file is actually comma-delimited, not a single garbage token
     expect(r.headers.length, 'The exported file should contain a parsed header row').toBeGreaterThan(0); // a header row parsed out
   });
 
-  test('TC-CPR-LEX-003: Downloaded CSV carries the expected header columns and at least one data row', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LEX-003: Downloaded CSV carries the expected header columns and at least one data row', { tag: '@C99760' }, async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadLocPricingExport();
     expect(r.headers).toEqual(LOC.expectedHeaders); // exact column set + order (the file is the oracle)
     expect(r.rowCount).toBeGreaterThan(0); // location pricebook data is present
   });
 
-  test('TC-CPR-LEX-004: The Loc Pricing Export download request carries the locale param', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LEX-004: The Loc Pricing Export download request carries the locale param', { tag: '@C99761' }, async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadLocPricingExport();
     expect(r.requestUrl).toContain('location-export');
     expect(r.requestUrl).toContain(CORP_PRICING_TOOLBAR_IO.exportLocaleParam); // locale=en-US on the download's own request
   });
 
-  test('TC-CPR-LEX-005: A second consecutive Loc Pricing Export fires a fresh download', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LEX-005: A second consecutive Loc Pricing Export fires a fresh download', { tag: '@C99762' }, async ({ corporatePricingSearchPage: p }) => {
     const r1 = await p.downloadLocPricingExport();
     const r2 = await p.downloadLocPricingExport(); // no re-open between: proves a fresh download on re-click
     expect(r1.filename).toMatch(LOC.filenamePattern);
@@ -40,7 +40,7 @@ test.describe('Corporate Pricing — Loc Pricing Export file round-trip (NM-2262
     expect(r2.content.length).toBeGreaterThan(0);
   });
 
-  test('TC-CPR-LEX-006: Every downloaded CSV row is well-formed with a valid currency, 0/1 flags, and a consistent date-window', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LEX-006: Every downloaded CSV row is well-formed with a valid currency, 0/1 flags, and a consistent date-window', { tag: '@C99763' }, async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadLocPricingExport();
     const locationIdx = r.headers.indexOf('LocationNo');
     const currencyIdx = r.headers.indexOf(LOC.currencyColumn);
@@ -82,7 +82,7 @@ test.describe('Corporate Pricing — Loc Pricing Export file round-trip (NM-2262
   // pricebooks anywhere, not merely an empty office. No such tenant is available on the shared e2e
   // server (data-blocked). Un-skip once a zero-pricebook tenant is identified, to assert a
   // header-only-but-valid CSV vs a zero-byte file.
-  test.skip('TC-CPR-LEX-007: Empty-dataset Loc Pricing Export yields a header-only valid CSV', async ({ corporatePricingSearchPage: p }) => {
+  test.skip('TC-CPR-LEX-007: Empty-dataset Loc Pricing Export yields a header-only valid CSV', { tag: '@C99764' }, async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadLocPricingExport();
     expect(r.headers).toEqual(LOC.expectedHeaders);
     expect(r.rowCount).toBe(0);

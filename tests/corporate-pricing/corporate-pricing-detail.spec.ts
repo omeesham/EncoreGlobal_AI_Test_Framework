@@ -39,63 +39,63 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     }
   });
 
-  test('TC-CPR-DET-001: Pricing Detail tab activates and the product-group grid renders', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-001: Pricing Detail tab activates and the product-group grid renders', { tag: '@C99703' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.isDetailTabActive(), 'Pricing Detail tab is active on load').toBe(true);
     expect(await p.getProductGroupRowCount()).toBeGreaterThan(0);
   });
 
-  test('TC-CPR-DET-002: Verify the Pricing Detail grid shows its five columns', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-002: Verify the Pricing Detail grid shows its five columns', { tag: '@C99704' }, async ({ corporatePricingDetailPage: p }) => {
     const headers = await p.getGridHeaders();
     for (const h of DETAIL.headers) expect(headers).toContain(h);
   });
 
-  test('TC-CPR-DET-003: The Available Product Groups source list loads', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-003: The Available Product Groups source list loads', { tag: '@C99705' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.getSourceItemCount()).toBeGreaterThan(0);
   });
 
-  test('TC-CPR-DET-004: The source list provides a Search (ID or Name) filter', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-004: The source list provides a Search (ID or Name) filter', { tag: '@C99706' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.hasSourceFilter()).toBe(true);
   });
 
-  test('TC-CPR-DET-005: Pricing details load on tab activation', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-005: Pricing details load on tab activation', { tag: '@C99707' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.getCellText(DETAIL.anchorA.name, 'price')).toBe(DETAIL.anchorA.basePrice);
   });
 
-  test('TC-CPR-DET-006: Base Price (Price column) is read-only', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-006: Base Price (Price column) is read-only', { tag: '@C99708' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.priceIsReadOnly(DETAIL.anchorA.name)).toBe(true);
   });
 
-  test('TC-CPR-DET-007: New Price and Max Discount cells are editable', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-007: New Price and Max Discount cells are editable', { tag: '@C99709' }, async ({ corporatePricingDetailPage: p }) => {
     // getNewPrice/getMaxDiscount resolve only if the editable inputs exist for the row.
     expect(typeof (await p.getNewPrice(DETAIL.anchorA.name))).toBe('string');
     expect(typeof (await p.getMaxDiscount(DETAIL.anchorA.name))).toBe('string');
   });
 
-  test('TC-CPR-DET-008: Single-clicking a source product group does not add a grid row', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-008: Single-clicking a source product group does not add a grid row', { tag: '@C99710' }, async ({ corporatePricingDetailPage: p }) => {
     const { before, after } = await p.attemptSourceAdd('single');
     expect(after).toBe(before);
   });
 
-  test('TC-CPR-DET-009: Double-click a source-list product group does NOT add a grid row (defensive)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-009: Double-click a source-list product group does NOT add a grid row (defensive)', { tag: '@C99711' }, async ({ corporatePricingDetailPage: p }) => {
     const { before, after } = await p.attemptSourceAdd('double');
     expect(after).toBe(before);
     expect(await p.isSaveEnabled()).toBe(false); // no dirty
   });
 
-  test('TC-CPR-DET-010: Drag a source-list product group onto the grid does NOT add (defensive)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-010: Drag a source-list product group onto the grid does NOT add (defensive)', { tag: '@C99712' }, async ({ corporatePricingDetailPage: p }) => {
     const { before, after } = await p.attemptDragAdd();
     expect(after).toBe(before);
   });
 
-  test('TC-CPR-DET-011: Existing grid rows expose no Add/Remove affordance (Management mode)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-011: Existing grid rows expose no Add/Remove affordance (Management mode)', { tag: '@C99713' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.rowHasAddRemoveAffordance(DETAIL.anchorA.name)).toBe(false);
   });
 
-  test('TC-CPR-DET-012: Unmodified grid shows the clean state (Save disabled)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-012: Unmodified grid shows the clean state (Save disabled)', { tag: '@C99714' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-DET-013: Editing a Max Discount changes the state to dirty (Save enabled)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-013: Editing a Max Discount changes the state to dirty (Save enabled)', { tag: '@C99715' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.isSaveEnabled()).toBe(false);
     await p.setMaxDiscount(DETAIL.anchorA.name, DETAIL.maxDiscountEdit.value);
     expect(await p.isSaveEnabled()).toBe(true);
@@ -103,7 +103,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-DET-014: Save is dialog-gated (Save Changes confirmation)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-014: Save is dialog-gated (Save Changes confirmation)', { tag: '@C99716' }, async ({ corporatePricingDetailPage: p }) => {
     await p.setMaxDiscount(DETAIL.anchorA.name, DETAIL.maxDiscountEdit.value);
     expect(await p.isSaveEnabled()).toBe(true);
     await p.clickSaveButton();
@@ -114,7 +114,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState(); // restore (re-opens + settles)
   });
 
-  test('TC-CPR-DET-015: Edit a Max Discount, Save, and the change persists across reload (with restore)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-015: Edit a Max Discount, Save, and the change persists across reload (with restore)', { tag: '@C99717' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setMaxDiscount(name, DETAIL.maxDiscountEdit.value);
     expect(await p.isSaveEnabled()).toBe(true);
@@ -124,7 +124,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState(); // restore (no cross-run drift)
   });
 
-  test('TC-CPR-DET-016: Save resets the state from dirty to clean after success', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-016: Save resets the state from dirty to clean after success', { tag: '@C99718' }, async ({ corporatePricingDetailPage: p }) => {
     await p.setMaxDiscount(DETAIL.anchorA.name, DETAIL.maxDiscountEdit.value);
     expect(await p.isSaveEnabled()).toBe(true); // dirty
     await p.saveAndConfirm();
@@ -132,7 +132,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState(); // restore
   });
 
-  test('TC-CPR-DET-017: Save commits grid override edits in one batch (with restore)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-017: Save commits grid override edits in one batch (with restore)', { tag: '@C99719' }, async ({ corporatePricingDetailPage: p }) => {
     await p.setMaxDiscount(DETAIL.anchorA.name, DETAIL.maxDiscountEdit.value);
     await p.setMaxDiscount(DETAIL.anchorB.name, DETAIL.maxDiscountEdit.value);
     expect(await p.isSaveEnabled()).toBe(true);
@@ -143,7 +143,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState(); // restore both
   });
 
-  test('TC-CPR-DET-018: Verify a saved New Price override becomes the row Price after reload', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-018: Verify a saved New Price override becomes the row Price after reload', { tag: '@C99720' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorB.name;
     await p.setNewPrice(name, DETAIL.newPriceEdit.value);
     expect(await p.isSaveEnabled()).toBe(true);
@@ -154,13 +154,13 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState(); // restore Price to base
   });
 
-  test('TC-CPR-DET-019: An empty New Price leaves the Base Price in effect', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-019: An empty New Price leaves the Base Price in effect', { tag: '@C99721' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     expect(await p.getNewPrice(name)).toBe('');
     expect(await p.getCellText(name, 'price')).toBe(DETAIL.anchorA.basePrice);
   });
 
-  test('TC-CPR-DET-020: Save accepts a valid currency-formatted New Price', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-020: Save accepts a valid currency-formatted New Price', { tag: '@C99722' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorB.name;
     await p.setNewPrice(name, DETAIL.newPriceEdit.value); // "250.00" — valid two-decimal currency
     if (!(await p.isSaveEnabled())) await p.setMaxDiscount(name, '1');
@@ -173,14 +173,14 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
   // ── New Price numeric boundaries (live-confirmed: the input sanitizes invalid characters and
   //    flags out-of-range values; it does not silently revert) ───────────────────────────────────
 
-  test('TC-CPR-DET-021: New Price 0 is treated as no override (the field clears; Save stays disabled)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-021: New Price 0 is treated as no override (the field clears; Save stays disabled)', { tag: '@C99723' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setNewPrice(name, '0');
     expect(await p.getNewPrice(name)).toBe(''); // entering 0 clears the override (0 = no override)
     expect(await p.isSaveEnabled()).toBe(false); // nothing to commit
   });
 
-  test('TC-CPR-DET-022: New Price negative input has its minus sign stripped; the positive value is accepted', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-022: New Price negative input has its minus sign stripped; the positive value is accepted', { tag: '@C99724' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setNewPrice(name, '-10');
     expect(await p.getNewPrice(name)).toBe('10.00'); // sign stripped, formatted to two decimals
@@ -188,7 +188,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(true);
   });
 
-  test('TC-CPR-DET-023: New Price above the maximum is flagged invalid and blocks Save', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-023: New Price above the maximum is flagged invalid and blocks Save', { tag: '@C99725' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setNewPrice(name, '9999999.99');
     expect(await p.getNewPrice(name)).toBe('9999999.99'); // kept in the field
@@ -196,21 +196,21 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(false); // Save blocked while a cell is invalid
   });
 
-  test('TC-CPR-DET-024: New Price with extra decimals rounds to two decimal places on blur', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-024: New Price with extra decimals rounds to two decimal places on blur', { tag: '@C99726' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setNewPrice(name, '12.3456');
     expect(await p.getNewPrice(name)).toMatch(/^12\.3[45]$/); // rounded/truncated to 2dp
     expect(await p.isSaveEnabled()).toBe(true);
   });
 
-  test('TC-CPR-DET-025: New Price overflow value never reaches a committable state', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-025: New Price overflow value never reaches a committable state', { tag: '@C99727' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setNewPrice(name, '99999999999999999999999999999999');
     // An out-of-range value is either flagged invalid or not accepted — in no case is Save enabled.
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-DET-026: New Price non-numeric input is rejected (the field clears; Save stays disabled)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-026: New Price non-numeric input is rejected (the field clears; Save stays disabled)', { tag: '@C99728' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     for (const junk of ['abc', '!@#']) {
       await p.setNewPrice(name, junk);
@@ -219,7 +219,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     }
   });
 
-  test('TC-CPR-DET-027: New Price renders with two decimal places for a multi-thousand value', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-027: New Price renders with two decimal places for a multi-thousand value', { tag: '@C99729' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setNewPrice(name, '1234.56');
     const v = await p.getNewPrice(name);
@@ -228,7 +228,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(true);
   });
 
-  test('TC-CPR-DET-028: Max Discount accepts 0 as a valid no-discount value', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-028: Max Discount accepts 0 as a valid no-discount value', { tag: '@C99730' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setMaxDiscount(name, '0');
     expect(await p.getMaxDiscount(name)).toContain('0.00'); // renders "0.00 %"
@@ -237,7 +237,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-DET-029: Max Discount negative input has its minus sign stripped; the positive value is accepted', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-029: Max Discount negative input has its minus sign stripped; the positive value is accepted', { tag: '@C99731' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setMaxDiscount(name, '-5');
     expect(await p.getMaxDiscount(name)).toContain('5.00'); // "5.00 %", sign stripped
@@ -245,7 +245,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(true);
   });
 
-  test('TC-CPR-DET-030: Max Discount above 100 is flagged invalid and blocks Save', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-030: Max Discount above 100 is flagged invalid and blocks Save', { tag: '@C99732' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setMaxDiscount(name, '150');
     expect(await p.getMaxDiscount(name)).toBe('150'); // kept, unformatted while invalid
@@ -253,7 +253,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-CPR-DET-031: Max Discount with two decimals is accepted and rendered as a percentage', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-031: Max Discount with two decimals is accepted and rendered as a percentage', { tag: '@C99733' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setMaxDiscount(name, '33.33');
     expect(await p.getMaxDiscount(name)).toContain('33.33'); // "33.33 %"
@@ -261,14 +261,14 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(true);
   });
 
-  test('TC-CPR-DET-032: Max Discount non-numeric input is rejected (the field clears)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-032: Max Discount non-numeric input is rejected (the field clears)', { tag: '@C99734' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setMaxDiscount(name, 'xyz');
     expect(await p.getMaxDiscount(name)).toBe(''); // non-numeric text discarded
     expect(await p.getMaxDiscountAriaInvalid(name)).not.toBe('true');
   });
 
-  test('TC-CPR-DET-033: Reverting an edited New Price back to its original value disables Save', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-033: Reverting an edited New Price back to its original value disables Save', { tag: '@C99735' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     expect(await p.isSaveEnabled()).toBe(false);
     await p.setNewPrice(name, '99.00');
@@ -278,7 +278,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(false); // no net change → clean
   });
 
-  test('TC-CPR-DET-034: A New Price override can be reverted so the Base Price is back in effect', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-034: A New Price override can be reverted so the Base Price is back in effect', { tag: '@C99736' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorB.name;
     await p.setNewPrice(name, DETAIL.newPriceEdit.value); // 250.00 override
     if (!(await p.isSaveEnabled())) await p.setMaxDiscount(name, '1');
@@ -293,7 +293,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState();
   });
 
-  test('TC-CPR-DET-035: The read-only Base Price cell exposes no input and cannot be edited', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-035: The read-only Base Price cell exposes no input and cannot be edited', { tag: '@C99737' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     const before = await p.getCellText(name, 'price');
     expect(await p.priceIsReadOnly(name)).toBe(true); // no <input> in the Price cell
@@ -301,14 +301,14 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.getCellText(name, 'price')).toBe(before); // value unchanged
   });
 
-  test('TC-CPR-DET-036: A row is located and read by its product-group name, never a positional index', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-036: A row is located and read by its product-group name, never a positional index', { tag: '@C99738' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorB.name; // resolved by unique content, not nth(row)
     expect(await p.getCellText(name, 'price')).toBe(DETAIL.anchorB.basePrice);
     expect(typeof (await p.getNewPrice(name))).toBe('string');
   });
 
   // ── Create-mode positive control ──
-  test('TC-CPR-DET-037: In create mode both double-click and a full-pointer drag add a product-group row', async ({ corporatePricingNewPricebookPage: np }) => {
+  test('TC-CPR-DET-037: In create mode both double-click and a full-pointer drag add a product-group row', { tag: '@C99739' }, async ({ corporatePricingNewPricebookPage: np }) => {
     await np.open('equipment');
     await np.clickDetailTab();
     // Content-anchored: the grid may start with a placeholder row, so assert the added group is
@@ -325,7 +325,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     // No commit — the create page is intentionally non-persisting; this only proves the add primitive fires.
   });
 
-  test('TC-CPR-DET-038: Editing and saving a row New Price does not silently change its Max Discount', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-038: Editing and saving a row New Price does not silently change its Max Discount', { tag: '@C99740' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorB.name;
     const mdBefore = await p.getMaxDiscount(name);
     await p.setNewPrice(name, DETAIL.newPriceEdit.value); // a New-Price edit alone enables Save
@@ -335,21 +335,21 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState();
   });
 
-  test('TC-CPR-DET-039: Editing only the New Price enables Save', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-039: Editing only the New Price enables Save', { tag: '@C99741' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorB.name;
     expect(await p.isSaveEnabled()).toBe(false);
     await p.setNewPrice(name, '200.00'); // a New-Price-only edit
     expect(await p.isSaveEnabled()).toBe(true); // marks the grid dirty (NM-1874)
   });
 
-  test('TC-CPR-DET-040: A New Price change marks the grid dirty and enables Save', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-040: A New Price change marks the grid dirty and enables Save', { tag: '@C99742' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     expect(await p.isSaveEnabled()).toBe(false);
     await p.setNewPrice(name, '321.00');
     expect(await p.isSaveEnabled()).toBe(true);
   });
 
-  test('TC-CPR-DET-041: Clearing a staged New Price before saving leaves the displayed Price unchanged', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-041: Clearing a staged New Price before saving leaves the displayed Price unchanged', { tag: '@C99743' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     const priceBefore = await p.getCellText(name, 'price'); // base price
     await p.setNewPrice(name, '450.00'); // stage an override (not saved)
@@ -359,7 +359,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect(await p.isSaveEnabled()).toBe(false); // back to clean
   });
 
-  test('TC-CPR-DET-042: Saving an edit on one row does not change another row values', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-042: Saving an edit on one row does not change another row values', { tag: '@C99744' }, async ({ corporatePricingDetailPage: p }) => {
     const a = DETAIL.anchorA.name;
     const b = DETAIL.anchorB.name;
     const bPriceBefore = await p.getCellText(b, 'price');
@@ -372,7 +372,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState();
   });
 
-  test('TC-CPR-DET-043: A saved Max Discount of 100 currently reloads as 1 — defect NM-1967 reproduced', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-043: A saved Max Discount of 100 currently reloads as 1 — defect NM-1967 reproduced', { tag: '@C99745' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.setMaxDiscount(name, '100');
     expect(await p.getMaxDiscountAriaInvalid(name)).not.toBe('true'); // 100 is accepted as valid input
@@ -391,36 +391,36 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
   // NO page-navigation buttons, and its column headers are not sort triggers. These cases assert
   // that observed reality (a divergence from the speculative "paginated/sortable" expectation).
 
-  test('TC-CPR-DET-044: The Detail grid exposes no rows-per-page selector and no page-navigation buttons', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-044: The Detail grid exposes no rows-per-page selector and no page-navigation buttons', { tag: '@C99746' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.hasPageSizeControl()).toBe(false);
     expect(await p.getPaginationNavLabels()).toEqual([]);
   });
 
-  test('TC-CPR-DET-045: The Detail grid renders all rows at once (more than a single page would hold)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-045: The Detail grid renders all rows at once (more than a single page would hold)', { tag: '@C99747' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.getProductGroupRowCount()).toBeGreaterThan(50); // far beyond any page size → non-paginated
     expect(await p.hasPageSizeControl()).toBe(false);
   });
 
-  test('TC-CPR-DET-046: A row that a paginated grid would place on a later page is present without any navigation', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-046: A row that a paginated grid would place on a later page is present without any navigation', { tag: '@C99748' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.getCellText(DETAIL.anchorB.name, 'price')).toBe(DETAIL.anchorB.basePrice);
   });
 
-  test('TC-CPR-DET-047: The Detail grid renders no first/previous/next/last navigation controls', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-047: The Detail grid renders no first/previous/next/last navigation controls', { tag: '@C99749' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.getPaginationNavLabels()).toEqual([]);
   });
 
-  test('TC-CPR-DET-048: Each product group appears once — content-anchored rows are unique', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-048: Each product group appears once — content-anchored rows are unique', { tag: '@C99750' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.getCellText(DETAIL.anchorA.name, 'price')).toBe(DETAIL.anchorA.basePrice);
     expect(await p.getCellText(DETAIL.anchorB.name, 'price')).toBe(DETAIL.anchorB.basePrice);
   });
 
-  test('TC-CPR-DET-049: The Detail grid column headers are not sort triggers', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-049: The Detail grid column headers are not sort triggers', { tag: '@C99751' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.headerHasSortButton('Product Group Name')).toBe(false);
     expect(await p.getHeaderAriaSort('Product Group Name')).toBeNull();
     expect(await p.getHeaderAriaSort('Price')).toBeNull();
   });
 
-  test('TC-CPR-DET-050: A New Price cell renders a two-decimal currency value; the Price column is read-only', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-050: A New Price cell renders a two-decimal currency value; the Price column is read-only', { tag: '@C99752' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     expect(await p.getCellText(name, 'price')).toMatch(/^\d[\d,]*\.\d{2}$/); // base price, two decimals
     expect(await p.priceIsReadOnly(name)).toBe(true);
@@ -428,27 +428,27 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     expect((await p.getNewPrice(name)).replace(/,/g, '')).toBe('1234.56'); // editor shows two decimals
   });
 
-  test('TC-CPR-DET-051: Every base-price cell renders two decimals; rows with no override show the base price', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-051: Every base-price cell renders two decimals; rows with no override show the base price', { tag: '@C99753' }, async ({ corporatePricingDetailPage: p }) => {
     for (const a of [DETAIL.anchorA, DETAIL.anchorB]) {
       expect(await p.getCellText(a.name, 'price')).toBe(a.basePrice); // two-decimal base price
       expect(await p.getNewPrice(a.name)).toBe(''); // no override → empty New Price input
     }
   });
 
-  test('TC-CPR-DET-052: A single content-anchored row renders and is readable', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-052: A single content-anchored row renders and is readable', { tag: '@C99754' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     expect(await p.getCellText(name, 'id')).toBe(DETAIL.anchorA.id);
     expect(await p.getCellText(name, 'price')).toBe(DETAIL.anchorA.basePrice);
   });
 
-  test('TC-CPR-DET-053: The high-volume grid renders without error and off-screen rows read by content anchor', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-053: The high-volume grid renders without error and off-screen rows read by content anchor', { tag: '@C99755' }, async ({ corporatePricingDetailPage: p }) => {
     // N-row (high-volume) integrity on the management fixture; dedicated 0-row / 1-row pricebooks are
     // not part of this fixture set, so this asserts the available volume + off-screen anchor read.
     expect(await p.getProductGroupRowCount()).toBeGreaterThan(50);
     expect(await p.getCellText(DETAIL.anchorB.name, 'price')).toBe(DETAIL.anchorB.basePrice); // off-screen by anchor
   });
 
-  test('TC-CPR-DET-054: A saved Max Discount edit survives a page reload (content-anchored)', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-054: A saved Max Discount edit survives a page reload (content-anchored)', { tag: '@C99756' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.ensureDefaultState();
     await p.setMaxDiscount(name, '22.50');
@@ -458,7 +458,7 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState();
   });
 
-  test('TC-CPR-DET-055: A dirty edit survives a Detail↔Strategy tab switch; reverting it disables Save', async ({ corporatePricingDetailPage: p }) => {
+  test('TC-CPR-DET-055: A dirty edit survives a Detail↔Strategy tab switch; reverting it disables Save', { tag: '@C99757' }, async ({ corporatePricingDetailPage: p }) => {
     const name = DETAIL.anchorA.name;
     await p.ensureDefaultState();
     await p.setMaxDiscount(name, DETAIL.maxDiscountEdit.value);

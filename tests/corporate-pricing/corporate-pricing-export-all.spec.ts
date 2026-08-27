@@ -48,7 +48,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
     await p.open();
   });
 
-  test('TC-CPR-EXA-001: Each Export variant opens the shared "Export" Year(s)+Currency dialog', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-001: Each Export variant opens the shared "Export" Year(s)+Currency dialog', { tag: '@C99795' }, async ({ corporatePricingSearchPage: p }) => {
     for (const v of VARIANTS) {
       await p.openExportVariantDialog(v.label);
       const info = await p.getExportDialogInfo();
@@ -61,32 +61,32 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
     }
   });
 
-  test('TC-CPR-EXA-002: Continue stays disabled with only Year(s) set', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-002: Continue stays disabled with only Year(s) set', { tag: '@C99796' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openExportVariantDialog('All Equipment Pricing');
     await p.setExportYears([EXP.defaultYear]);
     expect(await p.isExportContinueEnabled()).toBe(false); // Currency still required
   });
 
-  test('TC-CPR-EXA-003: Continue stays disabled with only Currency set', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-003: Continue stays disabled with only Currency set', { tag: '@C99797' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openExportVariantDialog('All Equipment Pricing');
     await p.setExportCurrency('USD');
     expect(await p.isExportContinueEnabled()).toBe(false); // Year(s) still required
   });
 
-  test('TC-CPR-EXA-004: Continue enables when BOTH Year(s) and Currency are set', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-004: Continue enables when BOTH Year(s) and Currency are set', { tag: '@C99798' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openExportVariantDialog('All Equipment Pricing');
     await p.setExportYears([EXP.defaultYear]);
     await p.setExportCurrency('USD');
     expect(await p.isExportContinueEnabled()).toBe(true);
   });
 
-  test('TC-CPR-EXA-005: Cancel dismisses the dialog without firing any export request', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-005: Cancel dismisses the dialog without firing any export request', { tag: '@C99799' }, async ({ corporatePricingSearchPage: p }) => {
     const { requestFired, closed } = await p.cancelExportAndCheckNoRequest('All Equipment Pricing', [EXP.defaultYear], 'USD');
     expect(requestFired).toBe(false); // no pricing-export request on Cancel
     expect(closed).toBe(true);
   });
 
-  test('TC-CPR-EXA-006: Year(s) minimum — a single year is accepted and enables Continue', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-006: Year(s) minimum — a single year is accepted and enables Continue', { tag: '@C99800' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openExportVariantDialog('All Equipment Pricing');
     await p.setExportYears([EXP.defaultYear]); // exactly 1 year (the minimum)
     expect(await p.getExportSelectedYears()).toEqual([EXP.defaultYear]);
@@ -94,7 +94,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
     expect(await p.isExportContinueEnabled()).toBe(true);
   });
 
-  test('TC-CPR-EXA-007: Year(s) maximum is 3 — a 4th year cannot be added and no 4-year export fires', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-007: Year(s) maximum is 3 — a 4th year cannot be added and no 4-year export fires', { tag: '@C99801' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openExportVariantDialog('All Equipment Pricing');
     await p.setExportYears(['2026', '2027', '2028']);
     expect(await p.getExportSelectedYears()).toEqual(['2026', '2027', '2028']);
@@ -108,13 +108,13 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
     expect([...yearsParams].sort()).toEqual(['2026', '2027', '2028']);
   });
 
-  test('TC-CPR-EXA-008: Currency options present — USD, CAD, MXN', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-008: Currency options present — USD, CAD, MXN', { tag: '@C99802' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openExportVariantDialog('All Equipment Pricing');
     const options = await p.getExportCurrencyOptions();
     for (const c of CUR) expect(options).toContain(c.code);
   });
 
-  test('TC-CPR-EXA-009: Each Currency maps to the correct currencyId on Continue', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-009: Each Currency maps to the correct currencyId on Continue', { tag: '@C99803' }, async ({ corporatePricingSearchPage: p }) => {
     for (const c of CUR) {
       await p.openExportVariantDialog('All Equipment Pricing');
       await p.setExportYears([EXP.defaultYear]);
@@ -126,7 +126,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
   });
 
   // ── Real download round-trip ──
-  test('TC-CPR-EXA-010: All Equipment Pricing — real download + no duplicate product groups', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-010: All Equipment Pricing — real download + no duplicate product groups', { tag: '@C99804' }, async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadExportVariant('All Equipment Pricing', [YEAR], 'USD');
     expect(r.filename, 'The export should download the Equipment Pricing file').toBe('EquipmentPricings.csv');
     expect(r.status).toBe(200);
@@ -143,7 +143,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
     expect(new Set(ids).size).toBe(ids.length); // NM-1997/1998: every Product Group Id unique
   });
 
-  test('TC-CPR-EXA-011: All Labor Pricing — real download + no duplicate product groups', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-011: All Labor Pricing — real download + no duplicate product groups', { tag: '@C99805' }, async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadExportVariant('All Labor Pricing', [YEAR], 'USD');
     expect(r.filename).toBe('LaborPricings.csv');
     expect(r.status).toBe(200);
@@ -159,7 +159,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
     expect(new Set(ids).size).toBe(ids.length); // NM-1998
   });
 
-  test('TC-CPR-EXA-012: All Equipment Max Discount — round-trip + NM-2005 (pricebooks present, zero labor rows)', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-012: All Equipment Max Discount — round-trip + NM-2005 (pricebooks present, zero labor rows)', { tag: '@C99806' }, async ({ corporatePricingSearchPage: p }) => {
     // Oracles derived LIVE from the companion exports (same currency, same year).
     const eqPricing = await p.downloadExportVariant('All Equipment Pricing', [YEAR], 'USD');
     const activePricebooks = p.exportPricebookColumns(eqPricing.headers); // active pricebook set = its columns
@@ -188,7 +188,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
     expect(strayLaborRows).toEqual([]);
   });
 
-  test('TC-CPR-EXA-013: All Labor Max Discount — round-trip + labor pricebook completeness', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-013: All Labor Max Discount — round-trip + labor pricebook completeness', { tag: '@C99807' }, async ({ corporatePricingSearchPage: p }) => {
     const laborPricing = await p.downloadExportVariant('All Labor Pricing', [YEAR], 'USD');
     const laborPricebooks = p.exportPricebookColumns(laborPricing.headers);
 
@@ -211,7 +211,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
   });
 
   // ── Surface-behavior DEEP ──
-  test('TC-CPR-EXA-014: Combination DEEP — bounded pairwise variant x Year x Currency', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-014: Combination DEEP — bounded pairwise variant x Year x Currency', { tag: '@C99808' }, async ({ corporatePricingSearchPage: p }) => {
     // A bounded pairwise covering array over {4 variants} x {1yr, 3yr} x {USD, CAD, MXN} — NOT the full
     // cartesian product. Indices are [variantIndex, yearsetIndex, currencyIndex]; every pair of factor
     // levels appears at least once across these rows.
@@ -237,7 +237,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
     }
   });
 
-  test('TC-CPR-EXA-015: Result-fidelity DEEP — each variant\'s file reflects its scope', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-015: Result-fidelity DEEP — each variant\'s file reflects its scope', { tag: '@C99809' }, async ({ corporatePricingSearchPage: p }) => {
     const eqP = await p.downloadExportVariant('All Equipment Pricing', [YEAR], 'USD');
     const laborP = await p.downloadExportVariant('All Labor Pricing', [YEAR], 'USD');
     const eqMax = await p.downloadExportVariant('All Equipment Max Discount', [YEAR], 'USD');
@@ -256,7 +256,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
     expect(eqMax.requestUrl).toContain('isMaxDiscount=true');
   });
 
-  test('TC-CPR-EXA-016: Empty/minimal-scope DEEP — a currency with no pricebooks yields a valid CSV', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-016: Empty/minimal-scope DEEP — a currency with no pricebooks yields a valid CSV', { tag: '@C99810' }, async ({ corporatePricingSearchPage: p }) => {
     const cad = await p.downloadExportVariant('All Equipment Pricing', [YEAR], 'CAD'); // live empty-scope oracle
     const usd = await p.downloadExportVariant('All Equipment Pricing', [YEAR], 'USD');
     expect(cad.status).toBe(200);
@@ -272,7 +272,7 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
 
   // The Export ▾ menu itself dismisses on an outside-click (standard dropdown behavior); the
   // per-variant dialog contract above covers what each variant opens.
-  test('TC-CPR-EXA-017: Export menu dismisses on outside-click', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-EXA-017: Export menu dismisses on outside-click', { tag: '@C99811' }, async ({ corporatePricingSearchPage: p }) => {
     await p.openExportMenu();
     expect((await p.getMenuVariants()).length).toBeGreaterThan(0); // menu confirmed open
     expect(await p.dismissToolbarMenuWithOutsideClick()).toBe(true); // closes on outside-click
