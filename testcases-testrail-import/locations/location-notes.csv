@@ -336,7 +336,7 @@ Sample input 2: ""0/4000(4000 Left)""",Medium,,Notes,1,,Locations > Notes,"<ol>
 4. The 'Add' button remains visible.
 5. The 'Save' button is enabled.
 6. Deleting the last note row returns to ""No Notes Available"" state immediately; table completely empty. ""For persistence"": must pair Delete with preceding fill the note input",,,,Master,S1620,Test Case (Steps),Regression,,,
-,XSS payload stored as text,,,,,Manual,Omeesha Mahanta,,,"After reloading, the script tag is displayed as literal text with no script execution.",,,locations,,"Office 1604 is open in Navigator. Notes tab is active
+,XSS payload stored as text,,,,,Automated,Omeesha Mahanta,,,"After reloading, the script tag is displayed as literal text with no script execution.",,,locations,,"Office 1604 is open in Navigator. Notes tab is active
 
 Test Data:
 User: automation user (location-edit permission)
@@ -354,7 +354,7 @@ Sample script-injection input: <script>alert(1)</script>",Medium,,Notes,1,,Locat
 3. No script executes and no alert dialog or error appears.
 4. The dialog closes and the note is saved.
 5. After reloading, the script tag is displayed as literal text with no script execution.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,SQL injection stored as text,,,,,Manual,Omeesha Mahanta,,,The SQL payload is displayed as literal text with no database errors or missing data.,,,locations,,"Office 1604 is open in Navigator. Notes tab is active
+,SQL injection stored as text,,,,,Automated,Omeesha Mahanta,,,The SQL payload is displayed as literal text with no database errors or missing data.,,,locations,,"Office 1604 is open in Navigator. Notes tab is active
 
 Test Data:
 User: automation user (location-edit permission)
@@ -374,7 +374,7 @@ Sample SQL-injection input: '; DROP TABLE ...; --",Medium,,Notes,1,,Locations > 
 4. The dialog closes and the note is saved.
 5. The page reloads and the Notes tab displays the saved note.
 6. The SQL payload is displayed as literal text with no database errors or missing data.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Emoji and unicode preserved,,,,,Manual,Omeesha Mahanta,,,"After reloading, the multi-byte content is preserved exactly as typed.",,,locations,,"Office 1604 is open in Navigator. Notes tab is active
+,Emoji and unicode preserved,,,,,Automated,Omeesha Mahanta,,,"After reloading, the multi-byte content is preserved exactly as typed.",,,locations,,"Office 1604 is open in Navigator. Notes tab is active
 
 Test Data:
 User: automation user (location-edit permission)

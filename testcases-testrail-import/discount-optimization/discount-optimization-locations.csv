@@ -269,18 +269,6 @@ Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"
 3. Save is submitted successfully.
 4. The page reloads.
 5. The toggled value persists after reload. The change was not lost.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Save remains enabled after adding a location,,,,,Manual,Omeesha Mahanta,,,Save is enabled — the newly added row is a pending change.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator",Medium,,Locations,1,,Discount_Optimization > Locations,"<ol>
-<li>1. Click the Add button.</li>
-<li>2. Complete the add form with a valid location and confirm (do not cancel).</li>
-<li>3. Read the Save button state</li>
-</ol>",,,"1. The add affordance opens.
-2. The new location appears in the grid as a pending row. Save is enabled.
-3. Save is enabled — the newly added row is a pending change.",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Save round-trip — two dirty rows both persist after a single save,,,,,Automated,Omeesha Mahanta,,,Row B's toggle reflects the value saved in step 4.,,,discount-optimization,,"Grid has completed its first paint. Save is disabled
 
 Test Data:

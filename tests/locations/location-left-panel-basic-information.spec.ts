@@ -238,7 +238,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
   // tamper-teardown behaviour). NOT a bug → no BUG cite, no test.fixme stub.
 
 
-  test('TC-LOC-LP-025: Local Office Name persists through save+reload', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-024: Local Office Name persists through save+reload', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.setLocalOfficeName(LP_TEST_VALUES.localOfficeNamePersist);
     await lp.saveAndConfirm();
     await lp.reloadAndNavigate(OFFICE_NO);
@@ -250,7 +250,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     expect(await lp.getLocalOfficeName()).toBe(LP_DEFAULTS.localOfficeName);
   });
 
-  test('TC-LOC-LP-026: Tax Mode persists through save+reload', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-025: Tax Mode persists through save+reload', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.selectTaxMode(LP_TEST_VALUES.taxModeAlt); // International
     await lp.saveAndConfirm();
     await lp.reloadAndNavigate(OFFICE_NO);
@@ -262,7 +262,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     expect(await lp.getTaxMode()).toBe(LP_DEFAULTS.taxMode);
   });
 
-  test('TC-LOC-LP-027: Region persists through save+reload', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-026: Region persists through save+reload', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.selectRegion(LP_TEST_VALUES.regionAlt); // Boston
     await lp.saveAndConfirm();
     await lp.reloadAndNavigate(OFFICE_NO);
@@ -281,7 +281,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
   //    restore is ID-anchored (name "Encore" is ambiguous — IDs 1 & 4). Same @locations
   //    @left-panel-basic-information tags, no @fcc tag (per the tagging convention).
 
-  test('TC-LOC-LP-028: Pay To Address launcher opens the "Pay To List" dialog', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-027: Pay To Address launcher opens the "Pay To List" dialog', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.openPayToDialog();
     expect(await lp.isPayToDialogVisible()).toBe(true);
     expect(await lp.hasPayToFilters()).toBe(true);            // Pay To ID + Pay To Name filters
@@ -290,7 +290,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     await lp.cancelPayToDialog();
   });
 
-  test('TC-LOC-LP-029: Pay To List Select disabled until a row is checked', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-028: Pay To List Select disabled until a row is checked', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.openPayToDialog();
     expect(await lp.isPayToSelectDisabled()).toBe(true);
     await lp.checkPayToFirstRow();
@@ -298,7 +298,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     await lp.cancelPayToDialog();
   });
 
-  test('TC-LOC-LP-030: Pay To List Cancel discards (no field change)', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-029: Pay To List Cancel discards (no field change)', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.openPayToDialog();
     await lp.checkPayToFirstRow();
     await lp.cancelPayToDialog();
@@ -307,7 +307,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     expect(await lp.isSaveEnabled()).toBe(false);                  // form stayed pristine
   });
 
-  test('TC-LOC-LP-031: Pay To List Close-X and Esc each discard', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-030: Pay To List Close-X and Esc each discard', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     // Esc dismisses
     await lp.openPayToDialog();
     await lp.escPayToDialog();
@@ -322,14 +322,14 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     expect(await lp.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-LOC-LP-032: Pay To List ID filter returns the matching row', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-031: Pay To List ID filter returns the matching row', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.openPayToDialog();
     await lp.searchPayToById(String(PAY_TO_ALTERNATE.id)); // "7"
     expect(await lp.payToResultsContain(PAY_TO_ALTERNATE.name)).toBe(true); // "Encore Bahamas"
     await lp.cancelPayToDialog();
   });
 
-  test('TC-LOC-LP-033: Pay To List Name filter "Encore" returns multiple rows', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-032: Pay To List Name filter "Encore" returns multiple rows', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.openPayToDialog();
     await lp.searchPayToByName(PAY_TO_ORIGINAL.name); // "Encore" — server-side contains
     expect(await lp.payToResultsContain(PAY_TO_ORIGINAL.name)).toBe(true);
@@ -337,14 +337,14 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     await lp.cancelPayToDialog();
   });
 
-  test('TC-LOC-LP-034: Pay To List empty result shows "No results."', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-033: Pay To List empty result shows "No results."', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.openPayToDialog();
     await lp.searchPayToById('99999'); // no such Pay To
     expect(await lp.isPayToDialogEmpty()).toBe(true);
     await lp.cancelPayToDialog();
   });
 
-  test('TC-LOC-LP-035: Pay To List Reset clears filters / restores full list', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-034: Pay To List Reset clears filters / restores full list', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.openPayToDialog();
     await lp.searchPayToById(String(PAY_TO_ALTERNATE.id)); // narrow to 1
     expect(await lp.getPayToDialogRowCount()).toBe(1);
@@ -353,7 +353,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     await lp.cancelPayToDialog();
   });
 
-  test('TC-LOC-LP-036: Pay To selection updates display + enables Save (no save)', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-035: Pay To selection updates display + enables Save (no save)', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.selectPayToById(String(PAY_TO_ALTERNATE.id)); // ID 7 → display "Encore Bahamas"
     expect(await lp.getPayToAddress()).toBe(PAY_TO_ALTERNATE.name);
     expect(await lp.waitForSaveButtonEnabled()).toBe(true); // form dirty
@@ -361,10 +361,10 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     expect(await lp.getPayToAddress()).toBe(PAY_TO_ORIGINAL.name); // reverted
   });
 
-  test('TC-LOC-LP-037: Pay To selection persists through save+reload (restore by ID)', async ({ locationLeftPanelBasicInformationPage: lp }) => {
+  test('TC-LOC-LP-036: Pay To selection persists through save+reload (restore by ID)', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     test.setTimeout(150_000);
     await saveAndVerifyCase({
-      id: 'TC-LOC-LP-037',
+      id: 'TC-LOC-LP-036',
       label: 'Pay To select ID 7 -> save -> persists -> restore ID 1',
       baseline: () => lp.ensureDefaultState(),                      // verify-only Pay To = "Encore" (ID 1)
       act: () => lp.selectPayToById(String(PAY_TO_ALTERNATE.id)),   // ID 7 "Encore Bahamas"

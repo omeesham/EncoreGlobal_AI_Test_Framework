@@ -410,28 +410,6 @@ Sample input 2: ""Month Dayth, YYYY""",Medium,,Left_Panel_Basic_Information,1,,L
 2. The date picker popover opens.
 3. The date-picker popover displays a calendar.
 4. Live Date is a clickable button (not a plain text field); clicking opens a date picker popover showing the saved date. The Pay To Address input above it remains read-only regardless",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Verify Cross-Tab Save Validation - Legal Tab Invalid,,,,,Manual,Omeesha Mahanta,,,Per requirements an invalid Legal-tab condition is a Save disabled condition. Document actual observed behavior for cross-tab save interaction,,,locations,,"Open the location Settings page; the form has no unsaved changes
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator
-Sample input 1: ""Legal""
-Sample input 2: ""Service Charge Name""
-Sample input 3: ""Basic Information""
-Sample input 4: ""Union""",Medium,,Left_Panel_Basic_Information,1,,Locations > Left_Panel_Basic_Information,"<ol>
-<li>1. Click ""Legal"" tab -- Legal tab opens showing grid</li>
-<li>2. Clear a ""Service Charge Name"" dropdown -- exclamation icon appears</li>
-<li>3. Return to ""Basic Information"" tab (left panel)</li>
-<li>4. Toggle ""Union"" checkbox -- Save becomes enabled</li>
-<li>5. Click ""Save"" -- observe whether save succeeds or is blocked by Legal validation</li>
-<li>6. Document exact behavior: save blocked (expected per an invalid Legal-tab condition) OR save succeeds with Legal error persisting</li>
-</ol>",,,"1. The Legal tab opens and displays the grid.
-2. An exclamation icon appears next to the cleared Service Charge Name dropdown.
-3. The Basic Information tab and left panel are displayed again.
-4. The Save button becomes enabled after the Union checkbox is toggled.
-5. Clicking Save shows either a success confirmation or a blocked error state tied to the Legal-tab validation.
-6. Per requirements an invalid Legal-tab condition is a Save disabled condition. Document actual observed behavior for cross-tab save interaction",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Local Office Name persists through save+reload,,,,,Automated,Omeesha Mahanta,,,"The name is restored to ""Parker Palm Springs"" and saved successfully.",,,locations,,"Office 1604 is open in Navigator. Basic Information tab is active
 
 Test Data:

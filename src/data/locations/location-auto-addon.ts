@@ -7,6 +7,6 @@ export const AUTO_ADDON_DEFAULTS = [
 ] as const;
 
 export const UNCHECK_PERSISTENCE_CASES = [
-  { key: 'chkAutoAddonWordly', name: 'Wordly', tc: 'TC-LOC-AAO-017' },
-  { key: 'chkAutoAddonLabor', name: 'Labor', tc: 'TC-LOC-AAO-018' },
+  { key: 'chkAutoAddonWordly', name: 'Wordly', tc: 'TC-LOC-AAO-016' },
+  { key: 'chkAutoAddonLabor', name: 'Labor', tc: 'TC-LOC-AAO-017' },
 ] as const;

@@ -28,9 +28,9 @@ import {
  * Allow Special Rate and Special Rate Start Date assert the full visible column sequence differs
  * between ascending and descending — row-order change, never merely that a control exists.
  *
- * Persistence tests (TC-DOP-OPT-020, TC-DOP-OPT-034, TC-DOP-OPT-035) run against the
+ * Persistence tests (TC-DOP-OPT-020, TC-DOP-OPT-033, TC-DOP-OPT-034) run against the
  * writable automation environment. TC-DOP-OPT-020 toggles Allow Special Rate and restores
- * it in a finally block. TC-DOP-OPT-035 saves a date change and restores it. TC-DOP-OPT-034
+ * it in a finally block. TC-DOP-OPT-034 saves a date change and restores it. TC-DOP-OPT-033
  * opens the Add panel, cancels without selecting a location, and verifies Save is not dirty
  * — no data is permanently changed.
  */
@@ -454,17 +454,17 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     }
   });
 
-  // ---------------------------------------------------------------- batch-dirty persistence (TC-DOP-OPT-022)
+  // ---------------------------------------------------------------- batch-dirty persistence (TC-DOP-OPT-021)
 
   /**
-   * TC-DOP-OPT-022: Two dirty rows both persist after a single save.
+   * TC-DOP-OPT-021: Two dirty rows both persist after a single save.
    *
    * Every existing mutation test dirties exactly one row. This test dirties two distinct
    * rows without saving between changes, then saves once and reloads — confirming the batch
    * POST carries both changes. If the form drops one row's pending change, this test catches
    * it. Both rows are restored in a finally block.
    */
-  test('TC-DOP-OPT-022: Save round-trip — two dirty rows both persist after a single save', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-021: Save round-trip — two dirty rows both persist after a single save', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(300_000);
     const pg = (dop as any).page;
@@ -525,10 +525,10 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     }
   });
 
-  // ---------------------------------------------------------------- virtual-scroll persistence (TC-DOP-OPT-023)
+  // ---------------------------------------------------------------- virtual-scroll persistence (TC-DOP-OPT-022)
 
   /**
-   * TC-DOP-OPT-023: Pending edit survives the row being scrolled out of view.
+   * TC-DOP-OPT-022: Pending edit survives the row being scrolled out of view.
    *
    * The grid holds 2154 rows. If the grid uses virtual DOM recycling (rows removed from the
    * DOM as they scroll out of the viewport), a pending edit that lives only in the DOM node
@@ -539,12 +539,12 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
    * renders all rows at once (no recycling), this assertion will fail — in that case the test
    * cannot exercise the intended failure mode and reports a structural BLOCKED result.
    */
-  test('TC-DOP-OPT-023: Pending edit survives the row being scrolled out of view', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-022: Pending edit survives the row being scrolled out of view', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(300_000);
     const pg = (dop as any).page;
 
-    // Pick the third non-reserved row so TC-DOP-OPT-023 is disjoint from TC-DOP-OPT-022,
+    // Pick the third non-reserved row so TC-DOP-OPT-022 is disjoint from TC-DOP-OPT-021,
     // which takes the first two non-reserved rows. Using the same row as 052 would make them
     // silently test the same location under stable DOM ordering.
     const RESERVED = new Set([DOP_LOCATION_FOR_PERSISTENCE, DOP_LOCATION_FOR_TOGGLE]);
@@ -558,7 +558,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
       const name = label.replace('Allow Special Rate for ', '');
       if (name && !RESERVED.has(name)) {
         nonReservedCount++;
-        // Skip the first two — those are the rows TC-DOP-OPT-022 picks.
+        // Skip the first two — those are the rows TC-DOP-OPT-021 picks.
         if (nonReservedCount >= 3) { locName = name; break; }
       }
     }
@@ -625,7 +625,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   // ---------------------------------------------------------------- add
 
-  test('TC-DOP-OPT-024: Add — opens the add affordance; Cancel discards cleanly', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-023: Add — opens the add affordance; Cancel discards cleanly', async ({ dependencyGate }) => {
     dependencyGate([]);
     const countBefore = await dop.getRowCount();
     expect(await dop.isSaveDisabled()).toBe(true);
@@ -635,14 +635,14 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     expect(await dop.isSaveDisabled()).toBe(true);
   });
 
-  test('TC-DOP-OPT-025: Add button is present and visible on the Locations tab', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-024: Add button is present and visible on the Locations tab', async ({ dependencyGate }) => {
     dependencyGate([]);
     expect(await dop.changeLocalOffice.isAddAvailable()).toBe(true);
   });
 
   // ---------------------------------------------------------------- tab switching (NM-3066)
 
-  test('TC-DOP-OPT-026: Switching tabs with no pending change does not show an unsaved-changes prompt (NM-3066)', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-025: Switching tabs with no pending change does not show an unsaved-changes prompt (NM-3066)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const pg = (dop as any).page;
     expect(await dop.isSaveDisabled()).toBe(true);
@@ -658,7 +658,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     await dop.switchTab('Discount Optimization');
   });
 
-  test('TC-DOP-OPT-027: Switching from Tab 2 to Tab 1 with no pending change does not show an unsaved-changes prompt (NM-3066)', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-026: Switching from Tab 2 to Tab 1 with no pending change does not show an unsaved-changes prompt (NM-3066)', async ({ dependencyGate }) => {
     // Owner: discount-optimization-locations.spec.ts (Tab 1 spec). Cross-tab seam. NM-3066.
     dependencyGate([]);
     const pg = (dop as any).page;
@@ -673,7 +673,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     await expect(pg.locator(PANEL_LOCATIONS)).toBeVisible();
   });
 
-  test('TC-DOP-OPT-028: Switching from Tab 1 to Tab 2 with an unsaved change shows the unsaved-changes prompt; Stay holds on Tab 1; Discard proceeds to Tab 2 (NM-3066)', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-027: Switching from Tab 1 to Tab 2 with an unsaved change shows the unsaved-changes prompt; Stay holds on Tab 1; Discard proceeds to Tab 2 (NM-3066)', async ({ dependencyGate }) => {
     // Owner: discount-optimization-locations.spec.ts (Tab 1 spec). Cross-tab seam. NM-3066.
     dependencyGate([]);
     const pg = (dop as any).page;
@@ -716,7 +716,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     }
   });
 
-  test('TC-DOP-OPT-029: Switching from Tab 2 to Tab 1 with an unsaved change shows the unsaved-changes prompt; Stay holds on Tab 2; Discard proceeds to Tab 1 (NM-3066)', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-028: Switching from Tab 2 to Tab 1 with an unsaved change shows the unsaved-changes prompt; Stay holds on Tab 2; Discard proceeds to Tab 1 (NM-3066)', async ({ dependencyGate }) => {
     // Owner: discount-optimization-locations.spec.ts (Tab 1 spec). Cross-tab seam. NM-3066.
     dependencyGate([]);
     const pg = (dop as any).page;
@@ -766,7 +766,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
   // during the full DOM inventory (2026-08-11). NM-3210 is NOT-COVERED by a toggle-based
   // assertion. The case below covers what is actually testable: that deactivated location
   // rows are returned by text search and cleared correctly.
-  test('TC-DOP-OPT-030: Search includes deactivated locations by name and clears correctly (NM-3210)', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-029: Search includes deactivated locations by name and clears correctly (NM-3210)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const pg = (dop as any).page;
     const countBefore = await dop.getRowCount();
@@ -787,7 +787,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     await expect.poll(() => dop.getRowCount(), { timeout: 45_000 }).toBe(countBefore);
   });
 
-  test('TC-DOP-OPT-031: Search returns deactivated locations (NM-3210 coverage)', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-030: Search returns deactivated locations (NM-3210 coverage)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const countBefore = await dop.getRowCount();
     await dop.search(DOP_DEACTIVATED_ROW_FRAGMENT);
@@ -804,7 +804,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   // ---------------------------------------------------------------- NM-2917 regression lock
 
-  test('TC-DOP-OPT-032: Allow Special Rate toggle enables Save — NM-2917 regression lock', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-031: Allow Special Rate toggle enables Save — NM-2917 regression lock', async ({ dependencyGate }) => {
     dependencyGate([]);
     const stateBefore = await dop.getToggleState(DOP_LOCATION_FOR_TOGGLE);
     try {
@@ -818,10 +818,10 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     }
   });
 
-  // ---------------------------------------------------------------- server-rejection path (TC-DOP-OPT-033)
+  // ---------------------------------------------------------------- server-rejection path (TC-DOP-OPT-032)
 
   /**
-   * TC-DOP-OPT-033: A rejected save surfaces the failure and keeps the change pending.
+   * TC-DOP-OPT-032: A rejected save surfaces the failure and keeps the change pending.
    *
    * Every existing test drives the success path. This test uses Playwright route interception
    * to make the save endpoint return a 500 for this test only — the request never reaches the
@@ -830,7 +830,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
    * enabled, or (c) the change is still present in the UI. The interception is test-scoped
    * and removed in the finally block.
    */
-  test('TC-DOP-OPT-033: Rejected save surfaces the failure and keeps the change pending', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-032: Rejected save surfaces the failure and keeps the change pending', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(180_000);
     const pg = (dop as any).page;
@@ -876,7 +876,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
   });
 
   /**
-   * TC-DOP-OPT-034: Cancelling an incomplete Add leaves Save disabled.
+   * TC-DOP-OPT-033: Cancelling an incomplete Add leaves Save disabled.
    *
    * Add flow (observed 2026-08-11): clicking Add opens an "Add Location" right-panel with
    * Cancel/Update buttons. "Select a Location" opens a "Change Local Office" modal that has
@@ -890,7 +890,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
    * "No results." on offices 1604, 1605, and 1101 — all local offices are already present
    * in each list and none can be added.
    */
-  test('TC-DOP-OPT-034: Cancelling an incomplete Add leaves Save disabled', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-033: Cancelling an incomplete Add leaves Save disabled', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(180_000);
     const pg = (dop as any).page;
@@ -926,10 +926,10 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     expect(await dop.isSaveDisabled()).toBe(true);
   });
 
-  // ---------------------------------------------------------------- date persistence (TC-DOP-OPT-035)
+  // ---------------------------------------------------------------- date persistence (TC-DOP-OPT-034)
 
   /**
-   * TC-DOP-OPT-035: Save round-trip — a Special Rate Start Date change persists after reload.
+   * TC-DOP-OPT-034: Save round-trip — a Special Rate Start Date change persists after reload.
    *
    * Selects a new Special Rate Start Date via the calendar picker (the only method that
    * correctly updates Angular's component model), saves, reloads, and confirms the saved
@@ -937,7 +937,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
    * as TC-DOP-OPT-020 — the two tests use different fields (toggle vs date) so there is no
    * collision. The date is restored in a finally block.
    */
-  test('TC-DOP-OPT-035: Save round-trip — a Special Rate Start Date change persists after reload', async ({ dependencyGate }) => {
+  test('TC-DOP-OPT-034: Save round-trip — a Special Rate Start Date change persists after reload', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(240_000);
     const PERSISTENCE_LOCATION = DOP_LOCATION_FOR_PERSISTENCE;

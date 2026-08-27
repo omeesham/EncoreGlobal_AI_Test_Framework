@@ -263,60 +263,6 @@ Sample input 3: ""Blank""",Medium,,Legal,1,,Locations > Legal,"<ol>
 3. The browser's leave-page confirmation dialog is displayed.
 4. The dialog closes and the user remains on the Legal tab with the unsaved change intact.
 5. The page reloads and the changes are discarded.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Country change resets both Legal dropdowns,,,,,Manual,Omeesha Mahanta,,,"The Terms and Conditions Name field no longer shows ""LDW""; it has been reset.",,,locations,,"Office 1604 is open in Navigator. Legal tab is active
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator
-Sample input 1: ""Legal""
-Sample input 2: ""Country""
-Sample input 3: ""United States""
-Sample input 4: ""Canada""
-Sample input 5: ""Service Charge Name""
-Sample input 6: ""Terms and Conditions Name""",Medium,,Legal,1,,Locations > Legal,"<ol>
-<li>1. Navigate to ""Legal"" tab</li>
-<li>2. In left panel, change ""Country"" dropdown from ""United States"" to another value (e.g., ""Canada"")</li>
-<li>3. Click ""Legal"" tab</li>
-<li>4. Verify ""Service Charge Name""</li>
-<li>5. Verify ""Terms and Conditions Name""</li>
-</ol>",,,"1. The Legal tab is displayed with Service Charge Name showing ""Resort Service Charge"" and Terms and Conditions Name showing ""LDW"".
-2. The Country field updates to the new value.
-3. The Legal tab reloads and displays the updated Legal grid.
-4. The Service Charge Name field no longer shows ""Resort Service Charge""; it has been reset.
-5. The Terms and Conditions Name field no longer shows ""LDW""; it has been reset.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Verify Service Charge dropdown options are sorted alphabetically,,,,,Manual,Omeesha Mahanta,,,The options are in alphabetical order.,,,locations,,"Office 1604 is open in Navigator. Legal tab is active
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator
-Sample input 1: ""Legal""
-Sample input 2: ""Service Charge Name""",Medium,,Legal,1,,Locations > Legal,"<ol>
-<li>1. Navigate to ""Legal"" tab</li>
-<li>2. Click ""Service Charge Name"" dropdown</li>
-<li>3. Read all option texts</li>
-<li>4. Compare to case-insensitive alphabetical sort</li>
-</ol>",,,"1. The Legal tab is displayed with the Legal panel visible.
-2. The Service Charge Name dropdown opens and displays the list of options.
-3. All option texts in the dropdown are visible and legible.
-4. The options are in alphabetical order.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Verify Terms and Conditions dropdown options are sorted alphabetically,,,,,Manual,Omeesha Mahanta,,,The options are in alphabetical order.,,,locations,,"Office 1604 is open in Navigator. Legal tab is active
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator
-Sample input 1: ""Legal""
-Sample input 2: ""Terms and Conditions Name""",Medium,,Legal,1,,Locations > Legal,"<ol>
-<li>1. Navigate to ""Legal"" tab</li>
-<li>2. Click ""Terms and Conditions Name"" dropdown</li>
-<li>3. Read all option texts</li>
-<li>4. Compare to case-insensitive alphabetical sort</li>
-</ol>",,,"1. The Legal tab is displayed with the Legal panel visible.
-2. The Terms and Conditions Name dropdown opens and displays the list of options.
-3. All option texts in the dropdown are visible and legible.
-4. The options are in alphabetical order.",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Combined SC + T&C change saves and persists both,,,,,Automated,Omeesha Mahanta,,,"The Terms and Conditions Name field shows ""Encore Terms and Conditions"".",,,locations,,"Office 1604 is open in Navigator. Legal tab is active
 
 Test Data:

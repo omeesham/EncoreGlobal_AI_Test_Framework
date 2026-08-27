@@ -319,22 +319,6 @@ Sample input 2: ""Account and Address""",Medium,,Account_Address,1,,Locations > 
 2. The page reloads.
 3. The Account and Address tab opens and its content is displayed.
 4. Phone 2 shows the previously saved value and the Save button is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Verify Phone 1 reverts to the account phone after save and reload,,,,,Manual,Omeesha Mahanta,,,"Phone 1 does not keep a manually entered value. After save and reload it shows the account's phone number, because Phone 1 is linked to the account",,,locations,,"Office 1604 is open in Navigator. Account and Address tab is active
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator
-Sample input 1: ""Phone 1""
-Sample input 2: ""Save Changes""",Medium,,Account_Address,1,,Locations > Account_Address,"<ol>
-<li>1. Edit ""Phone 1"" with a test value and click outside the field to move focus away.</li>
-<li>2. Confirm ""Save"" becomes enabled, click ""Save"", and confirm the ""Save Changes"" dialog with ""Save"".</li>
-<li>3. Reload the page and reopen the Account and Address tab.</li>
-<li>4. Read the ""Phone 1"" value</li>
-</ol>",,,"1. Phone 1 updates to show the entered test value.
-2. The change is saved and the Save button becomes disabled.
-3. The Account and Address tab opens and its content is displayed.
-4. Phone 1 does not keep a manually entered value. After save and reload it shows the account's phone number, because Phone 1 is linked to the account",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Cancel Save dialog discards save without persisting,,,,,Automated,Omeesha Mahanta,,,The page reloads with the original field values; the unsaved change is not present.,,,locations,,"Office 1604 is open in Navigator. Account and Address tab is active
 
 Test Data:
@@ -368,26 +352,6 @@ Sample input 1: ""Phone 1""",Medium,,Account_Address,1,,Locations > Account_Addr
 2. The field is marked invalid and an error icon is displayed.
 3. The Save button remains enabled.
 4. The page reloads and Phone 1 is restored to its original value.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Unsaved-changes warning fires only when leaving the basic-info group, not between its sub-tabs",,,,,Manual,Omeesha Mahanta,,,"The eight left-panel basic-info sub-tabs (Local Information, Currency, Pricing, Account and Address, Legal, Notes, Shared Setup Locations, Auto Add-On) share one global Save, so switching among them with unsaved changes shows no warning and the edits carry across sub-tabs - a single Save commits them all. Leaving that group - to another setup module such as Corporate Pricing, or to the Management History tab - shows an ""Unsaved changes"" dialog with ""Stay"" and ""Discard"" buttons",,,locations,,"Office 1604 is open in Navigator. Account and Address tab is active
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator
-Sample input 1: ""Phone 2""
-Sample input 2: ""Unsaved changes""
-Sample input 3: ""Stay""
-Sample input 4: ""Discard""",Medium,,Account_Address,1,,Locations > Account_Address,"<ol>
-<li>1. On the Account and Address sub-tab, edit ""Phone 2"" with a test value so ""Save"" becomes enabled (the left-panel form now has unsaved changes).</li>
-<li>2. Without saving, switch to another basic-info sub-tab (for example Local Information, Currency, Legal, or Notes). Confirm no warning appears and the edit is retained.</li>
-<li>3. Still without saving, switch away from the basic-info group - to another setup module such as Corporate Pricing, or to the Management History tab.</li>
-<li>4. Observe the ""Unsaved changes"" dialog with ""Stay"" and ""Discard"" buttons.</li>
-<li>5. Reload the page to discard any remaining changes</li>
-</ol>",,,"1. The Save button becomes enabled, indicating unsaved changes.
-2. No warning appears and the edited value is retained.
-3. Navigation away from the group is blocked and the Unsaved changes dialog begins to appear.
-4. The Unsaved changes dialog is displayed with Stay and Discard buttons.
-5. The eight left-panel basic-info sub-tabs (Local Information, Currency, Pricing, Account and Address, Legal, Notes, Shared Setup Locations, Auto Add-On) share one global Save, so switching among them with unsaved changes shows no warning and the edits carry across sub-tabs - a single Save commits them all. Leaving that group - to another setup module such as Corporate Pricing, or to the Management History tab - shows an ""Unsaved changes"" dialog with ""Stay"" and ""Discard"" buttons",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Account List Address filter returns matching results,,,,,Automated,Omeesha Mahanta,,,The Account List dialog closes.,,,locations,,"Office 1604 is open in Navigator. Account and Address tab is active
 
 Test Data:

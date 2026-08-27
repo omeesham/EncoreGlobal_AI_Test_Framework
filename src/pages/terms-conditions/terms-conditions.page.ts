@@ -708,7 +708,7 @@ export class TermsConditionsPage extends BasePage {
    * Lookup-or-create with cross-language recovery:
    * 1. Checks the default-language view first (fast path — the common case).
    * 2. If missing there, sweeps every per-language filter to find a re-languaged row.
-   *    Name uniqueness is enforced cross-language (see TC-TNC-CORE-059), so
+   *    Name uniqueness is enforced cross-language (see TC-TNC-CORE-057), so
    *    creating a duplicate would fail — the only correct recovery is to move the existing
    *    row back to the default language.
    * 3. If the row exists under a non-default language, changes its language back to the

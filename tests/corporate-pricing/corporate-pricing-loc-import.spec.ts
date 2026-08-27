@@ -32,7 +32,7 @@ test.describe('Corporate Pricing — Loc Pricing Import: real round-trip & dialo
   // Every test except the dialog-surface case (TC-012) mutates the throwaway office 5897 and gets
   // the verified baseline reset before and the best-effort restore after — exactly the hooks the
   // @mutation round-trip group had as its own describe.
-  const DIALOG_SURFACE_IDS = ['TC-CPR-LIM-012'];
+  const DIALOG_SURFACE_IDS = ['TC-CPR-LIM-011'];
   const isDialogSurface = (title: string) => DIALOG_SURFACE_IDS.some((id) => title.startsWith(id));
 
   test.beforeEach(async ({ corporatePricingSearchPage: p }, testInfo) => {
@@ -183,7 +183,7 @@ test.describe('Corporate Pricing — Loc Pricing Import: real round-trip & dialo
     expect(requireRow(after, '2026-NP LB4')[ALT_IDX]).toBe('1'); // the imported value is durable, not an in-memory echo
   });
 
-  test('TC-CPR-LIM-009: Loc Pricing Import rejects a header-only CSV (headers, zero data rows) in the browser and runs no import', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LIM-008: Loc Pricing Import rejects a header-only CSV (headers, zero data rows) in the browser and runs no import', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
     const before = await p.captureLocPricingCsvRows(OFFICE);
     const result = await p.locPricingImport(fixturePath('header-only.csv'));
     // Distinct from the 0-byte empty file: a header-only file is also rejected client-side, with its own
@@ -196,7 +196,7 @@ test.describe('Corporate Pricing — Loc Pricing Import: real round-trip & dialo
     expect(sortRows(after.rows)).toEqual(sortRows(before.rows)); // nothing committed
   });
 
-  test('TC-CPR-LIM-010: Loc Pricing Import applies only the Alternate flag — Internal/Labor/Production columns are not written', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LIM-009: Loc Pricing Import applies only the Alternate flag — Internal/Labor/Production columns are not written', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
     // The file sets all four boolean flags to 1 on LV-PB. The server accepts it, but only Alternate is an
     // import-writable column — the fresh export proves the other three stay 0 (live-verified write scope).
     const result = await p.locPricingImport(fixturePath('field-writability.csv'));
@@ -212,7 +212,7 @@ test.describe('Corporate Pricing — Loc Pricing Import: real round-trip & dialo
     expect(row[H.indexOf('IsProduction')]).toBe('0');  // unchanged despite the file setting it to 1
   });
 
-  test('TC-CPR-LIM-011: Loc Pricing Import silently drops a pricebook not already defined in the system — no row is created', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LIM-010: Loc Pricing Import silently drops a pricebook not already defined in the system — no row is created', { tag: '@mutation' }, async ({ corporatePricingSearchPage: p }) => {
     const before = await p.captureLocPricingCsvRows(OFFICE);
     const result = await p.locPricingImport(fixturePath('create-novel.csv')); // 3 baseline rows + 1 novel pricebook
     expect(result.success, result.message).toBe(true);
@@ -229,7 +229,7 @@ test.describe('Corporate Pricing — Loc Pricing Import: real round-trip & dialo
   });
 
   // ── Dialog surface ──
-  test('TC-CPR-LIM-012: Loc Pricing Import opens the "Import All Location Pricing" dialog', async ({ corporatePricingSearchPage: p }) => {
+  test('TC-CPR-LIM-011: Loc Pricing Import opens the "Import All Location Pricing" dialog', async ({ corporatePricingSearchPage: p }) => {
     await p.openLocPricingImportDialog();
     const info = await p.getImportDialogInfo();
     expect(info.text).toContain(CORP_PRICING_TOOLBAR_IO.locPricingImportDialogTitle);

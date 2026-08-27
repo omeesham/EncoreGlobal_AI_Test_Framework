@@ -199,7 +199,7 @@ test.describe('Location Auto Add-On @locations @auto-addon', () => {
     });
   }
 
-  test('TC-LOC-AAO-019: Cancel Does Not Persist Toggle', async ({ locationAutoAddonPage, dependencyGate }) => {
+  test('TC-LOC-AAO-018: Cancel Does Not Persist Toggle', async ({ locationAutoAddonPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-AAO-001']);
     await locationAutoAddonPage.navigateFresh(OFFICE_NO);
     await locationAutoAddonPage.toggleCheckbox('chkAutoAddonExpressContentDesignSession');
@@ -211,7 +211,7 @@ test.describe('Location Auto Add-On @locations @auto-addon', () => {
       'ECDS should remain unchecked after cancel').toBe(false);
   });
 
-  test('TC-LOC-AAO-020: Bulk Invert All Checkboxes Persists After Save+Reload', async ({ locationAutoAddonPage, dependencyGate }) => {
+  test('TC-LOC-AAO-019: Bulk Invert All Checkboxes Persists After Save+Reload', async ({ locationAutoAddonPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-AAO-001']);
     test.setTimeout(60_000);
     await locationAutoAddonPage.navigateFresh(OFFICE_NO);

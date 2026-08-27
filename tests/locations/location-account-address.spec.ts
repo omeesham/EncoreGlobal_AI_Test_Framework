@@ -250,7 +250,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
  // TC-021 DROPPED: live verification proved Phone 1 is account-linked.
  // Save completes but value always reverts to account phone on reload. NOT-AUTOMATABLE.
 
-  test('TC-LOC-ACC-022: Cancel Save dialog discards save without persisting', async ({ locationAccountAddressPage, dependencyGate }) => {
+  test('TC-LOC-ACC-021: Cancel Save dialog discards save without persisting', async ({ locationAccountAddressPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(60_000);
     await locationAccountAddressPage.fillPhone2(ACCOUNT_TEST_PHONE);
@@ -265,7 +265,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
     await locationAccountAddressPage.reloadAndNavigate(OFFICE_NO);
   });
 
-  test('TC-LOC-ACC-023: Phone 1 cleared shows invalid state and error icon', async ({ locationAccountAddressPage, dependencyGate }) => {
+  test('TC-LOC-ACC-022: Phone 1 cleared shows invalid state and error icon', async ({ locationAccountAddressPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-ACC-001']);
  // Live-verified: clearing Phone 1 shows aria-invalid=true but Save stays enabled.
  // This TC verifies validation indicators; Save blocking is NOT app behavior.
@@ -278,7 +278,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
     await locationAccountAddressPage.reloadAndNavigate(OFFICE_NO);
   });
 
-  test('TC-LOC-ACC-025: Account List Address filter returns matching results', async ({ locationAccountAddressPage, dependencyGate }) => {
+  test('TC-LOC-ACC-023: Account List Address filter returns matching results', async ({ locationAccountAddressPage, dependencyGate }) => {
     test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(60_000);
@@ -291,7 +291,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
     await locationAccountAddressPage.cancelAccountListDialog();
   });
 
-  test('TC-LOC-ACC-026: Account List City filter returns matching results', async ({ locationAccountAddressPage, dependencyGate }) => {
+  test('TC-LOC-ACC-024: Account List City filter returns matching results', async ({ locationAccountAddressPage, dependencyGate }) => {
     test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(60_000);
@@ -304,7 +304,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
     await locationAccountAddressPage.cancelAccountListDialog();
   });
 
-  test('TC-LOC-ACC-027: Address selection changes venue display fields', async ({ locationAccountAddressPage, dependencyGate }) => {
+  test('TC-LOC-ACC-025: Address selection changes venue display fields', async ({ locationAccountAddressPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(60_000);
  // Live-verified: address selection updates display but does NOT persist through save+reload.
@@ -323,7 +323,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
     await expect.poll(() => locationAccountAddressPage.getVenueCityText(), { timeout: 10_000 }).toBe(ORIGINAL_ADDRESS.city);
   });
 
-  test('TC-LOC-ACC-028: Account selection changes venue name and persists', async ({ locationAccountAddressPage, dependencyGate }) => {
+  test('TC-LOC-ACC-026: Account selection changes venue name and persists', async ({ locationAccountAddressPage, dependencyGate }) => {
     test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(120_000);
@@ -364,12 +364,12 @@ test.describe('Location Account and Address @locations @account-address', () => 
   // Clearing Phone 2 and saving does NOT persist empty; the prior
   // value reappears on reload. This case asserts the CORRECT (fixed) behavior, so it is fixme'd
   // until the app bug is resolved. Un-fixme when the clear-not-persisting issue closes.
-  // FIXME TC-LOC-ACC-029 (Blocked — clearing the Phone 2 field and saving does not persist the empty value; the previous value reappears after reload. Pending an application fix.)
-  test.fixme('TC-LOC-ACC-029: Phone 2 cleared value persists empty after reload', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+  // FIXME TC-LOC-ACC-027 (Blocked — clearing the Phone 2 field and saving does not persist the empty value; the previous value reappears after reload. Pending an application fix.)
+  test.fixme('TC-LOC-ACC-027: Phone 2 cleared value persists empty after reload', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(60_000);
     await saveAndVerifyCase({
-      id: 'TC-LOC-ACC-029',
+      id: 'TC-LOC-ACC-027',
       label: 'Phone 2 clear -> save -> empty persists after reload',
       // Seed a value first (Phone 2 baseline is empty) so clearing is a real, dirtying change.
       baseline: async () => {
@@ -393,7 +393,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
     });
   });
 
-  test('TC-LOC-ACC-030: Account List Account Number filter returns matching account', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+  test('TC-LOC-ACC-028: Account List Account Number filter returns matching account', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
     test.fixme(true, 'Blocked — the Account List dialog does not function reliably for automated interaction. Pending an application fix.');
     dependencyGate([]);
     test.setTimeout(90_000);
@@ -410,7 +410,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
     await pg.cancelAccountListDialog();
   });
 
-  test('TC-LOC-ACC-031: Address dialog search filter then clear restores full set', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+  test('TC-LOC-ACC-029: Address dialog search filter then clear restores full set', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(60_000);
     await pg.openVenueAddressDialog();
@@ -429,7 +429,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
   //     proved the dialog OPENS from Master). Per-launcher coverage: a Venue TC can NOT
   //     discharge a Master cell — the SAME dialog persists from Master but NOT from Venue (TC-027). ───
 
-  test('TC-LOC-ACC-032: Master Bill To selection updates Master display + leaves Venue unchanged + enables Save', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+  test('TC-LOC-ACC-030: Master Bill To selection updates Master display + leaves Venue unchanged + enables Save', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(90_000);
     await expect.poll(() => pg.getMasterCityText(), { timeout: 10_000 }).toBe(MASTER_BILL_TO_ORIGINAL.city);
@@ -446,11 +446,11 @@ test.describe('Location Account and Address @locations @account-address', () => 
     await expect.poll(() => pg.getMasterCityText(), { timeout: 10_000 }).toBe(MASTER_BILL_TO_ORIGINAL.city);
   });
 
-  test('TC-LOC-ACC-033: Master Bill To selection persists through save+reload (restore anchored original)', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
+  test('TC-LOC-ACC-031: Master Bill To selection persists through save+reload (restore anchored original)', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(150_000);
     await saveAndVerifyCase({
-      id: 'TC-LOC-ACC-033',
+      id: 'TC-LOC-ACC-031',
       label: 'Master Bill To select alt -> save -> persists -> restore anchored original',
       // Anchor check: Master must start at the original (loud fail if a prior run leaked an alternate).
       baseline: async () => {

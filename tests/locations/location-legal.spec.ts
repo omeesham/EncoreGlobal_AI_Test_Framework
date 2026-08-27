@@ -16,7 +16,7 @@ test.describe('Location Legal @locations @legal', () => {
   // runs its own baseline): every test starts from default SC/T&C so an "alt-value"
   // selection is always a real net change — even when office 1604 starts a run dirty from
   // a prior interrupted run (the net-zero-on-stale-state defect).
-  const FCC_IDS = ['TC-LOC-LGL-019'];
+  const FCC_IDS = ['TC-LOC-LGL-016'];
 
   test.beforeEach(async ({ locationLegalPage }, testInfo) => {
     if (!(await locationLegalPage.isOnLegalTab())) {
@@ -155,7 +155,7 @@ test.describe('Location Legal @locations @legal', () => {
   // but Live-verified: BOTH dropdowns are NOT sorted (generic names first, location-specific after).
   // Logged as an app bug. Tests would fail against live behavior.
 
-  test('TC-LOC-LGL-018: Combined SC + T&C change saves and persists both', async ({ locationLegalPage, dependencyGate }) => {
+  test('TC-LOC-LGL-015: Combined SC + T&C change saves and persists both', async ({ locationLegalPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-LGL-001']);
     test.setTimeout(60_000);
     await locationLegalPage.reloadAndNavigateToLegalTab();
@@ -207,7 +207,7 @@ test.describe('Location Legal @locations @legal', () => {
   // Mechanic differs from TC-004 (positive enumeration: `toContain(default)`).
   // This is negative enumeration (`not.toContain(sentinel)`) + full save-cycle
   // via the field-coverage runner — combination NOT covered by any existing TC.
-  test('TC-LOC-LGL-019: Verify an out-of-list Service Charge value cannot be submitted', { tag: '@fcc' }, async ({ locationLegalPage, dependencyGate }) => {
+  test('TC-LOC-LGL-016: Verify an out-of-list Service Charge value cannot be submitted', { tag: '@fcc' }, async ({ locationLegalPage, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(60_000);
 
@@ -220,7 +220,7 @@ test.describe('Location Legal @locations @legal', () => {
     expect(options).toContain(LEGAL_ALT_SC);
 
     await saveAndVerifyCase({
-      id: 'TC-LOC-LGL-019',
+      id: 'TC-LOC-LGL-016',
       label: 'Negative enumeration + legitimate SC save persists; tamper sentinel never reaches server',
       baseline: () => locationLegalPage.ensureDefaultState(LEGAL_DEFAULTS),
       act: () => locationLegalPage.selectServiceCharge(LEGAL_ALT_SC),

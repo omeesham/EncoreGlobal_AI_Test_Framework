@@ -244,17 +244,6 @@ Sample input 4: ""Auto Add-On""",Medium,,Auto_Addon,1,,Locations > Auto_Addon,"<
 2. The dialog closes and the page navigates to Home.
 3. The Auto Add-On panel loads fresh with the original saved values.
 4. Discard navigates to Home page. Unsaved toggle is discarded. DB retains original saved value",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Item List Is Country-Scoped (Same Across Locations),,,,,Manual,Omeesha Mahanta,,,"The Auto Add-On checkbox list does NOT change per location - it is the same set for every location within a country (5 items for United States locations including 1604). A different country could present a different set, but that variation is not reachable from a single United States office",,,locations,,"Office 1604 (United States)
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator
-Sample input 1: ""Auto Add-On""",Medium,,Auto_Addon,1,,Locations > Auto_Addon,"<ol>
-<li>1. Navigate to the ""Auto Add-On"" tab for location 1604 and count checkbox items - verify 5 items: Encore Music, Wireless Presenter, Express Content Design Session, Wordly, Labor.</li>
-<li>2. Navigate to a different location in the same country and count items - verify the same 5 items appear (the list does not change per location)</li>
-</ol>",,,"1. The Auto Add-On panel displays 5 checkbox items: Encore Music, Wireless Presenter, Express Content Design Session, Wordly, and Labor.
-2. The Auto Add-On checkbox list does NOT change per location - it is the same set for every location within a country (5 items for United States locations including 1604). A different country could present a different set, but that variation is not reachable from a single United States office",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Wordly Uncheck Persists After Save+Reload,,,,,Automated,Omeesha Mahanta,,,Unchecking Wordly and saving persists the unchecked state through a full page reload,,,locations,,"""Auto Add-On"" tab active. ""Wordly"" is checked (default for 1604)
 
 Test Data:

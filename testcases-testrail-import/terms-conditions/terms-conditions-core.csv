@@ -401,20 +401,6 @@ Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
 <li>2. Change the Name back to its original saved value</li>
 </ol>",,,"1. Save becomes enabled
 2. Save returns to disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Column resize does not persist (persistence - non-persistent state),,,,,Manual,Omeesha Mahanta,,,The column has returned to its default width,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default).
-
-"""": persistence
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
-<li>1. Drag a column resize handle to change a column width</li>
-<li>2. Reload the page</li>
-<li>3. Compare the column width to its pre-drag state</li>
-</ol>",,,"1. The column width changes visually
-2. The page reloads
-3. The column has returned to its default width",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Editor state does not leak between cell selections (NM-3162),,,,,Automated,Omeesha Mahanta,,,Row A's content is unchanged,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). Two rows with different Left Column content exist
 
 Test Data:
@@ -675,19 +661,6 @@ Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
 2. The editor shows all 300 characters
 3. Save completes
 4. All 300 characters are present — no truncation",,,,Master,S1620,Test Case (Steps),Regression,,,
-,the HTML-entity-handling defect tooltip entity rendering (pending-probe),,,,,Manual,Omeesha Mahanta,,,PENDING-PROBE: whether the tooltip shows literal `&nbsp;` (escaped rendering) or a space (interpreted rendering) has not been measured,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row contains &nbsp; stored as &amp;nbsp; in a column cell.
-
-"""": persistence
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
-<li>1. Hover over the cell containing the stored &amp;amp;nbsp</li>
-<li>2. content</li>
-<li>3. Read the tooltip text</li>
-</ol>",,,"1. A tooltip appears
-2. PENDING-PROBE: whether the tooltip shows literal `&nbsp;` (escaped rendering) or a space (interpreted rendering) has not been measured",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Editor state isolation — switching from Left to Right Column shows correct content,,,,,Automated,Omeesha Mahanta,,,"The editor shows ""RIGHT-CONTENT-A"" — no trace of Left Column content",,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A row has distinct content in Left Column (""LEFT-CONTENT-A"") and Right Column (""RIGHT-CONTENT-A"").
 
 """": persistence
@@ -883,43 +856,6 @@ Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
 </ol>",,,"1. `aria-invalid` is false; Save becomes enabled
 2. Save completes
 3. The name field shows the exact string including all special and non-ASCII characters",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Pairwise covering array - language x row-position x column-type x data-state,,,,,Manual,Omeesha Mahanta,,,Each valid edit persists; empty Name edits blocked Save and did not persist,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language filter: All. At least 4 rows present spanning at least 2 languages.
-
-"""": persistence
-
-""Pairwise factors:""
-- Language (L): {US English, Spanish (Mexico), English (Canada), French (Canada)} - 4 levels
-- Row position (R): {first, middle, last} - 3 levels
-- Column type (C): {Name (plain text), Left (HTML/RTE), Right (HTML/RTE), Bottom (HTML/RTE)} - 4 levels
-- Data state (D): {new-fill, existing-edit, empty/cleared} - 3 levels
-
-""Covering array (all pairs present, 12 trials - cap at 12; see dropped-pairs below):""
-
-| Trial | Language | Row | Column | Data State |
-|---|---|---|---|---|
-| 1 | US English | first | Name | new-fill |
-| 2 | US English | middle | Left | existing-edit |
-| 3 | US English | last | Right | empty/cleared |
-| 4 | Spanish (Mexico) | first | Left | empty/cleared |
-| 5 | Spanish (Mexico) | middle | Right | new-fill |
-| 6 | Spanish (Mexico) | last | Name | existing-edit |
-| 7 | English (Canada) | first | Right | existing-edit |
-| 8 | English (Canada) | middle | Bottom | empty/cleared |
-| 9 | English (Canada) | last | Name | new-fill |
-| 10 | French (Canada) | first | Bottom | new-fill |
-| 11 | French (Canada) | middle | Name | empty/cleared |
-| 12 | French (Canada) | last | Left | existing-edit
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
-<li>1. For each trial 1-12: navigate to the specified row (by position anchor), target the specified column, apply the specified data state operation</li>
-<li>2. Click Save after all 12 trials are applied</li>
-<li>3. Reload the page and verify each trial's result persists</li>
-</ol>",,,"1. The edit succeeds without error for valid operations; invalid states (empty Name) show `aria-invalid`
-2. Save completes for valid edits
-3. Each valid edit persists; empty Name edits blocked Save and did not persist",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,State transition — Clean to Dirty via name edit,,,,,Automated,Omeesha Mahanta,,,Save becomes enabled (transition to Dirty),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). No pending edits (Save is disabled).
 
 """": persistence
@@ -942,18 +878,6 @@ Location: test office 1604
 Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
 <li>1. Verify Save is disabled (Clean state)</li>
 <li>2. Change a row's language dropdown to a different value</li>
-</ol>",,,"1. Save button has `disabled` attribute
-2. Save becomes enabled (transition to Dirty)",,,,Master,S1620,Test Case (Steps),Regression,,,
-,State transition - Clean to Dirty (RTE edit),,,,,Manual,Omeesha Mahanta,,,Save becomes enabled (transition to Dirty),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). No pending edits.
-
-"""": persistence
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
-<li>1. Verify Save is disabled (Clean state)</li>
-<li>2. Click a Left Column cell and type content</li>
 </ol>",,,"1. Save button has `disabled` attribute
 2. Save becomes enabled (transition to Dirty)",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,State transition — Dirty to Saving to Save-OK,,,,,Automated,Omeesha Mahanta,,,Save is disabled (Clean state restored); page is at rest,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty (Save enabled). Network interception captures the save response.
@@ -1056,16 +980,6 @@ Sample input 2: ""ORIGINAL-NAME""",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
 <li>2. Change the name back to ""ORIGINAL-NAME""</li>
 </ol>",,,"1. Save becomes enabled (Dirty)
 2. Save becomes disabled — the form detects revert-to-original and returns to Clean",,,,Master,S1620,Test Case (Steps),Regression,,,
-,State transition - Tab-to-tab navigation guard (unconfirmed),,,,,Manual,Omeesha Mahanta,,,UNCONFIRMED — whether a guard dialog fires on tab-to-tab navigation has not been tested (no tab link found in any probe),,,terms-conditions,,"The Terms and Conditions page is open for office 1604. The form is dirty. A sibling settings tab link is visible.
-
-"""": persistence
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator",Medium,,Core,1,,Terms_Conditions > Core,"<ol>
-<li>1. Click a sibling settings tab (if one exists)</li>
-</ol>",,,1. UNCONFIRMED — whether a guard dialog fires on tab-to-tab navigation has not been tested (no tab link found in any probe),,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Integration — Legal T&C selection surfaces in Location Management History (NM-1200),,,,,Automated,Omeesha Mahanta,,,A history row referencing the Terms and Conditions change is visible,,,terms-conditions,,"The Terms and Conditions page is open for office 1604. Language: US English (default). A unique sentinel name is prepared for tracing.
 
 """": persistence

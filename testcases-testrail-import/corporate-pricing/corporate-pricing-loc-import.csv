@@ -76,14 +76,6 @@ Application: Navigator",Medium,,Loc_Pricing_Import,1,,Corporate_Pricing > Loc_Pr
 </ol>",,,"1. The dialog accepts the file and the import completes successfully.
 2. The Search page reloads and finishes loading successfully.
 3. The search grid re-renders with rows (not left blank - guarding against the post-import blank-grid defect) AND the re-downloaded export still shows the imported value (the change is durable, not just an in-memory echo)",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Loc Pricing Import - full/large-file boundary (verified-live 500 replace-failure; not safely automatable),,,,,Manual,Omeesha Mahanta,,,"The full ~38,000-row import fails server-side. The upload stalls part-way through - the dialog progress bar stops near the middle and shows *""Import failed due to a server error. Please try again. If the problem continues, contact support.""* The underlying request returns HTTP 500 with a *""Failed to replace... document...""* body - a server-side replace failure, not a gateway timeout. Because the file is re-imported unchanged, no location's values change: office 5897's rows and the total exported row count are identical afterward",,,corporate-pricing,,"On the Search screen
-
-Test Data:
-User: automation user (location-edit permission)
-Location: test office 1604
-Application: Navigator",Medium,,Loc_Pricing_Import,1,,Corporate_Pricing > Loc_Pricing_Import,"<ol>
-<li>1. (Not automated) Import the full ~38k-row exported file</li>
-</ol>",,,"1. The full ~38,000-row import fails server-side. The upload stalls part-way through - the dialog progress bar stops near the middle and shows *""Import failed due to a server error. Please try again. If the problem continues, contact support.""* The underlying request returns HTTP 500 with a *""Failed to replace... document...""* body - a server-side replace failure, not a gateway timeout. Because the file is re-imported unchanged, no location's values change: office 5897's rows and the total exported row count are identical afterward",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,"Loc Pricing Import rejects a header-only CSV (headers, zero data rows) in the browser and runs no import",,,,,Automated,Omeesha Mahanta,,,"The dialog shows ""Please check the upload file format."", no import request is sent, and office 5897 is unchanged. This is a DISTINCT input from the zero-byte empty file (TC-CPR-LIM-003) - a header-only file is a separate rejection path with its own message",,,corporate-pricing,,"On the Search screen (office 1604)
 
 Test Data:
