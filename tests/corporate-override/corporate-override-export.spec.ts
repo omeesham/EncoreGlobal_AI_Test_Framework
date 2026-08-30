@@ -73,9 +73,8 @@ test.describe('Corporate Pricing Override — Export (NM-2272)', () => {
   });
 
   test('TC-CPR-OVR-131: Active only hides inactive rows in the grid; the export keeps them', async ({ corporatePricingOverridePage: p }) => {
-    // Office 1105 is the walk-verified bed that actually HAS inactive rows (9 total, 7 active). The
-    // default fixture office has none, so the filter would have nothing to remove and the positive
-    // control below could not fire.
+    // Office 1105 is used because it has inactive rows; on the default fixture office the filter would
+    // remove nothing and the positive control below could not fire.
     await p.reloadAndReselect(CORP_PRICING_OVERRIDE_ACTIVE_BED.office);
     await p.setActiveOnly(false);
     const allRows = await p.getVisibleRowCount();
@@ -166,9 +165,8 @@ test.describe('Corporate Pricing Override — Export (NM-2272)', () => {
   test('TC-CPR-OVR-138: The CSV is well-formed — consistent line endings, a full column set on every row, and quoted inch marks', async ({ corporatePricingOverridePage: p }) => {
     const r = await p.downloadOverrideExportRaw();
 
-    // Line endings are plain LF, never CRLF, and never a mix of the two. Checked on the raw bytes
-    // because reading the file as text hides the difference. Pinned so a change is visible: a file
-    // that silently switched to CRLF would shift every downstream byte offset.
+    // Checked on the raw bytes because reading the file as text hides the difference; a silent
+    // switch to CRLF would shift every downstream byte offset.
     const text = r.bytes.toString('latin1');
     expect(text).toContain(EXPORT.structure.lineEnding);
     expect(text.match(/\r/g) ?? []).toEqual([]); // no carriage returns anywhere
@@ -226,9 +224,8 @@ test.describe('Corporate Pricing Override — Export (NM-2272)', () => {
 
     const failing = await p.fetchGridStatusForOffice(GRID_API.knownFailingOffice);
     if (failing.status === 200) {
-      // Not a failure — the office recovered. Assert something real about the recovery rather than
-      // restating the status we just branched on: a 200 that still carries the fault text would mean
-      // the error is now being served with a success code, which is worse than the original bug.
+      // The office recovered; a 200 still carrying the fault text would mean the error is now served
+      // with a success code, which is worse than the original bug.
       expect(failing.body).not.toContain(GRID_API.knownFailureSignature);
     } else {
       expect(failing.status, `office ${GRID_API.knownFailingOffice} is the known-bad one`).toBeGreaterThanOrEqual(500);
@@ -240,9 +237,8 @@ test.describe('Corporate Pricing Override — Export (NM-2272)', () => {
     const baseline = await p.downloadOverrideExport();
     await p.setActiveOnly(false);
     const unfiltered = await p.getVisibleRowCount();
-    // Anchor the chain to a non-empty grid. Without this, every "narrows or stays equal" comparison
-    // below would be satisfied by a grid stuck at zero rows — the filters would look well behaved
-    // precisely when the screen is broken.
+    // Anchors the chain to a non-empty grid: every "narrows or stays equal" check below would also be
+    // satisfied by a grid stuck at zero rows.
     expect(unfiltered).toBeGreaterThan(0);
 
     await p.setActiveOnly(true);
@@ -338,9 +334,8 @@ test.describe('Corporate Pricing Override — Export (NM-2272)', () => {
       .map((row) => ({ office: row[idx.location] ?? '', productGroup: row[idx.productGroup] ?? '', value: Number(row[idx.discount]) }));
     expect(discounts.length).toBeGreaterThan(0);
 
-    // The column stores a fraction: the grid multiplies by 100 to display it, so 0.06 reads as 6.00%.
-    // A value above 1 therefore renders above 100% — beyond the cap the app itself enforces on entry
-    // (see TC-CPR-OVR-036). A handful of rows are stored that way and render as 1300% and 1400%.
+    // The column stores a fraction the grid multiplies by 100, so a value above 1 renders above the
+    // 100% cap the app enforces on entry. A handful of rows are stored that way.
     const overScale = discounts.filter((d) => d.value > 1);
     const fractionScale = discounts.filter((d) => d.value <= 1);
     expect(fractionScale.length).toBeGreaterThan(overScale.length * 10); // the fraction scale is overwhelmingly the norm

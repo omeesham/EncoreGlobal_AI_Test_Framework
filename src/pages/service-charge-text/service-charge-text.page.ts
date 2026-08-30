@@ -6,21 +6,8 @@ import { IConfig } from '../../types';
 import { serviceChargeText as sct } from '../../selectors/service-charge-text/service-charge-text';
 import { SCT_FILTER_LANGUAGES } from '../../data/service-charge-text/service-charge-text';
 
-/**
- * Service Charge Text setup page.
- *
- * The page lists service charge wording, one row per language entry. Three columns are edited
- * directly in the grid; the wording itself is edited in a rich text panel that opens when its
- * cell is clicked. A single Save button becomes available once every required field is filled
- * and no Service Charge Name is repeated within a language.
- *
- * Two behaviours worth knowing before using this class:
- *
- * - The page shows a loading placeholder before the grid appears, so every entry point waits for
- *   the grid itself rather than for the page to finish loading.
- * - Adding a row, or selecting a row, does not by itself make the page saveable. Save follows
- *   whether the data is valid, not whether something was touched.
- */
+// Service Charge Text setup page: one row per language entry, wording edited in a rich text
+// panel. Save follows data validity, not whether a row was added or touched.
 export class ServiceChargeTextPage extends BasePage {
   constructor(page: Page, config?: IConfig) {
     super(page, config);
@@ -36,14 +23,8 @@ export class ServiceChargeTextPage extends BasePage {
     await this.waitForGrid();
   }
 
-  /** Waits for the real grid. This is the load gate for the whole page — the placeholder that
-   * renders first looks like a table but contains none of the real controls.
-   *
-   * Visibility alone is not sufficient: the table stays mounted during a filter change or data
-   * refresh and only its rows swap. Waiting for visible would return instantly against the
-   * previous result set. This method polls until the row count stops changing, which is the
-   * first moment the current result set is fully rendered.
-   */
+  // Load gate for the whole page. Visibility alone is not enough — the table stays mounted
+  // across a filter change and only its rows swap, so this polls until the row count settles.
   @step('Wait for the Service Charge Text grid to appear')
   async waitForGrid(timeout = 45_000): Promise<void> {
     await this.page.locator(sct.table).first().waitFor({ state: 'visible', timeout });
@@ -65,12 +46,8 @@ export class ServiceChargeTextPage extends BasePage {
     await this.waitForAngularStable(timeout);
   }
 
-  /**
-   * Polls until the page's beforeunload guard no longer prevents navigation.
-   * Uses a synthetic beforeunload event dispatch to probe Angular's guard state without
-   * actually navigating. The Save button being disabled does NOT mean Angular's
-   * dirty flag has cleared — this method waits for the actual guard to deregister.
-   */
+  // Probes the beforeunload guard with a synthetic event instead of navigating.
+  // A disabled Save button does NOT mean the dirty flag has cleared.
   @step('Wait until it is safe to navigate away from the page')
   async waitForNavigationSafe(timeout = 10_000): Promise<boolean> {
     try {
@@ -225,30 +202,8 @@ export class ServiceChargeTextPage extends BasePage {
     return (raw || '').replace(/\s+/g, ' ').trim();
   }
 
-  /**
-   * Chooses a language in the page level filter and waits for the grid to finish reflecting it.
-   *
-   * **Why Angular zone stability alone is not enough.** The zone is stable both when a request
-   * has finished AND when a request has not yet started. A caller that reads the grid immediately
-   * after `whenStable` resolves can therefore sample the *previous* filter's rows. This was
-   * invisible until hardened assertions exposed impossible counts (e.g. one language showing
-   * more rows than "All").
-   *
-   * **Single-language filter postcondition.** Every visible row's language trigger must display
-   * the requested language. This is the invariant the test itself asserts, so it is a true
-   * postcondition — it cannot be satisfied by stale data from a different filter. The poll
-   * naturally waits for both the network response (if any) and the render pass.
-   *
-   * **"All" filter postcondition.** "Every row matches" does not apply because "All" includes
-   * every language. Instead the method checks three exit signals, any one of which proves "All"
-   * applied: (1) the row count changed from the previous filter, (2) a row language that
-   * differs from the previous filter's language is visible, or (3) the GET response arrived and
-   * Angular declared the zone stable — covering the rare case where "All" shows identical data
-   * because the dataset contains only one language.
-   *
-   * **Failure is loud.** If the postcondition is not met within the budget, the method throws
-   * naming the requested language, the observed row count, and the observed languages.
-   */
+  // Angular zone stability is not a completion signal here — the zone is equally stable before
+  // the request starts — so this waits on a content postcondition and throws with diagnostics.
   @step('Choose a language from the page filter and wait for the grid')
   async selectFilterLanguage(language: string, timeout = 30_000): Promise<void> {
     const current = await this.getSelectedFilterLanguage();
@@ -260,9 +215,8 @@ export class ServiceChargeTextPage extends BasePage {
     const prevCount = await this.getRowCount();
     const prevLang = prevCount > 0 ? await this.getRowLanguage(0) : null;
 
-    // Track the GET response as a supplementary completion signal for the "All" filter.
-    // When the dataset contains only one language, content checks alone cannot distinguish
-    // "All" from the previous single-language view — the network round-trip is the only proof.
+    // Supplementary completion signal for "All": with a single-language dataset the content
+    // looks unchanged, so the GET round-trip is the only proof the filter applied.
     let getResponseArrived = false;
     this.page.waitForResponse(
       (resp: Response) =>
@@ -296,9 +250,8 @@ export class ServiceChargeTextPage extends BasePage {
         await this.waitForAngularStable();
         const count = await this.getRowCount();
         if (count === 0) {
-          // Require 2 consecutive zero-count readings to distinguish "filter matched nothing"
-          // from a transient grid teardown mid-transition. A single zero glimpse during DOM
-          // swap is not evidence the filter finished — Angular rebuilds within one poll cycle.
+          // Two consecutive zero readings distinguish "filter matched nothing" from a transient
+          // teardown mid-swap — Angular rebuilds within one poll cycle.
           consecutiveZeroPolls++;
           if (consecutiveZeroPolls >= 2) return;
           await this.page.waitForTimeout(300);
@@ -361,13 +314,8 @@ export class ServiceChargeTextPage extends BasePage {
     }
   }
 
-  /**
-   * Waits until the number of rows stops changing.
-   *
-   * Polls the row count and returns once it has held the same value for a few consecutive
-   * checks. Throws if the count never stabilises within the budget. Used after any action
-   * that swaps the result set without replacing the table itself.
-   */
+  // Waits for the row count to hold steady across consecutive polls; throws if it never does.
+  // Needed after any action that swaps the result set without replacing the table.
   @step('Wait until the row count stops changing')
   async waitForRowCountStable(timeout = 15_000): Promise<number> {
     const deadline = Date.now() + timeout;
@@ -424,12 +372,8 @@ export class ServiceChargeTextPage extends BasePage {
 
   // ---------------------------------------------------------------- validation feedback
 
-  /**
-   * Any visible message explaining why an entry was rejected.
-   *
-   * Returns an empty list when nothing is shown. That empty result is meaningful: the page can
-   * refuse a duplicate name without displaying any explanation, and a test asserts against that.
-   */
+  // An empty result is meaningful, not a failure: the page can refuse a duplicate name
+  // without showing any explanation, and a test asserts exactly that.
   @step('Read any visible validation messages on the page')
   async getValidationMessages(): Promise<string[]> {
     const out = await this.page
@@ -462,11 +406,7 @@ export class ServiceChargeTextPage extends BasePage {
 
   // ---------------------------------------------------------------- row lookup and reading
 
-  /**
-   * Returns the row index of the first row whose Service Charge Name matches the given value.
-   * Throws a descriptive error if no row has that name, so tests fail with a clear message
-   * rather than a confusing "element not found" at the wrong line.
-   */
+  /** Row index of the first row with this Service Charge Name; throws listing current names. */
   @step('Find the row with the given Service Charge Name')
   async findRowByName(name: string): Promise<number> {
     const names = await this.getAllNames();
@@ -480,10 +420,7 @@ export class ServiceChargeTextPage extends BasePage {
     return index;
   }
 
-  /**
-   * Reads all three editable metadata fields of a row and returns them as a plain object.
-   * Useful for capturing the current state before making changes.
-   */
+  /** Reads a row's three editable metadata fields — use it to capture state before an edit. */
   @step('Read all three editable fields of a row')
   async getRowValues(row: number): Promise<{ name: string; displayName: string; reportColumn: string }> {
     const name = await this.page.locator(sct.rowName(row)).inputValue();
@@ -494,11 +431,8 @@ export class ServiceChargeTextPage extends BasePage {
 
   // ---------------------------------------------------------------- save and request capture
 
-  /**
-   * Clicks the Save button, waits for the network round-trip to complete, and returns whether
-   * Save went back to disabled. The completion signal is the PUT response, not a fixed delay,
-   * so this works even when the server is slow.
-   */
+  // The completion signal is the PUT response, not a fixed delay, so a slow server is fine.
+  // Returns whether Save went back to disabled afterwards.
   @step('Click Save and wait for the request to complete')
   async saveAndWait(timeout = 15_000): Promise<boolean> {
     const saveRequest = this.page.waitForResponse(
@@ -510,11 +444,7 @@ export class ServiceChargeTextPage extends BasePage {
     return this.waitForSaveUnavailable(5_000);
   }
 
-  /**
-   * Runs a caller-supplied action, intercepts the PUT save request it triggers, and returns
-   * the parsed request body together with the HTTP status of the response.
-   * Use this to assert what the page actually sends to the server.
-   */
+  /** Runs an action and returns the PUT save request's parsed body plus the response status. */
   @step('Run an action and capture what the page sends to the server')
   async captureSaveRequest(
     action: () => Promise<void>,
@@ -544,16 +474,8 @@ export class ServiceChargeTextPage extends BasePage {
     return { body, status: response.status() };
   }
 
-  /**
-   * Runs a caller-supplied action and returns how many PUT requests to the save endpoint were
-   * sent during it. Use this to verify that a double-click sends only one request.
-   *
-   * After save completion (Save button re-disabled), the listener stays attached for
-   * graceMs milliseconds. This grace window is deliberately observing for a second request
-   * that should NOT arrive — the whole point of this helper is proving a double-click sends
-   * exactly one request, and a stray second request may arrive slightly after the button
-   * re-disables. A bounded wait here is the only way to prove that negative.
-   */
+  // Counts PUTs to the save endpoint during an action. The graceMs window after Save re-disables
+  // is deliberate: a stray duplicate request can arrive just after the button flips.
   @step('Count how many save requests are sent during an action')
   async countSaveRequests(
     action: () => Promise<void>,
@@ -569,11 +491,9 @@ export class ServiceChargeTextPage extends BasePage {
     this.page.on('request', handler);
     try {
       await action();
-      // Wait for the save to actually complete — Save button returning to disabled is the
-      // reliable DOM signal that the PUT round-trip finished, not a fixed delay.
+      // Save returning to disabled is the DOM signal that the PUT round-trip finished.
       await this.waitForSaveUnavailable(timeout);
-      // Grace window: keep the listener alive after save completion so any late-arriving
-      // duplicate request (the exact failure this helper was written to catch) is counted.
+      // Keep the listener alive so a late duplicate request is still counted.
       await this.page.waitForTimeout(graceMs);
     } finally {
       this.page.off('request', handler);
@@ -583,17 +503,8 @@ export class ServiceChargeTextPage extends BasePage {
 
   // ---------------------------------------------------------------- safe mutation cycle
 
-  /**
-   * The safe way to edit a live row, assert something, and leave the data exactly as it was.
-   *
-   * Flow: look up the row by name → read the original value → write the new value → save →
-   * call the assertion → restore the original value → save again. The restore and second save
-   * run inside a finally block so they happen even if the assertion throws.
-   *
-   * The field parameter is one of 'name' | 'displayName' | 'reportColumn'.
-   *
-   * This helper never adds a row — it only edits rows that already exist.
-   */
+  // Edits one field of an existing row, saves, asserts, then restores and saves again in a
+  // finally block so live data is left as found even when the assertion throws.
   @step('Edit a field, save, run an assertion, then restore the original value')
   async editSaveAssertRestore(
     anchorName: string,
@@ -620,20 +531,14 @@ export class ServiceChargeTextPage extends BasePage {
 
   // ---------------------------------------------------------------- unsaved-changes modal
 
-  /**
-   * Whether the unsaved-changes confirmation modal is currently visible.
-   * This dialog appears when navigating away from the page — or changing the language filter —
-   * while there are unsaved edits.
-   */
+  // Whether the unsaved-changes modal is visible. It also appears on a language filter change,
+  // not only on navigation away.
   @step('Check whether the unsaved changes modal is open')
   async isUnsavedModalOpen(): Promise<boolean> {
     return this.page.locator('[role="dialog"]').first().isVisible().catch(() => false);
   }
 
-  /**
-   * The text content of the unsaved-changes modal, collapsed to a single line.
-   * Returns an empty string if the modal is not open.
-   */
+  /** Unsaved-changes modal text on one line, or '' when the modal is not open. */
   @step('Read the message shown in the unsaved changes modal')
   async getUnsavedModalMessage(): Promise<string> {
     const dialog = this.page.locator('[role="dialog"], [role="alertdialog"]').first();
@@ -641,21 +546,15 @@ export class ServiceChargeTextPage extends BasePage {
     return ((await dialog.textContent()) || '').replace(/\s+/g, ' ').trim();
   }
 
-  /**
-   * Clicks the Stay button on the unsaved-changes modal, keeping the user on the current view.
-   * Waits for the modal to close before returning.
-   */
+  /** Clicks Stay on the unsaved-changes modal and waits for it to close. */
   @step('Click Stay to keep unsaved changes on the page')
   async stayOnPage(): Promise<void> {
     await this.page.getByRole('button', { name: 'Stay', exact: true }).first().click();
     await this.page.locator('[role="dialog"], [role="alertdialog"]').first().waitFor({ state: 'hidden', timeout: 5_000 });
   }
 
-  /**
-   * Clicks the Discard button on the unsaved-changes modal, leaving the current view and
-   * discarding unsaved edits. Waits for the modal to close and for the grid to reload
-   * with the new language's data before returning.
-   */
+  // Clicks Discard, then waits for the modal to close and the grid to reload with the new
+  // language's data before returning.
   @step('Click Discard to abandon unsaved changes and leave the page')
   async discardAndLeave(): Promise<void> {
     const responseSettled = this.page.waitForResponse(
@@ -671,15 +570,10 @@ export class ServiceChargeTextPage extends BasePage {
 
   // ---------------------------------------------------------------- beforeunload handling
 
-  /**
-   * Registers a one-time handler that automatically accepts the browser's native beforeunload
-   * dialog, then runs the supplied action. This prevents the test from hanging when navigating
-   * away while there are unsaved edits. The handler is removed once the action finishes.
-   */
+  // Auto-accepts the native beforeunload dialog for the duration of the action, so navigating
+  // away with unsaved edits does not hang the test.
   @step('Run an action while automatically accepting any page leave prompt')
   async runWithBeforeunloadAccepted(action: () => Promise<void>): Promise<void> {
-    // Install the handler before running the action so it is in place when the caller's
-    // navigation triggers the native beforeunload dialog.
     const handler = async (dialog: { type(): string; accept(): Promise<void> }) => {
       if (dialog.type() === 'beforeunload') {
         await dialog.accept().catch(() => {/* already handled */});
@@ -693,10 +587,7 @@ export class ServiceChargeTextPage extends BasePage {
     }
   }
 
-  /**
-   * Returns the scope attribute value of each column header, in display order.
-   * An absent scope attribute is represented as null in the array.
-   */
+  /** Each column header's scope attribute in display order; null where the attribute is absent. */
   @step('Read the scope attribute of each column header')
   async getHeaderScopeValues(): Promise<(string | null)[]> {
     const headers = await this.page.locator(sct.headers).all();
@@ -705,12 +596,8 @@ export class ServiceChargeTextPage extends BasePage {
 
   // ---------------------------------------------------------------- per-row language
 
-  /**
-   * Reads a row's language with a short timeout. Returns `null` if the row has vanished
-   * (grid shrank mid-poll). The bounded read prevents a single missing row from consuming
-   * the entire helper budget — 2 000 ms is long enough for a present element to resolve
-   * but short enough that a vanished row costs one retry cycle, not the full 10 s default.
-   */
+  // Returns null when the row vanished mid-poll. The short timeout keeps one missing row from
+  // eating the caller's whole budget under the 10 s default.
   private async tryGetRowLanguage(row: number, perRowTimeout = 2_000): Promise<string | null> {
     try {
       const raw = await this.page
@@ -752,8 +639,8 @@ export class ServiceChargeTextPage extends BasePage {
     await editor.evaluate((el) => {
       (el as HTMLElement).innerHTML = '';
     });
-    // CDP insertText commits through the editor's input handling (ProseMirror) in one shot,
-    // avoiding the ~208ms-per-character cost of page.keyboard.type on long strings.
+    // CDP insertText commits through ProseMirror in one shot; page.keyboard.type costs
+    // ~208 ms per character here.
     const cdp = await this.page.context().newCDPSession(this.page);
     await cdp.send('Input.insertText', { text });
     await cdp.detach();
@@ -769,14 +656,8 @@ export class ServiceChargeTextPage extends BasePage {
 
   // ---------------------------------------------------------------- tab-order walk
 
-  /**
-   * Focuses the first editable field in a given row, then presses Tab the requested number of
-   * times, recording the data-testid of each newly focused element after each press.
-   * Returns the ordered list of test ids, or null for any element that has no data-testid.
-   *
-   * This documents the keyboard navigation order through the grid so tests can assert it has
-   * not changed unintentionally.
-   */
+  // Tabs from a row's first editable field, recording each newly focused element's data-testid
+  // (null when it has none), so tests can assert the grid's keyboard order.
   @step('Walk the tab order from a row and record focused elements')
   async walkTabOrder(startRow: number, tabCount: number): Promise<(string | null)[]> {
     await this.page.locator(sct.rowName(startRow)).first().focus();
@@ -816,16 +697,8 @@ export class ServiceChargeTextPage extends BasePage {
 
   // ---------------------------------------------------------------- sentinel residue recovery
 
-  /**
-   * Sweeps all language filters for a row carrying the given sentinel name. If found, renames
-   * it to `recoveredName` and saves, clearing the collision so the next test run can reuse
-   * the sentinel without duplicating a name within the same language.
-   *
-   * Modelled on the Terms and Conditions `ensureFixtureRow` pattern: stable name, sweep all
-   * languages, recover in place, verify persistence after reload.
-   *
-   * Returns the language the residue was found in, or null if no residue existed.
-   */
+  // Renames any leftover sentinel row so the next run can reuse the name without colliding
+  // within its language. Returns the language the residue was found in, or null.
   @step('Clear any leftover sentinel residue from a previous failed run')
   async clearSentinelResidue(
     sentinelName: string,

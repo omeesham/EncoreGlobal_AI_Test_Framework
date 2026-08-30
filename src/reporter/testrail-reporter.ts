@@ -1,6 +1,5 @@
-// TestRail reporter — pushes results to TestRail after the suite finishes.
-// Opt-in via TESTRAIL_ENABLED=true (+ connection vars, see .env.testrail.example); TestRail errors
-// only warn, never fail the build or touch the local HTML/Allure/JUnit reports.
+// Opt-in via TESTRAIL_ENABLED=true plus the connection vars in .env.testrail.example.
+// TestRail errors only warn — they never fail the build or touch the local reports.
 
 import type {
   FullConfig,

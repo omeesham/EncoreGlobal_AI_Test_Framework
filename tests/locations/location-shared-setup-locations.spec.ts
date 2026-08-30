@@ -22,13 +22,8 @@ import { saveAndVerifyCase } from '../../src/utils/field-case-runner';
 // Non-Miami test data throughout — workaround for a known issue where Miami search returns
 // phantom row; non-Miami searches behave correctly.
 test.describe('Location Shared Setup Locations @locations @shared-setup', () => {
-  // Per-test navigation guard: DOM-presence beats url.includes (the settings/location URL is
-  // shared across sub-tabs, so a URL check can't tell which tab is showing).
-  // TC-001..030 also get a per-test baseline: remove any extra location rows and reset Shares
-  // Inventory before every test, so a single test re-run (retry / parallel) starts from the
-  // default clean table (the in-body clean-up calls stay, so that delete loop is normally a
-  // no-op). The BVA band (TC-031 and above) skips the hook-level reset — each of those tests
-  // baselines itself through its saveAndVerifyCase.
+  // Nav guard uses DOM presence, not url.includes — sub-tabs share the `settings/location` URL.
+  // TC-001..030 get a baseline reset here; TC-031+ baseline inside their own saveAndVerifyCase.
   test.beforeEach(async ({ locationSharedSetupLocationsPage: pg }, testInfo) => {
     const m = testInfo.title.match(/^TC-LOC-SSL-(\d+)/);
     const n = m ? parseInt(m[1]!, 10) : -1;
@@ -38,11 +33,8 @@ test.describe('Location Shared Setup Locations @locations @shared-setup', () => 
       }
       return;
     }
-    // The baseline cleanup below deletes any leftover shared-setup rows and reloads to confirm they
-    // are gone. If the shared office accumulated several stray rows from an interrupted prior run, that
-    // cleanup can take longer than the default per-test timeout — which would wedge every test in this
-    // file behind a timing-out setup. Give the whole slot (this hook included) headroom so it can
-    // finish cleaning instead of dying mid-clean. A normal, already-clean office finishes in seconds.
+    // Headroom for ensureCleanSSLTable: clearing several stray rows left by an interrupted run
+    // outlasts the default timeout and would wedge every test in this file behind the hook.
     test.setTimeout(90_000);
     if (!(await pg.isOnSharedSetupTab())) {
       await pg.navigateToSharedSetupTab(OFFICE_NO);
@@ -461,7 +453,7 @@ test.describe('Location Shared Setup Locations @locations @shared-setup', () => 
   });
 
   test('TC-LOC-SSL-026: Dialog number-search "1233" returns exactly the Miami Marriott office', async ({ locationSharedSetupLocationsPage: pg, dependencyGate }) => {
-    // [2026-06-02] Re-enabled after live recheck on office 1604: dialog number-search "1233" now returns the Miami Marriott office; the Miami-region location-lookup filter issue is fixed (was skipped 2026-05-22).
+    // Depends on the dialog number-search: "1233" must resolve to the Miami Marriott office.
     dependencyGate(['TC-LOC-SSL-001']);
     test.setTimeout(60_000);
     await pg.reloadAndNavigateToSSLTab(OFFICE_NO);
@@ -527,13 +519,9 @@ test.describe('Location Shared Setup Locations @locations @shared-setup', () => 
 
   test('TC-LOC-SSL-029: Five rapid Add-button clicks open exactly one dialog', async ({ locationSharedSetupLocationsPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-SSL-001']);
- // App-level guard: modal-state blocks repeat invocation while dialog is open.
- // Load-bearing assertion is dialog-count == 1. Console listener kept for trace visibility
- // (not asserted — ambient Angular noise like NG0100 / ResizeObserver loop makes strict
- // empty-array assertion too flaky for CI).
+ // Console errors are collected for trace visibility only — ambient Angular noise (NG0100,
+ // ResizeObserver loop) makes an empty-array assertion too flaky for CI.
     test.setTimeout(60_000);
-    // console listener now attaches to the REAL app page and will actually capture errors
-    // emitted while clicking Add.
     const realPage = pg.page;
     const consoleErrors: string[] = [];
     const errorHandler = (msg: import('@playwright/test').ConsoleMessage) => {
@@ -556,10 +544,7 @@ test.describe('Location Shared Setup Locations @locations @shared-setup', () => 
   test('TC-LOC-SSL-030: Verify three added location rows persist after save and reload', async ({ locationSharedSetupLocationsPage: pg, dependencyGate }) => {
     test.fixme(true, 'Blocked — the per-row Delete control intermittently stops responding after a row is added, saved and the page reloaded, so the cleanup step cannot complete reliably. Pending an application fix.');
     dependencyGate(['TC-LOC-SSL-001']);
- // Small-N (3-row) smoke variant: adds Chicago + Boston + Marriott rows, saves,
- // reloads, verifies all 3 persist. Full ceiling characterization (proven up to 44
- // rows on a throwaway office) is out of CI scope — net-zero discipline on baseline
- // office 1604 keeps mutation minimal.
+ // Deliberately small-N: office 1604 is shared, so the row-ceiling case stays out of CI.
     test.setTimeout(180_000);
     await pg.reloadAndNavigateToSSLTab(OFFICE_NO);
     await pg.ensureCleanSSLTable(OFFICE_NO);
@@ -591,12 +576,9 @@ test.describe('Location Shared Setup Locations @locations @shared-setup', () => 
   });
 
   // ─── Group δ — Multi-row delete variants ──────────────────────────────────
-  // [2026-06-02 RECHECK on 1604] These delete tests (031/041/042/032/043/044/030) STAY fixme.
-  // The original "Delete button non-clickable / cleanup-loop freeze" was FIXED on the app side but
-  // REGRESSED into an OFF-BY-ONE: the FIRST delete in a page session works correctly; every delete
-  // AFTER it removes the row ONE POSITION ABOVE the button clicked — and can even delete the protected
-  // self-row (1604, whose own Delete is disabled) — silently, with zero console errors. A single
-  // delete-then-reload hides it; deleting two rows in one session exposes it. Still pending an application fix.
+
+  // Delete tests stay fixme: only the first delete per page session is correct — every later one
+  // silently removes the row above the clicked button, self-row included. Pending an app fix.
   test('TC-LOC-SSL-031: Verify deleting a middle row persists after save and reload', async ({ locationSharedSetupLocationsPage: pg, dependencyGate }) => {
     test.fixme(true, 'Blocked — the per-row Delete control intermittently stops responding after a row is added, saved and the page reloaded, so the cleanup step cannot complete reliably. Pending an application fix.');
     dependencyGate([]);
@@ -713,10 +695,8 @@ test.describe('Location Shared Setup Locations @locations @shared-setup', () => 
   test('TC-LOC-SSL-035: Verify clearing the search restores the full row count', async ({ locationSharedSetupLocationsPage: pg, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(60_000);
-    // Relative invariant (no exact-count assertion): capture the Atlanta-filtered count, then assert the cleared list
-    // is strictly larger — proves "clear restores the bulk list" without betting on a structural magic
-    // number. Mirrors the proven TC-LOC-SSL-040 pattern. (Replaces the prior `> SEARCH_BULK_LOWER_BOUND`
-    // hardcoded threshold, which broke when the dialog's stable bulk ceiling (~2653) shifted.)
+    // Compare against the filtered count, not a fixed threshold — the dialog's bulk row ceiling
+    // shifts as locations are added upstream.
     let filteredCount = -1;
     await saveAndVerifyCase({
       id: 'TC-LOC-SSL-035',
@@ -804,9 +784,8 @@ test.describe('Location Shared Setup Locations @locations @shared-setup', () => 
       act: () => pg.searchInDialog(SEARCH_NEG_LEADING_TRAILING_ATLANTA),
       expectBeforeSave: async () => {
         const count = await pg.getDialogRowCount();
-        // Either filter trims whitespace (matches Atlanta) OR doesn't (0 real results + "No results.").
-        // Both are acceptable behaviors; assert no crash + dialog stable. toBeLessThan also fails on
-        // NaN, so it doubles as a crash guard — a broken dialog count would not be a real number.
+        // Trimming or not are both acceptable, so this only guards against a crash — toBeLessThan
+        // also fails on the NaN a broken dialog count would produce.
         expect(count).toBeLessThan(ADD_LOCATION.searchByNameMaxResults);
       },
       saveAndConfirm: () => pg.clickDialogCancel(),

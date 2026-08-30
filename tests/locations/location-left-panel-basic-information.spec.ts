@@ -9,26 +9,15 @@ import {
   PAY_TO_ALTERNATE,
 } from '../../src/data/locations/location-left-panel-basic-information';
 
-/**
- * Corrections vs the original MD (live DOM + old-site baseline both win): Line Of Business is
- * read-only in EDIT mode by design (Encore NM-831/NM-1140) → TC-016 asserts disabled; Servicing
- * Branch has 218 options (not 215); Live Date = "June 15th, 1990".
- *
- * TC-024 (cross-tab Legal-invalid Save gating) is a known coverage gap (see the note below TC-023):
- * a design decision is pending — no-DOM-leak requirement vs the Legal tab's tamper-teardown behaviour.
- *
- * Per-test baseline reset via ensureDefaultState. Mutating-and-persisting tests restore
- * office-1604 defaults themselves so nothing leaks into sibling specs. No bare `page` destructure.
- */
+/** Persisting tests must restore office-1604 defaults themselves — nothing may leak to sibling specs. */
 test.describe('Location Left Panel — Basic Information @locations @left-panel-basic-information', () => {
   test.beforeEach(async ({ locationLeftPanelBasicInformationPage: lp }) => {
     test.setTimeout(120_000);
     if (!(await lp.isOnBasicInformation())) {
       await lp.navigateToBasicInformation(OFFICE_NO);
     }
-    // Enforce office-1604 baseline per-test (not first-test-only) so a prior crashed/retried
-    // run cannot poison defaults. No-op (cheap reads) when already clean. Also verify-only-guards
-    // Pay To (throws if it drifted off "Encore"/ID 1 — no name-anchored auto-repair).
+    // Per-test (not first-test-only) so a crashed prior run cannot poison defaults. Pay To is
+    // verify-only — it throws if drifted off ID 1 rather than auto-repairing by ambiguous name.
     await lp.ensureDefaultState();
   });
 
@@ -36,9 +25,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     expect(await lp.getLocalOfficeValue()).toBe(LP_DEFAULTS.localOffice);
     expect(await lp.getLocalOfficeName()).toBe(LP_DEFAULTS.localOfficeName);
     expect((await lp.getActiveState()).checked).toBe(true);
-    // Live Date renders "Month Dayth, YYYY". Office 1604 is a SHARED office whose Live Date drifts
-    // (CI bots write to it — observed June 15 1990 / Sep 6 1989 / Aug 28 1989 across runs), so assert
-    // the FORMAT, not a fixed value (no exact-value assertion).
+    // Format-only assert: 1604 is a shared office and other CI bots drift its Live Date.
     expect(await lp.getLiveDateText()).toMatch(/^[A-Z][a-z]+ \d{1,2}(st|nd|rd|th), \d{4}$/);
     expect(await lp.getTaxMode()).toBe(LP_DEFAULTS.taxMode);
     expect(await lp.getCountry()).toBe(LP_DEFAULTS.country);
@@ -61,10 +48,8 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
   });
 
   test('TC-LOC-LP-004: Pay To Address display input is always disabled (launcher field)', async ({ locationLeftPanelBasicInformationPage: lp }) => {
-    // The DISPLAY INPUT is permanently disabled (asserted here, still TRUE). The field is a LAUNCHER,
-    // though — its <label> opens the "Pay To List" dialog (TC-028..037). The disabled display does NOT
-    // mean the field is non-interactive (the launcher-blindness this change fixed). Assertion
-    // unchanged from 2026-06-03; only the title/comment were corrected.
+    // Only the display input is disabled — the field is still interactive: its <label> launches
+    // the "Pay To List" dialog.
     expect(await lp.isFieldDisabled('txtPayToAddress')).toBe(true);
     expect(await lp.getPayToAddress()).toBe(LP_DEFAULTS.payToAddress);
   });
@@ -95,9 +80,7 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
   test('TC-LOC-LP-009: Local Office Name required — empty disables Save', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.clearLocalOfficeName();
     expect(await lp.getLocalOfficeName()).toBe('');
-    // Live (2026-06-03): clearing the required Local Office Name leaves Save DISABLED — the empty
-    // required field gates Save. This MATCHES the requirement; the original MD's anomalous
-    // "Save enables on empty" observation no longer reproduces (corrected against live).
+    // The empty required field gates Save, so Save stays disabled.
     expect(await lp.isSaveEnabled()).toBe(false);
     await lp.reloadAndNavigate(OFFICE_NO); // discard
   });
@@ -156,9 +139,8 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
   });
 
   test('TC-LOC-LP-016: Line Of Business is read-only/disabled in edit mode (NM-831)', async ({ locationLeftPanelBasicInformationPage: lp }) => {
-    // Corrected from the original MD ("3-option dropdown"): LOB is disabled when EDITING an existing
-    // location by Encore design (NM-831 / NM-1140 — selectable only at creation). A disabled Radix
-    // dropdown cannot open, so the assertion is the disabled state + the displayed value.
+    // NM-831 / NM-1140: LOB is selectable only at creation, so a disabled Radix dropdown never
+    // opens — assert the disabled state and displayed value rather than the option list.
     expect(await lp.isFieldDisabled('drpLineOfBusiness')).toBe(true);
     expect(await lp.getLineOfBusiness()).toBe(LP_DEFAULTS.lineOfBusiness);
   });
@@ -229,15 +211,6 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     expect(await lp.isFieldDisabled('txtPayToAddress')).toBe(true);
   });
 
-  // TC-LOC-LP-024 (Cross-tab Save validation — Legal tab invalid): NOT automated here. Driving the
-  // Legal tab into an INVALID state (clearing the required Service Charge) has no UI "clear"
-  // affordance on the required dropdown AND risks Legal state-leak per the Legal screen's tamper-teardown
-  // finding (a programmatic change to the Service Charge dropdown tears down the Angular page). Save-gating on an
-  // invalid Basic-Information state is already proven by TC-019 (TaxModeID=0). This is
-  // a known coverage gap; a design decision is pending (no-DOM-leak requirement vs the Legal tab's
-  // tamper-teardown behaviour). NOT a bug → no BUG cite, no test.fixme stub.
-
-
   test('TC-LOC-LP-024: Local Office Name persists through save+reload', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.setLocalOfficeName(LP_TEST_VALUES.localOfficeNamePersist);
     await lp.saveAndConfirm();
@@ -274,12 +247,8 @@ test.describe('Location Left Panel — Basic Information @locations @left-panel-
     expect(await lp.getRegion()).toBe(LP_DEFAULTS.region);
   });
 
-  //    Pay To Address is a LAUNCHER (the 2026-06-03 walk first classified it as a plain disabled
-  //    textbox; corrected after root-cause analysis 2026-06-11). The launcher lives on the <label>;
-  //    a plain click is blocked (disabled-input
-  //    association) so the page object dispatches the click. Selection PERSISTS (financial.payToId);
-  //    restore is ID-anchored (name "Encore" is ambiguous — IDs 1 & 4). Same @locations
-  //    @left-panel-basic-information tags, no @fcc tag (per the tagging convention).
+  // The Pay To launcher lives on the <label>; a plain click is blocked by the disabled-input
+  // association, so the page object dispatches it. Restore is ID-anchored — "Encore" is IDs 1 & 4.
 
   test('TC-LOC-LP-027: Pay To Address launcher opens the "Pay To List" dialog', async ({ locationLeftPanelBasicInformationPage: lp }) => {
     await lp.openPayToDialog();

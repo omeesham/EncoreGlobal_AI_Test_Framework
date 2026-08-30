@@ -22,12 +22,8 @@ export const ONE_DAY_JOB_CHECKBOXES = [
   { key: 'chkDefaultJobOneDayInternal', label: 'Internal' },
 ] as const;
 
-/** Expected 13 canonical section names for location 1604.
- * Live-verified 2026-05-08 against /locations/1604/settings/local-office. Index 0 is 'AV Services',
- * NOT 'Audio' as previously assumed — the app default was renamed.
- * Live grid currently also contains a stray 'Test Section' row from prior
- * test-run leakage; the section-count assertion filters that out.
- */
+// Canonical section names for location 1604. The live grid also carries a leaked 'Test Section'
+// row, which the section-count assertion filters out.
 export const DEFAULT_SECTIONS = [
   'AV Services', 'Flipcharts', 'Hybrid Meeting', 'Labor', 'Lighting',
   'Power', 'Presenter Support', 'Projection', 'Rigging',
@@ -49,14 +45,8 @@ export const PHONE_TEST_VALUES = {
   recovery: '555-000-1111',
 } as const;
 
-/** Section editing test values.
- * Updated 2026-05-08 per live verification:
- *  - originalName must match DEFAULT_SECTIONS[0] (live = 'AV Services').
- *  - editValue MUST DIFFER from originalName (Angular dirty-state) — net-zero edit
- *    leaves Angular form pristine and Save disabled (previously caused the save-disabled regression).
- *  - newSection is 'Test Section Z' to avoid collision with the existing
- *    'Test Section' leak in the live grid (previously caused the stale-name collision).
- */
+// editValue must differ from originalName: a net-zero edit leaves the Angular form pristine and
+// Save disabled. originalName tracks DEFAULT_SECTIONS[0].
 export const SECTION_TEST_VALUES = {
   editValue: 'AV Test',             // value typed into rename field — must differ from live index-0 name
   originalName: 'AV Services',      // pre-edit section name at index 0 (matches DEFAULT_SECTIONS[0])

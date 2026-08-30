@@ -1,10 +1,5 @@
-/**
- * Key prefix `np`: prevents intra-module collision with the 5 other CP partitions.
- * React-controlled inputs need the native value-setter (see page object `setReactInput`) —
- * `.fill()` does not commit React state. The only usable testid is `#new-strategy-name`.
- * tabPricingStrategy, tabPricingDetail, and btnSaveDetails are NOT redefined here — reused
- * from the Details shell partition.
- */
+// Key prefix `np` avoids collision with the other Corporate Pricing partitions.
+// Tabs and btnSaveDetails are not redefined here — reused from the Details shell partition.
 export const CorporatePricingNewPricebookSelectors = {
   npHeading: 'h1:has-text("New Pricebook")',
   npName: 'input[placeholder="Pricebook..."]',

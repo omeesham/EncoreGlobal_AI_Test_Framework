@@ -100,16 +100,8 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
       } catch { }
     }
 
-    // Best-effort page-topology check at fixture post-use. Detects context leaks that survive
-    // teardown. Worker-scoped browser → contexts() is scoped to this worker.
-    //
-    // Known limitation: the bare-page-collision "bare page + page-object"
-    // destructure collision pattern does NOT trigger this check, because Playwright tears down
-    // the bare-page test-scoped context BEFORE this auto-use fixture's post-use code runs. The
-    // structural defense for bare-page-collision is the lint guard at pre-commit / pre-push.
-    // This check IS still useful for: (a) contexts created by test code via explicit
-    // browser.newContext() that aren't cleaned up; (b) future page-object code that
-    // creates side-contexts; (c) any case where >1 context survives test teardown.
+    // Catches contexts that survive teardown. Does NOT catch bare-page collisions — Playwright
+    // tears that context down before this post-use code runs; the lint guard covers those.
     {
       const browser = authenticatedSession.context.browser();
       const ctxList = browser ? browser.contexts() : [];
@@ -229,9 +221,7 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
           return;
         }
 
-        // File-lock guarantees only this worker is here.
-        // On throw, performSsoLogin has already closed the context — no cleanup needed here.
-        // Caller-specific error wrapping preserves the call-path identifier in logs.
+        // performSsoLogin closes its own context on throw — no cleanup needed here.
         let loginCtx: import('@playwright/test').BrowserContext;
         try {
           ({ ctx: loginCtx } = await performSsoLogin(browser, config.base_url, config, credentials));
@@ -247,16 +237,8 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
       }
     };
 
-    // The stateMissing check is hoisted ABOVE newSharedContext(). The old order created a
-    // context, closed it on stale, then recreated — wasting one context per cold-start worker.
-    // With the hoist, refresh runs first when needed and newSharedContext() runs exactly once.
-
-    // When EXP_FORCE_STALE_FIRST=1, simulate mid-run expiry on the first pre-test guard
-    // call per worker process to verify the file-lock serialization.
-    // Pre-test guard rationale: Playwright's storageState does not capture sessionStorage
-    // or in-memory MSAL state, so cookie-only restoration leaves the SPA in a skeleton-loading
-    // state in a context that did not go through SSO. We rely on auth.setup's file-based
-    // validation instead.
+    // Staleness is resolved before newSharedContext() so each worker creates its context once.
+    // EXP_FORCE_STALE_FIRST=1 simulates mid-run expiry once per worker to exercise the file lock.
     const forceStaleFirst =
       process.env.EXP_FORCE_STALE_FIRST === '1' &&
       !(globalThis as unknown as { __expForceStaleConsumed?: boolean }).__expForceStaleConsumed;
@@ -265,10 +247,8 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
       Log.info('[fixture] EXP_FORCE_STALE_FIRST=1 -- forcing stale path for mid-run sim');
     }
     const stateMissing = !fs.existsSync(STATE_PATH);
-    // Refresh shared state when the earliest `next-auth.session-token*` expiry is past
-    // (with 60s grace). Catches expired cookies before the 60s Dashboard timeout fires.
-    // `null` from readEarliestSessionExpiry() means missing or all-session-cookies,
-    // both handled by `stateMissing` + validateState's Dashboard wait.
+    // 60s grace so expired cookies are caught before the 60s Dashboard wait burns.
+    // `null` (missing file or session-only cookies) is already covered by `stateMissing`.
     const earliestExpiry = stateMissing ? null : readEarliestSessionExpiry();
     const stateExpired =
       earliestExpiry !== null && earliestExpiry * 1000 < Date.now() + 60_000;
@@ -282,9 +262,8 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
     try {
       await context.tracing.start({ screenshots: true, snapshots: true, sources: true });
     } catch { /* tracing unavailable -- tests still run, just without trace capture */ }
-    // Both the post-refresh and the pre-existing-valid-state paths start on about:blank —
-    // the probe context owns validateState, so the primary page is never navigated before this
-    // goto. Without this, tests on the non-stale path fail with SELECTOR errors on about:blank.
+    // Both paths start on about:blank (validateState runs on the probe context), so this goto is
+    // the only thing that navigates the primary page.
     await page.goto(config.base_url, { timeout: 78_000 });
     await page
       .getByRole('heading', { name: 'Dashboard', level: 1 })
@@ -297,31 +276,8 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
     await context.close();
   }, { scope: 'worker', timeout: 300_000 }],
 
-  /**
-   * Runtime guard for bare-page-collision in the page fixture.
-   *
-   * When a spec destructures `{ page, locationXxxPage }`, Playwright resolves
-   * BOTH fixtures. The page-object fixtures use `authenticatedSession.page` (the legitimate
-   * authenticated context), but the default `page` fixture is a separate fixture that calls
-   * `browser.newContext({ storageState })` — producing a second about:blank context that
-   * diagnostics cannot see. This override intercepts the destructure point itself and throws
-   * loudly so the bug is unmissable at the test boundary.
-   *
-   * Why throw rather than redirect to `authenticatedSession.page`:
-   * redirecting changes test semantics silently AND loses Playwright's built-in trace/video/
-   * screenshot capture (those bind to the page returned by THIS `page` fixture). Throwing
-   * fails loudly with a [diag:bare-page-collision] pointer.
-   *
-   * Layered with pre-commit grep guard and CI lint step. If a spec escapes both static
-   * checks (e.g. `--no-verify` push, fresh clone without hooks), this runtime override
-   * is the final net.
-   *
-   * Failure evidence is captured by the diagnostics fixture: it starts a trace chunk per
-   * test against this shared context and, on failure, saves a full-page screenshot and trace
-   * zip. Per-test video is deliberately not recorded — video recording is fixed when a
-   * context is created, so a shared worker-long context produces one giant multi-test video,
-   * which is not useful evidence.
-   */
+  // Destructuring the bare `page` would create a second about:blank context diagnostics cannot
+  // see. Throwing beats redirecting: a redirect would silently lose trace/video capture.
   page: async ({}, _use, testInfo) => {
     const msg =
       `[diag:bare-page-collision] test "${testInfo.titlePath.join(' > ')}" requested bare {page} from ` +

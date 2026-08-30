@@ -34,9 +34,8 @@ export class LocationLocalInfoPage extends LocationFormHelpers {
   @step('Reload and navigate to local info')
   async reloadAndNavigateToLocalInfo(officeNo: string = '1604'): Promise<void> {
     Log.info('Reloading page and navigating back to Local Information');
- // Navigate away to a different route first to force the app to destroy + recreate the
- // settings component. page.reload can hit the router cache and replay stale state
- // instead of re-fetching from server.
+ // Route away first to force a destroy + recreate of the settings component; page.reload can
+ // hit the router cache and replay stale state.
     const base = this.config?.base_url || '';
     await this.page.goto(`${base}locations`, { waitUntil: 'domcontentloaded' }).catch(() => {});
     await this.navigateToLocalInfoTab(officeNo);
@@ -96,9 +95,7 @@ export class LocationLocalInfoPage extends LocationFormHelpers {
     return !disabled;
   }
 
- /**
- * Dialog timeout extended to 10s — this form has slower server validation.
- */
+ /** 10s dialog timeout — this form's server validation is slower than the default allows. */
   @step('Click save')
   async clickSave(): Promise<{ success: boolean; networkError?: string }> {
     return this.clickSaveWithDialog('btnSaveLocalInfo', 'dlgSaveChanges', 'btnSaveChangesConfirm', 10_000);
@@ -175,10 +172,8 @@ export class LocationLocalInfoPage extends LocationFormHelpers {
       }
     }
 
-    // Restore the field to baseline and PROVE it persisted -- this test saved a real boundary value
-    // above, so a silent failure to revert would leak it to the shared office and contaminate later
-    // tests. The spin display is the entered value x100 (see the persistence check above); a disabled
-    // spin cannot be changed and counts as already-restored, but its enabling checkbox must be back.
+    // The boundary value above was really saved, so the revert must be proven persisted or it
+    // leaks to the shared office. A disabled spin counts as already-restored.
     await this.saveAndVerifyPersisted({
       isAtTarget: async () => {
         if (restoreEnableKey && !(await this.getCheckboxState(restoreEnableKey)).checked) return false;
@@ -220,9 +215,8 @@ export class LocationLocalInfoPage extends LocationFormHelpers {
       if (disabled !== expectedDisabled) failures.push(`${target} disabled: expected ${expectedDisabled}, got ${disabled}`);
     }
 
-    // Restore the toggled controls and PROVE the revert persisted -- the trigger toggle above was
-    // saved, so a silent failure to revert would leak it to the shared office. Verify on the
-    // unambiguous checkbox states; the optional spin is re-applied best-effort.
+    // The trigger toggle above was saved, so the revert must be proven persisted or it leaks to
+    // the shared office. Verified on checkbox states; the optional spin is best-effort.
     await this.saveAndVerifyPersisted({
       isAtTarget: async () => {
         for (const r of restore) {

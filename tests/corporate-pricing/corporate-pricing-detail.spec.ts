@@ -1,30 +1,15 @@
 import { test, expect } from '../../src/fixtures/pages.fixture';
 import { DETAIL } from '../../src/data/corporate-pricing/detail';
 
-/**
- * Corporate Pricing — Pricebook Management / Pricing Detail tab, P1 (Management mode).
- * TC-CPR-DET-001..220. Live-grounded 2026-06-05.
- *
- * Override model (live): "New Price" is a staging override → on Save it becomes the row's "Price";
- * Base Price (Price col) is read-only. Save is dialog-gated and commits ALL dirty rows in one batch.
- *
- * Mutation safety: per-test `ensureDefaultState()` restores the detailFixture (2021-PB6)
- * anchors to baseline (base Price, no discount). The dependable, reversible dirty lever is **Max
- * Discount**; a New-Price-only edit does not reliably enable Save (a known app quirk), so the
- * New-Price persist test commits the override through the proven grid-batch Save (Max-Discount lever
- * as fallback) and ensureDefaultState reverts the Price to base. No fixed waits;
- * content-anchored reads, no exact counts; save dialog handled defensively.
- */
+// New Price is a staging override that becomes the row's Price on Save; Save is dialog-gated and commits
+// every dirty row in one batch. ensureDefaultState() restores the 2021-PB6 anchors to base price / no discount.
 test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail', () => {
-  // The Detail grid is heavy (~3707 draggables / ~2430 rows); a page-open is ~15-25s and the
-  // save-cycle + bounded-retry restore stack several. The default 30s/test is too tight → generous
-  // ceiling (this is a per-test timeout, not a fixed wait).
+  // The Detail grid is heavy (~2430 rows): one page-open is 15-25s and a save cycle stacks several,
+  // so the default 30s per test is too tight.
   test.describe.configure({ timeout: 150_000 });
 
-  // Per-test baseline dispatched by TC number:
-  //  - TC-001..036, TC-038..043 (management mode): full fixture restore.
-  //  - TC-044..055 (surface behaviors): plain page open, no restore.
-  //  - TC-037 (create-mode positive control): navigates itself on the New Pricebook page.
+  // Per-test baseline dispatched by TC number: management-mode tests get a full fixture restore,
+  // surface-behavior tests only a page open, and the create-mode control navigates itself.
   const tcNum = (title: string) => {
     const m = title.match(/^TC-CPR-DET-(\d+)/);
     return m ? parseInt(m[1]!, 10) : -1;
@@ -386,10 +371,8 @@ test.describe('Corporate Pricing — Pricing Detail @corporate-pricing @detail',
     await p.ensureDefaultState();
   });
 
-  // ── SBC — surface behaviors ──
-  // The Detail grid renders every product-group row at once: it exposes NO rows-per-page selector,
-  // NO page-navigation buttons, and its column headers are not sort triggers. These cases assert
-  // that observed reality (a divergence from the speculative "paginated/sortable" expectation).
+  // ── SBC — surface behaviors ── the Detail grid renders every row at once: no rows-per-page
+  // selector, no page navigation, and its column headers are not sort triggers.
 
   test('TC-CPR-DET-044: The Detail grid exposes no rows-per-page selector and no page-navigation buttons', { tag: '@C99746' }, async ({ corporatePricingDetailPage: p }) => {
     expect(await p.hasPageSizeControl()).toBe(false);

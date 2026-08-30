@@ -32,43 +32,14 @@ import {
   chkExempt,
 } from '../../selectors/discount-optimization/discount-optimization';
 
-/**
- * The grid takes roughly 22 seconds to complete its first paint. The API returns HTTP 200
- * immediately, but the UI shows "0 locations found" behind skeleton loaders until rendering
- * completes. Three prior investigations produced false findings because they waited only on
- * the container element, which exists before data arrives. This timeout is set well above
- * the measured 22 s to give the render headroom without being unlimited.
- */
+// Grid first paint takes ~22 s; the container renders empty before data arrives.
 const GRID_READY_TIMEOUT_MS = 45_000;
 
-/**
- * Keystroke cadence for `pressSequentially` calls throughout this page object.
- * 80 ms is the delay proven to trigger Angular's reactive form binding on this surface —
- * lower values caused the component to miss keydown/input/keyup events and never update.
- */
+// 80 ms is the slowest cadence needed for Angular's reactive form to see every keydown/input/keyup.
 const KEYSTROKE_DELAY_MS = 80;
 
-/**
- * Discount Optimization setup page.
- *
- * Route: `/navigator/locations/{office}/settings/discount-optimization-settings`
- *
- * The page has two tabs:
- *   - Tab 1 ("Discount Optimization"): editable locations grid with toggle and date per row.
- *   - Tab 2 ("Special Rate Exemptions by Service Type"): editable service-type grid with
- *     Exempt checkboxes, search, Cancel, and Save.
- *
- * Critical behaviours encoded here:
- * - The grid container exists BEFORE data arrives. The ready-gate waits on a non-zero row
- *   count, not on the container's presence. This is the single most important fact about
- *   this surface — waiting on the container alone produced three false "empty grid" readings.
- * - Tab DOM ids are auto-generated Radix values that change between renders. Tabs are always
- *   selected by visible text and accessible role, never by a radix-* id.
- * - Row lookup is content-anchored (by location name or service type name). Index-based
- *   lookup is never used because rows re-order when sortable headers are clicked.
- * - No `networkidle` is used anywhere — banned in this repo.
- * - No fixed `waitForTimeout` substitutes for a real condition.
- */
+// Discount Optimization setup page: locations grid (tab 1) and service-type exemptions (tab 2).
+// Ready-gates wait on non-zero row counts; tabs and rows are selected by text, never by radix id or index.
 export class DiscountOptimizationPage extends BasePage {
   readonly changeLocalOffice = new ChangeLocalOfficeComponent(this.page);
 
@@ -79,10 +50,7 @@ export class DiscountOptimizationPage extends BasePage {
 
   // ---------------------------------------------------------------- navigation & ready
 
-  /**
-   * Opens the Discount Optimization page for an office and waits for the locations grid
-   * to paint its first rows. Never resolves against the empty skeleton state.
-   */
+  /** Opens the page for an office and waits for real rows, never the empty skeleton. */
   @step('Open the Discount Optimization page for an office')
   async open(officeNo: string = '1604'): Promise<void> {
     const baseUrl = this.config?.base_url || '';
@@ -93,16 +61,8 @@ export class DiscountOptimizationPage extends BasePage {
     await this.waitForGrid();
   }
 
-  /**
-   * Waits for the Tab 1 locations grid to paint real data.
-   *
-   * The grid container (`TBL_CONTAINER`) is mounted before data arrives — visibility alone
-   * returns immediately against an empty skeleton. This method polls until the row count
-   * becomes non-zero, which is the first moment real data is in the DOM.
-   *
-   * Timeout is set to {@link GRID_READY_TIMEOUT_MS} (45 s) — well above the measured ~22 s
-   * first-paint latency — to avoid a false-empty reading without blocking indefinitely.
-   */
+  // Polls for a non-zero row count: TBL_CONTAINER is visible before data arrives, so
+  // waiting on its visibility alone returns against an empty skeleton.
   @step('Wait for the Discount Optimization grid to show rows')
   async waitForGrid(timeout = GRID_READY_TIMEOUT_MS): Promise<void> {
     await this.page.locator(TAB_LIST).first().waitFor({ state: 'visible', timeout });
@@ -132,21 +92,16 @@ export class DiscountOptimizationPage extends BasePage {
 
   // ---------------------------------------------------------------- tab navigation
 
-  /**
-   * Switches to the named tab and waits for its panel to become visible.
-   * Selects tabs by visible text and `[role="tab"]` — never by radix-generated id.
-   */
+  /** Switches tab by visible text and waits for the new panel — never by radix-generated id. */
   @step('Switch to a tab by name')
   async switchTab(tabName: 'Discount Optimization' | 'Special Rate Exemptions by Service Type'): Promise<void> {
     const trigger = tabName === 'Discount Optimization' ? TAB_LOCATIONS : TAB_EXEMPTIONS;
     await this.page.locator(trigger).first().click();
     if (tabName === 'Special Rate Exemptions by Service Type') {
-      // Wait for Tab 2's panel to be in the DOM and visible (PANEL_EXEMPTIONS is anchored to
-      // the "Search by service type" input, so this can only match Tab 2 — never Tab 1).
-      // Without this wait the row-count poll below would immediately see Tab 1's rows through
-      // the old [role="tabpanel"]:visible selector before Tab 2 had loaded.
+      // PANEL_EXEMPTIONS is anchored to Tab 2's own search input, so the poll below cannot
+      // resolve against Tab 1's rows mid-transition.
       await this.page.locator(PANEL_EXEMPTIONS).waitFor({ state: 'visible', timeout: GRID_READY_TIMEOUT_MS });
-      // Now poll until Tab 2's own rows arrive (the panel is in the DOM but data may still be loading).
+      // The panel mounts before its data loads.
       const deadline = Date.now() + GRID_READY_TIMEOUT_MS;
       while (Date.now() < deadline) {
         const count = await this.page.locator(ROWS_TAB2).count();
@@ -183,15 +138,8 @@ export class DiscountOptimizationPage extends BasePage {
 
   // ---------------------------------------------------------------- tab 1 — search
 
-  /**
-   * Fills the Tab 1 search box and waits for the grid to filter.
-   *
-   * Waits for the row count to move off its pre-search baseline AND THEN stop changing —
-   * the virtualized grid passes through partial/transitional row counts (same behaviour
-   * documented on clearSearchTab2()) before settling on the true filtered result. A single
-   * "count changed" check can return mid-transition and hand back a stale or partial row
-   * set that does not actually match the search term.
-   */
+  // Waits for the count to move off its baseline AND then settle: the virtualized grid passes
+  // through partial counts, so a "count changed" check alone returns a partial row set.
   @step('Search for a location by name or number')
   async search(term: string): Promise<void> {
     const countBefore = await this.page.locator(ROWS_TAB1).count();
@@ -215,11 +163,7 @@ export class DiscountOptimizationPage extends BasePage {
 
   // ---------------------------------------------------------------- tab 1 — row lookup
 
-  /**
-   * Returns the `tr` locator for the first row whose Location Name matches the given string.
-   * Content-anchored — uses the per-row toggle `aria-label` which embeds the location name.
-   * Throws if no such row is found.
-   */
+  /** Row `tr` located via the per-row toggle `aria-label`, which embeds the location name. */
   @step('Find a row by location name')
   async findRowByLocationName(locationName: string): Promise<import('@playwright/test').Locator> {
     const toggleSelector = btnToggleDiscount(locationName);
@@ -236,21 +180,8 @@ export class DiscountOptimizationPage extends BasePage {
 
   // ---------------------------------------------------------------- tab 1 — reading row state
 
-  /**
-   * Reads the Allow Special Rate toggle state for a named row.
-   *
-   * The control has two render modes:
-   * - Display mode (not yet interacted with): a plain `<button>` showing "Yes" or "No" text,
-   *   with no ARIA state attributes.
-   * - Edit mode (after first click activates the field): a Radix checkbox with
-   *   `role="checkbox"` and `aria-checked="true"|"false"`.
-   *
-   * "Yes" / `aria-checked="true"` both mean the Allow Special Rate setting is enabled.
-   *
-   * The virtualised grid populates text nodes asynchronously — reading before the text node
-   * has rendered would return an empty string and produce a false "No". This method polls
-   * until a readable state is available before deciding.
-   */
+  // Untouched rows render as a plain "Yes"/"No" button; once clicked they become a Radix
+  // checkbox with aria-checked. Polls because an early read of either returns a false "No".
   @step('Read the Allow Special Rate toggle state for a row')
   async getToggleState(locationName: string): Promise<boolean> {
     const btn = this.page.locator(btnToggleDiscount(locationName)).first();
@@ -271,22 +202,8 @@ export class DiscountOptimizationPage extends BasePage {
     );
   }
 
-  /**
-   * Reads the Special Rate Start Date value for a named row.
-   *
-   * Two failure modes are guarded against:
-   *
-   * 1. **Race on first render** — the virtualised grid populates date inputs asynchronously.
-   *    A single-shot `inputValue()` returns `''` until the first render cycle completes.
-   *
-   * 2. **Post-calendar propagation delay** — after a calendar picker selection, Angular's
-   *    reactive form may take one or more change-detection cycles to update the input value.
-   *    Returning on the first non-empty read risks returning a stale pre-calendar value.
-   *
-   * This method polls until the value has been the same non-empty string across three
-   * consecutive reads (100 ms apart), which proves the value has settled. On timeout it
-   * throws with the row name and last observed value — never returns a fabricated default.
-   */
+  // Requires three identical non-empty reads: the input is empty on first render, and after a
+  // calendar pick the first non-empty value can still be the stale pre-pick one.
   @step('Read the Special Rate Start Date for a row')
   async getRowDate(locationName: string): Promise<string> {
     const row = await this.findRowByLocationName(locationName);
@@ -317,14 +234,8 @@ export class DiscountOptimizationPage extends BasePage {
 
   // ---------------------------------------------------------------- tab 1 — actions
 
-  /**
-   * Clicks the Allow Special Rate toggle for the named row and waits for the value to change.
-   *
-   * The control has two render modes:
-   * - Display mode (plain button "Yes"/"No", no `aria-checked`): first click activates the
-   *   cell into Radix-checkbox edit mode (same logical value), second click actually toggles.
-   * - Checkbox mode (already interacted; has `aria-checked`): one click toggles directly.
-   */
+  // In display mode the first click only activates the cell into checkbox mode, so a second
+  // click is needed; a cell already in checkbox mode toggles on one click.
   @step('Toggle Allow Special Rate for a row')
   async toggleDiscount(locationName: string): Promise<void> {
     const btn = this.page.locator(btnToggleDiscount(locationName)).first();
@@ -368,17 +279,8 @@ export class DiscountOptimizationPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Sets the Special Rate Start Date on the named row using real keystrokes.
-   *
-   * Before typing, checks for a Radix alert-dialog overlay (`[data-radix-alert-dialog-overlay]`
-   * / `[role="alertdialog"]`) that can appear after row interaction and intercept pointer events.
-   * If present, it is dismissed via its Cancel button before proceeding.
-   *
-   * Clears the existing value with Ctrl+A → Delete before typing, to avoid appending to a
-   * populated field. Uses `pressSequentially` so Angular's reactive form binding receives the
-   * full keydown/input/keyup event chain.
-   */
+  // Types with pressSequentially so Angular's reactive form binding sees the real key events;
+  // a leftover Radix alert overlay would otherwise swallow them.
   @step('Set the Special Rate Start Date for a row')
   async setRowDate(locationName: string, dateValue: string): Promise<void> {
     await this._dismissAlertDialogIfPresent();
@@ -416,16 +318,8 @@ export class DiscountOptimizationPage extends BasePage {
 
   // ---------------------------------------------------------------- tab 1 — sort
 
-  /**
-   * Sorts the locations grid by the named column using the column-options dropdown menu.
-   *
-   * Each column header contains a Radix `button[aria-haspopup="menu"]` that opens a
-   * two-item menu: "Sort ascending" and "Sort descending". This is the only sort affordance
-   * on this surface — clicking the `th` itself or the resize handle does NOT sort.
-   *
-   * Live DOM confirmed 2026-08-11: menu opens on button click with `aria-expanded`
-   * flipping to `"true"`, and menu items have role="menuitem".
-   */
+  // The header's `button[aria-haspopup="menu"]` is the only sort affordance here — clicking
+  // the `th` itself does not sort.
   @step('Sort the locations grid by a column')
   async sortByColumn(
     column: 'ID' | 'Location Name' | 'Allow Special Rate' | 'Special Rate Start Date',
@@ -446,13 +340,8 @@ export class DiscountOptimizationPage extends BasePage {
     const menuItem = this.page.locator(`[role="menu"] [role="menuitem"]:has-text("${label}")`).first();
     const prevValue = await this.getFirstRowCell(2);
     await menuItem.click();
-    // Poll until the first row value changes — sort reorder settles after Angular stability.
-    // The grid can briefly show zero rows (or detach/reattach the first row) mid-reorder, the
-    // same transitional behaviour documented on search/clear — getFirstRowCell() would then
-    // throw on a plain miss instead of a real "not yet changed" result. Treat a transient
-    // read failure as "still settling" and keep polling rather than aborting the wait.
-    // 45 s (not 15 s): a single failed textContent() read can itself burn the full 10 s
-    // default action timeout before the catch below sees it — 15 s left no room to retry.
+    // 45 s, not 15 s: the grid detaches the first row mid-reorder, and one failed read burns
+    // the full 10 s action timeout before the catch below can retry.
     const deadline = Date.now() + 45_000;
     while (Date.now() < deadline) {
       try {
@@ -466,10 +355,7 @@ export class DiscountOptimizationPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Reads the text content of a cell in the first visible row of Tab 1.
-   * `cellIndex` is 1-based: 1 = ID, 2 = Location Name.
-   */
+  /** Cell text from the first Tab 1 row; `cellIndex` is 1-based (1 = ID, 2 = Location Name). */
   @step('Read a cell value from the first row of the locations grid')
   async getFirstRowCell(cellIndex: number): Promise<string> {
     const cell = this.page.locator(`${ROWS_TAB1}:first-child td:nth-child(${cellIndex})`).first();
@@ -552,10 +438,8 @@ export class DiscountOptimizationPage extends BasePage {
     const inp = this.page.locator(TXT_SEARCH_TAB2).first();
     await inp.click();
     await inp.pressSequentially(term, { delay: KEYSTROKE_DELAY_MS });
-    // The stable-count wait alone is not enough: the full-list count is already "stable"
-    // before the debounced filter fires, so it can return against the unfiltered grid.
-    // First wait for the count to move off its pre-search value, then let it settle —
-    // the filter passes through intermediate counts mid-debounce.
+    // The stable-count wait alone would return against the unfiltered grid: the full-list
+    // count is already "stable" before the debounced filter fires.
     await this._waitForGridCountChangeFrom(ROWS_TAB2, countBefore);
     await this._waitForGridCountStable(ROWS_TAB2);
   }
@@ -569,23 +453,16 @@ export class DiscountOptimizationPage extends BasePage {
     await this.page.keyboard.press('Control+A');
     await this.page.keyboard.press('Delete');
     await expect(inp).toHaveValue('');
-    // The filtered count is already "stable" before the debounced restore fires — wait for
-    // the count to move off its pre-clear value first, then let it settle (the grid passes
-    // through partial counts, e.g. 4 rows, before all rows render).
+    // The filtered count is already "stable" before the debounced restore fires, and the grid
+    // then passes through partial counts before all rows render.
     await this._waitForGridCountChangeFrom(ROWS_TAB2, countBefore);
     await this._waitForGridCountStable(ROWS_TAB2);
   }
 
   // ---------------------------------------------------------------- tab 2 — Exempt state
 
-  /**
-   * Reads the Exempt checkbox state for the named service type.
-   * Returns `true` when `aria-checked="true"`, `false` when `"false"` or `"mixed"`.
-   *
-   * The grid renders checkbox cells asynchronously (same behaviour as Tab 1's toggle) —
-   * a single-shot read landing before `aria-checked` exists would fabricate a false
-   * "unchecked". Polls until the attribute is readable; throws rather than guessing.
-   */
+  // Polls for aria-checked and throws rather than guessing: checkbox cells render
+  // asynchronously, so an early read would fabricate a false "unchecked".
   @step('Read the Exempt state for a service type')
   async getExemptState(serviceTypeName: string): Promise<boolean> {
     const chk = this.page.locator(chkExempt(serviceTypeName)).first();
@@ -602,11 +479,8 @@ export class DiscountOptimizationPage extends BasePage {
     );
   }
 
-  /**
-   * Clicks the Exempt checkbox for the named service type and waits for its
-   * `aria-checked` value to actually flip. Radix updates the attribute asynchronously —
-   * reading the state immediately after the click can return the pre-toggle value.
-   */
+  // Waits for aria-checked to actually flip — Radix updates it asynchronously, so a read
+  // straight after the click returns the pre-toggle value.
   @step('Toggle the Exempt checkbox for a service type')
   async toggleExempt(serviceTypeName: string): Promise<void> {
     await this._dismissAlertDialogIfPresent();
@@ -657,15 +531,8 @@ export class DiscountOptimizationPage extends BasePage {
     return false;
   }
 
-  /**
-   * Clicks the Tab 2 Save button and waits for the save request to complete.
-   *
-   * The Save button disables optimistically BEFORE the `PUT /api/discount/optimization/
-   * service-types` response returns (observed live 2026-08-24). Returning on
-   * button-disabled alone lets a caller reload immediately, which aborts the in-flight
-   * PUT and silently loses the save — the change never reaches the server. Waiting on
-   * the response is therefore mandatory, not an optimisation.
-   */
+  // Must wait on the PUT response: Save disables optimistically before it returns, so a
+  // caller that reloads on button-disabled alone aborts the request and loses the save.
   @step('Click Save on the service type exemptions tab')
   async clickTab2Save(): Promise<void> {
     const saveResponse = this.page
@@ -702,11 +569,8 @@ export class DiscountOptimizationPage extends BasePage {
 
   // ---------------------------------------------------------------- private helpers
 
-  /**
-   * Polls until at least one row matching `rowSelector` is present in the DOM, then waits
-   * for Angular to stabilise. Used after clearing a search field — the grid passes through
-   * 0 rows while the debounce fires, then repopulates.
-   */
+  // Used after clearing a search field: the grid passes through 0 rows while the debounce
+  // fires, then repopulates.
   private async _waitForNonZeroGridCount(rowSelector: string, timeout = 15_000): Promise<void> {
     const deadline = Date.now() + timeout;
     while (Date.now() < deadline) {
@@ -717,12 +581,8 @@ export class DiscountOptimizationPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Polls until the row count for `rowSelector` differs from the supplied baseline count
-   * (captured BEFORE the triggering interaction). Returns without throwing if the count
-   * never changes — a search term matching every row, or clearing an already-empty box,
-   * legitimately leaves the count unchanged; the follow-up stable-count wait still runs.
-   */
+  // Returns without throwing when the count never moves — a term matching every row, or
+  // clearing an empty box, legitimately leaves it unchanged.
   private async _waitForGridCountChangeFrom(rowSelector: string, before: number, timeout = 10_000): Promise<void> {
     const deadline = Date.now() + timeout;
     while (Date.now() < deadline) {
@@ -732,11 +592,8 @@ export class DiscountOptimizationPage extends BasePage {
     }
   }
 
-  /**
-   * Polls until the row count for `rowSelector` stops changing for two consecutive polls
-   * (500 ms apart), indicating the debounced filter has fully settled. Used after clearing
-   * a search field where the grid passes through partial counts before reaching stable state.
-   */
+  // Two unchanged consecutive polls mean the debounced filter has settled; the grid passes
+  // through partial counts on the way there.
   private async _waitForGridCountStable(rowSelector: string, timeout = 15_000): Promise<void> {
     const deadline = Date.now() + timeout;
     let prev = -1;
@@ -755,16 +612,8 @@ export class DiscountOptimizationPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   *
-   * An `[data-radix-alert-dialog-overlay]` was observed appearing after row interaction
-   * (e.g., clicking a toggle or row control). When visible it intercepts pointer events
-   * and swallows keystrokes aimed at other inputs. This guard checks for its presence
-   * before any row-level interaction that follows a prior row interaction, and dismisses
-   * it via its Cancel button so the next action lands on the intended target.
-   *
-   * If no overlay is present, this is a no-op.
-   */
+  // A Radix alert overlay can linger after a row interaction and swallow pointer events and
+  // keystrokes aimed at the next row. No-op when absent.
   private async _dismissAlertDialogIfPresent(): Promise<void> {
     const overlay = this.page.locator('[data-radix-alert-dialog-overlay], [role="alertdialog"]').first();
     const visible = await overlay.isVisible().catch(() => false);

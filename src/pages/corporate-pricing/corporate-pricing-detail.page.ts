@@ -114,11 +114,7 @@ export class CorporatePricingDetailPage extends CorporatePricingBasePage {
     return (await this.page.locator(S.txtSourceFilter).count()) > 0;
   }
 
-  /**
-   * Management-mode defensive probe: act on a source-list item and report whether the grid grew.
-   * `mode` 'single' = single-click (select/display, no add), 'double' = double-click (must NOT add).
-   * Returns { before, after } data-row counts so the caller asserts no-add (before === after).
-   */
+  /** Management-mode probe: click/double-click a source item; callers assert before === after (no add). */
   @step('Attempt source add')
   async attemptSourceAdd(mode: 'single' | 'double', index = 0): Promise<{ before: number; after: number }> {
     const before = await this.getProductGroupRowCount();
@@ -131,14 +127,8 @@ export class CorporatePricingDetailPage extends CorporatePricingBasePage {
     return { before, after };
   }
 
-  /**
-   * Management-mode defensive probe: attempt a drag of a source item onto the grid; report grid growth.
-   * Uses the full pointer sequence (move → down → move → up) — never `.dragTo()`, which often never
-   * fires the drag chain and would give a false "did not add". The create-mode positive control
-   * (`CorporatePricingNewPricebookPage.dragProductGroupByName`) proves the SAME primitive DOES add when
-   * adding is allowed, so a no-grow here is genuine management-mode behavior, not a dead primitive.
-   * Returns { before, after } row counts.
-   */
+  // Management-mode drag probe. Uses the full pointer sequence, never `.dragTo()` — that often never
+  // fires the drag chain and would give a false "did not add".
   @step('Attempt drag add')
   async attemptDragAdd(index = 0): Promise<{ before: number; after: number }> {
     const before = await this.getProductGroupRowCount();
@@ -188,9 +178,8 @@ export class CorporatePricingDetailPage extends CorporatePricingBasePage {
     await inp.press('Tab');
   }
 
-  // SURFACE PROBES — pagination + sort presence (the Detail grid renders every row
-  // at once; it exposes NO page-size selector, NO page-navigation buttons, and its
-  // headers are not sort triggers — these probes assert that observed reality).
+  // Pagination/sort probes: the Detail grid renders every row at once and exposes no page-size
+  // selector, no page-nav buttons, and no sortable headers — these assert that absence.
 
   @step('Get pagination nav labels')
   async getPaginationNavLabels(): Promise<string[]> {
@@ -230,11 +219,7 @@ export class CorporatePricingDetailPage extends CorporatePricingBasePage {
     await this.saveChangesDialog.getByRole('button', { name: /^(save|ok)$/i }).first().click();
   }
 
-  /**
-   * Click Save (defensive — confirm the "Save Changes" alertdialog), then best-effort wait for
-   * Save to disable (commit signal). THROWS if Save is disabled at call time so a silent no-op
-   * surfaces as a failure (save-success ≠ pristine; reload + re-read is load-bearing).
-   */
+  /** Throws if Save is already disabled, so a silent no-op surfaces as a failure. */
   @step('Save and confirm')
   async saveAndConfirm(): Promise<void> {
     await this.clickSaveButtonOrThrow('grid not dirty');
@@ -245,13 +230,8 @@ export class CorporatePricingDetailPage extends CorporatePricingBasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Restore the detailFixture's two mutation anchors to baseline: anchorA/anchorB Price = base, no
-   * discount. The New-Price override is sticky (it becomes the Price), so reverting requires writing
-   * New Price = basePrice; the form is dirtied reliably via the Max-Discount lever (= '0') in the
-   * SAME batch save, which also commits the New-Price reverts. Bounded retry (max 3) over the whole
-   * cycle because save-success alone does not prove the restore landed.
-   */
+  // Restore the anchors to base price + no discount. The New-Price override is sticky (it becomes the
+  // Price), so the revert must write New Price = basePrice and dirty the form via Max Discount = '0'.
   @step('Ensure default state')
   async ensureDefaultState(
     anchors: DetailAnchor[] = [DETAIL.anchorA, DETAIL.anchorB],

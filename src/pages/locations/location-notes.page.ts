@@ -17,8 +17,7 @@ export class LocationNotesPage extends BasePage {
 
   @step('Is on notes tab')
   async isOnNotesTab(): Promise<boolean> {
-    // Use the tab trigger's aria-selected instead of count()>0
-    // on a child anchor. Radix mounts inactive panels for some tabs (forceMount-equivalent);
+    // Radix keeps some inactive panels mounted, so a child-element count proves nothing;
     // the trigger's aria-selected is the only reliable cross-tab signal.
     const tab = this.getElement('tabNotes');
     if ((await tab.count()) === 0) return false;
@@ -29,11 +28,8 @@ export class LocationNotesPage extends BasePage {
   async clickNotesTab(): Promise<void> {
     await this.clickWithRetry('tabNotes');
     await this.getElement('sectionNotes').waitFor({ state: 'visible', timeout: 15_000 });
-    // Race content vs empty-state so we don't return on
-    // the wrapper alone while the inner Notes data is still hydrating.
-    // Dropped trailing .catch(Log.warn) so race-lost
-    // timeouts fail loudly at the click step (where the symptom is) instead of being swallowed
-    // and surfacing later as misattributed assertion failures.
+    // Race content vs empty-state so we don't return on the wrapper alone while Notes data is
+    // still hydrating. No .catch here — a lost race must fail at the click, not downstream.
     await Promise.race([
       this.getElement('txtNoteInputAll').first().waitFor({ state: 'visible', timeout: 15_000 }),
       this.getElement('lblNoNotesAvailable').waitFor({ state: 'visible', timeout: 15_000 }),
@@ -51,9 +47,8 @@ export class LocationNotesPage extends BasePage {
     } finally {
       this.page.removeListener('dialog', handler);
     }
-    // Let Angular finish binding the reloaded model before (and after) re-entering the tab —
-    // without this a fast re-read can race the post-reload hydration and return stale values
-    // (mirrors the Currency tab reload, which stabilizes on both sides of the tab click).
+    // Stabilize on both sides of the tab click — a fast re-read otherwise races post-reload
+    // hydration and returns stale values.
     await this.waitForAngularStable();
     await this.clickNotesTab();
     await this.waitForAngularStable();
@@ -83,10 +78,7 @@ export class LocationNotesPage extends BasePage {
     Log.info(`[OK] Filled note row ${row} with ${text.length} chars`);
   }
 
- /**
- * Bypasses the JS keyboard handler for pasting long content.
- * Dispatches input+change events to trigger Angular model update.
- */
+ /** Bypasses the keyboard handler for long content; dispatches input+change so Angular binds. */
   @step('Paste into note')
   async pasteIntoNote(row: number, text: string): Promise<void> {
     if (row === 0) {
@@ -253,9 +245,8 @@ export class LocationNotesPage extends BasePage {
   @step('Save and confirm')
   async saveAndConfirm(): Promise<void> {
     await this.getElement('btnSaveNotes').waitFor({ state: 'visible', timeout: 5_000 });
- // Wait for Angular to enable Save (may take a tick after fill+Tab).
- // Propagate timeout — if Save never enables, the subsequent click would fail anyway
- // and the original timeout gives a clearer signal than a downstream click error.
+ // Angular enables Save a tick after fill+Tab; let the timeout propagate since a never-enabled
+ // Save gives a clearer failure here than at the click.
     await this.page.waitForFunction(
       (sel: string) => {
         const btn = document.querySelector(sel);
@@ -264,12 +255,8 @@ export class LocationNotesPage extends BasePage {
       this.getLocator('btnSaveNotes'),
       { timeout: 5_000 }
     );
-    // Arm a wait for the actual Notes save response BEFORE clicking. The Save button flipping
-    // back to disabled is only a UI signal — Angular can disable it before the save request has
-    // finished on the server. A fast follow-up reload then cancels the in-flight save, and the
-    // reloaded page reads back stale (pre-save) data. Match the backend save endpoint (PUT), not
-    // the page URL — server-render/hydration POSTs hit the page path and must never be mistaken
-    // for the save.
+    // Armed before the click, and matched on the backend endpoint rather than the page URL —
+    // hydration POSTs hit the page path and must not be mistaken for the save.
     const saveResponse = this.page.waitForResponse(
       (r) =>
         r.url().includes('/navigator/api/location/update-properties') &&
@@ -280,9 +267,7 @@ export class LocationNotesPage extends BasePage {
     if (!result.success) {
       Log.error(`[ERR] Save failed: ${result.networkError}`);
     }
-    // Wait for the save request to actually land (successful status + body fully read) before
-    // returning, so a caller's reload cannot cancel an in-flight save. Fail loudly on a missing
-    // or non-2xx response rather than silently passing on stale data.
+    // Block until the save lands so a caller's reload cannot cancel it in flight.
     const response = await saveResponse;
     if (!response.ok()) {
       throw new Error(
@@ -290,11 +275,8 @@ export class LocationNotesPage extends BasePage {
       );
     }
     await response.finished();
- // Wait for Save button to become disabled — confirms save API response was received
- // and the form is pristine. Without this, immediate page.reload can race with the
- // server processing the save, causing reload to fetch pre-save (stale) data.
- // Timeout propagates so callers fail loudly on stale-read race instead of passing
- // with stale data after a swallowed warning.
+ // Save re-disabling proves the form went pristine; without it a caller's reload can fetch
+ // pre-save data. Timeout propagates so a stale-read race fails rather than passing.
     await this.page.waitForFunction(
       (sel: string) => {
         const btn = document.querySelector(sel);
@@ -333,16 +315,14 @@ export class LocationNotesPage extends BasePage {
 
   @step('Ensure empty state')
   async ensureEmptyState(): Promise<void> {
-    // save-verify-exempt: verifies inline — after the save + reload below it re-reads
-    // isDefaultEmptyState() and self-heals once if the delete did not persist, instead of
-    // routing through the shared persist-and-verify helper.
+    // save-verify-exempt: verifies inline via isDefaultEmptyState() after the reload below,
+    // rather than through the shared persist-and-verify helper.
     await this.page.waitForTimeout(500);
     const deleteCount = await this.getElement('btnNotesDelete').count();
     if (deleteCount > 0) {
       await this.deleteAllRows();
- // Poll for Save-enable instead of fixed 500ms sleep — races Angular's dirty flag
- // when deletion completes before change detection runs. .catch falls through to the
- // reload fallback below if Angular doesn't update (post-markAsPristine session).
+ // Poll for Save-enable rather than sleeping; the .catch falls through to the reload
+ // fallback below when Angular never sets the dirty flag.
       await this.page.waitForFunction(
         (sel: string) => {
           const btn = document.querySelector(sel);
@@ -354,9 +334,8 @@ export class LocationNotesPage extends BasePage {
         Log.info('[INFO] Save did not enable within 2s after delete — will reload for fresh form state');
       });
 
- // Angular app behavior: after save marks form pristine, deleting notes in the SAME
- // session does NOT re-enable Save (dirty flag not set). Reload to get fresh form state
- // from DB, then re-delete on the fresh form (which properly marks dirty → Save enables).
+ // Once a save marks the form pristine, deleting in the same session does not re-enable
+ // Save, so reload for a fresh form and re-delete there.
       if (!(await this.isSaveEnabled())) {
         Log.info('[INFO] Save disabled after delete — reloading for fresh form state');
         await this.reloadAndNavigateToNotesTab();
@@ -373,8 +352,7 @@ export class LocationNotesPage extends BasePage {
  // Always reload after cleanup to reset Angular form controller
     await this.reloadAndNavigateToNotesTab();
 
- // Final verification: never claim "DB clean" without confirming it. If the cleanup didn't
- // land (Angular dirty-state race), retry the delete+save+reload once before returning.
+ // Retry the delete+save+reload once if cleanup lost the Angular dirty-state race.
     if (!(await this.isDefaultEmptyState())) {
       Log.warn('[WARN] Notes not empty after cleanup — retrying once (Angular dirty-state race)');
       if ((await this.getElement('btnNotesDelete').count()) > 0) {

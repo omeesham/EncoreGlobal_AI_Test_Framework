@@ -9,25 +9,15 @@ import {
 import { OFFICE_NO } from '../../src/data/common';
 
 test.describe('Location Account and Address @locations @account-address', () => {
-  // Per-test navigation guard.
-  // DOM-presence beats url.includes — Encore sub-tabs share `settings/location` URL,
-  // so the URL match returns true after a sibling spec like Notes even when this tab
-  // is not active.
-  //
-  // Hook timeout = 60s (default config = 30s). Cold-start nav (SSO handoff + Angular load
-  // + tab activate + phone1 hydrate) can exceed 30s under M365/Encore backend contention
-  // (TC-LOC-ACC-001 root cause). The test body already grants 60s via test.setTimeout;
-  // this matches that budget for the hook.
+  // Nav guard uses DOM presence, not url.includes — sub-tabs share the `settings/location` URL.
+  // 60s hook budget: cold-start nav (SSO handoff + Angular load + hydrate) exceeds the 30s default.
   test.beforeEach(async ({ locationAccountAddressPage }) => {
     test.setTimeout(60_000);
     if (!(await locationAccountAddressPage.isOnAccountAndAddressTab())) {
       await locationAccountAddressPage.navigateToAccountAndAddressTab(OFFICE_NO);
     }
-    // Per-test baseline: reset Phone 2 to a dedicated baseline value before every test, so a
-    // single test re-run (retry / parallel) starts from a known state instead of inheriting a prior
-    // test's end-state. PHONE2_BASELINE is a non-empty value no test fills, which guarantees each
-    // test's own fill is a real change (Save actually enables) and side-steps the known issue that
-    // clearing Phone 2 to empty does not persist — this reset never sets it empty.
+    // PHONE2_BASELINE is non-empty and unused by any test, so every fill is a real change (Save
+    // enables) and the reset never has to clear Phone 2 — clearing it to empty does not persist.
     await locationAccountAddressPage.ensureDefaultState({ phone2: PHONE2_BASELINE });
   });
 
@@ -213,34 +203,22 @@ test.describe('Location Account and Address @locations @account-address', () => 
   test('TC-LOC-ACC-020: Save changes persist after page reload', async ({ locationAccountAddressPage, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(90_000);
- // Per-test baseline: arrange Phone 2 at the START of THIS test instead of depending on
- // TC-019 having saved it in the same serial run (cross-test coupling that failed when run
- // isolated / retried / parallel). Pick a target that DIFFERS from the current value to guarantee a
- // real dirtying change (avoids the net-zero trap where Save never enables). Both
- // candidate values are non-empty, so the clear-not-persisting issue (clearing Phone 2 will not persist) never bites.
+ // Target must differ from the current value or Save never enables. Both candidates are non-empty,
+ // so this never trips the known issue that clearing Phone 2 does not persist.
     const current = await locationAccountAddressPage.getPhone2Value();
     const target = current === TEST_PHONE2_VALUE ? ACCOUNT_TEST_PHONE : TEST_PHONE2_VALUE;
     await locationAccountAddressPage.fillPhone2(target);
     await expect.poll(() => locationAccountAddressPage.isSaveEnabled(), { timeout: 5_000 }).toBe(true);
     await locationAccountAddressPage.clickSave();
- // Reload and confirm Phone 2 persisted.
- // Phone 2 DOES persist, but the save commits a beat AFTER clickSave() returns. If a single reload's
- // getLocationDetail fires before that commit lands, it serves the pre-save value and the loaded page
- // does not auto-refetch — a fresh re-navigation after the commit reads the persisted value immediately
- // (<0.5s, measured live). So re-navigate each poll iteration until the persisted value is read. This
- // tolerates the backend's read-after-write window WITHOUT weakening intent: it still proves Phone 2 ==
- // the saved target after a reload (not a relaxed/constant assertion).
+ // Read-after-write window: the save commits after clickSave() returns and the loaded page never
+ // re-fetches, so re-navigate on every poll iteration rather than reloading once.
     await expect.poll(async () => {
       await locationAccountAddressPage.reloadAndNavigate(OFFICE_NO);
       return locationAccountAddressPage.getPhone2Value();
     }, { timeout: 60_000, intervals: [1_000], message: 'Phone 2 should persist as the saved target after reload' }).toBe(target);
     expect(await locationAccountAddressPage.isSaveEnabled()).toBe(false);
- // Cleanup: leave Phone 2 at the canonical TEST_PHONE2_VALUE baseline. This (a) matches the prior
- // effective end-state — the old empty-restore never persisted (clear does not persist), so the serial chain
- // always ended at TEST_PHONE2_VALUE — and (b) gives downstream serial tests a dirtyable starting value:
- // TC-022 fills ACCOUNT_TEST_PHONE and needs a NET change to enable Save, so Phone 2 must NOT be left at
- // ACCOUNT_TEST_PHONE (which is exactly the value this test's `target` becomes in a serial run). Empty
- // cannot persist (empty values do not persist after save), so restore to a known non-empty value rather than ''.
+ // Restore Phone 2 to TEST_PHONE2_VALUE, never ACCOUNT_TEST_PHONE: TC-022 fills that value and
+ // needs a net change for Save to enable. Empty is not an option — it does not persist.
     if (target !== TEST_PHONE2_VALUE) {
       await locationAccountAddressPage.fillPhone2(TEST_PHONE2_VALUE);
       await locationAccountAddressPage.clickSave();
@@ -307,9 +285,8 @@ test.describe('Location Account and Address @locations @account-address', () => 
   test('TC-LOC-ACC-025: Address selection changes venue display fields', async ({ locationAccountAddressPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-ACC-001']);
     test.setTimeout(60_000);
- // Live-verified: address selection updates display but does NOT persist through save+reload.
- // Angular form model doesn't serialize the new address. This TC tests E2E display change only.
- // Verify starting state
+ // Display-change only — a Venue address selection is not serialized by the Angular form model,
+ // so it does not survive save+reload.
     await expect.poll(() => locationAccountAddressPage.getVenueCityText(), { timeout: 5_000 }).toBe(ORIGINAL_ADDRESS.city);
  // Select alternate address
     await locationAccountAddressPage.openVenueAddressDialog();
@@ -358,12 +335,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
     }
   });
 
-  //     existing describe, same @locations @account-address tags, no separate fcc-tag.
-  //     Save-cycle case uses the field-coverage runner; filter cases use ordinary test() (no save). ───
-
-  // Clearing Phone 2 and saving does NOT persist empty; the prior
-  // value reappears on reload. This case asserts the CORRECT (fixed) behavior, so it is fixme'd
-  // until the app bug is resolved. Un-fixme when the clear-not-persisting issue closes.
+  // Asserts the CORRECT behavior; un-fixme when the clear-not-persisting app bug closes.
   // FIXME TC-LOC-ACC-027 (Blocked — clearing the Phone 2 field and saving does not persist the empty value; the previous value reappears after reload. Pending an application fix.)
   test.fixme('TC-LOC-ACC-027: Phone 2 cleared value persists empty after reload', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
     dependencyGate([]);
@@ -399,10 +371,8 @@ test.describe('Location Account and Address @locations @account-address', () => 
     test.setTimeout(90_000);
     await pg.openAccountListDialog();
     await pg.searchAccountByNumber(ACCOUNT_NUMBER_SEARCH.number);
-    // Poll budget (45s) ≥ the page object's inner search budget so the TEST owns the deadline. The
-    // Account-Number backend search is slow/variable (~29s measured live 2026-06-02).
-    // searchAccountByNumber already blocks until the row renders, so this poll confirms the
-    // expected account text (AC000107 → Parker Palm Springs, verified live) and resolves once present.
+    // 45s poll budget must stay >= the page object's inner search budget so the test owns the
+    // deadline — the Account-Number backend search runs ~29s and is variable.
     await expect.poll(
       () => pg.accountListResultsContain(ACCOUNT_NUMBER_SEARCH.expectedResult),
       { timeout: 45_000, message: 'Account Number filter should return the matching account' },
@@ -424,10 +394,7 @@ test.describe('Location Account and Address @locations @account-address', () => 
     await pg.cancelAddressDialog();
   });
 
-  //     @locations @account-address tags, no @fcc tag (per the tagging convention).
-  //     The Master launcher's select→Master-field-update→persist cycle had ZERO coverage (TC-012 only
-  //     proved the dialog OPENS from Master). Per-launcher coverage: a Venue TC can NOT
-  //     discharge a Master cell — the SAME dialog persists from Master but NOT from Venue (TC-027). ───
+  // Coverage is per launcher: the same dialog persists when opened from Master but not from Venue.
 
   test('TC-LOC-ACC-030: Master Bill To selection updates Master display + leaves Venue unchanged + enables Save', async ({ locationAccountAddressPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-ACC-001']);
@@ -467,11 +434,8 @@ test.describe('Location Account and Address @locations @account-address', () => 
       saveAndConfirm: () => pg.saveAndConfirm(),
       reload: () => pg.reloadAndNavigate(OFFICE_NO),
       expectAfterReload: async () => {
-        // Master Bill To selection PERSISTS through save+reload (diverges from the Venue selection, TC-027).
-        // Read-after-write window (ACC-020 pattern): the save commits a beat AFTER clickSave() returns; a
-        // single reload's getLocationDetail can fire before the commit lands and serve the pre-save value
-        // (the loaded page does not auto-refetch). Re-navigate each poll until the persisted value is read —
-        // this still proves persistence (Master == the saved alternate after a reload), without weakening intent.
+        // Unlike a Venue selection, a Master Bill To selection persists. Read-after-write window
+        // (as in ACC-020): re-navigate on every poll iteration rather than reloading once.
         await expect.poll(async () => {
           await pg.reloadAndNavigate(OFFICE_NO);
           return pg.getMasterCityText();

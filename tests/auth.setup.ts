@@ -1,13 +1,5 @@
-/**
- * AUTH-STATE-SHARED — Playwright "setup project" entrypoint.
- *
- * Runs ONCE before any test project (Playwright serializes via dependencies: ['setup']).
- * Produces .auth/encore-state.json which all downstream workers consume read-only via
- * use.storageState. Lock-and-share pattern: file-lock around fresh login prevents
- * simultaneous fresh-login collisions across parallel workers.
- *
- * Search marker: AUTH-STATE-SHARED
- */
+// Runs once before every test project; writes .auth/encore-state.json, which workers then read
+// only. The file lock keeps parallel workers from racing into simultaneous fresh logins.
 
 import { test as setup, expect } from '@playwright/test';
 import { CommonMethods } from '../src/utils/env-config';
@@ -56,9 +48,8 @@ setup('acquire shared auth state', async ({ browser }) => {
       }
     }
 
-    // Perform full SSO login -- internal 3-attempt retry loop covers MS transient
-    // bursts ("Sorry, but we're having trouble signing you in" / ConnectionTimeOut).
-    // Runs INSIDE the file lock, so peer workers wait on the lock, not on a half-success.
+    // Retries cover transient MS sign-in bursts, and run inside the file lock so peer workers
+    // wait on the lock rather than on a half-success.
     const credentials = await CredentialLoader.loadCredentials({ type: 'env' });
     const config = CommonMethods.initProp();
 
@@ -105,13 +96,8 @@ setup('acquire shared auth state', async ({ browser }) => {
 
     await savedCtx.close();
 
-    // File-based validation: confirm the saved state has the required NextAuth
-    // session cookies and they are not yet expired. The earlier fresh-context
-    // browser validation was unreliable because Playwright's storageState does
-    // not capture sessionStorage / in-memory MSAL tokens, causing the app to
-    // hang in skeleton-loading state in a context that did not go through SSO.
-    // Workers consume storageState the same way and proceed past initial render,
-    // so spec-level navigation surfaces auth issues if any remain.
+    // Validate the file, not a fresh browser context: storageState omits sessionStorage and
+    // in-memory MSAL tokens, so a probe context hangs in skeleton-loading even on good state.
     const saved = readStateOrNull();
     const cookies = (saved?.cookies ?? []) as Array<{ name: string; expires?: number }>;
     const sessionToken = cookies.find((c) => c.name.includes('next-auth.session-token'));

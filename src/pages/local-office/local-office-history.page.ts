@@ -47,11 +47,8 @@ export class LocalOfficeHistoryPage extends LocalOfficeSettingsPage {
     return (await table.locator('th').allTextContents()).map(t => t.trim());
   }
 
- /**
- * Get cell value by row index (0-based) and header text.
- * CRITICAL (2): Local Office History uses SVG lucide-check icons for booleans.
- * textContent returns "" for both TRUE and FALSE. Must check innerHTML for lucide-check.
- */
+ // Booleans render as lucide-check SVGs, so textContent is "" for both true and false —
+ // an empty cell must be re-checked against innerHTML.
   @step('Get history column by header')
   async getHistoryColumnByHeader(rowIndex: number, headerText: string): Promise<string> {
     const headers = await this.getHistoryColumnHeaders();
@@ -99,9 +96,8 @@ export class LocalOfficeHistoryPage extends LocalOfficeSettingsPage {
   @step('Is history tab read only')
   async isHistoryTabReadOnly(): Promise<boolean> {
     const panel = this.getElement('tabContentHistory');
-    // Scope to the data table only: tblHistory IS the <table>, and the paginator "Current page number"
-    // <input> is a sibling OUTSIDE it (unlike the Mgmt History page, where the testid is a wrapper div).
-    // Panel-wide counting catches the paginator input → false negative. Assert exactly 0 — no relaxation.
+    // Count inside tblHistory, not the panel: the paginator's page-number input is a sibling of
+    // the table, and counting it would make a read-only tab look editable.
     const inputs = await this.getElement('tblHistory').locator('input:not([type="hidden"]), textarea').count();
     const saveBtn = await panel.locator('button:has-text("Save")').count();
     return inputs === 0 && saveBtn === 0;

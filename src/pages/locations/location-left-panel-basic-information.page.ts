@@ -213,9 +213,8 @@ export class LocationLeftPanelBasicInformationPage extends BasePage {
     if (!result.success) {
       throw new Error(`Left-panel save failed: ${result.networkError ?? 'unknown error'}`);
     }
-    // Confirm the save LANDED before any caller reload: the app disables the Save button once the
-    // save API completes + the form goes pristine. Guards the save-then-reload race (Angular dirty-state) — the
-    // name save in particular is slower than checkbox/dropdown saves and otherwise reloads stale.
+    // Save re-disabling proves the save landed and the form went pristine — guards the
+    // save-then-reload race, which the slower name save hits most often.
     await this.page.waitForFunction(() => {
       const deep = (root: Document | ShadowRoot, sel: string): Element | null => {
         const found = root.querySelector(sel);
@@ -231,13 +230,8 @@ export class LocationLeftPanelBasicInformationPage extends BasePage {
     }, undefined, { timeout: 10_000 }).catch(() => { /* best-effort; the test assertion catches a true miss */ });
   }
 
-  // Pay To Address opens via a <label> click, not a button — a standard Playwright click is
-  // BLOCKED (its `for=` points at the disabled input → "element is not enabled"), so the
-  // launcher is driven via dispatchEvent('click').
-  // The name "Encore" is ambiguous (IDs 1 & 4 share it), so restore is ID-anchored.
-  // Kept separate from the account-address dialog helpers: the launchers use different click
-  // mechanisms, the filter locators differ, and persistence behavior differs per launcher —
-  // a shared abstraction would couple non-identical behaviors.
+  // Pay To Address opens from a <label> whose `for=` points at a disabled input, so a normal
+  // Playwright click is blocked and dispatchEvent('click') is used instead.
 
   @step('Open pay to dialog')
   async openPayToDialog(): Promise<void> {
@@ -279,11 +273,8 @@ export class LocationLeftPanelBasicInformationPage extends BasePage {
     return table && cancel;
   }
 
-  /**
-   * Type into a Pay To List filter input via real keystrokes (React-controlled — fill() can no-op).
-   * Filters are located by ACCESSIBLE NAME (no stable CSS attribute — the name comes from a sibling
-   * label), scoped to the dialog. `filterName` ∈ "Pay To ID" | "Pay To Name" | "Address" | "Phone" | "Fax".
-   */
+  // Real keystrokes because these inputs are React-controlled and fill() can no-op; located by
+  // accessible name since the filters carry no stable CSS attribute.
   private async typePayToFilter(filterName: string, value: string): Promise<void> {
     const el = this.getElement('dlgPayToList').first().getByRole('textbox', { name: filterName, exact: true });
     await el.click();
@@ -373,12 +364,8 @@ export class LocationLeftPanelBasicInformationPage extends BasePage {
     Log.info('Dismissed Pay To List dialog (Esc)');
   }
 
-  /**
-   * Select a Pay To by ID end-to-end: open dialog (if needed) → search by ID → check the (single)
-   * result row → Select → wait for the dialog to close. Leaves the form DIRTY (does NOT save) — the
-   * caller decides whether to save (persistence) or reload (discard). ID-anchored because the name
-   * "Encore" is ambiguous (IDs 1 & 4 share it).
-   */
+  // Leaves the form dirty — the caller chooses save or reload. ID-anchored because the name
+  // "Encore" is shared by Pay To IDs 1 and 4.
   @step('Select the Pay To account')
   async selectPayToById(id: string): Promise<void> {
     if (!(await this.isPayToDialogVisible())) await this.openPayToDialog();
@@ -400,21 +387,12 @@ export class LocationLeftPanelBasicInformationPage extends BasePage {
     });
   }
 
-  /**
-   * Bounded retry (max 3) because a Radix select click can "succeed" yet leave Angular's model
-   * unchanged; clickSaveWithDialog returns {success:true} when Save is disabled, so save-success
-   * alone never proves the reset landed. The post-reload re-read is the load-bearing check.
-   *
-   * Country is set FIRST — a Country change cascade-clears Tax Mode + Region.
-   */
+  // Retries because a Radix select click can succeed without updating Angular's model, and
+  // save-success is reported even when Save was disabled.
   @step('Ensure default state')
   async ensureDefaultState(baseline: typeof LP_BASELINE = LP_BASELINE): Promise<void> {
-    // Pay To self-heal guard. A display read returns only the NAME ("Encore"), which is ambiguous
-    // (two Pay To rows share it), so we cannot safely repair by name alone. But an ID-anchored
-    // restore exists (restorePayToOriginal re-selects Pay To ID 1 and verifies it persisted), so when
-    // the name has drifted off the office-1604 default -- e.g. a leaked alternate from a crashed run --
-    // we drive that restore instead of failing the whole test. It still throws if the restore itself
-    // cannot land, so a genuinely unrepairable state stays loud.
+    // Self-heal drifted Pay To through the ID-anchored restore; it still throws if the restore
+    // itself cannot land.
     if ((await this.getPayToAddress()) !== PAY_TO_ORIGINAL.name) {
       Log.warn(`Pay To drifted off the office-1604 default -- self-healing to "${PAY_TO_ORIGINAL.name}" (ID ${PAY_TO_ORIGINAL.id})`);
       await this.restorePayToOriginal();

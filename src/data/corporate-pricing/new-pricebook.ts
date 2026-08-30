@@ -1,14 +1,5 @@
-/**
- * Corporate Pricing — New Pricebook create-flow test data (NM-1440).
- * Verified on the live app, 2026-06-09 (both `?type=equipment` and `?type=labor`).
- *
- * MUTATION SAFETY: the New Pricebook create flow has NO reversible
- * mutation fixture — a committed pricebook is IRREVERSIBLE via the UI (no delete/deactivate). So
- * there is NO entry in `CORPORATE_PRICING_FIXTURES` for this screen; the spec is NO-COMMIT (asserts
- * the create form + Save reachability, then Cancels the confirm dialog). The "create-mode fixture"
- * is purely the input data below — nothing is persisted in CI. Baseline = a fresh,
- * always-empty create page per test (`open(type)` in `beforeEach`).
- */
+// New Pricebook create-flow data (NM-1440). A committed pricebook is irreversible via the UI, so the spec
+// is no-commit: it asserts the form and Save reachability, then cancels the confirm dialog.
 import { CORPORATE_PRICING_COMMON } from './common';
 
 export const NEW_PRICEBOOK = {
@@ -27,12 +18,8 @@ export const NEW_PRICEBOOK = {
   specialName: 'AT&T <Tag> #1 "Q" é',
   whitespaceName: '   ',
 
-  /**
-   * Committing persistence test ONLY — fixed name PREFIX; the spec appends a run-stamp suffix read
-   * from process.env.PRICEBOOK_RUN_STAMP (passed in by CI/agent), falling back to the test-runner pid
-   * — NEVER Date.now()/random (those are non-reproducible). Keeps each committed pricebook uniquely
-   * searchable on the single-tenant environment.
-   */
+  // The persistence spec appends a run stamp from PRICEBOOK_RUN_STAMP, falling back to the runner pid —
+  // never Date.now()/random, which would make the committed name non-reproducible.
   persistNamePrefix: 'QA-Persist-',
   persistNamePrefixLabor: 'QA-Persist-LAB-',
 
@@ -55,11 +42,8 @@ export const NEW_PRICEBOOK = {
   laborGroupSample: ['Banners Design', 'Branding Media Production', 'Content Development'] as const,
   laborGroupA: 'Banners Design',
 
-  /**
-   * An existing pricebook name (live on office 1604) — used to prove the create form does NOT
-   * block a duplicate pricebook name client-side (NM-2022). The strategy name field DOES validate
-   * uniqueness client-side (NM-2261); the pricebook-name field does not.
-   */
+  // Proves the pricebook-name field does NOT block a duplicate client-side (NM-2022),
+  // unlike the strategy-name field, which does validate uniqueness (NM-2261).
   existingPricebookName: '2022-NP Tier 1',
 
   emptyStateHint: {

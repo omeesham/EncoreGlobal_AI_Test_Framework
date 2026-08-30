@@ -6,27 +6,8 @@ import { IConfig } from '../../types';
 import { serviceCharge as sc } from '../../selectors/service-charge/service-charge';
 import { SC_ROUTE, SC_ROW_COUNT, SC_SERVICE_TYPE_INDEX } from '../../data/service-charge/service-charge';
 
-/**
- * Service Charge setup page.
- *
- * Covers two tabs under Location Settings → Service Charge (/settings/service-charge):
- * - Basic Information (default): 79-row table of decimal percentage inputs, one per service type.
- * - Service Charge History: read-only audit grid.
- *
- * Loading: the Basic Information tab renders 79 percentage inputs disabled before enabling
- * them and filling their values. waitUntilLoaded() waits for the inputs to enable and for
- * the grid to stop changing before tests interact with it.
- *
- * Tabs: located by accessible name (Radix ids shift between builds — never use them).
- *
- * Save dialog: the shared "Save Changes" dialog (dlgSaveChanges / btnSaveChangesConfirm)
- * is assumed; a custom dialog exists only if a live walk proves otherwise. Confirm
- * before authoring save-cycle assertions.
- *
- * Live runs confirmed the grid enables before final values arrive, and invalid
- * percentage values are marked while the input is focused. The waits and
- * negative tests use those observed behaviours.
- */
+// Service Charge setup page: Basic Information (79 percentage inputs) and Service Charge
+// History (read-only audit grid). The grid enables its inputs before the values arrive.
 export class ServiceChargePage extends BasePage {
   constructor(page: Page, config?: IConfig) {
     super(page, config);
@@ -44,17 +25,8 @@ export class ServiceChargePage extends BasePage {
     await this.waitUntilLoaded();
   }
 
-  /**
-   * Navigates to the Service Charge page for the given office without waiting for the
-   * Basic Information percentage inputs to become enabled.
-   *
-   * Use this method when the test only needs the History tab and does not require
-   * the Basic Information tab to be in an editable state. The standard goto() method
-   * waits for BI inputs to enable (up to 60 s) — that gate is wrong for read-only
-   * History paths where the target office may have disabled or read-only BI inputs.
-   * This method does not change the contract of waitUntilLoaded(); other callers are
-   * unaffected.
-   */
+  // History-only navigation: skips goto()'s 60 s wait for enabled Basic Information inputs,
+  // which never completes on offices whose BI inputs stay read-only.
   @step('Navigate to the Service Charge page for an office (History tab only)')
   async gotoHistory(office: string = '1604'): Promise<void> {
     const baseUrl = (this.config?.base_url ?? '').replace(/\/+$/, '');
@@ -63,27 +35,16 @@ export class ServiceChargePage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Waits until the Basic Information tab's percentage inputs are ready.
-   *
-   * After navigation the page enables the percentage inputs before it finishes updating
-   * the grid. Waiting for enablement alone can return during that gap, so this gate waits
-   * until the grid has stopped changing before any test interacts with it.
-   * A 60-second timeout accommodates the observed enable delay with comfortable headroom.
-   */
+  // Enablement alone is not a ready signal — the page enables the percentage inputs before it
+  // finishes filling the grid, so this waits for the grid to stop changing.
   @step('Wait for the page to finish loading')
   async waitUntilLoaded(timeout = 60_000): Promise<void> {
     await this.waitForPercentageValuesToSettle(timeout);
     await this.waitForAngularStable();
   }
 
-  /**
-   * Waits until the percentage grid has finished changing.
-   *
-   * The grid enables its inputs before it fills them in, and a value typed in that gap is
-   * overwritten when the values arrive. The page is ready only after the percentage inputs
-   * themselves have stopped changing for a short quiet period.
-   */
+  // A value typed between enablement and the values arriving is overwritten, so the gate is a
+  // quiet period with no change to any percentage input.
   private async waitForPercentageValuesToSettle(timeout = 30_000, quietMs = 2_500): Promise<void> {
     const percentageInputs = this.page.locator(sc.allPercentageInputs);
     const firstPercentageInput = percentageInputs.first();
@@ -127,10 +88,7 @@ export class ServiceChargePage extends BasePage {
       .toBeGreaterThanOrEqual(quietMs);
   }
 
-  /**
-   * Switches to the Basic Information tab by accessible name.
-   * Radix-generated tab ids must never be used — they shift between builds.
-   */
+  /** Switches to the Basic Information tab by accessible name — Radix ids shift between builds. */
   @step('Switch to the Basic Information tab')
   async switchToBasicInformationTab(): Promise<void> {
     await this.page
@@ -139,18 +97,8 @@ export class ServiceChargePage extends BasePage {
     await this.waitUntilLoaded();
   }
 
-  /**
-   * Switches to the Service Charge History tab by accessible name and waits until it is
-   * confirmed active. Uses aria-selected rather than a heading — the page h1 stays
-   * "Service Charge" on both tabs, so no History-specific heading exists.
-   * Radix-generated tab ids must never be used — they shift between builds.
-   *
-   * Waits for the tab to be visible before clicking, with headroom well past the global
-   * 10 s action timeout. This app is Next.js/React, not Angular — waitForAngularStable()
-   * is a no-op here (no Angular testability API exists to wait on) — so right after a fresh
-   * navigation (e.g. via gotoHistory()) the Radix tab trigger may still be hydrating. A bare
-   * click racing that hydration under the default 10 s budget was observed to time out.
-   */
+  // Activation is confirmed via aria-selected: the h1 reads "Service Charge" on both tabs.
+  // The 30 s waits cover Radix hydration after a fresh navigation; waitForAngularStable is a no-op here.
   @step('Switch to the Service Charge History tab')
   async switchToHistoryTab(): Promise<void> {
     const tab = this.page.getByRole('tab', { name: sc.TAB_HISTORY_NAME, exact: true });
@@ -162,12 +110,8 @@ export class ServiceChargePage extends BasePage {
 
   // ---------------------------------------------------------------- reading
 
-  /**
-   * Returns the full office header line shown on the Basic Information tab, including
-   * the office name (e.g. "Local Office : 1604 - Parker Palm Springs").
-   * The label "Local Office :" and the office name value live in separate child nodes;
-   * reading the parent element captures both. Verified 2026-08-14.
-   */
+  // Basic Information office header, e.g. "Local Office : 1604 - Parker Palm Springs".
+  // Label and value are separate child nodes, so the parent element is read.
   @step('Read the office header text')
   async getOfficeHeader(): Promise<string> {
     const raw = await this.page
@@ -178,12 +122,8 @@ export class ServiceChargePage extends BasePage {
     return (raw ?? '').replace(/\s+/g, ' ').trim();
   }
 
-  /**
-   * Returns the section header line shown on the Service Charge History tab, including
-   * the office name (e.g. "Service Charge History : Parker Palm Springs").
-   * The label and office name live in separate child nodes; reading the parent captures both.
-   * Verified 2026-08-14.
-   */
+  // History section header, e.g. "Service Charge History : Parker Palm Springs".
+  // Label and office name are separate child nodes, so the parent element is read.
   @step('Read the History section header text')
   async getHistorySectionHeader(): Promise<string> {
     const raw = await this.page
@@ -194,20 +134,13 @@ export class ServiceChargePage extends BasePage {
     return (raw ?? '').replace(/\s+/g, ' ').trim();
   }
 
-  /**
-   * Returns the current value of the percentage input at the given row index (0–78).
-   * Values live in input.value — textContent returns empty for these inputs.
-   */
+  /** Percentage at row index 0–78. Values live in input.value; textContent is empty. */
   @step('Read a percentage value by row index')
   async getPercentageByIndex(index: number): Promise<string> {
     return this.page.locator(sc.percentageByIndex(index)).inputValue();
   }
 
-  /**
-   * Returns the current value of the percentage input for a named service type.
-   * Row index is resolved from SC_SERVICE_TYPE_INDEX (sourced from the application's DOM as observed on 2026-08-10).
-   * Throws if the service-type name is not present in the map.
-   */
+  /** Percentage for a named service type; throws if the name is not in SC_SERVICE_TYPE_INDEX. */
   @step('Read a percentage value by service type name')
   async getPercentageByServiceType(serviceType: string): Promise<string> {
     const index = SC_SERVICE_TYPE_INDEX[serviceType];
@@ -217,20 +150,14 @@ export class ServiceChargePage extends BasePage {
     return this.getPercentageByIndex(index);
   }
 
-  /**
-   * Returns the column headers of the currently visible table in display order.
-   * Works for both the Basic Information and History tab tables.
-   */
+  /** Column headers of whichever tab's table is visible, in display order. */
   @step('Read the table column headers')
   async getBasicInfoHeaders(): Promise<string[]> {
     const raw = await this.page.getByRole('columnheader').allTextContents();
     return raw.map((h) => h.replace(/\s+/g, ' ').trim()).filter((h) => h.length > 0);
   }
 
-  /**
-   * Returns whether the Save button is currently enabled.
-   * Checks both the disabled property and aria-disabled attribute.
-   */
+  /** Whether Save is enabled — checks both the disabled property and aria-disabled. */
   @step('Check whether the Save button is enabled')
   async isSaveEnabled(timeout = 5_000): Promise<boolean> {
     const btn = this.page.locator(sc.save).first();
@@ -240,20 +167,14 @@ export class ServiceChargePage extends BasePage {
     return !isDisabled && ariaDisabled !== 'true';
   }
 
-  /**
-   * Polls until the Save button becomes enabled. Returns true if it enables within the
-   * budget, false otherwise.
-   */
+  /** Polls until Save is enabled; throws if it never enables within the budget. */
   @step('Wait for the Save button to become enabled')
   async waitForSaveActive(timeout = 10_000): Promise<boolean> {
     await expect.poll(() => this.isSaveEnabled(), { timeout }).toBe(true);
     return true;
   }
 
-  /**
-   * Polls until the Save button becomes disabled. Returns true if it disables within the
-   * budget, false otherwise.
-   */
+  /** Polls until Save is disabled; throws if it never disables within the budget. */
   @step('Wait for the Save button to become disabled')
   async waitForSaveInactive(timeout = 10_000): Promise<boolean> {
     await expect.poll(() => this.isSaveEnabled(), { timeout }).toBe(false);
@@ -262,36 +183,16 @@ export class ServiceChargePage extends BasePage {
 
   // ---------------------------------------------------------------- editing
 
-  /**
-   * Resolves the percentage input at the given row index and waits until it is enabled.
-   *
-   * All 79 percentage inputs render disabled for ~30 seconds after every navigation or
-   * reload before enabling all at once. The 60 000 ms budget matches waitUntilLoaded()
-   * so every interaction path (initial load, reload, afterEach restore) gets the same
-   * headroom regardless of whether the caller went through waitUntilLoaded() first.
-   */
+  // All 79 inputs stay disabled for ~30 s after every navigation or reload, so callers that
+  // skipped waitUntilLoaded() still get the same 60 s headroom here.
   private async resolveEnabledPercentageField(index: number) {
     const field = this.page.locator(sc.percentageByIndex(index)).first();
     await expect(field).toBeEnabled({ timeout: 60_000 });
     return field;
   }
 
-  /**
-   * Sets the percentage value at the given row index. Waits for the field to be enabled
-   * before interacting — percentage inputs are disabled for ~30 s after every navigation
-   * or reload. Clears the field, types the new value, and presses Tab to trigger Angular
-   * change detection.
-   *
-   * For standard percentage values (finite, non-negative, at most two decimal places) the
-   * method confirms the written value was accepted by polling the input until it reflects
-   * the expected number. If the app reverts the value during a re-render, it re-applies
-   * the value up to three times. Throws if the value still has not landed after those
-   * attempts — a silent no-op is never tolerated for valid writes.
-   *
-   * Boundary and edge-case inputs (negative numbers, empty strings, whitespace, values
-   * with more than two decimal places) skip the postcondition check because the app may
-   * legitimately transform or reject them.
-   */
+  // Valid values are re-applied up to three times because a re-render can revert the write;
+  // boundary inputs skip that check since the app may legitimately transform or reject them.
   @step('Set a percentage value by row index')
   async setPercentageByIndex(index: number, value: string): Promise<void> {
     const field = await this.resolveEnabledPercentageField(index);
@@ -345,10 +246,7 @@ export class ServiceChargePage extends BasePage {
     );
   }
 
-  /**
-   * Types a percentage value and reads the field before focus leaves it.
-   * Some invalid values are marked only while the field is focused.
-   */
+  /** Types a value and reads it before blur — some invalid values are marked only while focused. */
   @step('Type a percentage value and keep focus')
   async typePercentageAndReadFocused(
     index: number,
@@ -369,11 +267,7 @@ export class ServiceChargePage extends BasePage {
     await this.page.keyboard.press('Tab');
   }
 
-  /**
-   * Sets the percentage value for a named service type.
-   * Row index is resolved from SC_SERVICE_TYPE_INDEX.
-   * Throws if the service-type name is not present in the map.
-   */
+  /** Sets the percentage for a named service type; throws if the name is not in the index map. */
   @step('Set a percentage value by service type name')
   async setPercentageByServiceType(serviceType: string, value: string): Promise<void> {
     const index = SC_SERVICE_TYPE_INDEX[serviceType];
@@ -383,11 +277,8 @@ export class ServiceChargePage extends BasePage {
     await this.setPercentageByIndex(index, value);
   }
 
-  /**
-   * Clicks the Save button.
-   * This page saves silently — no confirmation dialog appears after clicking Save.
-   * After clicking, callers should wait for waitUntilLoaded() to confirm the save completed.
-   */
+  // This page saves silently — no confirmation dialog. Callers must follow with
+  // waitUntilLoaded() to know the save completed.
   @step('Click the Save button')
   async clickSave(): Promise<void> {
     await this.page.locator(sc.save).first().click();
@@ -395,13 +286,8 @@ export class ServiceChargePage extends BasePage {
 
   // ---------------------------------------------------------------- baseline restore
 
-  /**
-   * Restores the given rows to their recorded default values before each test.
-   *
-   * For each row: reads the current value, skips if it already matches (numeric compare),
-   * sets and verifies if not. Saves once at the end only if anything changed, then re-reads
-   * to confirm. Up to 3 attempts; throws with row detail if restoration fails.
-   */
+  // Restores rows to recorded defaults, saving only if something actually differs.
+  // Up to 3 attempts; throws naming the first row that would not restore.
   @step('Restore mutated rows to their recorded default values')
   async ensureDefaultState(
     defaults: { rowIndex: number; value: string }[],
@@ -446,21 +332,8 @@ export class ServiceChargePage extends BasePage {
 
   // ---------------------------------------------------------------- History tab
 
-  /**
-   * Waits until the Service Charge History grid has finished loading — skeletons are gone
-   * and at least one data row with non-empty cells is visible.
-   *
-   * The grid populates asynchronously after tab activation. Waiting for skeleton
-   * disappearance alone is insufficient — rows exist in the DOM while still being
-   * placeholders. This method first waits for all skeletons to clear, then polls until
-   * getHistoryRows() returns at least one row. No fixed sleeps; uses web-first assertions.
-   *
-   * Timeout sizing: isolated live probes measured 40-58 s for a non-primary office's grid
-   * to clear its skeletons; under the full suite's concurrent load one run measured 20
-   * skeletons still present at the full 90 s mark. 150 s gives roughly 2.5-3.75x the
-   * isolated timing, matching this codebase's existing headroom convention elsewhere
-   * (e.g. resolveEnabledPercentageField's 60 s budget for an observed ~30 s enable delay).
-   */
+  // Skeletons clearing is not enough on its own — placeholder rows exist in the DOM — so this
+  // also polls for a real data row. 150 s covers a non-primary office under full suite load.
   @step('Wait for the Service Charge History grid to finish loading')
   async waitUntilHistoryLoaded(timeout = 150_000): Promise<void> {
     await expect(this.page.locator(sc.skeleton)).toHaveCount(0, { timeout });
@@ -469,35 +342,22 @@ export class ServiceChargePage extends BasePage {
       .toBe(true);
   }
 
-  /**
-   * Returns the page `<h1>` heading text, trimmed and normalised.
-   * The heading reads "Service Charge" on both tabs; office context is rendered separately
-   * per tab (Basic Information tab: "Local Office : <name>"; History tab: "Service Charge History : <name>").
-   */
+  // The h1 reads "Service Charge" on both tabs; office context lives in each tab's own header,
+  // read via getOfficeHeader() or getHistorySectionHeader().
   @step('Read the page heading')
   async getPageHeading(): Promise<string> {
     const raw = await this.page.locator('h1').first().textContent();
     return (raw ?? '').replace(/\s+/g, ' ').trim();
   }
 
-  /**
-   * Returns the number of data rows currently visible in the Service Charge History grid.
-   * Delegates to getHistoryRows() so skeleton rows are excluded from the count.
-   * The spec decides what to assert — this method only reports the count.
-   */
+  /** History data row count; delegates to getHistoryRows() so skeleton rows are excluded. */
   @step('Count the rows in the Service Charge History grid')
   async getHistoryRowCount(): Promise<number> {
     return (await this.getHistoryRows()).length;
   }
 
-  /**
-   * Searches the History tab panel for pagination, filter, search, and date-range controls
-   * and returns a structured evidence object.
-   *
-   * Returns counts of each selector searched so absence cases can document exactly what was
-   * looked for — "we looked and found nothing" is distinguishable from "we never looked".
-   * Must be called while the History tab is active.
-   */
+  // Counts every selector searched so an absence assertion records what was looked for.
+  // Must be called while the History tab is active.
   @step('Scan the History tab for pagination, filter, search, and date-range controls')
   async getHistoryControlCensus(): Promise<{
     paginationAriaLabelCount: number;
@@ -555,39 +415,20 @@ export class ServiceChargePage extends BasePage {
     };
   }
 
-  /**
-   * Returns whether the Unsaved Changes alertdialog is currently visible.
-   *
-   * Angular's dirty state does not reliably reset after save. When navigating from
-   * Basic Information to History with unsaved edits, the app should present an alertdialog
-   * with Stay / Discard options. Use this method to assert whether the modal appeared.
-   */
+  /** Whether the Unsaved Changes alertdialog (Stay / Discard) is visible. */
   @step('Check whether the Unsaved Changes modal is visible')
   async isUnsavedChangesModalVisible(): Promise<boolean> {
     return this.page.locator('[role="alertdialog"]').isVisible();
   }
 
-  /**
-   * Returns the column headers of the Service Charge History grid in display order.
-   * Must be called after switchToHistoryTab().
-   */
+  /** History grid column headers in display order; call after switchToHistoryTab(). */
   @step('Read the Service Charge History table column headers')
   async getHistoryHeaders(): Promise<string[]> {
     const raw = await this.page.getByRole('columnheader').allTextContents();
     return raw.map((h) => h.replace(/\s+/g, ' ').trim()).filter((h) => h.length > 0);
   }
 
-  /**
-   * Returns all visible data rows from the Service Charge History grid as arrays of cell text.
-   * Row content was not observable during exploration (the grid rendered loading skeletons only).
-   * Returns what is rendered; empty result means no rows loaded or tab not yet switched to.
-   * NEEDS-LIVE-CONFIRM: that row cell content is accessible via textContent on this table.
-   */
-  /**
-   * Sort a History grid column by opening its header dropdown and clicking
-   * "Sort ascending" or "Sort descending". The History grid uses a Radix dropdown
-   * menu on each column header — a click on the header opens the menu.
-   */
+  /** Sorts a History column via its header's Radix dropdown — clicking the header opens it. */
   @step('Sort History column via dropdown')
   async sortHistoryColumnViaDropdown(headerLabel: string, direction: 'ascending' | 'descending'): Promise<void> {
     // Resolve which column index corresponds to the header so we can detect re-render.
@@ -639,10 +480,7 @@ export class ServiceChargePage extends BasePage {
     }
   }
 
-  /**
-   * Read the cell text at a given column index for the first visible data row
-   * in the History grid (0-based column index).
-   */
+  /** Cell text at a 0-based column index for the first visible History data row. */
   @step('Get first History row cell text')
   async getFirstHistoryRowCellText(colIndex: number): Promise<string> {
     const rows = await this.getHistoryRows();
@@ -650,9 +488,7 @@ export class ServiceChargePage extends BasePage {
     return rows[0]?.[colIndex] ?? '';
   }
 
-  /**
-   * Read all visible cell values for a given column index in the History grid.
-   */
+  /** All visible cell values for a column index in the History grid. */
   @step('Get History column cell values')
   async getHistoryColumnCellValues(colIndex: number): Promise<string[]> {
     const rows = await this.getHistoryRows();
@@ -661,10 +497,8 @@ export class ServiceChargePage extends BasePage {
 
   @step('Read all rows from the Service Charge History table')
   async getHistoryRows(): Promise<string[][]> {
-    // Read every row in one pass inside the page. Reading them one at a time
-    // costs a separate browser round-trip per row, and this grid gains a row
-    // on every save and never loses one, so a per-row read keeps getting
-    // slower until it outlasts the wait that depends on it.
+    // One evaluateAll pass, not a round-trip per row: this grid gains a row on every save and
+    // never loses one, so a per-row read gets slower until it outlasts the wait using it.
     const rows = await this.page
       .getByRole('row')
       .evaluateAll((elements) =>

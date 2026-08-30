@@ -17,9 +17,8 @@ export class LocationLegalPage extends BasePage {
 
   @step('Is on legal tab')
   async isOnLegalTab(): Promise<boolean> {
-    // contentLegal is a panel-wrapper testid that Radix keeps mounted across all tab
-    // states (count() > 0 returns TRUE even when Legal is inactive). The tab trigger's
-    // aria-selected is the only reliable signal.
+    // Radix keeps contentLegal mounted even when Legal is inactive, so only the trigger's
+    // aria-selected is a reliable signal.
     const tab = this.getElement('tabLegal');
     if ((await tab.count()) === 0) return false;
     return (await tab.getAttribute('aria-selected').catch(() => null)) === 'true';
@@ -29,11 +28,8 @@ export class LocationLegalPage extends BasePage {
   async clickLegalTab(): Promise<void> {
     await this.clickWithRetry('tabLegal');
     await this.getElement('contentLegal').waitFor({ state: 'visible', timeout: 15_000 });
-    // Wait for row-0 service-charge dropdown
-    // (content-level anchor) so we don't return on the wrapper alone while the Legal
-    // table is still hydrating.
-    // Dropped trailing .catch(Log.warn) so a missed
-    // wait fails loudly at the click step (where the symptom is) instead of being swallowed.
+    // Anchor on row-0's dropdown, not the wrapper, so we don't return mid-hydration.
+    // No .catch here — a missed wait must fail at the click, not downstream.
     await this.getElement('drpLegalServiceCharge0')
       .waitFor({ state: 'visible', timeout: 15_000 });
     await this.waitForAngularStable();
@@ -125,9 +121,7 @@ export class LocationLegalPage extends BasePage {
     return searchCount > 0;
   }
 
- /**
- * Throws on save failure so callers see server errors rather than a silent {success:false} return.
- */
+ /** Throws on failure so callers see server errors instead of a silent {success:false}. */
   @step('Save and confirm')
   async saveAndConfirm(): Promise<void> {
     const result = await this.clickSave();
@@ -136,12 +130,8 @@ export class LocationLegalPage extends BasePage {
     }
   }
 
- /**
- * Bounded retry (max 3) because the 114-option Radix Service Charge select can "click
- * successfully" yet leave Angular's model unchanged. A silent no-op leaves Save disabled,
- * and clickSaveWithDialog returns {success:true} when Save is disabled — so save-success
- * never proves the restore landed. The post-reload re-read is the load-bearing check.
- */
+ // Retries because the large Service Charge select can click through without updating Angular's
+ // model, and save-success is reported even when Save was disabled.
   @step('Ensure default state')
   async ensureDefaultState(defaults: { serviceChargeName: string; termsName: string }): Promise<void> {
     const maxAttempts = 3;
@@ -156,9 +146,7 @@ export class LocationLegalPage extends BasePage {
         dirty = true;
       }
       if (!dirty) return; // already at defaults — nothing to restore
-      // saveAndConfirm() throws on a real 4xx/5xx (fail loud); a silent no-op (select
-      // didn't propagate → Save disabled) returns without throwing — the re-verify below
-      // catches that case and loops.
+      // Throws on a real 4xx/5xx; a silent no-op returns quietly and the re-verify below loops.
       await this.saveAndConfirm();
       await this.reloadAndNavigateToLegalTab();
       if (await this.getServiceChargeValue() === defaults.serviceChargeName
@@ -188,9 +176,8 @@ export class LocationLegalPage extends BasePage {
   async clickSaveAndGetDialog(): Promise<'save-changes' | 'none'> {
     const el = this.getElement('btnSaveLegal');
     await el.waitFor({ state: 'visible', timeout: 5_000 });
-    // A disabled Save here means the preceding change never dirtied the form — the
-    // caller expected a save dialog, so fail loud rather than return an opaque 'none'
-    // that masks the real symptom (diagnostic-only; baseline reset prevents reaching here).
+    // A disabled Save means the preceding change never dirtied the form; throw rather than
+    // return an opaque 'none' that hides the real symptom.
     if (await el.isDisabled()) {
       throw new Error('clickSaveAndGetDialog: Save button is disabled — no change to save (expected a dirty form)');
     }

@@ -39,19 +39,8 @@ export function readStateOrNull(): StorageStateFile | null {
   }
 }
 
-/**
- * Returns the EARLIEST positive `expires` epoch (seconds) across all
- * `next-auth.session-token*` cookies in the stored state, or `null` when:
- *   (a) state file is missing or unreadable, OR
- *   (b) no session-token cookies are present, OR
- *   (c) all session-token cookies are session-cookies (`expires === -1`
- *       or `undefined`) — treat as "no real expiry, behaves fresh".
- *
- * Tri-state semantics mirror the auth-setup expiry check
- * (`!!sessionToken && (expires === undefined || expires < 0 || expires > now)`).
- * In all `null` cases the caller's `stateMissing` / downstream behavior already
- * handles the path — no new branch needed.
- */
+// Earliest positive `expires` (epoch seconds) across the next-auth session-token cookies.
+// `null` means unreadable, absent, or session-only cookies — callers treat all three as "fresh".
 export function readEarliestSessionExpiry(): number | null {
   try {
     const state = readStateOrNull() as
@@ -126,11 +115,8 @@ export async function validateState(page: Page, baseUrl: string): Promise<boolea
   return false;
 }
 
-/**
- * Each caller keeps its own retry policy — this helper covers only the core SSO step
- * (context + goto + loginWithMicrosoft + Dashboard wait). On ANY failure, the helper
- * closes the context before the error propagates — callers do not need to close it themselves.
- */
+// Core SSO step only; retry policy stays with the caller. On any failure this closes the
+// context before throwing, so callers must not close it themselves.
 export async function performSsoLogin(
   browser: Browser,
   baseUrl: string,
@@ -160,9 +146,7 @@ export async function performSsoLogin(
       .waitFor({ state: 'visible', timeout: 60_000 });
     return { ctx, page };
   } catch (err) {
-    // On any throw past newContext, propagate but DON'T leak the context — callers vary
-    // (auth.setup retries with a fresh ctx, fixtures.ts treats it as terminal). Best-effort
-    // close here; if the context is already closed, ignore.
+    // Best-effort close so a throw past newContext never leaks the context.
     try { await ctx.close(); } catch { /* close errors are non-fatal — ctx is already being discarded */ }
     throw err;
   }

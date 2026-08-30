@@ -7,12 +7,8 @@ import {
   BTN_DRAWER_CANCEL,
 } from '../../selectors/discount-optimization/discount-optimization';
 
-/**
- * "Change Local Office" drawer opened by the Add button on the Discount Optimization
- * Locations tab. This is an `aside` drawer on the right side of the page — not a
- * `[role="dialog"]` modal (see the drawer selectors in the discount-optimization
- * selectors file).
- */
+// "Change Local Office" drawer behind the Add button on the Discount Optimization Locations tab.
+// It is an `aside` drawer, not a `[role="dialog"]` modal.
 export class ChangeLocalOfficeComponent {
   constructor(private readonly page: Page) {}
 

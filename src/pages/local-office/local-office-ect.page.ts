@@ -14,14 +14,8 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
     return this.page.locator(selector);
   }
 
- /**
- * Navigate to ECT Settings tab with robust retry for intermittent API failures.
- * The ECT API intermittently returns "No currencies" or "No data available"
- * under load. Original retry loop had a bug: after the 3rd retry it didn't re-check whether
- * data loaded before falling through to lblEctLocationName.waitFor → 30s timeout.
- * Fix: unified retry loop that always checks AFTER each reload, with delay between retries
- * to give the API breathing room.
- */
+ // The ECT API intermittently returns "No currencies" / "No data available" under load, so each
+ // attempt reloads and re-checks for real data rather than trusting the first render.
   @step('Open ECT Settings tab')
   async navigateToEctTab(): Promise<void> {
     const maxRetries = 4;
@@ -73,13 +67,8 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
     return !(await this.getElement('btnSaveLaborCosts').isDisabled());
   }
 
- /**
- * Click Fixed Costs Save and wait for save to complete.
- * waitForAngularStable resolves before the save HTTP response arrives.
- * Navigating immediately triggers "Unsaved changes" dialog (Angular dirty form).
- * Fix: poll until Save button disables — concrete signal that save completed and
- * form was marked pristine. Prevents race between save response and navigation.
- */
+ // waitForAngularStable returns before the save response lands, so navigating next would hit the
+ // dirty guard — the button disabling is the real "saved and pristine" signal.
   @step('Click save fixed costs')
   async clickSaveFixedCosts(): Promise<void> {
     await this.getElement('btnSaveFixedCosts').click();

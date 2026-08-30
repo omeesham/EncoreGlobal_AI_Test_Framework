@@ -32,13 +32,8 @@ export const LP_DROPDOWN = {
   servicingBranchLowerBound: 200,
 } as const;
 
-/**
- * Pay To Address launcher constants (live 2026-06-11, office 1604).
- * The Pay To Address field is a launcher → "Pay To List" dialog. Selection persists
- * (`financial.payToId`). Restore is ID-anchored — the name "Encore" is AMBIGUOUS (IDs 1 & 4
- * both display "Encore"), so the name can never be a safe restore anchor — never name-anchor a restore.
- * Source: live field verification 2026-06-11 (launcher dialogs).
- */
+// A Pay To selection persists, so tests must restore it by ID: both ID 1 and ID 4 display
+// "Encore", which makes the name unusable as a restore anchor.
 export const PAY_TO_ORIGINAL = { id: 1, name: 'Encore' } as const;
 export const PAY_TO_ALTERNATE = { id: 7, name: 'Encore Bahamas' } as const;
 

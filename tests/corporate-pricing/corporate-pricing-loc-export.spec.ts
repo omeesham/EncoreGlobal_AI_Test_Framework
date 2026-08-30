@@ -77,11 +77,8 @@ test.describe('Corporate Pricing — Loc Pricing Export file round-trip (NM-2262
     expect(offenders).toEqual([]); // every row: full column set, numeric LocationNo, supported currency, 0/1 flags, consistent date-window
   });
 
-  // Population path: the export is TENANT-WIDE, not office-scoped — every observed download spans all
-  // locations (rows begin at office 1101), so an empty result requires a tenant with zero location
-  // pricebooks anywhere, not merely an empty office. No such tenant is available on the shared e2e
-  // server (data-blocked). Un-skip once a zero-pricebook tenant is identified, to assert a
-  // header-only-but-valid CSV vs a zero-byte file.
+  // Skipped as data-blocked: the export is tenant-wide, not office-scoped, so an empty result needs a tenant
+  // with zero location pricebooks anywhere — none exists on the shared e2e server.
   test.skip('TC-CPR-LEX-007: Empty-dataset Loc Pricing Export yields a header-only valid CSV', { tag: '@C99764' }, async ({ corporatePricingSearchPage: p }) => {
     const r = await p.downloadLocPricingExport();
     expect(r.headers).toEqual(LOC.expectedHeaders);

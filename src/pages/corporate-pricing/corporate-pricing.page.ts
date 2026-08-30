@@ -1,16 +1,5 @@
-/**
- * Corporate Pricing — shared BASE page object.
- *
- * `CorporatePricingBasePage extends BasePage` (the repo has NO `*.base.page.ts` convention;
- * per-module bases use ordinary `.page.ts` filenames, e.g. `local-office-settings.page.ts`).
- * The Search / Strategy / Detail page objects extend THIS class and add their own page fixtures.
- * This base ships only the shared navigation + grid/tab/save primitives.
- *
- * Selector strategy: text/role/grid-header/content-anchored. Corporate Pricing selectors are
- * EXCLUDED from `ALL_SELECTORS` (generic keys collide with Location Settings — same precedent
- * as Local Office), so this class references `CorporatePricingSelectors.*` DIRECTLY via
- * `this.page.locator(...)`, NOT via BasePage's `getElement()` (which resolves through ALL_SELECTORS).
- */
+// Shared Corporate Pricing base: navigation + grid/tab/save primitives.
+// Selectors are used via `this.page.locator(...)`, not `getElement()` — CP keys are excluded from ALL_SELECTORS.
 import type { Page, Locator } from '@playwright/test';
 import { BasePage } from '../base.page';
 import type { IConfig } from '../../types';
@@ -22,8 +11,7 @@ import { step } from '../../fixtures/step-decorator';
 export class CorporatePricingBasePage extends BasePage {
   constructor(page: Page, config?: IConfig) {
     super(page, config);
-    // One init log for every screen (`constructor.name` resolves to the concrete subclass, so a
-    // single base-class log covers Search/Strategy/Detail without per-subclass duplication).
+    // `constructor.name` resolves to the concrete subclass, so this one log covers every screen.
     Log.info(`${this.constructor.name} initialized`);
   }
 
@@ -50,11 +38,8 @@ export class CorporatePricingBasePage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Switch Details sub-tab. NOT `navigateToSubTab` (that is `/settings/location`-specific).
-   * Tabs are plain buttons with text; aria-selected was not exposed on the live DOM, so this
-   * clicks + waits for Angular stability. The Strategy/Detail pages add a stronger active-tab guard if needed.
-   */
+  // Tabs are plain text buttons with no aria-selected, so there is nothing to wait on but stability.
+  // Not `navigateToSubTab` — that one is `/settings/location`-specific.
   @step('Switch tab')
   async switchTab(tab: 'Pricing Strategy' | 'Pricing Detail'): Promise<void> {
     const sel = tab === 'Pricing Strategy' ? S.tabPricingStrategy : S.tabPricingDetail;
@@ -62,13 +47,8 @@ export class CorporatePricingBasePage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Read the currently-RENDERED grid rows' text (content-anchored, virtualization-aware).
-   * The Search grid (591 rows) and Pricing Detail grid are virtualized — only visible rows exist
-   * in the DOM. With `needle`, scrolls (bounded) until a row containing it renders, then returns
-   * the matching rows; without `needle`, returns all currently-visible rows (content-anchored —
-   * never index-based row lookup).
-   */
+  // The grids are virtualized — only rendered rows exist in the DOM, so a `needle` search scrolls
+  // (bounded) until a matching row renders.
   @step('Read grid rows by content')
   async readGridRowsByContent(needle?: string, maxScrolls = 40): Promise<string[]> {
     const collect = async (): Promise<string[]> => {
@@ -113,11 +93,7 @@ export class CorporatePricingBasePage extends BasePage {
     return m && m[1] ? parseInt(m[1].replace(/,/g, ''), 10) : null;
   }
 
-  /**
-   * Click the page-level Save (Details) — DEFENSIVE: the confirm mechanism has not yet been
-   * exercised by a mutation. Clicks Save; if a "Save Changes" alertdialog appears, confirms it;
-   * otherwise proceeds (direct save). The Strategy/Detail pages tighten via `saveAndConfirm`.
-   */
+  /** The "Save Changes" dialog is treated as optional so this is safe on direct-save screens too. */
   @step('Click save')
   async clickSave(): Promise<void> {
     await this.page.locator(S.btnSaveDetails).first().click();
@@ -138,11 +114,7 @@ export class CorporatePricingBasePage extends BasePage {
     await save.click();
   }
 
-  /**
-   * Confirm the optional "Save Changes" alertdialog if it appears (defensive — the Details Save is
-   * dialog-gated, but the dialog is treated as optional so the helper is safe on direct-save
-   * screens). Clicks the dialog's Save/OK button when present.
-   */
+  /** No-op when no alertdialog appears — some screens save directly. */
   protected async confirmSaveDialogIfPresent(timeout = 2_500): Promise<void> {
     const dlg = this.page.getByRole('alertdialog');
     if (await dlg.isVisible({ timeout }).catch(() => false)) {
@@ -163,15 +135,8 @@ export class CorporatePricingBasePage extends BasePage {
     return out.filter(Boolean);
   }
 
-  /**
-   * Set a React-controlled `<input>` via the native value-setter + input/change events — the
-   * canonical React-controlled-input update (what React Testing Library does). Playwright `.fill()`
-   * / `pressSequentially` set the visible value but do NOT commit React state on this module's
-   * controlled inputs (proven on both the Search filters and the New Pricebook header — Save stays
-   * disabled / the query never updates), so this is the load-bearing fill primitive for Corporate
-   * Pricing. The module renders in light DOM (create page) or pierceable shadow (others) — Playwright
-   * `locator.evaluate` resolves either. Pass the first match's selector or a pre-scoped Locator.
-   */
+  // The load-bearing fill primitive for this module: `.fill()`/`pressSequentially` set the visible
+  // value but do NOT commit React state here, so use the native value-setter + input/change events.
   protected async setReactInput(target: string | Locator, value: string): Promise<void> {
     const loc = typeof target === 'string' ? this.page.locator(target).first() : target.first();
     await loc.evaluate((el, val) => {
@@ -183,13 +148,8 @@ export class CorporatePricingBasePage extends BasePage {
     }, value);
   }
 
-  /**
-   * Drag a source item onto a target via the FULL pointer sequence
-   * (move → down → multi-step move → settle move → up). Playwright's `.dragTo()` frequently never
-   * fires the drag-and-drop event chain on this kind of pointer-driven list, so the only reliable
-   * primitive — for proving a drag DOES add (create mode) AND that it does NOT add (management mode) —
-   * is the real pointer sequence. `steps` controls the interpolated move granularity.
-   */
+  // Full pointer sequence, not `.dragTo()` — the latter frequently never fires the drag-and-drop
+  // event chain on these pointer-driven lists.
   protected async dragSourceToGrid(source: Locator, target: Locator, steps = 8): Promise<void> {
     await source.scrollIntoViewIfNeeded();
     const sb = await source.boundingBox();

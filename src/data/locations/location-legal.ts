@@ -9,9 +9,5 @@ export const LEGAL_DEFAULTS = {
 export const LEGAL_ALT_SC = 'Administrative Fee';
 export const LEGAL_ALT_TC = 'Encore Terms and Conditions';
 
-/**
- * Sentinel string for field-coverage TC-LOC-LGL-016 (DOM tamper negative test).
- * Not present in the 114-option SC dropdown; used to attempt invalid-value injection
- * via page.evaluate() to verify Radix React state isolation OR server-side rejection.
- */
+/** Sentinel deliberately absent from the Service Charge dropdown — used as the negative case. */
 export const LEGAL_INVALID_SC_VALUE = 'INVALID_SC_DOM_TAMPER_VALUE';

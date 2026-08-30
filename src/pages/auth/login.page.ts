@@ -25,18 +25,9 @@ export class LoginPage extends BasePage {
     Log.info('Page loaded, checking authentication state...');
   }
 
- /**
- * Full Microsoft SSO login flow
- * Handles: email -> password -> "Stay signed in?" -> redirect
- * @param username - Microsoft email/username
- * @param password - Microsoft password
- * @returns True if login successful and redirected to Navigator Cloud
- */
   async loginWithMicrosoft(username: string, password: string): Promise<boolean> {
-    // Contract: resolves to true only when the post-login authenticated state is verified; resolves to
-    // false on every failure (OAuth error, redirect loop, post-login load failure, or failed
-    // verification). Failure detail is logged + screenshotted here rather than thrown — callers react
-    // to the false return, and must not expect a thrown error as the failure signal.
+    // Never throws: every failure returns false after logging and screenshotting, so callers must
+    // branch on the return value rather than expecting an error.
     const collector = (this.page as unknown as Record<string, unknown>).__diagnosticsCollector as DiagnosticsCollector | undefined;
 
     try {

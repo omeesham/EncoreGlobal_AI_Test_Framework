@@ -2,22 +2,11 @@ import { test, expect } from '../../src/fixtures/pages.fixture';
 import { NEW_PRICEBOOK } from '../../src/data/corporate-pricing/new-pricebook';
 import { DETAIL } from '../../src/data/corporate-pricing/detail';
 
-/**
- * MUTATION SAFETY: NO-COMMIT. A created pricebook is irreversible via the UI (no delete/deactivate),
- * so save-cycle TCs assert Save *reachability* (Save enabled → "Save Changes" dialog →
- * Cancel) and never confirm. Baseline = a fresh, always-empty create page per test
- * (`open(type)` in `beforeEach`). React-controlled inputs filled via the page object's `setReactInput`
- * (native value-setter — `.fill()` does not commit React state). No fixed waits.
- *
- * Divergences raised: Type is disabled, the strategy dialog has no Type field, a decimal year is
- * accepted client-side, there is no delete, and ≥1 strategy is required before Save.
- */
+// A created pricebook is irreversible via the UI, so save-cycle cases assert Save reachability and cancel
+// the dialog. Inputs go through setReactInput — .fill() does not commit React state.
 test.describe('Corporate Pricing — New Pricebook: create (Equipment + Labor), New menu & management mode @corporate-pricing @new-pricebook', () => {
-  // Per-test baseline dispatched by TC number — each group keeps the baseline its describe had:
-  //  - Labor create flow (TC-028..030, TC-051, TC-052): fresh, empty Labor create page.
-  //  - New menu + pricebook-list render-state (TC-034..036, TC-041..043): the Search screen.
-  //  - Management mode (TC-037, TC-038): navigates itself.
-  //  - Everything else (Equipment create flow): fresh, empty Equipment create page.
+  // Per-test baseline dispatched by TC number: Labor and Equipment create flows each get a fresh empty
+  // create page, the New-menu cases get the Search screen, and management-mode cases navigate themselves.
   const LABOR_TCS = [28, 29, 30, 51, 52];
 
   const SEARCH_TCS = [34, 35, 36, 41, 42, 43];
@@ -261,9 +250,8 @@ test.describe('Corporate Pricing — New Pricebook: create (Equipment + Labor), 
     expect(hit).toBe(true);
   });
 
-  // e2e is single-tenant (ours). This test SAVES a real pricebook. If it ever fails on "can't add",
-  // the likely cause is we've used up the unique source product-groups (UI has no delete to recycle
-  // them) — escalate THEN, not pre-emptively.
+  // This test commits a real pricebook and the UI has no delete, so a future "can't add" failure most
+  // likely means the unique source product groups have been used up.
   test('TC-CPR-NPB-031: Saving a new pricebook persists it — created book reloads + is found by Search with its product group', { tag: '@C99842' }, async ({ corporatePricingNewPricebookPage: np, corporatePricingSearchPage: sp }) => {
     test.setTimeout(150_000); // heavy Detail tab (~3707 source items) + commit + redirect + reload + Search
     // Unique, reproducible name: fixed prefix + a passed-in run-stamp (env), pid fallback — never
@@ -277,9 +265,8 @@ test.describe('Corporate Pricing — New Pricebook: create (Equipment + Labor), 
     const newId = await np.confirmSaveAndGetNewId();
     expect(newId.length).toBeGreaterThan(0); // redirected to /details/<guid> → the record exists
 
-    // Persistence proof 1 (RELOAD): open the saved book's Pricing Detail tab fresh — the product
-    // group survived the save (content-anchored, never a count). The helper waits for the heavy
-    // management-mode grid to render before reading (reading immediately races an empty grid).
+    // Reload proof: the helper waits for the heavy management-mode grid to render, because reading
+    // immediately races an empty grid.
     const detailRows = (await np.readSavedDetailGroups(NEW_PRICEBOOK.office, newId)).join(' | ');
     expect(detailRows, 'The saved product group should persist after reload').toContain(NEW_PRICEBOOK.equipmentGroupA);
 
@@ -316,9 +303,7 @@ test.describe('Corporate Pricing — New Pricebook: create (Equipment + Labor), 
     expect(p.page.url()).toContain('/add');
   });
 
-  // ── New menu + pricebook-list render-state ──
-  // The toolbar New menu is the affordance that LEADS to the create pages, and the pricebook list's
-  // render-state (link cells, boolean columns) — both reached from the Corporate Pricing Search screen.
+  // ── New menu + pricebook-list render-state (both reached from the Search screen) ──
   test('TC-CPR-NPB-034: New menu presents Equipment Pricing + Labor Pricing items', { tag: '@C99845' }, async ({ corporatePricingSearchPage: sp }) => {
     const items = await sp.getNewMenuItemTexts();
     expect(items).toContain('Equipment Pricing');
@@ -337,11 +322,8 @@ test.describe('Corporate Pricing — New Pricebook: create (Equipment + Labor), 
     expect(sp.page.url()).toContain('type=labor');
   });
 
-  // ── Update existing pricebook (management mode) ──
-  // An existing (saved) pricebook opens in management mode — the same Details surface the create flow
-  // redirects to after a save. The deep inline-edit / save-cycle / persist coverage for this surface is
-  // owned by the Pricing Detail (TC-CPR-DET-*) + Pricing Strategy (TC-CPR-STR-*) bands; these two assert
-  // only the create→manage entry: management mode loads with both tabs + a working save-gate.
+  // ── Update existing pricebook (management mode) ── these two assert only the create-to-manage entry;
+  // deep inline-edit and save-cycle coverage for this surface belongs to the Detail and Strategy specs.
   test('TC-CPR-NPB-037: An existing pricebook opens in management mode (both tabs, Save disabled on clean load)', { tag: '@C99848' }, async ({ corporatePricingDetailPage: dp }) => {
     test.setTimeout(150_000); // heavy management-mode grid (~2430 rows)
     await dp.open(); // opens the saved pricebook Details + activates the Pricing Detail tab
@@ -517,9 +499,8 @@ test.describe('Corporate Pricing — New Pricebook: create (Equipment + Labor), 
     expect(p.page.url()).toContain('type=labor');
   });
 
-  // e2e is single-tenant (ours). This test SAVES a real Labor pricebook. If it ever fails on "can't add",
-  // the likely cause is we've used up the unique source product-groups (UI has no delete to recycle them)
-  // — escalate THEN, not pre-emptively. Mirrors the Equipment commit test (TC-031).
+  // This test commits a real Labor pricebook and the UI has no delete, so a future "can't add" failure
+  // most likely means the unique Labor source product groups have been used up.
   test('TC-CPR-NPB-052: Saving a new Labor pricebook persists it — created book reloads + is found by Search with its product group', { tag: '@C99863' }, async ({ corporatePricingNewPricebookPage: np, corporatePricingSearchPage: sp }) => {
     test.setTimeout(150_000); // heavy Detail tab + commit + redirect + reload + Search
     // Unique, reproducible name: fixed Labor prefix + a passed-in run-stamp (env), pid fallback — never
@@ -538,9 +519,8 @@ test.describe('Corporate Pricing — New Pricebook: create (Equipment + Labor), 
     const detailRows = (await np.readSavedDetailGroups(NEW_PRICEBOOK.office, newId)).join(' | ');
     expect(detailRows).toContain(NEW_PRICEBOOK.laborGroupA);
 
-    // Persistence proof 2 (SEARCH by name): the new book is discoverable by its unique name. Broaden the
-    // result set (Active-Only off) so the assertion does not depend on the record's active flag, AND turn
-    // the "Is Labor" filter on — the Search screen hides Labor pricebooks unless that filter is checked.
+    // Active-Only is turned off so the assertion does not depend on the record's active flag, and Is Labor
+    // must be checked because the Search screen hides Labor pricebooks otherwise.
     await sp.open();
     await sp.setCheckbox('activeOnly', false);
     await sp.setCheckbox('isLabor', true);

@@ -18,25 +18,8 @@ import { resolve } from 'node:path';
 import { writeFileSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 
-/**
- * Fixture anchored to office 1606 (2026-07-06) while an open Product Group Override data/import
- * problem on office 1604 awaits the Encore product team's answer (see `encore-qa-tracker.xlsx`);
- * revert the fixture to the office-1604 anchors when it is resolved (the data file records them).
- *
- * RESOLVED: the grid IS editable for the automation user (an earlier exploration's "inert cells"
- * was a false negative). Edit = click the Override Price / Max Discount cell button → an
- * editable number field reveals → native value-setter (React-controlled; `.fill()` does not commit) +
- * `Enter` commits → Save enables. Active = checkbox (a per-table boolean render format) toggles + dirties.
- * Save → "Save Changes" confirmation dialog → `POST /navigator/api/location/corporate-price-pg-override` (filter the
- * backend API path, never the page URL) → toast "Pricing overrides saved successfully." Net-zero verified
- * (revert-to-original disables Save). NM-1870 / NM-1889 not-reproduced (live verdicts recorded).
- *
- * MUTATION SAFETY: only the save-cycle describe commits, on the dedicated Override fixture row 2609
- * (`House Video Monitor LED 70"-79"`, default Override Price 500.00) — distinct screen/data-model from the
- * Strategy/Detail fixtures (zero collision). Each save-cycle restores via the bounded-retry
- * `ensureDefaultState()` (throws on residual drift). Read/filter/edit-behavior describes never commit.
- * Heavy page (server-loaded grid) → per-test timeout raised where a reload stack runs.
- */
+// Anchored to office 1606 while the office-1604 data/import problem is open.
+// Mutation safety: only the save-cycle tests commit, each restored via ensureDefaultState.
 
 const LOC = CORP_PRICING_OVERRIDE_FIXTURE.office; // location picker search needle ('1606')
 const ANCHOR = CORP_PRICING_OVERRIDE_FIXTURE.mutationRowAnchor.productGroupName;
@@ -65,20 +48,8 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
   // SBC Labor tab-switch bed.
   const LABOR_BED = OVERRIDE_BVA_OFFICES.labor;
 
-  // One suite, several baselines. Per-test setup/teardown is dispatched by TC number so each
-  // group keeps exactly the baseline it had when the groups were separate describes:
-  //  - TC-001..016 (read/structure/filters): fresh nav + location-select.
-  //  - TC-017..024, TC-033, TC-036 (edit behavior): value baseline enforced per-test (not just
-  //    reload). TC-019 reverts to the hardcoded default and asserts Save disables (net-zero) —
-  //    if a prior save-cycle hard-kill left the row drifted off 500.00, a reload-only baseline
-  //    would false-fail it against correct app behavior. ensureDefaultState subsumes
-  //    reloadAndReselect and is a cheap read-only no-op when the row is already at default.
-  //  - TC-025..028 (save-cycle, @mutation): afterEach belt-and-suspenders restore.
-  //  - TC-030 (Grid Options, @mutation): column visibility is a server-persisted preference —
-  //    restored before AND after the test.
-  //  - TC-031/032/037 (toolbar IO), TC-034/035 (surface): fresh nav + location-select.
-  //  - TC-060: em-dash render bed office.  - TC-137: export fidelity, 120s.
-  //  - TC-029, TC-065..082 (BVA), TC-116/117/119, TC-151: navigate themselves — no shared hook.
+  // Several baselines share this suite, so setup/teardown is dispatched by TC number. Edit-behavior
+  // tests need a value baseline, not just a reload, or drift off 500.00 false-fails their net-zero check.
   const tcNum = (title: string) => {
     const m = title.match(/^TC-CPR-OVR-(\d+)/);
     return m ? parseInt(m[1]!, 10) : -1;
@@ -269,15 +240,8 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
     expect(/[a-z]/i.test(retained)).toBe(false); // type=number coerces non-numeric to "" — no alpha retained
   });
 
-  // Max Discount % over 100 is rejected, but the field does not recover cleanly.
-  // Kept skipped. Re-verified live on office 1606 (2026-07-09): entering a value over 100 sets the input to
-  // an invalid state (aria-invalid="true") and shows a red border — a real indicator, NOT silent — and the
-  // editor refuses to commit the value. BUT the field still misbehaves on recovery: it will not dismiss when
-  // you click another cell, and it leaves the cell blank, so an out-of-range entry wedges the row (it even
-  // stalled an automated re-drive). Correct behavior remains undefined until the app is fixed (should an
-  // over-cap entry clamp to 100, or show an inline message and release the field?). Do NOT re-green the old
-  // "did it commit? === false" assertion — that binary cannot tell a clean reject from this stuck state.
-  // The valid boundary (values up to and including 100 commit) is covered separately by TC-CPR-OVR-036.
+  // An over-100 entry is refused but wedges the row: the editor will not dismiss and the cell blanks.
+  // Do not re-green the old "committed === false" check — it cannot tell a clean reject from the wedge.
   test.fixme('TC-CPR-OVR-023: Max Discount % — out-of-range (>100) handling [blocked: field enters a stuck state on out-of-range entry; intended behavior unknown until the defect is fixed and live]', async ({ corporatePricingOverridePage: p }) => {
     const row = await p.findRowByProductGroup(ANCHOR);
     // a normal percentage commits and dirties the form
@@ -471,13 +435,8 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
     expect(await p.isOverrideSaveEnabled()).toBe(true);
   });
 
-  // The exported file is tenant-wide (rows begin around office 1101, not scoped to the selected office),
-  // so its own structure/content is the oracle, not a grid row-for-row diff — see the `export` comment
-  // in override.ts. Validates EVERY row in plain JS (a per-row expect() over ~9k rows is too slow), then
-  // asserts the aggregate: a malformed row anywhere in the file collects here and fails with the first
-  // offenders shown. Product Group Name is free text (may itself carry a literal `"` — e.g. an inch-mark
-  // size like 50"-59" — RFC4180-quoted/escaped in the file) and is not asserted for content; the numeric
-  // ID / enum / flag / money columns around it are, per-column, below.
+  // Validates every row in plain JS and asserts the aggregate — a per-row expect() over ~9k rows is
+  // too slow. Product Group Name is free text and deliberately unchecked.
   test('TC-CPR-OVR-037: Every downloaded CSV row is well-formed with valid IDs, currency, 0/1 flags, and money fields', async ({ corporatePricingOverridePage: p }) => {
     const EXPORT = CORP_PRICING_OVERRIDE.export;
     const r = await p.downloadOverrideExport();
@@ -531,8 +490,7 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
     expect(cellHtml).toContain(CORP_PRICING_OVERRIDE_EMDASH_BED.mutedSpanClass);
   });
 
-  // === NM-2271 Gap-Closure: BVA/boundary/defect tests ===
-  // ── BVA — Equipment field axis (Lot A, PG 4298) ──
+  // ── BVA — Equipment field axis (NM-2271, PG 4298) ──
   // ─── Override Price — Rejection ────────────────────────────────────────────
 
   test('TC-CPR-OVR-065: -5 rejected on Override Price with full rejection oracle', async ({ corporatePricingOverridePage: overridePage }) => {
@@ -648,15 +606,8 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
 
     const result = await overridePage.probeEditOracle(row, 'maxDiscount', OVERRIDE_BVA_DEFECTS.hundredXMisread.input);
 
-    // THE HEADLINE DEFECT — direct money impact.
-    // A user types 0.5 intending a half-percent discount cap.
-    // The app stores and displays 50.00 % — a FIFTY percent cap.
-    // Input "50" also produces "50.00 %", so two completely different
-    // business intents (0.5% vs 50%) collapse to one stored value.
-    //
-    // When the app is fixed: displayedValue becomes '0.50 %'.
-    // Failure message will read: Expected "50.00 %" / Received "0.50 %"
-    // — making the fix immediately visible to anyone reading the report.
+    // Money defect: 0.5 and 50 both store as a fifty-percent cap, collapsing two business intents.
+    // Asserts the bug, so a fix flips displayedValue to '0.50 %' and fails this test loudly.
     expect(result.committed, 'BUG: 0.5 commits (app treats it as 50, not 0.5%)').toBe(true);
     expect(
       result.displayedValue,
@@ -699,11 +650,8 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
 
     const result = await overridePage.probeEditOracle(row, 'overridePrice', OVERRIDE_BVA_DEFECTS.blankCommits.input);
 
-    // Assert the DEFECT: non-numeric commits AND Save enables (real change from non-empty baseline).
-    // Re-aimed at Override Price (baseline 152.00 on PG 4298) — Max Discount baseline is already '—',
-    // so blanking it produced no net change and Save correctly stayed DISABLED.
-    // Override Price has a non-empty baseline, so blanking IS a mutation → Save enables.
-    // When fixed: committed becomes false (proper rejection of non-numeric).
+    // Probes Override Price, not Max Discount: the latter's baseline is already '—', so blanking it
+    // is net-zero and Save correctly stays disabled, hiding the defect.
     expect(result.committed, 'BUG: abc commits instead of being rejected').toBe(true);
     expect(result.displayedValue, 'Cell blanks to em-dash').toBe(
       OVERRIDE_BVA_DEFECTS.blankCommits.expectedDisplay,
@@ -716,9 +664,8 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
 
     const result = await overridePage.probeEditOracle(row, 'maxDiscount', OVERRIDE_BVA_DEFECTS.silentCorruptionMaxDiscount.input);
 
-    // Assert the DEFECT: browser swallows second dot, displays with % suffix.
-    // Note: Override Price renders as '1.23' (no suffix); Max Discount renders as '1.23 %'.
-    // When fixed: committed will become false (proper rejection of multi-dot input).
+    // Asserts the defect: the second dot is swallowed and the value commits.
+    // A fix flips committed to false and fails this test.
     expect(result.committed, 'BUG: 1.2.3 commits instead of being rejected').toBe(true);
     expect(result.displayedValue, 'BUG: second dot swallowed, displays as 1.23 %').toBe(
       OVERRIDE_BVA_DEFECTS.silentCorruptionMaxDiscount.expectedDisplay,
@@ -776,33 +723,13 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
   });
 
   // ── Toolbar import rejection ──
-  /**
-   * DEFERRED — NM-2273 owns the import rejection round-trip.
-   *
-   * What it would prove: that importing a CSV with an empty Override Price column is rejected
-   * before the data is written to the server (NM-1940 whole-file validation).
-   *
-   * The rejection is observable and was confirmed during the live walkthrough of this screen.
-   * records the dialog alert `Error Row#:19, Msg: LocationId, ProductGroupId, OverridePrice is required.`
-   * A restore procedure is verified: the same evidence shows 152.00 -> 152.01 at lines 180-183,
-   * then 152.01 -> 152.00 at lines 194-197, with the full 152.00 -> 152.01 -> 152.00 chain
-   * summarized at lines 203-205.
-   *
-   * Disposition: deferred to the NM-2273 import coverage (its phase 4). That plan
-   * names this negative-path TC at lines 215-219, and its acceptance checklist repeats the exact
-   * `Error Row#:19, Msg: LocationId, ProductGroupId, OverridePrice is required.` assertion at line 279.
-   * It is not written here because NM-2273 authors it inside a full export -> modify -> upload ->
-   * restore round-trip; duplicating it here would create two tests asserting the same behavior.
-   */
+  // Deferred to the NM-2273 import suite, which covers this NM-1940 rejection in a full round-trip.
   test.skip('TC-CPR-OVR-116: Import rejects CSV with empty Override Price — whole-file rejection (NM-1940)', async () => {
     // Intentionally empty — see skip reason above
   });
 
   // ── SBC — tab-switch dirty persistence ──
-  /**
-   * TODO-UNVERIFIED: Tab-switch dirty behavior not live-verified.
-   * Expected: no unsaved-changes dialog (URL unchanged), dirty state persists.
-   */
+  /** A tab switch is not navigation, so no unsaved-changes dialog fires and the dirty state survives. */
   test('TC-CPR-OVR-117: Equipment dirty state persists through Labor tab visit', async ({ corporatePricingOverridePage: overridePage }) => {
     const row = await overridePage.navigateToEquipmentRow(LOC, LOC, ANCHOR_ID);
 
@@ -824,10 +751,7 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
     await expect(overridePage.page.locator('button:has-text("Save")')).toBeEnabled();
   });
 
-  /**
-   * TODO-UNVERIFIED: Tab-switch dirty behavior not live-verified.
-   * Expected: no unsaved-changes dialog (URL unchanged), dirty state persists.
-   */
+  /** A tab switch is not navigation, so no unsaved-changes dialog fires and the dirty state survives. */
   test('TC-CPR-OVR-119: Labor dirty state persists through Equipment tab visit', async ({ corporatePricingOverridePage: overridePage }) => {
     const row = await overridePage.navigateToLaborRow(LABOR_BED.office, LABOR_BED.office, LABOR_BED.rows[0].productGroupId);
 
@@ -855,9 +779,8 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
     const priced = columnValues(r.content, r.headers, 'Override Price');
     const blanks = priced.filter((v) => v === '').length;
 
-    // The app emits these rows and its own import then rejects them, so this asserts the CURRENT
-    // contract: blanks are permitted. Deliberately not "every row has a price" — that would fail on
-    // every run today and would silently start passing if NM-1940 were fixed, hiding the change.
+    // Asserts the current contract that blanks are permitted; "every row has a price" would fail today
+    // and then silently start passing once NM-1940 is fixed, hiding the change.
     expect(CORP_PRICING_OVERRIDE.export.emptyOverridePriceIsTolerated).toBe(true);
     expect(blanks).toBeLessThan(priced.length); // blanks are the exception, never the whole file
     expect(priced.filter((v) => v !== '').length).toBeGreaterThan(0);
@@ -886,7 +809,7 @@ test.describe('Corporate Pricing — Product Group Override: core — read, edit
     await p.attachImportFile(rawFile);
     await p.clickImportUpload();
     const alert = await p.readImportAlert();
-    // The row number is data-position-dependent (observed at Row#:19 on 2026-07-23), so assert the stable
+    // The reported row number shifts with the data, so assert the stable
     // required-field message rather than a fixed row index.
     expect(alert, 'the raw export is rejected on the empty-Override-Price row (NM-1940)').toMatch(IMP.nm1940RejectPattern);
 

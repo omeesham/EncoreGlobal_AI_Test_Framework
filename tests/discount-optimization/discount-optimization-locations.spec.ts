@@ -16,24 +16,8 @@ import {
   DOP_DATE_DIGITS_EXPECTED,
 } from '../../src/data/discount-optimization/discount-optimization';
 
-/**
- * Discount Optimization — Locations tab (Tab 1) spec.
- *
- * Every test navigates to the page fresh via `beforeEach`. The grid takes approximately
- * 22 seconds to complete its first paint — all tests go through `open()` / `waitForGrid()`
- * which polls until the row count is non-zero. No `networkidle`, no fixed sleeps standing
- * in for conditions.
- *
- * Sort tests on ID and Location Name assert the first visible row changes. Sort tests on
- * Allow Special Rate and Special Rate Start Date assert the full visible column sequence differs
- * between ascending and descending — row-order change, never merely that a control exists.
- *
- * Persistence tests (TC-DOP-OPT-020, TC-DOP-OPT-033, TC-DOP-OPT-034) run against the
- * writable automation environment. TC-DOP-OPT-020 toggles Allow Special Rate and restores
- * it in a finally block. TC-DOP-OPT-034 saves a date change and restores it. TC-DOP-OPT-033
- * opens the Add panel, cancels without selecting a location, and verifies Save is not dirty
- * — no data is permanently changed.
- */
+// Discount Optimization Locations tab. The persistence tests write to the environment and
+// restore the rows they mutate in a finally block.
 test.describe('Discount Optimization — Locations (Tab 1)', () => {
   let dop: DiscountOptimizationPage;
 
@@ -126,23 +110,15 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     for (const rowText of (allTexts as string[])) {
       expect((rowText as string).toLowerCase()).toContain(DOP_CASE_INSENSITIVE_FILTER.toLowerCase());
     }
-    // The app persists the search term across page loads (the same mechanism the sort
-    // tests clear via localStorage.clear()) — leaving it set here would silently filter
-    // the grid for every later test in the run. Restore the full list before finishing.
+    // The app persists the search term across page loads — leaving it set would silently
+    // filter the grid for every later test in the run.
     await dop.clearSearch();
     await expect.poll(() => dop.getRowCount(), { timeout: 45_000 }).toBe(countBefore);
   });
 
   // ---------------------------------------------------------------- sorting
 
-  /**
-   * TC-DOP-OPT-007 — Sort via column-options menu: ID column.
-   *
-   * Live DOM confirmed 2026-08-11: each column header contains a
-   * `button[aria-haspopup="menu"]` that opens a two-item Radix dropdown with
-   * "Sort ascending" and "Sort descending". Clicking "Sort descending" after
-   * "Sort ascending" produces a different first row — proving sort is functional.
-   */
+  // Sorting is only reachable via the header's `button[aria-haspopup="menu"]` dropdown.
   test('TC-DOP-OPT-007: ID column header sort menu — Sort descending changes first visible row', async ({ dependencyGate }) => {
     dependencyGate([]);
     const pg = (dop as any).page;
@@ -188,15 +164,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     await pg.evaluate(() => localStorage.clear());
   });
 
-  /**
-   * TC-DOP-OPT-009 — Sort via column-options menu: Allow Special Rate column.
-   *
-   * Reads the aria-pressed sequence of all visible toggle buttons before and after
-   * a descending sort, then asserts the two sequences differ — proving the sort
-   * reordered rows, not merely that the menu items are present.
-   *
-   * Reset matches the pattern TC-DOP-OPT-007 already uses.
-   */
+  // Compares the full visible column sequence across asc/desc — menu presence alone would
+  // not prove the rows actually reordered.
   test('TC-DOP-OPT-009: Allow Special Rate column sort — Sort descending reorders the toggle value sequence', async ({ dependencyGate }) => {
     dependencyGate([]);
     const pg = (dop as any).page;
@@ -204,10 +173,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     await expect(th).toBeVisible();
     const menuBtn = th.locator('button[aria-haspopup="menu"]').first();
     await expect(menuBtn).toBeVisible();
-    // Sort ascending and capture the location name sequence for all visible rows.
-    // The Allow Special Rate toggle renders as a plain button ("Yes"/"No" text) in its
-    // default display mode — it carries neither aria-pressed nor aria-checked until
-    // interacted with. Location names are reliable text and prove row reordering directly.
+    // Captures location names, not toggle state: an untouched toggle carries neither
+    // aria-pressed nor aria-checked, so only the name text proves the reorder.
     await dop.sortByColumn('Allow Special Rate', 'ascending');
     const statesAsc: string[] = await pg.evaluate(() =>
       Array.from(document.querySelectorAll(
@@ -230,15 +197,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     await pg.evaluate(() => localStorage.clear());
   });
 
-  /**
-   * TC-DOP-OPT-010 — Sort via column-options menu: Special Rate Start Date column.
-   *
-   * Reads the value sequence of all visible date inputs before and after a descending
-   * sort, then asserts the two sequences differ — proving the sort reordered rows, not
-   * merely that the menu items are present.
-   *
-   * Reset matches the pattern TC-DOP-OPT-007 already uses.
-   */
+  // Compares the full visible date-value sequence across asc/desc — menu presence alone
+  // would not prove the rows actually reordered.
   test('TC-DOP-OPT-010: Special Rate Start Date column sort — Sort descending reorders the date sequence', async ({ dependencyGate }) => {
     dependencyGate([]);
     const pg = (dop as any).page;
@@ -329,8 +289,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
       await inp.pressSequentially(DOP_DATE_INVALID, { delay: 80 });
       await inp.press('Tab');
       await (dop as any).waitForAngularStable();
-      // Angular signals an invalid date via the CSS class `border-red-500` (not aria-invalid or
-      // ng-invalid — live DOM inspection 2026-08-11 confirmed this is the only error signal used).
+      // Angular signals an invalid date only via the CSS class `border-red-500` —
+      // neither aria-invalid nor ng-invalid is set on this input.
       const hasRedBorder = await inp.evaluate((el: Element) =>
         el.classList.contains('border-red-500') ||
         (el as HTMLElement).className.includes('border-red-500')
@@ -415,15 +375,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   // ---------------------------------------------------------------- persistence (TC-DOP-OPT-020, TC-DOP-OPT-021)
 
-  /**
-   * TC-DOP-OPT-020: Save round-trip — an Allow Special Rate toggle change persists after reload.
-   *
-   * Toggles the Allow Special Rate switch on a dedicated row (DOP_LOCATION_FOR_PERSISTENCE —
-   * see src/data/discount-optimization/discount-optimization.ts for why this points to
-   * "Hotel del Coronado" rather than the originally-authored "InterContinental Chicago"),
-   * saves, reloads, and confirms the toggled value survived. Uses a dedicated row not shared
-   * with any other test so state is clean regardless of execution order.
-   */
+  // Mutates DOP_LOCATION_FOR_PERSISTENCE — a row no other test touches, so execution order
+  // cannot matter — and restores its toggle state in the finally block.
   test('TC-DOP-OPT-020: Save round-trip — an Allow Special Rate toggle change persists after reload', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(240_000);
@@ -456,14 +409,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   // ---------------------------------------------------------------- batch-dirty persistence (TC-DOP-OPT-021)
 
-  /**
-   * TC-DOP-OPT-021: Two dirty rows both persist after a single save.
-   *
-   * Every existing mutation test dirties exactly one row. This test dirties two distinct
-   * rows without saving between changes, then saves once and reloads — confirming the batch
-   * POST carries both changes. If the form drops one row's pending change, this test catches
-   * it. Both rows are restored in a finally block.
-   */
+  // Dirties two rows without saving in between, so a form that drops one row's pending
+  // change is caught. Both rows are restored in the finally block.
   test('TC-DOP-OPT-021: Save round-trip — two dirty rows both persist after a single save', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(300_000);
@@ -527,26 +474,15 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   // ---------------------------------------------------------------- virtual-scroll persistence (TC-DOP-OPT-022)
 
-  /**
-   * TC-DOP-OPT-022: Pending edit survives the row being scrolled out of view.
-   *
-   * The grid holds 2154 rows. If the grid uses virtual DOM recycling (rows removed from the
-   * DOM as they scroll out of the viewport), a pending edit that lives only in the DOM node
-   * would be silently discarded. This test scrolls far enough to push the target row out of
-   * the DOM, then scrolls back and asserts the pending value is still shown.
-   *
-   * Critical: the test asserts that the row genuinely left the DOM mid-test. If the grid
-   * renders all rows at once (no recycling), this assertion will fail — in that case the test
-   * cannot exercise the intended failure mode and reports a structural BLOCKED result.
-   */
+  // Requires the grid to actually recycle rows out of the DOM; if it renders every row at
+  // once the mid-test "row left the DOM" assertion fails rather than passing vacuously.
   test('TC-DOP-OPT-022: Pending edit survives the row being scrolled out of view', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(300_000);
     const pg = (dop as any).page;
 
-    // Pick the third non-reserved row so TC-DOP-OPT-022 is disjoint from TC-DOP-OPT-021,
-    // which takes the first two non-reserved rows. Using the same row as 052 would make them
-    // silently test the same location under stable DOM ordering.
+    // Takes the third non-reserved row so this stays disjoint from TC-DOP-OPT-021, which
+    // claims the first two.
     const RESERVED = new Set([DOP_LOCATION_FOR_PERSISTENCE, DOP_LOCATION_FOR_TOGGLE]);
     const rawLabels: string[] = await pg.evaluate(() => {
       const btns = Array.from(document.querySelectorAll('button[aria-label^="Allow Special Rate for "]'));
@@ -762,10 +698,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   // ---------------------------------------------------------------- active/inactive filtering (NM-3210)
 
-  // Finding: no dedicated Active/Inactive filter control was found on this surface
-  // during the full DOM inventory (2026-08-11). NM-3210 is NOT-COVERED by a toggle-based
-  // assertion. The case below covers what is actually testable: that deactivated location
-  // rows are returned by text search and cleared correctly.
+  // NM-3210: this surface has no Active/Inactive filter control, so coverage is limited to
+  // deactivated rows being reachable through text search.
   test('TC-DOP-OPT-029: Search includes deactivated locations by name and clears correctly (NM-3210)', async ({ dependencyGate }) => {
     dependencyGate([]);
     const pg = (dop as any).page;
@@ -773,10 +707,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     await dop.search(DOP_DEACTIVATED_FRAGMENT);
     const countFiltered = await dop.getRowCount();
     expect(countFiltered).toBeGreaterThan(0);
-    // Read the Location Name cell (td:nth-child(3)) — the full tr.allTextContents() returns
-    // empty strings while the virtualised grid is still populating text nodes. Wait for the
-    // first name cell to be non-empty before reading all, then assert every name contains the
-    // search fragment.
+    // Reads the name cell rather than the whole row: tr.allTextContents() returns empty
+    // strings while the virtualised grid is still populating text nodes.
     const nameCellSelector = `${ROWS_TAB1} td:nth-child(3)`;
     await expect(pg.locator(nameCellSelector).first()).not.toBeEmpty({ timeout: 15_000 });
     const rowTexts = await pg.locator(nameCellSelector).allTextContents();
@@ -794,10 +726,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     expect(await dop.getRowCount()).toBeGreaterThan(0);
     const firstName = await dop.getFirstRowCell(3);
     expect(firstName.toLowerCase()).toContain(DOP_DEACTIVATED_ROW_FRAGMENT.toLowerCase());
-    // The app persists the search term across page loads (see TC-070's clearSearch() and the
-    // sort tests' localStorage.clear()) — leaving it set here would silently filter the grid
-    // for every later test in the run (observed: it hid rows TC-050/052/053/092 depend on).
-    // Restore the full list before finishing.
+    // The app persists the search term across page loads — leaving it set would hide rows
+    // that later tests in the run depend on.
     await dop.clearSearch();
     await expect.poll(() => dop.getRowCount(), { timeout: 45_000 }).toBe(countBefore);
   });
@@ -820,16 +750,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   // ---------------------------------------------------------------- server-rejection path (TC-DOP-OPT-032)
 
-  /**
-   * TC-DOP-OPT-032: A rejected save surfaces the failure and keeps the change pending.
-   *
-   * Every existing test drives the success path. This test uses Playwright route interception
-   * to make the save endpoint return a 500 for this test only — the request never reaches the
-   * server. After the rejection, the app must not behave as if the save succeeded: at least
-   * one of the following must be true: (a) an error element is visible, (b) Save is still
-   * enabled, or (c) the change is still present in the UI. The interception is test-scoped
-   * and removed in the finally block.
-   */
+  // Routes the save endpoint to a 500 so nothing reaches the server; the interception is
+  // test-scoped and unrouted in the finally block.
   test('TC-DOP-OPT-032: Rejected save surfaces the failure and keeps the change pending', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(180_000);
@@ -859,14 +781,11 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
       // Confirm the interception fired — the save request never reached the server.
       expect(interceptedSave).toBe(true);
 
-      // The app must not treat the 500 response as a success.
-      // Acceptable outcomes: an error element is visible, Save is still enabled, or the
-      // change is still present in the UI. Failing all three = silent swallow (product defect).
+      // The app must not treat the 500 as a success.
       const errorSurfaced = await pg.locator('[role="alertdialog"], [role="alert"]').isVisible().catch(() => false);
       const saveStillEnabled = await dop.isSaveEnabled();
-      // changeStillPresent alone is not evidence of failure — the toggle was changed and nothing
-      // reverted it, so it would be true even if the app silently swallowed the error. Only an
-      // error element or a still-enabled Save button proves the rejection was surfaced.
+      // A still-changed toggle is not evidence — nothing would have reverted it even on a
+      // silent swallow. Only an error element or a still-enabled Save proves it surfaced.
       expect(errorSurfaced || saveStillEnabled).toBe(true);
     } finally {
       await pg.unroute('**/navigator/api/discount/optimization**', saveInterceptor);
@@ -875,21 +794,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     }
   });
 
-  /**
-   * TC-DOP-OPT-033: Cancelling an incomplete Add leaves Save disabled.
-   *
-   * Add flow (observed 2026-08-11): clicking Add opens an "Add Location" right-panel with
-   * Cancel/Update buttons. "Select a Location" opens a "Change Local Office" modal that has
-   * a search input and a table (columns: Local Office, Local Office Name). The location
-   * picker does NOT use [role="option"] — it is a search-driven table.
-   *
-   * Coverage scope: this test asserts (a) the Add panel opens with the expected structure,
-   * (b) the "Change Local Office" picker dialog is reachable, and (c) cancelling the Add
-   * flow leaves Save disabled (no dirty state). TC-DOP-OPT-021 (the NM-3063 core assertion —
-   * Save must be enabled after completing an Add) is not automated: the picker shows
-   * "No results." on offices 1604, 1605, and 1101 — all local offices are already present
-   * in each list and none can be added.
-   */
+  // The NM-3063 completed-Add path cannot be automated: the picker shows "No results." on
+  // every office tried, so only the cancel path is asserted here.
   test('TC-DOP-OPT-033: Cancelling an incomplete Add leaves Save disabled', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(180_000);
@@ -928,15 +834,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
 
   // ---------------------------------------------------------------- date persistence (TC-DOP-OPT-034)
 
-  /**
-   * TC-DOP-OPT-034: Save round-trip — a Special Rate Start Date change persists after reload.
-   *
-   * Selects a new Special Rate Start Date via the calendar picker (the only method that
-   * correctly updates Angular's component model), saves, reloads, and confirms the saved
-   * date survives the round-trip. Uses the same dedicated row (DOP_LOCATION_FOR_PERSISTENCE)
-   * as TC-DOP-OPT-020 — the two tests use different fields (toggle vs date) so there is no
-   * collision. The date is restored in a finally block.
-   */
+  // Picks the date via the calendar, the only route that updates Angular's component model.
+  // Mutates DOP_LOCATION_FOR_PERSISTENCE's date field and restores it in the finally block.
   test('TC-DOP-OPT-034: Save round-trip — a Special Rate Start Date change persists after reload', async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(240_000);
@@ -947,9 +846,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
     try {
       expect(await dop.isSaveDisabled()).toBe(true);
 
-      // Capture API requests fired during calendar interaction. Match on the backend API path,
-      // never on the page URL — the framework fires its own POSTs to the page URL after a reload,
-      // and those would otherwise be counted as saves.
+      // Match on the backend API path, never the page URL: the framework fires its own POSTs
+      // to the page URL after a reload and those would be miscounted as saves.
       const apiRequestsFired: string[] = [];
       const onRequest = (req: any) => {
         const url: string = req.url();
@@ -964,8 +862,7 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
       const popover = pg.locator('[role="dialog"]').first();
       await expect(popover).toBeVisible({ timeout: 10_000 });
 
-      // Step 2: Capture current month/year heading, advance one month, assert the heading
-      // actually changed before selecting a day — clicking mid-transition selects nothing.
+      // The heading must change before a day is clicked — a click mid-transition selects nothing.
       const monthHeading = popover.locator('span, div, caption').filter({ hasText: /[A-Z][a-z]+ \d{4}/ }).first();
       const monthBefore = await monthHeading.innerText({ timeout: 5_000 });
       const nextBtn = popover.locator('button[aria-label*="next"], button[aria-label*="Next"]').first();
@@ -974,10 +871,8 @@ test.describe('Discount Optimization — Locations (Tab 1)', () => {
       await expect(monthHeading).not.toHaveText(monthBefore, { timeout: 5_000 });
       const monthAfter = await monthHeading.innerText({ timeout: 5_000 });
 
-      // Step 3: Click the first enabled day cell that belongs to the new month.
-      // The calendar grid shows overflow cells from the previous month; picking `.first()` risks
-      // selecting an overflow cell (e.g., March 31 in the April view) = same date as original.
-      // Filter by aria-label containing the new month name so we only pick April's own days.
+      // Filters by month name because the grid leads with overflow cells from the previous
+      // month — a bare `.first()` can re-select the original date.
       const newMonthName = monthAfter.trim().split(/[\s\n]+/)[0]; // e.g., "April"
       const dateCell = popover.locator(`[role="gridcell"] button:not([disabled])[aria-label*="${newMonthName}"]`).first();
       await expect(dateCell).toBeVisible({ timeout: 5_000 });

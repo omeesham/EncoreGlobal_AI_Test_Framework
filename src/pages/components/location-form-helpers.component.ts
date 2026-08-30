@@ -19,9 +19,7 @@ export abstract class LocationFormHelpers extends BasePage {
   abstract clickSave(): Promise<{ success: boolean; networkError?: string } | void>;
   abstract reloadAndNavigateToLocalInfo(officeNo: string): Promise<void>;
 
- /**
- * The E2E environment briefly renders form fields as disabled during hydration.
- */
+ /** The E2E environment briefly renders form fields as disabled during hydration. */
   @step('Wait for form ready')
   async waitForFormReady(selectorKey: keyof typeof LocationSettingsSelectors, timeout = 10_000): Promise<void> {
     const el = this.getElement(selectorKey);
@@ -71,12 +69,7 @@ export abstract class LocationFormHelpers extends BasePage {
     return isNowChecked;
   }
 
- /**
- * Reads the visible label text for a checkbox from the live DOM.
- * Structure: dt (label) + dd > button[role="checkbox"] -- all Local Info checkboxes follow this pattern.
- * Walks from the checkbox button up to its <dd> parent, then reads the preceding <dt> sibling text.
- * Live-verified: term (dt) + definition (dd) confirmed in Local Information tab DOM.
- */
+ /** Label text for a checkbox — Local Info renders these as dt (label) + dd > button[role="checkbox"]. */
   @step('Get checkbox label')
   async getCheckboxLabel(selectorKey: string): Promise<string> {
     const el = this.getElement(selectorKey as keyof typeof LocationSettingsSelectors);

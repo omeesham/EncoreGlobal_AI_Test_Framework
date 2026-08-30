@@ -12,11 +12,8 @@ export const CorporatePricingDetailGridSelectors = {
   txtSourceFilter: 'input[placeholder="Search ID or Name..."]',
 } as const;
 
-/**
- * Per-row cell column index within a Pricing Detail grid `<tr>` (0-based `<td>` order, live-verified).
- * Price (col 2) is read-only text (no input); New Price (col 3) + Max Discount (col 4) carry the
- * editable inputs. Used by the page object to anchor cell reads/edits by Product Group Name.
- */
+// 0-based `<td>` index within a Pricing Detail row. Price is read-only text;
+// only New Price and Max Discount carry editable inputs.
 export const DETAIL_GRID_COLS = {
   id: 0,
   productGroupName: 1,

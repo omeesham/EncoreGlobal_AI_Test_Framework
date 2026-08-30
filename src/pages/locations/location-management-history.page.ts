@@ -27,11 +27,8 @@ export class LocationManagementHistoryPage extends BasePage {
     await this.getElement('tblMgmtHistory').locator('th').first().waitFor({ state: 'visible', timeout: 15_000 });
   }
 
- /**
- * Must be called after history tests to prevent cross-spec state contamination:
- * when History tab is active, sub-tabs (Currency, Legal, etc.) are hidden.
- * If the next spec inherits this worker, those sub-tabs will not be found.
- */
+ // Required after history tests: an active History tab hides the sub-tabs, so a spec
+ // inheriting this worker would not find Currency, Legal, etc.
   @step('Return to basic information')
   async returnToBasicInformation(): Promise<void> {
     const basicTab = this.getElement('tabBasicInformation');
@@ -123,13 +120,8 @@ export class LocationManagementHistoryPage extends BasePage {
     return this.getRowValues(0, headerTexts);
   }
 
- /**
- * Treats the displayed time as UTC (via Date.UTC): the server renders timestamps as
- * UTC literal text with no TZ suffix. Using `new Date(y,m,d,h,...)` would interpret as
- * browser-local, causing off-by-offset-hours errors (e.g., -5.5h for IST clients).
- * If the server switches to browser-local TZ, parsed values will be slightly future —
- * still > sinceMs → still correctly included.
- */
+ // Date.UTC, not new Date(y,m,d,...): the server renders UTC text with no TZ suffix, and
+ // local interpretation would shift results by the client's offset.
   static parseModifiedOnMs(val: string): number {
     const parts = val.trim().split(' ');
     const dateParts = (parts[0] || '').split('/');
@@ -148,17 +140,8 @@ export class LocationManagementHistoryPage extends BasePage {
     return Date.UTC(y, m - 1, d, h, min, s);
   }
 
- /**
- * Page-1-only: a test suite's saves always fit in 1 page (<20 rows) after desc sort.
- * An earlier paginated version timed out at 180s because subsequent pages frequently
- * returned rowCount=0 due to post-click DOM re-render lag. If >20 rows are needed, raise
- * rowsPerPage via setRowsPerPage('50') — don't re-introduce pagination without a rowCount>0
- * wait after each clickPaginationButton.
- * Resolves each header to a column index ONCE to avoid O(n*cols) re-resolution.
- * @param sinceMs Lower-bound epoch ms. Rows strictly older are excluded.
- * @param headerTexts Column headers to read (duplicate names return first match).
- * @param maxRows Safety cap (default 40 — 2x typical rowsPerPage).
- */
+ // Page 1 only — paginating here timed out because later pages read rowCount=0 during
+ // re-render. For >20 rows raise setRowsPerPage('50') instead.
   @step('Get rows since timestamp')
   async getRowsSinceTimestamp(
     sinceMs: number,
@@ -205,9 +188,8 @@ export class LocationManagementHistoryPage extends BasePage {
     return collected;
   }
 
- /** Radix sort dropdown is flaky: menu occasionally fails to appear after button click.
- * Retries with Escape to clear any lingering state, max 3 attempts.
- * Uses [role="menu"] retry — not selectComboboxOption (different surface). */
+ // The Radix sort menu sometimes fails to open, so retry up to 3 times with Escape between.
+ // It is a [role="menu"], not a combobox, so selectComboboxOption does not apply.
   @step('Click sort column')
   async clickSortColumn(headerText: string, direction: 'ascending' | 'descending' = 'ascending'): Promise<void> {
     const colIndex = await this.getColumnIndex(headerText);
@@ -254,11 +236,8 @@ export class LocationManagementHistoryPage extends BasePage {
     await this.clickSortColumn('Modified On', 'descending');
   }
 
- /**
- * Use after sortByModifiedOnDesc: clickSortColumn + waitForAngularStable does NOT guarantee
- * the DOM has re-rendered with newest rows on top. With ~2900 rows, the ASC→DESC re-render
- * can take 1-3s; without this wait, the top row may still show old timestamps.
- */
+ // Call after sortByModifiedOnDesc: waitForAngularStable does not cover the 1-3s ASC→DESC
+ // re-render, so the top row can still show old timestamps.
   @step('Wait for recent top row')
   async waitForRecentTopRow(maxAgeMs = 24 * 60 * 60 * 1000, timeoutMs = 15_000): Promise<void> {
     const headers = await this.getColumnHeaders();
@@ -337,9 +316,8 @@ export class LocationManagementHistoryPage extends BasePage {
     const editBtn = await panel.locator('button:has-text("Edit")').count();
     const deleteBtn = await panel.locator('button:has-text("Delete")').count();
     const saveBtn = await panel.locator('button:has-text("Save")').count();
-    // Scope to the nested data <table> only: the tblMgmtHistory testid is a wrapper <div> that
-    // contains BOTH the <table> AND the paginator "Current page number" <input>. Panel-wide
-    // counting catches the paginator input → false negative. Assert exactly 0 — no relaxation.
+    // Scope to the nested <table>: the tblMgmtHistory wrapper also holds the paginator's page
+    // input, which would otherwise be counted as an editable field.
     const inputs = await this.getElement('tblMgmtHistory').locator('table')
       .locator('input:not([type="hidden"]), textarea').count();
     return addBtn === 0 && editBtn === 0 && deleteBtn === 0 && saveBtn === 0 && inputs === 0;

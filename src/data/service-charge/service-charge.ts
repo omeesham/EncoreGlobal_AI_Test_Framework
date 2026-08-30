@@ -1,10 +1,5 @@
-/**
- * Test data for the Service Charge setup page.
- *
- * Service-type labels sourced verbatim from the live application, observed on 2026-08-10.
- *
- * Office 1604 (Parker Palm Springs) is the primary test entity per NM-3344.
- */
+// Test data for the Service Charge setup page. Service-type labels are verbatim from the
+// live application; office 1604 (Parker Palm Springs) is the primary test entity per NM-3344.
 
 /** Primary test office. */
 export const SC_OFFICE = '1604';
@@ -12,18 +7,12 @@ export const SC_OFFICE = '1604';
 /** Total number of service-type rows on the Basic Information tab. */
 export const SC_ROW_COUNT = 79;
 
-/**
- * URL path builder for the Service Charge module.
- * Usage: `${baseUrl}${SC_ROUTE('1604')}`
- */
+/** URL path builder for the Service Charge module; append to base_url. */
 export const SC_ROUTE = (office: string) =>
   `/locations/${office}/settings/service-charge`;
 
-/**
- * Maps each service-type label (verbatim from the live application, observed on 2026-08-10) to its row index (0–78).
- * Used by the page object to resolve setPercentageByServiceType / getPercentageByServiceType
- * without scanning the DOM for label text.
- */
+// Maps each service-type label to its row index (0–78) so the page object never has to scan
+// the DOM for label text. Labels are verbatim from the live application.
 export const SC_SERVICE_TYPE_INDEX: Record<string, number> = {
   'APP Downloaded': 0,
   'App Quality Assurance': 1,
@@ -106,19 +95,13 @@ export const SC_SERVICE_TYPE_INDEX: Record<string, number> = {
   'ZSub Rental Specialty': 78,
 } as const;
 
-/**
- * Column headers on the Basic Information tab, in display order.
- * Confirmed on the live application on 2026-08-10.
- */
+/** Column headers on the Basic Information tab, in display order. */
 export const SC_BASIC_COLUMN_HEADERS = [
   'Service Type',
   'Service Charge Percentage',
 ] as const;
 
-/**
- * Column headers on the Service Charge History tab, in display order.
- * Observed during initial exploration of the live application (degraded environment, History tab).
- */
+/** Column headers on the Service Charge History tab, in display order. */
 export const SC_HISTORY_COLUMN_HEADERS = [
   'Service Type',
   'Service Charge Percentage',

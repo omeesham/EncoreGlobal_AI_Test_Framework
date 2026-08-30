@@ -188,22 +188,12 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
 
   private static readonly SAVE_TOAST = 'Pricebook saved successfully';
 
-  /**
-   * Click Save (defensive — confirm an optional "Save Changes" alertdialog), then wait for the
-   * "Pricebook saved successfully" toast as the success/settle signal. THROWS if Save is disabled
-   * at call time (nothing to save) so a silent no-op surfaces as a test failure.
-   *
-   * Why the toast (not Save-button state): the Save button's TEXT flips "Save" → "Saving..." →
-   * "Save" during commit (live-verified — the button is briefly `button "Saving..."`), so a
-   * `text-is("Save")` disable-wait mismatches mid-save and stalls. The toast is the unambiguous
-   * success event. Returns whether the toast was observed. Persistence is still proven by the
-   * caller's reload + re-read (save-success ≠ pristine).
-   */
+  // The toast is the settle signal, not the Save button: its text flips "Save" → "Saving..." → "Save",
+  // so a disable-wait on `text-is("Save")` mismatches mid-save and stalls.
   @step('Save and confirm')
   async saveAndConfirm(): Promise<{ toastSeen: boolean }> {
-    // Attach the success-toast waiter BEFORE clicking Save — the toast surfaces and auto-dismisses
-    // quickly, so a waiter set up only after the click + dialog-confirm can race past it (the source
-    // of an intermittent miss under full-suite load).
+    // Attach the toast waiter BEFORE clicking Save — the toast auto-dismisses fast enough that a
+    // waiter set up after the click + dialog-confirm races past it.
     const toastPromise = this.page
       .getByText(CorporatePricingStrategyPage.SAVE_TOAST, { exact: false })
       .first()
@@ -324,24 +314,8 @@ export class CorporatePricingStrategyPage extends CorporatePricingBasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Restore the fixture to its baseline: exactly 1 strategy named `defaults.name`. Bounded retry
-   * (max 3) over the WHOLE cycle (reload → re-read → rename → save → reload → re-verify) because
-   * Angular dirty + the persisted DOM are the only reliable signals (save-success alone doesn't
-   * prove the restore landed).
-   *
-   * If MORE than one strategy is present, a prior test persisted a NEW strategy — which is NOT
-   * UI-removable (legacy strategies have no Remove). That is unrecoverable fixture drift → THROW
-   * loudly rather than silently continue (the spec is designed to never persist a new strategy).
-   *
-   * The flag checkboxes (Is Active / Is Productions / Is Internal / Is GSO) are deliberately NOT
-   * restored here, and that is sufficient: no test ever commits an un-reverted flag change on the
-   * fixture strategy — flag toggles are net-zero (reverted within the same test) and flag-carrying
-   * strategies are only ever added in memory (never saved, so they vanish on the next reload). An
-   * uncommitted toggle is discarded by this method's reload; a committed extra strategy is caught by
-   * the count guard above. The name is therefore the only persisted-mutable field, so restoring it
-   * fully restores the baseline.
-   */
+  // Restore the fixture to exactly 1 strategy named `defaults.name` — the name is the only
+  // persisted-mutable field; an extra persisted strategy is unrecoverable (no UI Remove), so throw.
   @step('Ensure default state')
   async ensureDefaultState(defaults: { name: string } = { name: STRATEGY.fixtureStrategyName }): Promise<void> {
     const maxAttempts = 3;

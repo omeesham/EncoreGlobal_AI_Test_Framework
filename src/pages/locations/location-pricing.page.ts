@@ -19,10 +19,8 @@ export class LocationPricingPage extends BasePage {
     await this.waitForPricingDataLoaded();
   }
 
- /**
- * Encore sub-tabs share `settings/location` URL — URL-based detection is unreliable after
- * a sibling tab's navigation; aria-selected is the reliable signal.
- */
+ // Encore sub-tabs share one `settings/location` URL, so URL detection is unreliable;
+ // aria-selected is the only trustworthy signal.
   @step('Is on pricing tab')
   async isOnPricingTab(): Promise<boolean> {
     const tab = this.getElement('tabPricing');
@@ -38,35 +36,27 @@ export class LocationPricingPage extends BasePage {
     await this.navigateToPricingTab(officeNo);
   }
 
- /**
- * The Pricing tab renders checkboxes and dropdowns with DEFAULT state before the API response
- * populates them with persisted values. Waiting on network-idle alone is unreliable because
- * Angular's change detection applies API data to DOM attributes AFTER the HTTP response is
- * received (async gap); in serial runs that gap widens enough that reads return stale defaults.
- */
+ // The tab renders default checkbox/dropdown state before the API response binds persisted
+ // values, and network-idle alone does not cover Angular's post-response binding gap.
   @step('Wait for pricing data loaded')
   async waitForPricingDataLoaded(): Promise<void> {
     await this.waitForAngularStable();
- // Signal 1 (primary, reliable across offices): the secondary pricing grid has rendered its rows.
- // Grid data arrives after the pricing API responds, so a non-zero row count proves the tab is
- // populated. Every office has price-book rows, so this signal is office-independent.
+ // Signal 1: grid rows only render after the pricing API responds, and every office has
+ // price-book rows, so a non-zero count is an office-independent readiness proof.
     const gridReady = await this.page.waitForFunction(
       () => document.querySelectorAll('[role="tabpanel"] table tbody tr').length > 0,
       undefined,
       { timeout: 20_000 },
     ).then(() => true).catch(() => false);
- // Signal 2: the Primary Labor dropdown has been bound by Angular (its label is no longer the
- // empty pre-render placeholder). Confirms checkbox aria-checked and dropdown values reflect
- // persisted state rather than default render values.
+ // Signal 2: a non-empty Primary Labor label means Angular has bound persisted values
+ // rather than the empty pre-render placeholder.
     const dropdownReady = await this.page.waitForFunction(
       (sel) => (((document.querySelector(sel)?.textContent) ?? '').trim().length > 0),
       '[data-testid="location-settings-select-primary-labor-pricing-usd"]',
       { timeout: 10_000 },
     ).then(() => true).catch(() => false);
     await this.waitForAngularStable();
- // At least one readiness signal must hold. If BOTH fail, the tab rendered neither its grid nor its
- // bound dropdown — a stale/empty render, not real data — so fail loudly instead of silently
- // continuing (the previous code swallowed both signals, proving nothing about whether the tab loaded).
+ // Both signals failing means a stale/empty render, not real data — fail loudly.
     if (!gridReady && !dropdownReady) {
       throw new Error(
         'waitForPricingDataLoaded: neither the pricing grid nor the Primary Labor dropdown became ready within timeout — the Pricing tab did not populate.',
@@ -114,12 +104,7 @@ export class LocationPricingPage extends BasePage {
     return { allPassed: failures.length === 0, failures };
   }
 
- /**
- * IMPORTANT: clicking an already-selected option DESELECTS it (Radix toggle behavior).
- * This method skips interaction when the target value is already displayed.
- * @param selectorKey - selector key for the combobox
- * @param optionText - exact pricebook name to select
- */
+ /** Skips interaction when already selected: re-clicking an option deselects it (Radix toggle). */
   @step('Select primary dropdown option')
   async selectPrimaryDropdownOption(selectorKey: string, optionText: string): Promise<void> {
  // Skip if already set -- clicking an already-selected option toggles it off (Radix behavior)
@@ -142,12 +127,8 @@ export class LocationPricingPage extends BasePage {
     Log.info(`[OK] Selected "${optionText}" for ${selectorKey}`);
   }
 
- /**
- * Clear a primary pricing dropdown by toggling its current selection off — the Radix combobox
- * treats clicking the already-selected option as a deselect, returning the field to "--Select--".
- * No-op if the dropdown is already unset. Used to restore a dropdown after a persistence test.
- * @param selectorKey - selector key for the combobox
- */
+ // Clears by re-clicking the current selection — Radix treats that as a deselect back to
+ // "--Select--". No-op when already unset.
   @step('Clear primary dropdown')
   async clearPrimaryDropdown(selectorKey: string): Promise<void> {
     const current = (await this.getDropdownValue(selectorKey)).trim();
@@ -347,10 +328,7 @@ export class LocationPricingPage extends BasePage {
     return (await el.getAttribute('readonly')) !== null;
   }
 
- /**
- * The validation tooltip only renders while the calendar popover is open.
- * Caller must ensure the popover is already open before calling this.
- */
+ /** Caller must leave the calendar popover open — the tooltip only renders while it is. */
   @step('Has date validation error')
   async hasDateValidationError(): Promise<boolean> {
     const msg = this.page.locator('text=/Pricing Effective.*date.*must be set/');
@@ -415,9 +393,8 @@ export class LocationPricingPage extends BasePage {
  // Scroll grid row to center of viewport before opening popover — prevents popover rendering off-screen
     await row.scrollIntoViewIfNeeded();
     const cell = row.locator(`td:nth-child(${colIndex})`);
- // The popover trigger is a <div role="button" aria-label="Open popover">.
- // After enableFullCascade, Angular needs a render cycle to remove aria-disabled and
- // pointer-events:none. Wait for the trigger to be interactive before clicking.
+ // After enableFullCascade, Angular needs a render cycle to drop aria-disabled and
+ // pointer-events:none, so wait for the trigger to be interactive first.
     const trigger = cell.locator('[role="button"][aria-label="Open popover"]:not([aria-disabled="true"])');
     await trigger.waitFor({ state: 'visible', timeout: 10_000 });
     await trigger.click();
@@ -425,10 +402,7 @@ export class LocationPricingPage extends BasePage {
     const dialog = this.page.getByRole('dialog', { name: 'Popover Content' });
     await dialog.waitFor({ state: 'visible', timeout: 5_000 });
 
- // dispatchEvent('click') fires a raw Event that React/Radix
- // processes unreliably (label may not update). Use force:true click instead —
- // the row.scrollIntoViewIfNeeded above ensures the calendar is in viewport.
- // Poll for the status label change instead of a fixed timeout to avoid race conditions.
+ // Poll the status label rather than sleeping — Radix re-renders the month header async.
     let currentLabel = (await dialog.getByRole('status').textContent() || '').trim();
     let safety = 0;
     while (currentLabel !== targetLabel && safety < 24) {
@@ -442,10 +416,8 @@ export class LocationPricingPage extends BasePage {
       const navBtn = diff > 0
         ? dialog.getByRole('button', { name: 'Go to the Next Month' })
         : dialog.getByRole('button', { name: 'Go to the Previous Month' });
- // dispatchEvent('click') fires a raw Event that React ignores.
- // Regular .click and .click({force:true}) fail with "outside viewport" for rows
- // near the bottom of the grid. HTMLElement.click (via evaluate) bypasses viewport
- // checks entirely and fires a real click event that React's synthetic event system handles.
+ // Playwright clicks fail "outside viewport" for rows near the grid bottom; HTMLElement.click
+ // skips the viewport check and still fires an event React's synthetic system handles.
       await navBtn.evaluate((el) => (el as HTMLElement).click());
  // Poll until the status label changes (React re-render is async)
       const oldLabel = currentLabel;
@@ -457,9 +429,8 @@ export class LocationPricingPage extends BasePage {
       safety++;
     }
 
- // Click the target day cell — use regular click (day cells are inside the visible dialog,
- // unlike month nav buttons which can be outside viewport). Regular click triggers Radix
- // event handlers that update the date value in Angular's model.
+ // Day cells sit inside the visible dialog, so a regular click works here and drives the
+ // Radix handlers that update Angular's model.
     const suffix = this.getOrdinalSuffix(dayNum);
     const dayPattern = `${targetMonthName} ${dayNum}${suffix}, ${yearNum}`;
     await dialog
@@ -498,12 +469,8 @@ export class LocationPricingPage extends BasePage {
     return total;
   }
 
- /**
- * This does NOT save or reload — it only tidies the live grid between assertions in the same test.
- * The authoritative per-test reset of persisted grid state is ensureDefaultState (run in beforeEach),
- * which re-reads after reload and re-drives until the server actually shows defaults. Do not add a
- * save here, or it will fight the baseline reset.
- */
+ // In-grid tidy only — never add a save here, it would fight ensureDefaultState, which owns
+ // the persisted baseline reset.
   @step('Reset grid row')
   async resetGridRow(priceBookName: string): Promise<void> {
     await this.uncheckIsAlternative(priceBookName);
@@ -536,18 +503,8 @@ export class LocationPricingPage extends BasePage {
     }
   }
 
- /**
- * Per-test baseline: restore the net-zero-vulnerable fields to their default state so a crashed
- * prior run cannot make the next test's change a no-op. Resets the two top checkboxes and clears
- * Is Alternative on the given price-book rows.
- *
- * Bounded retry (max 3) wraps the whole cycle — read → reset → save → reload → re-verify — because
- * a save reports success even when the Save button was disabled (so save-success alone never proves
- * the reset landed). The post-reload re-read against persisted state is the load-bearing check; if
- * it still shows non-default, the loop resets again, then throws after 3 cycles. The happy path
- * (already at defaults) returns after reads only — no save, no reload — so it stays fast on this
- * heavy tab.
- */
+ // Retries because a save reports success even when the Save button was disabled; only the
+ // post-reload re-read proves the reset persisted.
   @step('Ensure default state')
   async ensureDefaultState(
     defaults: { corporatePricing: boolean; priceGuideInclusive: boolean; gridRows: readonly string[] },
@@ -606,9 +563,8 @@ export class LocationPricingPage extends BasePage {
     return this.getElement('dlgSaveChanges').isVisible();
   }
 
-  /** The page-scoped changes (widened viewport, suppressed beforeunload) are not
-   * restored here — the viewport is harmless for later tests and the suppression resets on the
-   * next test's page reload. */
+  // Leaves the widened viewport and beforeunload suppression in place — both reset on the
+  // next test's page reload.
   @step('Click sidebar home')
   async clickSidebarHome(): Promise<void> {
     const homeLink = this.page.getByRole('link', { name: 'Home' });

@@ -14,23 +14,12 @@ function differentPercentageFrom(current: string): string {
   return (num >= 50 ? num - 10 : num + 10).toFixed(2);
 }
 
-/**
- * Service Charge — Service Charge History tab (NM-3344).
- *
- * Governs 15 test cases (TC-SVC-HIS-001..015).
- *
- * Per-test baseline: beforeEach calls sc.goto() — fresh page load is the reset mechanism, ensuring no test inherits state from a prior run.
- * The History grid is read-only. Only TC-SVC-HIS-014 makes an unsaved edit and must not save.
- *
- * Count: 15 ordinary (pass) + 0 fixme + 0 known-defect = 15.
- *
- */
+// Service Charge — Service Charge History tab (NM-3344). The grid is read-only and the
+// beforeEach page load is the reset; only the save-cycle test mutates Basic Information.
 
 
 test.describe('Service Charge History', () => {
-  // Suite-wide ceiling: 120 s per test. TC-SVC-HIS-011 (360 s), TC-SVC-HIS-012 (240 s), and
-  // TC-SVC-HIS-013 (240 s) each override it via test.setTimeout() — each does multiple
-  // full-page or History-grid load cycles that don't fit the default budget.
+  // Suite-wide ceiling; the multi-load tests below raise it with their own test.setTimeout().
   test.describe.configure({ timeout: 120_000 });
 
   let sc: ServiceChargePage;
@@ -53,7 +42,7 @@ test.describe('Service Charge History', () => {
     const heading = await sc.getPageHeading();
     expect(heading).toBe('Service Charge');
 
-    // Office name appears in the History section header (verified 2026-08-14).
+    // The office name appears in the History section header, not in a row cell.
     const sectionHeader = await sc.getHistorySectionHeader();
     expect(sectionHeader).toMatch(/Parker Palm Springs/);
 
@@ -169,9 +158,7 @@ test.describe('Service Charge History', () => {
     await sc.switchToHistoryTab();
     await sc.waitUntilHistoryLoaded();
 
-    // While on the History tab the grid must expose no interactive UI of any kind —
-    // no filter, search, date-range, or pagination controls. This is the comprehensive
-    // read-only census; TC-SVC-HIS-008 and TC-SVC-HIS-009 each re-confirm specific subsets.
+    // The comprehensive read-only census; the two tests below re-check specific subsets.
     const census = await sc.getHistoryControlCensus();
     expect(census.filterInputCount).toBe(0);
     expect(census.searchInputCount).toBe(0);
@@ -238,23 +225,14 @@ test.describe('Service Charge History', () => {
   });
 
   // ---------------------------------------------------------------- TC-SVC-HIS-011 — result-fidelity
-  // Precondition: offices 1101 and 1105 must each have at least one Service Charge History row.
-  // Observed on the live application on 2026-08-11: 1604=50 rows, 1101=32 rows, 1105=35 rows.
-  //
-  // Office switches use gotoHistory() instead of goto() because this test only needs the History
-  // grid — it never interacts with the Basic Information inputs. The standard goto() gate waits
-  // for percentage inputs to become enabled, which is inappropriate here: the second and third
-  // offices may have read-only or delayed BI inputs, causing a 60 s timeout that has nothing to
-  // do with whether the History grid loaded successfully (confirmed 2-of-2 identical failures on
-  // 2026-08-11 with 115 consecutive disabled-input polls — deterministic, not environmental wobble).
+
+  // Precondition: offices 1101 and 1105 must each have at least one History row.
+  // gotoHistory() is used per office — goto()'s wait for enabled BI inputs times out on them.
 
   test('TC-SVC-HIS-011: History data is scoped per office — different offices show different row sets', async ({
     dependencyGate,
   }) => {
-    // Three full office navigations, each with its own tab switch and History-grid load
-    // (waitUntilHistoryLoaded() alone carries a 150 s budget for non-primary offices under
-    // load) — stacked, that can run well past the suite-wide 120 s ceiling. 360 s covers two
-    // slow (non-cache-warm) office loads back to back plus overhead.
+    // Three office navigations, each with its own History-grid load (150 s budget apiece).
     test.setTimeout(360_000);
     dependencyGate([]);
 
@@ -325,18 +303,13 @@ test.describe('Service Charge History', () => {
   test('TC-SVC-HIS-013: A Basic Information save adds a new row to Service Charge History', async ({
     dependencyGate,
   }) => {
-    // This test does two History-grid loads plus two Basic Information save cycles (main body
-    // + restore), each of which can take up to ~30-60 s per waitUntilLoaded()'s documented
-    // enable delay — the same shape TC-SVC-HIS-012 already overrides the suite-wide 120 s
-    // ceiling for.
+    // Two History-grid loads plus two Basic Information save cycles at ~30-60 s each.
     test.setTimeout(240_000);
     dependencyGate([]);
 
     const AUTOMATION_USER = 's-prd-clickauto@psav.com';
-    // Build today's date in the timezone the browser renders in, not the timezone the
-    // machine running the tests happens to sit in. The grid stamps each row in the
-    // application's timezone, so a runner placed east of it reads a date that is already
-    // tomorrow and this comparison fails for every hour in between.
+    // Today's date must come from the browser's render timezone, not the runner's — a runner
+    // east of it already reads tomorrow.
     const renderTimeZone = test.info().project.use.timezoneId ?? 'UTC';
     const todayDateStr = new Intl.DateTimeFormat('en-US', {
       timeZone: renderTimeZone,
@@ -353,10 +326,8 @@ test.describe('Service Charge History', () => {
     // Switch to Basic Information, edit one field, and save.
     await sc.switchToBasicInformationTab();
     const originalValue = await sc.getPercentageByIndex(APP_IDX);
-    // Derive the edit from the live value rather than hardcoding '1.00': if a prior run left
-    // the database already at '1.00' (e.g. an interrupted restore), writing '1.00' again is a
-    // net-zero edit — Save never enables and clickSave() hangs. differentPercentageFrom()
-    // guarantees the edit always differs from whatever the environment currently holds.
+    // Derived from the live value, not hardcoded: a hardcoded value the database already holds
+    // is a net-zero edit, so Save never enables and clickSave() hangs.
     const editValue = differentPercentageFrom(originalValue);
 
     try {
@@ -371,8 +342,8 @@ test.describe('Service Charge History', () => {
       const rowsAfterSave = await sc.getHistoryRows();
       expect(rowsAfterSave.length).toBeGreaterThan(baselineCount);
 
-      // Confirmed by live probe on 2026-08-11: new row reflects the saved change and Modified By
-      // shows the automation user's email address, not a GUID.
+      // The new row reflects the saved change and Modified By shows the automation
+      // user's email address, not a GUID.
       const topRow = rowsAfterSave[0]!;
       expect(topRow[0]).toBe('APP Downloaded');
       expect(topRow[1]).toContain(`${editValue} %`);
@@ -382,11 +353,8 @@ test.describe('Service Charge History', () => {
       // Restore the original value regardless of any assertion failure.
       await sc.switchToBasicInformationTab();
       await sc.setPercentageByIndex(APP_IDX, originalValue);
-      // A single point-in-time isSaveEnabled() check races the app's own re-render: Save can
-      // flip back to disabled (net-zero edit, value already matches the database) between the
-      // check and the click, hanging clickSave() until its action timeout. Poll for Save to
-      // settle active first, and tolerate it never doing so — that just means the database
-      // already holds the correct value, so no save is needed.
+      // Poll rather than checking isSaveEnabled() once — Save can flip back to disabled between
+      // the check and the click, hanging clickSave() until its action timeout.
       try {
         await sc.waitForSaveActive(3000);
         await sc.clickSave();
@@ -420,8 +388,7 @@ test.describe('Service Charge History', () => {
     const modal = page.locator('[role="alertdialog"]');
     await expect(modal).toBeVisible();
 
-    // Assert the modal content and button set match live-observed values
-    // (walk-log.jsonl:117, 2026-08-14).
+    // Assert the modal's exact copy and button set, not just that it opened.
     await expect(modal).toContainText('Unsaved changes');
     await expect(modal).toContainText('Are you sure you want to leave this view?');
 

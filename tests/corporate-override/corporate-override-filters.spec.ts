@@ -8,10 +8,8 @@ import { CorporatePricingOverrideSelectors } from '../../src/selectors/corporate
 const GRID_ROW = CorporatePricingOverrideSelectors.ovrGridRowAny;
 
 test.describe('Corporate Pricing — Product Group Override: filters — Active-only, text & currency (NM-2269) @corporate-pricing @override', () => {
-  // Two beds in one suite:
-  //  - TC-041..043 (Active-only / text-filter effects): office 1105 — the only walk-verified bed
-  //    with inactive rows (9 Equipment rows: 7 active, 2 inactive — Camlok #1 and Camlok #2).
-  //  - TC-124..126 (currency filter): office 1145 (multi-currency bed) — each test navigates itself.
+  // Two beds in one suite: office 1105 is the only one with inactive rows (for the Active-only tests);
+  // the currency tests use the multi-currency office 1145 and navigate themselves.
   const ACTIVE_ONLY_BED_IDS = ['TC-CPR-OVR-041', 'TC-CPR-OVR-042', 'TC-CPR-OVR-043'];
   const BED = OVERRIDE_CURRENCY_BED;
   test.beforeEach(async ({ corporatePricingOverridePage: p }, testInfo) => {
@@ -44,17 +42,14 @@ test.describe('Corporate Pricing — Product Group Override: filters — Active-
     expect(await p.findRowByProductGroup(CORP_PRICING_OVERRIDE_ACTIVE_BED.inactiveGroupName2)).not.toBeNull();
   });
 
-  // Office 1105 is USD-only (verified 2026-07-17: 9 Equipment rows, all USD).
-  // The selectCurrency method relies on the currency filter dropdown showing "ALL",
-  // which matches only when currency is currently ALL — safe for one call per test.
-  // Two-direction oracle: ALL shows rows; an absent currency shows 0. A filter that ignores
-  // its input cannot satisfy both assertions simultaneously.
+  // selectCurrency targets the dropdown by its "ALL" text, so only one call per test is safe.
+  // Two-direction oracle: a filter that ignores its input cannot satisfy both assertions.
   test('TC-CPR-OVR-042: Currency filter yields the exact row count for the present currency, 0 for an absent currency, and restores the full set', async ({ corporatePricingOverridePage: p }) => {
     // Direction 1: ALL (baseline reset by beforeEach) shows the full row set
     expect(await p.getVisibleRowCount()).toBe(CORP_PRICING_OVERRIDE_ACTIVE_BED.totalRows);
 
     // Direction 2: selecting an absent currency must yield exactly 0
-    // (CAD has no rows on office 1105 — verified 2026-07-17; if filter ignores input it would stay at totalRows)
+    // CAD has no rows on office 1105 — a filter that ignored input would stay at totalRows.
     await p.selectCurrency(CORP_PRICING_OVERRIDE_ACTIVE_BED.absentCurrency);
     await expect.poll(() => p.getVisibleRowCount(), { timeout: 30_000 }).toBe(0);
     expect(await p.getVisibleRowCount()).toBe(0);

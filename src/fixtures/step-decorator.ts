@@ -4,14 +4,8 @@ import { test } from '@playwright/test';
 // does not produce duplicate nested steps in the Playwright report.
 let _depth = 0;
 
-/**
- * Method decorator that wraps a public async page-object method in a Playwright
- * test.step, producing a plain-English label in the HTML report.
- *
- * Call with a plain-English label, e.g. @step('Custom label').
- * Uses the modern TC39 decorator form — the signature is (method, context), not
- * (target, propertyKey, descriptor).
- */
+// Wraps an async page-object method in a test.step labelled for the HTML report.
+// TC39 decorator form: the signature is (method, context), not (target, key, descriptor).
 export function step(label: string) {
   return function <This, Args extends unknown[], Return>(
     originalMethod: (this: This, ...args: Args) => Promise<Return>,

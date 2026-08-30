@@ -8,10 +8,8 @@ import { isAuthUrl } from '../utils/url-host';
 import { step } from '../fixtures/step-decorator';
 
 export class BasePage {
-  // `page` is public readonly so specs can use `<pageObjectFixture>.page` for direct page
-  // operations (reload, keyboard, mouse, dialog handlers) WITHOUT destructuring the bare
-  // `page` fixture alongside, which would cause a known issue where Playwright DI creates a second
-  // about:blank context for the bare `page`). `readonly` keeps consumers from rebinding.
+  // Public so specs can drive the page via `<pageObjectFixture>.page` instead of also
+  // destructuring the bare `page` fixture, which spawns a second about:blank context.
   public readonly page: Page;
   protected config?: IConfig;
 
@@ -38,12 +36,7 @@ export class BasePage {
     return this.page.locator(selector);
   }
 
- /**
- * Navigate safely when page may have unsaved form state (dirty Angular forms).
- * Registers a temporary beforeunload dialog handler, navigates, then removes it.
- * Use this instead of navigateTo when the page might have unsaved edits.
- * Reload after non-numeric input requires safe navigation to avoid beforeunload trap.
- */
+ /** Navigate with a temporary beforeunload auto-accept handler — use when the form has unsaved edits. */
   protected async safeNavigateTo(url: string, options?: { waitUntil?: 'load' | 'domcontentloaded' | 'networkidle'; timeout?: number }): Promise<void> {
     const handler = async (dialog: { type(): string; accept(): Promise<void> }) => {
       if (dialog.type() === 'beforeunload') {
@@ -172,15 +165,8 @@ export class BasePage {
     Log.info('[OK] Page loaded');
   }
 
- /**
- * Wait for Angular to finish all pending async operations (zone.js stability).
- * Falls back silently if Angular testabilities are not available (non-Angular pages).
- * Use this after navigation/reload instead of networkidle for Angular SPAs.
- * networkidle hangs on Angular SPAs because zone.js micro-tasks
- * keep the network "active". This method uses Angular's own stability API instead.
- * This is a MAX wait: it resolves as soon as Angular reports stable, or at `timeout` as a backstop —
- * it does not block for the full timeout, and returns immediately on non-Angular pages.
- */
+ // Use instead of networkidle, which never settles on Angular because zone.js keeps the network busy.
+ // `timeout` is a backstop, not a fixed wait: resolves as soon as Angular reports stable.
   protected async waitForAngularStable(timeout = 10_000): Promise<void> {
     try {
       await this.page.evaluate((t) => {
@@ -229,13 +215,7 @@ export class BasePage {
     return this.page.url();
   }
 
- /**
- * Navigate to URL only if not already there. Reusable across page objects.
- * Checks if current URL contains the target path before calling page.goto.
- * @param url - Full target URL
- * @param pathCheck - Substring to check in current URL (e.g. 'locations/1604/settings')
- * @returns true if navigation occurred, false if skipped
- */
+ /** Navigate only when the current URL does not already contain `pathCheck`. */
   @step('Navigate if needed')
   async navigateIfNeeded(url: string, pathCheck: string): Promise<boolean> {
     if (this.page.url().includes(pathCheck)) {
@@ -277,14 +257,8 @@ export class BasePage {
     }
   }
 
- /**
- * Click a save button and confirm the Save Changes dialog if it appears.
- * Returns saved:true only when a real save ran; saved:false means the button was disabled (no-op) or the save failed -- callers reverting shared state must not treat a no-op as persisted.
- * @param saveBtnKey - Selector key for the save button (e.g., 'btnSavePricing')
- * @param dialogKey - Selector key for the confirmation dialog (default: 'dlgSaveChanges')
- * @param confirmBtnKey - Selector key for the confirm button (default: 'btnSaveChangesConfirm')
- * @param dialogTimeout - ms to wait for dialog to appear before assuming none (default: 5000)
- */
+ // saved:false means the button was disabled (no-op) or the save failed — callers reverting
+ // shared state must not treat a no-op as persisted.
   protected async clickSaveWithDialog(
     saveBtnKey: string,
     dialogKey: string = 'dlgSaveChanges',
@@ -298,18 +272,13 @@ export class BasePage {
       return { success: true, saved: false };
     }
 
- // Capture network responses during save to detect silent API failures.
- // Track in-flight requests so we wait for ALL concurrent responses before checking errors.
- // Race condition fix: Angular may stabilize after a fast 200 while a slow 500 is still
- // in-flight. Without draining, page.off removed the listener before the 500 arrived.
+ // Capture API responses to catch silent save failures; in-flight tracking lets the drain below
+ // wait for a slow 500 that trails a fast 200.
     const networkErrors: string[] = [];
     let inFlight = 0;
     const requestTracker = () => { inFlight++; };
-    // Only backend API responses count as save failures. The Next.js App-Router fires
-    // server-component-render POSTs to the page URL (plus RSC/telemetry requests) that can
-    // return 4xx during the save window without being data-save failures — scoping to the
-    // '/navigator/api/' backend path stops those framework requests from being read as
-    // save errors that fail an otherwise-successful save.
+    // Scoped to '/navigator/api/': Next.js App-Router RSC/telemetry requests can 4xx during the
+    // save window without being data-save failures.
     const responseHandler = (response: { status(): number; url(): string }) => {
       if (response.status() >= 400 && response.url().includes('/navigator/api/')) {
         networkErrors.push(`${response.status()} ${response.url()}`);
@@ -359,33 +328,8 @@ export class BasePage {
     return { success: true, saved: true };
   }
 
- /**
- * Persist a change and PROVE it landed. A save call can report success when nothing was saved
- * (the button is disabled on a net-zero change, and an API error is easy to ignore), so trusting
- * the save alone is unsafe for anything that reverts or sets shared server state. This wraps the
- * proven shape -- read back; if already correct, stop; otherwise re-apply the change, save, reload,
- * and read back again -- in a bounded retry. The post-reload re-read is the load-bearing check;
- * once the attempt budget is spent it throws, turning a silent failure-to-persist into a loud one.
- *
- * The re-read is necessary but not sufficient on its own: it confirms the value is at the goal
- * after a server round-trip, not that THIS save is what put it there (the value could already
- * have matched). That is acceptable here -- the goal is "state is correct going into the next
- * test", not save attribution. `save` is intentionally void: the callers' save-and-confirm has
- * no result worth branching on at this layer; persistence is proven by the reload + re-read.
- *
- * Two failure modes are made loud instead of silent:
- *  - a transient throw (navigation/timeout) inside one attempt consumes ONLY that attempt and the
- *    loop retries from a clean reload, rather than the throw killing the whole retry budget;
- *  - a reload that lands on the sign-in page (expired auth) throws a clear "session lost" error
- *    up front, instead of every attempt failing the re-read for a reason that looks like non-persistence.
- *
- * @param opts.isAtTarget    read the persisted value back and return true when it matches the goal
- * @param opts.applyMutation (re-)drive the form change that sets the goal value
- * @param opts.save          the page's own save-and-confirm (void by design -- see above)
- * @param opts.reload        navigate away and back so the next read comes from the server
- * @param opts.maxAttempts   whole-cycle attempts before throwing (default 3)
- * @param opts.label         plain-English context for logs and the failure message
- */
+ // Save can report success without persisting — re-reads after reload and throws once the
+ // attempt budget is spent.
   protected async saveAndVerifyPersisted(opts: {
     isAtTarget: () => Promise<boolean>;
     applyMutation: () => Promise<void>;
@@ -396,9 +340,8 @@ export class BasePage {
   }): Promise<void> {
     const maxAttempts = opts.maxAttempts ?? 3;
     const label = opts.label ?? 'value';
-    // Guard against a reload that silently dropped us on the auth page: isAtTarget can never be
-    // true there, so without this every attempt would burn on a re-read that looks like a
-    // failure-to-persist. Throw a distinct, terminal error a caller can act on (re-authenticate).
+    // A reload onto the auth page can never reach the target; fail terminally rather than burning
+    // every attempt on a re-read that looks like failure-to-persist.
     const assertSessionAlive = (): void => {
       const url = this.page.url();
       if (isAuthUrl(url) || url.toLowerCase().includes('/auth/sign-in')) {
@@ -435,13 +378,7 @@ export class BasePage {
     throw new Error(`Could not persist ${label} after ${maxAttempts} attempts.${detail}`);
   }
 
- /**
- * Navigate to a settings sub-tab for a given office, clicking the tab only if not already active.
- * @param tabKey - Selector key for the tab element
- * @param readinessElementKey - Selector key for an element confirming the tab content is loaded
- * @param officeNo - Office number (default: '1604')
- * @param settingsPath - The sub-path after /settings/ to navigate to (default: 'location')
- */
+ /** Navigate to an office settings sub-tab, clicking the tab only when it is not already active. */
   protected async navigateToSubTab(
     tabKey: string,
     readinessElementKey: string,
@@ -465,8 +402,7 @@ export class BasePage {
       await tab.click();
       await this.waitForAngularStable();
     }
-    // 30s readiness timeout (was 15s): cold-load p95 ~9s isolated, but 4-worker
-    // contention regularly pushes form-visible past 15s.
+    // 30s: 4-worker contention regularly pushes form-visible past 15s.
     await this.getElement(readinessElementKey).waitFor({ state: 'visible', timeout: 30_000 });
     Log.info(`[OK] Tab active: ${tabKey}`);
   }
@@ -485,11 +421,7 @@ export class BasePage {
     return false;
   }
 
- /**
- * Get the checked/disabled state of a Radix UI checkbox (button[role="checkbox"] using aria-checked).
- * Native HTML checkboxes use isChecked; Radix uses aria-checked attribute — this handles Radix.
- * @param elementKey - Selector key for the Radix checkbox element
- */
+ /** Radix checkbox state — reads aria-checked, since isChecked() only works on native checkboxes. */
   protected async getRadixCheckboxState(elementKey: string): Promise<CheckboxState> {
     const el = this.getElement(elementKey);
     const ariaChecked = await el.getAttribute('aria-checked').catch(() => null);
@@ -497,11 +429,7 @@ export class BasePage {
     return { checked: ariaChecked === 'true', disabled };
   }
 
- /**
- * Set a Radix UI checkbox to a target checked state (clicks only if state differs).
- * @param elementKey - Selector key for the Radix checkbox
- * @param checked - Desired state: true = checked, false = unchecked
- */
+ /** Set a Radix checkbox, clicking only when the current state differs. */
   protected async setRadixCheckbox(elementKey: string, checked: boolean): Promise<void> {
     const state = await this.getRadixCheckboxState(elementKey);
     if (state.checked !== checked) {
@@ -511,14 +439,8 @@ export class BasePage {
     }
   }
 
- /**
- * Click a Radix combobox trigger and wait for [role="listbox"] to appear.
- * Retries the click once if the dropdown doesn't open — Radix Select uses pointerdown
- * to open and the subsequent pointerup/click events can intermittently interfere,
- * leaving the dropdown closed despite a successful click.
- * @param dropdownKey - Selector key for the combobox trigger element
- * @returns The listbox Locator (visible and ready for interaction)
- */
+ // Retries the trigger click once: Radix Select opens on pointerdown, and the following
+ // pointerup/click can intermittently close the listbox again.
   protected async openComboboxListbox(dropdownKey: string): Promise<import('@playwright/test').Locator> {
     const trigger = this.getElement(dropdownKey);
     const listbox = this.page.locator('[role="listbox"]');
@@ -534,12 +456,7 @@ export class BasePage {
     return listbox;
   }
 
- /**
- * Open a combobox/dropdown, read all [role="option"] text contents, close it, return the list.
- * Handles Radix UI dropdowns that render a [role="listbox"] on click.
- * @param dropdownKey - Selector key for the combobox trigger element
- * @returns Array of trimmed, non-empty option strings
- */
+ /** Open a combobox, read every [role="option"] label, close it, return the trimmed list. */
   protected async getComboboxOptions(dropdownKey: string): Promise<string[]> {
     const listbox = await this.openComboboxListbox(dropdownKey);
     const options = await listbox.locator('[role="option"]').allTextContents();
@@ -548,17 +465,8 @@ export class BasePage {
     return options.map(o => o.trim()).filter(o => o.length > 0);
   }
 
- /**
- * Open a combobox/dropdown and click the option matching the given text.
- * Radix UI large-option dropdowns need retry on option selection.
- * Wraps option-click in a 3-retry loop; on failure presses Escape, waits for
- * listbox hidden, reopens via openComboboxListbox, scrollIntoViewIfNeeded(3s),
- * then click(5s). Per-attempt timeout ~5s keeps total budget ~15s.
- * @param dropdownKey - Selector key for the combobox trigger element
- * @param optionText - Display text of the option to select
- * @param opts.exact - When true, exact-match via page.getByRole('option', {name, exact}).
- *   When false (default), substring match via [role="option"]:has-text("X").
- */
+ // Radix option clicks are flaky on large dropdowns — each retry Escapes, waits for the listbox
+ // to hide, and reopens before clicking again. `exact` switches substring to exact name match.
   protected async selectComboboxOption(
     dropdownKey: string,
     optionText: string,
@@ -570,9 +478,8 @@ export class BasePage {
       const startMs = Date.now();
       try {
         const listbox = await this.openComboboxListbox(dropdownKey);
-        // Match by accessible name (scoped to this listbox) rather than interpolating the option text
-        // into a :has-text() selector — the role match is properly escaped, so an option label that
-        // contains a quote or bracket can never break or hijack the selector.
+        // Match by accessible name rather than interpolating into :has-text() — an option label
+        // containing a quote or bracket cannot break or hijack the selector.
         const option = opts.exact
           ? this.page.getByRole('option', { name: optionText, exact: true })
           : listbox.getByRole('option', { name: optionText });
@@ -595,11 +502,7 @@ export class BasePage {
     }
   }
 
- /**
- * Get column header texts by iterating over an array of selector keys.
- * @param keys - Array of selector keys for column header elements
- * @returns Array of trimmed header texts in the same order as keys
- */
+ /** Header texts for the given selector keys, in key order. */
   protected async getColumnHeadersByKeys(keys: readonly string[]): Promise<string[]> {
     const headers: string[] = [];
     for (const key of keys) {
@@ -609,31 +512,18 @@ export class BasePage {
     return headers;
   }
 
- /**
- * Get displayed value of a form field (input or text element).
- * Tries inputValue first (for input elements), falls back to textContent.
- * @param selectorKey - Selector key for the field element
- * @returns Trimmed field display value
- */
+ /** Displayed value of a form field: inputValue() for inputs, textContent otherwise. */
   protected async getFieldDisplayValue(selectorKey: string): Promise<string> {
     const el = this.getElement(selectorKey);
-    // Prefer the input value; only fall back to text content when the element is not an input
-    // (inputValue() throws for non-input elements). A legitimately empty input then reads as empty
-    // rather than silently falling through to textContent.
+    // Probe input-ness first (inputValue() throws on non-inputs) so a legitimately empty input
+    // reads as empty instead of silently falling through to textContent.
     const asInput = await el.inputValue().then((v) => ({ isInput: true, v })).catch(() => ({ isInput: false, v: '' }));
     const value = asInput.isInput ? asInput.v : ((await el.textContent().catch(() => '')) ?? '');
     return value.trim();
   }
 
- /**
- * Wait for a save button to become enabled (form dirty state propagation).
- * Polls the button disabled state efficiently.
- * @param saveBtnKey - Selector key for the save button
- * @param timeout - Maximum wait time in ms (default: 5000)
- * @returns true if save became enabled within timeout, false otherwise
- */
-  // Default 10s (was 5s): Angular dirty-state propagation after section-grid
-  // edits can occasionally exceed 5s under contention.
+  // Default 10s: Angular dirty-state propagation after section-grid edits can exceed 5s
+  // under contention.
   protected async waitForSaveEnabled(saveBtnKey: string, timeout = 10_000): Promise<boolean> {
     try {
       const btn = this.getElement(saveBtnKey);
@@ -653,13 +543,7 @@ export class BasePage {
     }
   }
 
- /**
- * Poll until a field's aria-invalid becomes "true" (async Angular cross-field validators).
- * Cross-field validation (e.g. NM-1264) fires asynchronously after input events.
- * @param key - Selector key for the form field
- * @param timeout - Maximum wait time in ms (default: 5000)
- * @returns true if field became invalid within timeout, false otherwise
- */
+ /** Poll for aria-invalid="true" — cross-field validators (e.g. NM-1264) fire asynchronously. */
   protected async waitForFieldInvalid(key: string, timeout = 5_000): Promise<boolean> {
     const el = this.getElement(key);
     const deadline = Date.now() + timeout;
@@ -671,13 +555,7 @@ export class BasePage {
     return false;
   }
 
- /**
- * Poll until a field's aria-invalid becomes "false" or absent (async validator cleared).
- * Cross-field validators may take time to clear after correcting a value.
- * @param key - Selector key for the form field
- * @param timeout - Maximum wait time in ms (default: 5000)
- * @returns true if field became valid within timeout, false otherwise
- */
+ /** Poll until aria-invalid clears — validators take time to release after a value is corrected. */
   protected async waitForFieldValid(key: string, timeout = 5_000): Promise<boolean> {
     const el = this.getElement(key);
     const deadline = Date.now() + timeout;

@@ -10,22 +10,13 @@ test.describe('Location Business Types @locations @business-types', () => {
   // Per-test navigation guard. Presence in the page beats a url check, because every sub-tab of
   // Location Settings shares the same address.
   test.beforeEach(async ({ locationBusinessTypesPage }) => {
-    // Every test in this file calls test.setTimeout() from its OWN body to extend the budget
-    // past the 30s global default — but that call only takes effect if this beforeEach hook
-    // itself finishes within that default 30s first. navigateToSubTab()'s own readiness wait
-    // is already budgeted at 30s on its own (base.page.ts), leaving zero room for the
-    // navigation and tab click that precede it. A live environment slower than the ~9-15s
-    // this was tuned for (matching a pattern observed across other suites today) pushes the
-    // whole hook past 30s, timing out before any test body ever gets a chance to raise the
-    // ceiling. Setting a generous budget here — before any slow step runs — fixes that for
-    // every test in the file, without changing each test's own explicit test.setTimeout().
+    // Must be raised here, not only in each test body: navigateToSubTab's own readiness wait is
+    // already 30s, so the hook can blow the global default before any body raises the ceiling.
     test.setTimeout(180_000);
     if (!(await locationBusinessTypesPage.isOnBusinessTypesTab())) {
       await locationBusinessTypesPage.navigateToBusinessTypesTab(OFFICE_NO);
     }
-    // Per-test baseline: restore the office's expected selections so EVERY test starts clean,
-    // including a retry, which re-runs this hook but not the first test's body. A no-op on the
-    // common path; self-heals a dirty start left by an interrupted run.
+    // Runs per test, retries included, so an interrupted run's leftover selections self-heal.
     await locationBusinessTypesPage.ensureDefaultState(BUSINESS_TYPES_DEFAULTS, OFFICE_NO);
   });
 
@@ -41,9 +32,8 @@ test.describe('Location Business Types @locations @business-types', () => {
       expect(await locationBusinessTypesPage.getCheckboxLabel(item.key),
         `Position for ${item.name} should still be labelled ${item.name}`).toContain(item.name);
     }
-    // The save-cycle loop below builds its titles from the data file, so those ten ids would appear
-    // nowhere in this spec. Anyone searching here for the case covering one business type would find
-    // nothing, and a renumbering in the data file would go unnoticed. Naming them here fixes both.
+    // The save-cycle loop builds its titles from the data file, so listing the ids here is what
+    // makes them greppable in this spec and catches a renumbering in the data file.
     expect(BUSINESS_TYPES_SAVE_CYCLE_CASES.map((c) => c.tc),
       'Save-cycle case ids must match the ids this spec claims to cover').toEqual([
       'TC-LOC-BTY-003', // Audio Visual
@@ -68,9 +58,8 @@ test.describe('Location Business Types @locations @business-types', () => {
     expect(await locationBusinessTypesPage.isSaveEnabled(), 'Save should be disabled on a fresh load').toBe(false);
   });
 
-  // One loop over the reference data rather than ten copied bodies. Each case toggles the item away
-  // from its own office default, so the five selected items exercise clearing and the five cleared
-  // items exercise selecting -- both directions, without inventing extra cases.
+  // Each case toggles away from its own office default, so the five selected items exercise
+  // clearing and the five cleared items exercise selecting.
   for (const item of BUSINESS_TYPES_SAVE_CYCLE_CASES) {
     const expectedDefault = BUSINESS_TYPES_DEFAULTS.find((d) => d.key === item.key)!.checked;
 
@@ -143,9 +132,7 @@ test.describe('Location Business Types @locations @business-types', () => {
 
   test('TC-LOC-BTY-016: Unsaved Changes Prompt Discard Leaves The Page And Drops The Edit', async ({ locationBusinessTypesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-BTY-001']);
-    // Two full navigateFresh() reloads (in, then back in after discarding) — the single-reload
-    // toggle tests above already need 120s each; this test needs at least double that headroom,
-    // not the 90s it had (less than even a single reload's budget).
+    // Two full navigateFresh() reloads, so double the 120s the single-reload toggle tests need.
     test.setTimeout(240_000);
     await locationBusinessTypesPage.navigateFresh(OFFICE_NO);
     await locationBusinessTypesPage.toggleCheckbox('chkBusinessTypeExpoServices');
@@ -170,10 +157,8 @@ test.describe('Location Business Types @locations @business-types', () => {
       'Switching sub-tab should not clear the pending-change state').toBe(true);
 
     await locationBusinessTypesPage.navigateToBusinessTypesTab(OFFICE_NO);
-    // Asserts what this surface actually does, which is not what the neighbouring sub-tab does: the
-    // checkbox shows its saved value again while Save stays enabled, so the visible state and the
-    // pending-change state disagree. Recorded as a known defect; this test pins the behaviour so a
-    // future change to it is noticed rather than silently absorbed.
+    // Pins a known defect: on return the checkbox shows its saved value while Save stays enabled,
+    // so visible state and pending-change state disagree.
     expect(await locationBusinessTypesPage.isCheckboxChecked('chkBusinessTypeInHouse'),
       'On returning, the checkbox shows the saved value again').toBe(false);
     expect(await locationBusinessTypesPage.isSaveEnabled(),

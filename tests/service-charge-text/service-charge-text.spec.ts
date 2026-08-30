@@ -16,19 +16,8 @@ import {
   SCT_SAVE_PAYLOAD_ROW_KEYS,
 } from '../../src/data/service-charge-text/service-charge-text';
 
-/**
- * Service Charge Text setup page.
- *
- * Every test starts from a freshly loaded page. That reload is the reset: nothing here is saved,
- * so re-opening the page discards any edit a previous test made. This keeps each test independent
- * under retries and reruns.
- *
- * Tests that perform a real save use editSaveAssertRestore or an explicit try/finally restore
- * (for multi-field cases the helper cannot cover). They always leave shared data exactly as found.
- *
- * TC-056 and TC-058 are normal passing regression tests. They verify that rapid
- * double-clicking Save sends one request and that choosing Stay preserves unsaved edits.
- */
+// The beforeEach reload is the reset for unsaved edits; tests that really save must restore
+// shared data via editSaveAssertRestore or an explicit try/finally.
 test.describe('Service Charge Text', () => {
   let sct: ServiceChargeTextPage;
 
@@ -79,9 +68,7 @@ test.describe('Service Charge Text', () => {
     await sct.setRowName(row, SCT_FIRST_ROW_NAME);
     expect(await sct.waitForSaveUnavailable()).toBe(true);
 
-    // The application sets aria-invalid="true" on the offending input on blur and shows a
-    // red alert icon in the cell. Assert the machine-readable error state that is always
-    // present without hover choreography.
+    // aria-invalid is the machine-readable duplicate signal; the red icon needs hover choreography.
     expect(await sct.isRowNameInvalid(row)).toBe(true);
   });
 
@@ -423,9 +410,8 @@ test.describe('Service Charge Text', () => {
 
   test('TC-SCT-CORE-034: All three metadata fields saved in one operation all persist', async ({ dependencyGate }) => {
     dependencyGate([]);
-    // editSaveAssertRestore handles one field at a time. For a three-field simultaneous save,
-    // we use saveAndWait directly with an explicit try/finally restore so shared data is
-    // always left clean even if any assertion throws.
+    // editSaveAssertRestore covers only one field, so this uses saveAndWait with an explicit
+    // try/finally restore of all three.
     const row = await sct.findRowByName(SCT_FIRST_ROW_NAME);
     const original = await sct.getRowValues(row);
     // Capture current row count before editing to verify save does not add or remove rows.
@@ -830,9 +816,8 @@ test.describe('Service Charge Text', () => {
     const row = await sct.findRowByName(SCT_FIRST_ROW_NAME);
     const original = await sct.getRowValues(row);
 
-    // Alternating A/B sentinels (same pattern as TC-068): guarantees the write is always a
-    // genuine change even when a prior failed run left residue, preventing Angular's
-    // dirty-tracking from seeing a no-op and keeping Save disabled.
+    // Alternating A/B sentinels: residue from a failed run would make a fixed value a no-op,
+    // leaving Save disabled.
     const sentinelA = `ZZ Auto DblClick A${SCT_EDIT_SENTINEL_SUFFIX}`;
     const sentinelB = `ZZ Auto DblClick B${SCT_EDIT_SENTINEL_SUFFIX}`;
     const newDisplay = original.displayName === sentinelA ? sentinelB : sentinelA;
@@ -920,9 +905,7 @@ test.describe('Service Charge Text', () => {
     let capturedStatus = 0;
 
     await sct.editSaveAssertRestore(SCT_FIRST_ROW_NAME, 'displayName', newDisplayName, async () => {
-      // The save already happened inside editSaveAssertRestore. Capture the next save
-      // (the restore save) to verify the payload shape. Here we instead intercept the
-      // first save by using captureSaveRequest around the save action.
+      // Nothing asserted here — the payload is inspected via captureSaveRequest below.
     });
 
     // Re-run the scenario using captureSaveRequest to inspect the body.
@@ -1086,13 +1069,8 @@ test.describe('Service Charge Text', () => {
       expect(vals.displayName).toBe(newRow.displayName);
       expect(vals.reportColumn).toBe(newRow.reportColumn);
     } finally {
-      // Clean up: remove the added row by clearing its name and reloading (unsaved row vanishes).
-      // Since we saved it, we need to use the API or find another approach.
-      // The safest cleanup: set the name to something identifiable and leave for next reload.
-      // Actually, we cannot delete rows via the UI. Restore by clearing the name to make it
-      // identifiable for manual cleanup — but per test contract, we should not leave data.
-      // The page has no delete function, so we leave this row. The row count assertions in
-      // other tests use runtime-derived counts, so this is safe.
+      // No cleanup possible — the UI has no delete, so the saved row stays.
+      // Harmless: every other test derives its row count at runtime.
     }
   });
 
@@ -1162,9 +1140,8 @@ test.describe('Service Charge Text', () => {
     // Now open the editor for row 1 and type a rich text change.
     await sct.openEditorForRow(1);
 
-    // The app may show an "Unsaved changes" dialog when clicking a different row's HTML
-    // cell while metadata on row 0 is dirty. If it appears, dismiss with Stay (keeps edits)
-    // and proceed — the test still validates both edits persist in one save.
+    // Opening another row's HTML cell while row 0 is dirty can raise the unsaved-changes
+    // dialog; Stay keeps the edits so the single save still covers both.
     const dlgAfterOpen = page.locator('[role="dialog"], [role="alertdialog"]').first();
     if (await dlgAfterOpen.isVisible().catch(() => false)) {
       await sct.stayOnPage();
@@ -1266,9 +1243,8 @@ test.describe('Service Charge Text', () => {
       await sct.waitForRowCountStable();
       const vals = await sct.getRowValues(0);
       originals[lang] = { name: vals.name, displayName: vals.displayName };
-      // Two alternating sentinels: if the current value already equals A, write B (and vice versa).
-      // This guarantees the write is always a real change even when a prior failed run left residue,
-      // which prevents Angular's dirty-tracking from seeing a no-op and keeping Save disabled.
+      // Alternating A/B sentinels: residue from a failed run would make a fixed value a no-op,
+      // leaving Save disabled.
       const sentinelA = `ZZ Auto ${lang.slice(0, 4)} A${SCT_EDIT_SENTINEL_SUFFIX}`;
       const sentinelB = `ZZ Auto ${lang.slice(0, 4)} B${SCT_EDIT_SENTINEL_SUFFIX}`;
       const newDisplay = vals.displayName === sentinelA ? sentinelB : sentinelA;
@@ -1558,9 +1534,7 @@ test.describe('Service Charge Text', () => {
 
   // ------------------------------------------------------------ error-guessing DEEP (TC-080…083)
 
-  // Skipped for now. This check needs a second browser session to simulate two people editing the
-  // same row, and that session does not start reliably in our current setup. Making it dependable
-  // needs more work than the current timeline allows, so it is deferred until it can be prioritised.
+  // Skipped: the second browser session this needs does not start reliably in our setup.
   test.skip('TC-SCT-CORE-077: Two sessions editing the same row results in a conflict outcome, not a silent overwrite', async ({ dependencyGate, authenticatedSession, config }) => {
     test.setTimeout(180_000);
     dependencyGate([]);
@@ -1625,9 +1599,8 @@ test.describe('Service Charge Text', () => {
     }
   });
 
-  // Skipped for now. This check depends on the concurrent-session infrastructure from TC-SCT-CORE-077
-  // above. Until that second-session mechanism works reliably, this check cannot execute without
-  // crashing the test worker. Deferred until it can be prioritised.
+  // Skipped: depends on the same unreliable second-session setup as the test above; without it
+  // this check crashes the test worker.
   test.skip('TC-SCT-CORE-078: A save failure preserves edits and a retry succeeds', async ({ dependencyGate, authenticatedSession }) => {
     test.setTimeout(180_000);
     dependencyGate([]);

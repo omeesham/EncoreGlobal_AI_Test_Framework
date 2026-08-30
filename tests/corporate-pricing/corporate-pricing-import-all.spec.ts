@@ -7,22 +7,8 @@ const IMP = CORP_PRICING_TOOLBAR_IO.importDialog;
 const CUR = CORP_PRICING_TOOLBAR_IO.currencies;
 const IMP_ALL = CORP_PRICING_TOOLBAR_IO.importAll;
 
-// Import ▾ All (NM-2265) — the real upload round-trip for the grid-scoped Import.
-//
-// This is a DELTA-STAGE flow, fundamentally different from the location-scoped Loc Pricing Import above:
-//  1. Import ▾ → a variant → a Year(s)+Currency precondition dialog (Continue disabled until both set).
-//  2. Continue → the "Import All <variant>" upload dialog.
-//  3. Choosing a file does NOT commit — the app re-downloads the server pricebook and diffs the file
-//     against it in the browser, then either shows a message (no changes / no matching pricebooks /
-//     unsupported type) or opens a "Select items to publish" modal listing every changed cell.
-//  4. Nothing persists until the user selects rows and clicks Publish (the only mutating request,
-//     `pricing-import`).
-//
-// It is a delta MERGE (cells absent from the file are untouched, not deleted) and has NO location axis (the
-// file is Product Group Id + Product Group Name + one column per pricebook), so a change touches a corporate
-// pricebook every location referencing it shares. The @mutation round-trip therefore mutates ONE product-
-// group price in ONE pricebook (2026-LV-PB-9025 / product group 271) that no other test reads, and restores
-// it, verifying the restore from a fresh export.
+// Import All is a delta MERGE staged in-browser; only Publish commits (NM-2265). It has no location axis, so
+// the @mutation round-trip touches one product group in one pricebook no other test reads, then restores it.
 const importAllFixture = (name: string): string =>
   resolve(__dirname, '../../src/data/corporate-pricing/fixtures/import-all', name);
 const RT = IMP_ALL.roundTrip;
@@ -38,9 +24,8 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     await p.openImportAllUploadFor(RT.variant, [...RT.years], RT.currency);
   }
 
-  /** Import ONE cell back to `value` for `productGroupId` and publish it — the shared restore procedure used
-   *  by the afterEach safety-net AND the in-test restores, so the mutation-undo logic has ONE definition.
-   *  Returns whether a commit was published (false when the value already equals the server → nothing staged). */
+  // Single definition of the mutation undo, shared by the in-test restores and the afterEach safety net.
+  // Returns false when the value already matches the server, so nothing was staged to publish.
   async function publishImportAllCell(p: SearchPage, productGroupId: string, value: string): Promise<boolean> {
     const fix = await p.buildImportAllSingleCellFixture({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId, pricebook: RT.pricebook, newValue: value });
     try {
@@ -53,14 +38,8 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     }
   }
 
-  // Per-test baseline dispatched by TC number — each group keeps exactly the baseline it had
-  // when the groups were separate describes:
-  //  - TC-001..007 (precondition dialog): 90s + fresh page open.
-  //  - TC-008..012 (diff outcomes): 120s — opening the flow + a real server-pricebook diff on file choose.
-  //  - TC-013, TC-017 (real round-trip, @mutation): 360s — several real exports + publishes + a reload +
-  //    the merge-survival re-reads; captures the target start value plus two untouched merge canaries,
-  //    guards against a leaked sentinel, and gets a verified afterEach safety restore.
-  //  - TC-014..016, TC-018 (surface-behavior): 200s.
+  // Per-test baseline dispatched by TC number: every group gets a fresh page open, and the timeout scales
+  // with how many real exports and publishes the group performs.
   const tcNum = (title: string) => {
     const m = title.match(/^TC-CPR-IMA-(\d+)/);
     return m ? parseInt(m[1]!, 10) : -1;
@@ -92,11 +71,8 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     if (!isRoundTrip(tcNum(testInfo.title))) return;
     test.setTimeout(360_000); // the safety-restore may run a full import + publish + verify — match the body budget
     if (original === null) return;
-    // Safety restore — reverting shared server state MUST verify persistence and fail loudly (never trust
-    // the publish call, never mask a failure as a passing note): an unrestored corporate-price mutation
-    // leaks to the shared server and cascades into every later run. If the target is not back at its
-    // captured original (e.g. the test threw mid-way), re-import the original and re-read to confirm; a
-    // restore that cannot be confirmed FAILS the test rather than passing with a silent annotation.
+    // An unrestored corporate price leaks to the shared server, so a restore that cannot be confirmed
+    // by a re-read must fail the test rather than pass with a silent annotation.
     const current = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
     if (current === original) return; // already clean — the test body restored it
     const restorePublished = await publishImportAllCell(p, RT.productGroupId, original);
@@ -311,12 +287,8 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
     const afterPublish = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
     expect(afterPublish, 'The imported price should persist after page reload').toBe(RT.testValue);
 
-    // MERGE, not replace: the import file carried a single product-group ROW (271), so every OTHER product
-    // group was absent from the file. Read back an omitted product group (same pricebook column) and confirm
-    // it is unchanged — a REPLACE regression that wiped the rest of the (variant/currency/year) pricebook
-    // would fail this. Product-group ROW omission is the only meaningful merge proof here: the import file is
-    // fixed-width (a column-narrow file is rejected as "unexpected format", verified 2026-07-09), so a row
-    // present in the file always carries all 82 pricebook columns — a per-column omission simply cannot occur.
+    // Row omission is the only available merge proof: the file is fixed-width, so a column-narrow file is
+    // rejected outright and a per-column omission cannot occur.
     const survivorRow = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: canaries!.otherRow.productGroupId, pricebook: canaries!.otherRow.pricebook });
     expect(survivorRow, `an omitted product group (${canaries!.otherRow.productGroupId}) must survive Publish unchanged — proves MERGE, not REPLACE`).toBe(canaries!.otherRow.value);
 
@@ -434,10 +406,8 @@ test.describe('Corporate Pricing — Import ▾ All: precondition dialog, diff o
       p.removeTempFixture(multi.path);
     }
 
-    // Read back from a fresh export, then RESTORE both cells BEFORE asserting — so a bug that wrongly
-    // committed the deselected neighbour cannot leak a mutation when the assertion throws. Each restore is
-    // verified (never trust the publish call on shared server state); the neighbour is NOT covered by the
-    // afterEach net (that guards only the target), so its undo is confirmed here or the test fails loudly.
+    // Restore both cells BEFORE asserting, so a wrongly committed neighbour cannot leak when the assertion throws.
+    // The afterEach net guards only the target, so the neighbour's undo has to be confirmed here.
     await p.open();
     const targetAfter = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: RT.productGroupId, pricebook: RT.pricebook });
     const neighbourAfter = await p.captureImportAllCellValue({ variant: RT.variant, years: [...RT.years], currency: RT.currency, productGroupId: neighbourId, pricebook: RT.pricebook });

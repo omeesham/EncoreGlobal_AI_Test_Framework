@@ -7,12 +7,8 @@ import {
 } from '../../src/data/corporate-override/override';
 
 test.describe('Corporate Pricing — Product Group Override: grid text filter, sort & Grid Options (NM-2270) @corporate-pricing @override', () => {
-  // Three test beds in one suite — per-test setup is dispatched by TC id so each
-  // group keeps exactly the baseline it had when the groups were separate describes:
-  //  - TC-044..046, TC-048: office 1105 sort/filter bed (9 Equipment rows; verified sort oracles).
-  //  - TC-047: Grid Options bed — column visibility is a server-persisted preference,
-  //    restored before AND after the test.
-  //  - TC-115: toolbar text-filter boundary — navigates itself, no shared baseline.
+  // Three beds share this suite, so setup is dispatched by TC id and each group keeps the baseline
+  // it had as a separate describe. Grid Options is server-persisted, hence restored before and after.
   const SORT_FILTER_IDS = ['TC-CPR-OVR-044', 'TC-CPR-OVR-045', 'TC-CPR-OVR-046', 'TC-CPR-OVR-048'];
 
   const GRID_OPTIONS_IDS = ['TC-CPR-OVR-047'];

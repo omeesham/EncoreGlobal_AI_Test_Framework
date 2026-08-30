@@ -4,9 +4,7 @@ export const SetupPricingSelectors = {
   drpCurrencyFilter: '[data-testid="location-settings-select-pricing-currency"]',
   btnSavePricing: '[data-testid="location-settings-btn-save"]',
 
- // Office 1604 default currency is USD; only USD entries enumerated until live-DOM
- // verification confirms whether CAD/MXN dropdowns render. Add per-ccy variants when
- // a spec needs them and the testid is confirmed present.
+ // Office 1604 defaults to USD; the CAD/MXN keys below are unverified against the live DOM.
   drpPrimaryLaborPricingUSD: '[data-testid="location-settings-select-primary-labor-pricing-usd"]',
   drpPrimaryEquipmentPricingUSD: '[data-testid="location-settings-select-primary-equipment-pricing-usd"]',
   drpPrimaryInternalEquipmentPricingUSD: '[data-testid="location-settings-select-primary-internal-equipment-pricing-usd"]',

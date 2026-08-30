@@ -1,21 +1,11 @@
 import { test, expect } from '../../src/fixtures/pages.fixture';
 import { CORP_PRICING_SEARCH } from '../../src/data/corporate-pricing/search';
 
-/**
- * Read-only screen — no mutation. Query-param contract (verified): pricebookName / pricingStrategyName /
- * currencyId (USD=1,CAD=2,MXN=3) / locationNo / isInternal / isLabor / isActive (omitted when Active Only unchecked).
- *
- * TWO functional divergences asserted-as-live + raised as clarifications (never silently absorbed):
- *  - Columns: the requirements name 8 columns; live renders 9 ("Productions Currency" → Is Productions + Currency).
- *  - Filtering: the requirements say filtering is client-side; live filters are SERVER-SIDE, on the Search button.
- *
- * React/Next.js + shadcn DataTable (NOT Angular). Network listeners filter `/navigator/api/`.
- * Checkboxes via .check()/.uncheck(). No fixed waits. No hardcoded 591.
- */
+// Read-only screen. Filters are server-side and apply on the Search button, not client-side as the
+// requirements state; live renders 9 columns where the requirements name 8.
 test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surface behaviors @corporate-pricing @search', () => {
-  // Read-only screen → a fresh nav IS the per-test baseline: it resets every staged filter.
-  // The FCC band (TC-019..030) opens without a location; every other test opens on office 1604
-  // (the per-test guard its original describes used).
+  // A fresh nav is the per-test baseline: it resets every staged filter.
+  // The FCC band opens without a location; every other test opens on office 1604.
   const FCC_BAND = (n: number) => n >= 19 && n <= 30;
 
   const tcNum = (title: string) => {
@@ -89,10 +79,8 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
       const row = await cp.findRowByName(CORP_PRICING_SEARCH.pricebookFilterSample.expectedName);
       expect(row).not.toBeNull();
 
-      // clearing + Search broadens again. NOTE: the broadened query reverts to the default
-      // (isActive=true, no name) which equals the initial-load query → the app serves it from cache
-      // and fires NO new request (verified via trace — only 2 strategies calls total). So do NOT wait
-      // for a response here; just click Search and assert the grid broadens (no fixed sleep).
+      // The broadened query equals the initial-load query, so the app serves it from cache and fires no
+      // request — poll the grid instead of awaiting a response that never arrives.
       await cp.clearPricebookFilter();
       await cp.clickSearch();
       await expect.poll(async () => cp.getItemCountNumber(), { timeout: 15_000 }).toBeGreaterThan(1);
@@ -683,9 +671,8 @@ test.describe('Corporate Pricing — Search: FCC, filters, Grid Options & surfac
     for (const v of await cp.readColumnForVisibleRows('Currency')) expect(['USD', 'CAD', 'MXN', '-', '']).toContain(v);
     expect(await cp.getPricebookLinkCellCount()).toBeGreaterThan(0);
     await cp.fillPricebookFilter(CORP_PRICING_SEARCH.pricebookFilterSample.value);
-    // The prior test already ran this exact query, so the repeat is served from the browser cache and
-    // fires no new list response (see the filter dedup note in the page object). Click Search and poll
-    // for the matching row to settle, instead of awaiting a response the cache short-circuits.
+    // The prior test already ran this exact query, so the repeat is served from cache and fires no list
+    // response — poll for the matching row instead of awaiting one.
     await cp.clickSearch();
     await expect
       .poll(async () => (await cp.findRowByName(CORP_PRICING_SEARCH.pricebookFilterSample.expectedName)) !== null, { timeout: 15_000 })

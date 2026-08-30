@@ -71,20 +71,8 @@ export class LocationSharedSetupLocationsPage extends BasePage {
 
   @step('Clear Shared Setup table to baseline')
   async ensureCleanSSLTable(officeNo: string = '1604'): Promise<void> {
-    // Removing a saved shared-setup row is a two-step commit: clicking a row's delete button marks it
-    // for removal but leaves it in the grid until a Save persists the change. Marking many rows before
-    // one Save leaves the grid in a state where the remaining delete buttons stop responding, so clean
-    // in saved batches instead: delete a bounded run of the extra location rows (always the current
-    // first one, which always has a live button), Save (commits the removals), reload for a fresh grid,
-    // and re-check — repeating until only the office's own row remains. A normal, already-clean office
-    // returns on the first check with no deletes.
-    //
-    // IMPORTANT: this cleanup never touches the office's own "1604" self-row or its Shares Inventory
-    // checkbox. Un-checking Shares Inventory on the self-row and saving makes the whole self-row
-    // disappear from the table, which would wipe the baseline every other test depends on. Only the
-    // extra (numeric, non-1604) rows are deleted here.
-    // save-verify-exempt: this method persists in batches and re-reads the reloaded table after every
-    // Save to confirm the removals landed — the same persistence proof saveAndVerifyPersisted performs.
+    // save-verify-exempt: deletes in batches, re-reading the reloaded table after each Save.
+    // Never touch the "1604" self-row — saving without it removes the row and wipes the baseline.
     const maxBatches = 80;
     for (let batch = 0; batch < maxBatches; batch++) {
       let row = await this.findNonSelfRow();
@@ -127,10 +115,8 @@ export class LocationSharedSetupLocationsPage extends BasePage {
     for (let i = 1; i <= count; i++) {
       const cells = await this.page.locator(`${tbl} tbody tr:nth-child(${i}) td`).allTextContents();
       const office = (cells[0] ?? '').trim();
-      // A real shared-location row shows a numeric office number. Skip the self office (1604) and,
-      // crucially, the empty-state placeholder row ("No shared setup locations added yet.") — that
-      // placeholder is not a deletable row and has no delete control, so treating it as a non-self
-      // row would make the cleanup click a button that never appears.
+      // Numeric-only filter skips both the self office and the empty-state placeholder row,
+      // which has no delete control for cleanup to click.
       if (office !== '1604' && /^\d+$/.test(office)) {
         return { index: i, localOffice: office, localOfficeName: (cells[1] ?? '').trim() };
       }
@@ -207,11 +193,8 @@ export class LocationSharedSetupLocationsPage extends BasePage {
     }
   }
 
- /**
- * Uses evaluate to walk up from the SSL table to its closest [role="tabpanel"] ancestor
- * (the inner SSL tabpanel only), preventing a false-positive match on the outer
- * "Basic Information" tabpanel which contains the shared left-panel Save button.
- */
+ // Scoped to the table's closest tabpanel: the outer Basic Information tabpanel holds the
+ // shared left-panel Save button and would false-positive.
   @step('Has in tab save button')
   async hasInTabSaveButton(): Promise<boolean> {
     const tableSel = this.getLocator('tblSharedSetupLocations');
@@ -371,14 +354,8 @@ export class LocationSharedSetupLocationsPage extends BasePage {
   async clickTopLevelTab(tabKey: 'tabBasicInformation' | 'tabLocationManagementHistory'): Promise<void> {
     const tab = this.getElement(tabKey);
     await tab.click();
-    // Two valid post-click outcomes:
-    //   (a) Clean form: Radix transitions aria-selected="true" (router navigates).
-    //   (b) Dirty form: Angular CanDeactivate guard blocks navigation; the Unsaved Changes
-    //       alertdialog appears and aria-selected stays "false".
-    // Polling for "either outcome" keeps the clean-form contract intact (a still resolves first)
-    // while letting the dirty-form path proceed without a 10s timeout. Uses the specific
-    // dlgUnsavedChanges testid (not generic role="alertdialog") so the Add dialog (role="dialog")
-    // cannot false-positive.
+    // A dirty form is blocked by the CanDeactivate guard, so poll for either aria-selected or the
+    // Unsaved Changes dialog. Matched by testid so the Add dialog cannot false-positive.
     const dlgUnsaved = this.getElement('dlgUnsavedChanges');
     await expect.poll(
       async () =>
@@ -390,10 +367,8 @@ export class LocationSharedSetupLocationsPage extends BasePage {
     Log.info(`Clicked top-level tab: ${tabKey}`);
   }
 
- /**
- * Scopes to the two known top-level testids instead of `[role="tab"][aria-selected="true"]`.first(),
- * which also matches sub-tabs (Currency / Notes / etc.) and was order-dependent.
- */
+ // Scoped to the two top-level testids: a generic aria-selected query also matches sub-tabs
+ // and is order-dependent.
   @step('Get active top level tab')
   async getActiveTopLevelTab(): Promise<string> {
     const candidates: Array<'tabBasicInformation' | 'tabLocationManagementHistory'> = [
@@ -428,8 +403,8 @@ export class LocationSharedSetupLocationsPage extends BasePage {
     const addBtn = this.getElement('btnSharedAdd');
     for (let i = 0; i < count; i++) {
       await addBtn.click({ force: true, noWaitAfter: true }).catch((err: Error) => {
-        // Only swallow overlay-intercept-class errors (expected for late clicks while dialog is open).
-        // Anything else (element not found, detached, target closed) must propagate so the test fails with the real cause.
+        // Swallow only overlay-intercept errors, expected once the dialog is open; anything
+        // else must propagate so the test fails with the real cause.
         if (!/intercepts pointer events|element is not visible|outside of the viewport|Target page, context or browser has been closed/i.test(err.message)) {
           throw err;
         }

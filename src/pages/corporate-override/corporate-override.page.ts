@@ -1,31 +1,5 @@
-/**
- * Corporate Pricing — Product Group Override screen page object.
- * `CorporatePricingOverridePage extends CorporatePricingBasePage`.
- *
- * URL: /navigator/locations/{office}/settings/corporate-pricing/pg-override
- * Reached via the Search action-bar "Pricing Override" button.
- *
- * Live model:
- *  - Equipment / Labor tabs (Radix `role=tab`, `aria-selected`); switching reloads the grid.
- *  - Grid is **location-gated**: empty ("No results.") until a location is picked via the
- *    "Select a location" card → modal table (search + checkbox row + "Select").
- *  - 10-column grid; `Active` renders as a **Radix checkbox** (read `aria-checked`).
- *  - "Filter Product Groups Override..." filters the grid **client-side** (no Search button).
- *  - Save is disabled on clean; dialog-gated by the shared Corporate Pricing save pattern.
- *
- * Selector strategy: text/role/grid-header/content-anchored (one data-testid used as a context anchor). Reuses the base
- * `readGridRowsByContent` / `findGridRowByContent` / `readAllTexts` / `isVisibleSafe` /
- * `confirmSaveDialogIfPresent` (shared base helpers). Does NOT reuse the base `switchTab` — that union is typed
- * for the Details tabs ('Pricing Strategy' | 'Pricing Detail'); the Override Equipment/Labor tabs get
- * their own switcher here.
- *
- * EDIT MECHANISM: the grid IS editable for the automation user. Click an Override Price / Max Discount
- * `div[role=button]` cell → an active `spinbutton` reveals → native value-setter (React-controlled;
- * `.fill()` does not commit) + `Enter` commits → Save enables. Active = Radix `checkbox` toggles +
- * dirties. Save → "Save Changes" dialog (matched via the CSS `[role="alertdialog"]` selector + TEXT
- * buttons — Playwright `getByRole('alertdialog')` does NOT match it) → POST corporate-price-pg-override
- * → toast. Net-zero (revert disables Save). Max Discount % is capped at 100 (>100 rejected).
- */
+// Product Group Override screen. The grid is location-gated (empty until a location is picked) and its
+// numeric cells are React-controlled spinbuttons: `.fill()` never commits, so use setReactInput + Enter.
 import { expect } from '@playwright/test';
 import type { Page, Locator } from '@playwright/test';
 import { CorporatePricingBasePage } from '../corporate-pricing/corporate-pricing.page';
@@ -82,8 +56,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
   async switchOverrideTab(tab: OverrideTab): Promise<void> {
     const sel = tab === 'Equipment' ? OS.ovrTabEquipment : OS.ovrTabLabor;
     await this.page.locator(sel).first().click();
-    // Wait for Radix to flip aria-selected. A Playwright locator pierces shadow DOM and auto-retries
-    // until the attribute lands — no fixed sleep, no raw document.querySelector (shadow-blind).
+    // Wait for Radix to flip aria-selected rather than sleeping.
     await this.page
       .locator(`[role="tab"][aria-selected="true"]:has-text("${tab}")`)
       .first()
@@ -93,17 +66,10 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
 
   @step('Open location picker')
   async openLocationPicker(): Promise<void> {
-    // ovrChangeLocationTrigger ('text=Change Local Office') is visible in both states:
-    // no location selected and location already loaded.
     await this.page.locator(OS.ovrChangeLocationTrigger).first().click();
     await this.page.locator(OS.ovrLocationPickerSearch).first().waitFor({ state: 'visible', timeout: 10_000 });
-    // Wait for the location list to be populated with real data before returning.
-    // The picker renders skeleton placeholder rows immediately (visible, but with empty text
-    // content) while the API call is in flight. Waiting for row visibility alone is satisfied
-    // by a skeleton row in milliseconds, while the actual data can take ~23 seconds to arrive.
-    // We poll until at least one row's trimmed text is non-empty, confirming real data has
-    // loaded. The 60 000 ms budget matches the timeout used for other slow surfaces in this
-    // environment.
+    // The picker paints empty skeleton rows instantly, so row visibility is not enough — poll for
+    // non-empty row text; the real list can take ~23s to arrive.
     await expect
       .poll(
         async () => {
@@ -122,10 +88,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
   async selectLocation(nameOrNumber: string): Promise<void> {
     const search = this.page.locator(OS.ovrLocationPickerSearch).first();
     await this.openLocationPicker();
-    // The picker is a Radix modal whose search input can mount a moment before it becomes
-    // editable (open animation + a server-loaded location list). A fill occasionally races
-    // that window and finds the input non-editable; a fresh re-open reliably clears the stuck
-    // state, so the open-and-fill is bounded-retried before giving up.
+    // The search input can mount before it becomes editable; a fill that races that window only
+    // clears on a fresh re-open, hence the bounded retry.
     for (let attempt = 1; ; attempt++) {
       try {
         await search.fill(nameOrNumber, { timeout: 6_000 });
@@ -190,12 +154,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Type into the client-side "Filter Product Groups Override..." input (narrows the rendered grid).
-   * React-controlled + debounced: `.fill()` alone does not commit React state, and `waitForAngularStable`
-   * is a no-op on this React app — so use `setReactInput` (native setter) + a one-shot settle for the
-   * filter's debounce/re-render to land before the caller reads the row count (NOT a polling loop).
-   */
+  // React-controlled and debounced: `.fill()` does not commit and waitForAngularStable is a no-op here,
+  // so a native setter plus a one-shot settle is what lets the caller read a stable row count.
   @step('Filter product groups')
   async filterProductGroups(text: string): Promise<void> {
     await this.setReactInput(OS.ovrFilterInput, text);
@@ -239,11 +199,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return (await row.locator('[role="checkbox"]').first().getAttribute('aria-checked')) === 'true';
   }
 
-  /**
-   * Read a numeric click-to-edit cell's DISPLAY value (the `div[role=button]`), waiting for display mode
-   * so a read never races a still-open editor (which would yield "" → NaN on back-to-back edits).
-   * Thousands separators are stripped so "999,999.00" → "999999.00" parses correctly.
-   */
+  // Waits for display mode so a read never races a still-open editor (which yields "" → NaN).
+  // Thousands separators are stripped so the result parses as a number.
   private async readEditableCell(row: Locator, colIndex: number): Promise<string> {
     const cell = row.locator('td').nth(colIndex);
     const disp = cell.locator('[role="button"]').first();
@@ -278,16 +235,11 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     await this.waitForGridRows();
   }
 
-  /**
-   * Open a click-to-edit numeric cell (`div[role=button]`) and return its revealed `spinbutton` editor.
-   * The Override grid spinbutton is React-controlled: `.fill()` does NOT commit React state, so callers
-   * MUST use `setReactInput` (native value-setter) + `Enter` to commit.
-   */
+  /** Callers must commit the returned editor with setReactInput + Enter; `.fill()` does not commit. */
   private async openCellEditor(row: Locator, cellSel: string): Promise<Locator> {
     await row.locator(cellSel).first().click();
-    // Scope editor to the row — not page-wide — so a stale editor left in another
-    // row by the known two-editor defect cannot silently resolve as "ours".
-    // Playwright strict mode: throws if 0 or 2+ spinbuttons exist in the row.
+    // Row-scoped, not page-wide, so a stale editor left in another row by the two-editor defect
+    // cannot silently resolve as ours.
     const editor = row.getByRole('spinbutton');
     await editor.waitFor({ state: 'visible', timeout: 8_000 });
     return editor;
@@ -311,11 +263,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     await this.editNumericCell(row, OS.ovrCellMaxDiscount, value);
   }
 
-  /**
-   * Attempt to commit a Max Discount value; returns true if it committed (editor closed) or false if the
-   * field REJECTED it (editor stayed open — the live app caps Max Discount % at 100, so >100 is rejected).
-   * On rejection the editor is Escaped to leave a clean cell. Does NOT click Save.
-   */
+  // True when the value committed, false when the field rejected it (the editor stays open; >100 is capped).
+  // Escapes on rejection to leave a clean cell; never clicks Save.
   @step('Try max discount')
   async tryMaxDiscount(row: Locator, value: string): Promise<boolean> {
     const editor = await this.openCellEditor(row, OS.ovrCellMaxDiscount);
@@ -337,11 +286,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return v;
   }
 
-  /**
-   * Open the Override Price editor, attempt to set `raw` via the native setter, return the value the
-   * (type=number) input actually retains, then Escape (no commit). Used to prove non-numeric input is
-   * rejected (a `<input type=number>` coerces an invalid string to "").
-   */
+  /** Returns what the type=number input retains without committing — an invalid string coerces to "". */
   @step('Probe override price input')
   async probeOverridePriceInput(row: Locator, raw: string): Promise<string> {
     const editor = await this.openCellEditor(row, OS.ovrCellOverridePrice);
@@ -366,27 +311,19 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return this.page.locator(OS.ovrBtnSave).first().isEnabled().catch(() => false);
   }
 
-  /**
-   * Click the page-level Save and confirm the shared "Save Changes" alertdialog, then settle on the
-   * success toast. Flow: Save → alertdialog (heading "Save Changes", body
-   * "Are you sure you want to save the changes?", Cancel/Save) → `POST {saveApiPath}` → toast
-   * "Pricing overrides saved successfully." The dialog can take a few seconds on this heavy page, so we
-   * wait for it explicitly.
-   */
+  /** Save → "Save Changes" alertdialog → POST → success toast; the dialog can lag on this heavy page. */
   @step('Save and confirm')
   async saveAndConfirm(): Promise<void> {
     await this.page.locator(OS.ovrBtnSave).first().click();
-    // The dialog is `<div role="alertdialog">` — Playwright `getByRole('alertdialog')` does NOT match it
-    // (shadow/portal a11y exclusion), so use the CSS selector + the TEXT-anchored Save button (the
-    // dialog buttons have no computed accessible name).
+    // getByRole('alertdialog') does not match this portal-nested dialog and its buttons have no
+    // accessible name, so use the CSS selector with a text-anchored Save.
     const dlg = this.page.locator(OS.ovrSaveDialog).first();
     await dlg.waitFor({ state: 'visible', timeout: 10_000 }).catch(() => { /* direct-save fallback */ });
     if (await dlg.isVisible().catch(() => false)) {
       await this.page.locator(OS.ovrSaveDialogConfirm).first().click();
     }
-    // Settle on the success toast (persistence is re-verified by the caller's reload + DOM re-read).
-    // Warn instead of silently swallowing a timeout — a missing toast is a real signal the save may
-    // not have completed cleanly, even though the caller's reload + re-read remains the proof.
+    // Warn rather than throw on a missing toast: the caller's reload + re-read is the real proof of
+    // persistence, but a missing toast still signals a save that may not have completed cleanly.
     const toastSeen = await this.page
       .getByText(CORP_PRICING_OVERRIDE.saveSuccessToast, { exact: false })
       .first()
@@ -420,12 +357,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return t === '' || t === '—' || t === '-' || t === '–';
   }
 
-  /**
-   * Restore the fixture row to its baseline Override Price + Active + (unset) Max Discount. Reloads +
-   * re-selects each cycle, re-reads, saves only if dirty; bounded to 3 cycles then a final verify that
-   * THROWS if it could not restore (so a silent drift surfaces as a failure, mirroring the Legal
-   * `ensureDefaultState`). Max Discount is cleared back to its unset state when a prior case set it.
-   */
+  // Restores the fixture row's baseline over at most 3 reload cycles, then a final verify that THROWS
+  // if it could not restore, so silent drift into the next test surfaces as a failure.
   @step('Ensure default state')
   async ensureDefaultState(
     anchor: string,
@@ -487,13 +420,12 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     const selectDisabledInitially = await this.page.locator(OS.ovrLocationPickerSelect).first().isDisabled().catch(() => false);
     await this.page.locator(OS.ovrLocationPickerSearch).first().fill(needle);
     const rows = this.page.locator(OS.ovrLocationPickerRowAny, { hasText: needle });
-    // The picker search is server-backed — wait for the matching row to render before counting
-    // (a fixed sleep raced the result). A genuine zero-match is still handled by the count below.
+    // The picker search is server-backed, so wait for the matching row before counting; a genuine
+    // zero-match is still handled by the count below.
     await rows.first().waitFor({ state: 'visible', timeout: 10_000 }).catch(() => { /* best-effort: zero rows is itself a valid observation */ });
     const rowsMatching = await rows.count();
     await rows.first().locator(OS.ovrLocationPickerRowCheckbox).first().check().catch(() => { /* row may need a plain click */ });
-    // Wait for the Select button to actually become enabled after checking the row, rather than a
-    // fixed pause; a row that genuinely never enables Select resolves to false at the timeout.
+    // A row that genuinely never enables Select resolves to false at the timeout.
     const selectBtn = this.page.locator(OS.ovrLocationPickerSelect).first();
     const selectEnabledAfterCheck = await expect(selectBtn)
       .toBeEnabled({ timeout: 5_000 })
@@ -546,12 +478,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     await this.page.waitForTimeout(600);
   }
 
-  /**
-   * Baseline restore: ensure every grid column is visible again. Column visibility is a server-persisted
-   * preference, so a test that hides a column must restore it. Bounded retry re-reads the columns after
-   * a reload and re-toggles any still hidden, throwing if the baseline cannot be restored — a silently
-   * no-op'd toggle must never report success while a column stays hidden for the next test.
-   */
+  // Column visibility is a server-persisted preference, so a test that hides a column must restore it.
+  // Throws if the baseline cannot be restored rather than leaving a column hidden for the next test.
   @step('Ensure all grid columns visible')
   async ensureAllGridColumnsVisible(needle: string, office: string = CORPORATE_PRICING_COMMON.office): Promise<void> {
     const allColumnsChecked = async (): Promise<boolean> => {
@@ -632,16 +560,10 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
 
   // --- Change Local Office picker helpers (NM-2268, search-narrowing + Active checkbox) ---
 
-  /**
-   * Type a search query into the "Search by Location Name, Number" textbox inside an already-open
-   * Change Local Office picker dialog. Search is client-side — no API call per keystroke. A short
-   * settle wait lets the filter re-render before the caller reads the row count.
-   */
+  /** Requires an already-open Change Local Office picker dialog. */
   @step('Search local office')
   async searchLocalOffice(query: string): Promise<void> {
-    // fill() clears the existing value and fires a trusted CDP input event that triggers the
-    // server-backed debounced search POST. Wait for a matching row to appear (mirrors selectLocation)
-    // rather than waiting on a fixed timeout or a response promise that could capture a stale POST.
+    // Wait for a matching row rather than a response promise, which could capture a stale debounced POST.
     await this.page.locator(OS.ovrLocationPickerSearch).first().fill(query);
     await this.page.locator(OS.ovrLocationPickerRowAny, { hasText: query }).first()
       .waitFor({ state: 'visible', timeout: 8_000 })
@@ -664,41 +586,25 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return this.page.locator(OS.ovrLocationPickerRowAny).count();
   }
 
-  /**
-   * Return true if at least one picker row contains the given text (visible text-match inside tbody tr).
-   * Used to assert that a search result is present without relying on exact row counts across data states.
-   */
+  /** Presence check that avoids depending on exact row counts across data states. */
   @step('Picker has row containing')
   async pickerHasRowContaining(text: string): Promise<boolean> {
     return (await this.page.locator(OS.ovrLocationPickerRowAny, { hasText: text }).count()) > 0;
   }
 
-  /**
-   * Return the number of visible picker rows that contain the given text.
-   * Used to verify that a search filter shows only matching offices — every rendered row
-   * should contain the search query when the filter is active.
-   */
+  /** Compared against the total row count to prove the search filter left no non-matching rows. */
   @step('Get picker row count containing')
   async getPickerRowCountContaining(text: string): Promise<number> {
     return this.page.locator(OS.ovrLocationPickerRowAny, { hasText: text }).count();
   }
 
-  /**
-   * Read the Active filter checkbox state inside the Change Local Office picker dialog.
-   * The Active checkbox is the FIRST [role="checkbox"] in the dialog — it appears above the search
-   * textbox and the table rows.
-   */
+  /** The Active filter is the first [role="checkbox"] in the dialog, above the search box and rows. */
   @step('Get picker active checkbox state')
   async getPickerActiveCheckboxState(): Promise<boolean> {
     return (await this.page.locator(OS.ovrLocationPickerActiveCheckbox).first().getAttribute('data-state')) === 'checked';
   }
 
-  /**
-   * Toggle the Active filter checkbox in the Change Local Office picker dialog.
-   * Toggling the Active filter is handled client-side — it does NOT trigger a new location-lookup
-   * request, and the returned location set is unchanged.
-   * (Known issue: the active-only filter has no server effect.)
-   */
+  // Known issue: this toggle fires no location-lookup request and leaves the location set unchanged.
   @step('Toggle local office picker active')
   async toggleLocalOfficePickerActive(): Promise<void> {
     await this.page.locator(OS.ovrLocationPickerActiveCheckbox).first().click();
@@ -714,12 +620,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
       .catch(() => {});
   }
 
-  /**
-   * Open the Change Local Office picker and probe for a POST /api/location/location-lookup.
-   * Returns postFired:true with locationCount from body.locations.length when the request fires
-   * (expected on first open). Returns postFired:false / locationCount:-1 if no POST fires within
-   * the 3-second window. No DOM fallback — a missing POST is reported honestly.
-   */
+  // Probes for the location-lookup POST within a 3s window; no DOM fallback, so a missing POST is
+  // reported as postFired:false rather than papered over.
   @step('Open location picker and capture post')
   async openLocationPickerAndCapturePost(): Promise<LocationLookupProbe> {
     const responsePromise = this.page.waitForResponse(
@@ -737,12 +639,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     ]);
   }
 
-  /**
-   * Toggle the Active filter checkbox and probe for a POST /api/location/location-lookup.
-   * Returns postFired:false / locationCount:-1 when toggle is a client-side filter (the
-   * activeOnly flag currently has no server effect). Returns postFired:true if the app is
-   * fixed to make a server call. No DOM fallback — a missing POST is reported as postFired:false.
-   */
+  // Currently returns postFired:false — the activeOnly flag has no server effect; it flips to true
+  // if the app is ever fixed to make the call.
   @step('Toggle local office picker active and capture post')
   async toggleLocalOfficePickerActiveAndCapturePost(): Promise<LocationLookupProbe> {
     const responsePromise = this.page.waitForResponse(
@@ -771,12 +669,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return out;
   }
 
-  /**
-   * Sort a grid column by opening its header dropdown and clicking the
-   * "Sort ascending" or "Sort descending" menu item. This is the live sort mechanism
-   * on the Override grid — a dropdown menu, not a header-click toggle.
-   * Waits for the grid to settle before returning (one-shot, not a poll loop).
-   */
+  /** Sorting on this grid is a header dropdown menu, not a header-click toggle. */
   @step('Sort column via dropdown')
   async sortColumnViaDropdown(headerLabel: string, direction: 'ascending' | 'descending'): Promise<void> {
     const header = this.page.locator(OS.ovrColHeaderAny, { hasText: headerLabel }).first();
@@ -788,19 +681,13 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     await this.page.waitForTimeout(1_200); // one-shot settle for the grid re-render after sort
   }
 
-  /**
-   * Read the inner text of the first visible row's cell at the given column index (0-based).
-   * Used to assert walk-certified first-cell sort oracles.
-   */
+  /** Reads the first visible row's cell at a 0-based column index, for first-cell sort oracles. */
   @step('Get first row cell text')
   async getFirstRowCellText(colIndex: number): Promise<string> {
     return (await this.page.locator(OS.ovrGridRowAny).first().locator('td').nth(colIndex).innerText().catch(() => '')).replace(/\s+/g, ' ').trim();
   }
 
-  /**
-   * Read every visible row's cell text at the given column index (0-based).
-   * Used to verify that a column is monotonically ordered after an ASC or DESC sort.
-   */
+  /** Reads every visible row's cell at a 0-based column index, for monotonic-order sort checks. */
   @step('Get column cell values')
   async getColumnCellValues(colIndex: number): Promise<string[]> {
     const rows = this.page.locator(OS.ovrGridRowAny);
@@ -840,10 +727,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     await this.page.waitForTimeout(1_200); // one-shot settle for the server-paged grid re-render
   }
 
-  /**
-   * Read the current rows-per-page selection. The control is the page-size combobox whose visible
-   * text is always one of the size options — the currency combobox next to it never shows a number.
-   */
+  // Matched by numeric text: the currency combobox sitting next to it never shows a number.
   private rowsPerPageCombobox(): Locator {
     return this.page.getByRole('combobox').filter({ hasText: /^(10|20|30|40|50)$/ }).first();
   }
@@ -863,12 +747,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
 
   // --- Unsaved-changes guard (NM-2271) ---
 
-  /**
-   * Click the in-app Home link while the grid holds an uncommitted edit, and wait for the
-   * "Unsaved changes" guard dialog. The guard only fires on IN-APP link navigation — a direct
-   * URL change triggers the browser's own leave-page prompt instead, so this helper always
-   * navigates via the Home link. Returns the dialog's verbatim text for content assertions.
-   */
+  // The guard fires only on in-app link navigation — a direct URL change raises the browser's own
+  // leave-page prompt instead, so this always goes via the Home link.
   @step('Navigate home expect unsaved dialog')
   async navigateHomeExpectUnsavedDialog(): Promise<string> {
     await this.page.getByRole('link', { name: 'Home' }).first().click();
@@ -884,11 +764,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     await this.page.locator(OS.ovrUnsavedDialog).first().waitFor({ state: 'hidden', timeout: 8_000 });
   }
 
-  /**
-   * Choose "Discard" in the unsaved-changes dialog and wait for navigation to complete.
-   * The destination is a heavy server-rendered page, so the navigation budget matches the rest of
-   * this page object (30s, same as the load wait) — a 15s budget flaked on a slow first paint.
-   */
+  /** The destination is a heavy server-rendered page; a 15s navigation budget flaked on first paint. */
   @step('Discard and leave')
   async discardAndLeave(): Promise<void> {
     await this.page.locator(OS.ovrUnsavedDialogDiscard).first().click();
@@ -897,11 +773,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
 
   // --- Keyboard access to editable cells (NM-2271) ---
 
-  /**
-   * Focus the row's Override Price display cell and press Enter to open its numeric editor.
-   * Returns the editor's exposed value. Verified live: the display cell is a focusable
-   * button-style element, Enter reveals the editor, Escape closes it without dirtying the form.
-   */
+  /** Keyboard path into the editor: the display cell is focusable and Enter reveals the spinbutton. */
   @step('Open override price editor with keyboard')
   async openOverridePriceEditorWithKeyboard(row: Locator): Promise<string> {
     await row.locator(OS.ovrCellOverridePrice).first().focus();
@@ -931,23 +803,16 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return this.isVisibleSafe(OS.ovrPickerSearchInput);
   }
 
-  /**
-   * Count the picker's draggable product-group rows (the only draggable table rows on the page).
-   * The picker panel mounts BEFORE its rows finish loading from the server, so wait for the first
-   * row to render (bounded) before counting — a count taken too early reads 0 on a healthy picker.
-   */
+  // The picker panel mounts before its rows load, so a count taken too early reads 0 on a healthy
+  // picker — hence the bounded wait for the first row.
   @step('Get picker draggable row count')
   async getPickerDraggableRowCount(): Promise<number> {
     await this.page.locator(OS.ovrPickerDraggableRow).first().waitFor({ state: 'visible', timeout: 20_000 }).catch(() => { /* a genuinely empty picker is a valid observation — the caller asserts the count */ });
     return this.page.locator(OS.ovrPickerDraggableRow).count();
   }
 
-  /**
-   * Drag the picker's first product-group row into the given override grid tab panel, staging a
-   * new override row client-side (no request fires until Save). Returns the dragged row's text so
-   * the caller can identify the staged row. Uses the pointer-based drag that was proven live to
-   * stage a row on this grid. Waits for the async-loaded picker rows before dragging.
-   */
+  // Stages a new override row client-side; no request fires until Save.
+  // Returns the dragged row's text so the caller can identify the staged row.
   @step('Drag first picker row to grid')
   async dragFirstPickerRowToGrid(tab: OverrideTab): Promise<string> {
     const source = this.page.locator(OS.ovrPickerDraggableRow).first();
@@ -972,13 +837,9 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
   }
 
   // --- Labor-tab equivalents of Equipment helpers (NM-2271) ---
-  // Labor matches Equipment: same click-to-edit spinbutton cells, same save dialog, same
-  // checkbox Active cell. These mirror the Equipment helpers with a mandatory tab-switch.
+  // Labor uses the identical cell/dialog mechanics; these only add the mandatory tab switch.
 
-  /**
-   * Navigate to the Override page, select a location, switch to Labor tab, and wait for
-   * grid rows. Mirrors the Equipment `reloadAndReselect` with a Labor tab switch.
-   */
+  /** Equipment `reloadAndReselect` plus the Labor tab switch. */
   @step('Reload and reselect labor')
   async reloadAndReselectLabor(needle: string, office: string = CORPORATE_PRICING_COMMON.office): Promise<void> {
     await this.gotoOverride(office);
@@ -987,35 +848,25 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     await this.waitForGridRows();
   }
 
-  /**
-   * Set the Override Price on a Labor-tab row. Identical mechanism to Equipment — the Labor grid
-   * uses the same spinbutton cells (verified live 2026-07-20).
-   */
+  /** Set the Override Price on a Labor-tab row. */
   @step('Set labor override price')
   async setLaborOverridePrice(row: Locator, value: string): Promise<void> {
     await this.editNumericCell(row, OS.ovrCellOverridePrice, value);
   }
 
-  /**
-   * Set the Max Discount on a Labor-tab row. Same spinbutton mechanism as Equipment.
-   */
+  /** Set the Max Discount on a Labor-tab row. */
   @step('Set labor max discount')
   async setLaborMaxDiscount(row: Locator, value: string): Promise<void> {
     await this.editNumericCell(row, OS.ovrCellMaxDiscount, value);
   }
 
-  /**
-   * Toggle the Active checkbox on a Labor-tab row. Same Radix checkbox mechanism as Equipment.
-   */
+  /** Toggle the Active checkbox on a Labor-tab row. */
   @step('Toggle labor active')
   async toggleLaborActive(row: Locator): Promise<void> {
     await row.locator(OS.ovrCellActiveCheckbox).first().click();
   }
 
-  /**
-   * Restore a Labor fixture row to its baseline state. Mirrors `ensureDefaultState` with a
-   * mandatory tab switch to Labor after each reload (a reload always lands on Equipment).
-   */
+  /** `ensureDefaultState` for Labor — a reload always lands on Equipment, so each cycle re-switches. */
   @step('Ensure labor default state')
   async ensureLaborDefaultState(
     anchor: string,
@@ -1028,14 +879,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
 
   // --- Revert-to-original helper (net-zero changes disable Save) ---
 
-  /**
-   * Revert an editable numeric cell to its original (empty/baseline) value by clearing it.
-   * CRITICAL: typing an empty string into a cell that has no baseline is a no-op (Ctrl+A then
-   * typing nothing leaves the old value). The live-verified mechanism is:
-   *   Ctrl+A → Delete → Enter
-   * which selects all, deletes to empty, then commits the empty value — restoring the em-dash
-   * display and leaving Save DISABLED (net-zero).
-   */
+  // Ctrl+A then typing nothing is a no-op and leaves the old value; only an explicit Delete before
+  // Enter commits the empty value and returns the cell to its em-dash baseline.
   @step('Revert cell to original')
   async revertCellToOriginal(row: Locator, cellSel: string): Promise<void> {
     const editor = await this.openCellEditor(row, cellSel);
@@ -1140,28 +985,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
 
   // --- probeEditOracle: rejection/commit oracle (NM-2271) ---
 
-  /** Result of a `probeEditOracle` call — captures the full state of an edit attempt. */
-  // (exported at module level below the class for external use)
-
-  /**
-   * Probe the edit oracle for a numeric cell: type a value using REAL KEYBOARD INPUT, then capture
-   * every observable signal BEFORE pressing Escape. Capture order is fixed and non-negotiable:
-   *   1. committed? (editor closed after Enter)
-   *   2. displayed value verbatim (if committed)
-   *   3. aria-invalid attribute
-   *   4. computed border-color of the editor
-   *   5. error text SCOPED to the editing context (cell/editor associations only — excludes headers)
-   *   6. Save button state
-   *   7. THEN escapability (Escape is cleanup, never observation)
-   *
-   * Uses `keyboard.type()` (real keystrokes), NEVER a JS native-setter — the two disagree on
-   * multi-dot values like "1.2.3" and only the typed path is reachable by a user.
-   *
-   * Error-text search is scoped to: the cell's own aria-describedby/aria-errormessage targets,
-   * adjacent siblings, and portal content tied to that editor. Excludes grid headers and page
-   * titles. `[role="alert"]` exists on this page and is EMPTY on every rejection — the helper
-   * distinguishes "no validation message" from "found unrelated text".
-   */
+  // Every signal must be captured before the Escape, which is cleanup and never an observation.
+  // Types real keystrokes, never the native setter — the two disagree on multi-dot values like "1.2.3".
   @step('Try editing the cell and record what happens')
   async probeEditOracle(
     row: Locator,
@@ -1177,25 +1002,22 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     saveEnabled: boolean;
     escapable: boolean;
   }> {
-    // Open the cell editor — scoped to the row, not page-wide (see openCellEditor)
+    // Row-scoped, not page-wide (see openCellEditor)
     const cellSel = field === 'overridePrice' ? OS.ovrCellOverridePrice : OS.ovrCellMaxDiscount;
     await row.locator(cellSel).first().click();
     const editor = row.getByRole('spinbutton');
     await editor.waitFor({ state: 'visible', timeout: 8_000 });
 
-    // Select all existing content and type the new value using REAL keyboard input
     await this.page.keyboard.press('Control+a');
     await this.page.keyboard.type(inputValue);
 
-    // Press Enter to attempt commit
     await this.page.keyboard.press('Enter');
     await this.page.waitForTimeout(400);
 
-    // 1. committed? — check if the editor closed
+    // A closed editor is the commit signal.
     const editorStillVisible = await editor.isVisible().catch(() => false);
     const committed = !editorStillVisible;
 
-    // 2. displayed value verbatim (if committed, read from the cell's display button)
     let displayedValue: string | null = null;
     let rawDisplayedValue: string | null = null;
     if (committed) {
@@ -1275,24 +1097,17 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     // 6. Save button state
     const saveEnabled = await this.isOverrideSaveEnabled();
 
-    // 7. THEN escapability — Escape is cleanup, never observation
-    // Escapability = after Escape, can the user open a different cell's editor?
-    // The old detach-based check was broken: Angular keeps rejected editor nodes attached
-    // (visible, text=""), so waitFor({state:'detached'}) could never succeed — escapable
-    // was effectively hardcoded false. The real signal is user-level: clicking a different
-    // cell opens a working editor. (trap-decider.md, 2026-07-22)
+    // Escapability is measured user-level: after Escape, does clicking another cell open a working
+    // editor? A detach-based check cannot work — rejected editor nodes stay attached and visible.
     let escapable = true;
     if (!committed) {
       await this.page.keyboard.press('Escape');
 
-      // Click the OTHER editable numeric cell in the same row
       const otherCellSel = field === 'overridePrice' ? OS.ovrCellMaxDiscount : OS.ovrCellOverridePrice;
       const otherCell = row.locator(otherCellSel).first();
       await otherCell.click();
-      // Scope to the other cell's td column — the rejected editor stays visible
-      // in the original cell, so row-scoped getByRole('spinbutton') would match
-      // two elements and trigger a strict-mode violation (CHEAT-CATALOGUE #12)
-      // 0-based columnIndex → 1-based nth-child
+      // Scoped to the other cell's td: the rejected editor stays visible, so a row-scoped
+      // spinbutton lookup would match two elements. 0-based columnIndex → 1-based nth-child.
       const otherColIndex = field === 'overridePrice'
         ? CORP_PRICING_OVERRIDE.columnIndex.maxDiscount
         : CORP_PRICING_OVERRIDE.columnIndex.overridePrice;
@@ -1301,9 +1116,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
       try {
         await otherEditor.waitFor({ state: 'visible', timeout: 4_000 });
       } catch (err: unknown) {
-        // A genuine timeout means the editor never opened — real focus trap.
-        // Any other error (strict-mode violation, detached node) is a code
-        // defect and must surface, not masquerade as app behaviour.
+        // A timeout means a real focus trap; any other error is a code defect and must surface
+        // rather than masquerade as app behaviour.
         if (err instanceof Error && err.name === 'TimeoutError') {
           escapable = false;
         } else {
@@ -1334,10 +1148,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
 
   // ── NM-2272: export / grid-status / search-panel methods ──
 
-  /**
-   * Same download as `downloadOverrideExport`, but also returns the file's RAW bytes so a test can
-   * inspect what the decoded string hides — the byte-order mark and the CRLF line endings.
-   */
+  /** Also returns raw bytes, so a test can inspect what decoding hides: the BOM and line endings. */
   @step('Download override export raw')
   async downloadOverrideExportRaw(): Promise<{ filename: string; requestUrl: string; bytes: Buffer; content: string; headers: string[] }> {
     const [download, request] = await Promise.all([
@@ -1355,10 +1166,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return { filename: download.suggestedFilename(), requestUrl: request.url(), bytes, content, headers };
   }
 
-  /**
-   * Request the export directly for a given locale, reusing the page's own authenticated session.
-   * The Export button always sends `en-US`, so this is the only way to exercise the other locales.
-   */
+  /** The Export button always sends en-US, so a direct request is the only way to reach other locales. */
   @step('Fetch export for locale')
   async fetchExportForLocale(locale: string): Promise<{ status: number; headerLine: string; dataLines: string[] }> {
     const path = `/navigator/api/location/${CORP_PRICING_OVERRIDE.export.apiPathFragment}${locale ? `?locale=${locale}` : ''}`;
@@ -1370,10 +1178,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return { status: result.status, headerLine: lines[0] ?? '', dataLines: lines.slice(1) };
   }
 
-  /**
-   * Ask the grid's own data endpoint for one office and report what it answers. The screen swallows a
-   * failure here and draws an empty grid, so the status code is the only honest signal.
-   */
+  /** The screen swallows a grid-API failure and draws an empty grid, so status is the only honest signal. */
   @step('Fetch grid status for office')
   async fetchGridStatusForOffice(officeId: string): Promise<{ status: number; body: string }> {
     const path = `${CORP_PRICING_OVERRIDE.gridApi.pathFragment}?localOfficeId=${officeId}`;
@@ -1383,10 +1188,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     }, path);
   }
 
-  /**
-   * Click the collapse/expand control and report the search panel's label and measured size on either
-   * side of the click — the only way to tell a real collapse from a label that merely flips.
-   */
+  /** Measures size as well as label, since only that separates a real collapse from a label that flips. */
   @step('Toggle search panel and measure')
   async toggleSearchPanelAndMeasure(): Promise<{ labelBefore: string; labelAfter: string; sizeBefore: string; sizeAfter: string }> {
     const btn = this.page.locator(OS.ovrCollapseSearchPanel).first();
@@ -1410,10 +1212,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
 
   // ── NM-2273: import methods ──
 
-  /**
-   * Read the import dialog's upload gate: whether the Upload button is disabled and the
-   * "No file selected" hint is showing (both true before any file is attached).
-   */
+  /** Both flags are true before any file is attached. */
   @step('Read import upload state')
   async readImportUploadState(): Promise<{ uploadDisabled: boolean; noFileVisible: boolean }> {
     const uploadDisabled = await this.page.locator(OS.ovrImportUploadBtn).first().isDisabled();
@@ -1434,16 +1233,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     await this.page.locator(OS.ovrImportUploadBtn).first().click();
   }
 
-  /**
-   * Submit an import and capture the server's PER-ROW result. The Override import is a partial-success
-   * API: the POST returns HTTP 200 with a body of shape
-   * `{ success, data: { successRecordCount, failureRecordCount, errors: [{ error }] } }`. A 200 alone
-   * does NOT mean a row applied — a fully-invalid file still returns 200 with `failureRecordCount > 0` and
-   * `successRecordCount: 0` — so callers assert on the counts / errors, not the status. Parse/format
-   * rejections (non-numeric price, too-few-columns, empty/header-only) never reach the server: no POST
-   * fires, `status` comes back `'no-response'`, and the caller reads the alert via `readImportAlert()`.
-   * (The full tenant dump instead stalls at "Uploading… 50%", NM-2186 — use a minimal file here.)
-   */
+  // Partial-success API: assert on the counts/errors, never the 200 status. Parse-level rejections
+  // never reach the server — status is 'no-response' and the message is in readImportAlert().
   @step('Submit import and capture result')
   async submitImportAndCaptureResult(timeout = 30_000): Promise<{
     status: number | 'no-response';
@@ -1473,11 +1264,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return respP;
   }
 
-  /**
-   * Attach a file to the import dialog WITHOUT waiting for Upload to enable. Used for the file-type gate:
-   * a non-`.csv` file leaves Upload disabled with an "Unsupported file type" message, so `attachImportFile`'s
-   * enable-wait would (correctly) time out. The caller asserts the disabled state via `readImportUploadState()`.
-   */
+  // Skips the enable-wait for the file-type gate: a non-.csv leaves Upload disabled, so
+  // attachImportFile would correctly time out.
   @step('Attach import file raw')
   async attachImportFileRaw(absPath: string): Promise<void> {
     await this.page.locator(OS.ovrImportUploadInput).first().setInputFiles(absPath);
@@ -1493,10 +1281,7 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     };
   }
 
-  /**
-   * Read the import rejection message. A rejected upload surfaces as an on-screen alert and leaves the
-   * dialog open. Returns the trimmed alert text, or '' if none appears within the timeout.
-   */
+  /** A rejected upload leaves the dialog open; returns '' when no alert appears within the timeout. */
   @step('Read import alert')
   async readImportAlert(timeout = 15_000): Promise<string> {
     const alert = this.page.locator(OS.ovrImportAlert).first();
@@ -1508,13 +1293,8 @@ export class CorporatePricingOverridePage extends CorporatePricingBasePage {
     return (await alert.innerText().catch(() => '')).replace(/\s+/g, ' ').trim();
   }
 
-  /**
-   * Read the imported Override Price back after a commit. A minimal import returns a clean response, so
-   * the value is normally present on the first reload; this reload-and-re-read is wrapped in a brief
-   * bounded retry to absorb any read-after-write lag on the shared server (each reload's network latency
-   * is the natural spacing — no fixed sleep). Returns the last value read, so a timeout surfaces a clear
-   * value diff rather than an opaque wait error.
-   */
+  // Bounded reload retry absorbs read-after-write lag on the shared server. Returns the last value
+  // read so a timeout surfaces a value diff rather than an opaque wait error.
   @step('Await imported override price')
   async awaitImportedOverridePrice(needle: string, productGroupName: string, expected: string, timeoutMs = 45_000): Promise<string> {
     const deadline = Date.now() + timeoutMs;

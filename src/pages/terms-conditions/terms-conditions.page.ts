@@ -12,23 +12,8 @@ import {
 
 const TNC_DESTRUCTIVE_BORDER_COLOR = 'oklch(0.577 0.245 27.325)';
 
-/**
- * Terms and Conditions setup page.
- *
- * The page lists T&C entries per language. Each row has a language selector, a name field,
- * and three rich-text columns (Left, Right, Bottom) edited via a shared Tiptap panel that
- * is rebuilt on every cell switch.
- *
- * Critical behaviours encoded here:
- * - The editor DOM node is rebuilt on every cell switch; locators are never cached across cells.
- * - ProseMirror ignores fill(); all rich-text input uses real keyboard events.
- * - Row lookup is content-anchored (by name), never by index alone.
- * - Save is gated by dirty AND validity; button-disabled does NOT prove the server accepted the save.
- * - No delete affordance exists; cleanup restores values in place.
- * - No save confirmation dialog; the shared save-changes dialog does not apply on this page.
- *
- * Modelled on: service-charge-text.page.ts (sibling pattern).
- */
+// Rows re-sort on edit, so they are looked up by name; the shared editor panel is rebuilt on
+// every cell switch (never cache a locator) and ProseMirror ignores fill() — keyboard only.
 export class TermsConditionsPage extends BasePage {
   constructor(page: Page, config?: IConfig) {
     super(page, config);
@@ -46,17 +31,8 @@ export class TermsConditionsPage extends BasePage {
     await this.waitForGrid();
   }
 
-  /** Waits for the real grid to appear (page-ready gate). Uses a generous timeout
-   *  because the page skeleton can take up to 60s to resolve.
-   *
-   *  Waits on the TABLE first, then Save. Save alone is not a sufficient gate — it can
-   *  render before the grid body is populated, which would let a test read an empty grid
-   *  and pass. The table is the content gate; Save confirms the toolbar is wired up.
-   *
-   *  Row-count stability is required beyond visibility: the table stays mounted during a
-   *  language-filter change and only its rows swap. Waiting for visible returns instantly
-   *  against the previous result set. Polling until the count stops changing is the only
-   *  signal that the current result set has fully rendered. */
+  // Gates on the table first — Save can render before the grid body is populated. Row-count
+  // stability is also required: the table stays mounted across filter changes, only rows swap.
   @step('Wait for the Terms and Conditions grid to appear')
   async waitForGrid(timeout = 60_000): Promise<void> {
     await this.page.locator(tc.table).first().waitFor({ state: 'visible', timeout });
@@ -135,12 +111,7 @@ export class TermsConditionsPage extends BasePage {
 
   // ---------------------------------------------------------------- row counting & lookup
 
-  /**
-   * Reads a row's language with a short timeout. Returns `null` if the row has vanished
-   * (grid shrank mid-poll). The bounded read prevents a single missing row from consuming
-   * the entire helper budget — 2 000 ms is long enough for a present element to resolve
-   * but short enough that a vanished row costs one retry cycle, not the full 10 s default.
-   */
+  /** Row language, or null if the row vanished mid-poll; the short timeout keeps a missing row from eating the caller's budget. */
   private async tryGetRowLanguage(row: number, perRowTimeout = 2_000): Promise<string | null> {
     try {
       const raw = await this.page
@@ -175,15 +146,8 @@ export class TermsConditionsPage extends BasePage {
     );
   }
 
-  /**
-   * Returns the row index of the first row whose Name matches the given value.
-   * Content-anchored lookup — never uses position alone.
-   * Throws if no row has that name.
-   *
-   * WARNING: The returned index is invalidated by any operation that re-sorts the grid:
-   * save, filter change, name edit, or add row. After any such operation, re-resolve
-   * via findRowByName before using a position index for further reads or writes.
-   */
+  // Content-anchored row lookup; throws when the name is absent. The returned index is
+  // invalidated by save, filter change, name edit or add row — re-resolve after any of those.
   @step('Find the row with the given Terms and Conditions name')
   async findRowByName(name: string): Promise<number> {
     const names = await this.getAllNames();
@@ -221,12 +185,7 @@ export class TermsConditionsPage extends BasePage {
 
   // ---------------------------------------------------------------- name validation state
 
-  /**
-   * Returns the validation state for a row's Name input.
-   * - ariaInvalid: true when the input has aria-invalid="true"
-   * - borderColor: the computed CSS border color after validation has rendered
-   * - hasRedBorder: true only when the input's border color matches the destructive design token
-   */
+  /** Validation state of a row's Name input; hasRedBorder compares the computed border against the destructive design token. */
   @step('Check the validation state of a row name field')
   async getNameValidationState(row: number): Promise<{ ariaInvalid: boolean; borderColor: string; hasRedBorder: boolean }> {
     const input = this.page.locator(tc.rowName(row)).first();
@@ -273,21 +232,8 @@ export class TermsConditionsPage extends BasePage {
     return (raw || '').replace(/\s+/g, ' ').trim();
   }
 
-  /**
-   * Selects a language in the page-level filter and waits for the grid to reflect it.
-   *
-   * **Postcondition (single language):** every visible row's language matches the selection.
-   * A grid that has not started updating is perfectly stable — row-count stability alone
-   * cannot distinguish "finished" from "not started". The content check does.
-   *
-   * **Postcondition ("All"):** the grid must differ from the previous single-language view.
-   * When the dataset contains only one language, content checks alone cannot distinguish
-   * "All" from the previous view — the network round-trip (GET completing) or
-   * Angular declared the zone stable — covering that rare case.
-   *
-   * **Failure is loud.** If the postcondition is not met within the budget, the method throws
-   * naming the requested language, the observed row count, and the observed languages.
-   */
+  // Waits on row content, not stability: a grid that has not started updating is also stable.
+  // "All" additionally accepts the GET round-trip as proof when the data looks unchanged.
   @step('Choose a language from the page filter')
   async selectFilterLanguage(language: string, timeout = 30_000): Promise<void> {
     const current = await this.getSelectedFilterLanguage();
@@ -323,17 +269,15 @@ export class TermsConditionsPage extends BasePage {
     const deadline = Date.now() + timeout;
 
     if (language !== 'All') {
-      // Single-language postcondition: every visible row that carries a language element
-      // must match the selection. Rows without a language element (the trailing add-row)
-      // are excluded — they cannot participate in a language postcondition.
+      // Postcondition: every row carrying a language element matches the selection.
+      // The trailing add-row has none and is excluded.
       let consecutiveZeroPolls = 0;
       while (Date.now() < deadline) {
         await this.waitForAngularStable();
         const count = await this.getRowCount();
         if (count === 0) {
-          // Require 2 consecutive zero-count readings to distinguish "filter matched nothing"
-          // from a transient grid teardown mid-transition. A single zero glimpse during DOM
-          // swap is not evidence the filter finished — Angular rebuilds within one poll cycle.
+          // Two consecutive zero counts separate "filter matched nothing" from a transient
+          // teardown — Angular rebuilds the grid within one poll cycle.
           consecutiveZeroPolls++;
           if (consecutiveZeroPolls >= 2) return;
           await this.page.waitForTimeout(300);
@@ -434,10 +378,7 @@ export class TermsConditionsPage extends BasePage {
     return opts.map((o) => o.replace(/\s+/g, ' ').trim()).filter((o) => o.length > 0);
   }
 
-  /**
-   * Selects a language from a row's per-row language dropdown.
-   * Uses the Radix dropdown interaction pattern with retry for large option lists.
-   */
+  /** Selects a language in a row's dropdown (Radix trigger, then option by exact name). */
   @step('Choose a language from a row language dropdown')
   async selectRowLanguage(row: number, language: string): Promise<void> {
     await this.page.locator(tc.rowLanguageTrigger(row)).first().click();
@@ -460,11 +401,7 @@ export class TermsConditionsPage extends BasePage {
 
   // ---------------------------------------------------------------- rich-text editor
 
-  /**
-   * Opens the editor for a specific column of a row.
-   * The editor panel is REBUILT on every cell switch — this method always re-queries.
-   * @param column Which HTML column to open: 'left', 'right', or 'bottom'.
-   */
+  /** Opens the editor for a row column; always re-queries because the panel is rebuilt on every cell switch. */
   @step('Open the rich text editor for a row column')
   async openEditor(row: number, column: 'left' | 'right' | 'bottom'): Promise<void> {
     const cellSelector = column === 'left'
@@ -485,10 +422,7 @@ export class TermsConditionsPage extends BasePage {
     return (await editor.getAttribute('contenteditable')) === 'true';
   }
 
-  /**
-   * Reads the visible text currently in the rich text editor.
-   * Always re-queries the editor locator (never cached).
-   */
+  /** Editor text with whitespace collapsed; empty string when no editor is open. */
   @step('Read the visible text in the rich text editor')
   async getEditorText(): Promise<string> {
     const editor = this.page.locator(tc.editorContent).first();
@@ -511,11 +445,7 @@ export class TermsConditionsPage extends BasePage {
     return (await editor.innerHTML()) || '';
   }
 
-  /**
-   * Types text into the currently open editor using real keyboard input.
-   * ProseMirror ignores fill() and execCommand — this is the only reliable method.
-   * The editor must already be open (call openEditor first).
-   */
+  /** Types into the already-open editor with real key events — ProseMirror ignores fill() and execCommand. */
   @step('Type text into the open rich text editor')
   async typeInEditor(text: string): Promise<void> {
     const editor = this.page.locator(tc.editorContent).first();
@@ -524,10 +454,7 @@ export class TermsConditionsPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Clears the editor content and types new text.
-   * The editor must already be open.
-   */
+  /** Clears the already-open editor and types new text. */
   @step('Clear the editor and type new text')
   async setEditorText(text: string): Promise<void> {
     const editor = this.page.locator(tc.editorContent).first();
@@ -538,10 +465,7 @@ export class TermsConditionsPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Selects all text in the currently open editor.
-   * The editor must already be open.
-   */
+  /** Selects all text in the already-open editor. */
   @step('Select all text in the open rich text editor')
   async selectAllEditorText(): Promise<void> {
     // Re-query — the editor panel is rebuilt on every cell switch.
@@ -551,14 +475,9 @@ export class TermsConditionsPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Clicks the Bold toolbar button in the currently open editor.
-   * Re-queries the toolbar locator on every call — the editor panel is rebuilt on every
-   * cell switch so a cached handle would go stale.
-   */
+  /** Clicks Bold, re-querying the toolbar — it is part of the panel rebuilt on every cell switch. */
   @step('Click the Bold button in the editor toolbar')
   async clickBold(): Promise<void> {
-    // Re-query every time; the toolbar is part of the rebuilt panel.
     await this.page.locator(tc.rteBold).first().click();
     await this.waitForAngularStable();
   }
@@ -573,10 +492,7 @@ export class TermsConditionsPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Reads the HTML cell preview text for a specific column of a row without opening the editor.
-   * Useful for verifying rendered content in the grid.
-   */
+  /** Rendered preview text of a row's HTML cell, read without opening the editor. */
   @step('Read the preview text of a grid cell without opening the editor')
   async getCellPreviewText(row: number, column: 'left' | 'right' | 'bottom'): Promise<string> {
     const selector = column === 'left'
@@ -590,13 +506,8 @@ export class TermsConditionsPage extends BasePage {
 
   // ---------------------------------------------------------------- save
 
-  /**
-   * Clicks Save and waits for the PUT round-trip to complete.
-   *
-   * This method CANNOT confirm whether the save succeeded — the UI disables Save
-   * identically on success AND on server error. Use saveAndCaptureResponse
-   * when a test needs to distinguish success from failure.
-   */
+  // Cannot confirm the save succeeded — the UI disables Save identically on 2xx and on error.
+  // Use saveAndCaptureResponse when a test must tell success from failure.
   @step('Click Save and wait for the request to complete')
   async save(timeout = 15_000): Promise<void> {
     const saveResponse = this.page.waitForResponse(
@@ -608,17 +519,8 @@ export class TermsConditionsPage extends BasePage {
     await this.waitUntilSaveDisabled(5_000);
   }
 
-  /**
-   * Clicks Save and returns the HTTP status, request payload, and response body.
-   *
-   * Use this when a test needs to verify the server actually accepted the change.
-   * Button-disabled does NOT imply success: the UI disables Save identically
-   * whether the server returns 2xx or 500. This method exposes the actual network exchange
-   * so specs can assert on it.
-   *
-   * - requestBody: the bulk PUT payload (proves every row was sent in the bulk PUT).
-   * - responseBody: the server's reply (carries any 500 message from a failed save).
-   */
+  // Exposes the bulk PUT status and both bodies so specs can prove the server accepted
+  // the change — button-disabled alone is identical on 2xx and 500.
   @step('Click Save and capture the HTTP response')
   async saveAndCaptureResponse(timeout = 15_000): Promise<{ status: number; requestBody: unknown; responseBody: unknown }> {
     let capturedRequest: Request | null = null;
@@ -702,22 +604,8 @@ export class TermsConditionsPage extends BasePage {
 
   // ---------------------------------------------------------------- fixture row
 
-  /**
-   * Returns the row index of the automation-owned fixture row, creating it if absent.
-   *
-   * Lookup-or-create with cross-language recovery:
-   * 1. Checks the default-language view first (fast path — the common case).
-   * 2. If missing there, sweeps every per-language filter to find a re-languaged row.
-   *    Name uniqueness is enforced cross-language (see TC-TNC-CORE-057), so
-   *    creating a duplicate would fail — the only correct recovery is to move the existing
-   *    row back to the default language.
-   * 3. If the row exists under a non-default language, changes its language back to the
-   *    default, saves, and verifies persistence after reload.
-   * 4. Only when the row is genuinely absent from every language does the create path run.
-   *
-   * The fixture name is stable across runs (no clock or random component) so a failed
-   * cleanup never strands an unsearchable row.
-   */
+  // Sweeps every language filter before creating: names are unique cross-language, so a
+  // duplicate create would fail — a re-languaged row must be moved back to the default instead.
   @step('Ensure the automation fixture row exists in the grid')
   async ensureFixtureRow(officeNo: string = '1604'): Promise<number> {
     // Step 1 — check the default language view (fast path).
@@ -734,9 +622,8 @@ export class TermsConditionsPage extends BasePage {
       return defaultIndex;
     }
 
-    // Step 2 — not in the default view; sweep per-language filters for a re-languaged row.
-    // Skip 'All' (would match any language but doesn't tell us which one the row is filed
-    // under) and skip the default language (already checked).
+    // Sweep per-language filters for a re-languaged row. 'All' is skipped — it matches
+    // without revealing which language the row is filed under.
     let foundInLanguage: string | null = null;
     const perLanguageFilters = TNC_FILTER_LANGUAGES.filter(
       (lang) => lang !== 'All' && lang !== TNC_DEFAULT_LANGUAGE,
@@ -765,10 +652,7 @@ export class TermsConditionsPage extends BasePage {
     return this.createFixtureRow(officeNo);
   }
 
-  /**
-   * Restores a re-languaged fixture row back to the default language, saves, and verifies
-   * persistence. Called only when the row was found under a non-default language filter.
-   */
+  /** Moves a fixture row found under a non-default language back to the default and verifies it persisted. */
   @step('Restore the fixture row to the default language')
   private async restoreFixtureLanguage(officeNo: string, currentLanguage: string): Promise<number> {
     // Ensure we are viewing the language the row is filed under.

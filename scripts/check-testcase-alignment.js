@@ -38,8 +38,7 @@ const rel = (p) => path.relative(ROOT, p).replace(/\\/g, '/');
 const norm = (s) => String(s ?? '').replace(/\s+/g, ' ').trim();
 
 // ---------------------------------------------------------------- specs (via Playwright's own resolution)
-// Data-driven tests build titles from template literals, so only Playwright can
-// report the real titles. --list runs no tests.
+// Data-driven titles are built from template literals, so only Playwright reports the real ones.
 function loadSpecs() {
   // Run the CLI through node: on Windows, spawning playwright.cmd directly fails with EINVAL.
   const raw = execFileSync(

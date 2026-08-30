@@ -14,11 +14,8 @@ export const SetupAutoAddonSelectors = {
 
   btnSaveChangesOk: '[role="alertdialog"]:has(h2:text-is("Save Changes")) button:has-text("Ok")',
 
- /**
- * @where Setup > Location > Auto Add-On > Unsaved Changes dialog @el alertdialog @text "Unsaved changes" @keys unsaved changes dialog navigate away
- * NOTE: Auto Add-On uses Stay/Discard buttons (not OK/Cancel like shared.ts).
- * Prefixed to avoid collision with shared.ts dlgUnsavedChanges.
-  */
+ // This dialog uses Stay/Discard, not shared.ts's OK/Cancel; the key is prefixed to avoid
+ // colliding with shared.ts dlgUnsavedChanges.
   autoAddonDlgUnsavedChanges: '[data-testid="location-settings-modal-unsaved-changes"]',
   btnUnsavedChangesStay: '[role="alertdialog"]:has(h2:text-is("Unsaved changes")) button:has-text("Stay")',
   btnUnsavedChangesDiscard: '[role="alertdialog"]:has(h2:text-is("Unsaved changes")) button:has-text("Discard")',

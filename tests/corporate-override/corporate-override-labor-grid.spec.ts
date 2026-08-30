@@ -28,16 +28,10 @@ const DEFAULTS = {
 };
 
 test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271) @corporate-pricing @override', () => {
-  // One suite, several test beds. Per-test setup/teardown is dispatched by TC id so every
-  // group keeps exactly the baseline it had when the groups were separate describes.
-  //
-  // Volume bed — office 9460 carries the only known triple-digit Labor override data set
-  // ("212 items found", verified live 2026-07-20). A reload always lands on the Equipment tab,
-  // so each volume-bed test re-selects the location and switches to Labor as its baseline.
+  // Several beds share this suite, so setup/teardown is dispatched by TC id and each group keeps the
+  // baseline it had as a separate describe. A reload lands on Equipment, so Labor beds re-switch tabs.
   const V_BED = CORP_PRICING_OVERRIDE_LABOR_VOLUME_BED;
   // Labor mutation fixture: office 1105, row 655 "General - Ops" (default 160.00, inactive).
-  // Save mechanism verified live 2026-07-20 with a committed round-trip (160 → 161 → 160,
-  // backend save call returned 200 + success toast + persistence across reload).
   const L_LOC = CORP_PRICING_OVERRIDE_LABOR_BED.office;
   const L_ANCHOR = CORP_PRICING_OVERRIDE_LABOR_BED.mutationRowAnchor.productGroupName;
   const L_DEFAULTS = {
@@ -225,9 +219,7 @@ test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271
   });
 
   // ── Unsaved-changes guard ──
-  // The guard dialog fires on IN-APP link navigation away from a dirty grid (verified live: a direct
-  // URL change triggers the browser's own leave-page prompt instead, never this dialog). Staged edits
-  // here are never saved; each path ends by leaving via Discard or reloading clean.
+  // The dialog fires only on in-app link navigation; staged edits here are discarded, never saved.
   test('TC-CPR-OVR-055: Navigating away from a dirty grid raises the unsaved-changes dialog; Stay keeps the page and the edit (NM-2271)', async ({ corporatePricingOverridePage: p }) => {
     const row = await p.findRowByProductGroup(G_ANCHOR);
     expect(row).not.toBeNull();
@@ -332,10 +324,7 @@ test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271
   });
 
   // ── Currency-gated picker and drag-to-add ──
-  // Office 4104: one Equipment override row, zero Labor rows. Selecting a specific currency
-  // (USD — not ALL) reveals the Product Group picker in the left search area; dragging a picker
-  // row into the grid stages a new override row client-side. All staged rows are discarded via
-  // the unsaved-changes dialog — nothing is saved.
+  // The picker appears only under a specific currency, never ALL; staged rows are always discarded.
   test('TC-CPR-OVR-062: The Product Group picker appears only when a specific currency is selected (NM-2271)', { tag: '@mutation' }, async ({ corporatePricingOverridePage: p }) => {
     // Default currency ALL: no picker
     expect(await p.isProductGroupPickerVisible(), 'no picker panel while Currency is ALL').toBe(false);
@@ -459,8 +448,8 @@ test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271
     expect(result.errorText).toBe(OVERRIDE_REJECTION_SIGNATURE.alertRoleTextContent);
     expect(result.saveEnabled).toBe(false);
 
-    // Escapability established by cross-provider E2E probe (trap-decider.md, 2026-07-22):
-    // after Escape, a different cell's editor opens — the user is never trapped.
+    // Escapability is proven by the probe: after Escape a different cell's editor
+    // opens, so focus is never trapped in the grid.
     expect(result.escapable, 'Editor must be escapable — NOT a focus trap').toBe(true);
   });
 
@@ -532,8 +521,8 @@ test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271
     expect(result.errorText).toBe(OVERRIDE_REJECTION_SIGNATURE.alertRoleTextContent); // '' — defect #4
     expect(result.saveEnabled).toBe(false);
 
-    // Escapability established by cross-provider E2E probe (trap-decider.md, 2026-07-22):
-    // after Escape, a different cell's editor opens — the user is never trapped.
+    // Escapability is proven by the probe: after Escape a different cell's editor
+    // opens, so focus is never trapped in the grid.
     expect(result.escapable, 'Editor must be escapable — NOT a focus trap').toBe(true);
   });
 
@@ -641,8 +630,8 @@ test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271
     expect(result.errorText).toBe(OVERRIDE_REJECTION_SIGNATURE.alertRoleTextContent);
     expect(result.saveEnabled).toBe(false);
 
-    // Escapability established by cross-provider E2E probe (trap-decider.md, 2026-07-22):
-    // after Escape, a different cell's editor opens — the user is never trapped.
+    // Escapability is proven by the probe: after Escape a different cell's editor
+    // opens, so focus is never trapped in the grid.
     expect(result.escapable, 'Editor must be escapable — NOT a focus trap').toBe(true);
   });
 
@@ -682,8 +671,8 @@ test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271
     expect(result.errorText).toBe(OVERRIDE_REJECTION_SIGNATURE.alertRoleTextContent);
     expect(result.saveEnabled).toBe(false);
 
-    // Escapability established by cross-provider E2E probe (trap-decider.md, 2026-07-22):
-    // after Escape, a different cell's editor opens — the user is never trapped.
+    // Escapability is proven by the probe: after Escape a different cell's editor
+    // opens, so focus is never trapped in the grid.
     expect(result.escapable, 'Editor must be escapable — NOT a focus trap').toBe(true);
   });
 
@@ -698,8 +687,8 @@ test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271
     expect(result.errorText).toBe(OVERRIDE_REJECTION_SIGNATURE.alertRoleTextContent);
     expect(result.saveEnabled).toBe(false);
 
-    // Escapability established by cross-provider E2E probe (trap-decider.md, 2026-07-22):
-    // after Escape, a different cell's editor opens — the user is never trapped.
+    // Escapability is proven by the probe: after Escape a different cell's editor
+    // opens, so focus is never trapped in the grid.
     expect(result.escapable, 'Editor must be escapable — NOT a focus trap').toBe(true);
   });
 
@@ -756,8 +745,8 @@ test.describe('Corporate Pricing — Product Group Override: Labor grid (NM-2271
     expect(result.errorText).toBe(OVERRIDE_REJECTION_SIGNATURE.alertRoleTextContent);
     expect(result.saveEnabled).toBe(false);
 
-    // Escapability established by cross-provider E2E probe (trap-decider.md, 2026-07-22):
-    // after Escape, a different cell's editor opens — the user is never trapped.
+    // Escapability is proven by the probe: after Escape a different cell's editor
+    // opens, so focus is never trapped in the grid.
     expect(result.escapable, 'Editor must be escapable — NOT a focus trap').toBe(true);
   });
 

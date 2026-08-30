@@ -24,11 +24,9 @@ import {
   NOTE_IDEMPOTENT, NOTE_SEQUENTIAL_A, NOTE_SEQUENTIAL_B,
 } from '../../src/data/locations/location-notes';
 
-// 26 net-new tests + 1 DEFERRED (4000-char exact-limit persist — not implemented). Each test is
-// independent: own baseline, own cleanup.
+// Every test is independent: own baseline, own cleanup.
 
-// Shared body for the special-content persistence cases. Registered from two call
-// sites so tests stay in TC-id order: 013 before 014, then 018..020 after 017.
+// Registered from two call sites so tests stay in TC-id order: 013, then 018..020 after 017.
 function registerSpecialContentTest(tc: (typeof SPECIAL_CONTENT_TESTS)[number]): void {
   test(`TC-LOC-NTS-${tc.tcId}: ${tc.name}`, async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
@@ -45,12 +43,8 @@ function registerSpecialContentTest(tc: (typeof SPECIAL_CONTENT_TESTS)[number]):
 }
 
 test.describe('Location Notes @locations @notes', () => {
-  // Per-test navigation guard — DOM-presence beats url.includes
-  // (shared `settings/location` URL across sub-tabs).
-  // Per-test baseline: clear notes to the default empty state before every test, so a single
-  // test re-run (retry / parallel) starts clean instead of inheriting a prior test's saved rows.
-  // The FCC band (TC-033 and above) skips the hook-level reset — each of those tests baselines
-  // itself through its saveAndVerifyCase.
+  // Nav guard uses DOM presence, not url.includes — sub-tabs share the `settings/location` URL.
+  // Baseline clears saved rows; TC-033+ skip it and baseline inside their own saveAndVerifyCase.
   test.beforeEach(async ({ locationNotesPage }, testInfo) => {
     if (!(await locationNotesPage.isOnNotesTab())) {
       await locationNotesPage.navigateToNotesTab(OFFICE_NO);
@@ -240,10 +234,7 @@ test.describe('Location Notes @locations @notes', () => {
 
   test('TC-LOC-NTS-016: Row created via Add has Delete visible; typing keeps it', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
- // Defensive per-test baseline reset. Prior-session DB pollution (e.g., from a preceding test
- // that errored before its own ensureEmptyState cleanup ran) leaves saved rows whose Delete
- // buttons inflate the count assertion below. Resetting here guarantees an empty DB regardless
- // of upstream state.
+ // Extra reset: leftover saved rows from an errored prior test inflate the Delete-count assertion.
     await locationNotesPage.ensureEmptyState();
  // After save-empty cycles, state is "No Notes Available". prepareEmptyRow clicks Add.
  // Empty single row = no Delete button (appears only with content or 2+ rows).
@@ -318,9 +309,7 @@ test.describe('Location Notes @locations @notes', () => {
     expect(await locationNotesPage.getCharCount()).toBe(28); // 9+1+8+1+9
     await locationNotesPage.saveAndConfirm();
     await locationNotesPage.reloadAndNavigateToNotesTab();
- // Verify persistence via per-row content (strict row count is unstable under the
- // auto-empty placeholder behavior documented in the test cases; per-row content
- // assertions below cover the persistence contract without the flake risk).
+ // Per-row content, not row count — the auto-empty placeholder row makes the count unstable.
     expect(await locationNotesPage.getNoteValue(0)).toBe(NOTE_ROW_ALPHA);
     expect(await locationNotesPage.getNoteValue(1)).toBe(NOTE_ROW_BETA);
     expect(await locationNotesPage.getNoteValue(2)).toBe(NOTE_ROW_GAMMA);
@@ -378,18 +367,14 @@ test.describe('Location Notes @locations @notes', () => {
     expect(await locationNotesPage.isDefaultEmptyState()).toBe(true);
   });
 
- // Live-verified 2026-05-12: sequential save, edit-existing, save-empty, overage persistence, delete-persist
-
   test('TC-LOC-NTS-028: Sequential save — add second note with reload between saves, both persist', async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-NTS-001']);
     test.setTimeout(60_000);
     await locationNotesPage.ensureEmptyState();
     await locationNotesPage.fillNote(0, NOTE_SEQ_A);
     await locationNotesPage.saveAndConfirm();
- // Reload required: Playwright .fill() does NOT trigger Angular change detection after the
- // form's markAsPristine() runs post-save. Real user typing works fine — this is an
- // automation-tool limitation, not an app bug (manually verified live 2026-05-14).
- // Prior runs showed the Save button did not enable within 5s.
+ // Reload required: after post-save markAsPristine(), .fill() no longer triggers Angular change
+ // detection, so Save never re-enables. Playwright limitation, not an app bug.
     await locationNotesPage.reloadAndNavigateToNotesTab();
     expect(await locationNotesPage.getNoteValue(0)).toBe(NOTE_SEQ_A);
     await locationNotesPage.clickAdd();
@@ -408,10 +393,8 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.ensureEmptyState();
     await locationNotesPage.fillNote(0, NOTE_ORIGINAL);
     await locationNotesPage.saveAndConfirm();
- // Reload required: Playwright .fill() does NOT trigger Angular change detection after the
- // form's markAsPristine() runs post-save. Real user typing works fine — this is an
- // automation-tool limitation, not an app bug (manually verified live 2026-05-14).
- // Prior runs showed the Save button did not enable within 5s.
+ // Reload required: after post-save markAsPristine(), .fill() no longer triggers Angular change
+ // detection, so Save never re-enables. Playwright limitation, not an app bug.
     await locationNotesPage.reloadAndNavigateToNotesTab();
     expect(await locationNotesPage.getNoteValue(0)).toBe(NOTE_ORIGINAL);
     await locationNotesPage.fillNote(0, NOTE_EDITED);
@@ -644,9 +627,7 @@ test.describe('Location Notes @locations @notes', () => {
       saveAndConfirm: () => locationNotesPage.saveAndConfirm(),
       reload: () => locationNotesPage.reloadAndNavigateToNotesTab(),
       expectAfterReload: async () => {
-        // After clear+save+reload, two acceptable states per the auto-empty placeholder behavior:
-        // (a) row 0 exists with empty textarea value, OR (b) default empty state (no rows).
-        // Branch on isDefaultEmptyState — no catch-swallow (clear diagnostics, content not row-count).
+        // Both states are valid after clear+save: an empty row 0, or the default empty state.
         if (await locationNotesPage.isDefaultEmptyState()) {
           expect(await locationNotesPage.isDefaultEmptyState()).toBe(true);
         } else {
@@ -901,23 +882,15 @@ test.describe('Location Notes @locations @notes', () => {
   test('TC-LOC-NTS-052: Verify a second save attempt keeps the Save button disabled', { tag: '@fcc' }, async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(90_000);
-    // The real save endpoint is `PUT /navigator/api/location/update-properties`; the network wait
-    // is narrowed to `/navigator/api/`. POSTs to `/locations/.../settings/location` are Next.js 15
-    // App-Router RSC server-component renders (framework hydration POSTs that cascade for 0-8s after
-    // any page.reload). Filter narrowed to `/navigator/api/` so the listener captures only real
-    // Encore API calls.
-    // force:true is preserved — a synthetic MouseEvent on a disabled button proved Angular gates
-    // the save inside the click handler (form.dirty/valid check) and aborts before any HTTP request.
-    // The test verifies the defense-in-depth contract.
+    // The request filter must stay narrowed to `/navigator/api/`: RSC hydration POSTs to
+    // `/locations/.../settings/location` keep firing for up to 8s after any reload.
     const realPage = locationNotesPage.page;
     await locationNotesPage.ensureEmptyState();
     await locationNotesPage.fillNote(0, NOTE_IDEMPOTENT);
     await locationNotesPage.saveAndConfirm();
     // After save, button should disable (form pristine per the reload-on-tab pattern).
     expect(await locationNotesPage.isSaveEnabled()).toBe(false);
-    // Idempotent attempt: force-click the disabled Save button to bypass Playwright's
-    // actionability check. The click event is delivered to the Angular handler, which
-    // gates on form.dirty/valid and aborts before issuing any save HTTP request.
+    // Angular's click handler gates on form.dirty/valid, so a delivered click issues no request.
     const networkRequests: string[] = [];
     const reqHandler = (req: import('@playwright/test').Request) => {
       const method = req.method();
@@ -927,9 +900,8 @@ test.describe('Location Notes @locations @notes', () => {
     };
     realPage.on('request', reqHandler);
     try {
-      // force:true bypasses Playwright's actionability check (button is disabled by design).
-      // catch swallows the click rejection since "did the click attempt fire" is the test, not
-      // "did the click succeed". The side-effect assertions below are the real check.
+      // force:true is required — the button is disabled by design; the catch is fine because the
+      // assertions below, not the click result, are what this test checks.
       await realPage.locator('[data-testid="location-settings-btn-save"]').click({ force: true, timeout: 2_000 }).catch(() => {});
       // sleep-ok: a fixed settle window to prove NO save request fires — a negative has no signal
       // to poll for. This is a one-shot probe, not inside a polling loop.
@@ -965,9 +937,8 @@ test.describe('Location Notes @locations @notes', () => {
     await locationNotesPage.ensureEmptyState();
     await locationNotesPage.fillNote(0, NOTE_1_CHAR);
     await locationNotesPage.saveAndConfirm();
-    // Cross-tab isolation proof: switching to Currency must NOT trigger the "Unsaved Changes"
-    // confirmation dialog. (The shared Save button being disabled only proves Notes is pristine — not
-    // that Currency was untouched, because the Save button is page-scoped.)
+    // The shared Save button is page-scoped, so its disabled state cannot prove Currency stayed
+    // clean — the absence of the Unsaved-Changes dialog on tab switch is what proves it.
     const currencyTab = realPage.locator('[data-testid="location-settings-sub-tab-currency"]');
     await currencyTab.click();
     // If Currency had been dirtied as a side-effect of Notes save, navigating away would open
@@ -998,8 +969,7 @@ test.describe('Location Notes @locations @notes', () => {
     });
   });
 
-  // Delete button vanishes on single-row note list after clear() — TC cannot reach the Delete step.
-  // Pending an application fix.
+  // Delete button vanishes on a single-row note list after clear(), so the Delete step is unreachable.
   // FIXME TC-LOC-NTS-056 (Blocked — the Delete control disappears on a single-row note list after the text is cleared, so the row cannot be deleted. Pending an application fix.)
   test.fixme('TC-LOC-NTS-056: Verify deleting the only note row returns the empty state', { tag: '@fcc' }, async ({ locationNotesPage, dependencyGate }) => {
     dependencyGate([]);

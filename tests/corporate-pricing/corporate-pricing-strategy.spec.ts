@@ -2,20 +2,11 @@ import { test, expect } from '../../src/fixtures/pages.fixture';
 import { STRATEGY } from '../../src/data/corporate-pricing/strategy';
 import { NEW_PRICEBOOK } from '../../src/data/corporate-pricing/new-pricebook';
 
-/**
- * Mutation safety: per-test `ensureDefaultState()` restores the strategyFixture
- * (2022-NP Tier 1) to baseline (1 strategy, original name). Save-cycle tests mutate via a REVERSIBLE
- * existing-strategy name edit (the only UI-reversible save). Add/Remove tests discard WITHOUT saving
- * (a saved new strategy becomes legacy and loses its Remove → not restorable). No fixed waits;
- * Angular dirty/save handled defensively.
- */
+// ensureDefaultState() restores 2022-NP Tier 1 to one strategy under its original name. An existing-strategy
+// name edit is the only UI-reversible save, so add/remove tests discard without saving.
 test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage & New-Pricebook save-gating @corporate-pricing @strategy', () => {
-  // Per-test baseline dispatched by TC number — each band keeps the baseline/timeout its
-  // original describe had:
-  //  - TC-001..025 (management): ensureDefaultState, default timeout.
-  //  - TC-026..063 deep coverage (except the save-gating band): ensureDefaultState, 60s.
-  //  - TC-030/031/050..052/058/059 (save-gating on the New Pricebook create flow, NO-COMMIT):
-  //    a fresh, always-empty Equipment create page, 90s.
+  // Per-test baseline dispatched by TC number: the save-gating band gets a fresh, empty Equipment create
+  // page, everything else gets ensureDefaultState.
   const SAVE_GATING_TCS = [30, 31, 50, 51, 52, 58, 59];
 
   const tcNum = (title: string) => {
@@ -101,14 +92,8 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
   test('TC-CPR-STR-013: Setting a location\'s Primary Pricing surfaces that office in the strategy grid', { tag: '@C99877' }, async ({ corporatePricingStrategyPage: strategyPage, locationPricingPage }) => {
     // Cross-surface integration (location save-cycle + strategy reload) — give it room.
     test.setTimeout(120_000);
-    // The strategy's "Locations Using Pricing As Default" grid is a read-only back-reference: an
-    // office appears here ONLY after it selects this strategy as its Primary Pricing on the
-    // Location -> Pricing tab. Asserting "any listed rows have the right shape" passes VACUOUSLY
-    // when the grid is empty (the loop never runs) — which is the live state whenever no office
-    // currently points at the strategy. So this test SEEDS the relationship it asserts: it points
-    // office 1604's Primary Equipment Pricing at a known strategy, proves that office surfaces in
-    // the strategy's grid, then restores the office's original selection (net-zero, so a re-run and
-    // any later test start from the same state).
+    // The grid is a read-only back-reference and is empty unless some office points at the strategy, so
+    // this test seeds the relationship itself and restores the office's original selection afterwards.
     const { office, strategyName, pricebookGuid } = STRATEGY.crossSurfaceSeed;
     const equipmentDropdown = 'drpPrimaryEquipmentPricingUSD';
 
@@ -229,9 +214,8 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
 
   test('TC-CPR-STR-023: Save commits pending strategy edits in one batch', { tag: '@C99887' }, async ({ corporatePricingStrategyPage: p }) => {
     test.setTimeout(60_000); // live save-cycle
-    // NOTE: a saved NEW strategy is not UI-removable, so the batch-commit is exercised via a
-    // reversible existing-strategy edit; full new-strategy persistence is deferred to a follow-up
-    // coverage pass with a disposable fixture.
+    // A saved new strategy is not UI-removable, so the batch commit is exercised through a reversible
+    // edit of the existing strategy.
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
     expect(await p.isSaveEnabled()).toBe(true);
@@ -248,10 +232,8 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     test.setTimeout(60_000); // live save-cycle
     await p.selectFirstStrategy();
     await p.setStrategyName(STRATEGY.reversibleEdit.editedName);
-    // Confirmation feedback = the "Pricebook saved successfully" toast surfaces AND/OR the Save
-    // button resets to disabled, acknowledging the commit. The toast auto-dismisses quickly (faster
-    // than a poll can reliably catch under load), so accept either user-visible signal — what this
-    // guards against is a silent no-op where the save produces NO feedback at all.
+    // The success toast auto-dismisses faster than a poll can reliably catch under load, so either it
+    // or the Save button resetting counts as confirmation.
     const { toastSeen } = await p.saveAndConfirm();
     const saveAcknowledged = !(await p.isSaveEnabled());
     // At least one user-visible confirmation signal must appear (guards against a silent no-op save).
@@ -281,11 +263,8 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     await p.saveAndConfirm();
   });
 
-  // ── Deep coverage ──
-  // Mutation safety: new-strategy add/remove + multi-row tests run IN-SESSION only — a page reload
-  // (the per-test `ensureDefaultState()` baseline) discards them, because a committed new strategy is
-  // irreversible (a saved strategy becomes legacy with no Remove). Save-cycle tests use the only
-  // UI-reversible save: editing the EXISTING strategy's name then restoring it.
+  // ── Deep coverage ── add/remove and multi-row tests run in-session only and are discarded by the
+  // per-test reload, because a committed new strategy becomes legacy and loses its Remove.
   test('TC-CPR-STR-026: Add multiple strategies in one session (N=2)', { tag: '@C99890' }, async ({ corporatePricingStrategyPage: p }) => {
     expect(await p.getStrategyTotal()).toBe(1);
     await p.addStrategy(STRATEGY.deep.alpha);
@@ -490,10 +469,8 @@ test.describe('Corporate Pricing — Pricing Strategy: management, deep coverage
     expect(await p.getStrategyTotal()).toBe(1);
   });
 
-  // ── Save-gating (New Pricebook create flow) ──
-  // TC-CPR-STR-030, 031, 050, 051, 052, 058, 059. The create flow is NO-COMMIT — Save reachability is
-  // asserted without ever persisting (a committed pricebook is irreversible). Each test starts from a
-  // fresh, always-empty create page (per the dispatched beforeEach).
+  // ── Save-gating (New Pricebook create flow) ── these assert Save reachability without ever persisting,
+  // because a committed pricebook is irreversible.
   test('TC-CPR-STR-050: New pricebook with 0 strategies has Save disabled', { tag: '@C99914' }, async ({ corporatePricingNewPricebookPage: np }) => {
     await np.setName(NEW_PRICEBOOK.validName);
     await np.setYear(NEW_PRICEBOOK.validYear);

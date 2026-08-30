@@ -1,8 +1,4 @@
-/**
- * Test data for the Discount Optimization setup page — Locations tab (Tab 1).
- *
- * Values sourced from the live walk of office 1604 on 2026-08-11.
- */
+// Test data for the Discount Optimization Locations tab, sourced from office 1604's live grid.
 
 /** Office used for these tests. */
 export const DOP_OFFICE = '1604';
@@ -13,22 +9,11 @@ export const DOP_KNOWN_FILTER = '2050';
 /** Search string guaranteed to match zero locations. */
 export const DOP_NO_MATCH_FILTER = 'ZZZZNOTAPLACE';
 
-/**
- * Stable location row used for toggle, date, and remove interactions.
- * "The Abbey Resort" is enumerated in the live grid and is unlikely to be removed.
- */
+/** Stable row for toggle, date, and remove interactions. */
 export const DOP_LOCATION_FOR_TOGGLE = 'The Abbey Resort';
 
-/**
- * Dedicated row for the save-persistence tests (TC-DOP-OPT-020, TC-DOP-OPT-021,
- * TC-DOP-OPT-022, TC-DOP-OPT-034).
- *
- * Originally "InterContinental Chicago" (ID 1121, per the live walk on 2026-08-11), but a
- * live diagnostic probe on 2026-08-26 confirmed that row no longer exists anywhere in the
- * dataset (the full grid — confirmed by scrolling to the end — has only 50 rows, none of
- * them containing "Chicago" or ID 1121). Replaced with "Hotel del Coronado" (ID 1137),
- * confirmed present in the current dataset and not referenced by any other test constant.
- */
+// Row reserved for the save-persistence tests; must stay distinct from DOP_LOCATION_FOR_TOGGLE
+// and from any row those tests pick dynamically.
 export const DOP_LOCATION_FOR_PERSISTENCE = 'Hotel del Coronado';
 
 /** Lowercase fragment for case-insensitive search test. */

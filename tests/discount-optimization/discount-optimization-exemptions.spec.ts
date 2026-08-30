@@ -2,24 +2,8 @@ import { test, expect } from '../../src/fixtures/pages.fixture';
 import { DiscountOptimizationPage } from '../../src/pages/discount-optimization/discount-optimization.page';
 import { ROWS_TAB2 } from '../../src/selectors/discount-optimization/discount-optimization';
 
-/**
- * Discount Optimization — Special Rate Exemptions by Service Type (tab 2).
- *
- * Route: /navigator/locations/1604/settings/discount-optimization-settings (tab 2)
- *
- * Each test navigates fresh, switches to tab 2, and asserts independently.
- * TC-DOP-EXM-005 is the only mutating test; it restores the original state in its
- * finally block. All other tests are read-only.
- *
- * Exempt column: assertions use aria-checked on the Radix checkbox element.
- * textContent is NOT used — the boolean render format is SVG-based on this table
- * and textContent is empty for both states.
- *
- * No hardcoded row counts — NM-3340 (open, Blocker) will change service-type membership.
- *
- * Omitted from this file (declared):
- * - None: all 6 authored cases (TC-DOP-EXM-001..006) are implemented.
- */
+// Exempt state is read from aria-checked: the column renders as SVG, so textContent is empty
+// for both states. No hardcoded row counts — NM-3340 will change service-type membership.
 
 const OFFICE = '1604';
 
@@ -36,9 +20,8 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
     test.setTimeout(180_000);
     dop = new DiscountOptimizationPage(authenticatedSession.page, config);
     await dop.open(OFFICE);
-    // waitForGrid() polls until Tab 1 rows appear, but the tab trigger element may still
-    // have a CSS transition or overlay blocking actionability at that moment. Waiting for
-    // the tab to be visible first ensures switchTab's click() does not hit its 10 s default.
+    // waitForGrid() returns while the Tab 2 trigger can still be covered mid-transition —
+    // without this wait switchTab's click() burns its 10 s actionability timeout.
     await authenticatedSession.page
       .locator('[role="tab"]:has-text("Special Rate Exemptions by Service Type")')
       .waitFor({ state: 'visible', timeout: 60_000 });

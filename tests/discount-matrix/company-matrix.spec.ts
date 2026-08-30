@@ -3,39 +3,20 @@ import { CompanyMatrixPage } from '../../src/pages/discount-matrix/company-matri
 import * as XLSX from 'xlsx';
 import { statSync } from 'node:fs';
 
-/**
- * Discount Matrix — Company Matrix tab.
- *
- * Route: /navigator/locations/{office}/settings/discount-matrix
- *
- * Each test navigates fresh via open() and asserts independently.
- * TC-DSM-CMX-005 is the only mutating test; it changes the GAV Discount Threshold and
- * restores the original value in its finally block — the restore is verified by reload.
- *
- * Omitted from this file (declared):
- * - The other two describes in this batch are authored in follow-up tickets.
- * - Add Tier commit, Delete Tier, and Import carry no cases here. Each of those actions
- *   would write to office 1604's tier configuration. A decision to run mutations of that
- *   scope against this office has not been given, so those paths are deferred.
- */
+// Discount Matrix — Company Matrix tab. Every test navigates fresh via open().
+// Only TC-DSM-CMX-005 mutates: it restores the GAV threshold in its finally block.
 
 const OFFICE = '1604';
 
-/** Default Country shown in the criteria bar on page load. Measured 2026-08-19 on office 1604. */
+/** Criteria-bar defaults on office 1604. */
 const DEFAULT_COUNTRY = 'United States';
 
-/** Default Currency shown in the criteria bar on page load. Measured 2026-08-19 on office 1604. */
 const DEFAULT_CURRENCY = 'USD';
 
-/** Default Business Tier shown in the criteria bar on page load. Measured 2026-08-19 on office 1604. */
 const DEFAULT_BUSINESS_TIER = 'Standard';
 
-/**
- * The page route suffix the application posts back to when a criteria-bar dropdown changes.
- * Measured 2026-08-19: changing Country or Business Tier issues a POST to the page's own
- * route rather than to any /api/ path. This is the re-query oracle — no REST endpoint is
- * involved.
- */
+// The re-query oracle: a criteria-bar change POSTs to the page's own route, not to any
+// /api/ path — no REST endpoint is involved.
 const REQUERY_PATH = '/settings/discount-matrix';
 
 /** Column group names in left-to-right DOM order. */
@@ -44,34 +25,20 @@ const COLUMN_GROUPS = ['Non-Peak', 'Standard', 'Peak'];
 /** Day-bucket labels shared across all three column groups. */
 const DAY_BUCKETS = ['0-15', '16-30', '31-60', '61-90', '91-180', '181-365', '365 +'];
 
-/**
- * Returns true if any element in `headers` contains `label` once all whitespace is
- * removed from both sides before comparing.
- *
- * Two reasons exact matching is wrong here: (1) the grid renders each column group as a
- * full phrase — e.g. "Non-Peak Booking Windows Days" — while the constants store only the
- * short name; (2) the same label can differ only by spacing between surfaces (the grid
- * shows "365 +" while the exported workbook writes "365+"), so a cosmetic-spacing change
- * that carries no meaning would otherwise break the assertion.
- */
+// Substring, whitespace-stripped: the grid renders full phrases ("Non-Peak Booking Windows
+// Days") and spaces vary between surfaces (grid "365 +" vs export "365+").
 function headerContains(headers: string[], label: string): boolean {
   const stripped = label.replace(/\s/g, '');
   return headers.some((h) => h.replace(/\s/g, '').includes(stripped));
 }
 
 test.describe('Discount Matrix — Company Matrix: header controls, surface behaviour & field input contracts', () => {
-  /**
-   * No dependencyGate calls appear in this describe — every test navigates fresh via
-   * open() and asserts independently, so none depends on another test's outcome.
-   * dependencyGate is omitted deliberately to reflect that intent.
-   */
+  // dependencyGate is deliberately omitted — no test here depends on another's outcome.
   let cmx: CompanyMatrixPage;
 
   test.beforeEach(async ({ authenticatedSession, config }) => {
-    // 500 s default budget: a live probe on 2026-08-25 measured the grid taking ~83 s to
-    // load (waitForGrid()'s ceiling is now 180 s to match) — this beforeEach's own open()
-    // already spends up to that before the test body runs. 500 s covers two full-budget
-    // loads plus test-body overhead; TC-005 does up to four opens and overrides further.
+    // 500 s covers two full grid loads at waitForGrid()'s 180 s ceiling plus test overhead;
+    // tests doing more open() calls override this further.
     test.setTimeout(500_000);
     cmx = new CompanyMatrixPage(authenticatedSession.page, config);
     await cmx.open(OFFICE);
@@ -80,22 +47,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
 
   // ---------------------------------------------------------------- shared helper for 002/003/004
 
-  /**
-   * Verifies that selecting a different value in a criteria-bar dropdown causes the
-   * application to re-query the grid. Used by TC-002, TC-003, and TC-004.
-   *
-   * The re-query oracle is a POST to the page's own route (REQUERY_PATH). This application
-   * posts back to its own route rather than to a REST endpoint — no /api/ path is involved.
-   * A data diff is not a sound staleness oracle because two different keys can legitimately
-   * return the same rows; the network POST is the proof of re-query.
-   *
-   * @param controlName   human-readable name of the control under test, e.g. 'Country'
-   * @param getOptions    reads all available option texts from the dropdown
-   * @param getCurrent    reads the currently selected option text
-   * @param selectOption  selects an option by its text and triggers the re-query POST
-   * @param dataExpect    'must-change' — the labels or first-row values must differ, or row
-   *                      count must be zero; 'may-match' — only grid coherence is asserted
-   */
+  // The POST is the re-query oracle, not a data diff: two different keys can legitimately
+  // return identical rows. 'may-match' asserts only grid coherence for that reason.
   async function assertHeaderRekeysGrid(
     controlName: string,
     getOptions: () => Promise<string[]>,
@@ -144,8 +97,7 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
           `Identical data under a different ${controlName} key means the grid retained the previous selection's rows.`,
       ).toBe(true);
     } else {
-      // 'may-match': assert only that the grid is in a coherent state — either it has rows
-      // with a full first row of 21 values, or it has no data rows at all.
+      // Coherent means either a full 21-value first row, or no data rows at all.
       if (tierLabelsAfter.length > 0) {
         const valuesAfter = await cmx.getRowValues(tierLabelsAfter[0]!);
         expect(
@@ -167,12 +119,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     return { download, sheet };
   }
 
-  /**
-   * Every criteria-bar control participates in the key the grid is loaded against, so each
-   * control is exercised against this submodule rather than tested once in isolation. A
-   * header change that fails to re-key the grid would leave a user reading one country's
-   * numbers under another country's label.
-   */
+  // Every criteria-bar control is part of the key the grid loads against, so each is
+  // exercised separately: a failed re-key shows one country's numbers under another's label.
 
   test('TC-DSM-CMX-001: Grid loads when all three header keys are set', async () => {
     const rowCount = await cmx.getRowCount();
@@ -204,8 +152,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-002: Changing Country re-keys the grid', async () => {
-    // Measured 2026-08-19 on office 1604: United States → Mexico produced 9 rows → 2 rows
-    // with different tier ranges and different values. Data change confirmed.
+    // On office 1604, United States → Mexico swaps the grid for different tier
+    // ranges and values, so the change must be visible ('must-change').
     await assertHeaderRekeysGrid(
       'Country',
       () => cmx.getCountryOptions(),
@@ -216,8 +164,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-003: Changing Currency re-keys the grid', async () => {
-    // Measured 2026-08-19 on office 1604: USD → CAD produced 9 rows → 0 rows (empty state).
-    // Data change (to empty) confirmed.
+    // On office 1604, USD → CAD empties the grid — an empty result still counts
+    // as the grid re-keying.
     await assertHeaderRekeysGrid(
       'Currency',
       () => cmx.getCurrencyOptions(),
@@ -228,9 +176,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-004: Changing Business Tier re-keys the grid', async () => {
-    // Measured 2026-08-19 on office 1604: Standard → Las Vegas issued three POST re-queries
-    // and returned byte-identical rows for both tiers. Data identity on different keys is
-    // correct server behaviour — the network POST is the re-query oracle, not a data diff.
+    // 'may-match': two Business Tiers legitimately return byte-identical rows, so only the
+    // re-query POST proves the change took.
     await assertHeaderRekeysGrid(
       'Business Tier',
       () => cmx.getBusinessTierOptions(),
@@ -241,17 +188,13 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-005: Header Save persists only the GAV threshold', async () => {
-    // ⚠ This test writes to the live application. The finally block restores the original
-    // threshold — do not remove the finally block.
-    // Up to four full grid loads (beforeEach + try-block open + up to two restore-loop
-    // opens), each up to waitForGrid()'s 180 s ceiling — override the describe default.
+    // Writes to the live application — do not remove the finally block that restores it.
+    // Up to four full grid loads here, so the describe default is overridden.
     test.setTimeout(900_000);
 
-    // Capture the rendered string exactly (e.g. "12.5%") so the restore is string-exact.
-    // An integer round-trip (parseInt) would silently rewrite a fractional value like 12.5
-    // to 12 — the restore would become a mutation rather than a no-op.
+    // Keep the rendered string exact: parseInt would rewrite "12.5%" to 12 and turn the
+    // restore into a mutation.
     const originalRendered = await cmx.getCriteriaThreshold();
-    // Strip only the "%" suffix and surrounding whitespace — never parseInt.
     const originalNumericText = originalRendered.replace('%', '').trim();
     const originalFloat = parseFloat(originalNumericText);
 
@@ -292,12 +235,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     } catch (e) {
       primaryError = e;
     } finally {
-      // Restore the original threshold — do not remove this block. The restore is deliberately
-      // verified by reload-and-read because reloading is the only check that proves the value
-      // reached the server: a read immediately after saving reads the local form state, not
-      // the persisted server value. The restore retries at most twice and skips the click when the value already
-      // matches. It is deliberately non-masking (a failure here must not replace a failure
-      // from the try block above).
+      // Restore — do not remove. Verified by reload because a read straight after save returns
+      // local form state, not the persisted value; failures here must not mask the try block's.
       let restoreError: unknown = undefined;
       try {
         let restoredThreshold: string | undefined;
@@ -333,11 +272,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-006: Empty state when a header key is not set', async () => {
-    // Measured 2026-08-19 on office 1604: switching Currency to CAD produced the empty state
-    // directly (9 rows → 0). The empty state is correct behaviour for a key combination with
-    // no matrix rows — it is not a data gap.
-    // No empty-state message or element is asserted here: that markup has not been measured,
-    // and asserting it would be a guess.
+    // Switching Currency to CAD is the shortest route to the empty state, which is correct
+    // behaviour for a key with no rows. The empty-state markup itself is not asserted.
 
     const currencyOptions = await cmx.getCurrencyOptions();
     if (!currencyOptions.includes('CAD')) {
@@ -364,20 +300,14 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-007: Unsaved dialog edit is not carried across a header change', async () => {
-    /**
-     * This surface shows no in-app Unsaved Changes prompt — measured 2026-08-19 on both
-     * the tab-switch path and the Export path. No prompt handling is written here.
-     * If a prompt appears in a future run, that is a behaviour change worth reporting
-     * rather than a test failure to paper over.
-     */
+    // This surface shows no Unsaved Changes prompt, so none is handled here; one appearing
+    // is a behaviour change worth reporting.
 
     const tierLabels = await cmx.getTierRangeLabels();
     const firstLabel = tierLabels[0]!;
     const snapshotValues = await cmx.getRowValues(firstLabel);
 
-    // Open the Edit Tier dialog and change the input at index 1.
-    // Index 0 renders a raw decimal (e.g. "0.17") whose format differs from the rest;
-    // index 1 and beyond render percent-formatted values — index 1 is the safe starting point.
+    // Index 1, not 0: index 0 renders a raw decimal ("0.17") while 1–20 are percent-formatted.
     await cmx.openEditDialog(firstLabel);
     const dialogValues = await cmx.getEditDialogInputValues();
     const originalInputOne = dialogValues[1] ?? '0';
@@ -414,9 +344,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   // ── SBC — read-only surface-behaviour tests. None of the tests below clicks Save, opens a
   // dialog, or changes a dropdown — they only read the grid as it loads on open(). ──
   test('TC-DSM-CMX-008: Column structure is exactly 3 groups × 7 buckets', async () => {
-    // getColumnHeaderRows() returns one array per header row. We do not assert which
-    // header row holds the groups and which holds the buckets — that layout was not
-    // measured, and asserting it would be a guess.
+    // Headers are flattened deliberately: which thead row holds groups vs buckets is not
+    // asserted.
     const headerRows = await cmx.getColumnHeaderRows();
     const allHeaders = headerRows.flat();
 
@@ -457,10 +386,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
       'Contiguity check requires at least two tier ranges — fewer than two means the loop would pass vacuously without asserting anything',
     ).toBeGreaterThanOrEqual(2);
 
-    // Assert strict ascending order and no overlap between adjacent ranges.
-    // We do NOT assert that the next start equals the previous end plus exactly one — the
-    // boundary convention (e.g. whether ranges are exclusive or inclusive) was not measured,
-    // and a stricter assertion than the evidence supports would be a guess.
+    // Only ascending order and non-overlap: the inclusive/exclusive boundary convention is
+    // unknown, so start === prevEnd + 1 is deliberately not asserted.
     for (let i = 1; i < parsed.length; i++) {
       const prev = parsed[i - 1]!;
       const curr = parsed[i]!;
@@ -482,9 +409,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-011: Grid readiness is data-driven, not container-driven', async () => {
-    // A mounted-but-empty grid would satisfy a container-visibility check while failing this
-    // test. This is the regression guard for the waitForGrid() readiness gate — it is not a
-    // duplicate of TC-001, which also exercises header defaults.
+    // Regression guard for waitForGrid(): a mounted-but-empty grid passes a container-only
+    // check but fails here.
     const rowCount = await cmx.getRowCount();
     expect(rowCount, 'grid must have at least one tier row after open()').toBeGreaterThan(0);
 
@@ -527,16 +453,9 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   // ── Field input contracts ──
-  // IMPORTANT: No field-input test clicks Update. Whether Update writes to the server
-  // or only to local grid state has never been measured. Clicking it could persist a change
-  // to a live office with no verified way to reverse it. All tests exit through Cancel only.
-  //
-  // Two field groups: the Edit Tier dialog's percentage inputs (TC-013–TC-024)
-  // and the criteria bar's GAV Discount Threshold field (TC-034–TC-040).
-  //
-  // Value trials use index 1, not index 0. Index 0 opens in a different format (raw decimal
-  // e.g. "0.17") from indices 1–20 (percent-formatted e.g. "17%"). Using index 0 would
-  // confound every value assertion. TC-022 is the one test that deliberately reads index 0.
+
+  // No field-input test clicks Update — it may persist to the live office with no way back;
+  // all exit through Cancel. Trials use index 1 because index 0 renders a raw decimal.
 
   test('TC-DSM-CMX-013: Dialog roster', async () => {
     const tierRange = (await cmx.getTierRangeLabels())[0]!;
@@ -546,9 +465,7 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     expect(title, 'Dialog title must match the pattern "Editing {tier range}"').toBe(`Editing ${tierRange}`);
 
     const values = await cmx.getEditDialogInputValues();
-    // There are no Revenue Tier start/end fields in this dialog — tier boundaries are not
-    // editable here. A case expecting to edit a tier's start or end would be written against
-    // controls that do not exist.
+    // Tier boundaries are not editable here — the dialog has no Revenue Tier start/end fields.
     expect(
       values,
       'Edit Tier dialog must have exactly 21 inputs; there are no tier-boundary fields here',
@@ -688,11 +605,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-019: Out-of-range rejection shows no user-visible message', async () => {
-    // DEFECT — INTENTIONAL ASSERTION: The correct behaviour would be a visible message
-    // explaining why the value was rejected. Currently no message appears — Update is
-    // silently disabled while the field still renders the value with a % as though accepted.
-    // This test pins the current silent behaviour so that adding a message in future shows
-    // up as a deliberate change rather than a surprise.
+    // DEFECT — INTENTIONAL ASSERTION: pins the current silent rejection (no message, Update
+    // just disabled) so adding a message later surfaces as a deliberate change.
     const tierRange = (await cmx.getTierRangeLabels())[0]!;
     await cmx.openEditDialog(tierRange);
 
@@ -741,26 +655,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     await cmx.clickEditCancel();
   });
 
-  // Measured 2026-08-19 on office 1604, Edit Tier dialog, first tier row, input index 1.
-  // Each trial ran in a fresh dialog with real keystrokes followed by blur. A passing control
-  // (typing "14" → blur → value "14%", aria-invalid "false", Update enabled) confirmed the
-  // harness was working correctly alongside both trials below.
-  //
-  // This test asserts OBSERVED behaviour, not agreed-correct behaviour. Whether the observed
-  // behaviour is intentional has not been ruled on.
-  //
-  // Observed: clearing or typing non-numeric text into a percentage input in the Edit Tier
-  // dialog causes the field to silently resolve to "0%" on blur — aria-invalid stays "false"
-  // and Update remains enabled. A user who mistypes in this field receives no warning and can
-  // save a zero-percent discount without any indication that their entry was discarded.
-  //
-  // The criteria bar's threshold field behaves differently for the same input: typing "abc"
-  // there reverts the field to its previous value rather than substituting zero. The two fields
-  // are inconsistent in how they handle invalid entry.
-  //
-  // If the silent-zero behaviour is changed so the field shows an error or reverts to the
-  // previous value, this test will fail. That failure would be a signal of a deliberate
-  // behaviour change, not noise to paper over.
+  // Pins OBSERVED, not agreed-correct, behaviour: a mistyped percentage silently becomes "0%"
+  // with Update still enabled, unlike the threshold field, which reverts to its prior value.
   test('TC-DSM-CMX-021: Empty and non-numeric input silently resolve to zero percent', async () => {
     const tierRange = (await cmx.getTierRangeLabels())[0]!;
 
@@ -799,10 +695,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-022: Field 0 opens in a different format from fields 1–20', async () => {
-    // DEFECT — INTENTIONAL ASSERTION: The correct behaviour is one consistent format across
-    // all 21 inputs. Currently index 0 renders the raw decimal (e.g. "0.17") while indices
-    // 1–20 render percent-formatted values (e.g. "17%"). This test pins the current
-    // inconsistency so that fixing it is a deliberate change rather than a surprise.
+    // DEFECT — INTENTIONAL ASSERTION: pins the format inconsistency (index 0 raw decimal,
+    // 1–20 percent-formatted) so fixing it is a deliberate change.
     const tierRange = (await cmx.getTierRangeLabels())[0]!;
     await cmx.openEditDialog(tierRange);
 
@@ -886,8 +780,7 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
 
     await cmx.openEditDialog(tierRange);
 
-    // Change at least three fields at indices 1 and above to valid new values that differ
-    // from what is there, to prove Cancel discards multiple pending edits at once.
+    // Three fields, not one — Cancel must discard multiple pending edits at once.
     const dialogValues = await cmx.getEditDialogInputValues();
     for (const idx of [1, 2, 3]) {
       const current = parseFloat((dialogValues[idx] ?? '0').replace('%', ''));
@@ -915,10 +808,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     const download = await cmx.clickExportAndWaitForDownload();
     const suggestedFilename = download.suggestedFilename();
 
-    // The filename shape is DiscountMatrix-{country}-{currency}-{tier}.xlsx.
-    // The country segment is a country code (e.g. "US"), not the full name shown in the
-    // criteria bar (e.g. "United States"). The mapping between them was not measured, so
-    // only the currency and tier segments are asserted against the criteria bar.
+    // Only currency and tier are checked against the criteria bar: the filename's country
+    // segment is a code ("US"), and its mapping to the displayed name is unknown.
     expect(
       suggestedFilename,
       'Filename must match the shape DiscountMatrix-<country>-<currency>-<tier>.xlsx',
@@ -989,9 +880,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     const { sheet } = await downloadAndParseSheet(cmx);
     const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true }) as unknown[][];
 
-    // Row 1: instruction string — this is what the Import button consumes. A change breaks the round trip.
-    // The cell is line-wrapped in the workbook file; whitespace (including newlines) is normalised to a
-    // single space on both sides so a cosmetic re-wrap does not fail this test, but a wording change still will.
+    // Row 1 is the instruction the Import button consumes. Whitespace is normalised so a
+    // cosmetic re-wrap passes while a wording change still fails.
     const instructionRaw = String((rows[0] as unknown[])[0] ?? '');
     const instructionNorm = instructionRaw.replace(/\s+/g, ' ').trim();
     expect(
@@ -1009,9 +899,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     expect(headerRow[11], 'Row 2 must carry the Standard group header at column L — a change breaks the Import button').toBe('Standard Booking Windows by Days');
     expect(headerRow[18], 'Row 2 must carry the Peak group header at column S — a change breaks the Import button').toBe('Peak Booking Windows by Days');
 
-    // Row 3: seven day-bucket sub-headers per group.
-    // The export writes "365+" with no space; the grid renders "365 +". The two label sets
-    // are deliberately not compared to each other.
+    // Row 3 holds seven day-bucket sub-headers per group. The export writes "365+" where the
+    // grid renders "365 +" — the two label sets are deliberately never compared.
     const buckets = ['0-15', '16-30', '31-60', '61-90', '91-180', '181-365', '365+'];
     const subHeaderRow = rows[2] as unknown[];
     for (let g = 0; g < 3; g++) {
@@ -1026,8 +915,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-029: Export identifier column carries the platform identifier', async () => {
-    // Each data row's ID column holds a GUID-form identifier. This is expected behaviour
-    // after the platform's data-store migration — the assertion pins the format, not a defect.
+    // GUID-form IDs are expected after the platform's data-store migration — this pins the
+    // format, it is not a defect assertion.
     const { sheet } = await downloadAndParseSheet(cmx);
     const rows = XLSX.utils.sheet_to_json(sheet, { header: 1, raw: true }) as unknown[][];
     const dataRows = rows.slice(3);
@@ -1046,11 +935,9 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   // ---------------------------------------------------------------- Add Tier dialog tests
-  //
-  // None of the tests below click the Add Tier confirm button. Clicking confirm would
-  // create a real tier on office 1604 with no cleanup path available. This boundary is
-  // the point of these cases, not an omission. A future batch that runs the commit
-  // end-to-end requires both a mutation decision for this office and a verified cleanup path.
+
+  // No test below clicks the confirm button: it would create a real tier on office 1604 with
+  // no cleanup path. That boundary is the point of these cases, not an omission.
 
   test('TC-DSM-CMX-030: Add Tier opens with one End Tier field and a disabled confirm', async () => {
     await cmx.openAddTierDialog();
@@ -1058,8 +945,7 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     const title = await cmx.getAddTierDialogTitle();
     expect(title, 'Add Tier dialog title must be "Adding Tier"').toBe('Adding Tier');
 
-    // There is no Start Tier field — the new tier's start is derived. A case expecting to
-    // set a tier's start would be written against a control that does not exist.
+    // There is no Start Tier field — the new tier's start is derived.
     const inputCount = await cmx.getAddTierDialogInputCount();
     expect(inputCount, 'Add Tier dialog must contain exactly one input — there is no Start Tier field').toBe(1);
 
@@ -1076,9 +962,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-031: End Tier validation is submit-time, not blur-time', async () => {
-    // This case deliberately stops before clicking confirm. Completing it end-to-end
-    // requires a mutation decision for office 1604 and a cleanup path that has not been
-    // established. Related ticket: NM-3237.
+    // NM-3237: stops before confirm — the end-to-end path needs a cleanup route that does
+    // not exist yet.
     await cmx.openAddTierDialog();
 
     await cmx.setAddTierEndValue('30000000');
@@ -1137,16 +1022,13 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   // ---------------------------------------------------------------- GAV Discount Threshold field (criteria bar)
-  //
-  // None of the tests below clicks Save. Save is the only control that persists the threshold
-  // to the server. Every test here types a value and then discards it by navigating away via
-  // open(), leaving the threshold at its baseline for the next test.
+
+  // No test below clicks Save, the only control that persists the threshold — each discards
+  // its typed value by navigating away via open(), leaving the baseline for the next test.
 
   test('TC-DSM-CMX-034: Threshold accepts a whole number and renders it as a percentage', async () => {
-    // IMPORTANT: This field must be driven with character-by-character typing.
-    // Measured: filling "20%" via a single call rendered "15.2%" whereas typing the same
-    // characters rendered the correct "20%". The page object already types — a future reader
-    // must not "simplify" this back to a fill() call.
+    // The page object types character by character on purpose — do not "simplify" it back to
+    // fill(), which the field's formatter mis-parses ("20%" landed as "15.2%").
     await cmx.setCriteriaThreshold('20');
 
     const rendered = await cmx.getCriteriaThreshold();
@@ -1188,13 +1070,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
   });
 
   test('TC-DSM-CMX-037: Threshold marks an out-of-range value invalid without saying why', async () => {
-    // DEFECT — INTENTIONAL ASSERTION: The correct behaviour would be a visible message
-    // explaining why 101 is rejected. Currently no message appears — the value renders with
-    // its "%" as though accepted and only aria-invalid signals the rejection. This is the
-    // same silent-rejection pattern already recorded on the Edit Tier dialog's percentage
-    // inputs, making it a surface-wide problem rather than one control's issue. This test
-    // pins the current behaviour so that adding a message in future shows up as a deliberate
-    // change rather than a surprise.
+    // DEFECT — INTENTIONAL ASSERTION: 101 renders with its "%" as though accepted and only
+    // aria-invalid marks the rejection — the same silent pattern as the Edit Tier inputs.
     await cmx.setCriteriaThreshold('101');
 
     const rendered = await cmx.getCriteriaThreshold();
@@ -1240,18 +1117,13 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     await cmx.open(OFFICE);
   });
 
-  // These are two measured paths through the same threshold field for refused non-numeric input.
-  // Neither path warns the user. Path 1 (select-without-delete): refused keystrokes cannot replace
-  // the selection, so the field keeps its prior value. Path 2 (select-then-delete): the field is
-  // genuinely empty before 'abc' is refused, and an empty threshold commits as "0%" — meaning a
-  // mistyped entry can leave a zero in a field that previously held a real number, with no indication
-  // anything went wrong.
+  // Two paths, neither warning the user: typed over a selection the value survives, but cleared
+  // first the field is empty when 'abc' is refused and commits as "0%".
   test('TC-DSM-CMX-039: Threshold silently refuses non-numeric input and resolves empty to zero', async () => {
     // Three full grid loads (beforeEach + two explicit open() calls) — override the
     // describe default so two loads at waitForGrid()'s 180 s ceiling don't exhaust it.
     test.setTimeout(700_000);
-    // Part 1 — Refusal: type 'abc' over the selection without clearing first.
-    // The characters are refused at the input layer; the existing value is never replaced.
+    // Part 1 — typed over the selection without clearing: refused at the input layer.
     const starting = await cmx.getCriteriaThreshold();
     expect(starting, 'Part 1: refusal check is meaningless from a zero baseline — starting value must not be "0%" and must not be empty').not.toBe('0%');
     expect(starting, 'Part 1: refusal check is meaningless from a zero baseline — starting value must not be "0%" and must not be empty').not.toBe('');
@@ -1283,14 +1155,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     await cmx.open(OFFICE);
   });
 
-  // OBSERVED BEHAVIOUR — NOT AGREED-CORRECT: The threshold lives in the page-level criteria bar,
-  // outside every tab panel, so switching tabs does not unmount it. An unsaved edit survives the
-  // tab round-trip, and no Unsaved Changes prompt appears on either the outbound or return path.
-  // NM-3256's reproduction implies a prompt should appear; its absence is unresolved rather than
-  // agreed-correct. The edit surviving a tab switch means a user can leave a pending change on
-  // screen and return to it with no indication it is unsaved. A reload discards the edit because
-  // nothing was persisted. This asserts observed behaviour — a future prompt is a change worth
-  // reporting rather than a failure to paper over.
+  // OBSERVED, NOT AGREED-CORRECT: the threshold sits outside every tab panel, so a tab switch
+  // never unmounts it and no prompt appears — NM-3256 implies one should, still unresolved.
   test('TC-DSM-CMX-040: Unsaved threshold edit survives a tab switch and is discarded by a reload', async () => {
     const original = await cmx.getCriteriaThreshold();
     const originalNum = parseFloat(original.replace('%', '').trim());
@@ -1323,10 +1189,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     // Threshold is at its original value after Part 2's open() call — no further cleanup needed.
   });
 
-  // MEASURED 2026-08-20: Typing "100" renders "100%", aria-invalid is absent (false), Save is
-  // enabled, and no validation message appears — 100 is the valid upper boundary of this field.
-  // The existing TC-037 covers 101 as out-of-range; this case confirms the boundary itself is
-  // accepted. Value reverts to 15% after reload — nothing was saved.
+  // 100 is the valid upper boundary; TC-037 covers 101 as out-of-range. Nothing is saved, so
+  // the value reverts on reload.
   test('TC-DSM-CMX-041: Threshold accepts exactly 100 as the valid upper boundary', async () => {
     await cmx.setCriteriaThreshold('100');
 
@@ -1348,11 +1212,8 @@ test.describe('Discount Matrix — Company Matrix: header controls, surface beha
     await cmx.open(OFFICE);
   });
 
-  // MEASURED 2026-08-20: The minus sign is refused at the input layer — typing "-5" results in
-  // "5" reaching the field, which renders as "5%". aria-invalid is absent (false), Save is
-  // enabled, no validation message appears. This is the same silent-keystroke-refusal pattern
-  // already recorded for non-numeric input (TC-039), extended to negative numeric input.
-  // Value reverts to 15% after reload — nothing was saved.
+  // The minus is refused at the input layer, so "-5" commits as the valid "5%" — the same
+  // silent-refusal pattern as TC-039's non-numeric input. Nothing is saved.
   test('TC-DSM-CMX-042: Threshold silently refuses a negative sign and processes the remaining digits', async () => {
     await cmx.setCriteriaThreshold('-5');
 

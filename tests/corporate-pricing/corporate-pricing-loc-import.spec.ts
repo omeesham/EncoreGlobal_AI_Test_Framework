@@ -29,9 +29,8 @@ function requireRow(cap: { header: string[]; rows: string[][] }, priceBook: stri
 }
 
 test.describe('Corporate Pricing — Loc Pricing Import: real round-trip & dialog surface (NM-2305) @corporate-pricing @loc-pricing-import', () => {
-  // Every test except the dialog-surface case (TC-012) mutates the throwaway office 5897 and gets
-  // the verified baseline reset before and the best-effort restore after — exactly the hooks the
-  // @mutation round-trip group had as its own describe.
+  // Every test except the dialog-surface case mutates the throwaway office 5897, so each gets a verified
+  // baseline reset before and a best-effort restore after.
   const DIALOG_SURFACE_IDS = ['TC-CPR-LIM-011'];
   const isDialogSurface = (title: string) => DIALOG_SURFACE_IDS.some((id) => title.startsWith(id));
 
@@ -95,9 +94,8 @@ test.describe('Corporate Pricing — Loc Pricing Import: real round-trip & dialo
     const result = await p.locPricingImport(fixturePath('partial-update.csv'));
     expect(result.success, result.message).toBe(true);
 
-    // The import REPLACES the location's set (within the file's currency) with the file's rows (live-verified
-    // per-(location,currency) replace, NOT a per-row merge): the two in-file rows carry their EXACT values,
-    // and the omitted row is GONE.
+    // A per-(location, currency) replace, not a per-row merge: the in-file rows keep their exact values
+    // and the omitted row is gone.
     const after = await p.captureLocPricingCsvRows(OFFICE);
     const pbIdx = after.header.indexOf('PriceBook');
     // Full 11-column assertion on BOTH survivors — not just the flag — so a corrupt Currency/Labor/etc.
@@ -137,9 +135,8 @@ test.describe('Corporate Pricing — Loc Pricing Import: real round-trip & dialo
   test('TC-CPR-LIM-005: Loc Pricing Import surfaces an error for a structurally malformed CSV and runs no import', { tag: ['@mutation', '@C99769'] }, async ({ corporatePricingSearchPage: p }) => {
     const before = await p.captureLocPricingCsvRows(OFFICE);
     const result = await p.locPricingImport(fixturePath('malformed.csv'));
-    // A malformed file is rejected before any request runs. The exact text is a raw parser error today
-    // (an unfriendly-message improvement lead), so assert that an error IS surfaced — via the error family,
-    // not one brittle string — AND that no import ran and nothing changed.
+    // A malformed file is rejected before any request runs; the message is a raw parser error today,
+    // so match the error family rather than one brittle string.
     expect(result.success).toBe(false);
     expect(result.status).toBeNull();
     expect(result.message, 'a malformed file must surface a visible error, not a silent no-op').toMatch(
@@ -150,9 +147,8 @@ test.describe('Corporate Pricing — Loc Pricing Import: real round-trip & dialo
     expect(sortRows(after.rows)).toEqual(sortRows(before.rows));
   });
 
-  // The app auto-submits the import the moment a file is chosen (live-verified) — so there is no
-  // "choose then cancel" window. The meaningful negative case is that merely opening the import
-  // affordance and dismissing it (without choosing a file) fires no import and changes nothing.
+  // The app auto-submits the moment a file is chosen, so there is no "choose then cancel" window;
+  // the only negative case left is opening the affordance and dismissing it.
   test('TC-CPR-LIM-006: Loc Pricing Import — opening and dismissing the dialog without choosing a file runs no import', { tag: ['@mutation', '@C99770'] }, async ({ corporatePricingSearchPage: p }) => {
     const before = await p.captureLocPricingCsvRows(OFFICE);
 

@@ -17,39 +17,8 @@ import {
   TNC_RTE_ENTITY_STRING,
 } from '../../src/data/terms-conditions/terms-conditions';
 
-/**
- * Terms and Conditions — full spec (grid structure, language filter, content editing, persistence).
- *
- * Every test starts from a freshly loaded page. The reload is the reset: nothing here is saved
- * unless a case explicitly tests persistence, so re-opening discards any prior edit. Each test
- * is independent under retries and reruns.
- *
- * Tests that perform a real save use saveAndCaptureResponse and explicit try/finally restore.
- *
- * Modelled on: service-charge-text/service-charge-text.spec.ts
- *
- * TC-044 and TC-045 assert CORRECT behaviour and are expected to FAIL until the
- * underlying application issues are fixed. Their failure IS the deliverable —
- * machine-checkable evidence of the bugs.
- *
- * TC-046 asserts the correct bold round-trip: type text, apply Bold, confirm <strong>
- * appears, save, reload, reopen, confirm <strong> survived. Persistence was NOT verified
- * live (the probe that measured rte-bold closed before reload). If the app does not persist
- * bold formatting the test will fail — that failure is the evidence, same posture as TC-044/045.
- *
- * Omitted from this file (declared):
- * - TC-036: Removed — not automatable (manual-only verification of visual rendering).
- * - TC-054: NM-3163 tooltip entity rendering — no per-cell tooltip exists; test is N/A.
- * - TC-069: Pairwise covering array — combinatorial case; deferred until it can be prioritised.
- * - TC-072: State transition clean-to-dirty (RTE) — directly exercised by TC-023.
- * - TC-081: Tab-to-tab navigation guard — navigation target does not exist; unconfirmed/N/A.
- * - TC-084: Double-click race on Save — error-guessing case; deferred until it can be prioritised.
- * - TC-085: Save-failure retry after successful retry — requires the failed-save UI fix first.
- * - TC-086: Language switched mid-RTE-edit — covered by TC-041 (guard dialog fires).
- * - TC-087: Browser-back after successful save — covered by TC-037/TC-075.
- * - TC-091: Network payload shape — covered structurally by TC-044's requestBody assertion.
- * - TC-092: Volume all-rows render — grid-level concern; covered by TC-004/TC-059.
- */
+// Each test reopens the page first — that reload is the reset — and any test that really saves
+// restores in a finally block. Tests asserting correct behaviour against known bugs fail by design.
 test.describe('Terms and Conditions', () => {
   let tnc: TermsConditionsPage;
 
@@ -97,9 +66,8 @@ test.describe('Terms and Conditions', () => {
     const allCount = await tnc.getRowCount();
     expect(allCount).toBeGreaterThan(usEnglishCount);
 
-    // At least two different languages must be present among the visible rows.
-    // Break early once diversity is proven — iterating every row risks hitting indices
-    // whose language-trigger element is absent (trailing add-row under "All" filter).
+    // Break out once two languages are seen — later indices may be the trailing
+    // add-row, which has no language trigger.
     const languages = new Set<string>();
     for (let i = 0; i < allCount && languages.size < 2; i++) {
       try {
@@ -218,9 +186,7 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
 
-  // Skipped while an application behaviour question is open. The test enters a 260-character name
-  // and expects Save to become enabled, but the application rejects that length. The intended
-  // maximum has been queried with the client and this check will be updated once the answer arrives.
+  // Skipped: the app rejects a 260-character name; the intended maximum is still with the client.
   test.skip('TC-TNC-CORE-013: Name accepts 260 characters', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -813,17 +779,8 @@ test.describe('Terms and Conditions', () => {
 
   // ------------------------------------------------------------ defect evidence
 
-  /**
-   * Bulk save with residue rows returns HTTP 500.
-   *
-   * This check asserts the intended behaviour: a valid edit should persist through save.
-   * Current evidence shows HTTP 500 when residue rows with extreme content are present.
-   * Clean-row-only saves succeeded, but the specific offending row was never isolated;
-   * this is correlation, not proven causation.
-   */
-  // Skipped while an application issue is open. A valid bulk save currently returns a server
-  // error (HTTP 500) when residue rows with extreme content are present, so this check cannot
-  // pass. It should be re-enabled once bulk saves with the existing grid data complete successfully.
+  // Skipped: a valid bulk save returns HTTP 500 when residue rows with extreme content are
+  // present. Correlation only — the offending row was never isolated.
   test.skip('TC-TNC-CORE-043: Valid save should succeed even when residue rows are present', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -858,17 +815,8 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-  /**
-   * Known application issue: UI shows success when save returns HTTP 500 — silent data loss.
-   *
-   * This spec forces an HTTP 500 via route interception and asserts CORRECT behaviour:
-   * on a failed save the UI should signal an error and keep Save enabled.
-   * It is EXPECTED TO FAIL until the defect is fixed because the application currently
-   * disables Save identically on 2xx and 500, with no error toast, banner, or console message.
-   *
-   * Evidence: one observed HTTP 500 on the live endpoint. This assertion is scoped to
-   * that exact status code and does not generalise to other non-2xx responses.
-   */
+  // Forces a 500 and asserts the correct behaviour — Save stays enabled so the user can retry.
+  // EXPECTED TO FAIL: the app disables Save identically on 2xx and 500, with no error surfaced.
   test('TC-TNC-CORE-044: UI shows success when save returns HTTP 500 — silent data loss', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -898,17 +846,8 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
 
-  /**
-   * TC-TNC-CORE-045: Bold formatting round-trip — type text, apply Bold, save, reload,
-   * confirm <strong> survives.
-   *
-   * Bold was confirmed working in the editor on 2026-08-06: clicking Bold wraps selected text
-   * in <strong>. Persistence through save and reload was not verified because saving formatted
-   * rich text currently returns HTTP 500.
-   */
-  // Skipped while an application issue is open. Saving text that carries bold formatting currently
-  // returns a server error (HTTP 500), so this check cannot pass. It should be re-enabled once
-  // that is resolved.
+  // Skipped: saving bold-formatted rich text returns HTTP 500, so the round-trip cannot be
+  // verified. Bold itself works in the editor — it wraps the selection in <strong>.
   test.skip('TC-TNC-CORE-045: Bold formatting round-trip — <strong> persists through save and reload', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -1075,9 +1014,7 @@ test.describe('Terms and Conditions', () => {
     expect(restoreStatus).toBeLessThan(300);
   });
 
-  // Skipped while an application behaviour question is open. The application trims
-  // whitespace-only text on save, so the check that expects it preserved cannot pass. The intended
-  // behaviour has been queried with the client and this check will be updated once the answer arrives.
+  // Skipped: the app trims whitespace-only text on save; the intended behaviour is with the client.
   test.skip('TC-TNC-CORE-051: RTE whitespace-only content persists through save and reload', async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await tnc.ensureFixtureRow(TNC_OFFICE);
@@ -1452,20 +1389,10 @@ test.describe('Terms and Conditions', () => {
     }
   });
 
-  // ------------------------------------------------------------ grid structure
+  // ------------------------------------------------------------ save-gating validation
 
-  // TC-TNC-CORE-036: Column resize does not persist
-  // REMOVED FROM EXECUTABLE SPEC — the resize handle is a raw <button> with no testid,
-  // and automating drag-resize without a stable selector produces a brittle, non-deterministic
-  // test. Recorded as NOT-AUTOMATED in the output report so the coverage gap is visible
-  // where stakeholders actually look, rather than hidden behind a permanent skip.
-
-  // ------------------------------------------------------------ DEEP: save-gating validation (TC-059, 060-068, 070-080)
-
-  // Skipped while an application behaviour question is open. The check expects cross-language
-  // name uniqueness to be enforced, but the application currently allows duplicate names across
-  // languages. The intended behaviour has been queried with the client and this check will be
-  // updated once the answer arrives.
+  // Skipped: the app currently allows duplicate names across languages; the intended
+  // behaviour is with the client.
   test.skip('TC-TNC-CORE-057: Name uniqueness is enforced across languages', async ({ dependencyGate }) => {
     dependencyGate([]);
     await tnc.selectFilterLanguage('All');
@@ -1602,9 +1529,7 @@ test.describe('Terms and Conditions', () => {
     expect(await tnc.isSaveEnabled()).toBe(true);
   });
 
-  // Skipped while an application behaviour question is open. Same as TC-TNC-CORE-013 — the
-  // application rejects a 260-character name. The intended maximum has been queried with the
-  // client and this check will be updated once the answer arrives.
+  // Skipped: the app rejects a 260-character name, same as TC-TNC-CORE-013.
   test.skip('TC-TNC-CORE-062: Name field — 260 characters accepted', async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowIdx = await tnc.ensureFixtureRow();
@@ -1893,12 +1818,8 @@ test.describe('Terms and Conditions', () => {
 
   // ------------------------------------------------------------ integration & error-guessing (batch 2)
 
-  // Skipped while an application issue is open. On the Legal tab, changing any Terms or Service
-  // Charge dropdown updates the displayed value, but Save never enables, so the selection cannot be
-  // committed. This was confirmed by hand on 2026-08-07 and by automated checks on offices 1604 and
-  // 1176. The equivalent Save on Local Office Settings works normally, which localises the problem
-  // to Location Settings. Jira: NM-820, NM-825, NM-1243, NM-1200. Re-enable this check once the
-  // Legal-tab save defect is resolved.
+  // Skipped: on the Legal tab the Terms dropdown updates the displayed value but Save never
+  // enables, so the selection cannot be committed. NM-820, NM-825, NM-1243, NM-1200.
   test.skip('TC-TNC-CORE-077: Integration — Legal T&C selection surfaces in Location Management History (NM-1200)', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
     const page = authenticatedSession.page;
@@ -1950,9 +1871,8 @@ test.describe('Terms and Conditions', () => {
     expect(usEnglishNames.length).toBeGreaterThan(0);
     const sentinel = usEnglishNames[0]!;
 
-    // Navigate to Legal tab and verify T&C options include US English entries.
-    // The Legal Terms dropdown is language-scoped to the legal row's language, so only
-    // entries matching that language appear — cross-language entries are not listed.
+    // The Legal Terms dropdown is scoped to the legal row's language, so only entries
+    // in that language are listed.
     const legal = new LocationLegalPage(page, config);
     await legal.navigateToLegalTab(TNC_OFFICE);
 
@@ -2058,10 +1978,8 @@ test.describe('Terms and Conditions', () => {
     const originalLang = await tnc.getRowLanguage(rowIdx);
     const targetLang = TNC_ROW_LANGUAGES.find(l => !originalLang.includes(l))!;
 
-    // Change the row's language first — the app's unsaved-changes guard blocks
-    // language changes when the RTE holds dirty content (an alertdialog intercepts
-    // the trigger click, so no option list is ever rendered). Switching language
-    // before the RTE edit avoids the guard while still proving both changes coexist.
+    // Language must change before the RTE edit: with dirty editor content the unsaved-changes
+    // guard intercepts the trigger click and no option list ever renders.
     await tnc.selectRowLanguage(rowIdx, targetLang);
 
     // Now open the editor and type unsaved content
@@ -2235,10 +2153,8 @@ test.describe('Terms and Conditions', () => {
     expect(focusSequence.length).toBeGreaterThanOrEqual(5);
   });
 
-  // Rich text editor (Tiptap/ProseMirror) does not release focus on Escape (WCAG 2.1.2).
-  // Skipped while an application issue is open. Pressing Escape should release focus from the
-  // rich text editor, but the application keeps focus trapped — after pressing Escape,
-  // document.activeElement remains the contenteditable div. Re-enable once that is fixed.
+  // Skipped (WCAG 2.1.2): Escape does not release focus from the editor — activeElement
+  // stays the contenteditable div.
   test.skip('TC-TNC-CORE-084: Accessibility — RTE keyboard operability', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
     const page = authenticatedSession.page;
@@ -2277,10 +2193,8 @@ test.describe('Terms and Conditions', () => {
     await tnc.reloadAndWait(TNC_OFFICE);
   });
 
-  // Unsaved-changes dialog does not restore focus to trigger element on dismiss via Stay (WCAG 2.4.3).
-  // Skipped while an application issue is open. Dismissing the unsaved-changes dialog should
-  // restore focus to the element that triggered it, but the application drops focus to <body>
-  // instead. Re-enable once that is fixed.
+  // Skipped (WCAG 2.4.3): dismissing the unsaved-changes dialog via Stay drops focus to
+  // <body> instead of restoring it to the trigger element.
   test.skip('TC-TNC-CORE-085: Accessibility — unsaved-changes dialog focus trap and restore', async ({ dependencyGate, authenticatedSession }) => {
     dependencyGate([]);
     const page = authenticatedSession.page;

@@ -10,10 +10,8 @@ test.describe('Location Auto Add-On @locations @auto-addon', () => {
     if (!(await locationAutoAddonPage.isOnAutoAddonTab())) {
       await locationAutoAddonPage.navigateToAutoAddonTab(OFFICE_NO);
     }
-    // Per-test baseline: restore the 5 checkboxes to AUTO_ADDON_DEFAULTS so EVERY test
-    // (including a per-test retry that skips TC-001's body) starts from a known-clean state.
-    // No-op when already at defaults (the common path); self-heals a dirty start from a prior
-    // crashed run. This is the load-bearing fix for the net-zero-vulnerable assertions.
+    // Runs per test, retries included, so a crashed run's leftover checkbox state self-heals —
+    // without it the net-zero-vulnerable assertions below can pass or fail on inherited state.
     await locationAutoAddonPage.ensureDefaultState(AUTO_ADDON_DEFAULTS, OFFICE_NO);
   });
 

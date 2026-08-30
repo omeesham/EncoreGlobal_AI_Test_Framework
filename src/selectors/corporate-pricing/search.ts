@@ -46,9 +46,8 @@ export const CorporatePricingSearchSelectors = {
   chkPublishRow: '[role="checkbox"]',
   btnPublish: 'button:text-is("Publish")',
 
-  // Live walk found ZERO role="grid"/"row"/"columnheader" — the grid is a shadcn/TanStack
-  // DataTable rendering `<table><thead><th>` + `<tbody><tr><td>`. The prior role-based
-  // selectors resolved to nothing. Corrected to tag selectors. (verified live 2026-06-05)
+  // Tag selectors, not roles: the shadcn/TanStack DataTable exposes no
+  // role="grid"/"row"/"columnheader", so role-based selectors resolve to nothing.
   gridResults: 'table',
   rowGridAny: 'tbody tr',
   colHeaderAny: 'th',

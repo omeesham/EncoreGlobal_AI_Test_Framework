@@ -74,20 +74,14 @@ export interface BoundaryCase {
 }
 
 export const LDW_BOUNDARIES: BoundaryCase[] = [
- // Valid decimal input range: 0.1-1.0 (= 10%-100%). Blur -> x100 -> displays "X.XX%".
- // restoreValue '0.04' is grandfathered DB value; accepted by server as existing value.
- // testBoundaryValue compares: parseFloat(value) x 100 === stripped display (e.g. 0.10x100=10.00).
- // server now accepts LDW% changes for office 1604.
+ // Input is a decimal 0.1-1.0; blur multiplies by 100 and displays "X.XX%".
+ // restoreValue '0.04' is below that range — a grandfathered DB value the server still accepts.
   { label: 'valid min (10%)',           value: '0.10',  valid: true,  restoreValue: '0.04' },
   { label: 'valid mid (50%)',           value: '0.50',  valid: true,  restoreValue: '0.04' },
   { label: 'valid near max (99%)',      value: '0.99',  valid: true,  restoreValue: '0.04' },
   { label: 'valid max (100%)',          value: '1.00',  valid: true,  restoreValue: '0.04' },
- // Invalid values -- CLIENT validates on blur (inline error shown); no DB mutation.
- // errMinBoundary: "Number must be greater than or equal to 0" (< 0 values)
- // errMaxBoundary: "Number must be less than or equal to 100" (> 1.0 values after x100 display)
- // Both contain "Number must be" -- errorContains uses the common prefix.
- // NOTE: '0' and values like 0.01-0.09 are omitted: client accepts them (>= 0) but server
- // rejects silently. : no detectable client-side signal for server-min violations.
+ // Client validates on blur, so nothing reaches the DB. 0 and 0.01-0.09 are omitted: the client
+ // accepts them and the server rejects them silently, with no signal to assert on.
   { label: 'invalid negative (-0.01)',  value: '-0.01', valid: false, errorContains: 'Number must be', restoreValue: '0.04' },
   { label: 'invalid far below (-0.05)', value: '-0.05', valid: false, errorContains: 'Number must be', restoreValue: '0.04' },
   { label: 'invalid above max (1.01)', value: '1.01',  valid: false, errorContains: 'Number must be', restoreValue: '0.04' },
@@ -116,9 +110,8 @@ export const SIMPLE_DEPENDENCIES: DependencyCase[] = [
     restore: [{ key: 'chkApplyLDW', action: 'check' }],
     spinRestore: { key: 'spinLDWPercentage', value: '0.04' }, // uncheck resets spin to 0; restore to '0.04' (decimal = 4%) so subsequent saves don't leave LDW%=0
   },
- // : chkApplyCablesConsumablesFee is ENABLED for 1604. Tested in TC-075 (standalone).
- // : chkAllowETS is ENABLED for 1604. Tested in TC-077 (standalone).
- // : chkAllowResortTax is ENABLED for 1604. Tested in TC-076 (standalone).
+ // chkApplyCablesConsumablesFee, chkAllowETS and chkAllowResortTax are all ENABLED for 1604,
+ // so they have no dependency to model here and are covered by standalone tests instead.
   {
     label: 'Skip Billing -> Oracle Product disabled',
     trigger: 'chkSkipBilling', triggerAction: 'check',

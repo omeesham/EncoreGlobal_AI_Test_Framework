@@ -10,11 +10,8 @@ export class LocalOfficeSettingsPage extends BasePage {
     super(page, config);
   }
 
- /**
- * Override getElement to prefer Local Office selectors.
- * LocalOfficeSettingsSelectors is NOT in ALL_SELECTORS (colliding keys: btnSave, tabBasicInformation).
- * Falls back to global lookup for shared elements (dialogs, etc.).
- */
+ // Local Office selectors first: they are absent from ALL_SELECTORS because btnSave and
+ // tabBasicInformation collide with Location Settings. Global lookup covers shared dialogs.
   protected getElement(elementName: string): Locator {
     const selector = (LocalOfficeSettingsSelectors as Record<string, string>)[elementName]
       ?? getTsSelector(elementName);
@@ -27,9 +24,8 @@ export class LocalOfficeSettingsPage extends BasePage {
     await this.navigateToSubTab('tabBasicInformation', 'frmBasicInfo', officeNo, 'local-office');
   }
 
- /** Uses safeNavigateTo to handle beforeunload dialog when form has unsaved edits.
- * 30s form-visibility timeout: cold-load p95 ~9s isolated, but under 4-worker contention
- * loads regularly exceed 15s. */
+ // safeNavigateTo because the form may carry unsaved edits (beforeunload).
+ // 30s form-visibility: under 4-worker contention loads regularly exceed 15s.
   @step('Reload basic info')
   async reloadBasicInfo(officeNo = '1604'): Promise<void> {
     const baseUrl = this.config?.base_url || '';
@@ -149,13 +145,8 @@ export class LocalOfficeSettingsPage extends BasePage {
     await this.getElement(tabKey).click();
   }
 
- /**
- * Click a tab. Handles "Unsaved changes" alertdialog if it appears.
- * Angular doesn't reliably call markAsPristine after ECT save.
- * The save API completes (button disables, toast shows) but the form dirty flag
- * persists. Clicking another tab triggers the dirty guard → "Unsaved changes" dialog.
- * Dismiss with "Discard" to complete the navigation.
- */
+ // Angular does not reliably markAsPristine after an ECT save, so the dirty guard raises
+ // "Unsaved changes" on the next tab click — discard it to complete the navigation.
   @step('Click tab')
   async clickTab(tabKey: string): Promise<void> {
     await this.getElement(tabKey).click();

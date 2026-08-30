@@ -6,14 +6,8 @@ import { IConfig } from '../../types';
 import { CheckboxState } from '../components/location-form-helpers.component';
 import { businessTypesSaveEndpoint } from '../../data/locations/location-business-types';
 
-/**
- * Setup > Location > Business Types.
- *
- * Deliberately thin: checkbox reads and writes delegate to the inherited helpers, and saving goes
- * through the inherited save-with-dialog helper against the page-level Save button. Business Types
- * has no Save button of its own — the whole Location Settings page shares one, confirmed by
- * toggling a checkbox here and watching that shared button become enabled.
- */
+// Setup > Location > Business Types. The tab has no Save button of its own — it drives the
+// page-level Save that all Location Settings sub-tabs share.
 export class LocationBusinessTypesPage extends BasePage {
   constructor(page: Page, config?: IConfig) {
     super(page, config);
@@ -62,10 +56,7 @@ export class LocationBusinessTypesPage extends BasePage {
     await this.setRadixCheckbox(key, false);
   }
 
-  /**
-   * Flips whatever the current state is. Use the select/clear pair when a specific end state is
-   * wanted; this one is for tests that intentionally invert and then assert the result.
-   */
+  /** Flips the current state; use the select/clear pair when a specific end state is wanted. */
   @step('Toggle checkbox')
   async toggleCheckbox(key: string): Promise<void> {
     // Extended timeout: the form is briefly disabled while a save is in flight.
@@ -77,23 +68,15 @@ export class LocationBusinessTypesPage extends BasePage {
     return this.getElement('chkBusinessTypesAll').count();
   }
 
-  /**
-   * Reads the label rendered beside a checkbox. The checkbox element itself has no text, so the
-   * label is taken from its immediate container. Used to prove the positional keys still line up
-   * with the expected business type names.
-   */
+  /** Reads from the immediate container — the checkbox element itself carries no text. */
   @step('Read label next to checkbox')
   async getCheckboxLabel(key: string): Promise<string> {
     const text = await this.getElement(key).locator('xpath=..').innerText();
     return (text || '').trim();
   }
 
-  /**
-   * Restores the office's expected selections before every test.
-   *
-   * Bounded retry because a save can silently no-op when the form never became dirty, which throws
-   * nothing — the re-read after reload is the load-bearing check.
-   */
+  // Retries because a save silently no-ops when the form never became dirty; only the re-read
+  // after reload proves the restore landed.
   @step('Restore office defaults')
   async ensureDefaultState(
     defaults: ReadonlyArray<{ key: string; name: string; checked: boolean }>,
@@ -143,13 +126,8 @@ export class LocationBusinessTypesPage extends BasePage {
     return { ...result, saved: true };
   }
 
-  /**
-   * Saves and waits for the tab's own backend call to come back, returning its status.
-   *
-   * The wait is deliberately filtered to the business types path under the api route. The same save
-   * also produces several requests aimed at the page address itself, which are framework render
-   * traffic; matching on the page address would report one of those as a successful save.
-   */
+  // Filtered to the business types API path: the same save also emits framework render requests
+  // at the page address, which would otherwise be read as the save response.
   @step('Save and wait for the commit to come back')
   async saveAndAwaitCommit(officeNo: string = '1604'): Promise<number> {
     const endpoint = businessTypesSaveEndpoint(officeNo);
@@ -195,10 +173,7 @@ export class LocationBusinessTypesPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Waits for the post-save confirmation message. The message text is shared across the Location
-   * Settings sub-tabs rather than being specific to Business Types.
-   */
+  /** The confirmation message is shared across Location Settings sub-tabs, not Business Types only. */
   @step('Wait for the save confirmation message')
   async waitForToast(): Promise<boolean> {
     return this.getElement('toastLocalInfoUpdated')

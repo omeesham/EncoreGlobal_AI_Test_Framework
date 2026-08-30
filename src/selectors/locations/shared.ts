@@ -1,7 +1,5 @@
 export const SetupSharedSelectors = {
- // No container testid is rendered for the error dialog. Forcing several save-error and offline
- // paths fired the error (console-confirmed) but never rendered a dialog or any error/alert testid,
- // so these are a role+text fallback — revisit when the app exposes a testid or documents the trigger.
+ // Role+text fallback: the error dialog renders no container testid.
   dlgErrorDialog: '[role="alertdialog"]:has-text("Error")',
   dlgErrorMessage: '[role="alertdialog"]:has-text("Error") p',
   btnErrorOk: '[role="alertdialog"]:has-text("Error") button:has-text("Ok")',

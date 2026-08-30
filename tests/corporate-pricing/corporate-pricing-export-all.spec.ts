@@ -3,13 +3,7 @@ import { CORP_PRICING_TOOLBAR_IO } from '../../src/data/corporate-pricing/toolba
 const VARIANTS = CORP_PRICING_TOOLBAR_IO.variants;
 const EXP = CORP_PRICING_TOOLBAR_IO.exportDialog;
 const CUR = CORP_PRICING_TOOLBAR_IO.currencies;
-/**
- * Assert a downloaded export matrix is structurally well-formed, not merely present. The row directly
- * after the header is the currency row — its two base columns are blank and every pricebook column
- * carries the export's chosen currency; and every product-group row is exactly as wide as the header.
- * Without this, a ragged CSV or one whose currency row carries the wrong code would still pass a test
- * that only checked the base columns and the row count.
- */
+/** The row after the header is the currency row: blank base columns, chosen currency in every pricebook column. */
 function expectWellFormedExportMatrix(
   r: { headers: string[]; rows: string[][] },
   currencyCode: string,
@@ -31,10 +25,8 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
   const YEAR = EXP.defaultYear;
   const YEARSETS: string[][] = [[YEAR], ['2026', '2027', '2028']]; // 1-year and 3-year selections
 
-  // Same baseline for every test (fresh page open); only the per-group timeout differs:
-  //  - TC-001..009, TC-017 (dialog contract): 90s.
-  //  - TC-010..013 (real download round-trip): 150s — several real downloads + file reads per test.
-  //  - TC-014..016 (surface-behavior DEEP): 200s — multiple downloads / continues per test.
+  // Same fresh-page baseline for every test; only the per-test timeout differs, since the download
+  // round-trip and DEEP groups do several real downloads and file reads each.
   const tcNum = (title: string) => {
     const m = title.match(/^TC-CPR-EXA-(\d+)/);
     return m ? parseInt(m[1]!, 10) : -1;
@@ -212,9 +204,8 @@ test.describe('Corporate Pricing — Export ▾ dialog contract, download round-
 
   // ── Surface-behavior DEEP ──
   test('TC-CPR-EXA-014: Combination DEEP — bounded pairwise variant x Year x Currency', { tag: '@C99808' }, async ({ corporatePricingSearchPage: p }) => {
-    // A bounded pairwise covering array over {4 variants} x {1yr, 3yr} x {USD, CAD, MXN} — NOT the full
-    // cartesian product. Indices are [variantIndex, yearsetIndex, currencyIndex]; every pair of factor
-    // levels appears at least once across these rows.
+    // Pairwise covering array over variant x yearset x currency, not the full cartesian product.
+    // Indices are [variantIndex, yearsetIndex, currencyIndex].
     const pairwise: Array<[number, number, number]> = [
       [0, 0, 0], [0, 1, 1], [1, 0, 1], [1, 1, 2], [2, 0, 2], [2, 1, 0],
       [3, 0, 0], [3, 1, 1], [0, 0, 2], [1, 1, 0], [2, 0, 1], [3, 1, 2],

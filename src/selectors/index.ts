@@ -69,11 +69,8 @@ function buildAllSelectors(...objects: Record<string, string>[]): Record<string,
   return merged;
 }
 
-// Pass each Location Settings partition individually for intra-LS collision detection.
-// NOTE: LocalOfficeSettingsSelectors deliberately EXCLUDED from ALL_SELECTORS.
-// It has keys (btnSave, tabBasicInformation) that collide with Location Settings
-// but point to DIFFERENT elements on a DIFFERENT page. Including it would throw.
-// Local Office pages access their selectors via LocalOfficeSettingsSelectors directly.
+// LocalOfficeSettingsSelectors is excluded: btnSave/tabBasicInformation collide with Location
+// Settings on a different page, so merging it would throw. Local Office pages import it directly.
 export const ALL_SELECTORS = buildAllSelectors(
   MicrosoftLoginSelectors,
   SetupLeftPanelBasicInformationSelectors,
@@ -90,10 +87,7 @@ export const ALL_SELECTORS = buildAllSelectors(
   SetupBusinessTypesSelectors,
 );
 
-// Validate LOS selectors don't collide with non-Location modules.
-// (LOS is allowed to "collide" with Location Settings — different pages, same button names)
-// HIS + ECT namespaces are namespace-prefixed (drpHistoryType, fldVenueFixedCosts, etc.)
-// and share zero keys with Settings — included here to verify same property.
+// Assertion-only build: Local Office selectors must not collide with the non-Location modules.
 void buildAllSelectors(
   MicrosoftLoginSelectors,
   LocalOfficeSettingsSelectors,
@@ -101,10 +95,8 @@ void buildAllSelectors(
   LocalOfficeEctSelectors,
 );
 
-// Corporate Pricing — deliberately EXCLUDED from ALL_SELECTORS: CP page objects resolve
-// CorporatePricingSelectors.* directly via this.page.locator(...), never through
-// getTsSelector/ALL_SELECTORS, so merging CP in would add nothing.
-// This check verifies the 6 CP screen partitions don't collide with EACH OTHER (intra-module).
+// Corporate Pricing page objects resolve their selectors directly, never via getTsSelector, so
+// CP stays out of ALL_SELECTORS. This build only checks the CP partitions against each other.
 void buildAllSelectors(
   CorporatePricingSearchSelectors,
   CorporatePricingDetailsSelectors,

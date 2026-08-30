@@ -1,20 +1,5 @@
-/**
- * Selectors for the Service Charge Text setup page.
- *
- * Page: Location Settings -> Service Charge Text (`/settings/service-charge-text`)
- *
- * The page shows a grid of service charge wording, one row per language entry, with three
- * editable text columns, a rich text column, a page level language filter, an add row control
- * and a single Save button.
- *
- * Two things about this page are easy to get wrong:
- *
- * 1. The grid renders a loading placeholder before the real table appears. Always wait for
- *    `table` below before reading anything, otherwise the placeholder is read instead.
- * 2. Each row contains BOTH a custom language control (a button that opens a list) and a plain
- *    browser dropdown. They are separate elements. Use `rowLanguageTrigger` — the plain dropdown
- *    is not the control the page actually drives.
- */
+// Selectors for Location Settings → Service Charge Text. A loading placeholder precedes the
+// real table, and each row has a decoy plain dropdown alongside `rowLanguageTrigger`.
 export const serviceChargeText = {
   /** The grid itself. Waiting on this is how you know the real page has finished loading. */
   table: '[data-testid="service-charge-text-table"]',

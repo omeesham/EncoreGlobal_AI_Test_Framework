@@ -42,12 +42,7 @@ export class LocationAutoAddonPage extends BasePage {
     return state.checked;
   }
 
- /**
- * Blind toggle — flips the checkbox from its current state. Use this when a test intentionally
- * flips the state and asserts the result; use checkCheckbox/uncheckCheckbox (idempotent) when a
- * specific target state is needed. The cascade-risk of a cleanup toggle going the wrong direction
- * is mitigated by the per-test ensureDefaultState baseline.
- */
+ /** Blind flip; use the idempotent checkCheckbox/uncheckCheckbox for a specific target state. */
   @step('Toggle checkbox')
   async toggleCheckbox(key: string): Promise<void> {
  // Extended timeout: form inputs are temporarily disabled during save API processing
@@ -69,14 +64,8 @@ export class LocationAutoAddonPage extends BasePage {
     return this.getElement('chkAutoAddonAll').count();
   }
 
- /**
- * Wired into beforeEach so EVERY test starts from a known state. A first-test-only baseline rots
- * under per-test retries (a retry re-runs beforeEach but not the first test body).
- *
- * Bounded retry (max 3) because clickSave() returns {success:true} even when Save is disabled,
- * so a silent no-op (the set didn't dirty the form) never throws. The post-reload re-read is the
- * load-bearing check.
- */
+ // Belongs in beforeEach — a first-test-only baseline rots under retries. Loops because
+ // clickSave reports success even when Save was disabled.
   @step('Ensure default state')
   async ensureDefaultState(
     defaults: ReadonlyArray<{ key: string; name: string; checked: boolean }>,
@@ -115,12 +104,8 @@ export class LocationAutoAddonPage extends BasePage {
     return !(await this.saveButton.isDisabled());
   }
 
- /**
- * Custom save — intentionally NOT deduped to the base `clickSaveWithDialog` helper:
- * this tab's Save Changes dialog confirms with "Ok" (`btnSaveChangesOk`), whereas base defaults to
- * the "Save" variant (`btnSaveChangesConfirm`); and this method adds a post-save form-re-enable wait
- * (the checkboxes are disabled during save processing). Behavior is not identical → kept separate.
- */
+ // Not clickSaveWithDialog: this tab's dialog confirms with btnSaveChangesOk, and the save
+ // disables the checkboxes so a re-enable wait is needed after.
   @step('Click save')
   async clickSave(): Promise<{ success: boolean; saved?: boolean; networkError?: string }> {
     const saveBtn = this.saveButton;
@@ -137,10 +122,8 @@ export class LocationAutoAddonPage extends BasePage {
       await dialog.waitFor({ state: 'hidden', timeout: 10_000 }).catch(() => {});
     }
     await this.waitForAngularStable();
- // Wait for the form to re-enable after the save API completes — the first checkbox is
- // disabled during save processing. Poll the actual disabled->enabled transition (no fixed sleep) via
- // waitForFunction (not a fixed-sleep loop). Best-effort: downstream actions auto-wait for
- // actionability via their own 30s click timeout, so a missed re-enable never silently passes.
+ // Poll the first checkbox's disabled->enabled transition; best-effort, since downstream
+ // clicks auto-wait for actionability anyway.
     await this.page.waitForFunction(() => {
       const el = document.querySelector(
         '[data-testid="location-settings-checkbox-auto-add-on-false_encore music"]',
@@ -208,9 +191,8 @@ export class LocationAutoAddonPage extends BasePage {
       window.addEventListener('beforeunload', (e) => e.stopImmediatePropagation(), true);
     });
     await homeLink.click();
-    // These page-scoped changes (widened viewport, suppressed beforeunload) are intentional and are
-    // not restored here: the widened viewport is harmless for later tests, and the beforeunload
-    // suppression is reset automatically when the next test's beforeEach reloads the page.
+    // The widened viewport and beforeunload suppression are left in place — both reset on the
+    // next test's page reload.
   }
 
   @step('Is unsaved dialog visible')

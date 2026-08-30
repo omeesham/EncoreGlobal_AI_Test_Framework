@@ -1,9 +1,5 @@
-/**
- * Test data for the Service Charge Text setup page.
- *
- * Every value below was read from the live page on office 1604 on 2026-08-03, or is a
- * deliberately constructed input for a boundary or negative check.
- */
+// Test data for the Service Charge Text setup page: values read from the live page on office
+// 1604, plus deliberately constructed boundary and negative inputs.
 
 /** Office used for these tests. The page content is the same on every office checked. */
 export const SCT_OFFICE = '1604';
@@ -20,11 +16,8 @@ export const SCT_FILTER_LANGUAGES = [
 /** The filter value the page starts on. */
 export const SCT_DEFAULT_LANGUAGE = 'US English';
 
-/**
- * Grid column headers, in display order.
- * Note the last column reads "Service Charge Text" on the page. The written requirement calls
- * that column "HTML Display Text"; the page is the source of truth for this assertion.
- */
+// Grid column headers, in display order. The last one is "Service Charge Text" on the page;
+// the requirement calls it "HTML Display Text" but the page is the source of truth here.
 export const SCT_COLUMN_HEADERS = [
   'Language',
   'Service Charge Name',
@@ -52,10 +45,7 @@ export const SCT_WHITESPACE_NAME = '     ';
 /** 300 characters. The page enforces no maximum length, so the whole value is accepted. */
 export const SCT_LONG_NAME = 'X'.repeat(300);
 
-/**
- * The keys present in every row object that the Save request sends to the server.
- * Tests assert that the payload matches this shape.
- */
+/** Keys every row object in the Save request must carry. */
 export const SCT_SAVE_PAYLOAD_ROW_KEYS = [
   'serviceChargeTextId',
   'serviceChargeName',
@@ -66,8 +56,5 @@ export const SCT_SAVE_PAYLOAD_ROW_KEYS = [
   'htmlDisplayText',
 ] as const;
 
-/**
- * Suffix appended to a field value during reversible edit tests so the modified value is
- * clearly distinct from the original and can be detected in the save payload.
- */
+/** Suffix marking a reversible test edit so it is distinguishable in the save payload. */
 export const SCT_EDIT_SENTINEL_SUFFIX = ' [auto]';

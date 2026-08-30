@@ -1,15 +1,5 @@
-/**
- * Business Types reference data for Setup > Location.
- *
- * The label list (order and text) is catalog-driven and identical across offices — confirmed by
- * reading a second office, which rendered the same ten labels in the same order. The CHECKED
- * state, by contrast, is per-office, so the defaults below are scoped to office 1604 and must not
- * be reused for another office without re-reading that office.
- *
- * Each entry pairs the positional checkbox key with the label rendered beside it. The render test
- * asserts that pairing, so a server-side catalog reorder fails loudly instead of quietly moving
- * every later assertion onto the wrong row.
- */
+// Labels are catalog-driven and the same for every office, but `checked` is per-office: these
+// values are office 1604's and must be re-read before being used for another office.
 export const BUSINESS_TYPES_DEFAULTS = [
   { key: 'chkBusinessTypeAudioVisual', name: 'Audio Visual', checked: true },
   { key: 'chkBusinessTypeBusinessCenterRentals', name: 'Business Center Rentals', checked: true },
@@ -23,22 +13,12 @@ export const BUSINESS_TYPES_DEFAULTS = [
   { key: 'chkBusinessTypeRiggingServices', name: 'Rigging Services', checked: false },
 ] as const;
 
-/**
- * Builds the backend path the Save button hits for this tab. Save assertions filter on THIS path.
- *
- * Filtering on the page address instead would produce false positives: a single save was observed
- * firing four additional POST requests to the page address itself (framework render traffic), any
- * of which a page-address match would read as a successful save. Observed live for office 1604 as
- * `/navigator/api/location/1604/businesstypes`; parameterised by office so another office does not
- * silently match nothing.
- */
+// Save assertions must filter on this path: one save also fires several framework POSTs to the
+// page address itself, any of which a page-address match would read as a successful save.
 export const businessTypesSaveEndpoint = (officeNo: string): string =>
   `/navigator/api/location/${officeNo}/businesstypes`;
 
-/**
- * Per-checkbox save-cycle cases: toggle away from the office default, save, reload, verify, restore.
- * Driven as one data loop rather than ten copied test bodies.
- */
+/** Per-checkbox save-cycle cases: toggle away from the office default, save, reload, verify, restore. */
 export const BUSINESS_TYPES_SAVE_CYCLE_CASES = [
   { key: 'chkBusinessTypeAudioVisual', name: 'Audio Visual', tc: 'TC-LOC-BTY-003' },
   { key: 'chkBusinessTypeBusinessCenterRentals', name: 'Business Center Rentals', tc: 'TC-LOC-BTY-004' },

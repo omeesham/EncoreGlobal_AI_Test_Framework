@@ -79,9 +79,8 @@ function ensureReportDirectories(): void {
 async function runPreflightChecks(): Promise<PreflightResult[]> {
   const results: PreflightResult[] = [];
 
-  // Check 1: Required env vars. Only BASE_URL is truly required — CI_ENV is optional and
-  // defaults to 'local' when unset (see dotenv-flow node_env above + playwright.config.ts),
-  // so a bare local `npm test` legitimately leaves it empty and must not fail pre-flight.
+  // Only BASE_URL is required: CI_ENV defaults to 'local' when unset, so a bare `npm test`
+  // legitimately leaves it empty.
   for (const envVar of ['BASE_URL']) {
     const value = process.env[envVar];
     if (!value || value.trim() === '') {
@@ -91,10 +90,8 @@ async function runPreflightChecks(): Promise<PreflightResult[]> {
     }
   }
 
-  // Check 2: Base URL reachable
-  // Uses redirect: 'manual' because Navigator Cloud redirects unauthenticated requests
-  // to /auth/sign-in which may return non-2xx (SSR quirk). A 3xx redirect proves the
-  // server is up and routing correctly — that's all pre-flight needs to verify.
+  // redirect: 'manual' — the unauthenticated redirect to /auth/sign-in can end in a non-2xx,
+  // and a 3xx alone already proves the server is up and routing.
   const baseUrl = process.env.BASE_URL;
   if (baseUrl) {
     try {

@@ -7,17 +7,8 @@ import {
   SC_SERVICE_TYPE_INDEX,
 } from '../../src/data/service-charge/service-charge';
 
-/**
- * Service Charge — Basic Information tab (NM-3344).
- *
- * Per-test baseline: beforeEach restores the three mutated rows (Audio Conferencing,
- * APP Downloaded, Equipment Rental) to their recorded default values via ensureDefaultState,
- * then reads baselines fresh. Tests that perform a real save restore the original value
- * in the test body via try/finally.
- *
- * Save behavior: the app completes Save with no confirmation dialog on this page.
- * Restore paths call waitUntilLoaded() after clickSave() — no dialog to dismiss.
- */
+// Service Charge — Basic Information tab (NM-3344). beforeEach restores the three rows this
+// spec mutates; tests that really save restore the original value via try/finally.
 
 
 const AUDIO_IDX = SC_SERVICE_TYPE_INDEX['Audio Conferencing'] as number; // 8
@@ -44,8 +35,7 @@ test.describe('Service Charge Basic Information', () => {
     sc = new ServiceChargePage(authenticatedSession.page, config);
     await sc.goto(SC_OFFICE);
 
-    // Restore the three rows this spec mutates to their recorded defaults (dated inventory
-    // artifact: service-charge-basic-information-2026-08-10.md lines 46, 54, 69).
+    // Restore the three rows this spec mutates back to their recorded defaults.
     await sc.ensureDefaultState([
       { rowIndex: APP_IDX, value: '0.00' },
       { rowIndex: AUDIO_IDX, value: '24.00' },
@@ -148,9 +138,7 @@ test.describe('Service Charge Basic Information', () => {
   test('TC-SVC-BAS-004: Saved percentage value persists after page reload', async ({
     dependencyGate,
   }) => {
-    // Same shape as TC-SVC-BAS-030: initial load + post-save settle + reload + restore-save
-    // settle can each take up to ~30-60 s (see waitUntilLoaded()'s comment on the ~30 s enable
-    // delay after every navigation/reload), so the suite-wide 120 s ceiling is too tight here.
+    // Four load/settle cycles at ~30-60 s each overrun the suite-wide 120 s ceiling.
     test.setTimeout(240_000);
     dependencyGate([]);
 
@@ -218,10 +206,8 @@ test.describe('Service Charge Basic Information', () => {
 
     await sc.setPercentageByIndex(AUDIO_IDX, '24.005');
 
-    // Observed live: 24.005 is silently rounded to "24.00 %" — the third decimal is discarded.
-    // aria-invalid is absent; the validator treats the rounded value as valid.
-    // Save state is not asserted: the rounded result equals the original "24.00 %" for Audio
-    // Conferencing, producing a net-zero edit that keeps Save disabled.
+    // Save state is deliberately not asserted: rounding back to the original 24.00 is a
+    // net-zero edit, so Save stays disabled.
     expect(await input.inputValue()).toBe('24.00 %');
     expect(await input.getAttribute('aria-invalid')).not.toBe('true');
   });
@@ -307,11 +293,8 @@ test.describe('Service Charge Basic Information', () => {
 
     await sc.setPercentageByIndex(AUDIO_IDX, '2e1');
 
-    // Observed live: aria-invalid is absent after entering "2e1" — the validator accepts
-    // scientific notation as a valid numeric value.
-    // The display format after normalisation was ambiguous in the probe and is not asserted.
-    // Save state is not asserted: the probe for this value used eval injection rather than
-    // the keyboard path, making the observed Save state unreliable to assert here.
+    // Only aria-invalid is asserted: the normalised display format and the resulting Save
+    // state were never established reliably for scientific notation.
     expect(await input.getAttribute('aria-invalid')).not.toBe('true');
   });
 
@@ -325,10 +308,7 @@ test.describe('Service Charge Basic Information', () => {
 
     await sc.setPercentageByIndex(AUDIO_IDX, '');
 
-    // Observed via keyboard path: Angular normalises an empty fill to "0.00 %" — the field
-    // does not remain empty when cleared via keyboard. aria-invalid is absent.
-    // (The eval-injection probe showed value="" but that bypassed Angular's normalisation;
-    // the keyboard path is the authoritative observation for this test.)
+    // Clearing via the keyboard normalises to "0.00 %"; the field never stays empty.
     expect(await input.inputValue()).toBe('0.00 %');
     expect(await input.getAttribute('aria-invalid')).not.toBe('true');
   });
@@ -343,10 +323,8 @@ test.describe('Service Charge Basic Information', () => {
 
     await sc.setPercentageByIndex(AUDIO_IDX, '   ');
 
-    // Observed live: whitespace is preserved in input.value and aria-invalid is absent — the
-    // validator does not flag whitespace-only input as invalid.
-    // Save state is not asserted: the probe observed this via eval injection rather than the
-    // keyboard path, making the observed Save state unreliable to assert here.
+    // Only aria-invalid is asserted: the Save state after a whitespace-only entry was never
+    // established reliably.
     expect(await input.getAttribute('aria-invalid')).not.toBe('true');
   });
 
@@ -483,11 +461,8 @@ test.describe('Service Charge Basic Information', () => {
     await sc.setPercentageByIndex(AUDIO_IDX, differentPercentageFrom(baselineAudio));
     expect(await sc.waitForSaveActive()).toBe(true);
 
-    // Browser-back with a dirty field fires the browser's native leave-page dialog
-    // (type "beforeunload"). Register a one-shot listener before navigating so we can
-    // capture and dismiss it. Dismissing a beforeunload dialog cancels the navigation,
-    // keeping the page in place. In-app tab navigation shows the application's own
-    // "Unsaved changes" modal instead — that path is covered by TC-SVC-HIS-014.
+    // Browser-back fires the native beforeunload dialog; in-app tab navigation shows the
+    // app's own "Unsaved changes" modal instead. Dismissing here cancels the navigation.
     let dialogFired = false;
     let dialogType = '';
     authPage.once('dialog', async (dlg) => {
@@ -681,9 +656,8 @@ test.describe('Service Charge Basic Information', () => {
       await sc.goto(SC_OFFICE);
       expect(await sc.getPercentageByIndex(AUDIO_IDX)).toContain(editValue);
 
-      // Walk confirmed: the Basic Information grid has two plain <th> elements ("Service Type",
-      // "Service Charge Percentage") with no button or dropdown trigger inside them. Clicking
-      // either header opens no menu and does not reorder rows. Assert the absence of sort controls.
+      // The Basic Information headers are plain <th> with no sort controls, unlike the
+      // History grid's dropdown headers.
       expect(await sc.page.locator('th button').count()).toBe(0);
       expect(await sc.page.locator('th [data-slot="dropdown-menu-trigger"]').count()).toBe(0);
     } finally {

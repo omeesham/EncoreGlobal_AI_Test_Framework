@@ -28,9 +28,8 @@ function parseMaxWorkers(raw: string | undefined): number | undefined {
   return parseInt(raw, 10);
 }
 
-// Safety ceiling for CI only: a wedged run (hung browser, endless retries) stops
-// after a generous cap instead of burning the runner for hours. Scales by itself:
-// 15 minutes per spec file, counted when the config loads.
+// Feeds the CI globalTimeout: 15 minutes per spec file, counted at config load,
+// so a wedged run stops instead of burning the runner for hours.
 function countSpecFiles(dir: string): number {
   let count = 0;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -49,12 +48,8 @@ export default defineConfig({
   expect: { timeout: 5000 },
   globalTimeout: process.env.CI ? countSpecFiles(path.join(__dirname, 'tests')) * 15 * 60 * 1000 : undefined,
 
-  // HARD RULE: 1 spec = 1 worker, always (no within-file split). Within-file parallel
-  // would race tests against each other's shared form/server state. Baseline isolation
-  // is enforced PER-TEST in each spec's beforeEach (not first-test-only),
-  // so order within a file is not relied upon for clean state. Workers still run
-  // DIFFERENT specs in parallel via AUTH-STATE-SHARED (storageState shared via
-  // .auth/encore-state.json). Do not flip back to true.
+  // HARD RULE: 1 spec = 1 worker. Within-file parallel races tests against each
+  // other's shared form/server state — do not flip back to true.
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
 
@@ -75,9 +70,8 @@ export default defineConfig({
     ...(process.env.TESTRAIL_ENABLED === 'true'
       ? [['./src/reporter/testrail-reporter.ts'] as const]
       : []),
-    // Skip Allure on CI — GitCommitInfo plugin times out on shallow-clone runners
-    // (M365 build agents have no full git history). This inline guard replaces
-    // a separate CI config file, keeping one config for shipping.
+    // Skip Allure on CI — its GitCommitInfo plugin times out on shallow-clone
+    // runners (M365 build agents have no full git history).
     ...(process.env.CI ? [] : [['allure-playwright', {
       resultsDir: 'reports/allure-results',
       detail: true,
@@ -120,9 +114,8 @@ export default defineConfig({
       testMatch: /auth\.setup\.ts/,
       use: { viewport: { width: 1920, height: 1080 } },
     },
-    // chromium becomes the generic catch-all for non-module-scoped specs. The
-    // `testIgnore` keeps it from double-running module specs that are already owned
-    // by the `encore-locations` and `encore-local-office` projects below.
+    // Catch-all for non-module specs; testIgnore stops it double-running the specs
+    // owned by the encore-locations and encore-local-office projects below.
     {
       name: 'chromium',
       dependencies: ['setup'],
@@ -146,10 +139,8 @@ export default defineConfig({
         },
       },
     },
-    // CI-only module projects — opt-in via:
-    //   npx playwright test --workers=2 --project=encore-local-office --project=encore-locations
-    // AUTH-STATE-SHARED: depend on `setup` so auth.setup.ts fires ONCE and writes
-    // .auth/encore-state.json, which both module workers consume read-only.
+    // Opt-in module projects (`--project=encore-locations` etc.). Both depend on
+    // `setup` so auth.setup.ts writes .auth/encore-state.json once, read-only after.
     {
       name: 'encore-local-office',
       testDir: './tests/local-office',

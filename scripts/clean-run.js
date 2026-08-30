@@ -1,10 +1,6 @@
 #!/usr/bin/env node
-// Unlike test:cli (which preserves Allure trend history), clean:run wipes ALL
-// history including the trend stash, so both reports show a single fresh run.
-//
-// No --project hardcoded: Playwright auto-routes specs to their project
-// (tests/locations/** runs under encore-locations + its auth dependency;
-// chromium ignores tests/locations/**, preventing double-run).
+// Unlike test:cli, this wipes the Allure trend stash too, so both reports show one fresh run.
+// No --project is passed: Playwright routes each spec to its own project, avoiding double-runs.
 const { execSync } = require('node:child_process');
 const fs = require('node:fs');
 const path = require('node:path');
@@ -39,9 +35,8 @@ try {
   testExit = err.status || 1;
 }
 
-// 3. Fresh Allure — but only if the run actually produced results. An empty
-//    allure-results (e.g. auth failed, zero tests ran) must NOT silently emit
-//    a blank report; warn loudly instead.
+// 3. Fresh Allure, but only if results exist — an empty allure-results (auth failed, zero tests)
+//    must warn rather than silently emit a blank report.
 const producedResults =
   fs.existsSync(RESULTS_DIR) &&
   fs.readdirSync(RESULTS_DIR).some((f) => f.endsWith('-result.json'));

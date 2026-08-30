@@ -1,19 +1,5 @@
-/**
- * Selectors for the Terms and Conditions setup page.
- *
- * Page: Location Settings -> Terms and Conditions (`/settings/terms-conditions`)
- *
- * The page shows a grid of T&C entries, one row per language entry, with a name field,
- * three rich-text columns (Left, Right, Bottom), a per-row language selector, a page-level
- * language filter, an add-row control and a single Save button.
- *
- * Key behaviours affecting selector use:
- *
- * 1. The editor panel is REBUILT on every cell switch — never cache a locator across cells.
- * 2. Row testids are position-based and rows re-sort on edit. Always look up rows by
- *    content (name text), never by index alone.
- * 3. ProseMirror ignores fill() — rich-text input must use real keyboard events.
- */
+// Location Settings -> Terms and Conditions (`/settings/terms-conditions`). Row testids are
+// position-based and rows re-sort on edit — resolve rows by name, never by index alone.
 export const termsConditions = {
   /** The grid table container. Wait on this as the page-ready signal. */
   table: '[data-testid="terms-conditions-table"]',
@@ -60,10 +46,6 @@ export const termsConditions = {
   /** Column headers. */
   headers: '[data-testid="terms-conditions-table"] thead th',
 
-  /**
-   * Bold toolbar button in the rich text editor.
-   * Captured live in August 2026; the terms and conditions toolbar was not covered in the
-   * original selector pass — this selector was added separately when the toolbar was observed.
-   */
+  /** Bold button in the rich text editor toolbar. */
   rteBold: '[data-testid="rte-bold"]',
 } as const;

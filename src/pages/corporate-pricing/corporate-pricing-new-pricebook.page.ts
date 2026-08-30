@@ -1,19 +1,5 @@
-/**
- * Corporate Pricing — New Pricebook create-flow page object (NM-1440).
- *
- * Extends CorporatePricingBasePage. Drives BOTH route options (`?type=equipment|labor`). The create
- * form is React/Next.js in LIGHT DOM; React-controlled inputs are filled via the base
- * `setReactInput` (native value-setter — `.fill()` does not commit React state). Page-level Save +
- * the two tabs are reused from the Details shell (`btnSaveDetails`, `switchTab`, `isSaveEnabled`).
- *
- * MUTATION SAFETY: a committed pricebook is IRREVERSIBLE via the UI (no
- * delete/deactivate anywhere). The DEFAULT path is NO-COMMIT — `clickSaveExpectDialog()` +
- * `cancelSaveDialog()` prove Save reachability without persisting. ONE additive committing path
- * (`fillSavableWithProductGroup` + `confirmSaveAndGetNewId`) exists for the single persistence test
- * that proves a saved pricebook survives reload/search. This environment is single-tenant (ours), so
- * the permanent record that committing test leaves is accepted (authorized 2026-06-26). All the
- * existing no-commit methods are unchanged. Verified live 2026-06-09.
- */
+// New Pricebook create flow (NM-1440), both `?type=equipment|labor` routes.
+// MUTATION SAFETY: a committed pricebook is irreversible (no UI delete), so the default path is no-commit.
 import { type Locator, type Page } from '@playwright/test';
 import { CorporatePricingBasePage } from './corporate-pricing.page';
 import type { IConfig } from '../../types';
@@ -146,11 +132,7 @@ export class CorporatePricingNewPricebookPage extends CorporatePricingBasePage {
     await this.page.locator(S.npNewStrategyDialog).first().waitFor({ state: 'hidden', timeout: 10_000 }).catch(() => { /* animates out */ });
   }
 
-  /**
-   * Open the dialog with an empty Strategy Name and report the empty-name guard state.
-   * The app keeps the "Add" button disabled while the name is empty, so no strategy can
-   * be added and the dialog stays open. The caller Cancels/Escapes afterward.
-   */
+  /** Leaves the dialog OPEN — the caller must Cancel/Escape afterward. */
   @step('Get empty name add guard')
   async getEmptyNameAddGuard(): Promise<{ stillOpen: boolean; addDisabled: boolean }> {
     await this.openAddStrategyDialog();
@@ -200,11 +182,7 @@ export class CorporatePricingNewPricebookPage extends CorporatePricingBasePage {
     await row.dblclick();
   }
 
-  /**
-   * Drag a product-group source item (by content) onto the pricebook grid via the full pointer
-   * sequence → adds it. This is the positive control that proves the drag primitive fires when adding
-   * is allowed (create mode); the management-mode Detail tab uses the same primitive to prove no-add.
-   */
+  // Create-mode positive control for the drag primitive shared with the management-mode Detail probe.
   @step('Drag product group by name')
   async dragProductGroupByName(name: string): Promise<void> {
     const row = this.page.locator(S.npSourceRow, { hasText: name }).first();
@@ -221,11 +199,7 @@ export class CorporatePricingNewPricebookPage extends CorporatePricingBasePage {
     return out.filter(Boolean);
   }
 
-  /**
-   * Click the (enabled) page Save, then return the verbatim text of the "Save Changes" confirmation
-   * dialog. Does NOT confirm — the caller MUST follow with `cancelSaveDialog()` to avoid an
-   * irreversible commit. Throws (via base) if Save is disabled.
-   */
+  // Does NOT confirm — the caller MUST follow with `cancelSaveDialog()` to avoid an irreversible commit.
   @step('Click save expect dialog')
   async clickSaveExpectDialog(): Promise<string> {
     await this.clickSaveButtonOrThrow('New Pricebook not savable');
@@ -253,13 +227,8 @@ export class CorporatePricingNewPricebookPage extends CorporatePricingBasePage {
     await this.addStrategy();
   }
 
-  /**
-   * Build a savable + NON-EMPTY pricebook: Name + Year + one strategy + one product group on the
-   * Pricing Detail tab. The product group is added by double-click (the proven create-mode ADD
-   * primitive — a drag adds too, but double-click is the reliable one) so persistence can later be
-   * verified by content. Leaves Save enabled and the form UNCOMMITTED; the caller commits via
-   * `confirmSaveAndGetNewId()`.
-   */
+  // Leaves Save enabled and the form UNCOMMITTED; the caller commits via `confirmSaveAndGetNewId()`.
+  // The product group is added by double-click — drag adds too, but double-click is the reliable one.
   @step('Fill savable with product group')
   async fillSavableWithProductGroup(
     name: string,
@@ -273,19 +242,13 @@ export class CorporatePricingNewPricebookPage extends CorporatePricingBasePage {
     await this.addProductGroupByName(group);
   }
 
-  /**
-   * COMMIT the new pricebook: click the (enabled) page Save, confirm the "Save Changes" dialog, then
-   * wait for the post-commit redirect from `/add?type=…` to `/details/<guid>` and return the new
-   * pricebook's guid (parsed from the URL). IRREVERSIBLE — no UI delete/deactivate exists, so this is
-   * called ONLY by the single committing persistence test. Throws (via base) if Save is disabled.
-   */
+  // IRREVERSIBLE commit — no UI delete/deactivate exists, so only the single persistence test calls this.
+  // Returns the new pricebook's guid, parsed from the post-commit `/details/<guid>` redirect.
   @step('Confirm save and get new')
   async confirmSaveAndGetNewId(): Promise<string> {
     const detailsRe = /\/details\/[0-9a-f-]+/i;
-    // Under load the commit occasionally does not take on the first try — the "Save Changes" dialog
-    // dismisses but the page stays on /add with no redirect. Retry the whole page-Save → confirm a few
-    // times until the URL commits to the new pricebook's Details page. We only need the committed URL
-    // (the new id), so wait on 'commit', not the heavy Details page 'load'.
+    // Under load the dialog can dismiss without committing (no redirect), so retry the whole
+    // Save → confirm. Waits on 'commit' — only the URL is needed, not the heavy Details page load.
     for (let attempt = 0; attempt < 3; attempt++) {
       await this.clickSaveButtonOrThrow('New Pricebook not savable');
       const dlg = this.page.locator(S.npSaveDialog).first();
@@ -308,13 +271,8 @@ export class CorporatePricingNewPricebookPage extends CorporatePricingBasePage {
     return m[1];
   }
 
-  /**
-   * Open a SAVED pricebook's Pricing Detail tab (management mode) and return its product-group rows,
-   * content-normalized. The saved-pricebook Detail grid is heavy and renders ~tens of seconds AFTER
-   * navigation — reading it immediately races an empty grid (`waitForAngularStable` is a no-op on this
-   * React page). So this waits for the first data row to actually render before reading. Used by the
-   * committing persistence test to prove a dragged/added product group survives the save+reload.
-   */
+  // The saved-pricebook Detail grid renders tens of seconds after navigation and
+  // `waitForAngularStable` is a no-op on this React page, hence the explicit first-row wait.
   @step('Read saved detail groups')
   async readSavedDetailGroups(office: string, pricebookId: string): Promise<string[]> {
     await this.gotoDetails(office, pricebookId);
@@ -323,12 +281,8 @@ export class CorporatePricingNewPricebookPage extends CorporatePricingBasePage {
     return this.getDetailGridRows();
   }
 
-  /**
-   * Read the Price Year field's validation indicator: the `aria-invalid` attribute plus the
-   * field's computed border color (snapshot string). With an empty year the field is invalid and
-   * the border is the destructive (red) colour; with a valid year both change. The caller compares
-   * the empty vs valid reads to prove the required state is visibly indicated (NM-2057).
-   */
+  // NM-2057: the caller compares the empty-year vs valid-year reads to prove the required
+  // state is visibly indicated — neither value means anything on its own.
   @step('Get year validation state')
   async getYearValidationState(): Promise<{ ariaInvalid: string | null; borderColor: string }> {
     const year = this.page.locator(S.npYear).first();
@@ -337,12 +291,7 @@ export class CorporatePricingNewPricebookPage extends CorporatePricingBasePage {
     return { ariaInvalid, borderColor };
   }
 
-  /**
-   * Set the Pricebook Name to a value (typically an already-existing pricebook name), let any
-   * async validation settle, then report whether the field went invalid or an inline "already
-   * exists" message appeared anywhere on the form. Used to document that the create page does NOT
-   * block a duplicate pricebook name client-side (NM-2022).
-   */
+  // NM-2022: documents that the create page does NOT block a duplicate pricebook name client-side.
   @step('Set name and read uniqueness')
   async setNameAndReadUniqueness(name: string): Promise<{ ariaInvalid: string | null; hasInlineUniquenessError: boolean }> {
     await this.setName(name);
@@ -358,11 +307,7 @@ export class CorporatePricingNewPricebookPage extends CorporatePricingBasePage {
     return { ariaInvalid, hasInlineUniquenessError };
   }
 
-  /**
-   * Verbatim empty-state hint shown on the empty destination grid (Pricing Detail tab). The hint is
-   * split across two text nodes ("No items added yet" + the action line), so this returns the text of
-   * the tightest element that contains BOTH lines.
-   */
+  // The hint spans two text nodes, so this returns the tightest element containing both.
   @step('Get detail empty state hint')
   async getDetailEmptyStateHint(): Promise<string> {
     return this.page.evaluate(() => {

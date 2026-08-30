@@ -32,11 +32,8 @@ test.describe('Corporate Pricing — Product Group Override: location picker —
     expect(await p.getVisibleRowCount()).toBeGreaterThan(0); // original location (1606) grid unchanged
   });
 
-  // Known behavior (reviewer-confirmed): the server ignores the activeOnly parameter — both CHECKED
-  // and UNCHECKED states return the same location set. Office 1222 ("Hyatt Fairfax at Fair Lakes")
-  // is confirmed inactive yet never appears in either state. Opening the picker fires ≥1 POST
-  // (positive control proving the network listener works); toggling fires 0 POSTs — the Active
-  // checkbox is a client-side filter only. The toggle assertion will fail when the app is fixed.
+  // The server ignores activeOnly, so the toggle fires no POST while opening the picker does (the
+  // positive control). The toggle assertion is expected to fail once the app is fixed.
   test('TC-CPR-OVR-039: Picker Active checkbox defaults unchecked; toggling is a client-side filter — no location-lookup POST fires', async ({ corporatePricingOverridePage: p }) => {
     test.setTimeout(120_000);
     await p.reloadAndReselect(LOC);
@@ -74,23 +71,9 @@ test.describe('Corporate Pricing — Product Group Override: location picker —
   });
 
   // ── RBAC access gate ──
-  // PERMANENTLY NOT AUTOMATABLE — owner-confirmed 2026-07-20.
-  //
-  // The deny-path (non-RM user sees no edit cell, no Save, no Import on the Override grid) requires
-  // a second test account with a non-Revenue-Management role. The client has confirmed that no such
-  // account exists, cannot be obtained, and will never be obtained. Every available automation
-  // account carries equivalent RM-level access; there is no in-app role-switch mechanism.
-  //
-  // RBAC API investigation (2026-07-20, live network capture): navigating to the Override screen
-  // with valid auth fires only GET /navigator/api/env and GET /navigator/api/auth/session — no
-  // role/permission endpoint, no route guard, no feature flag, no DOM role indicator. There is no
-  // API surface a test could query to assert the deny-path. (NM-2126)
-  //
-  // The positive-path coverage (RM user CAN edit, CAN enable Save, CAN open Import) is already
-  // provided by TC-CPR-OVR-017, TC-CPR-OVR-018, and TC-CPR-OVR-032.
+  // NM-2126: unautomatable — needs a non-RM account that will never exist, and no role API is exposed.
   test.skip('TC-CPR-OVR-040: Non-Revenue-Management user sees a read-only Override grid — no edit, no Save, no Import [blocked: every automation account we hold has equivalent access and no RBAC state is exposed on the Override screen; a second automation account WITHOUT the 1101 Revenue Management role would make this automatable immediately; see NM-2126]', async () => {
-    // Body intentionally empty — this test is permanently unautomatable.
-    // See the comment block above for the investigation evidence.
+    // Body intentionally empty — see the NM-2126 note above.
   });
 
   // ── Toolbar location-picker dismissal ──

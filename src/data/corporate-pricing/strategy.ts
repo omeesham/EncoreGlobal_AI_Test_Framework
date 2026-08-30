@@ -22,15 +22,8 @@ export const STRATEGY = {
     isActive: { checked: true, disabled: false },
   },
 
-  /**
-   * Cross-surface seed for TC-CPR-STR-013 ("Locations Using Pricing As Default" grid).
-   * Live-verified 2026-06-29: office 1604's Primary Equipment Pricing = this strategy ⇒ office 1604
-   * appears in the strategy's grid. The grid is a read-only back-reference populated by a location
-   * selecting the strategy as its Primary Pricing — so the test points office 1604's Primary
-   * Equipment Pricing at this strategy, asserts 1604 surfaces in the grid, then restores the
-   * location's original selection (the prior fixed-assignment data 1991/7011 had been reassigned
-   * away, which is exactly what made the old row-shape loop pass vacuously on an empty grid).
-   */
+  // The "Locations Using Pricing As Default" grid is a read-only back-reference, so the test must point office
+  // 1604's Primary Equipment Pricing at this strategy and then restore the location's original selection.
   crossSurfaceSeed: {
     office: '1604',
     strategyName: '2026-Tier 2 Resort B',

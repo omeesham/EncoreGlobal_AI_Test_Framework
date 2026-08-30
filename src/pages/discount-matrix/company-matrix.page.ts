@@ -34,63 +34,24 @@ import {
   BTN_ADD_TIER_CONFIRM,
 } from '../../selectors/discount-matrix/company-matrix';
 
-/**
- * Company Matrix grid paint timeout.
- *
- * The grid container is mounted before its data arrives — waiting on the container alone
- * produced false "grid is empty" findings on the sibling module. Originally set to 45 s
- * based on an observed ~22 s first-paint latency on comparable grids (2026-08-19), but a
- * live diagnostic probe on 2026-08-25 measured this grid actually taking ~83 s to replace
- * its skeleton rows with real data — every test in this suite failed identically on that
- * stale 45 s ceiling. 180 s gives roughly 2.2x the newly observed timing.
- */
+// This grid takes ~83 s to swap skeleton rows for real data; the earlier 45 s ceiling
+// failed every test in the suite.
 const GRID_READY_TIMEOUT_MS = 180_000;
 
-/**
- * Keystroke cadence for the typing helpers below. This page's numeric fields reformat their
- * own value on commit, and Playwright's `fill()` sets the value in one synthetic event that the
- * field's formatter mis-parses — filling "20%" produced "15.2%" where typing the same characters
- * produced "20%". Typing character by character lets the field process each keystroke as a real
- * user's would.
- */
+// Numeric fields here reformat on commit and mis-parse fill()'s single synthetic event
+// ("20%" landed as "15.2%") — type character by character instead.
 const KEYSTROKE_DELAY_MS = 80;
 
-/**
- * URL fragment matched when waiting for the save POST to complete. The button
- * disables optimistically on click — before the server responds — so the route
- * fragment is used to identify the in-flight request and block until it settles.
- */
+// Save disables optimistically before the server responds, so the in-flight request is
+// identified by this route fragment instead.
 const SAVE_POST_URL_FRAGMENT = '/settings/discount-matrix';
 
-/**
- * How long to wait for the form to report clean after a save. The form signals
- * unsaved changes by cancelling the browser's beforeunload event; a navigation
- * attempted while it is still dirty will cancel the in-flight write. 15 s is
- * well above the observed ~1.5 s settle time.
- */
+// Navigating while the form is still dirty cancels the in-flight write, so saves wait for
+// clean; ~1.5 s observed settle.
 const FORM_CLEAN_TIMEOUT_MS = 15_000;
 
-/**
- * Company Matrix page — Location Settings → Discount Matrix → Company Matrix tab.
- *
- * Route: `/navigator/locations/{office}/settings/discount-matrix`
- *
- * The page has three tabs: Company Matrix (active by default), Region Weekly Peaks,
- * and Location Activation. This page object covers the Company Matrix tab only.
- *
- * Critical behaviours:
- * - The grid container renders before data arrives. The ready-gate waits on a non-zero
- *   row count, not on container presence — container-only waits produced false empty-grid
- *   findings on the sibling discount module.
- * - Row lookup is always content-anchored by tier-range text (e.g. "0 - 1500"). Index-based
- *   lookups are unreliable because shared save handlers may reorder rows.
- * - The grid is entirely read-only in the DOM (no inline cell inputs). All editing happens
- *   through the Edit Tier dialog opened from each row's Edit button.
- * - Tab ids are auto-generated Radix values; tabs are always selected by visible text and
- *   accessible role, never by a Radix-generated id.
- * - No save-confirmation method is authored here. The save dialog for this surface has not
- *   been measured; see ## ASK in this ticket.
- */
+// Company Matrix tab of Location Settings → Discount Matrix; the other two tabs are not covered.
+// The grid is read-only in the DOM — all editing goes through the per-row Edit Tier dialog.
 export class CompanyMatrixPage extends BasePage {
   constructor(page: Page, config?: IConfig) {
     super(page, config);
@@ -99,10 +60,7 @@ export class CompanyMatrixPage extends BasePage {
 
   // ---------------------------------------------------------------- navigation & ready
 
-  /**
-   * Opens the Discount Matrix page for an office and waits for the Company Matrix grid
-   * to paint its first rows. Never resolves against the empty skeleton state.
-   */
+  /** Opens the page and waits for real rows — never resolves against the skeleton state. */
   @step('Open the Discount Matrix page for an office')
   async open(officeNo: string = '1604'): Promise<void> {
     const baseUrl = this.config?.base_url || '';
@@ -111,28 +69,12 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForGrid();
   }
 
-  /**
-   * Waits for the Company Matrix grid to display real data rows.
-   *
-   * The grid first paints 6 placeholder rows of 24 cells — each cell containing a
-   * `div[data-slot="skeleton"]` animated pulse element. A non-zero row count is satisfied
-   * by these placeholders in roughly 12 ms, long before any tier data arrives. Polling for
-   * rows alone therefore cannot distinguish a loaded grid from a loading one.
-   *
-   * This gate is satisfied only when the panel contains at least one `tbody tr` AND zero
-   * `[data-slot="skeleton"]` elements — meaning the placeholders have been replaced by the
-   * 9 real tier rows of 23 cells. The panel is resolved in plain JavaScript (not with a
-   * Playwright pseudo-class, which is invalid CSS inside the browser) by scanning
-   * `[role="tabpanel"]` elements for one whose button text is exactly "Add Tier".
-   *
-   * Timeout is set to {@link GRID_READY_TIMEOUT_MS} (45 s).
-   */
+  // Ready means rows present AND zero skeletons: the placeholder rows satisfy a row-count
+  // check in ~12 ms, long before any tier data lands.
   @step('Wait for the Company Matrix grid to show rows')
   async waitForGrid(timeout = GRID_READY_TIMEOUT_MS): Promise<void> {
-    // Extract the plain-CSS skeleton attribute selector from GRID_SKELETON.
-    // GRID_SKELETON contains a Playwright pseudo-class for the panel scope that is
-    // not valid inside the browser; the descendant portion '[data-slot="skeleton"]' is
-    // valid CSS and is passed as an argument so the import is consumed at Node level.
+    // GRID_SKELETON's panel scope is a Playwright pseudo-class, invalid CSS in the browser —
+    // only the plain-CSS descendant portion can cross into the page predicate.
     const skeletonSel = GRID_SKELETON.split(' ').pop() as string;
     await this.page.locator(TAB_LIST).first().waitFor({ state: 'visible', timeout });
     await this.page.waitForFunction(
@@ -156,10 +98,7 @@ export class CompanyMatrixPage extends BasePage {
 
   // ---------------------------------------------------------------- tab navigation
 
-  /**
-   * Switches to a tab by its visible label and waits for the new panel to become visible.
-   * Selects tabs by visible text and [role="tab"] — never by Radix-generated id.
-   */
+  /** Selects tabs by visible text and [role="tab"] — never by Radix-generated id. */
   @step('Switch to a tab on the Discount Matrix page')
   async switchTab(tabName: 'Company Matrix' | 'Region Weekly Peaks' | 'Location Activation'): Promise<void> {
     const selectorMap: Record<string, string> = {
@@ -179,16 +118,8 @@ export class CompanyMatrixPage extends BasePage {
     return this.page.locator(ROWS).count();
   }
 
-  /**
-   * Returns the ordered list of tier-range labels as rendered in the grid.
-   * Each label is the text content of td index 1 in a tier row (e.g. "0 - 1500").
-   * td index 0 is the row's button cell (Delete + Edit); td index 1 is the tier-range
-   * label — do not revert this to .first(), which reads the empty button cell.
-   *
-   * When the grid is empty the application renders a placeholder row with fewer than two
-   * cells (no tier-range cell at index 1). Such rows are skipped rather than read, so an
-   * empty grid returns an empty array promptly without throwing or stalling.
-   */
+  // The tier-range label is td index 1; td 0 is the Delete/Edit button cell — do not revert
+  // to .first(), which reads the empty button cell.
   @step('Read the tier range labels from the Company Matrix grid')
   async getTierRangeLabels(): Promise<string[]> {
     const labels = await this.page.locator(ROWS).evaluateAll((rows) =>
@@ -201,11 +132,7 @@ export class CompanyMatrixPage extends BasePage {
     return labels;
   }
 
-  /**
-   * Returns all header cell texts from the Company Matrix grid thead.
-   * Includes both the column-group headers (Non-Peak, Standard, Peak) and the
-   * day-bucket sub-headers (0-15, 16-30, …, 365+).
-   */
+  /** Flattens both thead rows: group headers and day-bucket sub-headers together. */
   @step('Read the column headers of the Company Matrix grid')
   async getColumnHeaders(): Promise<string[]> {
     const raw = await this.page.locator(COL_HEADERS).allTextContents();
@@ -214,12 +141,7 @@ export class CompanyMatrixPage extends BasePage {
 
   // ---------------------------------------------------------------- grid — row lookup & cell reading
 
-  /**
-   * Returns the `tr` locator for the row matching the given tier-range text.
-   * Content-anchored — never by index. Throws if no such row is found.
-   *
-   * @param tierRange - e.g. "0 - 1500" or "100001 - 20000000"
-   */
+  /** Content-anchored by tier-range text, never by index — shared handlers reorder rows. */
   @step('Find a tier row by its range label')
   async findRowByTierRange(tierRange: string): Promise<import('@playwright/test').Locator> {
     const row = this.page.locator(rowByTierRange(tierRange)).first();
@@ -233,20 +155,7 @@ export class CompanyMatrixPage extends BasePage {
     return row;
   }
 
-  /**
-   * Reads the rendered percentage text from one cell in the grid, addressed by tier range,
-   * column group name, and day-bucket label.
-   *
-   * The cell is located by finding the tier row, then finding the td whose column group
-   * (Non-Peak / Standard / Peak) and day-bucket (0-15, 16-30, …, 365+) align with the
-   * requested position. Column groups occupy 7 cells each. Measured layout: td index 0
-   * is the row's button cell (Delete + Edit), td index 1 is the tier-range label,
-   * indices 2–22 are the 21 percentage cells (left to right across all three groups).
-   *
-   * @param tierRange - e.g. "0 - 1500"
-   * @param columnGroup - "Non-Peak" | "Standard" | "Peak"
-   * @param dayBucket - "0-15" | "16-30" | "31-60" | "61-90" | "91-180" | "181-365" | "365 +"
-   */
+  /** Reads one percentage cell addressed by tier range, column group and day bucket. */
   @step('Read one percentage cell from the Company Matrix grid')
   async getCellText(
     tierRange: string,
@@ -257,7 +166,7 @@ export class CompanyMatrixPage extends BasePage {
     const buckets = ['0-15', '16-30', '31-60', '61-90', '91-180', '181-365', '365 +'];
     const bucketIndex = buckets.indexOf(dayBucket);
     if (bucketIndex === -1) throw new Error(`Unknown day bucket: "${dayBucket}"`);
-    // Measured layout: td 0 = button cell, td 1 = tier-range label, td 2–22 = 21 percentage cells
+    // Layout: td 0 = button cell, td 1 = tier-range label, td 2–22 = the 21 percentage cells.
     const tdIndex = (groupOffsets[columnGroup] as number) + bucketIndex + 2;
     const row = await this.findRowByTierRange(tierRange);
     const cell = row.locator('td').nth(tdIndex);
@@ -265,14 +174,7 @@ export class CompanyMatrixPage extends BasePage {
     return (text || '').replace(/\s+/g, ' ').trim();
   }
 
-  /**
-   * Returns the 21 percentage cell values for a tier row, in DOM order across all three
-   * column groups. Reads td indices 2–22 (measured layout: td 0 = button cell,
-   * td 1 = tier-range label, td 2–22 = the 21 percentage cells).
-   * Whitespace is normalised the same way as {@link getCellText}.
-   *
-   * @param tierRange - e.g. "0 - 1500"
-   */
+  /** The 21 percentage values of a tier row, in DOM order (td indices 2–22). */
   @step('Read all percentage values from a tier row')
   async getRowValues(tierRange: string): Promise<string[]> {
     const row = await this.findRowByTierRange(tierRange);
@@ -289,13 +191,7 @@ export class CompanyMatrixPage extends BasePage {
     return cellTexts.slice(2, 23);
   }
 
-  /**
-   * Returns the count of Edit and Delete controls inside the row for the given tier range.
-   * Scopes both lookups to the matched row. Never throws on an unexpected count — the
-   * caller is responsible for asserting what is correct.
-   *
-   * @param tierRange - e.g. "0 - 1500"
-   */
+  // Both lookups are row-scoped. Never throws on an unexpected count — the caller asserts.
   @step('Count the Edit and Delete controls in a tier row')
   async getRowActionCounts(tierRange: string): Promise<{ edit: number; delete: number }> {
     const row = await this.findRowByTierRange(tierRange);
@@ -304,26 +200,15 @@ export class CompanyMatrixPage extends BasePage {
     return { edit, delete: del };
   }
 
-  /**
-   * Counts every editable control inside the grid body rows: input, textarea, select,
-   * elements with contenteditable="true", and elements with role="textbox".
-   * Returns the total count so a caller can prove the percentage cells are display-only.
-   */
+  /** Counts editable controls in the grid body so a caller can prove cells are display-only. */
   @step('Count editable controls inside the Company Matrix grid body')
   async getGridInputControlCount(): Promise<number> {
     const gridRows = this.page.locator(ROWS);
     return gridRows.locator('input, textarea, select, [contenteditable="true"], [role="textbox"]').count();
   }
 
-  /**
-   * Returns one array of trimmed header texts per header row in the Company Matrix grid,
-   * in document order. Empty strings within each row are dropped. This lets a caller
-   * assert both the group row (Non-Peak / Standard / Peak) and the day-bucket row
-   * (0-15, 16-30, …, 365+) without this method deciding which row is which.
-   *
-   * Built from PANEL_COMPANY_MATRIX's thead rows directly — COL_HEADERS flattens all th
-   * elements together and cannot answer per-row questions.
-   */
+  // One array per thead row, so a caller can tell group headers from day-bucket headers —
+  // COL_HEADERS flattens both rows together and cannot answer per-row questions.
   @step('Read the header rows of the Company Matrix grid')
   async getColumnHeaderRows(): Promise<string[][]> {
     const headerRows = this.page.locator(`${PANEL_COMPANY_MATRIX} thead tr`);
@@ -370,36 +255,16 @@ export class CompanyMatrixPage extends BasePage {
 
   // ---------------------------------------------------------------- criteria bar — private helpers
 
-  /**
-   * Returns the threshold input locator, after waiting for it to actually be usable.
-   * Centralises the selector reference so all methods that drive this field resolve
-   * from one place.
-   *
-   * A live probe on 2026-08-25 measured this field taking ~10 s to even attach to the
-   * DOM after waitForGrid() has already resolved — the threshold renders from a separate,
-   * later async load than the grid does. That gap sits right at the edge of Playwright's
-   * default 10 s action timeout, so a bare `.click()`/`.inputValue()` here intermittently
-   * (or consistently, depending on network jitter) timed out before the field ever
-   * appeared. 30 s gives roughly 3x the observed gap.
-   */
+  // The threshold loads separately from the grid and can take ~10 s to attach after
+  // waitForGrid() resolves — right at the default action timeout, hence the explicit 30 s.
   private async readThresholdField(): Promise<import('@playwright/test').Locator> {
     const input = this.page.locator(INP_GAV_DISCOUNT_THRESHOLD);
     await input.waitFor({ state: 'visible', timeout: 30_000 });
     return input;
   }
 
-  /**
-   * Clicks the given combobox trigger and waits for the Radix listbox to appear.
-   * If the listbox does not appear after the first click, retries once with a longer
-   * timeout — a single click is not always enough for Radix dropdowns.
-   * Returns the listbox Locator once visible.
-   *
-   * No `.first()` is used here: the three combobox selectors this helper receives
-   * (CMB_COUNTRY, CMB_CURRENCY, CMB_BUSINESS_TIER) were re-anchored on label adjacency
-   * and proven to resolve to exactly one element each. Using `.first()` would silently
-   * pick a survivor if that ever stopped being true, hiding a selector regression rather
-   * than surfacing it as a visible failure.
-   */
+  // Retries the click once — a single click is not always enough for Radix dropdowns.
+  // No `.first()`: it would mask a combobox selector regression instead of failing loudly.
   private async openListbox(triggerSelector: string): Promise<import('@playwright/test').Locator> {
     await this.page.locator(triggerSelector).click();
     const listbox = this.page.locator(LISTBOX);
@@ -412,11 +277,7 @@ export class CompanyMatrixPage extends BasePage {
     return listbox;
   }
 
-  /**
-   * Dismisses an open listbox by pressing Escape, then waits for it to be hidden.
-   * A timeout waiting for the hidden state is swallowed so a caller is never left
-   * blocked if the listbox closed by other means.
-   */
+  // The hidden-state timeout is swallowed so a listbox closed by other means never blocks.
   private async closeListbox(): Promise<void> {
     await this.page.keyboard.press('Escape');
     try {
@@ -483,16 +344,8 @@ export class CompanyMatrixPage extends BasePage {
 
   // ---------------------------------------------------------------- criteria bar — threshold driver
 
-  /**
-   * Types a new value into the GAV Discount Threshold field and commits it.
-   *
-   * The field reformats itself on blur — `fill()` emits a single synthetic event that the
-   * formatter mis-parses (filling "20%" rendered "15.2%"). Characters are typed one by one
-   * via `pressSequentially` so each keystroke is processed as a real user's would be. Tab
-   * is pressed here to commit the value because the field only finalises its formatted
-   * representation on blur — a caller that had to remember a separate blur step would
-   * eventually forget and read the mid-edit raw text instead of the committed value.
-   */
+  // Types rather than fills (the formatter mis-parses fill()) and Tabs to blur, because the
+  // field only finalises its formatted value on blur.
   @step('Set the GAV Discount Threshold value in the criteria bar')
   async setCriteriaThreshold(value: string): Promise<void> {
     const input = await this.readThresholdField();
@@ -504,13 +357,8 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Clears the GAV Discount Threshold field and commits the empty state.
-   *
-   * Typing an empty string via `pressSequentially` is a no-op and would silently skip
-   * the clear, so this is a dedicated method rather than `setCriteriaThreshold('')`.
-   * The field interprets a cleared-then-committed state as "0%" (measured 2026-08-19).
-   */
+  // Separate from setCriteriaThreshold because pressSequentially('') is a no-op and would
+  // silently skip the clear. A cleared-then-committed field commits as "0%".
   @step('Clear the GAV Discount Threshold value in the criteria bar')
   async clearCriteriaThreshold(): Promise<void> {
     const input = await this.readThresholdField();
@@ -521,22 +369,8 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Types into the GAV Discount Threshold field without clearing it first.
-   *
-   * This method exists alongside {@link setCriteriaThreshold} because the two paths produce
-   * different results for refused non-numeric input: when the existing value is selected and
-   * then deleted before typing, a refused keystroke leaves the field empty and it commits as
-   * "0%". When the existing value is only selected (not deleted), a refused keystroke cannot
-   * replace the selection, so the field keeps its prior value. A test that wants to prove
-   * keystroke refusal must use this method — using the clearing setter would assert the
-   * empty-resolves-to-zero path instead.
-   *
-   * Selects all existing text with Control+A, then types value character by character via
-   * pressSequentially at the standard keystroke delay, then presses Tab to commit and waits
-   * for Angular to settle. No Delete is pressed — the existing text remains until a
-   * successful keystroke replaces it.
-   */
+  // No Delete: a refused keystroke cannot replace the selection, so the field keeps its prior
+  // value. Tests proving keystroke refusal need this, not the clearing setter (empty → "0%").
   @step('Type into the GAV Discount Threshold field without clearing it first')
   async typeIntoCriteriaThresholdWithoutClearing(value: string): Promise<void> {
     const input = await this.readThresholdField();
@@ -547,57 +381,25 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Returns the raw `aria-invalid` attribute value on the GAV Discount Threshold input.
-   * Returns `null` when the attribute is absent (valid or uncommitted state). The value is
-   * returned as-is — callers distinguish absent (`null`) from `"false"` (explicitly valid).
-   */
+  // Returned as-is so callers can distinguish absent (null) from "false" (explicitly valid).
   @step('Read the validity state of the GAV Discount Threshold field')
   async getCriteriaThresholdAriaInvalid(): Promise<string | null> {
     const input = await this.readThresholdField();
     return input.getAttribute('aria-invalid');
   }
 
-  /**
-   * Queries the page for any element that could carry a validation error message and
-   * returns the visible text of each match, trimmed, with empties dropped.
-   *
-   * WHY THE RAW CANDIDATE SET OVER-MATCHES ON THIS APPLICATION
-   * The VALIDATION_MESSAGE_CANDIDATES selector uses substring class matching
-   * (e.g. `[class*="invalid"]`, `[class*="error"]`). This application's controls
-   * (buttons, dropdowns, comboboxes) carry utility-class variants whose names contain
-   * those substrings — e.g. an `aria-invalid:` Tailwind variant appears in a button's
-   * class list. A raw sweep therefore selects ordinary interactive controls, not just
-   * message nodes, producing false positives like button labels and dropdown values.
-   *
-   * WHAT IS EXCLUDED AND WHY
-   * Any candidate that IS an interactive control, or that CONTAINS one as a descendant,
-   * is excluded. The excluded element types are: button, input, select, textarea, a,
-   * and elements with role="combobox", role="button", role="tab", or role="option".
-   * A validation message element is never itself a button or a container for interactive
-   * controls — excluding these eliminates the over-match without removing real messages.
-   *
-   * MEASURED BEHAVIOUR
-   * A live probe on 2026-08-19 confirmed that no validation message renders on this
-   * surface for any rejected input (out-of-range, empty, non-numeric). The rejection is
-   * silent: Update is disabled and aria-invalid is set, but no text message appears.
-   * A non-empty result from this method is therefore a behaviour change worth reporting.
-   */
+  // Interactive controls are excluded because Tailwind's `aria-invalid:` variants put
+  // "invalid"/"error" in ordinary buttons' class lists, over-matching the candidate selector.
   @step('Read any visible validation messages on the page')
   async getVisibleValidationMessages(): Promise<string[]> {
-    // The threshold input can take ~10 s to attach to the DOM after the grid itself is
-    // ready (see readThresholdField()) — wait for it here too, or the scope walk below
-    // throws immediately on a field that simply hasn't rendered yet.
+    // Wait for the late-attaching threshold field first, or the scope walk below throws.
     await this.readThresholdField();
 
     const INTERACTIVE_SELECTOR =
       'button,input,select,textarea,a,[role="combobox"],[role="button"],[role="tab"],[role="option"]';
 
-    // Scope the search to the criteria bar — the section of the page that contains the
-    // threshold input and all other header controls, but not the tier grid. Walking up
-    // from the threshold input and stopping at the last ancestor that does not contain an
-    // "Add Tier" button keeps the scope stable regardless of how the Tailwind utility
-    // classes change in future builds.
+    // Scope to the criteria bar by walking up from the threshold input to the last ancestor
+    // without an "Add Tier" button — stable against Tailwind class churn.
     const scopeHandle = await this.page.evaluateHandle(() => {
       const input = document.querySelector('input[name="gavDiscountThreshold"]');
       if (!input) return null;
@@ -621,9 +423,7 @@ export class CompanyMatrixPage extends BasePage {
       );
     }
 
-    // Guard: the computed scope must contain the threshold input and at least three
-    // comboboxes. A scope that is too narrow (e.g. just the input's immediate wrapper)
-    // would silently return an empty array for every call, making these assertions
+    // Guard: too narrow a scope would return an empty array every call, making callers
     // incapable of ever detecting a real validation message.
     const scopeStats = await scopeElement.evaluate((root: Element) => ({
       hasInput: root.querySelector('input[name="gavDiscountThreshold"]') !== null,
@@ -654,10 +454,7 @@ export class CompanyMatrixPage extends BasePage {
 
   // ---------------------------------------------------------------- Edit Tier dialog
 
-  /**
-   * Clicks the Edit button on the row matching the given tier range, opening the Edit Tier
-   * dialog. The dialog title renders as "Editing {tierRange}" (e.g. "Editing 0 - 1500").
-   */
+  /** Opens the row's Edit Tier dialog, whose title renders as "Editing {tierRange}". */
   @step('Open the Edit Tier dialog for a tier row')
   async openEditDialog(tierRange: string): Promise<void> {
     const row = await this.findRowByTierRange(tierRange);
@@ -682,13 +479,8 @@ export class CompanyMatrixPage extends BasePage {
     return match ? (match[1] ?? full).trim() : full;
   }
 
-  /**
-   * Reads all 21 input values from the Edit Tier dialog, returned in positional order
-   * (0-based, left to right across Non-Peak → Standard → Peak × 7 day buckets).
-   *
-   * Note: index 0 renders the raw decimal (e.g. "0.17") while indexes 1–20 render
-   * percent-formatted values (e.g. "17%"). This method returns values as-is from the DOM.
-   */
+  // Values are returned as-is: index 0 renders a raw decimal ("0.17") while 1–20 render
+  // percent-formatted ("17%").
   @step('Read all input values from the Edit Tier dialog')
   async getEditDialogInputValues(): Promise<string[]> {
     const inputs = this.page.locator(DLG_EDIT_TIER_INPUTS);
@@ -700,13 +492,7 @@ export class CompanyMatrixPage extends BasePage {
     return values;
   }
 
-  /**
-   * Sets the value of one input in the Edit Tier dialog by its 0-based position.
-   * Clears the existing value before typing so the new value is not appended.
-   *
-   * @param index - 0-based column position (0 = Non-Peak 0-15, …, 20 = Peak 365+)
-   * @param value - numeric string to type (e.g. "14", "0.17")
-   */
+  /** Clears before typing so the new value is not appended. Index is 0-based. */
   @step('Set one input value in the Edit Tier dialog by position')
   async setEditDialogInput(index: number, value: string): Promise<void> {
     const input = this.page.locator(DLG_EDIT_TIER_INPUTS).nth(index);
@@ -717,11 +503,7 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Reads the `aria-invalid` attribute of one input in the Edit Tier dialog by position.
-   * Returns "true" when the value is invalid (above 100, empty, or non-numeric), or null
-   * when the attribute is absent (valid state).
-   */
+  /** "true" when the value is above 100, empty or non-numeric; null when the attr is absent. */
   @step('Read the validity state of one Edit Tier dialog input')
   async getEditDialogInputAriaInvalid(index: number): Promise<string | null> {
     return this.page.locator(DLG_EDIT_TIER_INPUTS).nth(index).getAttribute('aria-invalid');
@@ -748,37 +530,21 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Commits the current value in the Edit Tier dialog by pressing Tab and waiting for
-   * Angular to settle. Pressing Tab triggers the blur event, which finalises the field's
-   * formatted value — call this after typing to commit the typed value.
-   */
+  /** Tab blurs the field, which is what finalises its formatted value — call after typing. */
   @step('Press Tab to commit the current Edit Tier dialog input')
   async blurEditDialogInput(): Promise<void> {
     await this.page.keyboard.press('Tab');
     await this.waitForAngularStable();
   }
 
-  /**
-   * Clicks into the input at the given position in the Edit Tier dialog and waits for
-   * Angular to settle.
-   *
-   * @param index - 0-based column position
-   */
   @step('Click into an Edit Tier dialog input by position')
   async focusEditDialogInput(index: number): Promise<void> {
     await this.page.locator(DLG_EDIT_TIER_INPUTS).nth(index).click();
     await this.waitForAngularStable();
   }
 
-  /**
-   * Clears the input at the given position in the Edit Tier dialog without committing
-   * the change. Clicks the input, selects all, and deletes — the caller decides when
-   * to blur and commit. A separate method from the setter because typing an empty string
-   * via pressSequentially is a no-op and would silently skip the clear.
-   *
-   * @param index - 0-based column position
-   */
+  // Does not commit — the caller decides when to blur. Separate from the setter because
+  // pressSequentially('') is a no-op and would silently skip the clear.
   @step('Clear an Edit Tier dialog input without committing')
   async clearEditDialogInput(index: number): Promise<void> {
     await this.page.locator(DLG_EDIT_TIER_INPUTS).nth(index).click();
@@ -787,14 +553,8 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Clicks into the input at the given position and presses a single named key (e.g.
-   * 'Minus', 'Digit1'), then waits for Angular to settle. Exists so a test can prove
-   * that a single keystroke is refused at the input layer before any blur occurs.
-   *
-   * @param index - 0-based column position
-   * @param key   - Playwright key name, e.g. 'Minus', 'Digit1'
-   */
+  // Single named keystroke (e.g. 'Minus'), so a test can prove refusal at the input layer
+  // before any blur occurs.
   @step('Press one key in an Edit Tier dialog input by position')
   async pressKeyInEditDialogInput(index: number, key: string): Promise<void> {
     await this.page.locator(DLG_EDIT_TIER_INPUTS).nth(index).click();
@@ -802,13 +562,7 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Reads the `type`, `inputmode`, and `placeholder` attributes of the input at the
-   * given position in the Edit Tier dialog. Returns each value as-is from the DOM,
-   * or `null` when the attribute is absent — nothing is normalised or defaulted.
-   *
-   * @param index - 0-based column position
-   */
+  /** Attributes are returned as-is (null when absent) — nothing is normalised or defaulted. */
   @step('Read the HTML attributes of an Edit Tier dialog input by position')
   async getEditDialogInputAttributes(
     index: number,
@@ -824,10 +578,7 @@ export class CompanyMatrixPage extends BasePage {
 
   // ---------------------------------------------------------------- Add Tier dialog
 
-  /**
-   * Clicks the Add Tier toolbar button to open the Add Tier dialog.
-   * The dialog title renders verbatim as "Adding Tier".
-   */
+  /** Opens the Add Tier dialog, whose title renders verbatim as "Adding Tier". */
   @step('Open the Add Tier dialog from the toolbar')
   async openAddTierDialog(): Promise<void> {
     await this.page.locator(BTN_ADD_TIER).first().click();
@@ -849,31 +600,20 @@ export class CompanyMatrixPage extends BasePage {
     return match ? (match[1] ?? full).trim() : full;
   }
 
-  /**
-   * Counts the input elements inside the Add Tier dialog.
-   * Returns the raw count so a caller can assert the expected field roster.
-   */
+  /** Raw input count, so a caller can assert the expected field roster. */
   @step('Count the input fields in the Add Tier dialog')
   async getAddTierDialogInputCount(): Promise<number> {
     return this.page.locator(DLG_ADD_TIER).first().locator('input').count();
   }
 
-  /**
-   * Returns the trimmed text of every label element inside the Add Tier dialog,
-   * with empty strings dropped. Lets a caller assert the visible field labels
-   * without this method deciding which labels matter.
-   */
+  /** Every label in the dialog, so the caller decides which ones matter. */
   @step('Read the field labels from the Add Tier dialog')
   async getAddTierDialogFieldLabels(): Promise<string[]> {
     const raw = await this.page.locator(DLG_ADD_TIER).first().locator('label').allTextContents();
     return raw.map((t) => t.replace(/\s+/g, ' ').trim()).filter((t) => t.length > 0);
   }
 
-  /**
-   * Sets the End Tier value in the Add Tier dialog.
-   * The confirm button is disabled when the dialog opens and becomes enabled once a
-   * value is entered. Validation is submit-time, not blur-time.
-   */
+  // Entering a value enables the confirm button; validation is submit-time, not blur-time.
   @step('Set the End Tier value in the Add Tier dialog')
   async setAddTierEndValue(value: string): Promise<void> {
     const input = this.page.locator(INP_ADD_TIER_END);
@@ -898,33 +638,20 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Clicks the Add Tier confirm button in the dialog.
-   *
-   * This method is intentionally separate from {@link setAddTierEndValue} so that a spec
-   * must explicitly opt into the mutation — filling the field and confirming are two distinct
-   * steps in the client report.
-   */
+  // Kept separate from setAddTierEndValue so a spec must explicitly opt into the mutation.
   @step('Click the Add Tier button to confirm adding a new tier')
   async clickAddTierConfirm(): Promise<void> {
     await this.page.locator(BTN_ADD_TIER_CONFIRM).first().click();
     await this.waitForAngularStable();
   }
 
-  /**
-   * Returns the current value of the End Tier input in the Add Tier dialog.
-   * The value is read directly from the input — no interaction is performed.
-   */
+  /** Reads the End Tier input directly — no interaction is performed. */
   @step('Read the current value of the End Tier input')
   async getAddTierEndValue(): Promise<string> {
     return this.page.locator(INP_ADD_TIER_END).inputValue();
   }
 
-  /**
-   * Returns the `aria-invalid` attribute value of the End Tier input in the Add Tier dialog,
-   * or `null` when the attribute is absent. The value is returned as-is so callers can
-   * distinguish absent (`null`) from `"false"` (explicitly valid).
-   */
+  // Returned as-is so callers can distinguish absent (null) from "false" (explicitly valid).
   @step('Read the aria-invalid attribute of the End Tier input')
   async getAddTierEndAriaInvalid(): Promise<string | null> {
     return this.page.locator(INP_ADD_TIER_END).getAttribute('aria-invalid');
@@ -932,19 +659,11 @@ export class CompanyMatrixPage extends BasePage {
 
   // ---------------------------------------------------------------- toolbar — export
 
-  /**
-   * Clicks the Export button and waits for the file download to begin.
-   *
-   * Returns the Playwright `Download` object so callers can save or inspect the file.
-   * The downloaded filename follows `DiscountMatrix-{country}-{currency}-{tier}.xlsx`
-   * and varies with the criteria bar selection — do not hardcode a filename in specs.
-   */
+  // The filename varies with the criteria bar selection — do not hardcode one in specs.
   @step('Click Export and wait for the file download to begin')
   async clickExportAndWaitForDownload(): Promise<Download> {
-    // No explicit timeout here defaults to the global 10 s action timeout, which is far too
-    // tight for this page's backend — the same class of gap already measured on the grid
-    // (~83 s) and the threshold field (~10 s just to attach). 90 s gives comfortable headroom
-    // for the export POST to generate the workbook before the download begins.
+    // 90 s explicitly: the global 10 s action timeout is far too tight for this backend to
+    // generate the workbook before the download begins.
     const [download] = await Promise.all([
       this.page.waitForEvent('download', { timeout: 90_000 }),
       this.page.locator(BTN_EXPORT).first().click(),
@@ -954,47 +673,22 @@ export class CompanyMatrixPage extends BasePage {
 
   // ---------------------------------------------------------------- toolbar — save
 
-  /**
-   * Waits for the page header's Save button to become enabled, then clicks it.
-   *
-   * Save is a page-level header control, not a Company Matrix tab control — measured
-   * 2026-08-19, it sits outside every tab panel. It persists the GAV Discount Threshold
-   * from the criteria bar; it does not save the matrix grid, which is edited and saved
-   * through the Edit Tier dialog instead.
-   *
-   * Save is disabled on page load and becomes enabled as soon as the GAV Discount Threshold
-   * field is dirtied (typing into it is sufficient — blur is not required). This method
-   * waits explicitly for that enablement rather than assuming it, because a click's default
-   * auto-wait conflates "never enabled" with "not yet enabled": both expire with the same
-   * generic timeout message that carries no diagnostic information.
-   *
-   * The wait budget is 30 s — generously above the observed ~22 s first-paint latency —
-   * so a page that painted late but did enable Save will still pass. If Save never becomes
-   * enabled within that window the method throws a message that names both the button's
-   * current disabled state and the threshold field's current value, so the next reader
-   * knows exactly what state the page was in when the wait expired.
-   *
-   * No save-confirmation handling is provided here, because whether this surface shows a
-   * confirmation dialog has not been measured. If one appears, the caller must handle it.
-   */
-  /**
-   * Returns true if the page header Save button is currently enabled, false if disabled.
-   * Does not wait — reads the instantaneous state.
-   */
+  /** Reads the instantaneous enabled state of the header Save button — does not wait. */
   @step('Check whether the Save button in the page header is enabled')
   async isSaveEnabled(): Promise<boolean> {
     return this.page.locator(BTN_SAVE).isEnabled();
   }
 
+  // Header Save persists only the GAV threshold, and is enabled once that field is dirtied.
+  // The explicit enable-wait exists so "never enabled" reports differently from "not yet".
   @step('Click Save in the page header')
   async clickSave(): Promise<void> {
     const saveBtn = this.page.locator(BTN_SAVE);
     const ENABLE_TIMEOUT_MS = 30_000;
 
     try {
-      // document.querySelector cannot resolve Playwright pseudo-classes like :text-is().
-      // Find the Save button by scanning real DOM elements — same rule as the grid readiness
-      // gate above: predicates that run in the browser must use plain CSS only.
+      // Scanned in JS rather than with BTN_SAVE: document.querySelector cannot resolve
+      // Playwright pseudo-classes like :text-is().
       await this.page.waitForFunction(
         () => {
           const btn = Array.from(document.querySelectorAll('button')).find(
@@ -1013,15 +707,8 @@ export class CompanyMatrixPage extends BasePage {
       );
     }
 
-    // The Save button disables optimistically on click — before the server has responded.
-    // Without waiting for the POST, the very next navigation (open() → about:blank) cancels
-    // the write in flight. Arm the response waiter BEFORE clicking so the promise is
-    // registered prior to the request being issued.
-    //
-    // The route is shared: the page posts saves AND fetches its own data to the same URL
-    // (/settings/discount-matrix). URL alone cannot tell them apart. The distinguishing
-    // signal is the body: data requests carry an empty array ([]), while the save carries
-    // the matrix payload. Requiring a non-empty, non-[] body selects the save response only.
+    // Armed before the click, or the next navigation cancels the in-flight write.
+    // Saves and data fetches share this URL — only the non-empty, non-[] body is the save.
     const SAVE_TIMEOUT_MS = 30_000;
     const saveResponsePromise = this.page
       .waitForResponse(
@@ -1049,18 +736,8 @@ export class CompanyMatrixPage extends BasePage {
     await this.waitForAngularStable();
   }
 
-  /**
-   * Polls until the form reports it has no unsaved changes.
-   *
-   * The form signals a dirty state by cancelling the browser's beforeunload event
-   * (the standard event browsers fire when a page is about to unload). While the
-   * form is dirty any navigation away will cancel the in-flight write. This helper
-   * dispatches a synthetic, cancellable beforeunload event in the page and waits
-   * until the form no longer intercepts it — i.e. the write has fully settled.
-   *
-   * The probe was validated 20 times against the live page: it produces no visible
-   * dialogs and no side effects.
-   */
+  // The form signals dirty by cancelling beforeunload, so a synthetic cancellable
+  // beforeunload is the clean-state probe; it raises no dialog and has no side effects.
   private async waitForFormClean(): Promise<void> {
     try {
       await this.page.waitForFunction(

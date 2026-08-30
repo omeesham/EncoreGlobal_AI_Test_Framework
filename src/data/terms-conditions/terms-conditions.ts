@@ -1,8 +1,4 @@
-/**
- * Test data for the Terms and Conditions setup page.
- *
- * Values read from live page on office 1604 (2026-08-06) or constructed for boundary checks.
- */
+// Test data for the Terms and Conditions setup page.
 
 /** Office used for these tests. */
 export const TNC_OFFICE = '1604';
@@ -27,14 +23,7 @@ export const TNC_ROW_LANGUAGES = [
 /** The default filter value on page load. */
 export const TNC_DEFAULT_LANGUAGE = 'US English';
 
-/**
- * Automation-owned fixture row for Terms and Conditions tests.
- *
- * Resolved by lookup-or-create: if the row is missing (renamed, re-languaged, deleted
- * upstream), the page object recreates it and verifies persistence after reload.
- * The name is stable across runs — no clock or random component — so a failed cleanup
- * never strands an unsearchable row.
- */
+/** Automation-owned fixture row; the name is fixed (no clock or random part) so a failed cleanup never strands an unsearchable row. */
 export const TNC_FIXTURE_ROW_NAME = 'ZZ-QA-TNC-Fixture';
 
 /** Sentinel suffix appended to edits for traceability. */

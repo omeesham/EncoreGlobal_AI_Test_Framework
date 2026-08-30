@@ -104,10 +104,7 @@ export class LocationCurrencyPage extends BasePage {
     return options;
   }
 
- /**
- * Retry carve-out: this is a visibility probe, not an option-select. The shared retry
- * helper is select-only; probe semantics differ.
- */
+ /** Carve-out from the shared select-only retry helper: this is a visibility probe. */
   @step('Is merchant dropdown accessible')
   async isMerchantDropdownAccessible(dropdownKey: string): Promise<boolean> {
     await this.getElement(dropdownKey).click();
@@ -120,10 +117,7 @@ export class LocationCurrencyPage extends BasePage {
     return visible;
   }
 
- /**
- * Retry carve-out: this is a text-substring probe, not an option-select. The shared retry
- * helper is select-only; probe semantics differ.
- */
+ /** Carve-out from the shared select-only retry helper: this is a text-substring probe. */
   @step('Is merchant no matches found')
   async isMerchantNoMatchesFound(dropdownKey: string): Promise<boolean> {
     await this.getElement(dropdownKey).click();
@@ -162,11 +156,8 @@ export class LocationCurrencyPage extends BasePage {
     return this.clickSaveWithDialog('btnSaveCurrency');
   }
 
- /**
- * Click Save, then detect whether the result is a Save Changes dialog, an Error dialog,
- * or neither. Caller must dismiss via cancelCurrentDialog / confirmSaveDialog.
- * Returns 'disabled' when the Save button was disabled (no save ran) -- distinct from 'none', which means a save ran but no dialog appeared.
- */
+ // Caller must dismiss via cancelCurrentDialog / confirmSaveDialog. 'disabled' means no save
+ // ran at all, unlike 'none', where a save ran but raised no dialog.
   @step('Click save and capture dialog')
   async clickSaveAndCaptureDialog(): Promise<SaveDialogType> {
     const el = this.getElement('btnSaveCurrency');
@@ -234,10 +225,8 @@ export class LocationCurrencyPage extends BasePage {
     }
   }
 
- /**
- * Bounded retry (max 3): the reload + re-read is required because the Save button reports
- * success even when it is disabled, so saving alone never proves the reset actually landed.
- */
+ // Retries because Save reports success even when disabled, so only the reload + re-read
+ // proves the reset landed.
   @step('Ensure default state')
   async ensureDefaultState(): Promise<void> {
     const MAX_ATTEMPTS = 3;

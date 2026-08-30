@@ -81,11 +81,8 @@ export const CORP_PRICING_SEARCH = {
     labor: { item: 'Labor Pricing', routeParam: 'type=labor' },
   } as const,
 
-  /**
-   * Field-coverage (P2) — live-verified 2026-06-10.
-   * The complete server query-param contract + BVA/each-option samples. The earlier pass left `currencyId`/
-   * `locationNo` unverified and GUESSED `strategyName` — corrected here to the live `pricingStrategyName`.
-   */
+  // Server query-param contract plus boundary samples; note the strategy filter sends `pricingStrategyName`,
+  // not `strategyName`.
   fcc: {
     params: {
       pricebook: 'pricebookName',

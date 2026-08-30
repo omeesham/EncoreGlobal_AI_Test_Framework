@@ -13,9 +13,8 @@ export class LocationAccountAddressPage extends BasePage {
 
   @step('Is on account and address tab')
   async isOnAccountAndAddressTab(): Promise<boolean> {
-    // pnlAccountAndAddress is a panel-wrapper testid that Radix keeps mounted across
-    // all tab states (count() > 0 returns TRUE even when this tab is inactive). The
-    // tab trigger's aria-selected is the only reliable signal.
+    // Radix keeps pnlAccountAndAddress mounted even when the tab is inactive, so only the
+    // trigger's aria-selected is a reliable signal.
     const tab = this.getElement('tabAccountAndAddress');
     if ((await tab.count()) === 0) return false;
     return (await tab.getAttribute('aria-selected').catch(() => null)) === 'true';
@@ -105,14 +104,8 @@ export class LocationAccountAddressPage extends BasePage {
     return (await addressDd.textContent() ?? '').trim();
   }
 
- /**
- * Get the venue City text (dd element containing city value).
- * Uses positional indexing because City/State/Zip/Country are standalone <dd> elements
- * WITHOUT <dt> labels (see account-address.ts selectors, line 10: "Address display fields
- * are <dd> static text"). Only Name/Address have <dt> labels with buttons.
- * Venue section dd order: [0]=name (textbox), [1]=address, [2]=city, [3]=state, [4]=zip, [5]=country.
- * If the app adds a dd before City, this index must be updated.
- */
+ // Positional: City/State/Zip/Country are label-less <dd>s, so index 2 is the only handle.
+ // A new <dd> before City breaks this.
   @step('Get venue city text')
   async getVenueCityText(): Promise<string> {
     const cityText = await this.page.evaluate(() => {
@@ -124,22 +117,14 @@ export class LocationAccountAddressPage extends BasePage {
     return cityText;
   }
 
- // The Master Bill To Address card has 5 read-only <dd> values (Address, City, State, Zip, Country)
- // and NO Name field (unlike Venue). Selecting a different address via the Master launcher updates
- // these AND persists (unlike Venue, which does NOT persist; each launcher needs its own coverage).
- // Scope to the Master card the same way isDisplayFieldReadOnly() does (heading → climb 2 → card),
- // via Playwright locators (which pierce the shadow root).
-
+ // Master card has no Name field and its address selection persists, unlike Venue's.
+ // Scoped heading → climb 2 → card, matching isDisplayFieldReadOnly().
   private getMasterSection() {
     return this.getPanel().locator(':text("Master Bill To Address")').locator('..').locator('..');
   }
 
- /**
-  * All Master <dd> display values joined into one string (Address | City | State | Zip | Country).
-  * Content-anchored — assert with `.toContain(value)` rather than positional index, so the check
-  * survives a dd-order change. The values are distinct enough (8899 Beverly / WEST HOLLYWOOD vs
-  * 4200 E Palm Canyon / PALM SPRINGS) to unambiguously prove which address is shown.
-  */
+ // Assert against this with .toContain() rather than a positional index, so the check
+ // survives a dd-order change.
   @step('Get master address block')
   async getMasterAddressBlock(): Promise<string> {
     const dds = await this.getMasterSection().locator('dd').allTextContents();
@@ -263,11 +248,8 @@ export class LocationAccountAddressPage extends BasePage {
     await this.clickWithRetry('btnAccListSearch');
     const table = this.getElement('tblAccListResults');
     const firstDataCell = table.locator('tbody tr:first-child td:nth-child(2)');
-    // 45s budget: the Account List backend is slow and variable — account-number searches can take
-    // 25-30s on contended runs while name/city/address searches resolve faster. Fast searches resolve
-    // as soon as results land, so the raised ceiling never slows a fast run.
+    // 45s: account-number searches against this backend can take 25-30s on contended runs.
     await firstDataCell.waitFor({ state: 'visible', timeout: 45_000 });
-    // Poll for the first data cell's text becoming non-empty via waitForFunction (not a fixed sleep).
     const firstDataCellSelector = `${this.getLocator('tblAccListResults')} tbody tr:first-child td:nth-child(2)`;
     await this.page.waitForFunction(
       (selector: string) => {
@@ -433,9 +415,7 @@ export class LocationAccountAddressPage extends BasePage {
     return this.getTextContent('txtSaveChangesMessage');
   }
 
- /**
-  * Throws on save failure so callers see server errors rather than a silent {success:false} return.
-  */
+ /** Throws on failure so callers see server errors instead of a silent {success:false}. */
   @step('Save and confirm')
   async saveAndConfirm(): Promise<void> {
     const result = await this.clickSave();
@@ -444,13 +424,8 @@ export class LocationAccountAddressPage extends BasePage {
     }
   }
 
- /**
-  * Bounded retry (max 3) because clickSaveWithDialog returns {success:true} even when Save
-  * is disabled, so save-success alone never proves the reset landed.
-  *
-  * Phone 1 is server-authoritative: a reload restores it to the account phone regardless of
-  * whether the fill propagated. Already-clean state returns immediately (cheap — no reload).
-  */
+ // Retries because clickSaveWithDialog returns {success:true} even when Save was disabled,
+ // so only the post-reload re-read proves the reset landed.
   @step('Ensure default state')
   async ensureDefaultState(defaults?: { phone1?: string; phone2?: string }): Promise<void> {
     const wantPhone1 = defaults?.phone1 ?? PHONE1_BASELINE;
@@ -476,12 +451,8 @@ export class LocationAccountAddressPage extends BasePage {
     throw new Error(`ensureDefaultState: A&A Phone1/Phone2 not at baseline after ${maxAttempts} attempts`);
   }
 
- /**
-  * Registers a listener for `GET /navigator-legacy/getLocationDetail` BEFORE the reload, then
-  * awaits it after navigation. Phone2 binds to this endpoint (~5-6s on contended runs);
-  * without this wait, callers polling Phone2 race an in-flight hydration response. The existing
-  * navigateToAccountAndAddressTab gates only on Phone1 (faster account-API).
-  */
+ // Also waits on getLocationDetail, which binds Phone2 (~5-6s); navigateToAccountAndAddressTab
+ // alone gates only on Phone1's faster account API.
   @step('Reload and navigate')
   async reloadAndNavigate(officeNo: string = '1604'): Promise<void> {
     const hydrationPromise = this.page.waitForResponse(

@@ -127,10 +127,8 @@ test.describe('Corporate Pricing Override — Import (NM-2273)', () => {
     test.setTimeout(180_000); // a modify + a restore import, each a clean response, plus a cross-office check and reloads
     await p.reloadAndReselect(RT.office);
 
-    // The export supplies the exact valid row shape; the round-trip re-imports a MINIMAL file — just the
-    // header + the one target row, Override Price rewritten. A minimal file returns a clean response
-    // instead of the full-dump client stall (NM-2186), and it upserts only the target row (a location
-    // absent from the file is left untouched — asserted by the canary below).
+    // Re-imports a minimal header + one-row file: a full dump stalls the client (NM-2186), and a
+    // minimal file upserts only the target row, leaving absent locations untouched.
     const exp = await p.downloadOverrideExport();
     const lines = exp.content.split(/\r?\n/);
     const header = lines[0]!;
@@ -332,9 +330,8 @@ test.describe('Corporate Pricing Override — Import (NM-2273)', () => {
     test.setTimeout(180_000);
     await p.reloadAndReselect(RT.office);
     const baseline = await p.readOverridePrice((await p.findRowByProductGroup(RT.productGroupName))!);
-    // 6000 rows, all referencing a nonexistent product group — reject-safe (no row can mutate the tenant),
-    // and large enough to exercise the batch path. There is no separate "file too large" gate: the import
-    // returns a normal per-row result (verified 2026-07-23) rather than the full-valid-dump stall (NM-2186).
+    // Every row references a nonexistent product group, so the batch is reject-safe and cannot mutate
+    // the tenant. There is no separate "file too large" gate — the result comes back per-row.
     const rows = Array.from({ length: 6000 }, () => invalidPgRow);
     const file = writeTmp('large-batch.csv', [IMPHEADER, ...rows].join('\n'));
     await p.openImportDialog();

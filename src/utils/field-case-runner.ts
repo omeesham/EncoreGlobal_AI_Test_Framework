@@ -32,26 +32,13 @@ export interface FieldCase {
   cleanup?: () => Promise<void>;
 }
 
-/**
- * Returns the directory where rejection-oracle receipts are written.
- * This file lives at clients/encore/src/utils/field-case-runner.ts;
- * going up two levels reaches the client root (clients/encore/).
- */
+/** Receipts directory — two levels up from src/utils/ reaches the client root. */
 export function deriveReceiptsDir(): string {
   return join(__dirname, '..', '..', '.test-evidence', 'rejected-inputs');
 }
 
-/**
- * Sample the current inline error signal for `field` at a single point in time.
- * Tries three scoping tiers in order, recording which tier produced the signal.
- * Called BEFORE and AFTER the action so ambient text cancels out via set-difference.
- *
- * Tiers:
- *   1. 'aria-describedby' — element(s) referenced by aria-describedby / aria-errormessage
- *   2. 'field-wrapper'    — nearest ancestor wrapper (field / form-group / mat-form-field)
- *   3. 'page-wide'        — broad p/span/small/[role="alert"]/[aria-live] sweep (last resort)
- *   4. 'none'             — no text signal found
- */
+// One-shot sample of the inline error signal, narrowest scope first.
+// Sampled before and after the action so ambient page text cancels out.
 async function sampleAnnouncedSignal(
   page: Page,
   field: Locator,
@@ -97,36 +84,8 @@ async function sampleAnnouncedSignal(
   return { present: false, inlineError: null, scope: 'none' };
 }
 
-/**
- * Assert the rejection oracle for a negative or BVA field case.
- *
- * The announced check is a TRANSITION, not a snapshot:
- *   1. Baseline is sampled BEFORE `action()` runs (aria-invalid + inline-error scope).
- *   2. `action()` enters the invalid value — the caller owns this step.
- *   3. Post-action state is polled 5 × 300 ms.
- *   4. `announced = true` only if something CHANGED after the action:
- *      - aria-invalid flipped from non-"true" → "true", OR
- *      - an inline error signal appeared that was absent before.
- *   Ambient page text (nav, grid cells, headers) is present in BOTH samples
- *   and cancels out, so it can no longer fake a pass.
- *
- * Checks:
- *   (a) Announced — see transition contract above.
- *   (b) Escapable — Tab blur moves focus away (no focus trap); recorded BEFORE any cleanup Escape.
- *
- * Writes a tamper-evident receipt to `clients/encore/.test-evidence/rejected-inputs/<caseId>.json`.
- * The receipt is bound to the spec file's content hash (spec_sha256) so stale receipts from
- * prior commits are detectable.
- *
- * @param page       Playwright Page.
- * @param field      Locator pointing at the field under test.
- * @param caseId     Case identifier used as the receipt filename (e.g. "TC-CPR-FCC-042").
- * @param fieldLabel Human-readable field name written into the receipt (e.g. "Max Discount").
- * @param value      The invalid / out-of-range value that was typed.
- * @param action     Async callback that enters the invalid value into the field. Called once between
- *                   the before-sample and the after-poll so the helper owns the full transition.
- * @param specFile   Optional absolute path to the spec file; defaults to `test.info().file`.
- */
+// `action` runs inside this helper: "announced" is a transition across it, not a snapshot, so
+// ambient page text cannot fake a pass. Receipts carry spec_sha256 so stale ones are detectable.
 export async function assertRejectionOracle(
   page: Page,
   field: Locator,
@@ -229,11 +188,8 @@ export async function assertRejectionOracle(
   return result;
 }
 
-/**
- * Failure isolation: cleanup runs in a finally-equivalent — even if expectAfterReload
- * throws, cleanup still attempts to restore state for the next case. If cleanup itself throws,
- * the original assertion error is preserved (Playwright still reports the test failure).
- */
+// Cleanup runs in a finally so state is restored for the next case even on failure; a cleanup
+// throw never masks the original assertion error.
 export async function saveAndVerifyCase(c: FieldCase): Promise<void> {
   let primaryError: unknown = null;
   try {
