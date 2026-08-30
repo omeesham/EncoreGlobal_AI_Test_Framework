@@ -41,8 +41,13 @@ function countSpecFiles(dir: string): number {
 }
 
 export default defineConfig({
-  testDir: __dirname,
-  testMatch: ['tests/**/*.spec.ts'],
+  // testDir is scoped to `tests/`, NOT the repo root. A relative testMatch is matched
+  // as `**/<pattern>`, so a root testDir + 'tests/**/*.spec.ts' also matches
+  // `.claude/worktrees/*/tests/**` and collects every git worktree's specs (and reruns
+  // auth.setup.ts once per worktree). Scoping testDir puts those paths outside the
+  // search entirely, which a per-project testIgnore cannot undo.
+  testDir: path.join(__dirname, 'tests'),
+  testMatch: ['**/*.spec.ts'],
 
   timeout: process.env.CI ? 60 * 1000 : 30 * 1000,
   expect: { timeout: 5000 },
