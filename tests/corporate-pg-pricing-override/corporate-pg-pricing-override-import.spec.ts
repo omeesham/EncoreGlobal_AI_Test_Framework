@@ -3,7 +3,7 @@ import {
   CORP_PRICING_OVERRIDE,
   CORP_PRICING_OVERRIDE_ACTIVE_BED,
 } from '../../src/data/corporate-override/override';
-import type { CorporatePricingOverridePage } from '../../src/pages/corporate-override/corporate-override.page';
+import type { CorporatePricingOverridePage } from '../../src/pages/corporate-pg-pricing-override/corporate-pg-pricing-override.page';
 import { resolve } from 'node:path';
 import { writeFileSync, mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
