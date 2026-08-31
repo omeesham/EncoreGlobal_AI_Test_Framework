@@ -8,6 +8,8 @@ import type {
   TestCase,
   TestResult,
 } from '@playwright/test/reporter';
+import * as fs from 'fs';
+import * as path from 'path';
 import { TestRailClient, type TestRailResult } from '../utils/testrail-client';
 
 const STATUS = { passed: 1, blocked: 2, retest: 4, failed: 5 } as const;
@@ -27,6 +29,18 @@ export function titleKey(title: string): string {
     .replace(/[“”]/g, '"')
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
+}
+
+/** TC id -> TestRail case id, frozen at config/testrail/case-map.json. Authoritative:
+ *  it survives title edits on either side, which title matching does not. */
+function loadCaseMap(): Map<string, number> {
+  const file = path.join(__dirname, '..', '..', 'config', 'testrail', 'case-map.json');
+  try {
+    const raw = JSON.parse(fs.readFileSync(file, 'utf8')) as Record<string, number>;
+    return new Map(Object.entries(raw).filter(([, v]) => Number.isInteger(v)));
+  } catch {
+    return new Map();
+  }
 }
 
 interface Collected {
@@ -110,8 +124,13 @@ export default class TestRailReporter implements Reporter {
         process.env.TESTRAIL_API_KEY!,
       );
 
+      const caseMap = loadCaseMap();
+      const mapped = (c: Collected): number | undefined =>
+        (c.tcToken ? caseMap.get(c.tcToken) : undefined);
+
       // One case scan feeds both fallbacks: TC token in the case title, then the case title itself.
-      const needsLookup = [...this.collected.values()].some((c) => !c.explicitId);
+      // Skipped entirely when the frozen map already covers every test.
+      const needsLookup = [...this.collected.values()].some((c) => !c.explicitId && !mapped(c));
       const tokenToCase = new Map<string, number>();
       const titleToCases = new Map<string, number[]>();
       if (needsLookup) {
@@ -132,7 +151,7 @@ export default class TestRailReporter implements Reporter {
       const seen = new Set<number>();
       for (const c of this.collected.values()) {
         const ambiguousBefore = ambiguous.length;
-        const caseId = c.explicitId ?? this.resolve(c, tokenToCase, titleToCases, ambiguous);
+        const caseId = c.explicitId ?? mapped(c) ?? this.resolve(c, tokenToCase, titleToCases, ambiguous);
         if (!caseId) {
           if (ambiguous.length === ambiguousBefore) unmatched.push(c.title);
           continue;
