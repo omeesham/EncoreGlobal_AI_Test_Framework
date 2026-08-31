@@ -86,8 +86,8 @@ SKIP_BASENAMES = {"encore_test_cases", "encore-qa-tracker"}
 
 # Per module FOLDER (under testcases/): the hierarchy label and the Labels value.
 MODULE_CONFIG: dict[str, dict[str, str]] = {
-    "corporate-override":    {"module": "Corporate_Pricing_Pg_Override",
-                              "labels": "corporate-pricing-pg-override,functional"},
+    "corporate-pg-pricing-override": {"module": "Corporate_Pricing_Pg_Override",
+                                     "labels": "corporate-pricing-pg-override,functional"},
     "corporate-pricing":     {"module": "Corporate_Pricing", "labels": "corporate-pricing"},
     "discount-matrix":       {"module": "Discount_Matrix", "labels": "discount-matrix"},
     "discount-optimization": {"module": "Discount_Optimization", "labels": "discount-optimization"},
@@ -100,13 +100,13 @@ MODULE_CONFIG: dict[str, dict[str, str]] = {
 # Per workbook basename: the TestRail Section name. Anything missing falls back
 # to Title_Case_With_Underscores of the workbook's Submodule column.
 SECTION_BY_BASENAME: dict[str, str] = {
-    "corporate-override-core": "Core",
-    "corporate-override-export": "Export",
-    "corporate-override-filters": "Filters",
-    "corporate-override-grid-sort": "Grid_Sort",
-    "corporate-override-import": "Import",
-    "corporate-override-labor-grid": "Labor_Grid",
-    "corporate-override-location-picker": "Location_Picker",
+    "corporate-pg-pricing-override-core": "Core",
+    "corporate-pg-pricing-override-export": "Export",
+    "corporate-pg-pricing-override-filters": "Filters",
+    "corporate-pg-pricing-override-grid-equipment-labor": "Grid_Equipment_Labor",
+    "corporate-pg-pricing-override-grid-filters": "Grid_Filters",
+    "corporate-pg-pricing-override-import": "Import",
+    "corporate-pg-pricing-override-location-search": "Location_Search",
     "corporate-pricing-detail": "Detail",
     "corporate-pricing-export-all": "Export_All",
     "corporate-pricing-import-all": "Import_All",
