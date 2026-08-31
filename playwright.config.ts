@@ -56,8 +56,9 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
 
   retries: process.env.CI ? 2 : 1,
-  // Default workers: 1 everywhere (unresolved multi-worker conflict on shared Encore app state). Override with `MAX_WORKERS=N` env if needed.
-  workers: parseMaxWorkers(process.env.MAX_WORKERS) ?? 1,
+  // Worker count is caller-defined: `--workers=N` or `MAX_WORKERS=N`.
+  // Unset falls through to Playwright's default (half the CPU cores).
+  workers: parseMaxWorkers(process.env.MAX_WORKERS),
 
   preserveOutput: 'always',
 

@@ -57,7 +57,7 @@ Then open results with `npm run report` (Playwright HTML) or `npm run allure:rep
 | `npm run test:cli` | Full suite, Allure history preserved across runs | Stashes and restores Allure history so trend data grows run over run. Use instead of bare `npm test`. | both |
 | `npm test` | Full suite, no history-preservation chain | Only when trend tracking is not needed | both |
 | `npm run share-for-debugging` | Packages traces (step-by-step test recordings), screenshots, videos, and logs into a zip for sharing | Run after every run. A flaky (sometimes passes on retry) test's failing trace only lives in this bundle. | both |
-| `MAX_WORKERS=1 npm run test:cli` | Force the worker count to 1 | Keep workers at 1. Multiple workers edit the same office simultaneously — one test's save disrupts another's assertion. | both |
+| `MAX_WORKERS=1 npm run test:cli` | Force the worker count to 1 | Use when the shared-office conflict bites. Multiple workers edit the same office simultaneously — one test's save disrupts another's assertion. | both |
 | [Failure categorization](#failure-categorization) | Read the failure category before filing anything | Auth/network: retry. Timing/selector: QA team. Application/data: product team. | both |
 | `npm run test:failed` | Re-run only tests that failed in the last run | Faster feedback loop when fixing a small set of failures | local |
 | `npm run clean:run <spec>` | Wipe all reports, run one spec (a single test file), rebuild from scratch | Use when you need a report containing exactly one test and nothing stale | local |
@@ -90,13 +90,14 @@ Accepts any spec path or a `--grep "..."` filter.
 
 ### Tuning parallelism
 
-Worker count defaults to 1 everywhere in `playwright.config.ts` due to an unresolved multi-worker conflict on shared Encore app state.
-When two workers run tests against the same office (e.g., 1604) in parallel, one worker's save surprises the other's mid-test assertion, causing false failures.
-Override per run with the `MAX_WORKERS` env var only if you understand this limitation:
+Worker count is caller-defined. `.env.local` and `.env.e2e` both set `MAX_WORKERS=4`, so that is the default locally and on CI; a shell `MAX_WORKERS` or `--workers` overrides it.
+Mind the shared-state limitation: when two workers run tests against the same office (e.g., 1604) in parallel, one worker's save surprises the other's mid-test assertion, causing false failures.
 
 ```bash
-MAX_WORKERS=4 npm test          # 4 workers (use only if aware of shared-state conflict)
-MAX_WORKERS=1 npm test          # force serial (the default, safest)
+npm test                         # 4 workers (from .env.local)
+MAX_WORKERS=8 npm test           # pin to 8 for this run
+MAX_WORKERS=1 npm test           # force serial (safest on shared app state)
+npx playwright test --workers=4  # same, via the CLI flag
 ```
 
 More workers = faster wall-clock but higher contention on shared app state.
