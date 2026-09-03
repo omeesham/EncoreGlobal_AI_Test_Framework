@@ -1,0 +1,1 @@
+this is a plain text file, not a CSV — the Import All dialog rejects it by type before any network
