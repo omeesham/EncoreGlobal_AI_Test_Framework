@@ -1,0 +1,370 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,ECT Settings tab loads with all four sections and expected header,,,,,Automated,Omeesha Mahanta,,,"Heading reads ""SubRental Matrix""; the table's columns are exactly Lower Limit, Upper Limit, Subrental Percentage, Currency; the table body has at least one row.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. Basic Information tab is active.
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""1604 - Parker Palm Springs""
+Sample input 2: ""USD""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Navigate to office 1604 in Navigator, open Local Office Settings, and open the ECT Settings tab (the tab's own load logic retries with a reload if the panel briefly shows ""No data available"" or ""No currencies for selected location"").</li>
+<li>2. Verify the header area: the location name label, the ""Edit/View"" caption, the Commission structure link, and the currency dropdown.</li>
+<li>3. Verify the Event Profit Target section.</li>
+<li>4. Verify the Fixed Costs panel's display-only fields: Venue Fixed Costs, SG&amp;A %, Other Rate, No Labor Rate, Approval Threshold, Peak Labor Adjustment %, Non-Peak Labor Adjustment %.</li>
+<li>5. Verify the Fixed Costs panel's editable fields (Benefits Multiplier, Historical Subrental %), its Save button, and its description text.</li>
+<li>6. Verify the Labor Cost Assumptions section.</li>
+<li>7. Verify the SubRental Matrix section.</li>
+</ol>",,,"1. The ECT Settings tab becomes selected (aria-selected=""true"").
+2. The location label reads ""1604 - Parker Palm Springs""; the Commission structure link is visible; the currency dropdown shows ""USD""; the header caption contains ""Edit/View"".
+3. Heading reads ""Event Profit Target""; the table's columns are exactly Lower Limit, Upper Limit, Target, Currency; the table body has at least one row.
+4. Every one of the seven display-only fields shows a non-blank value.
+5. Both editable fields show non-blank values; the Fixed Costs Save button is disabled; at least 3 description paragraphs render below the fields.
+6. Heading reads ""Labor Cost Assumptions""; its Save button is disabled; the table's columns are exactly Labor Class, Labor Cost; the table body has more than one row.
+7. Heading reads ""SubRental Matrix""; the table's columns are exactly Lower Limit, Upper Limit, Subrental Percentage, Currency; the table body has at least one row.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Event Profit Target and SubRental Matrix tables are fully read-only; Labor Class column is read-only,,,,,Automated,Omeesha Mahanta,,,The Labor Class column is read-only; the Labor Cost column is editable — only the Labor Cost column is editable in this grid.,,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Event Profit Target""
+Sample input 2: ""SubRental Matrix""
+Sample input 3: ""Labor Class""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Query the Event Profit Target table for any input or textarea element across every row and column.</li>
+<li>2. Double-click a cell in the first row of the Event Profit Target table.</li>
+<li>3. Query the SubRental Matrix table for any input or textarea element across every row and column.</li>
+<li>4. Double-click a cell in the first row of the SubRental Matrix table.</li>
+<li>5. In the Labor Cost Assumptions grid, verify the Labor Class column (first cell of each row) has no input element, and the Labor Cost column (second cell) does.</li>
+</ol>",,,"1. Zero editable elements are found; the table is fully read-only.
+2. The table remains fully read-only afterward; no edit affordance appears.
+3. Zero editable elements are found; the table is fully read-only.
+4. The table remains fully read-only afterward.
+5. The Labor Class column is read-only; the Labor Cost column is editable — only the Labor Cost column is editable in this grid.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Benefits Multiplier required-field rejection when cleared,,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier is restored to its default value ""20.0%"" (nothing was saved, so a fresh reload resets the field).",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Benefits Multiplier""
+Sample input 2: ""20.0%""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Confirm the Benefits Multiplier field currently shows its default value.</li>
+<li>2. Click into the field, select all (Ctrl+A), clear it, and press Tab to blur.</li>
+<li>3. Reload the page and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Field shows ""20.0%"".
+2. Field value becomes empty; the field is marked invalid; the Fixed Costs Save button remains disabled.
+3. Benefits Multiplier is restored to its default value ""20.0%"" (nothing was saved, so a fresh reload resets the field).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Benefits Multiplier rejects non-numeric and negative input; an extremely long numeric input does not crash the UI,,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier is restored to its default value ""20.0%"" — nothing from this test was ever saved.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Benefits Multiplier""
+Sample input 2: ""abc""
+Sample input 3: ""-5""
+Sample input 4: ""99999999999999999999""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Type ""abc"" into Benefits Multiplier and press Tab to blur.</li>
+<li>2. Type a negative value ""-5"" into Benefits Multiplier and press Tab to blur.</li>
+<li>3. Type a 20+ digit numeric string (""99999999999999999999"") into Benefits Multiplier and press Tab to blur.</li>
+<li>4. Reload the page and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Field is wiped to empty and marked invalid; the Fixed Costs Save button remains disabled.
+2. Field is wiped to empty and marked invalid (negative values are rejected, not treated as positive); the Fixed Costs Save button remains disabled.
+3. The displayed value is not blank and does not contain ""NaN"" (floating-point precision loss in the displayed percentage is an acceptable, documented outcome; a crash, freeze, or NaN would not be).
+4. Benefits Multiplier is restored to its default value ""20.0%"" — nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Benefits Multiplier accepts a valid decimal, and unsaved edits are fully discarded via tab-switch (Stay/Discard) and via a hard reload",,,,,Automated,Omeesha Mahanta,,,"The reload lands on the default Basic Information tab, not ECT Settings (tab selection is not preserved across a hard reload); Benefits Multiplier shows its default value ""20.0%"" again and the Fixed Costs Save button is disabled — the unsaved edit was discarded by the reload itself.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Benefits Multiplier""
+Sample input 2: ""0.25"" (valid decimal)
+Sample input 3: ""0.21"" (alt test value)",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Type the valid decimal test value into Benefits Multiplier and press Tab to blur.</li>
+<li>2. Click back into the field to inspect the raw edit-mode value.</li>
+<li>3. Press Tab, then click the ""Location Settings History"" tab directly while the edit is unsaved.</li>
+<li>4. Click ""Stay"" on the dialog.</li>
+<li>5. Click the ""Basic Information"" tab directly, then click ""Discard"" on the resulting Unsaved Changes dialog.</li>
+<li>6. Navigate back to the ECT Settings tab.</li>
+<li>7. Type a different valid value (""0.21"") into Benefits Multiplier, press Tab to blur, then trigger a hard page reload.</li>
+<li>8. Accept the native dialog to let the reload complete, wait for the Basic Information form to render, then re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Field is valid; displays the expected formatted percentage ""25.0%""; the Fixed Costs Save button becomes enabled.
+2. The raw input value while focused is the un-formatted decimal ""0.25"" — percentage formatting is display-only, applied on blur.
+3. The ""Unsaved changes"" alert dialog appears.
+4. Dialog closes; the app remains on the ECT Settings tab; Benefits Multiplier still shows ""25.0%"" and the Fixed Costs Save button is still enabled.
+5. Navigation to the Basic Information tab completes.
+6. Benefits Multiplier has reverted to its default value ""20.0%""; the Fixed Costs Save button is disabled.
+7. Before the reload, the Fixed Costs Save button is enabled; the reload triggers the browser's NATIVE beforeunload confirmation dialog (distinct from the app's own ""Unsaved changes"" dialog).
+8. The reload lands on the default Basic Information tab, not ECT Settings (tab selection is not preserved across a hard reload); Benefits Multiplier shows its default value ""20.0%"" again and the Fixed Costs Save button is disabled — the unsaved edit was discarded by the reload itself.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Historical Subrental % required-field rejection when cleared,,,,,Automated,Omeesha Mahanta,,,"Historical Subrental % is restored to its default value ""0.0%"".",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Historical Subrental %""
+Sample input 2: ""0.0%""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Confirm the Historical Subrental % field currently shows its default value.</li>
+<li>2. Click into the field, select all, clear it, and press Tab to blur.</li>
+<li>3. Reload the page and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Field shows ""0.0%"".
+2. Field value becomes empty; the field is marked invalid; the Fixed Costs Save button remains disabled.
+3. Historical Subrental % is restored to its default value ""0.0%"".",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Historical Subrental % rejects non-numeric and negative input,,,,,Automated,Omeesha Mahanta,,,"Historical Subrental % is restored to its default value ""0.0%"".",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Historical Subrental %""
+Sample input 2: ""abc""
+Sample input 3: ""-1""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Type ""abc"" into Historical Subrental % and press Tab to blur.</li>
+<li>2. Type a negative value ""-1"" into Historical Subrental % and press Tab to blur.</li>
+<li>3. Reload the page and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Field is wiped to empty and marked invalid; the Fixed Costs Save button remains disabled.
+2. Field is wiped to empty and marked invalid (negative rejected, not treated as positive — matches Benefits Multiplier's behavior); the Fixed Costs Save button remains disabled.
+3. Historical Subrental % is restored to its default value ""0.0%"".",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Historical Subrental % accepts a valid decimal and an extremely long numeric value without crashing; unsaved edit is discarded,,,,,Automated,Omeesha Mahanta,,,"Historical Subrental % has reverted to its default value ""0.0%""; the Fixed Costs Save button is disabled — nothing from this test was ever saved.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Historical Subrental %""
+Sample input 2: ""0.1"" (valid decimal)
+Sample input 3: ""99999999999999999999""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Type the valid decimal test value into Historical Subrental % and press Tab to blur.</li>
+<li>2. Type a 20+ digit numeric string (""99999999999999999999"") into Historical Subrental % and press Tab to blur.</li>
+<li>3. Click the ""Basic Information"" tab directly, click ""Discard"" on the Unsaved Changes dialog, then navigate back to the ECT Settings tab.</li>
+</ol>",,,"1. Field is valid; displays the expected formatted percentage ""10.0%""; the Fixed Costs Save button becomes enabled.
+2. The displayed value is not blank and does not contain ""NaN"" (precision loss in the displayed percentage is an acceptable, documented outcome; a crash, freeze, or NaN would not be).
+3. Historical Subrental % has reverted to its default value ""0.0%""; the Fixed Costs Save button is disabled — nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Editing Benefits Multiplier enables only the Fixed Costs Save button, never Labor Cost Assumptions Save, and the saved value persists after restore",,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier displays its default value ""20.0%"" again; both the Fixed Costs Save and Labor Cost Assumptions Save buttons are disabled, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Benefits Multiplier""
+Sample input 2: ""0.21"" (alt test value)
+Sample input 3: ""21.0%""",High,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. On a fresh load, confirm both the Fixed Costs Save button and the Labor Cost Assumptions Save button are disabled.</li>
+<li>2. Type a new valid value (""0.21"") into Benefits Multiplier and press Tab to blur.</li>
+<li>3. Click the Fixed Costs Save button, then reload the page and re-navigate to the ECT Settings tab.</li>
+<li>4. Restore Benefits Multiplier to its original value (""0.2""), press Tab to blur, click the Fixed Costs Save button again, and reload and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Both Save buttons are disabled.
+2. Fixed Costs Save button becomes enabled; Labor Cost Assumptions Save button remains disabled.
+3. The saved value (""21.0%"") is confirmed present after the reload.
+4. Benefits Multiplier displays its default value ""20.0%"" again; both the Fixed Costs Save and Labor Cost Assumptions Save buttons are disabled, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Editing a Labor Cost rate enables its Save button independently of Fixed Costs Save, and the change persists after reload",,,,,Automated,Omeesha Mahanta,,,"The first row's Labor Cost value is back to its original ""41.00"", leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Administrative Fee""
+Sample input 2: ""41.00"" (original)
+Sample input 3: ""42"" (test value)",High,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Confirm the first row's Labor Class name and current Labor Cost value match the known baseline (""Administrative Fee"", ""41.00""); confirm both Save buttons are disabled.</li>
+<li>2. Edit the first row's Labor Cost value to ""42"" and press Tab to blur.</li>
+<li>3. Click the Labor Cost Assumptions Save button.</li>
+<li>4. Reload the page and re-navigate to the ECT Settings tab.</li>
+<li>5. Restore the row to its original value (""41"" → ""41.00""), press Tab, click Save again, then reload and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Values match the baseline; both Save buttons are disabled.
+2. Cell displays ""42.00"" (2-decimal formatting); the Labor Cost Assumptions Save button becomes enabled; the Fixed Costs Save button remains disabled (independence confirmed).
+3. Labor Cost Assumptions Save button returns to disabled once the save completes.
+4. The first row's Labor Cost value shows the saved ""42.00"".
+5. The first row's Labor Cost value is back to its original ""41.00"", leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Only the edited Labor Cost row is affected by Save; untouched rows are unaffected,,,,,Automated,Omeesha Mahanta,,,"Row A reverts to its original value, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Row A"" (first row)
+Sample input 2: ""Row B"" (middle row)
+Sample input 3: ""42"" (test value)",High,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Record the current Labor Cost values of Row A (first row) and a known middle row (Row B); confirm the Labor Cost Assumptions Save button is disabled.</li>
+<li>2. Edit only Row A's Labor Cost value to ""42"" and press Tab to blur (leave Row B untouched).</li>
+<li>3. Click the Labor Cost Assumptions Save button, then reload the page and re-navigate to the ECT Settings tab.</li>
+<li>4. Restore Row A to its original value, click Save again, then reload and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Both rows show their original values; the Save button is disabled.
+2. Row A shows ""42.00""; Row B is unchanged; the Labor Cost Assumptions Save button becomes enabled.
+3. Row A shows the newly saved ""42.00""; Row B still shows its original, untouched value — confirming only the edited row was persisted.
+4. Row A reverts to its original value, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Labor Cost rate editor reverts non-numeric and negative input, rounds to 2 decimals, does not revert on Escape, and does not crash on a very long numeric value",,,,,Automated,Omeesha Mahanta,,,"The row reverts to its original value (""41.00""); the Labor Cost Assumptions Save button is disabled — nothing from this test was ever saved.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""abc"" (invalid)
+Sample input 2: ""-20"" (negative)
+Sample input 3: ""42.999"" (excess decimals)
+Sample input 4: ""99999999999999999999"" (long numeric)
+Sample input 5: ""77.77"" (Escape mid-edit)",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Record the first row's original Labor Cost value (""41.00"").</li>
+<li>2. Type non-numeric text (""abc"") into the row's Labor Cost input and press Tab to blur.</li>
+<li>3. Type a negative value (""-20"") into the same input and press Tab to blur.</li>
+<li>4. Type ""42.999"" (3 decimal places) into the same input and press Tab to blur.</li>
+<li>5. Type a 20+ digit numeric string into the same input and press Tab to blur.</li>
+<li>6. Type a new value (""77.77"") into the input but press Escape instead of Tab, without blurring.</li>
+<li>7. Click the ""Basic Information"" tab directly, click ""Discard"" on the Unsaved Changes dialog, then navigate back to the ECT Settings tab.</li>
+</ol>",,,"1. Value matches the baseline.
+2. The cell silently reverts to its last valid value on blur (""41.00"") — no red/invalid indicator appears, unlike Benefits Multiplier / Historical Subrental.
+3. Confirmed live this is rejected as a whole and the cell reverts to its last valid value (""41.00"") -- the SAME behavior as the Fixed Costs percentage fields (TC-LOE-ECT-004/007), not ""sign stripped to absolute value"".
+4. Value rounds to 2 decimal places on blur (""43.00"").
+5. Displayed value is not blank and does not contain ""NaN""; the Labor Cost column remains editable (grid stays interactive) afterward.
+6. Escape does NOT revert the in-progress edit (unlike the Section/Room Escape-to-cancel pattern on Basic Information) — the typed value ""77.77"" remains and the Labor Cost Assumptions Save button stays enabled.
+7. The row reverts to its original value (""41.00""); the Labor Cost Assumptions Save button is disabled — nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Labor Cost Assumptions has only a Save action (no inline Cancel); unsaved edits are discarded via the Unsaved Changes Stay/Discard dialog,,,,,Automated,Omeesha Mahanta,,,Both Row A and Row B have reverted to their original values; the Labor Cost Assumptions Save button is disabled.,,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Row A"" (first row)
+Sample input 2: ""Row B"" (middle row)
+Sample input 3: ""15"" (test value)",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Count the action buttons present in the Labor Cost Assumptions section.</li>
+<li>2. Record the original Labor Cost values of Row A (first row) and a known middle row (Row B). Edit Row A to a new value and Row B to ""15"", without saving.</li>
+<li>3. Click the ""Location Settings History"" tab directly.</li>
+<li>4. Click ""Stay"" on the dialog.</li>
+<li>5. Click the ""Location Settings History"" tab again, then click ""Discard"" on the resulting dialog.</li>
+<li>6. Navigate back to the ECT Settings tab.</li>
+</ol>",,,"1. Exactly one button (Save) is present — no inline Cancel button exists.
+2. The Labor Cost Assumptions Save button becomes enabled.
+3. The ""Unsaved changes"" alert dialog appears.
+4. Dialog closes; the app remains on the ECT Settings tab; Row A and Row B still show their new unsaved values (""42.00"" and ""15.00""); the Save button remains enabled.
+5. Navigation to the History tab completes.
+6. Both Row A and Row B have reverted to their original values; the Labor Cost Assumptions Save button is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Fixed Costs Save and Labor Cost Assumptions Save operate independently in both directions, and both persist after restore",,,,,Automated,Omeesha Mahanta,,,"Both fields show their original default values again (""0.0%"" and ""41.00""); both Save buttons are disabled, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Historical Subrental %""
+Sample input 2: ""0.1"" (test value)
+Sample input 3: ""42"" (Labor Cost test value)",High,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. On a fresh load, confirm both the Fixed Costs Save button and the Labor Cost Assumptions Save button are disabled.</li>
+<li>2. Edit Historical Subrental % only to a new valid value and press Tab to blur.</li>
+<li>3. Click the Fixed Costs Save button.</li>
+<li>4. Edit a Labor Cost row only (Fixed Costs section is already pristine from the prior step) and press Tab to blur.</li>
+<li>5. Click the Labor Cost Assumptions Save button.</li>
+<li>6. Reload the page and re-navigate to the ECT Settings tab.</li>
+<li>7. Restore Historical Subrental % and the Labor Cost row to their original values, saving each section again, then reload and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Both Save buttons are disabled.
+2. Fixed Costs Save button becomes enabled; Labor Cost Assumptions Save button remains disabled.
+3. Fixed Costs Save button returns to disabled once the save completes; the Labor Cost Assumptions Save button is unaffected and stays disabled.
+4. Labor Cost Assumptions Save button becomes enabled; the Fixed Costs Save button remains disabled.
+5. Labor Cost Assumptions Save button returns to disabled once the save completes; the Fixed Costs Save button remains disabled, unaffected by the Labor Cost save.
+6. Historical Subrental % shows the saved value (""10.0%"") and the edited Labor Cost row shows its saved value (""42.00""), confirming both changes persisted independently.
+7. Both fields show their original default values again (""0.0%"" and ""41.00""); both Save buttons are disabled, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Currency dropdown reload behavior (conditional on a multi-currency office),,,,,Automated,Omeesha Mahanta,,,"The dropdown value returns to the original currency, confirming the round trip lands back on the original value.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""USD""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Confirm the currency dropdown shows the office's current currency.</li>
+<li>2. Open the currency dropdown and read the full list of available options.</li>
+<li>3. If only one currency option exists (as observed live for office 1604), record a soft-pass annotation noting the multi-currency reload path could not be exercised at this office, and end the test here.</li>
+<li>4. (Only if more than one currency option exists) Select a different currency option from the dropdown.</li>
+<li>5. Select the original currency again.</li>
+</ol>",,,"1. Dropdown shows ""USD"".
+2. The options list is retrieved.
+3. Test is annotated ""blocked - insufficient currency data at office 1604 (single currency configured)"" and passes without exercising the reload path.
+4. The dropdown value updates to the newly selected currency; the ECT Settings tab remains selected (the reload does not navigate away).
+5. The dropdown value returns to the original currency, confirming the round trip lands back on the original value.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editable state confirmed for current test account (canEditLocSetting / canEditLaborCost both true),,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier shows its default value ""20.0%"" again, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Benefits Multiplier""
+Sample input 2: ""0.21"" (alt test value)",High,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Confirm the Benefits Multiplier and Historical Subrental % inputs are both enabled (not disabled).</li>
+<li>2. Confirm the Fixed Costs Save and Labor Cost Assumptions Save buttons are both visible in the DOM.</li>
+<li>3. Edit Benefits Multiplier to a new valid value (""0.21"") and press Tab to blur.</li>
+<li>4. Click the Fixed Costs Save button.</li>
+<li>5. Restore Benefits Multiplier to its original value (""0.2""), click Save again, then reload the page and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Both fields are enabled — confirms canEditLaborCost is true for this account/location.
+2. Both Save buttons are visible — confirms canEditLocSetting is true (Save controls are not hidden for this account).
+3. The Fixed Costs Save button becomes enabled.
+4. The save completes; the Fixed Costs Save button returns to disabled.
+5. Benefits Multiplier shows its default value ""20.0%"" again, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Editing the Labor Cost grid's actual last row enables its Save independently of Fixed Costs Save, and the change persists after reload",,,,,Automated,Omeesha Mahanta,,,"The last row's Labor Cost value is back to its original value, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""zzzFinishing Service"" (last row)
+Sample input 2: ""37.10"" (original)
+Sample input 3: ""42"" (test value)",High,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Confirm the Labor Cost Assumptions grid row count is 66, so row index 65 (the ""Last row"" test data entry) is genuinely still the grid's last 0-based row, and confirm the last row's Labor Class name matches the known baseline (""zzzFinishing Service"").</li>
+<li>2. Confirm both Save buttons are disabled, then edit the last row's Labor Cost value to ""42"" and press Tab to blur.</li>
+<li>3. Click the Labor Cost Assumptions Save button, then reload the page and re-navigate to the ECT Settings tab.</li>
+<li>4. Restore the last row to its original value (""37.10""), press Tab, click Save again, then reload and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Row count is 66; the computed last row index is 65, matching the documented ""Last row"" test data; the last row's Labor Class name matches the baseline.
+2. Cell displays ""42.00""; the Labor Cost Assumptions Save button becomes enabled; the Fixed Costs Save button remains disabled (independence confirmed, same as row 0 in TC-LOE-ECT-010).
+3. The last row's Labor Cost value shows the saved ""42.00"" after reload.
+4. The last row's Labor Cost value is back to its original value, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A real clipboard paste bypasses per-keystroke masking on blur-validated fields, but blur-time validation still governs the committed value",,,,,Automated,Omeesha Mahanta,,,The Labor Cost row reverts to its original value; the Labor Cost Assumptions Save button is disabled; Benefits Multiplier and Historical Subrental % both show their default values -- nothing from this test was ever saved.,,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run). Browser context has clipboard-read/clipboard-write permissions granted (test-managed).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""-99"" (Benefits Multiplier)
+Sample input 2: ""abc"" (Historical Subrental %)
+Sample input 3: ""-99"" (Labor Cost row 0)",High,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Write ""-99"" to the OS clipboard, focus Benefits Multiplier, select all, and paste via Control+V (a real paste, not typed keystrokes or `.fill()`).</li>
+<li>2. Press Tab to blur.</li>
+<li>3. Write ""abc"" to the clipboard, focus Historical Subrental %, select all, paste via Control+V, then press Tab to blur.</li>
+<li>4. Record the first Labor Cost row's original value (""41.00"") while the cell is blurred (this field also shows a raw, unformatted value while focused -- confirmed live via Tab-order alone, not just editing). Write ""-99"" to the clipboard, focus that cell, select all, paste via Control+V, then press Tab to blur.</li>
+<li>5. Reload the page and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Confirmed live: the raw, unmasked ""-99"" lands in the field immediately -- unlike typed input (TC-LOE-ECT-004), which never gets a rejected leading ""-"" into the DOM at all, proving paste bypasses the per-keystroke keydown mask filter.
+2. The same whole-value validator that governs typed input reverts the field to its last valid value (""20.0%""); the field is valid (no destructive styling); the Fixed Costs Save button remains disabled -- the bypass is transient, not persistent.
+3. Same pattern: the raw ""abc"" is visible immediately after paste, then reverts to ""0.0%"" on blur, valid, with the Fixed Costs Save button disabled.
+4. The pasted ""-99"" is rejected outright by the same whole-value validator as typed negative input (TC-LOE-ECT-012); the cell reformats back to the original displayed value (""41.00"") on blur, same as the Fixed Costs fields above.
+5. The Labor Cost row reverts to its original value; the Labor Cost Assumptions Save button is disabled; Benefits Multiplier and Historical Subrental % both show their default values -- nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Benefits Multiplier and Historical Subrental % treat ""0"" as a valid required value and a whitespace-only value as empty/invalid",,,,,Automated,Omeesha Mahanta,,,Both fields are restored to their original captured values -- nothing from this test was ever saved.,,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""0"" (boundary-exact)
+Sample input 2: "" "" (single whitespace)",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Type ""0"" into Benefits Multiplier and press Tab to blur.</li>
+<li>2. Type ""0"" into Historical Subrental % and press Tab to blur.</li>
+<li>3. Type a single whitespace character ("" "") into Benefits Multiplier and press Tab to blur.</li>
+<li>4. Type a single whitespace character ("" "") into Historical Subrental % and press Tab to blur.</li>
+<li>5. Reload the page and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Field displays ""0.0%""; the field is valid (no destructive styling); the Fixed Costs Save button becomes enabled -- ""0"" satisfies the required-field validator and is not treated as blank.
+2. Field displays ""0.0%"" and is valid, same as Benefits Multiplier.
+3. Unlike literal non-numeric text (""abc"" in TC-LOE-ECT-004), the whitespace is trimmed/treated exactly like a fully cleared field: the value collapses to """", destructive styling applies, and the Fixed Costs Save button is disabled.
+4. Same result as Benefits Multiplier: value collapses to """", marked invalid, Save disabled.
+5. Both fields are restored to their original captured values -- nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Fixed Costs Save stays disabled while EITHER field is invalid, and only enables once BOTH invalid fields are fixed",,,,,Automated,Omeesha Mahanta,,,"Both fields show their original default values again; the Fixed Costs Save button is disabled, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""0.21"" (Benefits Multiplier alt value)
+Sample input 2: ""0.1"" (Historical Subrental % test value)",High,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol>
+<li>1. Clear BOTH Benefits Multiplier and Historical Subrental % (select all, backspace, Tab) so both fields are invalid at once.</li>
+<li>2. Fix ONLY Benefits Multiplier, typing a new valid value (""0.21"") and pressing Tab to blur (leave Historical Subrental % blank).</li>
+<li>3. Fix Historical Subrental % too, typing a new valid value (""0.1"") and pressing Tab to blur.</li>
+<li>4. Restore both fields to their originally captured values, then reload the page and re-navigate to the ECT Settings tab.</li>
+</ol>",,,"1. Both fields show empty values and are marked invalid; the Fixed Costs Save button is disabled.
+2. Benefits Multiplier becomes valid, but the Fixed Costs Save button STAYS disabled, because Historical Subrental % is still blank/invalid -- this is the cross-field Save-gating logic that is never exercised with more than one bad field at a time elsewhere in this suite.
+3. Historical Subrental % becomes valid; now that BOTH fields are valid, the Fixed Costs Save button becomes enabled.
+4. Both fields show their original default values again; the Fixed Costs Save button is disabled, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,

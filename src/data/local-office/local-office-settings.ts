@@ -118,3 +118,92 @@ export const ECT_FIXED_COST_FIELDS = [
   { key: 'fldPeakLaborAdjustment', label: 'Peak Labor Adjustment %', expected: '5.0%' },
   { key: 'fldNonPeakLaborAdjustment', label: 'Non-Peak Labor Adjustment %', expected: '0.0%' },
 ] as const;
+
+// --- Basic Information tab (NM-1716) --------------------------------------------------------
+// Everything below is confirmed against the live E2E environment for office 1604 (see
+// specs/local-office-basic-information.plan.md), the same way the constants above were confirmed
+// for ECT Settings.
+
+// Exact live tooltip wording (Radix duplicates it -- see LocalOfficeSettingsPage.getFieldTooltipText
+// -- so callers must assert with .toContain, never .toBe).
+export const OFFSET_TOOLTIPS = {
+  prep: 'Prep Date Offset must be empty, negative or zero',
+  deliveryGtePrep: 'Delivery Date Offset (Relative to Start) must be greater than or equal to Prep Date Offset (Relative to Start).',
+  phoneRequired: 'Required',
+} as const;
+
+// Confirmed live defaults for every Misc Settings checkbox (checked + disabled state on a fresh,
+// pristine load). Independent of CHECKBOX_DEFAULTS above, which only covers a subset used
+// elsewhere -- this is the full baseline the Basic Information plan's suite 1.1/3.x scenarios need.
+export const MISC_CHECKBOX_BASELINE = [
+  { key: 'chkUseFulfillment', label: 'Use Fulfillment', checked: false, disabled: false },
+  { key: 'chkUseAvailability', label: 'Use Availability', checked: true, disabled: false },
+  { key: 'chkUseEquipmentsQc', label: 'Use Equipments QC', checked: false, disabled: true },
+  { key: 'chkRequestItemsReturn', label: 'Items Filled from Requests Return to Availability', checked: false, disabled: false },
+  { key: 'chkSamePriority', label: 'Allow tentative and confirmed Status to have the same priority', checked: false, disabled: false },
+  { key: 'chkPrintDescription', label: 'Print Description (Default)', checked: true, disabled: false },
+  { key: 'chkUseSubrentServiceType', label: 'Use ServiceType for Subrental Inventory Sources', checked: true, disabled: false },
+  { key: 'chkDefaultJobOneDayEvent', label: 'Default new job to 1 day - Event', checked: false, disabled: false },
+  { key: 'chkDefaultJobOneDayOutside', label: 'Default new job to 1 day - Outside', checked: false, disabled: false },
+  { key: 'chkDefaultJobOneDayInternal', label: 'Default new job to 1 day - Internal', checked: false, disabled: false },
+  { key: 'chkDefaultLaborToHourly', label: 'Default Labor to Hourly', checked: false, disabled: false },
+  { key: 'chkLogoQuotes', label: 'Quotes', checked: true, disabled: false },
+  { key: 'chkLogoRentalOrders', label: 'Rental Orders/DROs', checked: true, disabled: false },
+] as const;
+
+// Strings that must never appear anywhere in the rendered form -- confirms the "Currently Hidden"
+// LoadIn/LoadOut offsets and Labor Hour multiplier fields from the module spec really are absent,
+// regardless of Default Labor to Hourly's checked state (plan 1.1 step 2/3, 3.6).
+export const HIDDEN_FIELD_PROBE_STRINGS = [
+  'Regular Hours', 'Multiplier', 'Holiday', 'Over Time', 'OverTime', 'Double Time', 'DoubleTime',
+] as const;
+
+export const COMPANY_LOGO = {
+  default: 'SAVLogoNew',
+  alternate: 'CSI Logo',
+  // Full live option list (11), enumerated via the combobox's listbox on office 1604.
+  allOptions: [
+    'Header with Dust Ears and Text', 'PSAV Presentation Services (V3)', 'PSAV DEG Red Bar(V2)',
+    'SAV_Cropped', 'SAVLogoNew', 'Concise New York Logo Orig', 'CSI Logo',
+    'Concise New York Logo', 'Encore Blue Logo', 'Encore New Logo', 'Concise New Logo Large',
+    'DISNEY NEW Logo',
+  ],
+} as const;
+
+// Section grid baseline for office 1604 -- 14 rows, alphabetically sorted, one (Flipcharts)
+// Inactive. DEFAULT_SECTIONS above already lists the 13 canonical names; 'Test Section' is a
+// leaked 14th row confirmed live and kept here as its own constant so tests can assert the full
+// ordered baseline without re-deriving it from DEFAULT_SECTIONS + a hardcoded insert.
+export const SECTION_GRID_BASELINE = [
+  'AV Services', 'Flipcharts', 'Hybrid Meeting', 'Labor', 'Lighting', 'Power',
+  'Presenter Support', 'Projection', 'Rigging', 'Scenic', 'Staging', 'Test Section',
+  'Video', 'Whiteboard',
+] as const;
+export const SECTION_GRID_INACTIVE_ROW = 'Flipcharts';
+
+export const ROOM_GRID_BASELINE = ['Ballroom A', 'Room Edit Test', 'Room Toggle Test', 'Test Room'] as const;
+
+// The module spec's own 9-item Default Sections list. Confirmed live that clicking the Default
+// button only ever adds whichever of these 9 names are not ALREADY present verbatim in
+// SECTION_GRID_BASELINE -- for office 1604 today that is exactly these 2 (the other 7 already
+// exist under these or differently-themed names and are left untouched, undeduplicated).
+export const DEFAULT_SECTIONS_MODULE_SPEC = [
+  'Audio', 'Video', 'Lighting', 'Presenter Support', 'Staging', 'Rigging',
+  'High Speed Internet Access', 'Scenic', 'Labor',
+] as const;
+export const DEFAULT_SECTIONS_BUTTON_ADDS = ['Audio', 'High Speed Internet Access'] as const;
+
+export const GRID_TEST_VALUES = {
+  duplicateTarget: 'Flipcharts',      // an existing Section name used to probe duplicate-name handling
+  roomDuplicateTarget: 'Room Edit Test', // an existing Room name used to probe duplicate-name handling
+  escapeTempName: 'Temp Name XYZ',
+  sortsLastName: 'Zzz Test Sort',
+  deleteMeSection: 'Delete Me Section',
+  deleteMeRoom: 'Delete Me Room',
+} as const;
+
+export const DISCOUNT_EXEMPTION_TEST = {
+  firstServiceType: 'APP Downloaded',
+  sampleReadOnlyServiceType: 'Lighting',
+} as const;
+

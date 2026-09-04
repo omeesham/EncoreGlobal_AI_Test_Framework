@@ -1,0 +1,522 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Basic Information tab loads with all panels and documented default values,,,,,Automated,Omeesha Mahanta,,,"The grid (tblDiscountExemptions) contains roughly 77 rows sorted alphabetically from 'APP Downloaded' through 'ZSub Rental Specialty', each with a read-only Service Type cell and a clickable Exempt cell.; No 'Add New...' input row exists at the bottom of this grid (unlike the Section/Room grids).",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Log in via Microsoft SSO and navigate to {BASE_URL}locations/1604/settings/local-office.</li>
+<li>2. Locate the Default Date Offsets panel (secDateOffsets).</li>
+<li>3. Locate the Misc Settings panel (secMiscSettings).</li>
+<li>4. Locate the Section panel (secSections).</li>
+<li>5. Locate the Room Configuration panel (secRoomConfig).</li>
+<li>6. Locate the Default Logo panel (secDefaultLogo).</li>
+<li>7. Locate the Discount Exemptions panel (secDiscountExemptions).</li>
+</ol>",,,"1. Local Office Settings page loads with the Basic Information tab selected by default (aria-selected=true), with no extra click required.; The location heading '1604 - Parker Palm Springs' is visible.; The page-level Save button (btnSave) is visible and disabled.
+2. All six labeled inputs are visible with values: Prep Date Offset (Relative to Start)='-1', Return Date Offset (Relative to End)='1', Set Date Offset (Relative to Start)='-1', Strike Date Offset (Relative to End)='1', Delivery Date Offset (Relative to Start)='0', Pickup Date Offset (Relative to End)='0', each suffixed 'Hrs'.; No LoadInDateOffset or LoadOutDateOffset field/label exists anywhere in the panel (confirm via a full-text search of the panel's textContent).
+3. Use Fulfillment unchecked+enabled; Use Availability CHECKED+enabled; Use Equipments QC unchecked+DISABLED; Items Filled from Requests Return to Availability unchecked+enabled; Allow tentative and confirmed Status to have the same priority unchecked+enabled; Print Description (Default) CHECKED+enabled; Use ServiceType for Subrental Inventory Sources CHECKED+enabled.; Phone 1='760-883-1957'; Phone 2 is empty.; Default new job to 1 day (Event/Outside/Internal) all unchecked; Default Labor to Hourly unchecked.; Default Order Type combobox shows 'Event'.; PO Number and PO Number Label are both empty.; No Labor Hour multiplier field/label (e.g. 'Regular Hours', 'Multiplier', 'Holiday') exists anywhere in the rendered form.
+4. Use Section checkbox is CHECKED; a 'Default' button is visible and enabled.; The Section grid (tblSections) contains 14 rows sorted alphabetically: AV Services, Flipcharts, Hybrid Meeting, Labor, Lighting, Power, Presenter Support, Projection, Rigging, Scenic, Staging, Test Section, Video, Whiteboard.; Flipcharts shows Inactive (no check icon in its Active cell); all other 13 rows show Active.
+5. No 'Use Room Configuration' checkbox and no 'Default' button exist for this panel.; The Room grid (tblRoomConfig) contains 4 rows sorted alphabetically: Ballroom A, Room Edit Test, Room Toggle Test, Test Room, all Active.
+6. Quotes and Rental Orders/DROs checkboxes are both CHECKED.; Company Logo combobox shows 'SAVLogoNew' with a rendered logo preview image (imgLogoPreview) below it.
+7. The grid (tblDiscountExemptions) contains roughly 77 rows sorted alphabetically from 'APP Downloaded' through 'ZSub Rental Specialty', each with a read-only Service Type cell and a clickable Exempt cell.; No 'Add New...' input row exists at the bottom of this grid (unlike the Section/Room grids).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Grid editability baseline -- Section/Room editable, Discount Exemptions Service Type read-only",,,,,Automated,Omeesha Mahanta,,,No input/edit affordance appears; the cell remains static text.,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open the Basic Information tab (fresh load).</li>
+<li>2. Within the Section grid, inspect the Section Name and Active columns for every data row.</li>
+<li>3. Within the Room Configuration grid, inspect the Room Configuration Name and Active columns.</li>
+<li>4. Within the Discount Exemptions grid, inspect the Service Type and Exempt columns for several rows (e.g. 'APP Downloaded', 'Lighting', 'Freight').</li>
+<li>5. Attempt to double-click a Service Type cell in the Discount Exemptions grid (e.g. 'APP Downloaded').</li>
+</ol>",,,"1. Panel loads as described in the happy-path scenario.
+2. Every Section Name cell contains an editable text input.; Every Active cell contains a clickable, non-input toggle (a checkmark icon when Active, empty when Inactive).
+3. Same editable-input-plus-clickable-toggle pattern as the Section grid is confirmed.
+4. Service Type cells contain plain text with NO input element.; Exempt cells contain a clickable toggle (icon or empty) with no input element, confirming this grid is read-only except for the Exempt toggle.
+5. No input/edit affordance appears; the cell remains static text.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Prep Date Offset -- own-field positivity pattern, non-numeric acceptance-as-invalid, maxlength, empty-is-valid",,,,,Automated,Omeesha Mahanta,,,"aria-invalid becomes 'false'; the red icon disappears; Save button returns to disabled (pristine), confirming a same-value restore cleanly re-disables Save for this simple field.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record Prep Date Offset (expected '-1').</li>
+<li>2. Click the field, Ctrl+A, type the positive invalidValue from POSITIVITY_VIOLATIONS_START ('5'), press Tab.</li>
+<li>3. Click the field, Ctrl+A, type non-numeric text 'abc', press Tab.</li>
+<li>4. Click the field, Ctrl+A, type the 4-character over-limit string '1234' (MAXLEN_BOUNDARY.threeChar.overLimit) and inspect the raw value while still focused (before blurring).</li>
+<li>5. Click the field, Ctrl+A, Backspace (clear to empty), press Tab.</li>
+<li>6. Click the field, Ctrl+A, Backspace, type the valid default '-1', press Tab.</li>
+</ol>",,,"1. Field is visible/enabled; maxLength attribute equals 3; no native pattern/required attribute is present.
+2. Field keeps the literal typed value '5' (not rejected at keystroke level).; aria-invalid becomes 'true' and a red circle-alert icon appears.; Hovering the icon shows a tooltip reading exactly 'Prep Date Offset must be empty, negative or zero'.; Save button remains disabled.
+3. Field keeps 'abc' as its literal value; aria-invalid remains 'true'; Save stays disabled.
+4. The input's value is capped at 3 characters by the maxlength=3 attribute (at most '123' is present), confirming native maxlength truncation independent of the custom positivity validation.
+5. Field value is empty; aria-invalid is 'false' (empty IS treated as valid for this field, contradicting a naive PREP_OFFSET_EMPTY-required assumption); Save button becomes enabled (dirty, since empty differs from default '-1').
+6. aria-invalid becomes 'false'; the red icon disappears; Save button returns to disabled (pristine), confirming a same-value restore cleanly re-disables Save for this simple field.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Set Date Offset -- own-field positivity pattern, maxlength boundary (4-char), non-numeric",,,,,Automated,Omeesha Mahanta,,,aria-invalid is 'false'; Save button returns to disabled.,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record Set Date Offset (expected '-1', maxLength=4).</li>
+<li>2. Click the field, Ctrl+A, type the positive invalidValue from POSITIVITY_VIOLATIONS_START Set entry ('3'), press Tab.</li>
+<li>3. Click the field, Ctrl+A, type non-numeric 'abc', press Tab.</li>
+<li>4. Click the field, Ctrl+A, type the at-limit valid 4-character value '-999' (MAXLEN_BOUNDARY.fourChar.atLimit), press Tab.</li>
+<li>5. Click the field, Ctrl+A, Backspace, type the valid default '-1', press Tab.</li>
+</ol>",,,"1. Field is visible/enabled with the recorded default and maxLength.
+2. Field keeps '3'; aria-invalid becomes 'true'; a tooltip analogous to Prep's wording appears (e.g. referencing 'Set Date Offset'); Save stays disabled.
+3. Field keeps 'abc'; aria-invalid remains 'true'.
+4. Full 4-character value '-999' is accepted (fits exactly within maxlength=4); aria-invalid is 'false' (valid pattern); Save becomes enabled (dirty, differs from default).
+5. aria-invalid is 'false'; Save button returns to disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Delivery Date Offset -- own-field positivity pattern, maxlength boundary (4-char), non-numeric",,,,,Automated,Omeesha Mahanta,,,aria-invalid is 'false'; Save button returns to disabled.,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record Delivery Date Offset (expected '0', maxLength=4).</li>
+<li>2. Click the field, Ctrl+A, type the positive invalidValue from POSITIVITY_VIOLATIONS_START Delivery entry ('2'), press Tab.</li>
+<li>3. Click the field, Ctrl+A, type non-numeric 'abc', press Tab.</li>
+<li>4. Click the field, Ctrl+A, type a 4-character over-limit numeric string ('-1234') and inspect the raw value while focused.</li>
+<li>5. Click the field, Ctrl+A, Backspace, type the valid default '0', press Tab.</li>
+</ol>",,,"1. Field is visible/enabled with the recorded default and maxLength.
+2. Field keeps '2'; aria-invalid becomes 'true'; Save stays disabled.
+3. Field keeps 'abc'; aria-invalid remains 'true'.
+4. Value is capped at 4 characters by maxlength=4.
+5. aria-invalid is 'false'; Save button returns to disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Return Date Offset -- own-field positivity pattern (reverse polarity), maxlength, non-numeric",,,,,Automated,Omeesha Mahanta,,,aria-invalid is 'false'; Save button returns to disabled.,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record Return Date Offset (expected '1', maxLength=3).</li>
+<li>2. Click the field, Ctrl+A, type the negative invalidValue from POSITIVITY_VIOLATIONS_END Return entry ('-3'), press Tab.</li>
+<li>3. Click the field, Ctrl+A, type non-numeric text from NON_NUMERIC_TEST_FIELDS ('abc'), press Tab.</li>
+<li>4. Click the field, Ctrl+A, type a 4-character over-limit numeric string ('1234') and inspect the raw value while focused.</li>
+<li>5. Click the field, Ctrl+A, Backspace, type the valid default '1', press Tab.</li>
+</ol>",,,"1. Field is visible/enabled with the recorded default and maxLength.
+2. Field keeps '-3'; aria-invalid becomes 'true' (Return only accepts empty or positive values, the reverse polarity of Prep/Set/Delivery); a tooltip referencing 'Return Date Offset' appears; Save stays disabled.
+3. Field keeps 'abc'; aria-invalid remains 'true'.
+4. Value is capped at 3 characters by maxlength=3.
+5. aria-invalid is 'false'; Save button returns to disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Strike Date Offset -- own-field positivity pattern, maxlength, non-numeric",,,,,Automated,Omeesha Mahanta,,,aria-invalid is 'false'; Save button returns to disabled.,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record Strike Date Offset (expected '1', maxLength=3).</li>
+<li>2. Click the field, Ctrl+A, type the negative invalidValue from POSITIVITY_VIOLATIONS_END Strike entry ('-2'), press Tab.</li>
+<li>3. Click the field, Ctrl+A, type non-numeric 'abc', press Tab.</li>
+<li>4. Click the field, Ctrl+A, Backspace, type the valid default '1', press Tab.</li>
+</ol>",,,"1. Field is visible/enabled with the recorded default and maxLength.
+2. Field keeps '-2'; aria-invalid becomes 'true'; Save stays disabled.
+3. Field keeps 'abc'; aria-invalid remains 'true'.
+4. aria-invalid is 'false'; Save button returns to disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Pickup Date Offset -- own-field positivity pattern, maxlength, non-numeric",,,,,Automated,Omeesha Mahanta,,,aria-invalid is 'false'; Save button returns to disabled.,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record Pickup Date Offset (expected '0', maxLength=3).</li>
+<li>2. Click the field, Ctrl+A, type the negative invalidValue from POSITIVITY_VIOLATIONS_END Pickup entry ('-1'), press Tab.</li>
+<li>3. Click the field, Ctrl+A, type non-numeric 'xyz', press Tab.</li>
+<li>4. Click the field, Ctrl+A, Backspace, type the valid default '0', press Tab.</li>
+</ol>",,,"1. Field is visible/enabled with the recorded default and maxLength.
+2. Field keeps '-1'; aria-invalid becomes 'true'; Save stays disabled.
+3. Field keeps 'xyz'; aria-invalid remains 'true'.
+4. aria-invalid is 'false'; Save button returns to disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Cross-field Validate() -- Delivery must be >= Prep (NM-1264, the one confirmed-live cross-field rule) with recovery",,,,,Automated,Omeesha Mahanta,,,"Delivery returns to '0'; aria-invalid is 'false'; Save button returns to disabled, confirming full round-trip recovery.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm Prep='-1' and Delivery='0' (default: Delivery already >= Prep, no error).</li>
+<li>2. Click Delivery, Ctrl+A, type the MULTI_FIELD_RECOVERY.triggerValue '-5' (making Delivery &lt; Prep), press Tab.</li>
+<li>3. Click Delivery, Ctrl+A, type the MULTI_FIELD_RECOVERY.recoveryValue '-1' (now Delivery == Prep), press Tab.</li>
+<li>4. Click Delivery, Ctrl+A, type the MULTI_FIELD_RECOVERY.defaultValue '0', press Tab.</li>
+</ol>",,,"1. Both fields show aria-invalid='false'; Save is disabled.
+2. Delivery keeps '-5'; Delivery's aria-invalid becomes 'true'; a red icon appears on Delivery only.; Prep's aria-invalid remains 'false' (Prep itself is not flagged).; Hovering Delivery's icon shows a tooltip reading exactly 'Delivery Date Offset (Relative to Start) must be greater than or equal to Prep Date Offset (Relative to Start).'; Save button remains disabled.
+3. Delivery's aria-invalid becomes 'false'; the icon disappears; Save becomes enabled (dirty, since '-1' differs from the default '0').
+4. Delivery returns to '0'; aria-invalid is 'false'; Save button returns to disabled, confirming full round-trip recovery.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Cross-field Validate() probe -- Set/Prep, Set/Delivery, Strike/Return, Pickup/Return are NOT enforced live (documented spec discrepancy)",,,,,Automated,Omeesha Mahanta,,,"Pickup returns to '0'; all six offset fields show their original default values; Save button is disabled, confirming a full clean revert.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Note the shipped default data already has Set='-1' and Delivery='0' (i.e. Set &lt; Delivery) with zero validation errors shown on load.</li>
+<li>2. Click Set Date Offset, Ctrl+A, type '-5' (now Set &lt; Prep='-1'), press Tab.</li>
+<li>3. Restore Set to '-1' and Tab.</li>
+<li>4. Click Strike Date Offset, Ctrl+A, type '5' (now Strike > Return='1'), press Tab.</li>
+<li>5. Restore Strike to '1' and Tab.</li>
+<li>6. Click Pickup Date Offset, Ctrl+A, type '5' (now Pickup > Return='1'), press Tab.</li>
+<li>7. Restore Pickup to '0' and Tab.</li>
+</ol>",,,"1. Set and Delivery both show aria-invalid='false' on a completely fresh, unedited load - documented as evidence the 'Set must be >= Delivery' sub-rule described in the module spec is not enforced live.
+2. Document actual observed behavior: Set's aria-invalid stays 'false' (no cross-field error against Prep), confirming 'Set must be >= Prep' is NOT enforced live even though Set's OWN positivity pattern still applies independently. Treat this as an observation/discrepancy against the spec, not an assumed bug, and do not fail the test on this basis.
+3. Set returns to '-1'.
+4. Document actual observed behavior: Strike's aria-invalid stays 'false' (no cross-field error against Return), confirming 'Strike must be <= Return' is NOT enforced live.
+5. Strike returns to '1'.
+6. Document actual observed behavior: Pickup's aria-invalid stays 'false' (no cross-field error against Return), confirming 'Pickup must be <= Return' is NOT enforced live.
+7. Pickup returns to '0'; all six offset fields show their original default values; Save button is disabled, confirming a full clean revert.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Prep and Return Date Offset can both be cleared to empty simultaneously and are treated as valid; restore,,,,,Automated,Omeesha Mahanta,,,"Both fields show their original values; aria-invalid='false' on both; Save button returns to disabled, confirming a full clean revert of the empty-field round-trip.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load).</li>
+<li>2. Click Prep Date Offset, Ctrl+A, Backspace (clear to empty), press Tab.</li>
+<li>3. Click Return Date Offset, Ctrl+A, Backspace (clear to empty), press Tab.</li>
+<li>4. Re-focus Set, Strike, Delivery, and Pickup in turn without changing their values (Tab through each) to confirm no new cross-field errors appear now that Prep and Return are both empty.</li>
+<li>5. Restore Prep to its NULL_OFFSET_FIELDS default ('-1') and Return to its default ('1'), Tab after each.</li>
+</ol>",,,"1. All six offset fields show their NULL_OFFSET_FIELDS default values; Save is disabled.
+2. Prep is empty; aria-invalid='false'; Save becomes enabled (dirty).
+3. Return is empty; aria-invalid='false'; Save remains enabled.
+4. None of Set/Strike/Delivery/Pickup show aria-invalid='true' as a side effect of Prep/Return being empty.
+5. Both fields show their original values; aria-invalid='false' on both; Save button returns to disabled, confirming a full clean revert of the empty-field round-trip.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,maxlength boundary enforcement is consistent across all six offset fields,,,,,Automated,Omeesha Mahanta,,,All six fields show their original defaults; Save button returns to disabled.,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and read the maxLength DOM property of all six offset inputs.</li>
+<li>2. For each of the three 3-char fields (Prep, Return, Strike... and Pickup, all maxLength=3), click, Ctrl+A, type a 5-character numeric string, and inspect the raw value while still focused.</li>
+<li>3. For each of the two 4-char fields (Set, Delivery), click, Ctrl+A, type a 5-character numeric string, and inspect the raw value while still focused.</li>
+<li>4. Restore all six fields to their NULL_OFFSET_FIELDS default values, Tab after each.</li>
+</ol>",,,"1. txtPrepDateOffset=3, txtReturnDateOffset=3, txtSetDateOffset=4, txtStrikeDateOffset=3, txtDeliveryDateOffset=4, txtPickupDateOffset=3 - matching the module spec's per-field character limits exactly.
+2. Each field's value is capped at exactly 3 characters, never exceeding maxLength regardless of how many characters were typed.
+3. Each field's value is capped at exactly 4 characters.
+4. All six fields show their original defaults; Save button returns to disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Use Availability cascade -- disabling forces Use Fulfillment, Use Equipments QC, and Request Items Return to false+disabled",,,,,Automated,Omeesha Mahanta,,,"Use Availability becomes checked; Use Fulfillment becomes enabled again (still unchecked); Items Filled from Requests Return to Availability becomes enabled again (still unchecked); Use Equipments QC remains disabled (since Use Fulfillment is still false).; Save button returns to disabled (pristine, since this is a simple checkbox round-trip).",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm Use Availability is checked+enabled, Use Fulfillment is unchecked+enabled, Use Equipments QC is unchecked+disabled, Items Filled from Requests Return to Availability is unchecked+enabled.</li>
+<li>2. Click Use Availability to uncheck it.</li>
+<li>3. Click Use Availability again to re-check it.</li>
+</ol>",,,"1. Baseline state matches the documented defaults.
+2. Use Availability becomes unchecked.; Use Fulfillment becomes unchecked AND disabled.; Use Equipments QC remains unchecked AND disabled.; Items Filled from Requests Return to Availability becomes unchecked AND disabled.; Save button becomes enabled (dirty).
+3. Use Availability becomes checked; Use Fulfillment becomes enabled again (still unchecked); Items Filled from Requests Return to Availability becomes enabled again (still unchecked); Use Equipments QC remains disabled (since Use Fulfillment is still false).; Save button returns to disabled (pristine, since this is a simple checkbox round-trip).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Use Fulfillment cascade -- checking it enables Use Equipments QC and forces Request Items Return to false+enabled, without disabling Use Availability",,,,,Automated,Omeesha Mahanta,,,Use Fulfillment becomes unchecked; Use Equipments QC becomes unchecked AND disabled again (forced false); Use Availability remains checked; Save button returns to disabled (pristine round-trip).,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm Use Availability checked, Use Fulfillment unchecked, Use Equipments QC unchecked+disabled, Items Filled from Requests Return to Availability unchecked+enabled.</li>
+<li>2. Click Use Fulfillment to check it.</li>
+<li>3. Click Use Fulfillment again to uncheck it.</li>
+</ol>",,,"1. Baseline state matches documented defaults.
+2. Use Fulfillment becomes checked.; Use Availability remains checked (unaffected/still true).; Use Equipments QC becomes ENABLED (still unchecked) - confirms PilotEquipmentQC evaluates false for this office/config.; Items Filled from Requests Return to Availability becomes/stays unchecked but is now enabled (not auto-checked).; Save button becomes enabled (dirty).
+3. Use Fulfillment becomes unchecked; Use Equipments QC becomes unchecked AND disabled again (forced false); Use Availability remains checked; Save button returns to disabled (pristine round-trip).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Use Equipments QC becomes checkable only while Use Fulfillment is true, and is force-cleared when Use Fulfillment is unchecked",,,,,Automated,Omeesha Mahanta,,,"After Discard/reload, all Misc Settings checkboxes show their original documented default states.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm Use Equipments QC is disabled.</li>
+<li>2. Click Use Fulfillment to check it (enabling Use Equipments QC).</li>
+<li>3. Click Use Equipments QC to check it.</li>
+<li>4. Click Use Fulfillment again to uncheck it.</li>
+<li>5. Confirm Save button state and reload/discard to leave the office clean (this scenario ends dirty due to the checkbox cascade retaining a dirty flag; use the Unsaved Changes dialog Discard, or reload and accept the native beforeunload dialog, rather than asserting Save auto-disables).</li>
+</ol>",,,"1. Attempting to click the disabled checkbox has no effect (remains unchecked, no dirty state).
+2. Use Equipments QC becomes enabled+unchecked.
+3. Use Equipments QC becomes checked; Save button is enabled (dirty).
+4. Use Equipments QC is forced back to unchecked AND disabled, even though it had just been explicitly checked - confirming the forced-clear takes priority over the user's last explicit choice.
+5. After Discard/reload, all Misc Settings checkboxes show their original documented default states.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Independent misc checkboxes (same priority, Print Description, Use ServiceType for Subrental) toggle without side effects on each other",,,,,Automated,Omeesha Mahanta,,,"All three show original values; Save button returns to disabled (pristine round-trip for these simple, independent checkboxes).",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Record baseline: Allow tentative and confirmed Status to have the same priority=unchecked, Print Description (Default)=checked, Use ServiceType for Subrental Inventory Sources=checked.</li>
+<li>2. Click 'Allow tentative and confirmed Status to have the same priority' to check it.</li>
+<li>3. Click 'Print Description (Default)' to uncheck it.</li>
+<li>4. Click 'Use ServiceType for Subrental Inventory Sources' to uncheck it.</li>
+<li>5. Revert all three checkboxes back to their original states (Allow tentative=unchecked, Print Description=checked, Use ServiceType for Subrental=checked), tabbing after each.</li>
+</ol>",,,"1. Baseline matches documented defaults.
+2. Only this checkbox changes state (checked); Print Description and Use ServiceType for Subrental Inventory Sources remain unchanged; Use Fulfillment/Use Availability/Use Equipments QC remain unchanged; Save becomes enabled.
+3. Only this checkbox changes (unchecked); all other checkboxes from the prior step remain unaffected.
+4. Only this checkbox changes (unchecked); no cascading effect on any other checkbox.
+5. All three show original values; Save button returns to disabled (pristine round-trip for these simple, independent checkboxes).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Default new job to 1 day (Event/Outside/Internal) checkboxes are mutually independent,,,,,Automated,Omeesha Mahanta,,,All three show unchecked; Save button returns to disabled (pristine round-trip).,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm Event/Outside/Internal are all unchecked.</li>
+<li>2. Click 'Event' to check it.</li>
+<li>3. Click 'Outside' to check it.</li>
+<li>4. Click 'Internal' to check it.</li>
+<li>5. Uncheck all three (Event, Outside, Internal) back to their original unchecked state.</li>
+</ol>",,,"1. Baseline matches documented default (all three unchecked).
+2. Only Event becomes checked; Outside and Internal remain unchecked; Save becomes enabled.
+3. Event remains checked; Outside becomes checked; Internal remains unchecked (confirms no mutual exclusivity/radio-like behavior).
+4. All three (Event, Outside, Internal) are now checked simultaneously.
+5. All three show unchecked; Save button returns to disabled (pristine round-trip).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Default Labor to Hourly toggle does not reveal any hidden Labor Hour multiplier fields,,,,,Automated,Omeesha Mahanta,,,Checkbox returns to unchecked; Save button returns to disabled (pristine round-trip).,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm Default Labor to Hourly is unchecked, and search the form's full text content for 'Regular Hours', 'Multiplier', 'Holiday', 'Over Time'/'OverTime', 'Double Time'/'DoubleTime'.</li>
+<li>2. Click Default Labor to Hourly to check it, and re-run the same full-text search.</li>
+<li>3. Click Default Labor to Hourly again to uncheck it.</li>
+</ol>",,,"1. None of those strings are found anywhere in the rendered form.
+2. Checkbox becomes checked; Save becomes enabled; still none of the Labor Hour field strings appear anywhere in the DOM - confirms the fields remain hidden/unimplemented regardless of this checkbox's state, matching the module spec's 'Currently Hidden' note.
+3. Checkbox returns to unchecked; Save button returns to disabled (pristine round-trip).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Phone 1 required-field validation (custom JS, no native required attribute)",,,,,Automated,Omeesha Mahanta,,,Field shows the original value; Save button returns to disabled (pristine round-trip).,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record Phone 1 (expected DEFAULT_PHONE_1 '760-883-1957'). Read its native maxLength/required DOM properties.</li>
+<li>2. Click Phone 1, Ctrl+A, Backspace (clear to empty), press Tab.</li>
+<li>3. Click Phone 1, type a value from PHONE_TEST_VALUES.testFormat ('555-123-4567'), press Tab.</li>
+<li>4. Click Phone 1, Ctrl+A, retype the original DEFAULT_PHONE_1 ('760-883-1957'), press Tab.</li>
+</ol>",,,"1. maxLength=-1 (unconstrained); required=false (validation is entirely custom-JS, not native HTML5).
+2. Field becomes empty; aria-invalid becomes 'true'; hovering the resulting alert icon shows a tooltip reading exactly 'Required'.; Save button remains disabled (invalid form blocks save even though the field is dirty).
+3. Field shows '555-123-4567'; aria-invalid becomes 'false'; the alert icon disappears; Save button becomes enabled (dirty, valid).
+4. Field shows the original value; Save button returns to disabled (pristine round-trip).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Phone 2 is optional and accepts unconstrained free text,,,,,Automated,Omeesha Mahanta,,,"Field is empty; no invalid state; Save button returns to disabled (pristine round-trip), confirming Phone 2 truly has no required validation unlike Phone 1.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and confirm Phone 2 is empty with no invalid state.</li>
+<li>2. Click Phone 2, type PHONE_TEST_VALUES.invalid ('not-a-phone'), press Tab.</li>
+<li>3. Click Phone 2, Ctrl+A, Backspace (clear back to empty), press Tab.</li>
+</ol>",,,"1. Phone 2 is empty; aria-invalid is not 'true'; maxLength=-1; required=false.
+2. Field accepts and displays 'not-a-phone' literally with NO invalid state raised (Phone 2 has no format validation, unlike Phone 1's required check) and Save becomes enabled (dirty).
+3. Field is empty; no invalid state; Save button returns to disabled (pristine round-trip), confirming Phone 2 truly has no required validation unlike Phone 1.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Default Order Type dropdown offers exactly Event and Outside, and persists the selection round-trip",,,,,Automated,Omeesha Mahanta,,,Combobox shows 'Event'; Save button returns to disabled (pristine round-trip for this simple control).,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and confirm Default Order Type shows 'Event'.</li>
+<li>2. Click the combobox to open it and enumerate all options.</li>
+<li>3. Select 'Outside' (ORDER_TYPE_VALUES.alternate).</li>
+<li>4. Re-open the combobox and select 'Event' again.</li>
+</ol>",,,"1. Combobox displays ORDER_TYPE_VALUES.default 'Event'.
+2. Exactly two options are present: 'Event' and 'Outside' - no other values exist in the list.
+3. Combobox now shows 'Outside'; Save button becomes enabled (dirty).
+4. Combobox shows 'Event'; Save button returns to disabled (pristine round-trip for this simple control).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"PO Number and PO Number Label accept unconstrained free text including a long string, and are truly optional",,,,,Automated,Omeesha Mahanta,,,"Both fields are empty again; Save button returns to disabled (pristine round-trip), confirming both fields are genuinely optional with no required validation.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and confirm PO Number and PO Number Label are both empty with maxLength=-1 and required=false.</li>
+<li>2. Click PO Number, type PO_TEST_VALUES.number ('PO-TEST-123'), press Tab.</li>
+<li>3. Click PO Number Label, type PO_TEST_VALUES.label ('Purchase Order #'), press Tab.</li>
+<li>4. Click PO Number, Ctrl+A, type a 100+ character long string, press Tab.</li>
+<li>5. Clear both PO Number and PO Number Label back to empty (Ctrl+A, Backspace, Tab on each).</li>
+</ol>",,,"1. Both fields empty; no invalid state on load.
+2. Field shows 'PO-TEST-123'; no invalid state raised; Save button becomes enabled (dirty).
+3. Field shows 'Purchase Order #'; no invalid state; Save remains enabled.
+4. The full long string is accepted with no truncation (no maxlength enforced) and no crash/console error; the field remains interactive.
+5. Both fields are empty again; Save button returns to disabled (pristine round-trip), confirming both fields are genuinely optional with no required validation.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rename a section with leading/trailing whitespace and confirm trim-on-save,,,,,Automated,Omeesha Mahanta,,,"After reload, the row shows 'AV Services' again and the grid's row count/composition matches the original baseline, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Locate the row for SECTION_TEST_VALUES.originalName ('AV Services') by its current text value (not a fixed index, since the grid is alphabetically sorted).</li>
+<li>2. Click its Section Name input, Ctrl+A, type '  AV Test  ' (SECTION_TEST_VALUES.editValue padded with leading/trailing spaces), press Tab.</li>
+<li>3. Click the Save button, confirm the 'Save Changes' dialog, and wait for it to close.</li>
+<li>4. Reload the page and re-open Basic Information.</li>
+<li>5. Locate the row (now named 'AV Test'), rename it back to the original 'AV Services', and Save+confirm again.</li>
+</ol>",,,"1. Row is found with value 'AV Services'.
+2. The committed value is the TRIMMED 'AV Test' (no leading/trailing spaces persist in the input's value).
+3. Dialog shows heading 'Save Changes' and body 'Are you sure you want to save the changes?'; after confirming, Save completes and the page-level Save button returns to disabled.
+4. The renamed row now shows 'AV Test' and persisted the trim.
+5. After reload, the row shows 'AV Services' again and the grid's row count/composition matches the original baseline, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Empty and whitespace-only Section Name commits cleanly auto-revert with Save staying disabled,,,,,Automated,Omeesha Mahanta,,,Section grid still shows all 14 original rows unchanged; no Save action was necessary since the form never left the pristine state.,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Locate the 'AV Services' row.</li>
+<li>2. Click its input, Ctrl+A, Backspace (clear to empty), press Tab.</li>
+<li>3. Click the same input, Ctrl+A, type three spaces '   ' (whitespace-only), press Tab.</li>
+<li>4. Confirm no other rows or panels were affected.</li>
+</ol>",,,"1. Row found with value 'AV Services'.
+2. Input reverts to display 'AV Services' again (the empty commit was rejected/reverted).; Save button remains DISABLED (this simple no-op revert correctly stays pristine, unlike the duplicate-name case).
+3. Input reverts to display 'AV Services' again.; Save button remains DISABLED.
+4. Section grid still shows all 14 original rows unchanged; no Save action was necessary since the form never left the pristine state.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Duplicate Section Name auto-reverts the display but leaves Save dirty (documented discrepancy),,,,,Automated,Omeesha Mahanta,,,"After reload, all 14 section names and Active states match the original baseline exactly, and Save is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Locate the 'AV Services' row and record the full list of existing section names.</li>
+<li>2. Click its input, Ctrl+A, type the name of another existing row, 'Flipcharts', slowly (real keystrokes), press Tab.</li>
+<li>3. Confirm the grid still shows exactly 14 rows with no name actually duplicated (i.e. 'Flipcharts' still appears exactly once, 'AV Services' still appears exactly once).</li>
+<li>4. Reload the page (accept the native beforeunload dialog) to discard the anomalous dirty state without persisting anything.</li>
+</ol>",,,"1. 'AV Services' row found; 14 total names recorded.
+2. The input's displayed/committed value REVERTS back to 'AV Services' (not 'Flipcharts') - no persistent duplicate-name warning icon or tooltip is observed on this row.; DESPITE the display being unchanged from the original, the page-level Save button becomes/stays ENABLED (dirty) - document this explicitly as a discrepancy against the module spec (which describes a persistent duplicate-name icon + disabled Save) and against the 'simple control' pristine-revert pattern seen elsewhere in this tab.
+3. Section names list is unchanged in content; only the Save button's dirty flag is the anomaly.
+4. After reload, all 14 section names and Active states match the original baseline exactly, and Save is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Escape mid-edit does NOT cancel an in-progress Section Name edit (confirms parity with ECT's Labor Cost grid, not an asymmetry)",,,,,Automated,Omeesha Mahanta,,,"After reload, all 14 section names match the original baseline exactly and Save is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Locate the 'AV Services' row.</li>
+<li>2. Click its input, Ctrl+A, type 'Temp Name XYZ' slowly (do NOT press Tab/blur yet).</li>
+<li>3. Press Escape while the input is still focused, mid-edit.</li>
+<li>4. Press Tab to blur and commit.</li>
+<li>5. Re-locate the row by its current text value 'Temp Name XYZ' (not by a fixed index), rename it back to 'AV Services', and press Tab.</li>
+<li>6. Reload the page (accept the native beforeunload dialog) to discard the residual dirty flag left over from this rename round-trip (per the grid-row dirty-flag asymmetry documented in the Application Overview).</li>
+</ol>",,,"1. Row found with value 'AV Services'.
+2. Input shows 'Temp Name XYZ' while still focused.
+3. The input's value REMAINS 'Temp Name XYZ' (Escape does NOT revert it) and the input remains focused - confirming Escape has no cancel effect in this grid, the same as ECT's Labor Cost grid (this corrects any assumption that Section Name's Escape behavior differs from ECT).
+4. The name 'Temp Name XYZ' is committed; because the grid auto-sorts alphabetically, this row now appears in a new position (alphabetically among the other names, e.g. just before 'Test Section'); Save button is enabled (dirty).
+5. Value commits as 'AV Services' and the row moves back to its original alphabetical position.
+6. After reload, all 14 section names match the original baseline exactly and Save is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add New Section row -- new row defaults to Active=true and correctly dirties Save,,,,,Automated,Omeesha Mahanta,,,"After reload, the grid shows exactly the original 14 rows and Save is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record the current section row count (expected 14).</li>
+<li>2. Click the 'Add New...' input at the bottom of the Section grid, type SECTION_TEST_VALUES.newSection ('Test Section Z'), press Tab.</li>
+<li>3. Right-click the new 'Test Section Z' row.</li>
+<li>4. Click 'Delete'.</li>
+<li>5. Reload the page (accept the native beforeunload dialog) to discard the residual dirty flag from the add+delete round-trip.</li>
+</ol>",,,"1. 14 rows confirmed; Save disabled.
+2. A new row appears with Section Name='Test Section Z' and Active=TRUE by default (check icon present) without any manual toggle.; Total row count becomes 15.; Save button becomes enabled (dirty).
+3. The row shows a 'Right-click for actions' affordance; a contextual toolbar/section appears with a 'Delete' button.
+4. The 'Test Section Z' row is immediately removed from the grid; row count returns to 14.
+5. After reload, the grid shows exactly the original 14 rows and Save is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Delete an existing Section row via the right-click context menu and confirm it can be persisted then restored,,,,,Automated,Omeesha Mahanta,,,"'Delete Me Section' is permanently gone; the grid shows exactly the original 14 rows, confirming the delete-then-save round-trip correctly persisted and office 1604 is left clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Add a uniquely-named temporary row via 'Add New...' (e.g. 'Delete Me Section'), press Tab.</li>
+<li>2. Click Save, confirm the 'Save Changes' dialog.</li>
+<li>3. Reload and re-open Basic Information to confirm persistence.</li>
+<li>4. Right-click the 'Delete Me Section' row and click 'Delete'.</li>
+<li>5. Click Save and confirm the 'Save Changes' dialog.</li>
+<li>6. Reload and re-open Basic Information.</li>
+</ol>",,,"1. New row 'Delete Me Section' appears, Active=true; Save enabled.
+2. Save completes; Save button returns to disabled; row 'Delete Me Section' is now a persisted (non-new) row.
+3. 'Delete Me Section' is present in the grid after reload (now 15 total rows).
+4. Row is removed from the grid immediately (14 rows remain); Save button becomes enabled (dirty).
+5. Save completes; Save button returns to disabled.
+6. 'Delete Me Section' is permanently gone; the grid shows exactly the original 14 rows, confirming the delete-then-save round-trip correctly persisted and office 1604 is left clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Default Sections button reconciles module-spec list vs. data-file list, and its additions are NOT tracked by the form's dirty state",,,,,Automated,Omeesha Mahanta,,,"After reload, the grid shows exactly the original 14 rows, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record the full current list of 14 section names.</li>
+<li>2. Click the 'Default' button (btnDefaultSection).</li>
+<li>3. Check the Save button's state immediately after clicking Default.</li>
+<li>4. Reload the page WITHOUT clicking Save.</li>
+<li>5. Click the 'Default' button again, then make one additional trivial edit (e.g. toggle any row's Active state and back) to force the form dirty, then click Save and confirm.</li>
+<li>6. Right-click and Delete both 'Audio' and 'High Speed Internet Access' rows, then Save and confirm again to restore the original 14-row baseline.</li>
+</ol>",,,"1. List recorded; confirms none of 'Audio' or 'High Speed Internet Access' are currently present, while Video, Lighting, Presenter Support, Staging, Rigging, Scenic, Labor already are.
+2. Exactly 2 new rows are added: 'Audio' and 'High Speed Internet Access' (the only 2 of the module spec's 9-item default list - Audio, Video, Lighting, Presenter Support, Staging, Rigging, High Speed Internet Access, Scenic, Labor - not already present verbatim); total row count becomes 16.; No name-based deduplication/merging occurs against similarly-themed but differently-named rows like 'AV Services' or 'Flipcharts' - they remain separate, untouched rows.
+3. Save button remains DISABLED - document this explicitly as a discrepancy: the Default button's grid mutation is not tracked as a form change.
+4. After reload, the 2 newly-added rows ('Audio', 'High Speed Internet Access') are GONE - the grid reverts to the original 14 rows, confirming the Default button's additions were purely ephemeral/client-side and were silently discarded because Save was never enabled.
+5. This time, after Save completes and the page reloads, the 2 new rows DO persist - confirming the additions are real/persistable, just not auto-tracked as dirty on their own.
+6. After reload, the grid shows exactly the original 14 rows, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unchecking Use Section gates the grid to read-only and disables the Default button,,,,,Automated,Omeesha Mahanta,,,The Default button becomes enabled again; every Section Name cell's input reappears with its original value; the 'Add New...' input reappears.; Save button returns to disabled (pristine round-trip for this simple checkbox).,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm Use Section is checked and the Default button is enabled.</li>
+<li>2. Click 'Use Section' to uncheck it.</li>
+<li>3. Click 'Use Section' again to re-check it.</li>
+</ol>",,,"1. Baseline confirmed; all 14 Section Name cells contain editable inputs; the 'Add New...' row's input is present.
+2. The 'Default' button becomes DISABLED.; Every Section Name cell's input element disappears, replaced by plain static (non-editable) text showing the same names.; The 'Add New...' row's input also disappears (its cell becomes empty/non-interactive).; All Active-column toggle icons remain visible (grid still displays Active state, just not editable via Section Name).; Save button becomes enabled (dirty).
+3. The Default button becomes enabled again; every Section Name cell's input reappears with its original value; the 'Add New...' input reappears.; Save button returns to disabled (pristine round-trip for this simple checkbox).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Section grid auto-sorts rows alphabetically after each name commit,,,,,Automated,Omeesha Mahanta,,,"After reload, the grid shows the original 14 rows in the original alphabetical order and Save is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record the full ordered list of 14 section names (expected alphabetical: AV Services, Flipcharts, Hybrid Meeting, Labor, Lighting, Power, Presenter Support, Projection, Rigging, Scenic, Staging, Test Section, Video, Whiteboard).</li>
+<li>2. Locate the 'AV Services' row (position 1) and rename it to 'Zzz Test Sort' (a name that alphabetically sorts last), press Tab.</li>
+<li>3. Re-locate the row by its current text 'Zzz Test Sort' (now last) and rename it back to 'AV Services', press Tab.</li>
+<li>4. Reload the page (accept the native beforeunload dialog) to discard the residual dirty flag from this round-trip.</li>
+</ol>",,,"1. Order matches alphabetical expectation.
+2. The row immediately moves to the LAST position in the grid (after 'Whiteboard'), confirming live alphabetical auto-sort on commit - NOT its original position 1.
+3. The row moves back to position 1 (alphabetically first again).
+4. After reload, the grid shows the original 14 rows in the original alphabetical order and Save is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"XSS payload typed into a new Section Name is stored and rendered as inert text, not executed",,,,,Automated,Omeesha Mahanta,,,"After reload, the grid matches the original 14-row baseline exactly.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Set up a console/dialog listener to detect any JS alert() firing.</li>
+<li>2. Click the 'Add New...' input, type the XSS_PAYLOAD constant ('&lt;script>alert(1)&lt;/script>'), press Tab.</li>
+<li>3. Right-click the new row and click 'Delete' to remove the test payload row.</li>
+<li>4. Reload the page (accept the native beforeunload dialog) if any residual dirty state remains, to leave office 1604 clean.</li>
+</ol>",,,"1. No listener has fired yet.
+2. A new row is added whose Section Name input's VALUE is the literal string '<script>alert(1)</script>' (verified via the input's .value property, not innerHTML).; No JavaScript alert() dialog fires.; Querying the Section table's DOM for actual <script> elements returns zero matches - confirms the payload was never parsed/injected as executable HTML.
+3. Row is removed; grid returns to its original 14 rows.
+4. After reload, the grid matches the original 14-row baseline exactly.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rename a room with leading/trailing whitespace and confirm trim-on-save,,,,,Automated,Omeesha Mahanta,,,"After reload, the row shows 'Ballroom A' again, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Locate the 'Ballroom A' row in the Room Configuration grid by its current text value.</li>
+<li>2. Click its input, Ctrl+A, type '  Ballroom Test  ' (padded), press Tab.</li>
+<li>3. Click Save and confirm the 'Save Changes' dialog.</li>
+<li>4. Reload and re-open Basic Information.</li>
+<li>5. Rename it back to 'Ballroom A' and Save+confirm again.</li>
+</ol>",,,"1. Row found with value 'Ballroom A'.
+2. The committed value is TRIMMED to 'Ballroom Test' (no leading/trailing spaces).
+3. Save completes; Save button returns to disabled.
+4. The row shows 'Ballroom Test', confirming the trim persisted.
+5. After reload, the row shows 'Ballroom A' again, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Empty and whitespace-only Room Configuration Name commits cleanly auto-revert with Save staying disabled,,,,,Automated,Omeesha Mahanta,,,Input reverts to 'Ballroom A' again; Save button remains DISABLED.,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Locate the 'Ballroom A' row.</li>
+<li>2. Click its input, Ctrl+A, Backspace (clear to empty), press Tab.</li>
+<li>3. Click the same input, Ctrl+A, type two spaces '  ', press Tab.</li>
+</ol>",,,"1. Row found.
+2. Input reverts to 'Ballroom A'; Save button remains DISABLED.
+3. Input reverts to 'Ballroom A' again; Save button remains DISABLED.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Duplicate Room Configuration Name auto-reverts the display but leaves Save dirty (parity with Section grid),,,,,Automated,Omeesha Mahanta,,,"After reload, all 4 room names match the original baseline and Save is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Locate the 'Ballroom A' row and record all 4 existing room names.</li>
+<li>2. Click its input, Ctrl+A, type the name of another existing row, 'Room Edit Test', slowly (real keystrokes), press Tab.</li>
+<li>3. Confirm the grid still shows exactly 4 rows with no name actually duplicated.</li>
+<li>4. Reload the page (accept the native beforeunload dialog) to discard the anomalous dirty state.</li>
+</ol>",,,"1. 'Ballroom A' found; 4 total names recorded.
+2. The input's value REVERTS to 'Ballroom A' (not 'Room Edit Test').; DESPITE the unchanged display, the page-level Save button becomes/stays ENABLED (dirty) - confirming this is the same discrepancy documented for the Section grid, not unique to Sections.
+3. Room names list is unchanged in content.
+4. After reload, all 4 room names match the original baseline and Save is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Add New Room row -- new row defaults to Active=true and correctly dirties Save,,,,,Automated,Omeesha Mahanta,,,"After reload, the grid shows exactly the original 4 rows and Save is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and record the current room row count (expected 4).</li>
+<li>2. Click the 'Add New...' input at the bottom of the Room Configuration grid, type ROOM_TEST_VALUES.testRoom ('Conference Room Z'), press Tab.</li>
+<li>3. Right-click the 'Conference Room Z' row.</li>
+<li>4. Click 'Delete'.</li>
+<li>5. Reload the page (accept the native beforeunload dialog) to discard any residual dirty flag.</li>
+</ol>",,,"1. 4 rows confirmed; Save disabled.
+2. A new row appears with Room Configuration Name='Conference Room Z' and Active=TRUE by default.; The grid re-sorts alphabetically, placing 'Conference Room Z' in its correct alphabetical position (immediately after 'Ballroom A').; Total row count becomes 5; Save button becomes enabled (dirty).
+3. A contextual toolbar with a 'Delete' button appears.
+4. The row is immediately removed; row count returns to 4.
+5. After reload, the grid shows exactly the original 4 rows and Save is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Delete an existing Room row via the right-click context menu and confirm it can be persisted then restored,,,,,Automated,Omeesha Mahanta,,,"'Delete Me Room' is permanently gone; the grid shows exactly the original 4 rows, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Add a uniquely-named temporary row via 'Add New...' (e.g. 'Delete Me Room'), press Tab.</li>
+<li>2. Click Save, confirm the 'Save Changes' dialog.</li>
+<li>3. Reload and re-open Basic Information to confirm persistence.</li>
+<li>4. Right-click the 'Delete Me Room' row and click 'Delete'.</li>
+<li>5. Click Save and confirm the 'Save Changes' dialog.</li>
+<li>6. Reload and re-open Basic Information.</li>
+</ol>",,,"1. New row 'Delete Me Room' appears, Active=true; Save enabled.
+2. Save completes; Save button returns to disabled; the row is now persisted.
+3. 'Delete Me Room' is present after reload (5 total rows).
+4. Row removed immediately (4 rows remain); Save button becomes enabled (dirty).
+5. Save completes; Save button returns to disabled.
+6. 'Delete Me Room' is permanently gone; the grid shows exactly the original 4 rows, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Exempt toggle is functional per-row; Service Type column stays read-only; no add/delete affordances exist,,,,,Automated,Omeesha Mahanta,,,"After reload, 'APP Downloaded' and all other rows show their original Exempt states and Save is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Record the current Exempt state of the first row ('APP Downloaded', expected checked/exempt) and the total visible row count (expected ~77).</li>
+<li>2. Click the Exempt cell of the 'APP Downloaded' row.</li>
+<li>3. Click the same Exempt cell again to toggle it back ON.</li>
+<li>4. Attempt to click/double-click the Service Type text cell of any row (e.g. 'Lighting').</li>
+<li>5. Scroll to the bottom of the Discount Exemptions grid.</li>
+<li>6. Reload the page (accept the native beforeunload dialog) to discard the dirty state left over from the toggle round-trip.</li>
+</ol>",,,"1. Baseline recorded; Save disabled.
+2. Its Exempt icon toggles OFF (no longer exempt); Save button becomes enabled (dirty).
+3. Its Exempt icon shows checked/exempt again (visually identical to the original state) BUT the Save button REMAINS enabled/dirty (per the grid-row dirty-flag asymmetry documented in the Application Overview - do not assert Save re-disables here).
+4. No input/edit affordance appears; the cell remains static, non-editable text.
+5. The final row is a blank two-cell spacer with no 'Add New...' input and no delete affordance - confirms this grid has no add/delete capability.
+6. After reload, 'APP Downloaded' and all other rows show their original Exempt states and Save is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing the Company Logo selection live-updates the preview image and dirties Save; reverting cleanly re-disables Save,,,,,Automated,Omeesha Mahanta,,,Combobox shows 'SAVLogoNew'; the preview src reverts to match the originally-recorded SAVLogoNew src; Save button returns to disabled (pristine round-trip for this simple control).,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Record the current Company Logo selection (expected 'SAVLogoNew') and the preview image's src attribute (imgLogoPreview).</li>
+<li>2. Click the Company Logo combobox and enumerate all options.</li>
+<li>3. Select 'CSI Logo'.</li>
+<li>4. Re-open the combobox and select 'SAVLogoNew' again.</li>
+</ol>",,,"1. Combobox shows 'SAVLogoNew'; preview src is a non-empty base64 data URI.
+2. Exactly 11 options are present: Header with Dust Ears and Text, PSAV Presentation Services (V3), PSAV DEG Red Bar(V2), SAV_Cropped, SAVLogoNew, Concise New York Logo Orig, CSI Logo, Concise New York Logo, Encore Blue Logo, Encore New Logo, Concise New Logo Large, DISNEY NEW Logo.
+3. Combobox now shows 'CSI Logo'; the preview image's src changes to a DIFFERENT base64 data URI than the original SAVLogoNew src; Save button becomes enabled (dirty).
+4. Combobox shows 'SAVLogoNew'; the preview src reverts to match the originally-recorded SAVLogoNew src; Save button returns to disabled (pristine round-trip for this simple control).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Quotes and Rental Orders/DROs checkboxes toggle independently of each other and of Company Logo,,,,,Automated,Omeesha Mahanta,,,Both show checked again; Save button returns to disabled (pristine round-trip).,,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm Quotes and Rental Orders/DROs are both checked.</li>
+<li>2. Click 'Quotes' to uncheck it.</li>
+<li>3. Click 'Rental Orders/DROs' to uncheck it.</li>
+<li>4. Re-check both 'Quotes' and 'Rental Orders/DROs'.</li>
+</ol>",,,"1. Baseline confirmed.
+2. Only Quotes becomes unchecked; Rental Orders/DROs remains checked; Company Logo selection is unaffected; Save becomes enabled.
+3. Both are now unchecked; no cascading effect on Company Logo or any Misc Settings checkbox.
+4. Both show checked again; Save button returns to disabled (pristine round-trip).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save button click always raises the Save Changes confirmation dialog; Cancel aborts persistence,,,,,Automated,Omeesha Mahanta,,,"Field is empty; Save button returns to disabled (pristine round-trip, confirming Cancel truly aborted persistence with no side effects).",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Make a trivial valid edit (e.g. type 'PO-TEMP' into PO Number), Tab to blur.</li>
+<li>2. Click the Save button.</li>
+<li>3. Click 'Cancel' in the dialog.</li>
+<li>4. Clear PO Number back to empty and Tab.</li>
+</ol>",,,"1. Save button becomes enabled.
+2. A 'Save Changes' alertdialog (dlgSaveChanges) appears with heading 'Save Changes', body text 'Are you sure you want to save the changes?', and Cancel/Save buttons - confirming this dialog ALWAYS appears for Basic Information's single global Save (a different pattern from ECT Settings' direct per-section Save with no confirm step).
+3. Dialog closes; NO save/network call is persisted; the PO Number field still shows the unsaved edit 'PO-TEMP'; Save button remains enabled (still dirty).
+4. Field is empty; Save button returns to disabled (pristine round-trip, confirming Cancel truly aborted persistence with no side effects).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save Changes confirm dialog Save button persists the edit and re-disables the page-level Save button,,,,,Automated,Omeesha Mahanta,,,"After reload, Phone 2 is empty again, restoring office 1604 to its original clean state.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Edit Phone 2 to a valid test value (PHONE_TEST_VALUES.recovery '555-000-1111'), Tab.</li>
+<li>2. Click Save, then click 'Save' inside the 'Save Changes' confirmation dialog.</li>
+<li>3. Reload the page and re-open Basic Information.</li>
+<li>4. Clear Phone 2 back to empty, Tab, Save, and confirm the dialog again.</li>
+</ol>",,,"1. Save button becomes enabled.
+2. Dialog closes; Save completes without an error toast; the page-level Save button returns to disabled.
+3. Phone 2 shows the persisted value '555-000-1111', confirming the save round-trip actually persisted server-side.
+4. After reload, Phone 2 is empty again, restoring office 1604 to its original clean state.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unsaved Changes dialog Stay/Discard on tab switch behaves identically to the ECT Settings plan's documented dialog,,,,,Automated,Omeesha Mahanta,,,"PO Number has reverted to its original empty value; Save button is disabled again, confirming Discard fully reverted the pending top-level field edit.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Edit PO Number to a trivial temp value 'TEMP', Tab.</li>
+<li>2. Click the 'Location Settings History' tab.</li>
+<li>3. Click 'Stay'.</li>
+<li>4. Click the 'Location Settings History' tab again, then click 'Discard' this time.</li>
+<li>5. Navigate back to the Basic Information tab.</li>
+</ol>",,,"1. Save button becomes enabled.
+2. An 'Unsaved changes' alertdialog (dlgUnsavedLocalOffice) appears with heading 'Unsaved changes', body text 'Are you sure you want to leave this view? Any unsaved changes will be lost.', and Stay/Discard buttons - confirmed IDENTICAL wording to the ECT Settings plan's dialog.
+3. Dialog closes; the app remains on the Basic Information tab; PO Number still shows the unsaved 'TEMP' value; Save button remains enabled.
+4. Navigation completes to the History tab.
+5. PO Number has reverted to its original empty value; Save button is disabled again, confirming Discard fully reverted the pending top-level field edit.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Hard page reload while Basic Information has unsaved edits triggers the native beforeunload dialog,,,,,Automated,Omeesha Mahanta,,,"Field shows its original saved value '-1', confirming the unsaved edit did not persist through the reload; Save button is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Edit Prep Date Offset to a new valid value (e.g. '-2', DATE_OFFSET_TEST_VALUES.valid), Tab.</li>
+<li>2. Trigger a hard reload of the current URL (e.g. page.reload() or address-bar navigation to the same URL).</li>
+<li>3. Accept the native dialog to allow the reload to complete.</li>
+<li>4. Re-inspect Prep Date Offset.</li>
+</ol>",,,"1. Field shows '-2'; Save button becomes enabled.
+2. The browser's NATIVE 'beforeunload' confirmation dialog appears (not the app's custom Radix dialog) and blocks the reload from completing until answered.
+3. Page reloads and lands back on the Basic Information tab (the default tab).
+4. Field shows its original saved value '-1', confirming the unsaved edit did not persist through the reload; Save button is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rapid tab-away mid-edit across multiple dirty panels is handled consistently by a single Unsaved Changes dialog,,,,,Automated,Omeesha Mahanta,,,"ALL THREE edits have been fully reverted: Prep Date Offset shows '-1', the checkbox is unchecked again, and the section grid shows 'AV Services' (not 'AV Test') - confirming Discard reverts every dirty panel simultaneously, not just the most recently touched one; Save button is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Make simultaneous unsaved edits in THREE different panels without saving: (a) change Prep Date Offset to '-2', (b) check 'Allow tentative and confirmed Status to have the same priority', (c) rename the 'AV Services' section row to 'AV Test' (valid, non-duplicate).</li>
+<li>2. Immediately click the 'ECT Settings' tab (without pausing).</li>
+<li>3. Click 'Stay'.</li>
+<li>4. Click 'ECT Settings' again, then click 'Discard'.</li>
+<li>5. Navigate back to Basic Information.</li>
+</ol>",,,"1. All three edits are visually present; Save button is enabled.
+2. The 'Unsaved changes' alertdialog appears before the ECT Settings content renders, blocking navigation, regardless of how many panels are dirty simultaneously.
+3. Dialog closes; Basic Information remains selected; all three edits (Prep=-2, checkbox checked, section renamed) are still present; Save remains enabled.
+4. Navigation completes to ECT Settings.
+5. ALL THREE edits have been fully reverted: Prep Date Offset shows '-1', the checkbox is unchecked again, and the section grid shows 'AV Services' (not 'AV Test') - confirming Discard reverts every dirty panel simultaneously, not just the most recently touched one; Save button is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Non-numeric and out-of-pattern input across all six offset fields is rejected consistently (consolidated pass),,,,,Automated,Omeesha Mahanta,,,"Each field's aria-invalid becomes 'false' as it is restored; once ALL SIX are restored, the Save button returns to disabled, confirming a full multi-field clean recovery.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load).</li>
+<li>2. For each of the six offset fields in turn (Prep, Return, Set, Strike, Delivery, Pickup): click, Ctrl+A, type a distinct non-numeric string (e.g. 'xx1', 'yy2', 'zz3', 'aa4', 'bb5', 'cc6'), press Tab.</li>
+<li>3. Restore all six fields to their original default values in sequence (Ctrl+A, Backspace, type default, Tab for each).</li>
+</ol>",,,"1. All six offset fields show their documented defaults; Save disabled.
+2. Each field independently shows aria-invalid='true' with its own red alert icon and tooltip after being edited; editing one field does not clear or otherwise affect the invalid state of a previously-edited field.; Save button remains disabled throughout (since at least one field is invalid at every point in this sequence).
+3. Each field's aria-invalid becomes 'false' as it is restored; once ALL SIX are restored, the Save button returns to disabled, confirming a full multi-field clean recovery.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"XSS payload across PO Number, PO Number Label, Phone 1, and Phone 2 is stored/rendered as inert text",,,,,Automated,Omeesha Mahanta,,,"All four fields show original values; Save button returns to disabled, confirming a full clean revert with no residual script injection anywhere in the DOM (final check: zero <script> elements exist anywhere inside the Basic Information form).",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load) and set up a listener to detect any JS alert() firing.</li>
+<li>2. Click PO Number, Ctrl+A, type XSS_PAYLOAD ('&lt;script>alert(1)&lt;/script>'), press Tab.</li>
+<li>3. Click PO Number Label, Ctrl+A, type XSS_PAYLOAD, press Tab.</li>
+<li>4. Click Phone 2 (optional, no format validation), Ctrl+A, type XSS_PAYLOAD, press Tab.</li>
+<li>5. Click Phone 1, Ctrl+A, type XSS_PAYLOAD, press Tab.</li>
+<li>6. Restore all four fields to their original values (PO Number=empty, PO Number Label=empty, Phone 2=empty, Phone 1=DEFAULT_PHONE_1 '760-883-1957'), Tab after each.</li>
+</ol>",,,"1. No listener has fired yet.
+2. Field's .value is the literal payload string; no alert fires; no <script> element appears in the DOM near this field.
+3. Same inert-text result as PO Number.
+4. Same inert-text result; no invalid state raised (Phone 2 has no format validation) but no script execution either.
+5. Field's .value is the literal payload string; aria-invalid is 'false' (Phone 1 only validates required-ness, not format, so the payload is 'accepted' as a non-empty string) and no script executes.
+6. All four fields show original values; Save button returns to disabled, confirming a full clean revert with no residual script injection anywhere in the DOM (final check: zero <script> elements exist anywhere inside the Basic Information form).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Simultaneous dirty edits across a top-level field AND a grid row require different revert strategies (documents the dirty-flag asymmetry end-to-end),,,,,Automated,Omeesha Mahanta,,,"After reload, Return Date Offset shows '1' and the Room Configuration grid shows 'Ballroom A' - both fields match their original baseline, and Save is disabled, confirming the reload/discard path is the only reliable clean-revert mechanism for grid-row edits.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Edit Return Date Offset to '2' (a simple top-level field), Tab.</li>
+<li>2. Restore Return Date Offset back to '1', Tab.</li>
+<li>3. Now edit the 'Ballroom A' room row to 'Ballroom X' and back to 'Ballroom A' (a grid row edit), Tab after each.</li>
+<li>4. Reload the page (accept the native beforeunload dialog) rather than expecting Save to auto-disable.</li>
+</ol>",,,"1. Save becomes enabled; Return shows '2'.
+2. Return shows '1'; Save button returns to DISABLED - confirms the simple field alone correctly recomputes pristine.
+3. After both edits, Room Configuration shows 'Ballroom A' again, but the Save button is now ENABLED (dirty) - confirms the grid-row edit alone does NOT recompute pristine even though its final displayed value matches the original.
+4. After reload, Return Date Offset shows '1' and the Room Configuration grid shows 'Ballroom A' - both fields match their original baseline, and Save is disabled, confirming the reload/discard path is the only reliable clean-revert mechanism for grid-row edits.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Hard reload mid-edit with edits spanning multiple panels discards all of them uniformly,,,,,Automated,Omeesha Mahanta,,,"Set Date Offset shows its original '-1'; PO Number is empty again; the first Discount Exemptions row shows its original Exempt state - confirming a hard reload discards ALL unsaved edits across every panel/grid uniformly, matching the ECT Settings plan's documented reload behavior applied here to Basic Information.; Save button is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Make edits in three places without saving: Set Date Offset='-3', PO Number='TEMP-PO', and toggle the first Discount Exemptions row's Exempt state off.</li>
+<li>2. Trigger a hard reload (page.reload()).</li>
+<li>3. After reload, re-open Basic Information and inspect all three edited locations.</li>
+</ol>",,,"1. All three edits are visually present; Save button is enabled.
+2. The native beforeunload dialog appears; accept it to proceed.
+3. Set Date Offset shows its original '-1'; PO Number is empty again; the first Discount Exemptions row shows its original Exempt state - confirming a hard reload discards ALL unsaved edits across every panel/grid uniformly, matching the ECT Settings plan's documented reload behavior applied here to Basic Information.; Save button is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Room Configuration grid behaves correctly with zero data rows (simulated empty-grid state observed live on office 1101), restored afterward",,,,,Automated,Omeesha Mahanta,,,"The grid shows exactly the original 4-row baseline, all Active, confirming office 1604 is left clean; Save button is disabled.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm the Room Configuration grid shows its normal 4-row baseline.</li>
+<li>2. Delete all 4 rows via the right-click context menu, then Save and confirm.</li>
+<li>3. Reload the page and re-open Basic Information.</li>
+<li>4. Type a new name into ""Add New..."" and press Tab.</li>
+<li>5. Delete that row via the right-click context menu, then Save and confirm.</li>
+<li>6. Re-add all 4 original room names (any order — the grid's alphabetical auto-sort settles them back into the original order), then Save and confirm.</li>
+<li>7. Reload the page and re-open Basic Information.</li>
+</ol>",,,"1. All 4 baseline room names present.
+2. Grid shows 0 rows; Save completes; Save button returns to disabled.
+3. The grid genuinely loads with 0 data rows (only the ""Add New..."" placeholder) — matches office 1101's live state.
+4. A single row appears — the very first row ever added to an empty grid — with Active=true by default; Save button becomes enabled.
+5. Grid returns to 0 rows; Save completes.
+6. All 4 original names reappear, each Active=true by default (matching their original state); Save completes.
+7. The grid shows exactly the original 4-row baseline, all Active, confirming office 1604 is left clean; Save button is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Default Sections button adds zero rows once all 9 module-spec names already exist (complements TC-029's ""adds exactly 2"" case; state observed live on office 1101)",,,,,Automated,Omeesha Mahanta,,,"The grid shows exactly the original 14-row baseline, confirming office 1604 is left clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Local Office Settings is open with the Basic Information tab active (the default tab).",Medium,,Basic_Information,1,,Local_Office > Basic_Information,"<ol>
+<li>1. Open Basic Information tab (fresh load). Confirm the Section grid shows its normal 14-row baseline (7 of the module spec's 9 default names already present; Audio and High Speed Internet Access absent, per 5.7).</li>
+<li>2. Add ""Audio"" and ""High Speed Internet Access"" via ""Add New..."" (not the Default button), then Save and confirm; reload and re-open Basic Information.</li>
+<li>3. Click the ""Default"" button.</li>
+<li>4. Delete ""Audio"" and ""High Speed Internet Access"" via the right-click context menu, then Save and confirm.</li>
+<li>5. Reload the page and re-open Basic Information.</li>
+</ol>",,,"1. Baseline confirmed.
+2. Grid now genuinely contains, and persists, all 9 of the module spec's default names (16 rows total) — reproducing the state observed live on office 1101.
+3. No new rows are added and the grid's contents are completely unchanged (all 9 module-spec names already existed); Save button stays disabled (consistent with 5.7's finding that Default's mutations aren't tracked as dirty — here there's simply nothing to mutate).
+4. Grid returns to the original 14 rows; Save completes.
+5. The grid shows exactly the original 14-row baseline, confirming office 1604 is left clean.",,,,Master,S1620,Test Case (Steps),Regression,,,

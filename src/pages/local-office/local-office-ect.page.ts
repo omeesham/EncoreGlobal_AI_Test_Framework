@@ -101,6 +101,35 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
     return this.getFieldDisplayValue(key);
   }
 
+ /** ECT's Fixed Costs percentage fields (Benefits Multiplier / Historical Subrental %) never set
+ * `aria-invalid` — confirmed live: the required-field/invalid state is signaled purely via a
+ * `border-destructive` CSS class on the input (plus a red circle-alert tooltip icon rendered as a
+ * sibling, itself `aria-hidden`). The shared BasePage.waitForFieldInvalid/waitForFieldValid poll
+ * `aria-invalid`, which never flips here, so override with a class-based poll for this page only —
+ * other pages that genuinely use aria-invalid (Terms & Conditions, Service Charge, Discount Matrix,
+ * etc.) are untouched. */
+  private async waitForEctFieldDestructive(key: string, expectDestructive: boolean, timeout: number): Promise<boolean> {
+    const el = this.getElement(key);
+    const deadline = Date.now() + timeout;
+    while (Date.now() < deadline) {
+      const cls = await el.getAttribute('class').catch(() => null);
+      const isDestructive = !!cls && cls.includes('border-destructive');
+      if (isDestructive === expectDestructive) return true;
+      await this.page.waitForTimeout(200);
+    }
+    return false;
+  }
+
+  @step('Expect invalid (ECT)')
+  async expectInvalid(key: string, timeout = 5_000): Promise<boolean> {
+    return this.waitForEctFieldDestructive(key, true, timeout);
+  }
+
+  @step('Expect valid (ECT)')
+  async expectValid(key: string, timeout = 5_000): Promise<boolean> {
+    return this.waitForEctFieldDestructive(key, false, timeout);
+  }
+
   @step('Get event profit target row count')
   async getEventProfitTargetRowCount(): Promise<number> {
     return this.getElement('tblEventProfitTarget').locator('tbody tr').count();
@@ -133,7 +162,18 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
   }
 
  /** Angular can fire "Unsaved changes" alertdialog asynchronously after tab load.
- * If the click is intercepted, dismiss the dialog and retry. */
+ * If the click is intercepted, dismiss the dialog and retry.
+ *
+ * Uses locator.fill() (sets the DOM value + dispatches a single "input" event) rather than
+ * click + Ctrl+A + keyboard.type(): confirmed live that this cell's numeric mask filters
+ * keystrokes one at a time and, when it rejects a character (e.g. the leading "-" of "-20"),
+ * it collapses the current text selection WITHOUT deleting the previously-selected text. Typing
+ * a value whose first character is rejected (e.g. "-20") after Ctrl+A therefore does not replace
+ * the old value — the surviving valid characters ("20") get inserted mid-string into the old
+ * value instead (observed: "41.00" + "-20" via keyboard produced the corrupted "4120.00", not
+ * "20.00"). fill() applies the new value as one atomic replace, matching how this field's
+ * whole-value validator actually evaluates entered text (verified live via getLaborCostValue()
+ * before/after each step — see TC-LOE-ECT-012). */
   @step('Fill labor cost')
   async fillLaborCost(rowIndex: number, value: string): Promise<void> {
     const input = this.page.locator(`[data-testid="ect-settings-input-labor-cost-${rowIndex}"]`);
@@ -146,9 +186,27 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
       await this.navigateToEctTab();
       await input.click({ timeout: 10_000 });
     }
-    await this.page.keyboard.press('Control+a');
-    await this.page.keyboard.type(value);
+    await input.fill(value);
     await input.press('Tab');
+  }
+
+  @step('Get last labor cost row index')
+  async getLastLaborCostRowIndex(): Promise<number> {
+    return (await this.getLaborCostRowCount()) - 1;
+  }
+
+ /** Same paste simulation as LocalOfficeSettingsPage.pasteIntoField, targeting a Labor Cost grid
+ * cell by row index (the grid has no selector key -- rows are addressed by index, same as
+ * fillLaborCost). Deliberately does NOT press Tab -- callers inspect the raw post-paste value
+ * first, then blur (Tab) themselves. */
+  @step('Paste into labor cost')
+  async pasteIntoLaborCost(rowIndex: number, value: string): Promise<void> {
+    await this.grantClipboardPermissions();
+    await this.page.evaluate((v) => navigator.clipboard.writeText(v), value);
+    const input = this.page.locator(`[data-testid="ect-settings-input-labor-cost-${rowIndex}"]`);
+    await input.click();
+    await this.page.keyboard.press('Control+a');
+    await this.page.keyboard.press('Control+v');
   }
 
   @step('Get first labor class name')
@@ -179,5 +237,96 @@ export class LocalOfficeEctPage extends LocalOfficeSettingsPage {
   async getTableRowTexts(tableKey: string, rowSelector: string): Promise<string[]> {
     const cells = this.getElement(tableKey).locator(`${rowSelector} td`);
     return (await cells.allTextContents()).map(t => t.trim());
+  }
+
+  @step('Get table column headers')
+  async getTableColumnHeaders(tableKey: string): Promise<string[]> {
+    return (await this.getElement(tableKey).locator('th').allTextContents()).map(t => t.trim());
+  }
+
+  @step('Is on ECT tab')
+  async isOnEctTab(): Promise<boolean> {
+    const tab = this.getElement('tabEctSettings');
+    if ((await tab.count()) === 0) return false;
+    return (await tab.getAttribute('aria-selected').catch(() => null)) === 'true';
+  }
+
+ // Route away first to force a destroy + recreate of the settings component (mirrors
+ // LocationLocalInfoPage.reloadAndNavigateToLocalInfo) — page.reload can hit the router cache.
+  @step('Reload and navigate to ECT')
+  async reloadAndNavigateToEct(officeNo: string = '1604'): Promise<void> {
+    const base = this.config?.base_url || '';
+    await this.page.goto(`${base}locations`, { waitUntil: 'domcontentloaded' }).catch(() => {});
+    await this.navigateToBasicInfoTab(officeNo);
+    await this.navigateToEctTab();
+  }
+
+  @step('Get fixed costs description paragraph count')
+  async getFixedCostsDescriptionParagraphCount(): Promise<number> {
+    return this.getElement('secFixedCosts').locator('p').count();
+  }
+
+  @step('Attempt edit event profit target cell')
+  async attemptEditEventProfitTargetCell(): Promise<void> {
+    const cell = this.getElement('tblEventProfitTarget').locator('tbody tr').first().locator('td').nth(2);
+    await cell.dblclick({ timeout: 3_000 }).catch(() => {});
+  }
+
+  @step('Attempt edit sub rental matrix cell')
+  async attemptEditSubRentalMatrixCell(): Promise<void> {
+    const cell = this.getElement('tblSubRentalMatrix').locator('tbody tr').first().locator('td').nth(2);
+    await cell.dblclick({ timeout: 3_000 }).catch(() => {});
+  }
+
+  @step('Get labor cost action button count')
+  async getLaborCostActionButtonCount(): Promise<number> {
+    return this.getElement('secSaveLaborCosts').locator('button').count();
+  }
+
+ /** Types a value into a Labor Cost cell and presses Escape (instead of Tab) without blurring
+ * via a committed edit — used to prove Escape does NOT revert the in-progress edit here (unlike
+ * the Section/Room Escape-to-cancel pattern on Basic Information). Returns the raw input value. */
+  @step('Escape labor cost mid edit')
+  async escapeLaborCostMidEdit(rowIndex: number, value: string): Promise<string> {
+    const input = this.page.locator(`[data-testid="ect-settings-input-labor-cost-${rowIndex}"]`);
+    await input.click();
+    await this.page.keyboard.press('Control+a');
+    await this.page.keyboard.type(value);
+    await input.press('Escape');
+    return input.inputValue();
+  }
+
+ // hardReloadExpectingBeforeunload moved to LocalOfficeSettingsPage (the parent) -- the mechanism
+ // is generic to any dirty-form-guarded Local Office Settings page, not ECT-specific. Inherited
+ // from there now; see that class for the implementation/comment.
+
+ /** Fills+tabs a Fixed Costs field, saves, reloads+re-navigates to ECT and asserts the new value
+ * persisted, then restores the original value and saves again (via the shared saveAndVerifyPersisted
+ * retry helper) so office 1604 is left clean for subsequent tests — mirrors
+ * LocationLocalInfoPage.testBoundaryValue's save-verify-restore pattern. */
+  @step('Save fixed costs field and verify persisted')
+  async saveFixedCostsFieldAndVerifyPersisted(
+    fieldKey: string,
+    value: string,
+    expectedDisplayAfterSave: string,
+    restoreValue: string,
+    expectedDisplayAfterRestore: string,
+    officeNo: string = '1604',
+  ): Promise<void> {
+    await this.fillAndTab(fieldKey, value);
+    await this.clickSaveFixedCosts();
+    await this.reloadAndNavigateToEct(officeNo);
+    const persisted = await this.getEctFieldValue(fieldKey);
+    if (persisted !== expectedDisplayAfterSave) {
+      throw new Error(`${fieldKey}: expected persisted display "${expectedDisplayAfterSave}" after save, got "${persisted}"`);
+    }
+
+    await this.saveAndVerifyPersisted({
+      isAtTarget: async () => (await this.getEctFieldValue(fieldKey)) === expectedDisplayAfterRestore,
+      applyMutation: async () => { await this.fillAndTab(fieldKey, restoreValue); },
+      save: async () => { await this.clickSaveFixedCosts(); },
+      reload: () => this.reloadAndNavigateToEct(officeNo),
+      label: `${fieldKey} restored to ${expectedDisplayAfterRestore}`,
+    });
   }
 }
