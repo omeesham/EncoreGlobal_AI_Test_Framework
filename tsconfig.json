@@ -44,7 +44,8 @@
     // Root-level config (playwright.config.ts) — keep it in the type-check net so unused imports are caught.
     "*.ts",
     "src/**/*.ts",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "scripts/**/*.ts"
   ],
   "exclude": [
     "node_modules",

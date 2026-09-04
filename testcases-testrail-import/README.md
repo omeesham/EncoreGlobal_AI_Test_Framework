@@ -54,6 +54,20 @@ Encoding: UTF-8 (no BOM), CRLF row terminators, LF line breaks inside cells.
 
 ## Importing into TestRail
 
+### Automated (preferred): `npm run testrail:sync`
+
+`npm run testrail:sync` (dry run) / `npm run testrail:sync:execute` (real
+import) reads these CSVs directly via the TestRail API, imports **only** the
+TC ids that don't already have a case in `config/testrail/case-map.json`, and
+writes the returned case ids back into that file. See "Syncing newly authored
+test cases into TestRail" in the root `README.md` for the full pipeline (it
+also re-runs `check:tc-ids` / `check:alignment` first, and regenerates these
+CSVs from `testcases/` if they're stale). This is the only path that keeps
+`case-map.json` — the file the TestRail reporter resolves results against —
+in sync automatically; the manual CSV-UI import below does not update it.
+
+### Manual (TestRail UI)
+
 1. In TestRail open the target project → **Test Cases → Import Cases (CSV)**.
 2. Upload one CSV; choose **UTF-8** encoding, delimiter **comma**,
    **first row is the header**.
@@ -64,6 +78,9 @@ Encoding: UTF-8 (no BOM), CRLF row terminators, LF line breaks inside cells.
    `Section Hierarchy` → section, `Template` → Test Case (Steps), …).
 5. On the preview screen confirm the case count matches the CSV, then import.
    Import files one at a time per section to keep sections tidy.
+6. After a manual import, add the new TC id → case id pairs to
+   `config/testrail/case-map.json` yourself (`npm run testrail:sync` won't
+   know about cases it didn't create).
 
 ## Regenerating a single module
 

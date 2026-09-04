@@ -200,6 +200,42 @@ Skipped tests are not posted (TestRail keeps them "Untested"). A TestRail outage
 or bad credentials can never fail the build; the reporter logs a warning and all
 local reports remain intact.
 
+### Syncing newly authored test cases into TestRail
+
+`npm run testrail:sync` is the one command for turning a new module's
+`testcases/**/*.xlsx` into live TestRail cases, kept in lockstep with the
+Playwright specs and the generated CSVs:
+
+1. Regenerates `testcases-testrail-import/**/*.csv` from `testcases/**/*.xlsx`
+   (`scripts/convert-testcases-to-testrail.py`) — no hand conversion needed.
+2. Runs `check:tc-ids` and `check:alignment` — the spec ↔ workbook ↔ CSV chain
+   must be clean (ascending TC ids, matching titles) or the sync stops here.
+3. Diffs the CSVs against `config/testrail/case-map.json` and reports only the
+   TC ids that don't have a TestRail case yet — already-mapped cases are left
+   untouched, so re-runs are safe.
+4. Probes TestRail connectivity (`get_project`) with the same env vars as the
+   reporter above.
+
+That's the **dry run, and it's the default** — nothing is created and no file
+is written. Review the plan it prints, then pass `--execute` to actually
+create the new cases and write their returned ids into
+`config/testrail/case-map.json` (the same file the reporter above resolves
+results against) plus a `reports/testrail-import-report.json` cross-reference
+of TC id → TestRail case id → spec file:line.
+
+```bash
+npm run testrail:sync                       # dry run — plan + connectivity check only
+npm run testrail:sync -- --only local-office  # scope to workbooks whose name contains this text
+npm run testrail:sync:execute                 # actually import + update case-map.json
+```
+
+Section hierarchy, priority, type, and steps for each new case come straight
+from the generated CSV row (see `testcases-testrail-import/README.md`); labels
+are best-effort and silently skipped if the TestRail instance doesn't have the
+Labels feature enabled. A case that fails to import is reported and skipped —
+already-created cases in the same run are still written to `case-map.json`,
+so re-running only retries the failures.
+
 ---
 
 ## Running it on GitHub Actions
