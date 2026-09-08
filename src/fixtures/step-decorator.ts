@@ -1,4 +1,5 @@
 import { test } from '@playwright/test';
+import { reportStep } from './report-steps';
 
 // Tracks active step depth so a decorated method calling another decorated method
 // does not produce duplicate nested steps in the Playwright report.
@@ -24,7 +25,9 @@ export function step(label: string) {
       }
       _depth++;
       try {
-        return await test.step(label, () => originalMethod.apply(this, args));
+        // Through reportStep so a page-object call made straight from a test body is numbered
+        // like any other top-level step, and one made inside a phase() nests under it unnumbered.
+        return await reportStep(label, () => originalMethod.apply(this, args));
       } finally {
         _depth--;
       }

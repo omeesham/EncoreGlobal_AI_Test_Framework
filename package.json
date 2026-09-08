@@ -20,6 +20,7 @@
     "check:tc-ids": "node scripts/check-tc-id-sequence.js",
     "check:alignment": "node scripts/check-testcase-alignment.js",
     "check:testcases": "npm run check:tc-ids && npm run check:alignment",
+    "check:steps": "node scripts/check-report-steps.js",
     "testrail:sync": "ts-node scripts/testrail-sync.ts",
     "testrail:sync:execute": "ts-node scripts/testrail-sync.ts --execute",
     "testrail:backfill-labels": "ts-node scripts/testrail-backfill-labels.ts",

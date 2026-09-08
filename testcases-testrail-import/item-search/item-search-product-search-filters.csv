@@ -1,0 +1,131 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,The Location dropdown lists offices,,,,,Automated,Omeesha Mahanta,,,The list closes without changing the selection,,,item-search,,"The Products page is open and hydrated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click the Location control</li>
+<li>2. Read the list size</li>
+<li>3. Confirm the current office appears</li>
+<li>4. Press Escape</li>
+</ol>",,,"1. The office list opens with a ""Select Location"" placeholder entry at the top
+2. Well over a thousand offices are offered
+3. `1101 - Corporate Office Encore USA SGA` is in the list
+4. The list closes without changing the selection",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Region dropdown lists regions,,,,,Automated,Omeesha Mahanta,,,The list closes without changing the selection,,,item-search,,"The Products page is open and hydrated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click the Region control</li>
+<li>2. Read the list</li>
+<li>3. Press Escape</li>
+</ol>",,,"1. The region list opens with a ""Select Region"" placeholder entry
+2. Around a hundred regions are offered; `Boston` is among them
+3. The list closes without changing the selection",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Location and Region clear each other,,,,,Automated,Omeesha Mahanta,,,Location returns to the current office; Region clears,,,item-search,,"The Products page is open; criteria are at defaults
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Set Location to 1101 - Corporate Office Encore USA SGA</li>
+<li>2. Set Region to Boston</li>
+<li>3. Set Location back to 1101 - Corporate Office Encore USA SGA</li>
+<li>4. Click Reset</li>
+</ol>",,,"1. Location shows the office
+2. Region shows Boston AND Location returns to ""Select Location""
+3. Location shows the office AND Region returns to ""Select Region""
+4. Location returns to the current office; Region clears",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Product Organization popover offers the country checklist,,,,,Automated,Omeesha Mahanta,,,"The popover closes with the selection unchanged (""None"")",,,item-search,,"The Products page is open and hydrated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click the Product Organization control</li>
+<li>2. Read its entries</li>
+<li>3. Press Escape</li>
+</ol>",,,"1. A popover opens
+2. It offers Select All, None, United States, Canada and Mexico as checkable items
+3. The popover closes with the selection unchanged (""None"")",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The date fields open a calendar with a time spinner,,,,,Automated,Omeesha Mahanta,,,The popover closes; the field value is unchanged,,,item-search,,"The Products page is open and hydrated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Read the two date fields</li>
+<li>2. Click the Prep date field's popover button</li>
+<li>3. Press Escape</li>
+</ol>",,,"1. Prep shows today at 12:00 AM; Return shows today at 11:59 PM
+2. A calendar for the current month opens with a time spinner below
+3. The popover closes; the field value is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Quantity Greater Than Zero narrows the results,,,,,Automated,Omeesha Mahanta,,,The count returns to the unfiltered total,,,item-search,,"The Products page is open; criteria are at defaults
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click Search with default criteria and note the total</li>
+<li>2. Check Quantity Greater Than Zero and click Search</li>
+<li>3. Uncheck it and click Search</li>
+</ol>",,,"1. The full set loads
+2. The count drops below the unfiltered total and is greater than zero
+3. The count returns to the unfiltered total",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A Prep date after the Return date is rejected with a message,,,,,Automated,Omeesha Mahanta,,,Both dates return to today's defaults and the message clears,,,item-search,,"The Products page is open with default criteria (both dates on today)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Open the Prep Date Time calendar and pick a day in a later month</li>
+<li>2. Read the panel</li>
+<li>3. Click Reset</li>
+</ol>",,,"1. The field takes the future date
+2. ""Prep date cannot be after the return date."" appears in red and the Search button is locked
+3. Both dates return to today's defaults and the message clears",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A date value renders fully inside its box in every month,,,,,Automated,Omeesha Mahanta,,,Both fields return to defaults,,,item-search,,"The Products page is open with default criteria
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Pick the 22nd of each of the next twelve months on Prep Date Time, measuring the field after each pick</li>
+<li>2. Pick a wide date on Return Date Time and measure it</li>
+<li>3. Click Reset</li>
+</ol>",,,"1. Every rendered value fits inside the field's box
+2. The value fits inside the box
+3. Both fields return to defaults",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Active filter narrows the results to active products,,,,,Automated,Omeesha Mahanta,,,The result returns to the step 1 set — the added rows are gone again,,,item-search,,"The Products page is open with default criteria (Active checked); no search has been executed
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Type SM58 into the Any Field box and click Search with Active checked</li>
+<li>2. Uncheck the Active filter and click Search again</li>
+<li>3. Compare the two Product Code ID sets</li>
+<li>4. Re-check Active and click Search</li>
+</ol>",,,"1. A set of products loads; record every visible row's Product Code ID
+2. The count grows, and the new result contains every Product Code ID from step 1 plus at least one more — a strict superset
+3. The unchecked set holds every ID from step 1 plus at least one the Active filter had hidden — an inactive product for the same search
+4. The result returns to the step 1 set — the added rows are gone again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Product Organization filter narrows the results and clearing it restores them,,,,,Automated,Omeesha Mahanta,,,Product Organization returns to `None` and the count returns to the step 1 baseline,,,item-search,,"The Products page is open with default criteria (Product Organization shows None); no search has been executed
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click Search with Product Organization left at None</li>
+<li>2. Open the Product Organization popover and choose United States</li>
+<li>3. Click Search again</li>
+<li>4. Read the returned rows</li>
+<li>5. Click Reset, then Search once more</li>
+</ol>",,,"1. The unfiltered result loads; record the count as the baseline total
+2. The popover closes and the field now reads `United States` instead of `None`
+3. The count drops to a strictly smaller, non-zero number — the filter narrowed the set rather than emptying or ignoring it
+4. Every visible row belongs to the filtered set; the set is a strict subset of the step 1 result
+5. Product Organization returns to `None` and the count returns to the step 1 baseline",,,,Master,S1620,Test Case (Steps),Regression,,,

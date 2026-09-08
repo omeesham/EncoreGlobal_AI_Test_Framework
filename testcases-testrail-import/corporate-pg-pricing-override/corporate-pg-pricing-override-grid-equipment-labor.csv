@@ -6,7 +6,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""items found""
-Sample input 2: ""Banners Design""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 2: ""Banners Design""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Select office 9460 via the Change Local Office picker</li>
 <li>2. Read the visible row count</li>
 <li>3. Read the ""items found"" total</li>
@@ -22,7 +22,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Banners""
-Sample input 2: ""Banners Design""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 2: ""Banners Design""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Read the visible row count (full page)</li>
 <li>2. Type ""Banners"" into the filter box</li>
 <li>3. the ""Banners Design"" row is visible</li>
@@ -37,7 +37,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Product Group Name""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""Product Group Name""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Open the ""Product Group Name"" header dropdown</li>
 <li>2. Open the header dropdown</li>
 </ol>",,,"1. The header dropdown menu opens and displays sort options.
@@ -47,7 +47,7 @@ Sample input 1: ""Product Group Name""",Medium,,Labor_Grid,1,,Corporate_Pricing_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Baseline: restore row 655 to Override Price 160.00 / inactive (bounded-retry restore)</li>
 <li>2. Edit Override Price to 161</li>
 <li>3. Save</li>
@@ -61,7 +61,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Baseline restore</li>
 <li>2. Save + confirm</li>
 </ol>",,,"1. Max Discount % for row 655 accepts the value 10 and the Save button becomes enabled.
@@ -71,7 +71,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Baseline restore</li>
 <li>2. Save + confirm</li>
 </ol>",,,"1. The Active checkbox toggles to the opposite state and the Save button becomes enabled.
@@ -82,7 +82,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Stay""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""Stay""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Edit row 655 Override Price to a value differing from the saved one</li>
 <li>2. Click the in-app Home link</li>
 <li>3. Click ""Stay""</li>
@@ -100,7 +100,7 @@ Sample input 1: ""Stay""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Edit row 655 Override Price</li>
 <li>2. Click the in-app Home link</li>
 <li>3. Assert navigation to the home page</li>
@@ -118,7 +118,7 @@ Application: Navigator
 Sample input 1: ""Go to first page""
 Sample input 2: ""Go to previous page""
 Sample input 3: ""Go to next page""
-Sample input 4: ""Go to last page""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 4: ""Go to last page""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. On page 1: ""Go to first page"" + ""Go to previous page"" disabled; ""Go to next page"" + ""Go to last page"" enabled</li>
 <li>2. read the first row name</li>
 <li>3. Click ""Go to next page""</li>
@@ -135,7 +135,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""items found""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""items found""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Read the visible row count and the ""items found"" total</li>
 <li>2. Change rows-per-page to 50</li>
 <li>3. Assert the visible row count increased and the ""items found"" total is unchanged</li>
@@ -147,7 +147,7 @@ Sample input 1: ""items found""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Over
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Read the first row Product Group Name (content)</li>
 <li>2. Page to the last page</li>
 <li>3. Page back to the first page</li>
@@ -159,7 +159,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Focus the anchor row Override Price display cell (it is keyboard-focusable)</li>
 <li>2. Press Enter</li>
 <li>3. Press Escape</li>
@@ -174,7 +174,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Product Groups""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""Product Groups""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. With Currency = ALL: the ""Product Groups"" picker panel (search box) is absent</li>
 <li>2. Select Currency = USD</li>
 <li>3. Count the picker draggable product-group rows</li>
@@ -186,7 +186,7 @@ Sample input 1: ""Product Groups""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_O
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Read the grid row count</li>
 <li>2. Drag the picker first row into the Equipment grid panel</li>
 <li>3. Assert: row count +1</li>
@@ -208,7 +208,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Switch to the Labor tab</li>
 <li>2. Read the Labor grid row count</li>
 <li>3. Assert the row count increased by 1 and Save enabled</li>
@@ -222,7 +222,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134, find row by Product Group 565</li>
 <li>2. Click the Override Price cell (role=button)</li>
 <li>3. Read the editor value</li>
@@ -236,7 +236,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert committed=true, displayedValue='0.00', saveEnabled=true</li>
@@ -248,7 +248,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert committed=true, displayedValue='25.50', saveEnabled=true</li>
@@ -260,7 +260,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert committed=true, displayedValue='9,999.99', saveEnabled=true</li>
@@ -272,7 +272,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert: committed=false, ariaInvalid='true', borderColor contains oklch(0.577 0.245 27.325), errorText='' (no message - defect #4), saveEnabled=false, escapable=true</li>
@@ -284,7 +284,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 893 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert committed=true, displayedValue='0.01', saveEnabled=true</li>
@@ -297,7 +297,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Pending verification""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""Pending verification""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert committed=true</li>
@@ -312,7 +312,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Pending verification""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""Pending verification""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 893 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert committed=true, displayedValue='999,999.99', saveEnabled=true - ""Pending verification"": no confirmed hard max for Override Price</li>
@@ -327,7 +327,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert the DEFECT: committed=true, displayedValue='-' (em-dash, blanked), saveEnabled=true</li>
@@ -342,7 +342,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Call - real keyboard input (method rule)</li>
 <li>3. Assert the DEFECT: committed=true, displayedValue='1.23' (no % suffix - Override Price format), saveEnabled=true</li>
@@ -356,7 +356,7 @@ Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)"""
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Call - captures step-5 order BEFORE escape</li>
 <li>3. Assert rejection oracle (all 7 affordances):</li>
@@ -382,7 +382,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 893 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert committed=true, displayedValue='7.00', saveEnabled=true</li>
@@ -394,7 +394,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 893 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert committed=true, displayedValue='100,000.00', saveEnabled=true</li>
@@ -406,7 +406,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Call</li>
 <li>3. Assert saveEnabledAfterEdit=true, saveDisabledAfterRevert=true</li>
@@ -418,7 +418,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor row PG 565 (reload restores originals)</li>
 <li>2. Read initial Active state</li>
 <li>3. Toggle the Active checkbox</li>
@@ -432,7 +432,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 565</li>
 <li>3. Call</li>
@@ -446,7 +446,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 893</li>
 <li>3. Call</li>
@@ -460,7 +460,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 565</li>
 <li>3. Call</li>
@@ -474,7 +474,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 893</li>
 <li>3. Call</li>
@@ -490,7 +490,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""
-Sample input 2: ""When the app is fixed""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 2: ""When the app is fixed""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 565</li>
 <li>3. Call</li>
@@ -514,7 +514,7 @@ Sample input 2: ""When the app is fixed""",Medium,,Labor_Grid,1,,Corporate_Prici
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 893</li>
 <li>3. Call</li>
@@ -528,7 +528,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 565</li>
 <li>3. Call</li>
@@ -542,7 +542,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 893</li>
 <li>3. Call</li>
@@ -558,7 +558,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""
-Sample input 2: ""When the app is fixed""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 2: ""When the app is fixed""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 565</li>
 <li>3. Call</li>
@@ -584,7 +584,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Expected (asserting the BUG - test FAILS when app is fixed)""
-Sample input 2: ""When the app is fixed""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 2: ""When the app is fixed""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 893</li>
 <li>3. Call</li>
@@ -608,7 +608,7 @@ Sample input 2: ""When the app is fixed""",Medium,,Labor_Grid,1,,Corporate_Prici
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 565</li>
 <li>3. Call</li>
@@ -622,7 +622,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 893</li>
 <li>3. Call</li>
@@ -636,7 +636,7 @@ Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > La
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Application: Navigator",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to Labor tab on office 1134</li>
 <li>2. Find row by product group anchor PG 565</li>
 <li>3. Call</li>
@@ -652,7 +652,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""565""
-Sample input 2: ""Product Group""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 2: ""Product Group""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Read the visible row count</li>
 <li>2. Type ""565"" into the text filter</li>
 <li>3. Open the ""Product Group"" column header dropdown</li>
@@ -673,7 +673,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""10""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""10""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to office 9460, Labor tab (via volume bed constant)</li>
 <li>2. Confirm the grid loads with the default page size (20 visible rows)</li>
 <li>3. Open the rows-per-page selector and choose ""10""</li>
@@ -690,7 +690,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""30""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""30""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to office 9460, Labor tab (via volume bed constant)</li>
 <li>2. Confirm the grid loads with the default page size (20 visible rows)</li>
 <li>3. Open the rows-per-page selector and choose ""30""</li>
@@ -707,7 +707,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""40""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""40""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to office 9460, Labor tab (via volume bed constant)</li>
 <li>2. Confirm the grid loads with the default page size (20 visible rows)</li>
 <li>3. Open the rows-per-page selector and choose ""40""</li>
@@ -724,7 +724,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""50""",Medium,,Labor_Grid,1,,Corporate_Pricing_Pg_Override > Labor_Grid,"<ol>
+Sample input 1: ""50""",Medium,,Grid_Equipment_Labor,1,,Corporate_Pricing_Pg_Override > Grid_Equipment_Labor,"<ol>
 <li>1. Navigate to office 9460, Labor tab (via volume bed constant)</li>
 <li>2. Confirm the grid loads with the default page size (20 visible rows)</li>
 <li>3. Open the rows-per-page selector and choose ""50""</li>

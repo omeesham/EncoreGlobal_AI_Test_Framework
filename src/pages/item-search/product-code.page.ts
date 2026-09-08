@@ -196,6 +196,64 @@ export class ProductCodePage extends ItemSearchPage {
     return this.dialog().getByPlaceholder(S.PLACEHOLDER_ITEM_DESCRIPTION).first();
   }
 
+  /** The add form's optional Oracle Item Number box. */
+  dialogOracleItemNumberBox(): Locator {
+    return this.dialog().getByPlaceholder(S.PLACEHOLDER_ORACLE_ITEM_NUMBER).first();
+  }
+
+  // ---------------------------------------------------------------- add-form input routes
+
+  /**
+   * Types into a dialog box with REAL keystrokes and returns what actually landed.
+   *
+   * Every text box in the add form carries a DOM maxlength, so keystrokes past the limit are
+   * dropped by the browser as they are typed — the read-back is the whole point of the helper:
+   * the caller asserts on the value the box kept, not on the value it was handed.
+   */
+  @step('Type into a dialog box and read it back')
+  async typeAndReadBack(box: Locator, value: string): Promise<string> {
+    await box.click();
+    await this.page.keyboard.press('Control+a');
+    await this.page.keyboard.press('Delete');
+    if (value !== '') await box.pressSequentially(value, { delay: 20 });
+    await this.waitForAngularStable(5_000).catch(() => {});
+    return box.inputValue();
+  }
+
+  /**
+   * Assigns a value straight into the box through the native value setter, then fires the
+   * input/change events the form listens on, and returns what landed.
+   *
+   * This is the ONLY route that gets an over-length value into these boxes. A real OS paste
+   * (clipboard + Control+V) was tried live on 2026-09-08 and the browser truncated it to the
+   * maxlength exactly as typing does, and Playwright's own fill() truncates the same way — so
+   * neither can reach the form's length validator. The scripted assignment does: 60 characters
+   * land whole, both boxes flip to aria-invalid and Save stays held back.
+   */
+  @step('Set a dialog box value by script')
+  async scriptedFill(box: Locator, value: string): Promise<string> {
+    await box.evaluate((el: HTMLInputElement, v: string) => {
+      const setter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value')!.set!;
+      setter.call(el, v);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    }, value);
+    // The form validates on input, not on blur (proven live) — this pause lets that land
+    // before the caller reads the invalid flag or the Save state back.
+    await this.page.waitForTimeout(500);
+    return box.inputValue();
+  }
+
+  /**
+   * Whether a dialog field is flagged invalid. The add form signals it purely through
+   * `aria-invalid` on the input (no inline message is rendered — the dialog text carries no
+   * length error even with two over-long values in it, read live 2026-09-08).
+   */
+  @step('Read a dialog field invalid flag')
+  async isFieldFlaggedInvalid(box: Locator): Promise<boolean> {
+    return (await box.getAttribute('aria-invalid')) === 'true';
+  }
+
   /** Opens the Product Type list and chooses a type, letting the pairing rule settle. */
   @step('Select a Product Type')
   async selectProductType(type: string): Promise<void> {

@@ -6,7 +6,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""1107""
-Sample input 2: ""Search by Location Name, Number""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+Sample input 2: ""Search by Location Name, Number""",Medium,,Location_Search,1,,Corporate_Pricing_Pg_Override > Location_Search,"<ol>
 <li>1. Open the Change Local Office picker dialog</li>
 <li>2. Type ""1107"" into the ""Search by Location Name, Number"" field</li>
 <li>3. at least one row with ""1107"" is visible</li>
@@ -21,7 +21,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""1107""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+Sample input 1: ""1107""",Medium,,Location_Search,1,,Corporate_Pricing_Pg_Override > Location_Search,"<ol>
 <li>1. Open the Change Local Office picker dialog - a location-lookup API call fires (baseline check proving the network listener works)</li>
 <li>2. assert postFired=true and locationCount > 0</li>
 <li>3. Assert: Active checkbox is UNCHECKED (is not checked / data-state=unchecked) by default</li>
@@ -51,7 +51,7 @@ Sample input 1: ""1107""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Overri
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+Application: Navigator",Medium,,Location_Search,1,,Corporate_Pricing_Pg_Override > Location_Search,"<ol>
 <li>1. Navigate to the Corporate Pricing Override screen</li>
 <li>2. Attempt to click an Override Price cell</li>
 <li>3. Observe the Save button</li>
@@ -66,7 +66,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Change Local Office""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+Sample input 1: ""Change Local Office""",Medium,,Location_Search,1,,Corporate_Pricing_Pg_Override > Location_Search,"<ol>
 <li>1. Open the ""Change Local Office"" picker dialog</li>
 <li>2. Press Escape</li>
 <li>3. Read the grid</li>
@@ -81,7 +81,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Change Local Office""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+Sample input 1: ""Change Local Office""",Medium,,Location_Search,1,,Corporate_Pricing_Pg_Override > Location_Search,"<ol>
 <li>1. Open the ""Change Local Office"" picker dialog</li>
 <li>2. Click the Close (X) button in the dialog header</li>
 <li>3. Read the grid</li>
@@ -98,7 +98,7 @@ Location: test office 1604
 Application: Navigator
 Sample input 1: ""Change Local Office""
 Sample input 2: ""zzz999nonexistent""
-Sample input 3: ""no results""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+Sample input 3: ""no results""",Medium,,Location_Search,1,,Corporate_Pricing_Pg_Override > Location_Search,"<ol>
 <li>1. Open the ""Change Local Office"" picker dialog</li>
 <li>2. Type a nonsense string (e.g. ""zzz999nonexistent"") into the search box</li>
 <li>3. Assert the empty state is announced (a ""no results"" message or zero-row indicator is visible, not a silent blank)</li>
@@ -114,7 +114,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Change Local Office""
-Sample input 2: ""1606""",Medium,,Location_Picker,1,,Corporate_Pricing_Pg_Override > Location_Picker,"<ol>
+Sample input 2: ""1606""",Medium,,Location_Search,1,,Corporate_Pricing_Pg_Override > Location_Search,"<ol>
 <li>1. Open the ""Change Local Office"" picker dialog</li>
 <li>2. Search ""1606"", check the office 1606 row, click Select</li>
 <li>3. Read Save button state</li>

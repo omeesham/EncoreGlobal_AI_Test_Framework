@@ -8,7 +8,7 @@ Application: Navigator
 Sample input 1: ""Camlok""
 Sample input 2: ""Filter Product Groups Override...""
 Sample input 3: ""Camlok #1 - 50' (Set of 5 Conductors)""
-Sample input 4: ""Camlok #2 - 10'""",Medium,,Grid_Sort,1,,Corporate_Pricing_Pg_Override > Grid_Sort,"<ol>
+Sample input 4: ""Camlok #2 - 10'""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
 <li>1. Read visible row count</li>
 <li>2. Type ""Camlok"" into the ""Filter Product Groups Override..."" text box</li>
 <li>3. Assert the two visible rows are ""Camlok #1 - 50' (Set of 5 Conductors)"" and ""Camlok #2 - 10'"" (specific product identities, not just count)</li>
@@ -23,7 +23,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Product Group Name""",Medium,,Grid_Sort,1,,Corporate_Pricing_Pg_Override > Grid_Sort,"<ol>
+Sample input 1: ""Product Group Name""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
 <li>1. Open the ""Product Group Name"" column header dropdown menu</li>
 <li>2. Read the first cell of Product Group Name</li>
 <li>3. Read all visible Product Group Name cells</li>
@@ -42,7 +42,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Product Group""",Medium,,Grid_Sort,1,,Corporate_Pricing_Pg_Override > Grid_Sort,"<ol>
+Sample input 1: ""Product Group""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
 <li>1. Open the ""Product Group"" column header dropdown menu</li>
 <li>2. Read all visible Product Group cells</li>
 <li>3. Open the header dropdown again</li>
@@ -56,7 +56,7 @@ Sample input 1: ""Product Group""",Medium,,Grid_Sort,1,,Corporate_Pricing_Pg_Ove
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Grid_Sort,1,,Corporate_Pricing_Pg_Override > Grid_Sort,"<ol>
+Application: Navigator",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
 <li>1. Read visible column count</li>
 <li>2. Open Grid Options</li>
 <li>3. Read visible column count</li>
@@ -75,7 +75,7 @@ Location: test office 1604
 Application: Navigator
 Sample input 1: ""Camlok""
 Sample input 2: ""Sort ascending""
-Sample input 3: ""Product Group Name""",Medium,,Grid_Sort,1,,Corporate_Pricing_Pg_Override > Grid_Sort,"<ol>
+Sample input 3: ""Product Group Name""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
 <li>1. Apply text filter ""Camlok""</li>
 <li>2. Apply ""Sort ascending"" on the ""Product Group Name"" column</li>
 <li>3. assert every visible row's Product Group Name contains ""Camlok"" (case-insensitive)</li>
@@ -93,7 +93,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""H""
-Sample input 2: ""Filter Product Groups Override...""",Medium,,Grid_Sort,1,,Corporate_Pricing_Pg_Override > Grid_Sort,"<ol>
+Sample input 2: ""Filter Product Groups Override...""",Medium,,Grid_Filters,1,,Corporate_Pricing_Pg_Override > Grid_Filters,"<ol>
 <li>1. Read the visible row count (baseline)</li>
 <li>2. Type a single character ""H"" into the ""Filter Product Groups Override..."" input</li>
 <li>3. Assert: visible row count is ≥ 0 and ≤ the baseline count</li>

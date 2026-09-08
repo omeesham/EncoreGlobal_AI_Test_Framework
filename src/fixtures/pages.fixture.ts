@@ -66,6 +66,34 @@ type TestFixtures = {
   dependencyGate: (deps: string[]) => void;
 };
 
+/**
+ * Session video capture.
+ *
+ * `use.video` in playwright.config.ts reaches only Playwright's own `context` fixture. This suite
+ * runs on a worker-scoped context this file builds with `browser.newContext()`, which that option
+ * never touches — so video was configured but silently never recorded (no .webm has ever been
+ * produced). Trace and failure screenshots were compensated for by hand in `diagnosticsHandler`;
+ * video was not, and this is that missing half.
+ *
+ * Playwright finalizes a video only when its page closes, so with one context per WORKER the
+ * recording is necessarily a whole worker session rather than one test — a per-test video would
+ * mean a context per test, which is exactly the auth reuse this fixture exists to avoid. The
+ * session file therefore lands in `reports/test-results/session-videos/`, where
+ * `npm run share-for-debugging` already collects it, rather than being attached to one test.
+ */
+const VIDEO_DIR = path.join(process.cwd(), 'reports', 'test-results', 'session-videos');
+
+/** Contexts whose worker saw at least one failing test — the retain-on-failure decision. */
+const workersWithFailures = new WeakSet<BrowserContext>();
+
+/** Mirrors getArtifactSetting() in playwright.config.ts so both read ENABLE_VIDEO the same way. */
+function videoMode(): 'off' | 'on' | 'retain-on-failure' {
+  const raw = process.env.ENABLE_VIDEO?.toLowerCase();
+  if (raw === 'false' || raw === 'off') return 'off';
+  if (raw === 'on') return 'on';
+  return 'retain-on-failure';
+}
+
 export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
   diagnosticsHandler: [async ({ authenticatedSession }, use, testInfo) => {
     const { page, context } = authenticatedSession;
@@ -81,6 +109,9 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
     await use(undefined as unknown as void);
 
     const failed = testInfo.status !== 'passed' && testInfo.status !== 'skipped';
+    // Marks the worker's session video for keeping — the video itself cannot be finalized
+    // until the context closes at worker teardown, long after this test is over.
+    if (failed) workersWithFailures.add(context);
     if (failed) {
       try {
         const screenshotPath = testInfo.outputPath('failure-screenshot.png');
@@ -178,10 +209,12 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
   authenticatedSession: [async ({ browser, config }, use) => {
     const credentials = await CredentialLoader.loadCredentials({ type: 'env' });
 
+    const recordVideo = videoMode() === 'off' ? undefined : { dir: VIDEO_DIR };
+
     const newSharedContext = async () => {
       const ctx = fs.existsSync(STATE_PATH)
-        ? await browser.newContext({ storageState: STATE_PATH })
-        : await browser.newContext();
+        ? await browser.newContext({ storageState: STATE_PATH, recordVideo })
+        : await browser.newContext({ recordVideo });
       const pg = await ctx.newPage();
 
       pg.on('dialog', async (dialog) => {
@@ -273,7 +306,26 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
 
     await use({ page, context });
 
+    // Read the handle BEFORE closing: path() only resolves once the page is gone.
+    const sessionVideo = page.video();
     await context.close();
+    if (sessionVideo) {
+      const keep = videoMode() === 'on' || workersWithFailures.has(context);
+      try {
+        const recorded = await sessionVideo.path();
+        if (keep) {
+          // Rename off the random handle so the worker a video belongs to is readable.
+          const named = path.join(
+            VIDEO_DIR,
+            `session-worker-${process.env.TEST_WORKER_INDEX ?? '0'}-${Date.now()}.webm`,
+          );
+          await fs.promises.rename(recorded, named).catch(() => {});
+          Log.info(`[fixture] session video kept -> ${named}`);
+        } else {
+          await fs.promises.unlink(recorded).catch(() => {});
+        }
+      } catch { /* video unavailable -- never fail teardown over an artifact */ }
+    }
   }, { scope: 'worker', timeout: 300_000 }],
 
   // Destructuring the bare `page` would create a second about:blank context diagnostics cannot

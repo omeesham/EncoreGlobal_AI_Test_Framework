@@ -1,0 +1,111 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Add Product Code opens a required-empty form with Save held back,,,,,Automated,Omeesha Mahanta,,,Save is disabled,,,add-product-code,,"A result row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,Add_Product_Code > Product_Code,"<ol>
+<li>1. Click Add Product Code</li>
+<li>2. Read the ancestor sections</li>
+<li>3. Read the entry form</li>
+<li>4. Read the footer</li>
+</ol>",,,"1. The dialog opens with a single tab named ""Item""
+2. The selected row's Category, Sub Category, Class and Sub Class values display as plain text (dashes where the row has none)
+3. Name and Item Description are empty and flagged as required; the type selector shows ""Select product type""; the service selector shows ""Select service type"" and is locked
+4. Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing a Product Type unlocks and filters Service Type,,,,,Automated,Omeesha Mahanta,,,The dialog closes; nothing is saved,,,add-product-code,,"The Add Product Code dialog is open (previous case state)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,Add_Product_Code > Product_Code,"<ol>
+<li>1. Open the Product Type selector</li>
+<li>2. Choose LABOR</li>
+<li>3. Open the Service Type selector</li>
+<li>4. Press Escape, then close the dialog</li>
+</ol>",,,"1. Ten types are offered, including EQUIPMENT, CONSUMABLE, LABOR and FEE
+2. The Service Type selector unlocks
+3. Only labor services are offered (a list including Operator Labor, Rigging Labor and Setup Charges)
+4. The dialog closes; nothing is saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Add segment menu opens per-segment forms,,,,,Automated,Omeesha Mahanta,,,The grid is unchanged,,,add-product-code,,"A result row is selected; no dialog open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,Add_Product_Code > Product_Code,"<ol>
+<li>1. Click the arrow beside Add Product Code</li>
+<li>2. Click Category</li>
+<li>3. Close the dialog</li>
+</ol>",,,"1. A menu lists Item, Sub Class, Class, Sub Category, Category
+2. The dialog opens and its single tab is named ""Category""
+3. The grid is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A completed Add Product Code form saves and the new code is found again,,,,,Automated,Omeesha Mahanta,,,"Exactly one row returns — the product just created, carrying the category path of the row that was selected when Add opened",,,add-product-code,,"A default search has been executed on the Products page for office 1101 and a result row is selected (the new code is created under that row's category hierarchy)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,Add_Product_Code > Product_Code,"<ol>
+<li>1. Open Add Product Code and fill Name and Item Description with a per-run unique value (e.g. a ZZ-E2E-&lt;timestamp> name)</li>
+<li>2. Choose Product Type EQUIPMENT, then choose Service Type Equipment Rental</li>
+<li>3. Click Save</li>
+<li>4. Reset the search, type the new code's exact Name into Any Field, and click Search</li>
+</ol>",,,"1. Both required text fields hold the typed values, read back from the boxes
+2. Service Type unlocks once the Product Type is set; with all four required fields present, Save enables
+3. A ""Product created successfully."" toast appears and the dialog closes; `POST /navigator/api/product/create` returns success with a new id
+4. Exactly one row returns — the product just created, carrying the category path of the row that was selected when Add opened",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The text fields stop accepting input at their maximum lengths,,,,,Automated,Omeesha Mahanta,,,Exactly 10 characters land in the box,,,add-product-code,,"A search has been run on the Products page for office 1101, a result row is selected, and the Add Product Code dialog is open on the Item segment
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,Add_Product_Code > Product_Code,"<ol>
+<li>1. Type 60 characters into Name</li>
+<li>2. Read the Name box's error state</li>
+<li>3. Type 70 characters into Item Description</li>
+<li>4. Type 15 digits into Oracle Item Number</li>
+</ol>",,,"1. Exactly 50 characters land in the box; the extra 10 are never accepted
+2. The field is not flagged invalid and no error message is shown — the field simply stopped accepting input
+3. Exactly 50 characters land in the box, with no error message
+4. Exactly 10 characters land in the box",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An over-length value that bypasses the typing limit cannot be saved,,,,,Automated,Omeesha Mahanta,,,Both fields clear their invalid flag and Save becomes enabled,,,add-product-code,,"A result row is selected and the Add Product Code dialog is open on the Item segment
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,Add_Product_Code > Product_Code,"<ol>
+<li>1. Put a 60-character value into Name and into Item Description by a route that bypasses the typing limit (the paste/scripted-fill path)</li>
+<li>2. Choose Product Type LABOR, then Service Type Application Development</li>
+<li>3. Read the two text fields' error state and the Save button</li>
+<li>4. Replace both values with valid short ones by the same route</li>
+</ol>",,,"1. Both boxes hold all 60 characters — the typing limit does not apply to this route
+2. Service Type unlocks and accepts the choice, so every required field now holds a value
+3. Both fields are flagged invalid and Save is disabled, even though all four required fields are filled
+4. Both fields clear their invalid flag and Save becomes enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A name at exactly the maximum length saves and reads back complete,,,,,Automated,Omeesha Mahanta,,,"Exactly one row returns and its Item cell holds all 50 characters — the value was stored whole, not shortened",,,add-product-code,,"A default search has been executed on the Products page for office 1101 and a result row is selected (the new code is created under that row's category hierarchy)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,Add_Product_Code > Product_Code,"<ol>
+<li>1. Open Add Product Code and fill Name with a per-run unique value that is exactly 50 characters long, plus an Item Description</li>
+<li>2. Choose Product Type EQUIPMENT, then Service Type Equipment Rental</li>
+<li>3. Click Save</li>
+<li>4. Reset the search, type the full 50-character name into Any Field and search</li>
+</ol>",,,"1. The Name box holds all 50 characters, read back from the box
+2. Save enables
+3. A ""Product created successfully."" toast appears and the dialog closes; the create call returns success
+4. Exactly one row returns and its Item cell holds all 50 characters — the value was stored whole, not shortened",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Closing the Add dialog with a part-filled form discards it silently,,,,,Automated,Omeesha Mahanta,,,The form is empty again: the name is gone and Product Type is back on its placeholder,,,add-product-code,,"A search has been run on the Products page for office 1101 and a result row is selected, so the Add Product Code button is available
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,Add_Product_Code > Product_Code,"<ol>
+<li>1. Open Add Product Code and type a name into the Name box</li>
+<li>2. Choose any Product Type</li>
+<li>3. Click Close</li>
+<li>4. Reopen Add Product Code</li>
+</ol>",,,"1. The value appears in the box
+2. The choice is taken and Service Type unlocks
+3. The dialog closes immediately — no unsaved-changes prompt appears
+4. The form is empty again: the name is gone and Product Type is back on its placeholder",,,,Master,S1620,Test Case (Steps),Regression,,,

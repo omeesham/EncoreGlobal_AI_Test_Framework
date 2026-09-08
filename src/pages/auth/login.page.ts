@@ -1,5 +1,7 @@
 import { Page } from '@playwright/test';
 import { BasePage } from '../base.page';
+import { step } from '../../fixtures/step-decorator';
+import { phase, verify } from '../../fixtures/report-steps';
 import { Log } from '../../utils/logger';
 import { AppConstants } from '../../utils/constants';
 import { IConfig } from '../../types';
@@ -13,6 +15,7 @@ export class LoginPage extends BasePage {
     Log.info('LoginPage constructed for Navigator Cloud');
   }
 
+  @step('Open the Navigator Cloud sign-in page')
   async goto(): Promise<void> {
     const url = this.config?.base_url || this.config?.url || process.env.BASE_URL || '';
     Log.info(`Navigating to Navigator Cloud: ${url}`);
@@ -25,6 +28,7 @@ export class LoginPage extends BasePage {
     Log.info('Page loaded, checking authentication state...');
   }
 
+  @step('Sign in through Microsoft SSO')
   async loginWithMicrosoft(username: string, password: string): Promise<boolean> {
     // Never throws: every failure returns false after logging and screenshotting, so callers must
     // branch on the return value rather than expecting an error.
@@ -34,79 +38,92 @@ export class LoginPage extends BasePage {
       Log.info(`Starting Microsoft SSO login for ${username}`);
 
       Log.info('Waiting for Navigator Cloud sign-in page...');
-      try {
-        await this.page.waitForSelector(MicrosoftLoginSelectors.btnContinueNow, { state: 'visible', timeout: 15_000 });
-        await this.page.click(MicrosoftLoginSelectors.btnContinueNow);
-        Log.info('[OK] Clicked "Continue Now" on Navigator Cloud sign-in page');
-      } catch {
-        Log.info('"Continue Now" button not found -- may already be on Microsoft login page');
-      }
+      await phase('Leave the Navigator Cloud sign-in page for Microsoft', async () => {
+        try {
+          await this.page.waitForSelector(MicrosoftLoginSelectors.btnContinueNow, { state: 'visible', timeout: 15_000 });
+          await this.page.click(MicrosoftLoginSelectors.btnContinueNow);
+          Log.info('[OK] Clicked "Continue Now" on Navigator Cloud sign-in page');
+        } catch {
+          Log.info('"Continue Now" button not found -- may already be on Microsoft login page');
+        }
 
-      await this.waitForMicrosoftLoginPage();
-      collector?.recordUrl();
-
-      Log.info('Entering email...');
-      await this.page.fill(MicrosoftLoginSelectors.txtEmail, username);
-      await this.page.click(MicrosoftLoginSelectors.btnNext);
-
-      Log.info('Waiting for password field...');
-      await this.page.waitForSelector(MicrosoftLoginSelectors.txtPassword, { 
-        state: 'visible', 
-        timeout: AppConstants.ACTION_TIMEOUT_MS 
+        await this.waitForMicrosoftLoginPage();
+        collector?.recordUrl();
       });
 
-      Log.info('Entering password...');
-      await this.page.fill(MicrosoftLoginSelectors.txtPassword, password);
-      await this.page.click(MicrosoftLoginSelectors.btnSignIn);
+      await phase('Enter the account email', async () => {
+        Log.info('Entering email...');
+        await this.page.fill(MicrosoftLoginSelectors.txtEmail, username);
+        await this.page.click(MicrosoftLoginSelectors.btnNext);
+      });
 
-      await this.handleStaySignedIn();
+      await phase('Enter the account password', async () => {
+        Log.info('Waiting for password field...');
+        await this.page.waitForSelector(MicrosoftLoginSelectors.txtPassword, { 
+          state: 'visible', 
+          timeout: AppConstants.ACTION_TIMEOUT_MS 
+        });
+
+        Log.info('Entering password...');
+        await this.page.fill(MicrosoftLoginSelectors.txtPassword, password);
+        await this.page.click(MicrosoftLoginSelectors.btnSignIn);
+      });
+
+      await phase('Answer the stay-signed-in prompt', () => this.handleStaySignedIn());
 
       Log.info('Waiting for redirect to Navigator Cloud...');
-      // Use the same base-URL cascade as goto() (including BASE_URL) and guard the empty case —
-      // new URL('') throws a TypeError, which here would mask the real navigation state being checked.
-      const baseForHost = this.config?.base_url || this.config?.url || process.env.BASE_URL || '';
-      const expectedHostname = baseForHost ? new URL(baseForHost).hostname : '';
+      // The redirect and the two load waits are one phase in the report: they are a single
+      // hand-off back to the app, and the catch below only classifies WHY that hand-off failed.
+      await phase('Wait for the redirect back to Navigator Cloud', async () => {
+        // Use the same base-URL cascade as goto() (including BASE_URL) and guard the empty case —
+        // new URL('') throws a TypeError, which here would mask the real navigation state being checked.
+        const baseForHost = this.config?.base_url || this.config?.url || process.env.BASE_URL || '';
+        const expectedHostname = baseForHost ? new URL(baseForHost).hostname : '';
 
-      try {
-        await this.page.waitForURL(
-          url => urlHostMatches(url.toString(), expectedHostname),
-          { timeout: AppConstants.NAVIGATION_TIMEOUT_MS }
-        );
-      } catch (redirectError) {
- // Differentiate: check for OAuth errors, redirect loops, post-login failures
+        try {
+          await this.page.waitForURL(
+            url => urlHostMatches(url.toString(), expectedHostname),
+            { timeout: AppConstants.NAVIGATION_TIMEOUT_MS }
+          );
+        } catch (redirectError) {
+   // Differentiate: check for OAuth errors, redirect loops, post-login failures
+          collector?.recordUrl();
+          const currentUrl = this.page.url();
+          const authChain = collector?.getAuthChain() ?? [];
+          const netFails = collector?.getNetworkFailures() ?? [];
+
+          const oauthFail = netFails.find(n =>
+            (urlHostMatches(n.url, 'login.microsoftonline.com') || n.url.includes('oauth')) && n.status >= 400
+          );
+          if (oauthFail) {
+            throw new Error(`OAuth token request returned ${oauthFail.status}: ${oauthFail.body.substring(0, 500)}`);
+          }
+
+          const authRedirects = authChain.filter(e => e.status >= 300 && e.status < 400);
+          if (authRedirects.length > 5) {
+            throw new Error(`SSO redirect loop detected -- ${authRedirects.length} redirects to ${authRedirects.at(-1)?.url ?? 'unknown'}`);
+          }
+
+          if (!urlHostMatches(currentUrl, 'login.microsoftonline.com') && !urlHostMatches(currentUrl, expectedHostname)) {
+            throw new Error(`Post-login app failed to load -- page URL: ${currentUrl}, expected: ${expectedHostname}`);
+          }
+
+          throw redirectError;
+        }
+
+        Log.info('[wait] Waiting for domcontentloaded after redirect...');
+        await this.page.waitForLoadState('domcontentloaded', { timeout: 30_000 });
+        Log.info('[wait] Waiting for full page load...');
+        await this.page.waitForLoadState('load', { timeout: 30_000 });
+        Log.info('[OK] Page load complete after redirect');
+
         collector?.recordUrl();
-        const currentUrl = this.page.url();
-        const authChain = collector?.getAuthChain() ?? [];
-        const netFails = collector?.getNetworkFailures() ?? [];
+      });
 
-        const oauthFail = netFails.find(n =>
-          (urlHostMatches(n.url, 'login.microsoftonline.com') || n.url.includes('oauth')) && n.status >= 400
-        );
-        if (oauthFail) {
-          throw new Error(`OAuth token request returned ${oauthFail.status}: ${oauthFail.body.substring(0, 500)}`);
-        }
-
-        const authRedirects = authChain.filter(e => e.status >= 300 && e.status < 400);
-        if (authRedirects.length > 5) {
-          throw new Error(`SSO redirect loop detected -- ${authRedirects.length} redirects to ${authRedirects.at(-1)?.url ?? 'unknown'}`);
-        }
-
-        if (!urlHostMatches(currentUrl, 'login.microsoftonline.com') && !urlHostMatches(currentUrl, expectedHostname)) {
-          throw new Error(`Post-login app failed to load -- page URL: ${currentUrl}, expected: ${expectedHostname}`);
-        }
-
-        throw redirectError;
-      }
-
-      Log.info('[wait] Waiting for domcontentloaded after redirect...');
-      await this.page.waitForLoadState('domcontentloaded', { timeout: 30_000 });
-      Log.info('[wait] Waiting for full page load...');
-      await this.page.waitForLoadState('load', { timeout: 30_000 });
-      Log.info('[OK] Page load complete after redirect');
-
-      collector?.recordUrl();
-
-      const isAuthenticated = await this.isLoggedIn();
+      const isAuthenticated = await verify(
+        'Verify the signed-in session lands on Navigator Cloud',
+        () => this.isLoggedIn(),
+      );
       if (isAuthenticated) {
         Log.info('[OK] Microsoft SSO login successful');
         return true;
@@ -155,6 +172,7 @@ export class LoginPage extends BasePage {
     }
   }
 
+  @step('Check the Navigator session is authenticated')
   async isLoggedIn(): Promise<boolean> {
     try {
       const url = this.page.url();
@@ -192,11 +210,13 @@ export class LoginPage extends BasePage {
     }
   }
 
+  @step('Check whether the Microsoft sign-in page is showing')
   async isOnMicrosoftLogin(): Promise<boolean> {
     const url = this.page.url();
     return urlHostMatches(url, 'login.microsoftonline.com');
   }
 
+  @step('Read the sign-in error message')
   async getLoginError(): Promise<string | null> {
     try {
       const errorDiv = this.page.locator(MicrosoftLoginSelectors.divError).first();

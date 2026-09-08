@@ -170,6 +170,23 @@ export const ISR_HISTORY_COLUMN_SAMPLES = [
 export const ISR_ACTIVE_FILTER_WORD = 'SM58';
 
 /**
+ * The Add dialog's text-field ceilings, read from each input's DOM maxlength live on
+ * 2026-09-08: Name and Item Description hold 50 characters, Oracle Item Number 10.
+ * NM-1742 sized the product Name and Description database columns to these legacy sizes,
+ * which the Oracle integration expects; the older "256 characters" figure in NM-1386 is
+ * out of date and must not be used as the expected value.
+ *
+ * The limit is enforced by the browser on the typed path AND on a real Ctrl+V paste (both
+ * proven live) — only a scripted value assignment gets past it, which is the route the
+ * over-length case uses to reach the form's own validator.
+ */
+export const ISR_CODE_FIELD_LIMITS = {
+  name: 50,
+  itemDescription: 50,
+  oracleItemNumber: 10,
+} as const;
+
+/**
  * Values for creating a product code from the Add dialog. Product Type and Service Type
  * are a paired selector — the service list is filtered to the chosen type, and Equipment
  * Rental belongs to the EQUIPMENT list. A per-run unique name is appended in the test so

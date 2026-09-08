@@ -1,6 +1,7 @@
 import { test, expect } from '../../src/fixtures/pages.fixture';
 import { DiscountOptimizationPage } from '../../src/pages/discount-optimization/discount-optimization.page';
 import { ROWS_TAB2 } from '../../src/selectors/discount-optimization/discount-optimization';
+import { phase, verify } from '../../src/fixtures/report-steps';
 
 // Exempt state is read from aria-checked: the column renders as SVG, so textContent is empty
 // for both states. No hardcoded row counts — NM-3340 will change service-type membership.
@@ -33,15 +34,21 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
     dependencyGate([]);
 
     const headers = await dop.getTab2ColumnHeaders();
-    expect(headers).toContain('Service Type');
-    expect(headers).toContain('Exempt');
+    await verify('The grid shows the Service Type and Exempt columns', async () => {
+      expect(headers).toContain('Service Type');
+      expect(headers).toContain('Exempt');
+    });
 
     const rowCount = await dop.getTab2RowCount();
-    expect(rowCount).toBeGreaterThan(0);
+    await verify('The grid is populated', async () => {
+      expect(rowCount).toBeGreaterThan(0);
+    });
 
     const page = dop['page'];
-    await expect(page.locator('button:text-is("Cancel")')).toBeVisible();
-    await expect(page.locator('button:text-is("Save")')).toBeVisible();
+    await verify('Cancel and Save are both offered', async () => {
+      await expect(page.locator('button:text-is("Cancel")')).toBeVisible();
+      await expect(page.locator('button:text-is("Save")')).toBeVisible();
+    });
   });
 
 
@@ -49,7 +56,9 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
     dependencyGate(['TC-DOP-EXM-001']);
 
     const saveDisabled = await dop.isTab2SaveDisabled();
-    expect(saveDisabled).toBe(true);
+    await verify('Save is held back until something changes', async () => {
+      expect(saveDisabled).toBe(true);
+    });
   });
 
 
@@ -57,38 +66,48 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
     dependencyGate(['TC-DOP-EXM-001']);
 
     const baselineCount = await dop.getTab2RowCount();
-    expect(baselineCount).toBeGreaterThan(0);
+    await verify('The unfiltered grid is populated', async () => {
+      expect(baselineCount).toBeGreaterThan(0);
+    });
 
     // Fill with a known partial match
     await dop.searchTab2('HSIA');
     const filteredCount = await dop.getTab2RowCount();
-    expect(filteredCount).toBeLessThanOrEqual(baselineCount);
-    expect(filteredCount).toBeGreaterThan(0);
+    await verify('The partial match narrows the grid without emptying it', async () => {
+      expect(filteredCount).toBeLessThanOrEqual(baselineCount);
+      expect(filteredCount).toBeGreaterThan(0);
+    });
 
-    // Every visible row must contain "hsia" (case-insensitive)
     const page = dop['page'];
     // Scoped to the exemptions panel — a bare 'tbody tr' can match Tab 1's grid too.
     const rows = page.locator(ROWS_TAB2);
-    const count = await rows.count();
-    for (let i = 0; i < count; i++) {
-      const cellText = await rows.nth(i).locator('td').first().textContent();
-      expect((cellText ?? '').toLowerCase()).toContain('hsia');
-    }
+    await verify('Every visible row carries the search term', async () => {
+      // case-insensitive
+      const count = await rows.count();
+      for (let i = 0; i < count; i++) {
+        const cellText = await rows.nth(i).locator('td').first().textContent();
+        expect((cellText ?? '').toLowerCase()).toContain('hsia');
+      }
+    });
 
     // Clear restores full list
     await dop.clearSearchTab2();
     const restoredCount = await dop.getTab2RowCount();
-    expect(restoredCount).toBe(baselineCount);
+    await verify('Clearing the search restores the full list', async () => {
+      expect(restoredCount).toBe(baselineCount);
+    });
 
-    // No-match term → empty state
     await dop.searchTab2('ZZZNO-MATCH-99999');
     const noMatchCount = await dop.getTab2RowCount();
-    expect(noMatchCount).toBe(0);
+    await verify('A term matching nothing empties the grid', async () => {
+      expect(noMatchCount).toBe(0);
+    });
 
-    // Clear again → full list
     await dop.clearSearchTab2();
     const finalCount = await dop.getTab2RowCount();
-    expect(finalCount).toBe(baselineCount);
+    await verify('Clearing it again brings the full list back', async () => {
+      expect(finalCount).toBe(baselineCount);
+    });
   });
 
 
@@ -97,31 +116,40 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
 
     await dop.searchTab2('EQUIPMENT');
     const countUpper = await dop.getTab2RowCount();
-    expect(countUpper).toBeGreaterThan(0);
+    await verify('The upper-case term matches rows', async () => {
+      expect(countUpper).toBeGreaterThan(0);
+    });
 
-    // Capture the service-type names returned by the uppercase search.
     const page = dop['page'];
     // Scoped to the exemptions panel — a bare 'tbody tr' can match Tab 1's grid too.
     const rows = page.locator(ROWS_TAB2);
-    const upperNames: string[] = [];
-    for (let i = 0; i < countUpper; i++) {
-      const name = await rows.nth(i).locator('td').first().textContent();
-      upperNames.push((name ?? '').trim());
-    }
+    const upperNames = await phase('Capture the names the upper-case search returned', async () => {
+      const names: string[] = [];
+      for (let i = 0; i < countUpper; i++) {
+        const name = await rows.nth(i).locator('td').first().textContent();
+        names.push((name ?? '').trim());
+      }
+      return names;
+    });
 
     await dop.clearSearchTab2();
     await dop.searchTab2('equipment');
     const countLower = await dop.getTab2RowCount();
-    expect(countLower).toBe(countUpper);
+    await verify('The lower-case term matches the same number of rows', async () => {
+      expect(countLower).toBe(countUpper);
+    });
 
-    // Capture the service-type names returned by the lowercase search.
-    // The sets must be identical — same rows, not merely the same count.
-    const lowerNames: string[] = [];
-    for (let i = 0; i < countLower; i++) {
-      const name = await rows.nth(i).locator('td').first().textContent();
-      lowerNames.push((name ?? '').trim());
-    }
-    expect(lowerNames).toEqual(upperNames);
+    const lowerNames = await phase('Capture the names the lower-case search returned', async () => {
+      const names: string[] = [];
+      for (let i = 0; i < countLower; i++) {
+        const name = await rows.nth(i).locator('td').first().textContent();
+        names.push((name ?? '').trim());
+      }
+      return names;
+    });
+    await verify('Both searches returned the same rows, not merely the same count', async () => {
+      expect(lowerNames).toEqual(upperNames);
+    });
 
     await dop.clearSearchTab2();
   });
@@ -130,38 +158,46 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
   test('TC-DOP-EXM-005: Save cycle — pristine disabled, enabled by valid change, change persists after reload; Cancel discards', async ({ dependencyGate }) => {
     dependencyGate(['TC-DOP-EXM-001']);
 
-    // Step 1: Save disabled in pristine state
-    expect(await dop.isTab2SaveDisabled()).toBe(true);
+    await verify('Save is disabled in the pristine state', async () => {
+      expect(await dop.isTab2SaveDisabled()).toBe(true);
+    });
 
-    // Step 2: Record original state
-    const originalState = await dop.getExemptState(ROW_EQUIPMENT_RENTAL);
+    const originalState = await phase('Record the original exempt state', () =>
+      dop.getExemptState(ROW_EQUIPMENT_RENTAL));
 
     try {
-      // Step 3: Toggle → Save enabled
-      await dop.toggleExempt(ROW_EQUIPMENT_RENTAL);
-      const stateAfterToggle = await dop.getExemptState(ROW_EQUIPMENT_RENTAL);
-      expect(stateAfterToggle).toBe(!originalState);
-      expect(await dop.isTab2SaveDisabled()).toBe(false);
+      await phase('Toggle the exempt flag', () => dop.toggleExempt(ROW_EQUIPMENT_RENTAL));
+      await verify('The flag flips and Save unlocks', async () => {
+        const stateAfterToggle = await dop.getExemptState(ROW_EQUIPMENT_RENTAL);
+        expect(stateAfterToggle).toBe(!originalState);
+        expect(await dop.isTab2SaveDisabled()).toBe(false);
+      });
 
-      // Step 4: Cancel → original state restored, Save disabled
-      await dop.clickTab2Cancel();
-      expect(await dop.getExemptState(ROW_EQUIPMENT_RENTAL)).toBe(originalState);
-      expect(await dop.isTab2SaveDisabled()).toBe(true);
+      await phase('Click Cancel', () => dop.clickTab2Cancel());
+      await verify('The original state returns and Save locks again', async () => {
+        expect(await dop.getExemptState(ROW_EQUIPMENT_RENTAL)).toBe(originalState);
+        expect(await dop.isTab2SaveDisabled()).toBe(true);
+      });
 
-      // Step 5: Toggle again
-      await dop.toggleExempt(ROW_EQUIPMENT_RENTAL);
-      expect(await dop.isTab2SaveDisabled()).toBe(false);
+      await phase('Toggle the exempt flag again', () => dop.toggleExempt(ROW_EQUIPMENT_RENTAL));
+      await verify('Save unlocks once more', async () => {
+        expect(await dop.isTab2SaveDisabled()).toBe(false);
+      });
 
-      // Step 6: Save → Save returns to disabled
-      await dop.clickTab2Save();
-      const saveWentDisabled = await dop.waitUntilTab2SaveDisabled(15_000);
-      expect(saveWentDisabled).toBe(true);
+      await phase('Save the change', () => dop.clickTab2Save());
+      await verify('Save settles back to disabled', async () => {
+        const saveWentDisabled = await dop.waitUntilTab2SaveDisabled(15_000);
+        expect(saveWentDisabled).toBe(true);
+      });
 
-      // Step 7-8: Reload → change persists
-      await dop.reloadAndWait(OFFICE);
-      await dop.switchTab('Special Rate Exemptions by Service Type');
-      const stateAfterReload = await dop.getExemptState(ROW_EQUIPMENT_RENTAL);
-      expect(stateAfterReload).toBe(!originalState);
+      await phase('Reload the page and return to the tab', async () => {
+        await dop.reloadAndWait(OFFICE);
+        await dop.switchTab('Special Rate Exemptions by Service Type');
+      });
+      await verify('The saved change survived the reload', async () => {
+        const stateAfterReload = await dop.getExemptState(ROW_EQUIPMENT_RENTAL);
+        expect(stateAfterReload).toBe(!originalState);
+      });
     } finally {
       // Restore original state unconditionally
       const currentState = await dop.getExemptState(ROW_EQUIPMENT_RENTAL);
@@ -182,21 +218,24 @@ test.describe('Discount Optimization — Special Rate Exemptions by Service Type
     let cancelCalled = false;
 
     try {
-      // Toggle both rows
-      await dop.toggleExempt(ROW_EQUIPMENT_RENTAL);
-      await dop.toggleExempt(ROW_DIGITAL_BRANDING);
+      await phase('Toggle the exempt flag on both rows', async () => {
+        await dop.toggleExempt(ROW_EQUIPMENT_RENTAL);
+        await dop.toggleExempt(ROW_DIGITAL_BRANDING);
+      });
+      await verify('Both flags flipped and Save unlocked', async () => {
+        expect(await dop.getExemptState(ROW_EQUIPMENT_RENTAL)).toBe(!stateA);
+        expect(await dop.getExemptState(ROW_DIGITAL_BRANDING)).toBe(!stateB);
+        expect(await dop.isTab2SaveDisabled()).toBe(false);
+      });
 
-      expect(await dop.getExemptState(ROW_EQUIPMENT_RENTAL)).toBe(!stateA);
-      expect(await dop.getExemptState(ROW_DIGITAL_BRANDING)).toBe(!stateB);
-      expect(await dop.isTab2SaveDisabled()).toBe(false);
-
-      // Cancel → both changes discarded
-      await dop.clickTab2Cancel();
+      await phase('Click Cancel', () => dop.clickTab2Cancel());
       cancelCalled = true;
 
-      expect(await dop.getExemptState(ROW_EQUIPMENT_RENTAL)).toBe(stateA);
-      expect(await dop.getExemptState(ROW_DIGITAL_BRANDING)).toBe(stateB);
-      expect(await dop.isTab2SaveDisabled()).toBe(true);
+      await verify('Both changes were discarded and Save locked again', async () => {
+        expect(await dop.getExemptState(ROW_EQUIPMENT_RENTAL)).toBe(stateA);
+        expect(await dop.getExemptState(ROW_DIGITAL_BRANDING)).toBe(stateB);
+        expect(await dop.isTab2SaveDisabled()).toBe(true);
+      });
     } finally {
       // If the test failed before Cancel was called, discard pending changes now.
       if (!cancelCalled && await dop.isTab2SaveDisabled() === false) {

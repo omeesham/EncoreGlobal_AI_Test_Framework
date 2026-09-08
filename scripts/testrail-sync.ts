@@ -538,6 +538,11 @@ interface PlaywrightListSuite {
   suites?: PlaywrightListSuite[];
 }
 
+interface PlaywrightListReport {
+  config?: { rootDir?: string };
+  suites?: PlaywrightListSuite[];
+}
+
 export function loadSpecLocations(): Map<string, SpecLocation> {
   try {
     const raw = execFileSync(
@@ -545,14 +550,20 @@ export function loadSpecLocations(): Map<string, SpecLocation> {
       [require.resolve('@playwright/test/cli'), 'test', '--config=playwright.config.ts', '--list', '--reporter=json'],
       { cwd: ROOT, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] },
     );
-    const json = JSON.parse(raw.slice(raw.indexOf('{'))) as { suites?: PlaywrightListSuite[] };
+    const json = JSON.parse(raw.slice(raw.indexOf('{'))) as PlaywrightListReport;
+    // spec.file is relative to Playwright's rootDir, which is the common ancestor of
+    // every project testDir — `tests/` here, not the repo root, because two projects
+    // narrow testDir to a subfolder. Resolving it against ROOT drops the `tests/`
+    // segment and every later read fails with ENOENT.
+    const rootDir = json.config?.rootDir ?? ROOT;
     const byId = new Map<string, SpecLocation>();
     (function visit(suites?: PlaywrightListSuite[]) {
       for (const suite of suites ?? []) {
         for (const spec of suite.specs ?? []) {
           const m = /^(TC-[A-Z0-9]+(?:-[A-Z0-9]+)*-\d+):/.exec(spec.title);
           if (m?.[1] && !byId.has(m[1])) {
-            byId.set(m[1], { file: path.relative(ROOT, spec.file).replace(/\\/g, '/'), line: spec.line });
+            const abs = path.isAbsolute(spec.file) ? spec.file : path.resolve(rootDir, spec.file);
+            byId.set(m[1], { file: path.relative(ROOT, abs).replace(/\\/g, '/'), line: spec.line });
           }
         }
         visit(suite.suites);
@@ -611,7 +622,15 @@ export function tagSpecFiles(
   const JOIN = "', async (";
   for (const [relFile, entries] of byFile) {
     const absFile = path.join(ROOT, relFile);
-    const lines = fs.readFileSync(absFile, 'utf8').split('\n');
+    // Tagging is a convenience on top of an import that has already happened —
+    // an unreadable spec must never abort the run and strand the created cases.
+    let lines: string[];
+    try {
+      lines = fs.readFileSync(absFile, 'utf8').split('\n');
+    } catch (e) {
+      for (const { tcId } of entries) skipped.push({ tcId, reason: `${relFile} could not be read: ${(e as Error).message}` });
+      continue;
+    }
     let changed = false;
     for (const { tcId, caseId, line } of entries) {
       const idx = line - 1;

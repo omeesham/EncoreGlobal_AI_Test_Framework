@@ -121,6 +121,55 @@ After every run:
 Each test step in the Playwright HTML report reads as a plain-English action (e.g. "Open the Currency tab", "Save changes and confirm") instead of raw selector code.
 The report is readable without a technical background. Expand any step to see the underlying detail.
 
+**Every step at the top level of a test body is numbered — `Step 1:`, `Step 2:` — automatically.**
+Steps reach the report from two places, both of which number themselves through the same counter:
+
+| Source | What it names | Where it comes from |
+|---|---|---|
+| `@step('...')` decorator | Every page-object action, automatically | `src/fixtures/step-decorator.ts`, applied to each public async method of a page object |
+| `phase()` / `verify()` | The business step a spec is on, with the page-object steps nested under it | `src/fixtures/report-steps.ts`, called from the spec |
+
+So a spec that just calls page objects already gets a numbered run with no edits at all. Hook
+bodies (`beforeEach`) are excluded from the count, so setup never spends "Step 1" and a test body
+always starts at Step 1. Only the outermost step takes a number — anything nested inside it is that
+step's detail, not a step of its own.
+
+`phase()` groups the actions of one business step; `verify()` groups one check and is boxed, so a
+failed assertion is reported against the named check rather than against Playwright's internals.
+Both **number** the step they create, counting in call order within each test, and both return
+their body's value, so grouping a test never forces its variables to move:
+
+```ts
+await phase('Open the Add Product Code form', () => pc.openAddDialog());
+const tabs = await phase('Read the dialog tabs', () => pc.readDialogTabs());
+await verify('The form opens on a single Item tab', async () => {
+  expect(tabs).toEqual(['Item']);
+});
+```
+
+reads in the report as:
+
+```
+Step 1: Open the Add Product Code form
+Step 2: Read the dialog tabs
+Step 3: The form opens on a single Item tab
+```
+
+Pass the business phrase only — the number is added for you, so inserting or reordering a step
+never means renumbering its neighbours. Nested phases are left unnumbered: they are the detail of
+the step above them, not steps of their own.
+
+A bare page-object call at a test's top level needs no wrapper — it is already a numbered, named
+step. Reach for `phase()` when several actions belong to one business step, or when the business
+phrase says more than the method name does; reach for `verify()` around every assertion cluster,
+which would otherwise reach the report as an unnamed `Expect toBe`. Inside a step, call page
+objects and assert freely — that detail nests underneath.
+
+`npm run check:steps` lists what still reports without a name: bare `expect(...)` assertions and
+raw `page.` / `locator(...)` drives that have no page object behind them. It is advisory by
+default (`--strict` makes it fail a run), because those lines are numbered already — what they
+lack is a business name.
+
 ### Viewing reports locally
 
 ```bash

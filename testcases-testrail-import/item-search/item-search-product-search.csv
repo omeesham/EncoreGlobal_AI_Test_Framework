@@ -1,0 +1,268 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,The Products page loads with the search panel and grid ready,,,,,Automated,Omeesha Mahanta,,,A count label is shown (its number is not asserted — results depend on restored criteria),,,item-search,,"The automation account has access to office 1101
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Navigate to the Products page for office 1101</li>
+<li>2. Wait until no loading placeholders remain</li>
+<li>3. Read the grid header row</li>
+<li>4. Read the products count label</li>
+</ol>",,,"1. The page begins loading
+2. The search panel and the result grid chrome have hydrated
+3. All 13 columns are present: Category, Sub Category, Class, Product Group, Sub Class, Item, Product Code ID, Description, Available, Owned, Out of Service, In Sequence, Location Name
+4. A count label is shown (its number is not asserted — results depend on restored criteria)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset restores the default criteria and empties the results,,,,,Automated,Omeesha Mahanta,,,Still zero — results return only when Search is clicked again,,,item-search,,"The Products page is open and hydrated for office 1101
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Type any word into the Any Field box and click Search</li>
+<li>2. Click Reset</li>
+<li>3. Read the products count</li>
+<li>4. Wait ~20 seconds and read the count again</li>
+</ol>",,,"1. Results load for that word
+2. The Any Field and barcode boxes clear; Region shows its placeholder; Location shows the current office (1101); Quantity Greater Than Zero is unchecked; Active is checked; the Keyword Search option is selected
+3. It shows zero found and the grid is empty
+4. Still zero — results return only when Search is clicked again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An Any Field word returns only matching products,,,,,Automated,Omeesha Mahanta,,,"Every row contains the word ""Amp"" in at least one column",,,item-search,,"The Products page is open; criteria are at defaults (run Reset first)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click Search with default criteria and note the total count</li>
+<li>2. Type Amp into the Any Field box and click Search</li>
+<li>3. Read the first ten result rows</li>
+</ol>",,,"1. The full product set loads (a large total)
+2. The count drops well below the unfiltered total
+3. Every row contains the word ""Amp"" in at least one column",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search help opens guidance for the selected search type,,,,,Automated,Omeesha Mahanta,,,The popover closes,,,item-search,,"The Products page is open and hydrated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click the Search help button (question icon in the search panel)</li>
+<li>2. Read the popover</li>
+<li>3. Press Escape</li>
+</ol>",,,"1. A help popover opens
+2. It is titled ""Any Field"" and explains the search covers item number, description, category and product group
+3. The popover closes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The header icons show their tooltips,,,,,Automated,Omeesha Mahanta,,,"A tooltip appears: ""Grid Options""",,,item-search,,"The Products page is open and hydrated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Hover the information icon next to the page heading</li>
+<li>2. Hover the collapse-search-panel button</li>
+<li>3. Hover the Grid Options button</li>
+</ol>",,,"1. A tooltip appears: ""This is the future products page for the location.""
+2. A tooltip appears: ""Hide search""
+3. A tooltip appears: ""Grid Options""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid cells show a tooltip only when their text is cut off,,,,,Automated,Omeesha Mahanta,,,No tooltip appears,,,item-search,,"A search has been executed and rows are visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Find a cell whose text is visibly cut off and hover it</li>
+<li>2. Hover a cell whose text fits fully</li>
+</ol>",,,"1. A tooltip shows the cell's full text
+2. No tooltip appears",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A barcode with no match shows the empty state,,,,,Automated,Omeesha Mahanta,,,The full set returns,,,item-search,,"The Products page is open; criteria are at defaults
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Type ZZNOBARCODE99 into the barcode box and click Search</li>
+<li>2. Read the grid area</li>
+<li>3. Clear the barcode box and click Search</li>
+</ol>",,,"1. The count shows zero found
+2. A ""No results"" message is shown and no rows render
+3. The full set returns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting flips through the column menu,,,,,Automated,Omeesha Mahanta,,,"The original order returns — rows with an empty Category cell first, then Audio",,,item-search,,"A default search has been executed (full set, default order)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click the Category column header</li>
+<li>2. Click Sort descending</li>
+<li>3. Open the menu again and click Sort ascending</li>
+</ol>",,,"1. A small menu opens: Sort ascending, Sort descending, Hide column
+2. The first rows change to the end of the alphabet (Video categories first)
+3. The original order returns — rows with an empty Category cell first, then Audio",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pagination moves between pages,,,,,Automated,Omeesha Mahanta,,,Page 1 returns with its original first row,,,item-search,,"A default search has been executed (many pages available)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Go to next page""
+Sample input 2: ""Go to first page""",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Read the pagination bar</li>
+<li>2. Click ""Go to next page""</li>
+<li>3. Click ""Go to first page""</li>
+</ol>",,,"1. Page 1 of a large page count; first and previous are disabled
+2. The page number reads 2, the rows change, and first/previous enable
+3. Page 1 returns with its original first row",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rows-per-page offers five sizes,,,,,Automated,Omeesha Mahanta,,,The list closes; 50 remains selected and the grid still shows 50 rows,,,item-search,,"A default search has been executed
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Read the rows-per-page control</li>
+<li>2. Open it</li>
+<li>3. Press Escape</li>
+</ol>",,,"1. It shows 50
+2. Exactly five options are offered: 10, 20, 30, 40, 50
+3. The list closes; 50 remains selected and the grid still shows 50 rows",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid Options hides and restores a column,,,,,Automated,Omeesha Mahanta,,,The Owned column returns to the grid,,,item-search,,"A default search has been executed; all 13 columns visible
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click Grid Options</li>
+<li>2. Click the Owned entry</li>
+<li>3. Open Grid Options again</li>
+<li>4. Click Owned again</li>
+</ol>",,,"1. A menu opens with ""Reset to Default View"" and a Columns section listing 12 column entries, all checked; the Item column is not in the list
+2. The menu closes and the Owned column disappears from the grid
+3. The Owned entry now shows unchecked
+4. The Owned column returns to the grid",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An executed search survives leaving and returning,,,,,Automated,Omeesha Mahanta,,,"The Any Field box still holds `Amp`, the same count shows, and the rows are back without clicking Search",,,item-search,,"The Products page is open; criteria are at defaults
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Type Amp into Any Field and click Search</li>
+<li>2. note the count</li>
+<li>3. Navigate away from the page entirely, then navigate back and wait for hydration</li>
+</ol>",,,"1. Matching results load
+2. The Any Field box still holds `Amp`, the same count shows, and the rows are back without clicking Search",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The search panel collapses and expands,,,,,Automated,Omeesha Mahanta,,,The search panel returns with its values intact,,,item-search,,"The Products page is open and hydrated
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Click the collapse-search-panel button</li>
+<li>2. Click the button again</li>
+</ol>",,,"1. The search panel hides and the grid area widens
+2. The search panel returns with its values intact",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A numeric barcode returns the single product it is scanned under,,,,,Automated,Omeesha Mahanta,,,"Item ""Allen & Heath ZED24"", Product Code ID 28592",,,item-search,,"The Products page is open with default criteria and no executed search
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Type the barcode 5052320 into the barcode box</li>
+<li>2. Click Search</li>
+<li>3. Read that row's Item and Product Code ID</li>
+</ol>",,,"1. The box holds the value; the Any Field box stays empty
+2. The count reads one product found and the grid shows a single row
+3. Item ""Allen & Heath ZED24"", Product Code ID 28592",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A barcode with letters resolves the same way as a numeric one,,,,,Automated,Omeesha Mahanta,,,"Item ""Shure ULXD1 Bodypack - G50"", Product Code ID 71154",,,item-search,,"The Products page is open with default criteria and no executed search
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Type the barcode DFW0082529 into the barcode box</li>
+<li>2. Click Search</li>
+<li>3. Read that row's Item and Product Code ID</li>
+</ol>",,,"1. The box holds the value
+2. One product found, a single row in the grid
+3. Item ""Shure ULXD1 Bodypack - G50"", Product Code ID 71154",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Different barcodes on the same product all return that product,,,,,Automated,Omeesha Mahanta,,,"One row, the same Product Code ID 71154",,,item-search,,"The Products page is open with default criteria and no executed search
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Search the barcode DFW0082529 and read the row's Product Code ID</li>
+<li>2. Replace the barcode with DFW0082517 and search again</li>
+<li>3. Replace the barcode with 5189939 and search again</li>
+</ol>",,,"1. One row, Product Code ID 71154
+2. One row, the same Product Code ID 71154
+3. One row, the same Product Code ID 71154",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Barcode matching ignores letter case,,,,,Automated,Omeesha Mahanta,,,"One row, the same Product Code ID 71154",,,item-search,,"The Products page is open with default criteria and no executed search
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Search the barcode in its printed uppercase form, DFW0082529</li>
+<li>2. Replace it with the same barcode in lowercase, dfw0082529, and search</li>
+</ol>",,,"1. One row, Product Code ID 71154
+2. One row, the same Product Code ID 71154",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A shortened barcode matches nothing,,,,,Automated,Omeesha Mahanta,,,Zero products found,,,item-search,,"The Products page is open with default criteria and no executed search
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Search the full barcode 5052320</li>
+<li>2. Replace it with the first six digits, 505232, and search</li>
+<li>3. Search the full barcode again with a space typed in front of it</li>
+</ol>",,,"1. One product found
+2. Zero products found and the ""No results"" empty state
+3. Zero products found",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The barcode box and the Any Field box clear each other,,,,,Automated,Omeesha Mahanta,,,Both boxes are empty,,,item-search,,"The Products page is open with default criteria
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Type a word into the Any Field box</li>
+<li>2. Type a barcode into the barcode box</li>
+<li>3. Type a word into the Any Field box again</li>
+<li>4. Click Reset</li>
+</ol>",,,"1. The word is held; the barcode box is empty
+2. The barcode is held and the Any Field box has emptied
+3. The word is held and the barcode box has emptied
+4. Both boxes are empty",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A barcode search survives leaving and returning,,,,,Automated,Omeesha Mahanta,,,"One product found, and the row is the same product as before",,,item-search,,"The Products page is open with default criteria
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Search the barcode 1013104</li>
+<li>2. Navigate away to Product Groups and back to Products</li>
+<li>3. Read the count and the row without searching again</li>
+</ol>",,,"1. One product found, a single row
+2. The page returns with the barcode still in its box
+3. One product found, and the row is the same product as before",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A product found by barcode opens in the product-code dialog,,,,,Automated,Omeesha Mahanta,,,The details dialog opens on the Item tab and shows the same product,,,item-search,,"The Products page is open with default criteria
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Search the barcode 5052320</li>
+<li>2. Select that row</li>
+<li>3. Click View Product Code</li>
+</ol>",,,"1. One row, Product Code ID 28592
+2. The row-selection toolbar appears
+3. The details dialog opens on the Item tab and shows the same product",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The barcode box stops accepting characters at its limit,,,,,Automated,Omeesha Mahanta,,,The box is empty again,,,item-search,,"The Products page is open with default criteria
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+<li>1. Type a fifty-character value into the barcode box</li>
+<li>2. Click Search</li>
+<li>3. Click Reset</li>
+</ol>",,,"1. The box holds only the first forty-two characters
+2. Zero products found and the ""No results"" empty state
+3. The box is empty again",,,,Master,S1620,Test Case (Steps),Regression,,,

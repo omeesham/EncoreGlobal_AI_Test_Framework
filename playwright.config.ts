@@ -98,6 +98,10 @@ export default defineConfig({
       mode: getArtifactSetting('ENABLE_SCREENSHOTS', 'only-on-failure') as any,
       fullPage: true,
     },
+    // Kept for any spec that uses Playwright's own context fixture. The suite's tests do NOT:
+    // they run on the worker-scoped context built in pages.fixture.ts, which this option never
+    // reaches — that fixture reads ENABLE_VIDEO itself and records the session video. Screenshot
+    // and trace above are likewise re-implemented there for the same reason.
     video: getArtifactSetting('ENABLE_VIDEO', 'retain-on-failure') as any,
 
     viewport: { width: 1920, height: 1080 },
