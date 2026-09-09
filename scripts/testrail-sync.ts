@@ -66,10 +66,6 @@ const TESTRAIL_IMPORT_DIR = path.join(ROOT, 'testcases-testrail-import');
 const CASE_MAP_PATH = path.join(ROOT, 'config', 'testrail', 'case-map.json');
 const REPORT_PATH = path.join(ROOT, 'reports', 'testrail-import-report.json');
 
-// Workbooks that are indexes/trackers, not per-module test-case sources —
-// mirrors convert-testcases-to-testrail.py's SKIP_BASENAMES.
-const SKIP_BASENAMES = new Set(['encore_test_cases', 'encore-qa-tracker']);
-
 dotenvFlow.config({
   path: ROOT,
   node_env: process.env.CI_ENV || process.env.NODE_ENV || 'local',
@@ -324,7 +320,6 @@ export function collectCases(caseMap: Map<string, number>): { all: CaseDescripto
   const all: CaseDescriptor[] = [];
   for (const xlsxPath of walk(TESTCASES_DIR, '.xlsx').sort()) {
     const base = path.parse(xlsxPath).name;
-    if (SKIP_BASENAMES.has(base)) continue;
     if (ONLY && !base.includes(ONLY)) continue;
 
     const relXlsx = path.relative(TESTCASES_DIR, xlsxPath);

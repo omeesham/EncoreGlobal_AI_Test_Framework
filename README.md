@@ -279,7 +279,7 @@ npm run testrail:sync:execute                 # actually import + update case-ma
 ```
 
 Section hierarchy, priority, type, and steps for each new case come straight
-from the generated CSV row (see `testcases-testrail-import/README.md`); labels
+from the generated CSV row; labels
 are best-effort and silently skipped if the TestRail instance doesn't have the
 Labels feature enabled. A case that fails to import is reported and skipped —
 already-created cases in the same run are still written to `case-map.json`,

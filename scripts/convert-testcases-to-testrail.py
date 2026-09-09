@@ -81,9 +81,6 @@ TEMPLATE = "Test Case (Steps)"
 CASE_TYPE = "Regression"
 SECTION_DEPTH = "1"
 
-# Workbooks that are indexes/trackers, not per-module test-case sources.
-SKIP_BASENAMES = {"encore_test_cases", "encore-qa-tracker"}
-
 # Per module FOLDER (under testcases/): the hierarchy label and the Labels value.
 MODULE_CONFIG: dict[str, dict[str, str]] = {
     "corporate-pg-pricing-override": {"module": "Corporate_Pricing_Pg_Override",
@@ -305,7 +302,7 @@ def main() -> int:
 
     total_cases = total_files = 0
     for xlsx in sorted(args.src_dir.rglob("*.xlsx")):
-        if xlsx.stem in SKIP_BASENAMES or xlsx.stem.startswith("~$"):
+        if xlsx.stem.startswith("~$"):
             continue
         if args.only and args.only not in xlsx.stem:
             continue

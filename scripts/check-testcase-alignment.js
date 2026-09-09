@@ -11,13 +11,7 @@ const TESTCASES = path.join(ROOT, 'testcases');
 const TESTRAIL = path.join(ROOT, 'testcases-testrail-import');
 const ID_TITLE_RE = /^(TC-[A-Z]+-[A-Z0-9]+-(\d+)):\s*([\s\S]*)$/;
 
-// Aggregate workbooks mirror the per-module ones and have no paired CSV.
-const AGGREGATE = new Set(['encore_test_cases.xlsx']);
-// Not a test-case workbook.
-const IGNORED = new Set(['encore-qa-tracker.xlsx']);
-
 const problems = [];
-const warnings = [];
 const notes = [];
 function problem(kind, file, message) {
   problems.push({ kind, file, message });
@@ -140,13 +134,12 @@ function loadCsv(file) {
 
 // ================================================================ run the checks
 const specsByFile = loadSpecs();
-const workbookFiles = walk(TESTCASES, '.xlsx').filter((f) => !IGNORED.has(path.basename(f)));
+const workbookFiles = walk(TESTCASES, '.xlsx');
 
 /** TC id -> {title, coverage, file, sheet, row} from the per-module workbooks */
 const caseById = new Map();
 
 for (const file of workbookFiles) {
-  const isAggregate = AGGREGATE.has(path.basename(file));
   for (const sheet of loadWorkbook(file)) {
     // 1. Workbook rows must be in ascending TC-id order.
     for (let i = 1; i < sheet.cases.length; i++) {
@@ -157,7 +150,6 @@ for (const file of workbookFiles) {
           `row ${cur.row} ${cur.id} follows ${prev.id} (row ${prev.row}) — rows must ascend by TC id`);
       }
     }
-    if (isAggregate) continue;
     for (const c of sheet.cases) {
       const existing = caseById.get(c.id);
       if (existing) {
@@ -170,32 +162,7 @@ for (const file of workbookFiles) {
   }
 }
 
-// 2. Aggregate workbook must mirror the per-module titles exactly.
-for (const file of workbookFiles.filter((f) => AGGREGATE.has(path.basename(f)))) {
-  const inAggregate = new Set();
-  for (const sheet of loadWorkbook(file)) {
-    for (const c of sheet.cases) {
-      inAggregate.add(c.id);
-      const master = caseById.get(c.id);
-      if (!master) {
-        problem('aggregate-orphan', `${rel(file)} [${sheet.name}]`,
-          `row ${c.row} ${c.id} has no matching row in any per-module workbook`);
-      } else if (norm(master.title) !== norm(c.title)) {
-        problem('aggregate-title', `${rel(file)} [${sheet.name}]`,
-          `row ${c.row} ${c.id} title differs from ${master.file}\n      aggregate: ${norm(c.title)}\n      module:    ${norm(master.title)}`);
-      }
-    }
-  }
-  // The aggregate is a convenience roll-up, not the chain of truth — an
-  // incomplete one is worth reporting but does not fail the check.
-  const absent = [...caseById.keys()].filter((id) => !inAggregate.has(id));
-  if (absent.length) {
-    const families = [...new Set(absent.map((id) => id.slice(0, id.lastIndexOf('-'))))];
-    warnings.push(`${rel(file)} is missing ${absent.length} cases (${families.join(', ')}) — regenerate it to include every module`);
-  }
-}
-
-// 3. Specs: ascending order, and titles matching their workbook row.
+// 2. Specs: ascending order, and titles matching their workbook row.
 const specIds = new Set();
 for (const [file, tests] of [...specsByFile].sort()) {
   for (let i = 1; i < tests.length; i++) {
@@ -218,7 +185,7 @@ for (const [file, tests] of [...specsByFile].sort()) {
   }
 }
 
-// 4. Workbook rows marked Automated must have a spec; the rest are manual by design.
+// 3. Workbook rows marked Automated must have a spec; the rest are manual by design.
 let manualCount = 0;
 for (const [id, c] of caseById) {
   if (specIds.has(id)) continue;
@@ -229,11 +196,10 @@ for (const [id, c] of caseById) {
   }
 }
 
-// 5. Each workbook pairs with one TestRail CSV of the same relative path: same
+// 4. Each workbook pairs with one TestRail CSV of the same relative path: same
 //    row count, same titles, same order.
 const pairedCsv = new Set();
 for (const file of workbookFiles) {
-  if (AGGREGATE.has(path.basename(file))) continue;
   const csvPath = path.join(TESTRAIL, path.relative(TESTCASES, file).replace(/\.xlsx$/, '.csv'));
   const cases = loadWorkbook(file).flatMap((s) => s.cases);
   if (!fs.existsSync(csvPath)) {
@@ -264,7 +230,7 @@ for (const file of workbookFiles) {
   }
 }
 
-// 6. CSVs with no source workbook are stale output.
+// 5. CSVs with no source workbook are stale output.
 for (const csv of walk(TESTRAIL, '.csv')) {
   if (!pairedCsv.has(path.resolve(csv))) {
     problem('orphan-csv', rel(csv), 'no source workbook in testcases/ — stale generated output');
@@ -273,14 +239,13 @@ for (const csv of walk(TESTRAIL, '.csv')) {
 
 // ================================================================ report
 const specTotal = [...specsByFile.values()].reduce((n, l) => n + l.length, 0);
-notes.push(`${caseById.size} test cases in ${workbookFiles.length - 1} module workbooks`);
+notes.push(`${caseById.size} test cases in ${workbookFiles.length} module workbooks`);
 notes.push(`${specTotal} automated specs, ${manualCount} manual-only cases`);
 notes.push(`${pairedCsv.size} TestRail CSVs paired`);
 
 if (!problems.length) {
   console.log('[check:alignment] OK — specs, workbooks and TestRail CSVs are aligned.');
   for (const n of notes) console.log('  ' + n);
-  for (const w of warnings) console.log('  warning: ' + w);
   process.exit(0);
 }
 
@@ -296,8 +261,6 @@ const LABEL = {
   duplicate: 'TC id defined in more than one workbook',
   'missing-case': 'Spec references a TC id with no workbook row',
   'missing-spec': 'Workbook row marked Automated with no spec',
-  'aggregate-title': 'Aggregate workbook title out of sync with its module workbook',
-  'aggregate-orphan': 'Aggregate workbook row with no module workbook row',
   'missing-csv': 'Workbook has no TestRail CSV',
   'csv-count': 'TestRail CSV row count differs from its workbook',
   'csv-title': 'TestRail CSV title/order differs from its workbook',
@@ -311,5 +274,4 @@ for (const [kind, list] of byKind) {
   console.error('');
 }
 for (const n of notes) console.error('  ' + n);
-for (const w of warnings) console.error('  warning: ' + w);
 process.exit(1);

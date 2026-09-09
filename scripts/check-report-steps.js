@@ -32,9 +32,7 @@ const ROOT = path.join(__dirname, '..');
 const TESTS = path.join(ROOT, 'tests');
 
 /** Spec files that opt out, with the reason. */
-const EXEMPT = new Map([
-  ['tests/seed.spec.ts', 'empty template stub — no actions to report'],
-]);
+const EXEMPT = new Map();
 
 function specFiles(dir) {
   const out = [];

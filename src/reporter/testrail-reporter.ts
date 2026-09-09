@@ -31,6 +31,12 @@ export function titleKey(title: string): string {
     .trim();
 }
 
+/** Run-name timestamp in local wall-clock, not UTC: it records when the run was kicked off. */
+function localStamp(d = new Date()): string {
+  const p = (n: number) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+
 /** TC id -> TestRail case id, frozen at config/testrail/case-map.json. Authoritative:
  *  it survives title edits on either side, which title matching does not. */
 function loadCaseMap(): Map<string, number> {
@@ -170,9 +176,7 @@ export default class TestRailReporter implements Reporter {
       let runId = process.env.TESTRAIL_RUN_ID ? Number(process.env.TESTRAIL_RUN_ID) : undefined;
       if (!runId) {
         const env = process.env.CI_ENV || process.env.NODE_ENV || 'local';
-        const name =
-          process.env.TESTRAIL_RUN_NAME ||
-          `Playwright — ${env} — ${new Date().toISOString().slice(0, 16).replace('T', ' ')}`;
+        const name = process.env.TESTRAIL_RUN_NAME || `MFE-E2E-Regression-Testing — ${localStamp()} (${env})`;
         const run = await client.addRun(projectId, {
           name,
           suite_id: suiteId,
