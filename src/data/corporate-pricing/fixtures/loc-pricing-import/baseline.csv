@@ -1,0 +1,4 @@
+LocationNo,PricingStrategy,PriceBook,Currency,IsInternal,IsLabor,IsAlternate,IsProduction,UseDate,StartDate,EndDate
+5897,2026-LV-PB-3867,2026-LV-PB-3867,USD,0,0,0,0,0,,
+5897,2026-LV-LB-3867,2026-LV-LB-3867,USD,0,1,0,0,0,,
+5897,2026-NP LB4,2026-NP LB4,USD,0,1,0,1,0,,

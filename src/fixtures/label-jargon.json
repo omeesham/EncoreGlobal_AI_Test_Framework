@@ -1,0 +1,15 @@
+{
+  "approvedTerms": [
+    "Shared Setup Locations",
+    "ECT Settings",
+    "CSV",
+    "Location",
+    "URL",
+    "Location Management",
+    "Self Include",
+    "Product Group",
+    "Pay To",
+    "Pricebook"
+  ],
+  "deniedJargon": ["ssl", "ect", "csv", "btn", "lm", "si", "pg", "los", "bva", "fcc", "testid", "id"]
+}
