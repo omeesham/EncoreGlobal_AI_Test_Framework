@@ -1,0 +1,36 @@
+export const LocalOfficeEctSelectors = {
+  secEctHeader: '[data-testid="ect-settings-section-header"]',
+  secEctHeaderInner: '[data-testid="ect-settings-header"]',
+  lblEctLocationName: '[data-testid="ect-settings-label-location-name"]',
+  lnkCommissionStructure: '[data-testid="ect-settings-link-commission-structure"]',
+  drpCurrency: '[data-testid="ect-settings-select-currency"]',
+
+  secEventProfitTarget: '[data-testid="ect-settings-section-event-profit-target"]',
+  lblEventProfitTarget: '[data-testid="ect-settings-section-title-event-profit-target"]',
+  tblEventProfitTarget: '[data-testid="ect-settings-table-event-profit-target"]',
+
+  secSaveFixedCosts: '[data-testid="ect-settings-btn-save-fixed-costs"]',
+  btnSaveFixedCosts: '[data-testid="ect-settings-btn-save-fixed-costs-btn"]',
+  secFixedCosts: '[data-testid="ect-settings-section-fixed-costs"]',
+  fldVenueFixedCosts: '[data-testid="ect-settings-field-venue-fixed-costs"]',
+  fldSgaPercent: '[data-testid="ect-settings-field-sga-percent"]',
+  fldBenefitsMultiplier: '[data-testid="ect-settings-field-benefits-multiplier"]',
+  txtBenefitsMultiplier: '[data-testid="ect-settings-input-benefits-multiplier"]',
+  fldOtherRate: '[data-testid="ect-settings-field-other-rate"]',
+  fldNoLabourRate: '[data-testid="ect-settings-field-no-labour-rate"]',
+  fldApprovalThreshold: '[data-testid="ect-settings-field-approval-threshold"]',
+  fldHistoricalSubrental: '[data-testid="ect-settings-field-historical-subrental"]',
+  txtHistoricalSubrental: '[data-testid="ect-settings-input-historical-subrental"]',
+  fldPeakLaborAdjustment: '[data-testid="ect-settings-field-peak-labor-adjustment"]',
+  fldNonPeakLaborAdjustment: '[data-testid="ect-settings-field-non-peak-labor-adjustment"]',
+
+  secSaveLaborCosts: '[data-testid="ect-settings-btn-save-labor-costs"]',
+  btnSaveLaborCosts: '[data-testid="ect-settings-btn-save-labor-costs-btn"]',
+  secLaborCostAssumptions: '[data-testid="ect-settings-section-labor-cost-assumptions"]',
+  lblLaborCostAssumptions: '[data-testid="ect-settings-section-title-labor-cost-assumptions"]',
+  tblLaborCostAssumptions: '[data-testid="ect-settings-table-labor-cost-assumptions"]',
+
+  secSubRentalMatrix: '[data-testid="ect-settings-section-sub-rental-matrix"]',
+  lblSubRentalMatrix: '[data-testid="ect-settings-section-title-sub-rental-matrix"]',
+  tblSubRentalMatrix: '[data-testid="ect-settings-table-sub-rental-matrix"]',
+} as const;
