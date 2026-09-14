@@ -1,4 +1,5 @@
 import { test } from '@playwright/test';
+import { Log } from '../utils/logger';
 
 /**
  * Spec-level step helpers — the companion to the `@step` decorator in step-decorator.ts.
@@ -128,6 +129,28 @@ export async function phase<T>(name: string, body: () => Promise<T>): Promise<T>
  */
 export async function verify<T>(name: string, body: () => Promise<T>): Promise<T> {
   return reportStep(name, body, { box: true });
+}
+
+/**
+ * Opens a test with a plain-language statement of what it checks.
+ *
+ * Call it as the FIRST line of the test body, so it lands as "Step 1: About this test — ..." in
+ * the HTML report and gives a reader the point of the test before any of the mechanics. The body
+ * writes the same sentence to the console and to `logs/<spec>/test-execution.log`, so a terminal
+ * run and the saved log read the same way the report does.
+ *
+ * Write the summary for someone who has never opened the app: say what the user is doing and what
+ * ought to happen, not which locator or endpoint is involved.
+ */
+export async function about(summary: string): Promise<void> {
+  if (!inTestContext()) {
+    Log.info(summary);
+    return;
+  }
+  await reportStep(`About this test — ${summary}`, async () => {
+    Log.info(`[test] ${test.info().title}`);
+    Log.info(`[test] ${summary}`);
+  });
 }
 
 /**

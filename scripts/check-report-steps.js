@@ -46,8 +46,12 @@ function specFiles(dir) {
   return out;
 }
 
-/** Lines that open a step wrapper, so the checker knows a bare call is legitimately nested. */
-const WRAPPER = /\b(phase|verify)\s*\(/;
+/**
+ * Lines that open a step wrapper, so the checker knows a bare call is legitimately nested.
+ * `about()` names its own step -- the plain-language "About this test" summary that opens a
+ * spec -- so it is a named line in its own right, not an unnamed raw action.
+ */
+const WRAPPER = /\b(about|phase|verify)\s*\(/;
 /** A local arrow helper in the spec that itself returns a phase(...) — treated as a wrapper. */
 function localWrappers(src) {
   const names = new Set();

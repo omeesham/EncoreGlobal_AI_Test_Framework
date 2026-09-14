@@ -1,0 +1,689 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Location Settings History tab opens its own panel with a rendered grid,,,,,Automated,Omeesha Mahanta,,,The attachments are present in the report; they are diagnostic (they record the exact translated labels) and do not gate the result.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Basic Information tab is active.
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Location Settings History""
+Sample input 2: ""No results.""",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Navigate to office 1604 in Navigator, open Local Office Settings, and read the tab strip labels.</li>
+<li>2. Open the Location Settings History tab and wait for the grid to load.</li>
+<li>3. Read the column header count, the data row count, and the empty-state flag.</li>
+<li>4. Verify the grid's default sort on a fresh load.</li>
+<li>5. Attach the observed column header list and the first row's values to the HTML report.</li>
+</ol>",,,"1. The tab strip reads exactly ""Basic Information"", ""Location Settings History"", ""ECT Settings"" in that order.
+2. The History tab reports aria-selected=""true""; the history tab-content panel is visible; the history table is visible.
+3. The header row renders more than one column, and the grid shows either at least one data row or the ""No results."" empty state - never neither.
+4. Exactly one column indicates a sort, and it is ""Modified On"" descending (newest first) - confirmed live, answering the requirement doc's open question about the default sort.
+5. The attachments are present in the report; they are diagnostic (they record the exact translated labels) and do not gate the result.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching away from and back to the History tab keeps the grid stable,,,,,Automated,Omeesha Mahanta,,,"The header list is identical to the baseline (no dropped, duplicated or reordered columns); the row count is identical; exactly one history table exists, so the panel did not render a second grid.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Basic Information""
+Sample input 2: ""Location Settings History""",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Capture the History grid's column headers and data row count.</li>
+<li>2. Click the Basic Information tab and wait for its form to render.</li>
+<li>3. Click the Location Settings History tab again and wait for the grid to load.</li>
+<li>4. Re-read the column headers, the data row count and the number of history tables in the panel.</li>
+</ol>",,,"1. Both are captured as the baseline for the round-trip comparison.
+2. Basic Information becomes the selected tab and its form is visible.
+3. History becomes the selected tab again and the grid renders.
+4. The header list is identical to the baseline (no dropped, duplicated or reordered columns); the row count is identical; exactly one history table exists, so the panel did not render a second grid.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The History tab selection is not preserved across a hard reload,,,,,Automated,Omeesha Mahanta,,,The grid renders again with exactly the same column header count as before the reload.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""{BASE_URL}locations/1604/settings/local-office""",Low,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. With the History tab open, capture the column header count.</li>
+<li>2. Perform a hard reload of the Local Office Settings URL.</li>
+<li>3. Re-open the Location Settings History tab and wait for the grid to load.</li>
+</ol>",,,"1. The header count is captured.
+2. The page loads with the Basic Information tab selected and the History tab not selected - the tab choice is not deep-linked into the URL.
+3. The grid renders again with exactly the same column header count as before the reload.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The history grid contains no editable control and the panel offers no Save,,,,,Automated,Omeesha Mahanta,,,The predicate returns true.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""input:not([type=hidden])""
+Sample input 2: ""textarea""
+Sample input 3: ""Save""",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Take a control census of the history panel and the history table.</li>
+<li>2. Assert the census counts for editable controls inside the TABLE (not the panel).</li>
+<li>3. Call the page object's read-only predicate for the history tab.</li>
+</ol>",,,"1. The census is captured in a single pass.
+2. Zero inputs, zero textareas and zero Save buttons. The count is deliberately scoped to the table: the paginator's page-number input is a sibling of the table inside the panel, and counting it would make a read-only tab look editable.
+3. The predicate returns true.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"No add, edit, delete or row-selection affordance exists in the history panel",,,,,Automated,Omeesha Mahanta,,,"Zero select elements and zero [contenteditable=""true""] elements inside the table.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Add / New / Edit / Delete / Remove / Save""
+Sample input 2: ""input[type=checkbox]""
+Sample input 3: ""[contenteditable=true]""",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Take a control census of the history panel.</li>
+<li>2. Assert no action button exists, matching on accessible text rather than a substring selector.</li>
+<li>3. Assert the grid has no row-selection column.</li>
+<li>4. Assert the grid has no inline editor of any kind.</li>
+</ol>",,,"1. The census is captured.
+2. Zero buttons whose accessible text is Add, Add New, New, Edit, Delete, Remove or Save; the failure message names any that were found.
+3. Zero native checkboxes, zero radio inputs and zero role=""checkbox"" elements inside the table.
+4. Zero select elements and zero [contenteditable=""true""] elements inside the table.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking and double-clicking a data cell produces no editor and no selection,,,,,Automated,Omeesha Mahanta,,,"The row carries neither aria-selected=""true"" nor data-state=""selected"" - clicking does not select a history row.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: first data row, first cell",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Confirm the grid has at least one data row (skip with a data-precondition message otherwise).</li>
+<li>2. Single-click, then double-click, the first cell of the first data row and re-read it.</li>
+<li>3. Re-check the row's selection state.</li>
+</ol>",,,"1. A data row is available to probe.
+2. No input, textarea or contenteditable element appears in the cell, and the cell's text is identical to its value before the clicks.
+3. The row carries neither aria-selected=""true"" nor data-state=""selected"" - clicking does not select a history row.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Right-clicking a history row opens no context menu,,,,,Automated,Omeesha Mahanta,,,The header count and the data row count are unchanged.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: right-click on first data row",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Confirm the grid has at least one data row and capture the header count.</li>
+<li>2. Right-click the first data row and watch for an application context menu.</li>
+<li>3. Re-assert the grid state after the right-click.</li>
+</ol>",,,"1. A data row is available and the header count is captured.
+2. No [role=""menu""] appears - unlike the Basic Information Section and Room Configuration grids, which expose a right-click delete menu.
+3. The header count and the data row count are unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Every column header renders translated text, uniquely and non-blank",,,,,Automated,Omeesha Mahanta,,,The attachment records the exact live labels for future comparison.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: minimum expected column count (20)
+Sample input 2: raw-field-key pattern
+Sample input 3: i18n placeholder patterns",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read every column header's text from the history grid.</li>
+<li>2. Assert no header is blank after trimming.</li>
+<li>3. Assert no header is a raw, untranslated field key (an unspaced camelCase/PascalCase run such as HolidayMultiplier or modUser).</li>
+<li>4. Assert no header leaks an untranslated i18n placeholder or key path (""{{"", ""}}"", or a dotted key such as localOffice.history.notes).</li>
+<li>5. Assert no header is duplicated.</li>
+<li>6. Assert the full column set matches the confirmed live contract exactly, in order.</li>
+<li>7. Attach the full observed header label list to the HTML report.</li>
+</ol>",,,"1. The header row renders at least 20 columns - a conservative floor that still catches a collapsed header row rendering only the audit columns.
+2. No header is an empty string.
+3. No header matches the raw-field-key pattern; the failure message lists any that do. NM-854 requires every header to render through the i18n translation function.
+4. No header contains an i18n placeholder; the failure message lists any that do.
+5. The set of distinct header labels is the same size as the header list.
+6. The header list equals all 42 confirmed labels in render order. Hardened from case-insensitive subset matching after the first live run recorded the exact translated labels, so a renamed, reordered, added or dropped column now fails with a precise diff.
+7. The attachment records the exact live labels for future comparison.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Identifier and date-offset columns are present in the history grid,,,,,Automated,Omeesha Mahanta,,,Every one of the seven fields resolves to exactly one column; the failure message names any field that is not captured in history.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: Local Office ID, Prep Date Offset, Return Date Offset
+Sample input 2: Set Date Offset, Strike Date Offset, Pickup Date Offset, Delivery Date Offset",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Resolve NM-854's seven identifier and date-offset fields against the live header row, case- and separator-insensitively.</li>
+</ol>",,,1. Every one of the seven fields resolves to exactly one column; the failure message names any field that is not captured in history.,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Feature-toggle and boolean columns are present in the history grid,,,,,Automated,Omeesha Mahanta,,,"Every one of the sixteen fields resolves to exactly one column. The failure message names the absent fields by name, so a missing-field-capture regression identifies WHICH field was dropped rather than only reporting a short count.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: Use Fulfillment, Use Availability, Use Equip QC, Print Description
+Sample input 2: Use Subrent Service Type, Use Default Section, Use On Quote, Use On ROD RO
+Sample input 3: PMS Account Enabled, Default Job One Day Event/Outside/Internal
+Sample input 4: Default Labor To Hourly, Same Priority On Status Change, Request Items Return To Availability, Recalc Labor Hours",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Resolve NM-854's sixteen feature-toggle/boolean fields against the live header row.</li>
+</ol>",,,"1. Every one of the sixteen fields resolves to exactly one column. The failure message names the absent fields by name, so a missing-field-capture regression identifies WHICH field was dropped rather than only reporting a short count.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Contact, section, service, tax, branding and audit columns are present",,,,,Automated,Omeesha Mahanta,,,"All five resolve. Modified On and Modified By are additionally asserted on their own lines because every sorting and audit scenario resolves against those exact labels, so their absence must be an unambiguous failure.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: Phone 1, Phone 2, Section Name, Section Is Active, Default Section Action
+Sample input 2: Service Type Name, ST Exempt, ST Exempt Action, Default Order Type
+Sample input 3: Logo Name, Loc Settings Action, Notes, Modified By, Modified On",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Resolve the five contact and section fields against the live header row.</li>
+<li>2. Resolve the four service and tax fields.</li>
+<li>3. Resolve the five branding and audit fields, then assert Modified On and Modified By individually.</li>
+</ol>",,,"1. All five resolve; the failure message names any that are missing.
+2. All four resolve; the failure message names any that are missing.
+3. All five resolve. Modified On and Modified By are additionally asserted on their own lines because every sorting and audit scenario resolves against those exact labels, so their absence must be an unambiguous failure.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Labor settings columns are present, including Holiday Multiplier",,,,,Automated,Omeesha Mahanta,,,"Holiday Multiplier is rendered as a history column. This is the field NM-854's prior analysis recorded as missing, so it is asserted separately to make a regression here unambiguous in the report instead of buried in a list diff.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: Regular Hours, Regular Hours Multiplier
+Sample input 2: Over Time Hours, Over Time Hours Multiplier
+Sample input 3: Double Time Hours, Double Time Hours Multiplier
+Sample input 4: ""Holiday Multiplier"" (NM-854 known defect)",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Resolve NM-854's seven labor settings fields against the live header row.</li>
+<li>2. Assert Holiday Multiplier resolves, on its own separate assertion.</li>
+</ol>",,,"1. All seven resolve to exactly one column each; the failure message names any that are not captured.
+2. Holiday Multiplier is rendered as a history column. This is the field NM-854's prior analysis recorded as missing, so it is asserted separately to make a regression here unambiguous in the report instead of buried in a list diff.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every data row has exactly as many cells as there are column headers,,,,,Automated,Omeesha Mahanta,,,Every row's cell count equals the header count; the failure message lists any differing counts. A short or long row is how a cell-shift/misalignment defect presents.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: up to 20 rendered data rows",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read the column header count and confirm at least one data row exists.</li>
+<li>2. Read the cell count of every rendered data row, up to 20 rows.</li>
+</ol>",,,"1. The header count is greater than one and rows are available to measure.
+2. Every row's cell count equals the header count; the failure message lists any differing counts. A short or long row is how a cell-shift/misalignment defect presents.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sortable columns expose a sort control with an accessible name,,,,,Automated,Omeesha Mahanta,,,"Every sort control has a non-empty accessible name, so a screen-reader user can tell which column a control sorts.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: th button (sort control)
+Sample input 2: accessible name per control",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Count the header cells and the sort buttons inside header cells.</li>
+<li>2. Read the accessible name of every sort control (aria-label when present, otherwise its text).</li>
+</ol>",,,"1. At least one sort control exists and the control count does not exceed the header count, so no column carries more than one control.
+2. Every sort control has a non-empty accessible name, so a screen-reader user can tell which column a control sorts.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting a text column ascending then descending reverses the row order,,,,,Automated,Omeesha Mahanta,,,"The values are in non-ascending order, and the descending first value differs from the ascending first value.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: first sortable text column with 2+ distinct values
+Sample input 2: ""Sort ascending"" / ""Sort descending""",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Sample every sortable column's first eight values and pick the first column whose values are distinct alphabetic text.</li>
+<li>2. Sort that column ascending via its header menu and read the column's non-blank values.</li>
+<li>3. Sort the same column descending and re-read its values.</li>
+</ol>",,,"1. A suitable text column is found; if the live page offers none, the test skips with a data-precondition message rather than failing.
+2. The values are in non-descending order under a case-insensitive comparison; the failure message prints the offending sequence.
+3. The values are in non-ascending order, and the descending first value differs from the ascending first value.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Sorting a numeric column sorts numerically, not lexicographically",,,,,Automated,Omeesha Mahanta,,,"The column is sorted FIRST and read after, using a column confirmed to vary across the whole history. Page 1 is uniform by nature - consecutive history rows are near-identical configuration snapshots - so a scenario that scans page 1 for variation before sorting finds none. Prep Date Offset, Regular Hours, Regular Hours Multiplier, OverTime Hours Multiplier and Holiday Multiplier are constant across all history and cannot carry an ordering assertion.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Return Date Offset"" (confirmed to vary: min 0, max 2)
+Sample input 2: numeric vs lexicographic comparison (10 vs 9)",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Confirm the ""Return Date Offset"" column is sortable.</li>
+<li>2. Sort it ascending and read the visible values as numbers.</li>
+<li>3. Sort it descending and re-read the values as numbers.</li>
+<li>4. Note on column choice.</li>
+</ol>",,,"1. It carries a sort control.
+2. Every value parses to a finite number; the values are in non-descending order; the top row carries the minimum of the visible values, which is the column's all-history minimum (0). The comparison is done on PARSED NUMBERS, which is what makes a lexicographic sort placing ""10"" before ""9"" fail here.
+3. The values are in non-ascending order; the top row carries the maximum (2); and the descending top differs from the ascending top, proving the grid actually re-ordered rather than re-rendering the same slice.
+4. The column is sorted FIRST and read after, using a column confirmed to vary across the whole history. Page 1 is uniform by nature - consecutive history rows are near-identical configuration snapshots - so a scenario that scans page 1 for variation before sorting finds none. Prep Date Offset, Regular Hours, Regular Hours Multiplier, OverTime Hours Multiplier and Holiday Multiplier are constant across all history and cannot carry an ordering assertion.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting Modified On ascending shows the oldest record first and descending the newest,,,,,Automated,Omeesha Mahanta,,,The timestamps are in non-ascending order; the first row carries the maximum timestamp of all visible rows; the descending first row differs from the ascending first row.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Modified On""
+Sample input 2: MM/DD/YYYY hh:mm:ss AM|PM",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Sort Modified On ascending and read the visible timestamps, parsing each with Date.UTC semantics.</li>
+<li>2. Sort Modified On descending and re-read the timestamps.</li>
+</ol>",,,"1. Every value parses to a finite timestamp (a NaN would mean the rendered format no longer matches the parser); the timestamps are in non-descending order; the first row carries the minimum timestamp of all visible rows.
+2. The timestamps are in non-ascending order; the first row carries the maximum timestamp of all visible rows; the descending first row differs from the ascending first row.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting a boolean column groups its set and unset rows contiguously,,,,,Automated,Omeesha Mahanta,,,"As with the numeric sort, the column is sorted FIRST and read after, using a column confirmed to vary across the whole history. Recalc Labor Hours is unset in every history record and cannot carry this assertion.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Use Fulfillment"" (confirmed to vary: unset -> set)
+Sample input 2: check glyph vs empty cell",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Confirm the ""Use Fulfillment"" column is sortable.</li>
+<li>2. Sort it ascending and read its boolean-aware values.</li>
+<li>3. Sort it descending and re-read.</li>
+<li>4. Note on column choice.</li>
+</ol>",,,"1. It carries a sort control.
+2. Every cell is either a check glyph or blank (never literal true/false text), and the values are grouped - at most one transition between the two states across the visible rows. A boolean sort must group, never interleave.
+3. The values are still grouped, and the two sort directions lead with OPPOSITE states (one blank, one check). That partition is the ordering proof for this column: the history holds far more of one state than the other, so both states rarely appear on a single page, and asserting a visible transition would skip on real data.
+4. As with the numeric sort, the column is sorted FIRST and read after, using a column confirmed to vary across the whole history. Recalc Labor Hours is unset in every history record and cannot carry this assertion.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The sorted column communicates its sort state and only one column sorts at a time,,,,,Automated,Omeesha Mahanta,,,"ACCESSIBILITY GAP RECORDED: the grid never sets aria-sort in any state, so sort order is conveyed to sighted users only. NM-854 requires headers to communicate sort state accessibly, so this is reported as a discrepancy for dev awareness rather than asserted as a pass/fail (asserting it would encode the defect).",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: aria-sort attribute per header
+Sample input 2: ""Modified On""
+Sample input 3: a second sortable column",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Re-open the tab with a full reload so the sort state is the initial one, then read every header's sort indicator.</li>
+<li>2. Sort Modified On ascending and re-read every header's sort indicator.</li>
+<li>3. Sort Modified On descending and re-read.</li>
+<li>4. Sort a different sortable column ascending and re-read (skip if the grid has only one sortable column).</li>
+<li>5. Attach the per-header sort indicator map AND the aria-sort attribute of the sorted column to the report.</li>
+</ol>",,,"1. Exactly one column indicates a sort, and it is ""Modified On"" descending - the confirmed live default. Sort state is read from the header's lucide arrow icon (lucide-arrow-up = ascending, lucide-arrow-down = descending, lucide-arrow-up-down = sortable but unsorted, no icon = not sortable), matched as exact class tokens because ""lucide-arrow-up-down"" contains the string ""lucide-arrow-up"".
+2. The Modified On header indicates ""ascending"" and it is the only column indicating a sort.
+3. The Modified On header indicates ""descending"" and it is still the only column indicating a sort.
+4. The newly sorted column indicates ""ascending"", Modified On indicates ""none"", and exactly one column is sorted - sorting is single-column and the indicator moves with it.
+5. ACCESSIBILITY GAP RECORDED: the grid never sets aria-sort in any state, so sort order is conveyed to sighted users only. NM-854 requires headers to communicate sort state accessibly, so this is reported as a discrepancy for dev awareness rather than asserted as a pass/fail (asserting it would encode the defect).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting issues a backend request and the rendered order matches the response,,,,,Automated,Omeesha Mahanta,,,"The attachment records the real sort-parameter contract, which is what answers open question 1 (the exact API contract) on the first live run.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Modified On"" descending
+Sample input 2: history request URL pattern",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Start recording network requests, then sort Modified On descending and collect the requests issued during the sort.</li>
+<li>2. Re-read the Modified On column once the network has settled.</li>
+<li>3. Attach the captured request URLs to the HTML report.</li>
+</ol>",,,"1. At least one request whose URL looks like a history / local-office / location-settings endpoint is issued - NM-854 requires sorting to align with backend-supported sort behavior, so the observable contract is that a request goes out. The failure message prints every request seen.
+2. The first row carries the maximum timestamp of the visible rows, i.e. the grid reflects the sorted response rather than a stale client-side order.
+3. The attachment records the real sort-parameter contract, which is what answers open question 1 (the exact API contract) on the first live run.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Boolean cells render as a check glyph or blank, never as literal text",,,,,Automated,Omeesha Mahanta,,,At least one boolean cell yields a check glyph. Without this the two checks above would pass vacuously on a grid rendering every boolean as blank - this is the assertion that makes the test non-trivial.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: every resolved boolean column, first 5 rows
+Sample input 2: ""true"" / ""false"" / ""True"" / ""False""
+Sample input 3: lucide-check SVG",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read the boolean-aware values of every resolvable NM-854 boolean column across the first five rows.</li>
+<li>2. Assert no boolean cell renders literal true/false text.</li>
+<li>3. Assert every boolean cell is either a check glyph or empty.</li>
+<li>4. Assert at least one true value was observed in the sample.</li>
+</ol>",,,"1. The sample is captured. Boolean cells render a lucide-check SVG for true and nothing for false, so textContent is empty for both states and the cell must be re-checked against innerHTML.
+2. No cell equals ""true"", ""false"", ""True"" or ""False""; the failure message lists any that do.
+3. No boolean cell renders anything other than a check or a blank; the failure message lists any that do.
+4. At least one boolean cell yields a check glyph. Without this the two checks above would pass vacuously on a grid rendering every boolean as blank - this is the assertion that makes the test non-trivial.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Modified On is formatted correctly and Modified By is a user identifier, not a GUID",,,,,Automated,Omeesha Mahanta,,,"No value is a bare UUID/GUID - the audit column must show a user identifier, never a raw internal id - and no row that has a non-blank Modified On has a blank Modified By, since a change always has an author.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Modified On"" first 3 rows
+Sample input 2: ""Modified By"" first 3 rows
+Sample input 3: UUID pattern",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read Modified On for the first three rows.</li>
+<li>2. Read Modified By for the same rows.</li>
+</ol>",,,"1. Every non-blank value matches MM/DD/YYYY hh:mm:ss AM|PM - the format both sibling history grids render and the format the timestamp parser expects; the failure message prints any malformed value.
+2. No value is a bare UUID/GUID - the audit column must show a user identifier, never a raw internal id - and no row that has a non-blank Modified On has a blank Modified By, since a change always has an author.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Null and blank optional values render as empty cells without corrupting the row,,,,,Automated,Omeesha Mahanta,,,"A null or blank value produces an empty cell rather than a dropped one, so no row is shortened by missing data.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: first 10 rows, every cell
+Sample input 2: ""null"" / ""undefined"" / ""NaN"" / ""Invalid Date"" / ""[object Object]""",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read every cell of the first ten data rows, boolean-aware.</li>
+<li>2. Assert no cell leaks a placeholder for a missing value.</li>
+<li>3. Assert every sampled row still has exactly the header count of cells.</li>
+</ol>",,,"1. The cell matrix is captured.
+2. No cell equals or contains ""null"", ""undefined"", ""NaN"", ""Invalid Date"" or ""[object Object]""; the failure message prints the offending cells.
+3. A null or blank value produces an empty cell rather than a dropped one, so no row is shortened by missing data.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A very long Notes value scrolls inside the grid without widening the page,,,,,Automated,Omeesha Mahanta,,,"Live data renders again, leaving the shared browser session clean for the next test.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: 2,000-character single-token Notes value
+Sample input 2: 1px sub-pixel rounding allowance",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Intercept the history response and overwrite the first record's Notes field with a 2,000-character unbreakable token, then reload the tab.</li>
+<li>2. Measure the document's horizontal overflow.</li>
+<li>3. Measure the grid container's own horizontal overflow.</li>
+<li>4. Remove the response interception in a finally block and reload the tab.</li>
+</ol>",,,"1. The grid renders with a header row and at least one data row.
+2. The page body does not scroll horizontally - documentElement.scrollWidth does not exceed clientWidth by more than a 1px sub-pixel rounding allowance.
+3. The grid container is the element absorbing the extra width (its inner table's scrollWidth exceeds the container's clientWidth), i.e. wide content is contained rather than spilled onto the page.
+4. Live data renders again, leaving the shared browser session clean for the next test.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Single-row and multi-row payloads both render correctly,,,,,Automated,Omeesha Mahanta,,,The multi-row live grid is back.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: live multi-row payload
+Sample input 2: payload trimmed to 1 record",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read the live grid's row count and column headers.</li>
+<li>2. Intercept the history response, trim it to exactly one record, and reload the tab.</li>
+<li>3. Read the single row's cell count.</li>
+<li>4. Remove the response interception in a finally block and reload the tab.</li>
+</ol>",,,"1. The live grid renders more than one row, confirming multi-row rendering.
+2. Exactly one data row renders and the column header list is unchanged - a one-record payload does not collapse or re-derive the columns.
+3. It equals the header count, so the lone row is neither short nor long.
+4. The multi-row live grid is back.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The friendly empty state is shown when no history exists,,,,,Automated,Omeesha Mahanta,,,Live rows return.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: empty record set ([])
+Sample input 2: ""No results.""",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Intercept the history response and return an empty record set, then reload the tab.</li>
+<li>2. Read the grid's empty-state text.</li>
+<li>3. Re-check the panel's structure and controls in the empty state.</li>
+<li>4. Remove the response interception in a finally block and reload the tab.</li>
+</ol>",,,"1. The grid renders zero data rows.
+2. The grid reports empty and its first row contains the friendly empty-state copy ""No results."" - not a blank panel, not a stuck spinner, not an error.
+3. The column header row still renders (so the user can see what the grid would contain) and no Add/New/Edit/Delete/Remove/Save button and no input has appeared.
+4. Live rows return.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A pending history request shows a loading state that is then replaced by rows,,,,,Automated,Omeesha Mahanta,,,A subsequent navigation behaves normally.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: held (unresolved) history request
+Sample input 2: spinner / skeleton / row-less grid",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Intercept the history request and hold it unresolved behind a gate promise.</li>
+<li>2. Navigate to Basic Information, click the History tab directly, and wait only for the panel to become visible - not for the grid to finish loading.</li>
+<li>3. Snapshot the panel during the pending window.</li>
+<li>4. Release the held request and wait for the grid to settle.</li>
+<li>5. Release the gate and remove the interception in a finally block, then reload the tab.</li>
+</ol>",,,"1. The route is installed and the next history request will block.
+2. The history tab-content panel is visible while the request is still pending.
+3. The panel shows a pending affordance - a spinner, a skeleton, or a grid with zero data rows - AND it does not show the ""No results."" empty state. Telling the user there is no history while the request is still in flight is a defect, not a loading state.
+4. Data rows render and the pending affordance disappears.
+5. A subsequent navigation behaves normally.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A history API failure does not crash the tab and leaves the module navigable,,,,,Automated,Omeesha Mahanta,,,The grid recovers and renders live rows again without needing a full page reload.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: HTTP 500 {""error"":""Internal Server Error""}
+Sample input 2: page error listener",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Attach a pageerror listener and intercept the history request, fulfilling it with HTTP 500.</li>
+<li>2. Navigate to Basic Information and then open the History tab against the failing endpoint.</li>
+<li>3. Inspect the panel and the recorded page errors.</li>
+<li>4. Click the Basic Information tab and wait for its form.</li>
+<li>5. Remove the failure interception in a finally block and re-open the History tab.</li>
+</ol>",,,"1. The failure route is installed and uncaught page errors will be recorded.
+2. The History tab still becomes selected and its panel still renders - no unhandled crash and no blank white panel.
+3. The panel shows either zero data rows or the empty state (never a partially rendered, corrupt row set), and no uncaught page error was recorded; the failure message prints any error text.
+4. Navigation succeeds and the Basic Information form renders - a failed history fetch does not wedge the module.
+5. The grid recovers and renders live rows again without needing a full page reload.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A malformed or partial history payload renders without crashing,,,,,Automated,Omeesha Mahanta,,,Live data returns.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: every 3rd field deleted
+Sample input 2: every 3rd field set to null",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Intercept the history response and return a record with a third of its fields deleted and a third set to null, then reload the tab.</li>
+<li>2. Read the header count and the first three rows' cells.</li>
+<li>3. Assert no cell leaks a placeholder for the missing values.</li>
+<li>4. Sort Modified On descending against the degraded payload.</li>
+<li>5. Remove the response interception in a finally block and reload the tab.</li>
+</ol>",,,"1. The grid renders a header row and at least one data row.
+2. Every row still has exactly the header count of cells - missing fields render as empty cells rather than shifting the row.
+3. No cell equals or contains ""null"", ""undefined"", ""NaN"", ""Invalid Date"" or ""[object Object]"".
+4. The sort completes without throwing and the header count is unchanged, so the tab is still interactive after a partial payload.
+5. Live data returns.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Headers are exposed as column headers and the sort menu is keyboard-operable,,,,,Automated,Omeesha Mahanta,,,The menu closes and the column's sort state is unchanged from before the menu was opened.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: columnheader role count vs th count
+Sample input 2: Enter / ArrowDown / Enter / Escape
+Sample input 3: ""Sort ascending"" / ""Sort descending""",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Count elements exposing the columnheader role and compare with the th count.</li>
+<li>2. Focus the Modified On column's sort control with the keyboard and press Enter, then read the menu items.</li>
+<li>3. Press ArrowDown then Enter to apply a sort option using the keyboard alone.</li>
+<li>4. Re-open the menu and press Escape.</li>
+</ol>",,,"1. The columnheader count equals the th count - the grid's headers are exposed to assistive technology rather than rendered as plain cells.
+2. The sort menu opens from the keyboard and contains both ""Sort ascending"" and ""Sort descending"" items.
+3. The menu closes and the Modified On header's sort indicator is no longer neutral, i.e. sorting is fully achievable without a mouse.
+4. The menu closes and the column's sort state is unchanged from before the menu was opened.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The grid stays usable at laptop viewport sizes with no page-level horizontal scroll,,,,,Automated,Omeesha Mahanta,,,"The grid renders with the baseline header count, leaving the shared browser session exactly as it was found.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: 1366x768
+Sample input 2: 1280x720
+Sample input 3: restore 1920x1080",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. At the default 1920x1080 viewport, record the column header count as the baseline.</li>
+<li>2. Resize the viewport to 1366x768, wait for the grid to settle, and measure the header count, the overflow and the paginator.</li>
+<li>3. Resize to 1280x720 and repeat the same three measurements.</li>
+<li>4. Restore the 1920x1080 viewport in a finally block and wait for the grid to settle.</li>
+</ol>",,,"1. The baseline header count is captured.
+2. No column is dropped (the header count is unchanged); the page body does not scroll horizontally; the grid container is the scrolling element; the paginator's controls are still present.
+3. All of the same expectations hold at the narrower width.
+4. The grid renders with the baseline header count, leaving the shared browser session exactly as it was found.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Paging through history keeps the column set stable and renders rows on every page,,,,,Automated,Omeesha Mahanta,,,The grid returns to page 1 for the tests sharing this session.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: Go to next / previous / first / last page
+Sample input 2: ""Modified On"" first-row value per page",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read the paginator's current/total page indicator, the column headers, and the first row's Modified On value.</li>
+<li>2. Click ""Go to next page"" and wait for the grid to settle.</li>
+<li>3. Click ""Go to previous page"".</li>
+<li>4. Check the paginator's boundary states on page 1.</li>
+<li>5. Click ""Go to last page"" and check the forward boundary states.</li>
+<li>6. Click ""Go to first page"" to restore the initial paging state.</li>
+</ol>",,,"1. The paginator reports a page position with a total greater than zero; if the office has a single page of history the test skips with a data-precondition message.
+2. The page indicator advances by one; the header list is identical to page 1's; the page renders at least one data row; and the first row's Modified On differs from page 1's, proving the paginator actually moved rather than re-rendering the same slice.
+3. The indicator returns to page 1 and page 1's first row matches the value captured in step 1.
+4. ""Go to first page"" and ""Go to previous page"" are both disabled.
+5. ""Go to next page"" and ""Go to last page"" are both disabled.
+6. The grid returns to page 1 for the tests sharing this session.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Older history records are not truncated when the page size changes,,,,,Automated,Omeesha Mahanta,,,The grid returns to its initial paging state.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Modified On"" ascending (oldest first)
+Sample input 2: largest offered rows-per-page option",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Sort Modified On ascending so the oldest records come first, then read the paginator total, the current rows-per-page value and the column headers.</li>
+<li>2. Click ""Go to last page"" and read the row count.</li>
+<li>3. Return to the first page and read the oldest visible Modified On timestamp at the original page size.</li>
+<li>4. Enumerate the rows-per-page options and switch to the largest one (skip if none larger is offered).</li>
+<li>5. Read the oldest visible Modified On timestamp at the larger page size.</li>
+<li>6. Restore the original rows-per-page value and return to the first page in a finally block.</li>
+</ol>",,,"1. The paginator total is greater than zero and the rows-per-page value is readable.
+2. The last page renders at least one data row - an empty terminal page is exactly how an off-by-one row-count/offset cut-off presents, which is the data-truncation defect this case guards.
+3. The oldest timestamp at the original page size is captured as the comparison baseline.
+4. The grid re-renders with rows; the total page count does not increase; and the column header list is unchanged.
+5. It is less than or equal to the oldest timestamp seen at the smaller page size - raising the page size never loses older records.
+6. The grid returns to its initial paging state.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A Basic Information save appears as a new top row in Location Settings History,,,,,Automated,Omeesha Mahanta,,,Office 1604's Basic Information is left exactly as it was found.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: Phone 2 = ""555-000-2222"" (or the alt value when already set)
+Sample input 2: ""Modified By"" = s-prd-clickauto@psav.com
+Sample input 3: 15-minute recency window",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. On the History tab, sort Modified On descending and capture the top row's timestamp and the total row count.</li>
+<li>2. Switch to Basic Information and read the current Phone 2 value.</li>
+<li>3. Set Phone 2 to a value derived from - and therefore guaranteed to differ from - the captured original, then blur.</li>
+<li>4. Click Save and confirm the Save Changes dialog.</li>
+<li>5. Switch to the History tab, sort Modified On descending, and poll until the top row is recent.</li>
+<li>6. Read the new top row's Modified On, Modified By and Phone 2 cells.</li>
+<li>7. Assert the new row's attribution and recency.</li>
+<li>8. Assert the saved field value was captured into the history record.</li>
+<li>9. In a finally block, restore Phone 2 to its original value and save, treating a Save that never enables as an already-correct net-zero restore.</li>
+</ol>",,,"1. The baseline top row and row count are captured.
+2. The field is readable. Phone 2 is chosen because NM-1715 confirmed it is optional, unvalidated free text with no cross-field rule, so an edit can never be rejected and a restore can never be blocked.
+3. The Save button becomes enabled within 10 seconds. A hardcoded value the database already holds would be a net-zero edit that leaves the form pristine, Save disabled, and the save click hanging.
+4. The save reports success and the page-level Save button returns to disabled.
+5. The grid settles with the newest record at the top (the poll covers the 1-3 second ascending-to-descending re-render that a stability wait alone does not).
+6. The row count is at least the baseline count and the new top row's timestamp is newer than the baseline top row's.
+7. Modified By contains the automation user's identifier, and the row's timestamp is less than 15 minutes old. Recency is asserted instead of a date-string comparison because the grid renders UTC text with no offset, so comparing against ""today"" in the runner's or the render timezone would flip at midnight.
+8. The new top row's Phone 2 cell contains the value that was saved. This is the missing-field-capture regression: a history row can appear while the changed field is silently dropped from the record.
+9. Office 1604's Basic Information is left exactly as it was found.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Navigating to History with unsaved Basic Information edits raises the Unsaved Changes dialog,,,,,Automated,Omeesha Mahanta,,,"Phone 2 shows its original value again and Save is disabled - the discard fully reverted the unsaved edit, so nothing was persisted.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: unsaved Phone 2 edit
+Sample input 2: ""Unsaved changes"" / Stay / Discard",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. On the Basic Information tab, read Phone 2 and set it to a different value, then blur.</li>
+<li>2. Click the Location Settings History tab directly, without saving.</li>
+<li>3. Click ""Stay"".</li>
+<li>4. Click the History tab again and click ""Discard"" on the resulting dialog.</li>
+<li>5. Return to the Basic Information tab.</li>
+</ol>",,,"1. The page-level Save button becomes enabled, confirming the form is dirty.
+2. An ""Unsaved changes"" alert dialog appears before navigation completes, its body reads ""Are you sure you want to leave this view? Any unsaved changes will be lost."", and both Stay and Discard buttons are visible.
+3. The dialog closes, Basic Information is still the selected tab, Phone 2 still shows the edited value, and Save is still enabled.
+4. Navigation to the History tab completes and the grid loads with its header row.
+5. Phone 2 shows its original value again and Save is disabled - the discard fully reverted the unsaved edit, so nothing was persisted.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The history type selector switches between the standard and legacy grids,,,,,Automated,Omeesha Mahanta,,,"The selector reports the standard type again, the standard grid is active, and its column header list matches the list captured before the switch.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""Location Management History"" (standard, 42 columns)
+Sample input 2: ""Location Management Legacy History"" (44 columns, its own grid)",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Check whether the history type selector is present in the panel.</li>
+<li>2. Read the selector's current value, enumerate its options, and capture the standard grid's column headers.</li>
+<li>3. Select ""Location Management Legacy History"" and wait for whichever grid that type renders.</li>
+<li>4. Query the legacy grid for any input, textarea, select or contenteditable element.</li>
+<li>5. Restore the original history type in a finally block.</li>
+</ol>",,,"1. If it is absent the case skips with an explicit ""not present for this office/permission"" message rather than failing - the control is not described in NM-854 and may be feature-flagged or permission-gated.
+2. The selector offers exactly ""Location Management History"" and ""Location Management Legacy History"", currently shows the standard type, and the standard grid is the active one.
+3. STRUCTURAL FINDING: the legacy type renders its OWN grid, not the standard one - a different data-testid (local-office-settings-legacy-history-table) with 44 columns instead of the standard view's 42, and at least one row. Code that switches history type must not assume which grid appears; waiting for the standard table times out in this view.
+4. Zero are found - the legacy grid is as strictly read-only as the standard one, so the read-only guarantee is not a property of one history type only.
+5. The selector reports the standard type again, the standard grid is active, and its column header list matches the list captured before the switch.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The paginator page box rejects zero, negative, non-numeric and far-out-of-range input",,,,,Automated,Omeesha Mahanta,,,"The paginator reports page 1, leaving the grid as the other scenarios expect it.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: rejected - ""0"", ""-1"", ""abc"", ""99999"", ""136""
+Sample input 2: accepted - ""007"", ""3""
+Sample input 3: pattern=""[0-9]*"", inputmode=""numeric""",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read the paginator page box's native constraint attributes.</li>
+<li>2. For each rejected value (""0"", ""-1"", ""abc"", ""99999"", ""136""): capture the page the grid is currently on, type the value, and press Enter.</li>
+<li>3. Type ""007"" and press Enter.</li>
+<li>4. Type ""3"" and press Enter.</li>
+<li>5. Restore page 1 in a finally block.</li>
+</ol>",,,"1. The input is type=""text"" with inputmode=""numeric"" and pattern=""[0-9]*"", is not required, and declares NO min, max or maxLength - so digits-only filtering is native and all range handling is app logic. This box is the only editable field on the whole read-only tab, and therefore its only field-level validation surface.
+2. In every case the box REVERTS TO THE PAGE ALREADY SHOWN, the paginator still reports that same page, and the grid still renders a full page of rows - a rejected value never leaves an empty or broken grid. Note the contract is revert-to-current, NOT reset-to-page-1: the two are indistinguishable when probing from page 1, and typing 136 while on page 135 reverts to 135.
+3. The box settles on page 7 - leading zeros are normalised and the value is honoured - and the grid renders rows.
+4. The box settles on page 3 and the grid renders rows - a plain valid page number navigates.
+5. The paginator reports page 1, leaving the grid as the other scenarios expect it.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A page number one past the last page reverts to the page already shown,,,,,Automated,Omeesha Mahanta,,,The grid is back on page 1.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: last page (135 for office 1604)
+Sample input 2: ""136"" (one past the end)",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read the paginator's total page count, skipping if the office has only one page.</li>
+<li>2. Type the last page number into the page box and press Enter.</li>
+<li>3. Type one past the last page and press Enter, while still ON the last page.</li>
+<li>4. Restore page 1 in a finally block.</li>
+</ol>",,,"1. The total page count is captured.
+2. The box settles on the last page, the grid renders at least one row, and the Go to next page control is disabled.
+3. The box reverts to the last page (135), NOT to page 1, the paginator still reports the last page, the grid renders rows, and Go to next page remains disabled. This is the step that corrected the model: probing only from page 1 made revert-to-current indistinguishable from reset-to-page-1.
+4. The grid is back on page 1.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A decimal page number has its separator stripped and navigates to the concatenated page,,,,,Automated,Omeesha Mahanta,,,The report records the typed value and the resulting page; the grid is back on page 1.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""2.5""
+Sample input 2: observed result = page 25",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Confirm the office has enough pages to reach page 25, skipping otherwise.</li>
+<li>2. Type ""2.5"" into the page box and press Enter.</li>
+<li>3. Verify the mis-navigation still leaves a usable grid.</li>
+<li>4. Attach the defect detail to the report, then restore page 1 in a finally block.</li>
+</ol>",,,"1. The page count is sufficient to observe the behaviour.
+2. DEFECT: the box settles on page 25, not page 2. The decimal separator is stripped by pattern=""[0-9]*"" and the remaining digits are concatenated, so a user aiming at page 2 silently lands on page 25. The test asserts the CURRENT live behaviour deliberately, so that a fix flips it red on purpose and the expectation is updated rather than the case being deleted.
+3. The grid renders rows and the full 42-column header set is unchanged.
+4. The report records the typed value and the resulting page; the grid is back on page 1.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Exactly the four structural columns are non-sortable and every other column sorts,,,,,Automated,Omeesha Mahanta,,,"The column indicates an ascending sort and the grid still renders rows, proving the control is functional rather than merely present.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: Local Office, Section Name, Service Type - Exempt, Notes
+Sample input 2: 38 sortable of 42 columns",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read the set of columns that carry NO sort control.</li>
+<li>2. Read the set of columns that DO carry a sort control.</li>
+<li>3. Sort one of the sortable columns ascending.</li>
+</ol>",,,"1. The non-sortable set is exactly Local Office, Section Name, Service Type - Exempt and Notes. Asserting the exact SET, rather than a count bound, is what catches a column silently losing its sort control - NM-854 requires every column marked sortable to support sorting.
+2. It contains 38 columns - the 42 total minus the 4 structural exceptions - and no column appears in both sets.
+3. The column indicates an ascending sort and the grid still renders rows, proving the control is functional rather than merely present.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The rows-per-page control offers the confirmed options and changing it changes the rendered row count,,,,,Automated,Omeesha Mahanta,,,The control reports its original value again.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: default ""20""
+Sample input 2: options 10 / 20 / 30 / 40 / 50",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Read the rows-per-page control's current value and its option list.</li>
+<li>2. Compare the default page size with the number of rendered rows.</li>
+<li>3. Select the smallest option (10) and re-read the grid.</li>
+<li>4. Restore the original page size and return to the first page in a finally block.</li>
+</ol>",,,"1. The control defaults to ""20"" and offers exactly 10, 20, 30, 40 and 50.
+2. The grid renders exactly 20 data rows, so the control's value and the rendered page agree.
+3. The control reports 10, the grid renders exactly 10 rows, and the 42-column header set is unchanged.
+4. The control reports its original value again.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Composite Section Name and Service Type cells render pipe-delimited name and flag pairs,,,,,Automated,Omeesha Mahanta,,,The report records the real folded content and its length for future comparison.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: ""AV Services - true | Hybrid Meeting - true | ...""
+Sample input 2: ""APP Downloaded - true | App Quality Assurance - true | ...""",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Confirm the grid has at least one data row, skipping otherwise.</li>
+<li>2. Parse the ""Section Name"" cell into its pipe-delimited name/flag pairs.</li>
+<li>3. Parse the ""Service Type - Exempt"" cell the same way.</li>
+<li>4. Attach both raw composite values and their pair counts to the report.</li>
+</ol>",,,"1. A data row is available to inspect.
+2. The cell yields more than one ""Name - flag"" pair, every name is non-empty, and every flag is exactly ""true"" or ""false"". This column folds NM-854's SectionName AND SectionIsActive into one cell, so the pair structure IS the contract for SectionIsActive, which has no column of its own.
+3. The cell yields well-formed pairs on the same rules. This column folds NM-854's ServiceTypeName AND STExempt, so the pair structure is the contract for both.
+4. The report records the real folded content and its length for future comparison.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Long composite cells do not break row alignment or push the page into horizontal scroll,,,,,Automated,Omeesha Mahanta,,,The page body does not scroll horizontally (within a 1px rounding allowance) and the grid container is the element absorbing the extra width.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings History tab is loaded and active (TC-LOE-HIST-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Sample input 1: real composite cells (~250 characters each on office 1604)",Medium,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Confirm the grid has at least one data row, skipping otherwise.</li>
+<li>2. Measure the character length of both composite cells.</li>
+<li>3. Read the cell count of every rendered row.</li>
+<li>4. Measure the document and grid-container horizontal overflow.</li>
+</ol>",,,"1. A data row is available to measure.
+2. Each is longer than 100 characters, confirming the scenario is genuinely exercising long content rather than passing on short data. Unlike the long-Notes scenario, which injects a synthetic 2,000-character value, this uses the REAL folded data.
+3. Every row still has exactly 42 cells, so the long composite content shifts no row.
+4. The page body does not scroll horizontally (within a 1px rounding allowance) and the grid container is the element absorbing the extra width.",,,,Master,S1620,Test Case (Steps),Regression,,,

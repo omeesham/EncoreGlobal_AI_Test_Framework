@@ -1,5 +1,5 @@
 ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
-,ECT Settings tab loads with all four sections and expected header,,,,,Automated,Omeesha Mahanta,,,"Heading reads ""SubRental Matrix""; the table's columns are exactly Lower Limit, Upper Limit, Subrental Percentage, Currency; the table body has at least one row.",,,"local-office,ect-settings,basic-information",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. Basic Information tab is active.
+,ECT Settings tab loads with all four sections and expected header,,,,,Automated,Omeesha Mahanta,,,"Heading reads ""SubRental Matrix""; the table's columns are exactly Lower Limit, Upper Limit, Subrental Percentage, Currency; the table body has at least one row.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. Basic Information tab is active.
 
 Test Data:
 User: automation user (location-edit permission)
@@ -21,7 +21,7 @@ Sample input 2: ""USD""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<o
 5. Both editable fields show non-blank values; the Fixed Costs Save button is disabled; at least 3 description paragraphs render below the fields.
 6. Heading reads ""Labor Cost Assumptions""; its Save button is disabled; the table's columns are exactly Labor Class, Labor Cost; the table body has more than one row.
 7. Heading reads ""SubRental Matrix""; the table's columns are exactly Lower Limit, Upper Limit, Subrental Percentage, Currency; the table body has at least one row.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Event Profit Target and SubRental Matrix tables are fully read-only; Labor Class column is read-only,,,,,Automated,Omeesha Mahanta,,,The Labor Class column is read-only; the Labor Cost column is editable — only the Labor Cost column is editable in this grid.,,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Event Profit Target and SubRental Matrix tables are fully read-only; Labor Class column is read-only,,,,,Automated,Omeesha Mahanta,,,The Labor Class column is read-only; the Labor Cost column is editable — only the Labor Cost column is editable in this grid.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -40,7 +40,7 @@ Sample input 3: ""Labor Class""",Medium,,Ect_Settings,1,,Local_Office > Ect_Sett
 3. Zero editable elements are found; the table is fully read-only.
 4. The table remains fully read-only afterward.
 5. The Labor Class column is read-only; the Labor Cost column is editable — only the Labor Cost column is editable in this grid.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Benefits Multiplier required-field rejection when cleared,,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier is restored to its default value ""20.0%"" (nothing was saved, so a fresh reload resets the field).",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Benefits Multiplier required-field rejection when cleared,,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier is restored to its default value ""20.0%"" (nothing was saved, so a fresh reload resets the field).",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -54,7 +54,7 @@ Sample input 2: ""20.0%""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"
 </ol>",,,"1. Field shows ""20.0%"".
 2. Field value becomes empty; the field is marked invalid; the Fixed Costs Save button remains disabled.
 3. Benefits Multiplier is restored to its default value ""20.0%"" (nothing was saved, so a fresh reload resets the field).",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Benefits Multiplier rejects non-numeric and negative input; an extremely long numeric input does not crash the UI,,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier is restored to its default value ""20.0%"" — nothing from this test was ever saved.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Benefits Multiplier rejects non-numeric and negative input; an extremely long numeric input does not crash the UI,,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier is restored to its default value ""20.0%"" — nothing from this test was ever saved.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -72,7 +72,7 @@ Sample input 4: ""99999999999999999999""",Medium,,Ect_Settings,1,,Local_Office >
 2. Field is wiped to empty and marked invalid (negative values are rejected, not treated as positive); the Fixed Costs Save button remains disabled.
 3. The displayed value is not blank and does not contain ""NaN"" (floating-point precision loss in the displayed percentage is an acceptable, documented outcome; a crash, freeze, or NaN would not be).
 4. Benefits Multiplier is restored to its default value ""20.0%"" — nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Benefits Multiplier accepts a valid decimal, and unsaved edits are fully discarded via tab-switch (Stay/Discard) and via a hard reload",,,,,Automated,Omeesha Mahanta,,,"The reload lands on the default Basic Information tab, not ECT Settings (tab selection is not preserved across a hard reload); Benefits Multiplier shows its default value ""20.0%"" again and the Fixed Costs Save button is disabled — the unsaved edit was discarded by the reload itself.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,"Benefits Multiplier accepts a valid decimal, and unsaved edits are fully discarded via tab-switch (Stay/Discard) and via a hard reload",,,,,Automated,Omeesha Mahanta,,,"The reload lands on the default Basic Information tab, not ECT Settings (tab selection is not preserved across a hard reload); Benefits Multiplier shows its default value ""20.0%"" again and the Fixed Costs Save button is disabled — the unsaved edit was discarded by the reload itself.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -97,7 +97,7 @@ Sample input 3: ""0.21"" (alt test value)",Medium,,Ect_Settings,1,,Local_Office 
 6. Benefits Multiplier has reverted to its default value ""20.0%""; the Fixed Costs Save button is disabled.
 7. Before the reload, the Fixed Costs Save button is enabled; the reload triggers the browser's NATIVE beforeunload confirmation dialog (distinct from the app's own ""Unsaved changes"" dialog).
 8. The reload lands on the default Basic Information tab, not ECT Settings (tab selection is not preserved across a hard reload); Benefits Multiplier shows its default value ""20.0%"" again and the Fixed Costs Save button is disabled — the unsaved edit was discarded by the reload itself.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Historical Subrental % required-field rejection when cleared,,,,,Automated,Omeesha Mahanta,,,"Historical Subrental % is restored to its default value ""0.0%"".",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Historical Subrental % required-field rejection when cleared,,,,,Automated,Omeesha Mahanta,,,"Historical Subrental % is restored to its default value ""0.0%"".",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -111,7 +111,7 @@ Sample input 2: ""0.0%""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<
 </ol>",,,"1. Field shows ""0.0%"".
 2. Field value becomes empty; the field is marked invalid; the Fixed Costs Save button remains disabled.
 3. Historical Subrental % is restored to its default value ""0.0%"".",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Historical Subrental % rejects non-numeric and negative input,,,,,Automated,Omeesha Mahanta,,,"Historical Subrental % is restored to its default value ""0.0%"".",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Historical Subrental % rejects non-numeric and negative input,,,,,Automated,Omeesha Mahanta,,,"Historical Subrental % is restored to its default value ""0.0%"".",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -126,7 +126,7 @@ Sample input 3: ""-1""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<ol
 </ol>",,,"1. Field is wiped to empty and marked invalid; the Fixed Costs Save button remains disabled.
 2. Field is wiped to empty and marked invalid (negative rejected, not treated as positive — matches Benefits Multiplier's behavior); the Fixed Costs Save button remains disabled.
 3. Historical Subrental % is restored to its default value ""0.0%"".",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Historical Subrental % accepts a valid decimal and an extremely long numeric value without crashing; unsaved edit is discarded,,,,,Automated,Omeesha Mahanta,,,"Historical Subrental % has reverted to its default value ""0.0%""; the Fixed Costs Save button is disabled — nothing from this test was ever saved.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Historical Subrental % accepts a valid decimal and an extremely long numeric value without crashing; unsaved edit is discarded,,,,,Automated,Omeesha Mahanta,,,"Historical Subrental % has reverted to its default value ""0.0%""; the Fixed Costs Save button is disabled — nothing from this test was ever saved.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -141,7 +141,7 @@ Sample input 3: ""99999999999999999999""",Medium,,Ect_Settings,1,,Local_Office >
 </ol>",,,"1. Field is valid; displays the expected formatted percentage ""10.0%""; the Fixed Costs Save button becomes enabled.
 2. The displayed value is not blank and does not contain ""NaN"" (precision loss in the displayed percentage is an acceptable, documented outcome; a crash, freeze, or NaN would not be).
 3. Historical Subrental % has reverted to its default value ""0.0%""; the Fixed Costs Save button is disabled — nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Editing Benefits Multiplier enables only the Fixed Costs Save button, never Labor Cost Assumptions Save, and the saved value persists after restore",,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier displays its default value ""20.0%"" again; both the Fixed Costs Save and Labor Cost Assumptions Save buttons are disabled, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,"Editing Benefits Multiplier enables only the Fixed Costs Save button, never Labor Cost Assumptions Save, and the saved value persists after restore",,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier displays its default value ""20.0%"" again; both the Fixed Costs Save and Labor Cost Assumptions Save buttons are disabled, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -158,7 +158,7 @@ Sample input 3: ""21.0%""",High,,Ect_Settings,1,,Local_Office > Ect_Settings,"<o
 2. Fixed Costs Save button becomes enabled; Labor Cost Assumptions Save button remains disabled.
 3. The saved value (""21.0%"") is confirmed present after the reload.
 4. Benefits Multiplier displays its default value ""20.0%"" again; both the Fixed Costs Save and Labor Cost Assumptions Save buttons are disabled, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Editing a Labor Cost rate enables its Save button independently of Fixed Costs Save, and the change persists after reload",,,,,Automated,Omeesha Mahanta,,,"The first row's Labor Cost value is back to its original ""41.00"", leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,"Editing a Labor Cost rate enables its Save button independently of Fixed Costs Save, and the change persists after reload",,,,,Automated,Omeesha Mahanta,,,"The first row's Labor Cost value is back to its original ""41.00"", leaving office 1604 clean.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -177,7 +177,7 @@ Sample input 3: ""42"" (test value)",High,,Ect_Settings,1,,Local_Office > Ect_Se
 3. Labor Cost Assumptions Save button returns to disabled once the save completes.
 4. The first row's Labor Cost value shows the saved ""42.00"".
 5. The first row's Labor Cost value is back to its original ""41.00"", leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Only the edited Labor Cost row is affected by Save; untouched rows are unaffected,,,,,Automated,Omeesha Mahanta,,,"Row A reverts to its original value, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Only the edited Labor Cost row is affected by Save; untouched rows are unaffected,,,,,Automated,Omeesha Mahanta,,,"Row A reverts to its original value, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -194,7 +194,7 @@ Sample input 3: ""42"" (test value)",High,,Ect_Settings,1,,Local_Office > Ect_Se
 2. Row A shows ""42.00""; Row B is unchanged; the Labor Cost Assumptions Save button becomes enabled.
 3. Row A shows the newly saved ""42.00""; Row B still shows its original, untouched value — confirming only the edited row was persisted.
 4. Row A reverts to its original value, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Labor Cost rate editor reverts non-numeric and negative input, rounds to 2 decimals, does not revert on Escape, and does not crash on a very long numeric value",,,,,Automated,Omeesha Mahanta,,,"The row reverts to its original value (""41.00""); the Labor Cost Assumptions Save button is disabled — nothing from this test was ever saved.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,"Labor Cost rate editor reverts non-numeric and negative input, rounds to 2 decimals, does not revert on Escape, and does not crash on a very long numeric value",,,,,Automated,Omeesha Mahanta,,,"The row reverts to its original value (""41.00""); the Labor Cost Assumptions Save button is disabled — nothing from this test was ever saved.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -219,7 +219,7 @@ Sample input 5: ""77.77"" (Escape mid-edit)",Medium,,Ect_Settings,1,,Local_Offic
 5. Displayed value is not blank and does not contain ""NaN""; the Labor Cost column remains editable (grid stays interactive) afterward.
 6. Escape does NOT revert the in-progress edit (unlike the Section/Room Escape-to-cancel pattern on Basic Information) — the typed value ""77.77"" remains and the Labor Cost Assumptions Save button stays enabled.
 7. The row reverts to its original value (""41.00""); the Labor Cost Assumptions Save button is disabled — nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Labor Cost Assumptions has only a Save action (no inline Cancel); unsaved edits are discarded via the Unsaved Changes Stay/Discard dialog,,,,,Automated,Omeesha Mahanta,,,Both Row A and Row B have reverted to their original values; the Labor Cost Assumptions Save button is disabled.,,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Labor Cost Assumptions has only a Save action (no inline Cancel); unsaved edits are discarded via the Unsaved Changes Stay/Discard dialog,,,,,Automated,Omeesha Mahanta,,,Both Row A and Row B have reverted to their original values; the Labor Cost Assumptions Save button is disabled.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -240,7 +240,7 @@ Sample input 3: ""15"" (test value)",Medium,,Ect_Settings,1,,Local_Office > Ect_
 4. Dialog closes; the app remains on the ECT Settings tab; Row A and Row B still show their new unsaved values (""42.00"" and ""15.00""); the Save button remains enabled.
 5. Navigation to the History tab completes.
 6. Both Row A and Row B have reverted to their original values; the Labor Cost Assumptions Save button is disabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Fixed Costs Save and Labor Cost Assumptions Save operate independently in both directions, and both persist after restore",,,,,Automated,Omeesha Mahanta,,,"Both fields show their original default values again (""0.0%"" and ""41.00""); both Save buttons are disabled, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,"Fixed Costs Save and Labor Cost Assumptions Save operate independently in both directions, and both persist after restore",,,,,Automated,Omeesha Mahanta,,,"Both fields show their original default values again (""0.0%"" and ""41.00""); both Save buttons are disabled, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -263,7 +263,7 @@ Sample input 3: ""42"" (Labor Cost test value)",High,,Ect_Settings,1,,Local_Offi
 5. Labor Cost Assumptions Save button returns to disabled once the save completes; the Fixed Costs Save button remains disabled, unaffected by the Labor Cost save.
 6. Historical Subrental % shows the saved value (""10.0%"") and the edited Labor Cost row shows its saved value (""42.00""), confirming both changes persisted independently.
 7. Both fields show their original default values again (""0.0%"" and ""41.00""); both Save buttons are disabled, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Currency dropdown reload behavior (conditional on a multi-currency office),,,,,Automated,Omeesha Mahanta,,,"The dropdown value returns to the original currency, confirming the round trip lands back on the original value.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Currency dropdown reload behavior (conditional on a multi-currency office),,,,,Automated,Omeesha Mahanta,,,"The dropdown value returns to the original currency, confirming the round trip lands back on the original value.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -280,7 +280,7 @@ Sample input 1: ""USD""",Medium,,Ect_Settings,1,,Local_Office > Ect_Settings,"<o
 3. Test is annotated ""blocked - insufficient currency data at office 1604 (single currency configured)"" and passes without exercising the reload path.
 4. The dropdown value updates to the newly selected currency; the ECT Settings tab remains selected (the reload does not navigate away).
 5. The dropdown value returns to the original currency, confirming the round trip lands back on the original value.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Editable state confirmed for current test account (canEditLocSetting / canEditLaborCost both true),,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier shows its default value ""20.0%"" again, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,Editable state confirmed for current test account (canEditLocSetting / canEditLaborCost both true),,,,,Automated,Omeesha Mahanta,,,"Benefits Multiplier shows its default value ""20.0%"" again, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -298,7 +298,7 @@ Sample input 2: ""0.21"" (alt test value)",High,,Ect_Settings,1,,Local_Office > 
 3. The Fixed Costs Save button becomes enabled.
 4. The save completes; the Fixed Costs Save button returns to disabled.
 5. Benefits Multiplier shows its default value ""20.0%"" again, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Editing the Labor Cost grid's actual last row enables its Save independently of Fixed Costs Save, and the change persists after reload",,,,,Automated,Omeesha Mahanta,,,"The last row's Labor Cost value is back to its original value, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,"Editing the Labor Cost grid's actual last row enables its Save independently of Fixed Costs Save, and the change persists after reload",,,,,Automated,Omeesha Mahanta,,,"The last row's Labor Cost value is back to its original value, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -315,7 +315,7 @@ Sample input 3: ""42"" (test value)",High,,Ect_Settings,1,,Local_Office > Ect_Se
 2. Cell displays ""42.00""; the Labor Cost Assumptions Save button becomes enabled; the Fixed Costs Save button remains disabled (independence confirmed, same as row 0 in TC-LOE-ECT-010).
 3. The last row's Labor Cost value shows the saved ""42.00"" after reload.
 4. The last row's Labor Cost value is back to its original value, leaving office 1604 clean.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"A real clipboard paste bypasses per-keystroke masking on blur-validated fields, but blur-time validation still governs the committed value",,,,,Automated,Omeesha Mahanta,,,The Labor Cost row reverts to its original value; the Labor Cost Assumptions Save button is disabled; Benefits Multiplier and Historical Subrental % both show their default values -- nothing from this test was ever saved.,,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run). Browser context has clipboard-read/clipboard-write permissions granted (test-managed).
+,"A real clipboard paste bypasses per-keystroke masking on blur-validated fields, but blur-time validation still governs the committed value",,,,,Automated,Omeesha Mahanta,,,The Labor Cost row reverts to its original value; the Labor Cost Assumptions Save button is disabled; Benefits Multiplier and Historical Subrental % both show their default values -- nothing from this test was ever saved.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run). Browser context has clipboard-read/clipboard-write permissions granted (test-managed).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -334,7 +334,7 @@ Sample input 3: ""-99"" (Labor Cost row 0)",High,,Ect_Settings,1,,Local_Office >
 3. Same pattern: the raw ""abc"" is visible immediately after paste, then reverts to ""0.0%"" on blur, valid, with the Fixed Costs Save button disabled.
 4. The pasted ""-99"" is rejected outright by the same whole-value validator as typed negative input (TC-LOE-ECT-012); the cell reformats back to the original displayed value (""41.00"") on blur, same as the Fixed Costs fields above.
 5. The Labor Cost row reverts to its original value; the Labor Cost Assumptions Save button is disabled; Benefits Multiplier and Historical Subrental % both show their default values -- nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Benefits Multiplier and Historical Subrental % treat ""0"" as a valid required value and a whitespace-only value as empty/invalid",,,,,Automated,Omeesha Mahanta,,,Both fields are restored to their original captured values -- nothing from this test was ever saved.,,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,"Benefits Multiplier and Historical Subrental % treat ""0"" as a valid required value and a whitespace-only value as empty/invalid",,,,,Automated,Omeesha Mahanta,,,Both fields are restored to their original captured values -- nothing from this test was ever saved.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)
@@ -352,7 +352,7 @@ Sample input 2: "" "" (single whitespace)",Medium,,Ect_Settings,1,,Local_Office 
 3. Unlike literal non-numeric text (""abc"" in TC-LOE-ECT-004), the whitespace is trimmed/treated exactly like a fully cleared field: the value collapses to """", destructive styling applies, and the Fixed Costs Save button is disabled.
 4. Same result as Benefits Multiplier: value collapses to """", marked invalid, Save disabled.
 5. Both fields are restored to their original captured values -- nothing from this test was ever saved.",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Fixed Costs Save stays disabled while EITHER field is invalid, and only enables once BOTH invalid fields are fixed",,,,,Automated,Omeesha Mahanta,,,"Both fields show their original default values again; the Fixed Costs Save button is disabled, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
+,"Fixed Costs Save stays disabled while EITHER field is invalid, and only enables once BOTH invalid fields are fixed",,,,,Automated,Omeesha Mahanta,,,"Both fields show their original default values again; the Fixed Costs Save button is disabled, leaving office 1604 clean.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 is open in Navigator, logged in as the automation user with full location-edit and labor-cost-edit permissions. ECT Settings tab is loaded and active (TC-LOE-ECT-001 has run).
 
 Test Data:
 User: automation user (location-edit permission)

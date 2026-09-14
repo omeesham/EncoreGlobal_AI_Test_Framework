@@ -124,6 +124,12 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
         const tracePath = testInfo.outputPath('trace.zip');
         await context.tracing.stopChunk({ path: tracePath });
         await testInfo.attach('trace', { path: tracePath, contentType: 'application/zip' });
+        // Playwright's own artifacts recorder tracks this context too and archives a chunk of its
+        // own after every fixture tears down. On a pass it asks for a discard, which no-ops with
+        // no chunk running; on a failure it asks for a path, which throws `Must start tracing
+        // before stopping` and pins a second, bogus error on an already-failing test. Reopening a
+        // chunk here gives that stop something live to archive.
+        await context.tracing.startChunk({ title: testInfo.title });
       } catch { }
     } else if (traceChunkStarted) {
       try {
