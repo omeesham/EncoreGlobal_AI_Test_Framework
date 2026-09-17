@@ -31,6 +31,13 @@ export function titleKey(title: string): string {
     .trim();
 }
 
+/** Setup/teardown projects and *.setup.ts / *.teardown.ts files — plumbing, never a TestRail case. */
+function isInfrastructure(test: TestCase): boolean {
+  const project = test.parent.project()?.name.toLowerCase() ?? '';
+  if (project === 'setup' || project === 'teardown') return true;
+  return /\.(setup|teardown)\.ts$/i.test(test.location.file);
+}
+
 /** TC id -> TestRail case id, frozen at config/testrail/case-map.json. Authoritative:
  *  it survives title edits on either side, which title matching does not. */
 function loadCaseMap(): Map<string, number> {
@@ -72,6 +79,10 @@ export default class TestRailReporter implements Reporter {
 
   onTestEnd(test: TestCase, result: TestResult): void {
     if (process.env.TESTRAIL_ENABLED !== 'true') return;
+    // Infrastructure, not a test case: the `setup`/`teardown` projects exist to acquire the shared
+    // auth state, have no TestRail counterpart by design, and were the only entries in the
+    // "no matching TestRail case" warning. Dropped here so that warning means a real gap.
+    if (isInfrastructure(test)) return;
 
     const outcome = test.outcome(); // expected | unexpected | flaky | skipped
     if (outcome === 'skipped') return; // TestRail's API can't set "untested"; leave as-is

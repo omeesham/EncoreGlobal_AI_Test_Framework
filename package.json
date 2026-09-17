@@ -21,6 +21,8 @@
     "check:alignment": "node scripts/check-testcase-alignment.js",
     "check:testcases": "npm run check:tc-ids && npm run check:alignment",
     "check:steps": "node scripts/check-report-steps.js",
+    "audit:testids": "node scripts/audit-missing-testids.js",
+    "audit:testids:strict": "node scripts/audit-missing-testids.js --strict",
     "testrail:sync": "ts-node scripts/testrail-sync.ts",
     "testrail:sync:execute": "ts-node scripts/testrail-sync.ts --execute",
     "testrail:backfill-labels": "ts-node scripts/testrail-backfill-labels.ts",

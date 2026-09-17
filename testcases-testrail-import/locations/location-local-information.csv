@@ -1,0 +1,735 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,"Local Information tab loads with header, disabled Save, and every core section visible",,,,,Automated,Omeesha Mahanta,,,Save is switched off before anything is edited,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the Local Information tab is the one on screen, on the Location Settings page</li>
+<li>3. Check the main controls of the form are all on screen</li>
+<li>4. Check Save is switched off before anything is edited</li>
+</ol>",,,"1. Opening the Local Information tab for a location shows the settings form, with Save switched off because nothing has been changed yet.
+2. The local information tab is the one on screen, on the location settings page
+3. The main controls of the form are all on screen
+4. Save is switched off before anything is edited",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Left-panel baseline values match the shared Location Settings header for office 1604,,,,,Automated,Omeesha Mahanta,,,The two shared switches are in their expected positions,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Read the details panel on the left</li>
+<li>3. Check the panel names the expected office and pay-to address</li>
+<li>4. Check the two shared switches are in their expected positions</li>
+</ol>",,,"1. The location details panel on the left shows the right office and its shared settings, the same on this tab as on every other one.
+2. The action completes and the form stays responsive.
+3. The panel names the expected office and pay-to address
+4. The two shared switches are in their expected positions",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Checkbox defaults - the full CHECKED_DEFAULTS group reads checked on a fresh load,,,,,Automated,Omeesha Mahanta,,,None of them are switched off,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Read every setting expected to be switched on</li>
+<li>3. Check none of them are switched off</li>
+</ol>",,,"1. Every setting that is supposed to be switched on for this office really is switched on when the page opens.
+2. The action completes and the form stays responsive.
+3. None of them are switched off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Checkbox defaults - the full UNCHECKED_DEFAULTS group reads unchecked on a fresh load,,,,,Automated,Omeesha Mahanta,,,None of them are switched on,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Read every setting expected to be switched off</li>
+<li>3. Check none of them are switched on</li>
+</ol>",,,"1. Every setting that is supposed to be switched off for this office really is switched off when the page opens.
+2. The action completes and the form stays responsive.
+3. None of them are switched on",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Disabled-checkbox baseline matrix matches DISABLED_CHECKBOX_STATES,,,,,Automated,Omeesha Mahanta,,,Every one is greyed out and in the right position,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Read each greyed-out setting and the position it is locked in</li>
+<li>3. Check every one is greyed out and in the right position</li>
+</ol>",,,"1. The settings this office is not allowed to change are greyed out, and each one is left in the expected position.
+2. The action completes and the form stays responsive.
+3. Every one is greyed out and in the right position",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reloading and re-navigating to Local Information reproduces the same baseline,,,,,Automated,Omeesha Mahanta,,,The same values come back and save is switched off again,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Note a sample of settings before the refresh</li>
+<li>3. Refresh the browser and open the tab again</li>
+<li>4. Check the same values come back and Save is switched off again</li>
+</ol>",,,"1. Refreshing the browser and coming back to the tab shows exactly the same settings as before, so nothing is remembered incorrectly between visits.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. The same values come back and save is switched off again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save button is disabled on a completely fresh load,,,,,Automated,Omeesha Mahanta,,,Save is switched off,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Open the tab from a clean refresh</li>
+<li>3. Check Save is switched off</li>
+</ol>",,,"1. Save cannot be pressed until something is actually changed, so nobody can save an unchanged form by accident.
+2. The action completes and the form stays responsive.
+3. Save is switched off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A validated LDW Percentage change enables Save and persists through save+reload,,,,,Automated,Omeesha Mahanta,,,The change saved and survived the refresh,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Change LDW to &lt;value> and save it</li>
+<li>3. Check the change saved and survived the refresh</li>
+</ol>",,,"1. Changing the LDW percentage to a valid figure switches Save on, and the new figure is still there after saving and refreshing.
+2. The action completes and the form stays responsive.
+3. The change saved and survived the refresh",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking Save always raises the shared Save Changes confirmation dialog,,,,,Automated,Omeesha Mahanta,,,The action completes and the form stays responsive.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Make a small change so Save can be pressed</li>
+<li>3. Check Save switched on after the change</li>
+<li>4. Press Save</li>
+<li>5. Check the confirmation box appears with the expected wording</li>
+<li>6. Back out of the confirmation box</li>
+</ol>",,,"1. Pressing Save always asks the user to confirm first, so a save is never silent.
+2. The action completes and the form stays responsive.
+3. Save switched on after the change
+4. The action completes and the form stays responsive.
+5. The confirmation box appears with the expected wording
+6. The action completes and the form stays responsive.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancelling the Save Changes dialog aborts persistence and keeps the edit on screen,,,,,Automated,Omeesha Mahanta,,,"The original value came back, proving nothing was stored",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Type a new Oracle Product code and press Save</li>
+<li>3. Choose Cancel in the confirmation box</li>
+<li>4. Check the typed value is still on screen and Save is still available</li>
+<li>5. Refresh the browser</li>
+<li>6. Check the original value came back, proving nothing was stored</li>
+</ol>",,,"1. Backing out of the save confirmation leaves the typed change on screen but does not store it, so a refresh brings the old value back.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. The typed value is still on screen and save is still available
+5. The action completes and the form stays responsive.
+6. The original value came back, proving nothing was stored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Navigating to another sub-tab while Local Information is dirty raises NO Unsaved Changes dialog (defect),,,,,Automated,Omeesha Mahanta,,,"The user is taken away regardless, losing the edit",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Make an unsaved change</li>
+<li>3. Check the form really does have unsaved changes at this point</li>
+<li>4. Try to move to another sub-tab</li>
+<li>5. Check no warning of any kind appears - the defect being recorded</li>
+<li>6. Check the user is taken away regardless, losing the edit</li>
+</ol>",,,"1. Leaving the tab with unsaved edits gives the user no warning at all. Every other tab in this area does warn, so this records the gap as a defect.
+2. The action completes and the form stays responsive.
+3. The form really does have unsaved changes at this point
+4. The action completes and the form stays responsive.
+5. No warning of any kind appears - the defect being recorded
+6. The user is taken away regardless, losing the edit",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unsaved Local Information edits survive a sub-tab round-trip and are lost only on a full reload,,,,,Automated,Omeesha Mahanta,,,"The refresh is what discards the edit, with no warning beforehand",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Make an unsaved change and leave the tab</li>
+<li>3. Come back to Local Information</li>
+<li>4. Check the edit is still there and still waiting to be saved</li>
+<li>5. Now refresh the browser</li>
+<li>6. Check the refresh is what discards the edit, with no warning beforehand</li>
+</ol>",,,"1. Even with no warning shown, leaving the tab and coming back keeps the unsaved edit, so nothing is lost in the moment. Refreshing the browser is what throws it away.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. The edit is still there and still waiting to be saved
+5. The action completes and the form stays responsive.
+6. The refresh is what discards the edit, with no warning beforehand",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Billing Way Effective Date control baseline enabled/disabled state matches whether Billing Way can currently change,,,,,Automated,Omeesha Mahanta,,,"The date control is locked, matching the confirmed baseline for this office",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the date control is locked, matching the confirmed baseline for this office</li>
+</ol>",,,"1. The billing start date can only be edited when the billing method itself is allowed to change; for this office it is locked.
+2. The date control is locked, matching the confirmed baseline for this office",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Billing Way Effective Date rejects a date before today,,,,,Automated,Omeesha Mahanta,,,"No past date can be entered, because the control cannot be opened at all",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check no past date can be entered, because the control cannot be opened at all</li>
+</ol>",,,"1. A billing start date in the past is not accepted. For this office the control is locked, which is itself the strongest possible rejection.
+2. No past date can be entered, because the control cannot be opened at all",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Oracle Organization is populated while Skip Billing is unchecked (baseline),,,,,Automated,Omeesha Mahanta,,,The read-only state is lost after returning - the defect being recorded,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check Skip Billing is off and the Oracle organisation is on screen</li>
+<li>3. Load the tab fresh so the starting state is well defined</li>
+<li>4. Check the organisation is read-only on a freshly loaded page</li>
+<li>5. Leave to another sub-tab and come straight back</li>
+<li>6. Check the read-only state is lost after returning - the defect being recorded</li>
+</ol>",,,"1. While the office is being billed normally, its Oracle organisation is shown. It is shown as read-only, which is not what the requirement implies, so this records the difference.
+2. Skip billing is off and the oracle organisation is on screen
+3. The action completes and the form stays responsive.
+4. The organisation is read-only on a freshly loaded page
+5. The action completes and the form stays responsive.
+6. The read-only state is lost after returning - the defect being recorded",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Oracle Product Code and Oracle Department Code are populated while Skip Billing is unchecked (baseline),,,,,Automated,Omeesha Mahanta,,,Both codes hold their expected values and are editable,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check both codes hold their expected values and are editable</li>
+</ol>",,,"1. While the office is being billed normally, its Oracle product and department codes are filled in and can be edited.
+2. Both codes hold their expected values and are editable",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Checking Skip Billing does NOT immediately disable the Oracle fields - only a save+reload applies the gating (documented discrepancy),,,,,Automated,Omeesha Mahanta,,,"The oracle codes stay editable straight after ticking, the documented behaviour",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Tick Skip Billing</li>
+<li>3. Check the Oracle codes stay editable straight after ticking, the documented behaviour</li>
+</ol>",,,"1. Ticking Skip Billing does not grey out the Oracle codes straight away, unlike every other setting of its kind. This records that difference rather than assuming it is fixed.
+2. The action completes and the form stays responsive.
+3. The oracle codes stay editable straight after ticking, the documented behaviour",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Oracle Product Code enforces a 25-character maximum length,,,,,Automated,Omeesha Mahanta,,,The limit is enforced and the original value is restored,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Type an over-long code and check it is cut off</li>
+<li>3. Check the limit is enforced and the original value is restored</li>
+</ol>",,,"1. The Oracle product code cannot be longer than 25 characters; anything longer is cut off as it is typed.
+2. The action completes and the form stays responsive.
+3. The limit is enforced and the original value is restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Oracle Department Code enforces a 25-character maximum length,,,,,Automated,Omeesha Mahanta,,,The limit is enforced and the original value is restored,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Type an over-long code and check it is cut off</li>
+<li>3. Check the limit is enforced and the original value is restored</li>
+</ol>",,,"1. The Oracle department code cannot be longer than 25 characters; anything longer is cut off as it is typed.
+2. The action completes and the form stays responsive.
+3. The limit is enforced and the original value is restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Oracle Product Code and Oracle Department Code store an XSS payload as inert text,,,,,Automated,Omeesha Mahanta,,,The text is held literally and no script was added to the page,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Type a script-like value into both Oracle code fields</li>
+<li>3. Check the text is held literally and no script was added to the page</li>
+</ol>",,,"1. Typing something that looks like program code into the Oracle fields is treated as plain text, never run, so the page cannot be hijacked through them.
+2. The action completes and the form stays responsive.
+3. The text is held literally and no script was added to the page",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Billing Cycle reflects its live baseline and is editable for an office whose billing has not run,,,,,Automated,Omeesha Mahanta,,,It reports a readable selection state,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the chooser is still editable</li>
+<li>3. Check it reports a readable selection state</li>
+</ol>",,,"1. The billing cycle chooser can still be changed for this office, because its local billing has not been run yet. For this office no cycle has been picked at all.
+2. The chooser is still editable
+3. It reports a readable selection state",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Billing Cycle is disabled once local billing has run - cross-office contrast between 1604 and 1101,,,,,Automated,Omeesha Mahanta,,,The comparison office was readable and each office reports a definite locked state,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Open the same tab for office &lt;value>, read-only</li>
+<li>3. Check the comparison office was readable and each office reports a definite locked state</li>
+</ol>",,,"1. Comparing two offices side by side shows the rule: the billing cycle locks once that office has been billed. Nothing is changed on either office.
+2. The action completes and the form stays responsive.
+3. The comparison office was readable and each office reports a definite locked state",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Service Charge / Terms and Conditions legal-code validation belongs to the Legal sub-tab, not Local Information (scope discrepancy)",,,,,Automated,Omeesha Mahanta,,,No service-charge or terms-and-conditions chooser exists on this tab,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check no service-charge or terms-and-conditions chooser exists on this tab</li>
+</ol>",,,"1. The service-charge and terms-and-conditions rules named in the requirement are not part of this screen at all - they live on the Legal tab. This records that so the gap is not mistaken for missing coverage.
+2. No service-charge or terms-and-conditions chooser exists on this tab",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A percentage field accepts every value in its documented valid boundary range and persists it,,,,,Automated,Omeesha Mahanta,,,Every allowed figure was accepted and stored,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Set LDW to its &lt;value> and save</li>
+<li>3. Check every allowed figure was accepted and stored</li>
+</ol>",,,"1. The LDW percentage accepts every figure inside its allowed range, stores it, and shows it again after a refresh.
+2. The action completes and the form stays responsive.
+3. Every allowed figure was accepted and stored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A percentage field rejects a below-minimum and an above-maximum value with the shared boundary error text,,,,,Automated,Omeesha Mahanta,,,Every out-of-range figure was refused,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Try LDW at its &lt;value></li>
+<li>3. Check every out-of-range figure was refused</li>
+</ol>",,,"1. The LDW percentage refuses figures below zero or above the maximum, showing an explanatory message instead of storing them.
+2. The action completes and the form stays responsive.
+3. Every out-of-range figure was refused",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Billing Type toggles between Master and Direct and persists through save+reload,,,,,Automated,Omeesha Mahanta,,,The action completes and the form stays responsive.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Switch billing type to &lt;value> and save</li>
+<li>3. Refresh the browser</li>
+<li>4. Check billing type came back as &lt;value></li>
+<li>5. Put billing type back to &lt;value></li>
+</ol>",,,"1. Switching the billing type between Master and Direct is stored and still shows after a refresh; the office is put back the way it was afterwards.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. Billing type came back as <value>
+5. The action completes and the form stays responsive.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing Billing Way runs the unbilled-orders check,,,,,Automated,Omeesha Mahanta,,,The action completes and the form stays responsive.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Try to switch the billing method to &lt;value></li>
+<li>3. Check the request took one of its two documented outcomes, not a silent third</li>
+<li>4. Leave the billing method as it was found</li>
+</ol>",,,"1. Trying to change how the office is billed asks the server whether it has unbilled orders first. Whichever answer comes back, the office is left as it was found.
+2. The action completes and the form stays responsive.
+3. The request took one of its two documented outcomes, not a silent third
+4. The action completes and the form stays responsive.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An accepted Billing Way change makes the Effective Date editable and defaults it to today,,,,,Automated,Omeesha Mahanta,,,The action completes and the form stays responsive.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Try to switch the billing method to &lt;value></li>
+<li>3. Check the date control follows whether the change was accepted</li>
+<li>4. Leave the billing method as it was found</li>
+</ol>",,,"1. When the billing method really can be changed, the billing start date unlocks and fills in with today. For this office the change is refused, so the date must stay locked.
+2. The action completes and the form stays responsive.
+3. The date control follows whether the change was accepted
+4. The action completes and the form stays responsive.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing Billing Cycle runs the billing-already-run check,,,,,Automated,Omeesha Mahanta,,,The chooser is locked or unlocked consistently with its own state,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the chooser is locked or unlocked consistently with its own state</li>
+</ol>",,,"1. The billing cycle can only be changed while the office has not been billed yet. This checks which of those two situations applies and that the screen behaves accordingly.
+2. The chooser is locked or unlocked consistently with its own state",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Billing Way reverts cleanly to its original value after an accepted change,,,,,Automated,Omeesha Mahanta,,,The stored billing method is unchanged,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Attempt a change and then refresh without saving</li>
+<li>3. Check the stored billing method is unchanged</li>
+</ol>",,,"1. Whatever happens when the billing method is changed, a refresh puts the office back to the method it really has stored.
+2. The action completes and the form stays responsive.
+3. The stored billing method is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Billing Type reverts cleanly to its original value after a change (no save),,,,,Automated,Omeesha Mahanta,,,The original type is back and save is switched off,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Switch the type but do not save</li>
+<li>3. Refresh the browser</li>
+<li>4. Check the original type is back and Save is switched off</li>
+</ol>",,,"1. Changing the billing type but refreshing without saving leaves the office on its original type.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. The original type is back and save is switched off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reverting Billing Way/Billing Cycle mid-edit via reload leaves the office untouched,,,,,Automated,Omeesha Mahanta,,,The controlled setting responded exactly as the rule requires,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Start editing several billing settings, then walk away</li>
+<li>3. Check all three billing settings are unchanged</li>
+<li>4. Apply the &lt;value> rule and check what it does</li>
+<li>5. Check the controlled setting responded exactly as the rule requires</li>
+</ol>",,,"1. Abandoning a half-finished billing edit by refreshing leaves every billing setting exactly as it was.
+2. The action completes and the form stays responsive.
+3. All three billing settings are unchanged
+4. The action completes and the form stays responsive.
+5. The controlled setting responded exactly as the rule requires",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Apply LDW gates LDW Percentage - unchecking disables it and resets it to 0,,,,,Automated,Omeesha Mahanta,,,Switching Apply LDW off greys out its percentage box and clears it to zero. The office is put back the way it was afterwards.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+</ol>",,,1. Switching Apply LDW off greys out its percentage box and clears it to zero. The office is put back the way it was afterwards.,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Apply Cables and Consumables Fee is enabled (not disabled) from a fresh load, contradicting a disabled-by-default assumption",,,,,Automated,Omeesha Mahanta,,,"The switch is off but usable, while its percentage box stays greyed out",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the switch is off but usable, while its percentage box stays greyed out</li>
+</ol>",,,"1. The Cables and Consumables switch can be used straight away even though its percentage box is greyed out. This records that the switch itself is never locked.
+2. The switch is off but usable, while its percentage box stays greyed out",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Allow ETS gates ETS Percentage, including its documented union/non-union default",,,,,Automated,Omeesha Mahanta,,,The percentage becomes editable and offers a starting figure,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the percentage starts locked while ETS is switched off</li>
+<li>3. Switch ETS on</li>
+<li>4. Check the percentage becomes editable and offers a starting figure</li>
+</ol>",,,"1. The ETS percentage only becomes editable once ETS is switched on, and it starts from the value the office is set up with. The switch is put back afterwards.
+2. The percentage starts locked while ets is switched off
+3. The action completes and the form stays responsive.
+4. The percentage becomes editable and offers a starting figure",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Allow Resort Tax gates Resort Tax Percent and resets it to 0 on toggle,,,,,Automated,Omeesha Mahanta,,,The percentage unlocks and starts at zero,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the percentage starts locked at zero</li>
+<li>3. Switch resort tax on</li>
+<li>4. Check the percentage unlocks and starts at zero</li>
+</ol>",,,"1. The resort-tax percentage only becomes editable once resort tax is switched on, and it starts at zero. The switch is put back afterwards.
+2. The percentage starts locked at zero
+3. The action completes and the form stays responsive.
+4. The percentage unlocks and starts at zero",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Threshold Amount is gated by BOTH Allow DPCD and Prompt For Approval together,,,,,Automated,Omeesha Mahanta,,,"The threshold stays locked until the change is saved, the confirmed behaviour",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the threshold starts locked, with approval prompting switched off</li>
+<li>3. Switch approval prompting on, so both gates are now on</li>
+<li>4. Check the threshold stays locked until the change is saved, the confirmed behaviour</li>
+</ol>",,,"1. The approval threshold only becomes editable when both discount approval settings are switched on together; one on its own is not enough.
+2. The threshold starts locked, with approval prompting switched off
+3. The action completes and the form stays responsive.
+4. The threshold stays locked until the change is saved, the confirmed behaviour",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unchecking Comm Receiver forces Allow DPCD to false+disabled and Show SubRental to disabled,,,,,Automated,Omeesha Mahanta,,,"An office that does not receive commission cannot use the discount-approval or sub-rental settings, so both are switched off and greyed out.",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+</ol>",,,"1. An office that does not receive commission cannot use the discount-approval or sub-rental settings, so both are switched off and greyed out.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Checking Company Remit Tax forces Display Tax to true and locked,,,,,Automated,Omeesha Mahanta,,,"When the company remits the tax itself, the display-tax setting is forced on and locked so it cannot be contradicted.",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+</ol>",,,"1. When the company remits the tax itself, the display-tax setting is forced on and locked so it cannot be contradicted.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,HRI Remit Tax 2 is unavailable for the USA baseline,,,,,Automated,Omeesha Mahanta,,,"Display tax is locked on, driven by the first remit-tax setting",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the second remit-tax option is absent from the screen</li>
+<li>3. Check display tax is locked on, driven by the first remit-tax setting</li>
+</ol>",,,"1. The second remit-tax option is not offered at all for a United States office, which is why the display-tax setting is locked on instead.
+2. The second remit-tax option is absent from the screen
+3. Display tax is locked on, driven by the first remit-tax setting",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unchecking Intercompany forces Enable IDC Billing to false+disabled,,,,,Automated,Omeesha Mahanta,,,"Inter-company billing is only available to an office that belongs to the same company group, so switching that off disables it.",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+</ol>",,,"1. Inter-company billing is only available to an office that belongs to the same company group, so switching that off disables it.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Is Integrated With COMPASS is always disabled on this existing/updated location,,,,,Automated,Omeesha Mahanta,,,The setting is greyed out and switched on,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the setting is greyed out and switched on</li>
+</ol>",,,"1. The COMPASS integration setting cannot be changed on an office that already exists; it is fixed at whatever it was created with.
+2. The setting is greyed out and switched on",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Suppress Day Rate Discount is always disabled, and Enable Proposal is enabled+checked on this existing location",,,,,Automated,Omeesha Mahanta,,,The proposal setting is switched on and usable,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check day-rate discount suppression is locked off</li>
+<li>3. Check the proposal setting is switched on and usable</li>
+</ol>",,,"1. The day-rate discount suppression setting is permanently locked off, while the proposal setting is switched on and can still be changed.
+2. Day-rate discount suppression is locked off
+3. The proposal setting is switched on and usable",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Country = USA baseline drives Check Discount true and hides HRI Remit Tax 2,,,,,Automated,Omeesha Mahanta,,,The second remit-tax option is hidden,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Check the discount-reason setting is switched on</li>
+<li>3. Check the second remit-tax option is hidden</li>
+</ol>",,,"1. For a United States office the discount-reason setting is switched on and the second remit-tax option is hidden, which is the documented United States behaviour.
+2. The discount-reason setting is switched on
+3. The second remit-tax option is hidden",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching Country away from the USA reveals HRI Remit Tax 2 and changes the Check Discount default,,,,,Automated,Omeesha Mahanta,,,"The unsaved country change is thrown away. Country is United States again, the HRI Remit Tax 2 row is gone, and Check Discount is ticked - the office is exactly as it was.",,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Change Country to Canada, without saving</li>
+<li>3. Look for the HRI Remit Tax 2 (Remit PST Tax) row</li>
+<li>4. Read the Check Discount setting</li>
+<li>5. Refresh the browser and return to Local Information</li>
+</ol>",,,"1. The form loads on its United States baseline: Country is United States, the HRI Remit Tax 2 (Remit PST Tax) row is not shown, and Check Discount is ticked.
+2. The form accepts the change. Nothing is written to the office.
+3. The country-gated remit-tax setting is now offered.
+4. Check Discount is no longer ticked - it has moved off its United States value.
+5. The unsaved country change is thrown away. Country is United States again, the HRI Remit Tax 2 row is gone, and Check Discount is ticked - the office is exactly as it was.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching Country away and back to the USA restores the country-dependent fields and leaves percentages undisturbed,,,,,Automated,Omeesha Mahanta,,,Every setting is back on its pre-test baseline and the office is untouched.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604 and note the current LDW Percentage, ETS Percentage, Check Discount and Job Costing values</li>
+<li>2. Change Country to Canada, without saving</li>
+<li>3. Change Country straight back to United States, still without saving</li>
+<li>4. Read the country-driven settings back</li>
+<li>5. Read the unrelated percentage boxes back</li>
+<li>6. Refresh the browser and return to Local Information</li>
+</ol>",,,"1. The form loads on its United States baseline and the four starting values are recorded.
+2. The HRI Remit Tax 2 (Remit PST Tax) row appears, and both Check Discount and Job Costing read unticked.
+3. The form accepts the change. Nothing is written to the office.
+4. Country reads United States, the Canada-only remit-tax row has disappeared again, and Check Discount and Job Costing are back on the values noted in step 1.
+5. LDW Percentage and ETS Percentage are unchanged from step 1 - the country round trip left them alone.
+6. Every setting is back on its pre-test baseline and the office is untouched.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Save stays disabled/busy for the full duration of an in-flight save, and rapid repeated clicks never fire a second save request",,,,,Automated,Omeesha Mahanta,,,The action completes and the form stays responsive.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Start counting save requests to the server</li>
+<li>3. Make a change and press Save repeatedly</li>
+<li>4. Check the confirmation box is gone, so no second save is waiting</li>
+<li>5. Put the Oracle product code back</li>
+</ol>",,,"1. Pressing Save several times quickly still only saves once, so a double-click cannot create duplicate records.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. The confirmation box is gone, so no second save is waiting
+5. The action completes and the form stays responsive.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Oracle Product/Department edits persist after a reload, and can be restored",,,,,Automated,Omeesha Mahanta,,,The action completes and the form stays responsive.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Type a new code and save it</li>
+<li>3. Refresh the browser</li>
+<li>4. Check the new code is still there</li>
+<li>5. Put the original code back and confirm it stuck</li>
+</ol>",,,"1. A new Oracle product code is stored and still shows after a refresh, and can then be put back to what it was.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. The new code is still there
+5. The action completes and the form stays responsive.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A combined multi-field change saves, persists and fully restores together",,,,,Automated,Omeesha Mahanta,,,The action completes and the form stays responsive.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Change the Oracle product and department codes together and save</li>
+<li>3. Refresh the browser</li>
+<li>4. Check both new values came back together</li>
+<li>5. Put both codes back together</li>
+</ol>",,,"1. Several settings changed at once are saved together in one go, all survive a refresh, and all can be put back together.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. Both new values came back together
+5. The action completes and the form stays responsive.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A simulated backend save failure preserves the on-screen edit and surfaces an error,,,,,Automated,Omeesha Mahanta,,,The action completes and the form stays responsive.,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Make the server refuse the next save</li>
+<li>3. Type a change and try to save it</li>
+<li>4. Check the typed value is still on screen after the refusal</li>
+<li>5. Check no success message was shown</li>
+<li>6. Stop refusing saves and put the office back</li>
+</ol>",,,"1. If the server refuses to save, the typed change stays on screen so nothing is lost, and the user is told rather than being shown a false success.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. The typed value is still on screen after the refusal
+5. No success message was shown
+6. The action completes and the form stays responsive.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every interactive Local Information control exposes an accessible role and name,,,,,Automated,Omeesha Mahanta,,,The save button is reachable as a named button,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Read the label of each sampled switch</li>
+<li>3. Check every sampled switch is labelled as expected</li>
+<li>4. Check the Save button is reachable as a named button</li>
+</ol>",,,"1. Every switch on the form is properly labelled, so somebody using a screen reader can tell what each one does.
+2. The action completes and the form stays responsive.
+3. Every sampled switch is labelled as expected
+4. The save button is reachable as a named button",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cross-office audit finds no read-only/permission gating differs between 1604 and 1101 for this test account,,,,,Automated,Omeesha Mahanta,,,The second office was readable and reports the permanently-locked settings the same way,,,locations,,"Office 1604 is open in Navigator. Local Information sub-tab is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sub-tab: ""Local Information""",High,,Local_Information,1,,Locations > Local_Information,"<ol>
+<li>1. Open the Local Information sub-tab for office 1604</li>
+<li>2. Read which settings are locked on office &lt;value></li>
+<li>3. Open the same tab for office &lt;value>, read-only</li>
+<li>4. Check the second office was readable and reports the permanently-locked settings the same way</li>
+</ol>",,,"1. Opening the same screen for a second office confirms the rules behave the same way from a different starting point. Nothing is changed on either office.
+2. The action completes and the form stays responsive.
+3. The action completes and the form stays responsive.
+4. The second office was readable and reports the permanently-locked settings the same way",,,,Master,S1620,Test Case (Steps),Regression,,,

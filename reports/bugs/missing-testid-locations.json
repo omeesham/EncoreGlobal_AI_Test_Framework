@@ -1,0 +1,5420 @@
+{
+  "generatedAt": "2026-09-16T16:22:52.765Z",
+  "scope": "locations",
+  "sources": [
+    "src/selectors/locations",
+    "src/selectors/auth/dynamic.ts",
+    "src/pages/locations",
+    "src/pages/components/location-form-helpers.component.ts"
+  ],
+  "stats": {
+    "files": 25,
+    "callSitesAudited": 396,
+    "distinctElementsTargeted": 292,
+    "coveredByTestid": 187,
+    "missingTestid": 105,
+    "excluded": 49,
+    "fallbackCallSites": 124,
+    "coveragePercent": 64
+  },
+  "priorities": {
+    "CRITICAL": 17,
+    "HIGH": 58,
+    "MEDIUM": 15,
+    "LOW": 15
+  },
+  "items": [
+    {
+      "module": "Account and Address tab",
+      "id": "AA-020",
+      "kind": "definition",
+      "key": "btnAccListClose",
+      "type": "button",
+      "selector": "[data-testid=\"location-settings-modal-account-list\"] button:has-text(\"Close\")",
+      "step": "",
+      "strategy": "text match + bare tag + inside data-testid container",
+      "strategies": [
+        "text",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-btn-acc-list-close",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"account list\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"account list\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-account-list\"] button",
+      "textHints": [
+        "Close"
+      ],
+      "ancestorTestid": "location-settings-modal-account-list",
+      "note": "Modal container testid present; inner Close btn still text-scoped — defensively scoped inside container.",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 27,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 27,
+          "method": "btnAccListClose"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-002",
+      "kind": "definition",
+      "key": "chkAccListRowSelect",
+      "type": "checkbox",
+      "selector": "[data-testid=\"location-settings-modal-account-list\"] tbody tr:first-child td:first-child button[role=\"checkbox\"]",
+      "step": "",
+      "strategy": "positional (nth/first/last-child) + role attribute + inside data-testid container",
+      "strategies": [
+        "positional",
+        "role",
+        "testid-scope"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-checkbox-acc-list-row-select",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"account list\" dialog > in the results grid: the first row, first column",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"account list\" dialog",
+        "in the results grid: the first row, first column"
+      ],
+      "css": "[data-testid=\"location-settings-modal-account-list\"] tbody tr:first-child td:first-child button[role=\"checkbox\"]",
+      "textHints": [],
+      "ancestorTestid": "location-settings-modal-account-list",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 28,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 28,
+          "method": "chkAccListRowSelect"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-021",
+      "kind": "definition",
+      "key": "tblAccListResults",
+      "type": "table",
+      "selector": "[data-testid=\"location-settings-modal-account-list\"] table",
+      "step": "",
+      "strategy": "bare tag + inside data-testid container",
+      "strategies": [
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-table-acc-list-results",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"account list\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"account list\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-account-list\"] table",
+      "textHints": [],
+      "ancestorTestid": "location-settings-modal-account-list",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 29,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 29,
+          "method": "tblAccListResults"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-007",
+      "kind": "definition",
+      "key": "dlgSelectAddress",
+      "type": "dialog",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-modal-select-address",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog"
+      ],
+      "css": "[role=\"dialog\"]",
+      "textHints": [
+        "Select Customer Address"
+      ],
+      "ancestorTestid": "",
+      "note": "No dialog testids are rendered (only Radix internals present); match by role+text. Switch to testids if the app adds them.",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 33,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 33,
+          "method": "dlgSelectAddress"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-008",
+      "kind": "definition",
+      "key": "txtAddrSearch",
+      "type": "input",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") input[placeholder=\"Search...\"]",
+      "step": "",
+      "strategy": "text match + placeholder text + role attribute",
+      "strategies": [
+        "text",
+        "placeholder",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-input-addr-search",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog"
+      ],
+      "css": "[role=\"dialog\"] input[placeholder=\"Search...\"]",
+      "textHints": [
+        "Select Customer Address"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 34,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 34,
+          "method": "txtAddrSearch"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-009",
+      "kind": "definition",
+      "key": "btnAddrSelect",
+      "type": "button",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") button:has-text(\"Select\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-addr-select",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog"
+      ],
+      "css": "[role=\"dialog\"] button",
+      "textHints": [
+        "Select Customer Address",
+        "Select"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 35,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 35,
+          "method": "btnAddrSelect"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-010",
+      "kind": "definition",
+      "key": "btnAddrCancel",
+      "type": "button",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") button:has-text(\"Cancel\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-addr-cancel",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog"
+      ],
+      "css": "[role=\"dialog\"] button",
+      "textHints": [
+        "Select Customer Address",
+        "Cancel"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 36,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 36,
+          "method": "btnAddrCancel"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-011",
+      "kind": "definition",
+      "key": "btnAddrSave",
+      "type": "button",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") button:has-text(\"Save\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-addr-save",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog"
+      ],
+      "css": "[role=\"dialog\"] button",
+      "textHints": [
+        "Select Customer Address",
+        "Save"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 37,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 37,
+          "method": "btnAddrSave"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-012",
+      "kind": "definition",
+      "key": "btnAddrClose",
+      "type": "button",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") button:has-text(\"Close\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-addr-close",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog"
+      ],
+      "css": "[role=\"dialog\"] button",
+      "textHints": [
+        "Select Customer Address",
+        "Close"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 38,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 38,
+          "method": "btnAddrClose"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-003",
+      "kind": "definition",
+      "key": "chkAddrRow",
+      "type": "checkbox",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") tbody tr:first-child td:first-child button[role=\"checkbox\"]",
+      "step": "",
+      "strategy": "positional (nth/first/last-child) + text match + role attribute",
+      "strategies": [
+        "positional",
+        "text",
+        "role"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-checkbox-addr-row",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog > in the results grid: the first row, first column",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog",
+        "in the results grid: the first row, first column"
+      ],
+      "css": "[role=\"dialog\"] tbody tr:first-child td:first-child button[role=\"checkbox\"]",
+      "textHints": [
+        "Select Customer Address"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 39,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 39,
+          "method": "chkAddrRow"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-013",
+      "kind": "definition",
+      "key": "tblAddrResults",
+      "type": "table",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-table-addr-results",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog"
+      ],
+      "css": "[role=\"dialog\"] table",
+      "textHints": [
+        "Select Customer Address"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 40,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 40,
+          "method": "tblAddrResults"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-014",
+      "kind": "definition",
+      "key": "lblAddrTotal",
+      "type": "text",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") :text(\"Total Addresses\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-label-addr-total",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog"
+      ],
+      "css": "[role=\"dialog\"]",
+      "textHints": [
+        "Select Customer Address",
+        "Total Addresses"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 41,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 41,
+          "method": "lblAddrTotal"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-015",
+      "kind": "definition",
+      "key": "txtSaveChangesMessage",
+      "type": "text",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") p",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-label-save-changes-message",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Save Changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Save Changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] p",
+      "textHints": [
+        "Save Changes"
+      ],
+      "ancestorTestid": "",
+      "note": "No container testid is rendered (only Radix internals present); match by role+text. Switch to a testid if the app adds one.",
+      "file": "src/selectors/locations/account-address.ts",
+      "line": 45,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/selectors/locations/account-address.ts",
+          "line": 45,
+          "method": "txtSaveChangesMessage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Auto Add-On tab",
+      "id": "AAO-003",
+      "kind": "definition",
+      "key": "btnSaveChangesOk",
+      "type": "button",
+      "selector": "[role=\"alertdialog\"]:has(h2:text-is(\"Save Changes\")) button:has-text(\"Ok\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-save-changes-ok",
+      "uiPath": "Setup > Location Settings > Auto Add-On > open the \"Save Changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Auto Add-On",
+        "open the \"Save Changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] button",
+      "textHints": [
+        "Save Changes",
+        "Ok"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/auto-addon.ts",
+      "line": 15,
+      "sites": [
+        {
+          "module": {
+            "key": "auto-addon",
+            "name": "Auto Add-On tab",
+            "code": "AAO",
+            "slug": "auto-add-on"
+          },
+          "file": "src/selectors/locations/auto-addon.ts",
+          "line": 15,
+          "method": "btnSaveChangesOk"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "auto-addon"
+    },
+    {
+      "module": "Auto Add-On tab",
+      "id": "AAO-004",
+      "kind": "definition",
+      "key": "btnUnsavedChangesStay",
+      "type": "button",
+      "selector": "[role=\"alertdialog\"]:has(h2:text-is(\"Unsaved changes\")) button:has-text(\"Stay\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-unsaved-changes-stay",
+      "uiPath": "Setup > Location Settings > Auto Add-On > open the \"Unsaved changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Auto Add-On",
+        "open the \"Unsaved changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] button",
+      "textHints": [
+        "Unsaved changes",
+        "Stay"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/auto-addon.ts",
+      "line": 20,
+      "sites": [
+        {
+          "module": {
+            "key": "auto-addon",
+            "name": "Auto Add-On tab",
+            "code": "AAO",
+            "slug": "auto-add-on"
+          },
+          "file": "src/selectors/locations/auto-addon.ts",
+          "line": 20,
+          "method": "btnUnsavedChangesStay"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "auto-addon"
+    },
+    {
+      "module": "Auto Add-On tab",
+      "id": "AAO-005",
+      "kind": "definition",
+      "key": "btnUnsavedChangesDiscard",
+      "type": "button",
+      "selector": "[role=\"alertdialog\"]:has(h2:text-is(\"Unsaved changes\")) button:has-text(\"Discard\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-unsaved-changes-discard",
+      "uiPath": "Setup > Location Settings > Auto Add-On > open the \"Unsaved changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Auto Add-On",
+        "open the \"Unsaved changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] button",
+      "textHints": [
+        "Unsaved changes",
+        "Discard"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/auto-addon.ts",
+      "line": 21,
+      "sites": [
+        {
+          "module": {
+            "key": "auto-addon",
+            "name": "Auto Add-On tab",
+            "code": "AAO",
+            "slug": "auto-add-on"
+          },
+          "file": "src/selectors/locations/auto-addon.ts",
+          "line": 21,
+          "method": "btnUnsavedChangesDiscard"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "auto-addon"
+    },
+    {
+      "module": "Currency tab",
+      "id": "CUR-002",
+      "kind": "definition",
+      "key": "txtNoMatchesFound",
+      "type": "text",
+      "selector": "[role=\"listbox\"]:has-text(\"No Matches Found\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-label-no-matches-found",
+      "uiPath": "Setup > Location Settings > Currency > open the dropdown",
+      "uiSteps": [
+        "Setup > Location Settings > Currency",
+        "open the dropdown"
+      ],
+      "css": "[role=\"listbox\"]",
+      "textHints": [
+        "No Matches Found"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/currency.ts",
+      "line": 22,
+      "sites": [
+        {
+          "module": {
+            "key": "currency",
+            "name": "Currency tab",
+            "code": "CUR",
+            "slug": "currency"
+          },
+          "file": "src/selectors/locations/currency.ts",
+          "line": 22,
+          "method": "txtNoMatchesFound"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "currency"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-006",
+      "kind": "definition",
+      "key": "drpMgmtHistoryRowsPerPage",
+      "type": "combobox",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] button[role=\"combobox\"]:not([data-testid=\"location-settings-select-history-type\"])",
+      "step": "",
+      "strategy": ":not() disambiguation + role attribute + inside data-testid container",
+      "strategies": [
+        "negation",
+        "role",
+        "testid-scope"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-select-mgmt-history-rows-per-page",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "css": "[data-testid=\"location-settings-tab-content-management-history\"] button[role=\"combobox\"]:not([data-testid=\"location-settings-select-history-type\"])",
+      "textHints": [],
+      "ancestorTestid": "location-settings-tab-content-management-history",
+      "note": "",
+      "file": "src/selectors/locations/history.ts",
+      "line": 8,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/selectors/locations/history.ts",
+          "line": 8,
+          "method": "drpMgmtHistoryRowsPerPage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-007",
+      "kind": "definition",
+      "key": "btnMgmtHistoryFirstPage",
+      "type": "button",
+      "selector": "button[aria-label=\"Go to first page\"]",
+      "step": "",
+      "strategy": "aria-label + bare tag",
+      "strategies": [
+        "aria-label",
+        "tag"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-btn-mgmt-history-first-page",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "css": "button[aria-label=\"Go to first page\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/history.ts",
+      "line": 9,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/selectors/locations/history.ts",
+          "line": 9,
+          "method": "btnMgmtHistoryFirstPage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-008",
+      "kind": "definition",
+      "key": "btnMgmtHistoryPrevPage",
+      "type": "button",
+      "selector": "button[aria-label=\"Go to previous page\"]",
+      "step": "",
+      "strategy": "aria-label + bare tag",
+      "strategies": [
+        "aria-label",
+        "tag"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-btn-mgmt-history-prev-page",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "css": "button[aria-label=\"Go to previous page\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/history.ts",
+      "line": 10,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/selectors/locations/history.ts",
+          "line": 10,
+          "method": "btnMgmtHistoryPrevPage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-009",
+      "kind": "definition",
+      "key": "btnMgmtHistoryNextPage",
+      "type": "button",
+      "selector": "button[aria-label=\"Go to next page\"]",
+      "step": "",
+      "strategy": "aria-label + bare tag",
+      "strategies": [
+        "aria-label",
+        "tag"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-btn-mgmt-history-next-page",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "css": "button[aria-label=\"Go to next page\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/history.ts",
+      "line": 11,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/selectors/locations/history.ts",
+          "line": 11,
+          "method": "btnMgmtHistoryNextPage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-010",
+      "kind": "definition",
+      "key": "btnMgmtHistoryLastPage",
+      "type": "button",
+      "selector": "button[aria-label=\"Go to last page\"]",
+      "step": "",
+      "strategy": "aria-label + bare tag",
+      "strategies": [
+        "aria-label",
+        "tag"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-btn-mgmt-history-last-page",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "css": "button[aria-label=\"Go to last page\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/history.ts",
+      "line": 12,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/selectors/locations/history.ts",
+          "line": 12,
+          "method": "btnMgmtHistoryLastPage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-006",
+      "kind": "definition",
+      "key": "drpLineOfBusiness",
+      "type": "combobox",
+      "selector": "div:has(> label:text-is(\"Line Of Business\")) button[role=\"combobox\"]",
+      "step": "",
+      "strategy": "text match + DOM adjacency / parent hop + role attribute",
+      "strategies": [
+        "text",
+        "role",
+        "adjacency"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-select-line-of-business",
+      "uiPath": "Setup > Location Settings (left panel)",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)"
+      ],
+      "css": "div button[role=\"combobox\"]",
+      "textHints": [
+        "Line Of Business"
+      ],
+      "ancestorTestid": "",
+      "note": "Disabled in edit mode by design (NM-831 / NM-1140) — selectable only during creation. No data-testid, so label-anchored.",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 9,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 9,
+          "method": "drpLineOfBusiness"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-007",
+      "kind": "definition",
+      "key": "btnLiveDate",
+      "type": "button",
+      "selector": "div:has(> label:text-is(\"Live Date\")) button",
+      "step": "",
+      "strategy": "text match + DOM adjacency / parent hop + bare tag",
+      "strategies": [
+        "text",
+        "adjacency",
+        "tag"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-live-date",
+      "uiPath": "Setup > Location Settings (left panel)",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)"
+      ],
+      "css": "div button",
+      "textHints": [
+        "Live Date"
+      ],
+      "ancestorTestid": "",
+      "note": "btnLiveDate, drpTaxMode: no data-testid; label-anchored via :has(> label:text-is(...)).",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 14,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 14,
+          "method": "btnLiveDate"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-008",
+      "kind": "definition",
+      "key": "drpTaxMode",
+      "type": "combobox",
+      "selector": "div:has(> label:text-is(\"Tax Mode\")) button[role=\"combobox\"]",
+      "step": "",
+      "strategy": "text match + DOM adjacency / parent hop + role attribute",
+      "strategies": [
+        "text",
+        "role",
+        "adjacency"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-select-tax-mode",
+      "uiPath": "Setup > Location Settings (left panel)",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)"
+      ],
+      "css": "div button[role=\"combobox\"]",
+      "textHints": [
+        "Tax Mode"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 15,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 15,
+          "method": "drpTaxMode"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-009",
+      "kind": "definition",
+      "key": "lblPayToAddress",
+      "type": "text",
+      "selector": "label:has-text(\"Pay To Address\")",
+      "step": "",
+      "strategy": "text match + bare tag",
+      "strategies": [
+        "text",
+        "tag"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-label-pay-to-address",
+      "uiPath": "Setup > Location Settings (left panel)",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)"
+      ],
+      "css": "label",
+      "textHints": [
+        "Pay To Address"
+      ],
+      "ancestorTestid": "",
+      "note": "This label opens the Pay To List dialog, but its `for=` points at a disabled input, so a plain click is blocked — the page object dispatches or forces the click instead.",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 30,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 30,
+          "method": "lblPayToAddress"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-010",
+      "kind": "definition",
+      "key": "dlgPayToList",
+      "type": "dialog",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-modal-pay-to-list",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"]",
+      "textHints": [
+        "Pay To List"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 31,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 31,
+          "method": "dlgPayToList"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-011",
+      "kind": "definition",
+      "key": "btnPTLSearch",
+      "type": "button",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:has-text(\"Search\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-ptl-search",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"] button",
+      "textHints": [
+        "Pay To List",
+        "Search"
+      ],
+      "ancestorTestid": "",
+      "note": "The dialog's 5 filter inputs have no stable CSS attribute, so they are absent here — the page object reaches them by accessible name instead.",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 34,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 34,
+          "method": "btnPTLSearch"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-012",
+      "kind": "definition",
+      "key": "btnPTLReset",
+      "type": "button",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:has-text(\"Reset\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-ptl-reset",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"] button",
+      "textHints": [
+        "Pay To List",
+        "Reset"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 35,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 35,
+          "method": "btnPTLReset"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-013",
+      "kind": "definition",
+      "key": "btnPTLSelect",
+      "type": "button",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:text-is(\"Select\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-ptl-select",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"] button",
+      "textHints": [
+        "Pay To List",
+        "Select"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 36,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 36,
+          "method": "btnPTLSelect"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-014",
+      "kind": "definition",
+      "key": "btnPTLCancel",
+      "type": "button",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:has-text(\"Cancel\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-ptl-cancel",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"] button",
+      "textHints": [
+        "Pay To List",
+        "Cancel"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 37,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 37,
+          "method": "btnPTLCancel"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-015",
+      "kind": "definition",
+      "key": "btnPTLClose",
+      "type": "button",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:has-text(\"Close\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-ptl-close",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"] button",
+      "textHints": [
+        "Pay To List",
+        "Close"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 38,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 38,
+          "method": "btnPTLClose"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-016",
+      "kind": "definition",
+      "key": "tblPTLResults",
+      "type": "table",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") table",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-table-ptl-results",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"] table",
+      "textHints": [
+        "Pay To List"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 39,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 39,
+          "method": "tblPTLResults"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-001",
+      "kind": "definition",
+      "key": "chkPTLRowFirst",
+      "type": "checkbox",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") tbody tr:first-child td:first-child button[role=\"checkbox\"]",
+      "step": "",
+      "strategy": "positional (nth/first/last-child) + text match + role attribute",
+      "strategies": [
+        "positional",
+        "text",
+        "role"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-checkbox-ptl-row-first",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog > in the results grid: the first row, first column",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog",
+        "in the results grid: the first row, first column"
+      ],
+      "css": "[role=\"dialog\"] tbody tr:first-child td:first-child button[role=\"checkbox\"]",
+      "textHints": [
+        "Pay To List"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/left-panel-basic-information.ts",
+      "line": 40,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/selectors/locations/left-panel-basic-information.ts",
+          "line": 40,
+          "method": "chkPTLRowFirst"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Local Information tab",
+      "id": "LI-001",
+      "kind": "definition",
+      "key": "toastLocalInfoUpdated",
+      "type": "notification",
+      "selector": "li:has-text(\"Local information updated\")",
+      "step": "",
+      "strategy": "text match + bare tag",
+      "strategies": [
+        "text",
+        "tag"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-toast-local-info-updated",
+      "uiPath": "Setup > Location Settings > Local Information > read the toast that appears after saving",
+      "uiSteps": [
+        "Setup > Location Settings > Local Information",
+        "read the toast that appears after saving"
+      ],
+      "css": "li",
+      "textHints": [
+        "Local information updated"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/local-info.ts",
+      "line": 3,
+      "sites": [
+        {
+          "module": {
+            "key": "local-info",
+            "name": "Local Information tab",
+            "code": "LI",
+            "slug": "local-info"
+          },
+          "file": "src/selectors/locations/local-info.ts",
+          "line": 3,
+          "method": "toastLocalInfoUpdated"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "local-info"
+    },
+    {
+      "module": "Local Information tab",
+      "id": "LI-002",
+      "kind": "definition",
+      "key": "errValidationMessage",
+      "type": "text",
+      "selector": "p:has-text(\"Number must be\")",
+      "step": "",
+      "strategy": "text match + bare tag",
+      "strategies": [
+        "text",
+        "tag"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-error-validation-message",
+      "uiPath": "Setup > Location Settings > Local Information",
+      "uiSteps": [
+        "Setup > Location Settings > Local Information"
+      ],
+      "css": "p",
+      "textHints": [
+        "Number must be"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/local-info.ts",
+      "line": 15,
+      "sites": [
+        {
+          "module": {
+            "key": "local-info",
+            "name": "Local Information tab",
+            "code": "LI",
+            "slug": "local-info"
+          },
+          "file": "src/selectors/locations/local-info.ts",
+          "line": 15,
+          "method": "errValidationMessage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "local-info"
+    },
+    {
+      "module": "Local Information tab",
+      "id": "LI-003",
+      "kind": "definition",
+      "key": "errMinBoundary",
+      "type": "text",
+      "selector": "p:has-text(\"Number must be greater than or equal to 0\")",
+      "step": "",
+      "strategy": "text match + bare tag",
+      "strategies": [
+        "text",
+        "tag"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-error-min-boundary",
+      "uiPath": "Setup > Location Settings > Local Information",
+      "uiSteps": [
+        "Setup > Location Settings > Local Information"
+      ],
+      "css": "p",
+      "textHints": [
+        "Number must be greater than or equal to 0"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/local-info.ts",
+      "line": 16,
+      "sites": [
+        {
+          "module": {
+            "key": "local-info",
+            "name": "Local Information tab",
+            "code": "LI",
+            "slug": "local-info"
+          },
+          "file": "src/selectors/locations/local-info.ts",
+          "line": 16,
+          "method": "errMinBoundary"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "local-info"
+    },
+    {
+      "module": "Local Information tab",
+      "id": "LI-004",
+      "kind": "definition",
+      "key": "errMaxBoundary",
+      "type": "text",
+      "selector": "p:has-text(\"Number must be less than or equal to 100\")",
+      "step": "",
+      "strategy": "text match + bare tag",
+      "strategies": [
+        "text",
+        "tag"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-error-max-boundary",
+      "uiPath": "Setup > Location Settings > Local Information",
+      "uiSteps": [
+        "Setup > Location Settings > Local Information"
+      ],
+      "css": "p",
+      "textHints": [
+        "Number must be less than or equal to 100"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/local-info.ts",
+      "line": 17,
+      "sites": [
+        {
+          "module": {
+            "key": "local-info",
+            "name": "Local Information tab",
+            "code": "LI",
+            "slug": "local-info"
+          },
+          "file": "src/selectors/locations/local-info.ts",
+          "line": 17,
+          "method": "errMaxBoundary"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "local-info"
+    },
+    {
+      "module": "Local Information tab",
+      "id": "LI-005",
+      "kind": "definition",
+      "key": "chkHRIRemitTax2",
+      "type": "checkbox",
+      "selector": "dt:has-text(\"HRI Remit Tax 2\") + dd button[role=\"checkbox\"]",
+      "step": "",
+      "strategy": "text match + DOM adjacency / parent hop + role attribute",
+      "strategies": [
+        "text",
+        "role",
+        "adjacency"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-checkbox-hri-remit-tax-2",
+      "uiPath": "Setup > Location Settings > Local Information",
+      "uiSteps": [
+        "Setup > Location Settings > Local Information"
+      ],
+      "css": "dt + dd button[role=\"checkbox\"]",
+      "textHints": [
+        "HRI Remit Tax 2"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/local-info.ts",
+      "line": 69,
+      "sites": [
+        {
+          "module": {
+            "key": "local-info",
+            "name": "Local Information tab",
+            "code": "LI",
+            "slug": "local-info"
+          },
+          "file": "src/selectors/locations/local-info.ts",
+          "line": 69,
+          "method": "chkHRIRemitTax2"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "local-info"
+    },
+    {
+      "module": "Notes tab",
+      "id": "NOT-004",
+      "kind": "definition",
+      "key": "lblNoNotesAvailable",
+      "type": "text",
+      "selector": "[data-testid=\"location-settings-section-notes\"] td:has-text(\"No Notes Available\")",
+      "step": "",
+      "strategy": "text match + bare tag + inside data-testid container",
+      "strategies": [
+        "text",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-label-no-notes-available",
+      "uiPath": "Setup > Location Settings > Notes",
+      "uiSteps": [
+        "Setup > Location Settings > Notes"
+      ],
+      "css": "[data-testid=\"location-settings-section-notes\"] td",
+      "textHints": [
+        "No Notes Available"
+      ],
+      "ancestorTestid": "location-settings-section-notes",
+      "note": "",
+      "file": "src/selectors/locations/notes.ts",
+      "line": 7,
+      "sites": [
+        {
+          "module": {
+            "key": "notes",
+            "name": "Notes tab",
+            "code": "NOT",
+            "slug": "notes"
+          },
+          "file": "src/selectors/locations/notes.ts",
+          "line": 7,
+          "method": "lblNoNotesAvailable"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "notes"
+    },
+    {
+      "module": "Notes tab",
+      "id": "NOT-003",
+      "kind": "definition",
+      "key": "txtNoteRow0",
+      "type": "input",
+      "selector": "textarea[name=\"notes.notes.0.note\"]",
+      "step": "",
+      "strategy": "form name attribute + bare tag",
+      "strategies": [
+        "form-name",
+        "tag"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-input-note-row-0",
+      "uiPath": "Setup > Location Settings > Notes",
+      "uiSteps": [
+        "Setup > Location Settings > Notes"
+      ],
+      "css": "textarea[name=\"notes.notes.0.note\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "Angular reactive form name pattern: notes.notes.{i}.note — selector follows this scheme.",
+      "file": "src/selectors/locations/notes.ts",
+      "line": 10,
+      "sites": [
+        {
+          "module": {
+            "key": "notes",
+            "name": "Notes tab",
+            "code": "NOT",
+            "slug": "notes"
+          },
+          "file": "src/selectors/locations/notes.ts",
+          "line": 10,
+          "method": "txtNoteRow0"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "notes"
+    },
+    {
+      "module": "Notes tab",
+      "id": "NOT-005",
+      "kind": "definition",
+      "key": "txtNoteInputAll",
+      "type": "input",
+      "selector": "[data-testid=\"location-settings-section-notes\"] textarea",
+      "step": "",
+      "strategy": "bare tag + inside data-testid container",
+      "strategies": [
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-input-note-input-all",
+      "uiPath": "Setup > Location Settings > Notes",
+      "uiSteps": [
+        "Setup > Location Settings > Notes"
+      ],
+      "css": "[data-testid=\"location-settings-section-notes\"] textarea",
+      "textHints": [],
+      "ancestorTestid": "location-settings-section-notes",
+      "note": "",
+      "file": "src/selectors/locations/notes.ts",
+      "line": 11,
+      "sites": [
+        {
+          "module": {
+            "key": "notes",
+            "name": "Notes tab",
+            "code": "NOT",
+            "slug": "notes"
+          },
+          "file": "src/selectors/locations/notes.ts",
+          "line": 11,
+          "method": "txtNoteInputAll"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "notes"
+    },
+    {
+      "module": "Notes tab",
+      "id": "NOT-006",
+      "kind": "definition",
+      "key": "btnNotesDelete",
+      "type": "button",
+      "selector": "[data-testid=\"location-settings-section-notes\"] button:has-text(\"Delete\")",
+      "step": "",
+      "strategy": "text match + bare tag + inside data-testid container",
+      "strategies": [
+        "text",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-btn-notes-delete",
+      "uiPath": "Setup > Location Settings > Notes",
+      "uiSteps": [
+        "Setup > Location Settings > Notes"
+      ],
+      "css": "[data-testid=\"location-settings-section-notes\"] button",
+      "textHints": [
+        "Delete"
+      ],
+      "ancestorTestid": "location-settings-section-notes",
+      "note": "",
+      "file": "src/selectors/locations/notes.ts",
+      "line": 14,
+      "sites": [
+        {
+          "module": {
+            "key": "notes",
+            "name": "Notes tab",
+            "code": "NOT",
+            "slug": "notes"
+          },
+          "file": "src/selectors/locations/notes.ts",
+          "line": 14,
+          "method": "btnNotesDelete"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "notes"
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "id": "SSL-005",
+      "kind": "definition",
+      "key": "btnSharedAdd",
+      "type": "button",
+      "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:last-child button",
+      "step": "",
+      "strategy": "positional (nth/first/last-child) + bare tag + inside data-testid container",
+      "strategies": [
+        "positional",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-btn-shared-add",
+      "uiPath": "Setup > Location Settings > Shared Setup Locations > in the results grid: the last row (the Add row)",
+      "uiSteps": [
+        "Setup > Location Settings > Shared Setup Locations",
+        "in the results grid: the last row (the Add row)"
+      ],
+      "css": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:last-child button",
+      "textHints": [],
+      "ancestorTestid": "location-settings-table-shared-setup",
+      "note": "testid suffix is the DOM row-index (row 0 = self, row 1 = Add row); shifts to -2, -3, etc. on insert/delete — unstable, use positional selector instead.",
+      "file": "src/selectors/locations/shared-setup-locations.ts",
+      "line": 17,
+      "sites": [
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/selectors/locations/shared-setup-locations.ts",
+          "line": 17,
+          "method": "btnSharedAdd"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared-setup-locations"
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "id": "SSL-007",
+      "kind": "definition",
+      "key": "dlgChangeLocalOfficeHeading",
+      "type": "dialog",
+      "selector": "[data-testid=\"location-settings-modal-change-local-office\"] h2",
+      "step": "",
+      "strategy": "bare tag + inside data-testid container",
+      "strategies": [
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-modal-change-local-office-heading",
+      "uiPath": "Setup > Location Settings > Shared Setup Locations > open the \"change local office\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Shared Setup Locations",
+        "open the \"change local office\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-change-local-office\"] h2",
+      "textHints": [],
+      "ancestorTestid": "location-settings-modal-change-local-office",
+      "note": "No heading testid available; scoped inside container.",
+      "file": "src/selectors/locations/shared-setup-locations.ts",
+      "line": 21,
+      "sites": [
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/selectors/locations/shared-setup-locations.ts",
+          "line": 21,
+          "method": "dlgChangeLocalOfficeHeading"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared-setup-locations"
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "id": "SSL-008",
+      "kind": "definition",
+      "key": "tblDlgResults",
+      "type": "table",
+      "selector": "[data-testid=\"location-settings-modal-change-local-office\"] table",
+      "step": "",
+      "strategy": "bare tag + inside data-testid container",
+      "strategies": [
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-table-dlg-results",
+      "uiPath": "Setup > Location Settings > Shared Setup Locations > open the \"change local office\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Shared Setup Locations",
+        "open the \"change local office\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-change-local-office\"] table",
+      "textHints": [],
+      "ancestorTestid": "location-settings-modal-change-local-office",
+      "note": "No results-table testid available; scoped inside container.",
+      "file": "src/selectors/locations/shared-setup-locations.ts",
+      "line": 24,
+      "sites": [
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/selectors/locations/shared-setup-locations.ts",
+          "line": 24,
+          "method": "tblDlgResults"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared-setup-locations"
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "id": "SSL-006",
+      "kind": "definition",
+      "key": "btnDlgClose",
+      "type": "button",
+      "selector": "[data-testid=\"location-settings-modal-change-local-office\"] button:last-of-type",
+      "step": "",
+      "strategy": "positional (nth/first/last-child) + bare tag + inside data-testid container",
+      "strategies": [
+        "positional",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-btn-dlg-close",
+      "uiPath": "Setup > Location Settings > Shared Setup Locations > open the \"change local office\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Shared Setup Locations",
+        "open the \"change local office\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-change-local-office\"] button:last-of-type",
+      "textHints": [],
+      "ancestorTestid": "location-settings-modal-change-local-office",
+      "note": "No Close btn testid available; last-button fallback inside container.",
+      "file": "src/selectors/locations/shared-setup-locations.ts",
+      "line": 28,
+      "sites": [
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/selectors/locations/shared-setup-locations.ts",
+          "line": 28,
+          "method": "btnDlgClose"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared-setup-locations"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-001",
+      "kind": "definition",
+      "key": "dlgErrorDialog",
+      "type": "dialog",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Error\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-modal-error-dialog",
+      "uiPath": "Setup > Location Settings > any tab > open the \"Error\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > any tab",
+        "open the \"Error\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"]",
+      "textHints": [
+        "Error"
+      ],
+      "ancestorTestid": "",
+      "note": "Role+text fallback: the error dialog renders no container testid.",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 3,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 3,
+          "method": "dlgErrorDialog"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-002",
+      "kind": "definition",
+      "key": "dlgErrorMessage",
+      "type": "dialog",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Error\") p",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-modal-error-message",
+      "uiPath": "Setup > Location Settings > any tab > open the \"Error\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > any tab",
+        "open the \"Error\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] p",
+      "textHints": [
+        "Error"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 4,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 4,
+          "method": "dlgErrorMessage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-003",
+      "kind": "definition",
+      "key": "btnErrorOk",
+      "type": "button",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Error\") button:has-text(\"Ok\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-error-ok",
+      "uiPath": "Setup > Location Settings > any tab > open the \"Error\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > any tab",
+        "open the \"Error\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] button",
+      "textHints": [
+        "Error",
+        "Ok"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 5,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 5,
+          "method": "btnErrorOk"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-004",
+      "kind": "definition",
+      "key": "dlgSaveChanges",
+      "type": "dialog",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-modal-save-changes",
+      "uiPath": "Setup > Location Settings > any tab > open the \"Save Changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > any tab",
+        "open the \"Save Changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"]",
+      "textHints": [
+        "Save Changes"
+      ],
+      "ancestorTestid": "",
+      "note": "No container testid is rendered (only Radix internals present); match by role+text. Switch to a testid if the app adds one.",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 9,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 9,
+          "method": "dlgSaveChanges"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-005",
+      "kind": "definition",
+      "key": "btnSaveChangesCancel",
+      "type": "button",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") button:has-text(\"Cancel\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-save-changes-cancel",
+      "uiPath": "Setup > Location Settings > any tab > open the \"Save Changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > any tab",
+        "open the \"Save Changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] button",
+      "textHints": [
+        "Save Changes",
+        "Cancel"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 10,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 10,
+          "method": "btnSaveChangesCancel"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-006",
+      "kind": "definition",
+      "key": "btnSaveChangesConfirm",
+      "type": "button",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") button:has-text(\"Ok\")",
+      "step": "",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-save-changes-confirm",
+      "uiPath": "Setup > Location Settings > any tab > open the \"Save Changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > any tab",
+        "open the \"Save Changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] button",
+      "textHints": [
+        "Save Changes",
+        "Ok"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 11,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 11,
+          "method": "btnSaveChangesConfirm"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-007",
+      "kind": "definition",
+      "key": "btnUnsavedChangesOk",
+      "type": "button",
+      "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] button:has-text(\"Discard\")",
+      "step": "",
+      "strategy": "text match + bare tag + inside data-testid container",
+      "strategies": [
+        "text",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-btn-unsaved-changes-ok",
+      "uiPath": "Setup > Location Settings > any tab > open the \"unsaved changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > any tab",
+        "open the \"unsaved changes\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-unsaved-changes\"] button",
+      "textHints": [
+        "Discard"
+      ],
+      "ancestorTestid": "location-settings-modal-unsaved-changes",
+      "note": "Button text is \"Discard\", NOT \"OK\". Key name kept for usage stability; semantically this is the \"leave / discard changes\" affirmative-leave button.",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 16,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 16,
+          "method": "btnUnsavedChangesOk"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-008",
+      "kind": "definition",
+      "key": "btnUnsavedChangesCancel",
+      "type": "button",
+      "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] button:has-text(\"Stay\")",
+      "step": "",
+      "strategy": "text match + bare tag + inside data-testid container",
+      "strategies": [
+        "text",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-btn-unsaved-changes-cancel",
+      "uiPath": "Setup > Location Settings > any tab > open the \"unsaved changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > any tab",
+        "open the \"unsaved changes\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-unsaved-changes\"] button",
+      "textHints": [
+        "Stay"
+      ],
+      "ancestorTestid": "location-settings-modal-unsaved-changes",
+      "note": "Button text is \"Stay\", NOT \"Cancel\". Key name kept for usage stability; semantically this is the \"stay / cancel-the-leave\" button.",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 19,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 19,
+          "method": "btnUnsavedChangesCancel"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Dynamic grid rows (Pricing grid, office links)",
+      "id": "DYN-005",
+      "kind": "definition",
+      "key": "lnkOfficeCode",
+      "type": "link",
+      "selector": "a:has-text(\"${officeCode}\")",
+      "step": "",
+      "strategy": "data-driven text match + bare tag",
+      "strategies": [
+        "data-text",
+        "tag"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-search-link-office-code",
+      "uiPath": "Setup > Location Settings > Pricing",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing"
+      ],
+      "css": "a",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/auth/dynamic.ts",
+      "line": 2,
+      "sites": [
+        {
+          "module": {
+            "key": "dynamic",
+            "name": "Dynamic grid rows (Pricing grid, office links)",
+            "code": "DYN",
+            "slug": "pricing"
+          },
+          "file": "src/selectors/auth/dynamic.ts",
+          "line": 2,
+          "method": "lnkOfficeCode"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "dynamic"
+    },
+    {
+      "module": "Dynamic grid rows (Pricing grid, office links)",
+      "id": "DYN-006",
+      "kind": "definition",
+      "key": "rowPriceBook",
+      "type": "row",
+      "selector": "tr:has(td:has-text(\"${priceBookName}\"))",
+      "step": "",
+      "strategy": "data-driven text match",
+      "strategies": [
+        "data-text"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-row-price-book-{price-book-name}",
+      "uiPath": "Setup > Location Settings > Pricing > in the results grid: the row holding the value the test looks for",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "in the results grid: the row holding the value the test looks for"
+      ],
+      "css": "tr",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "Grid checkboxes are Radix button[role=\"checkbox\"], not native input[type=\"checkbox\"]. Date cells use input[data-slot=\"input\"], not direct <button>.",
+      "file": "src/selectors/auth/dynamic.ts",
+      "line": 6,
+      "sites": [
+        {
+          "module": {
+            "key": "dynamic",
+            "name": "Dynamic grid rows (Pricing grid, office links)",
+            "code": "DYN",
+            "slug": "pricing"
+          },
+          "file": "src/selectors/auth/dynamic.ts",
+          "line": 6,
+          "method": "rowPriceBook"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "dynamic"
+    },
+    {
+      "module": "Dynamic grid rows (Pricing grid, office links)",
+      "id": "DYN-001",
+      "kind": "definition",
+      "key": "chkIsAlternative",
+      "type": "checkbox",
+      "selector": "tr:has(td:has-text(\"${priceBookName}\")) td:nth-child(4) button[role=\"checkbox\"]",
+      "step": "",
+      "strategy": "positional (nth/first/last-child) + data-driven text match + role attribute",
+      "strategies": [
+        "positional",
+        "data-text",
+        "role"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-checkbox-is-alternative-{price-book-name}",
+      "uiPath": "Setup > Location Settings > Pricing > in the results grid: the row holding the value the test looks for, column 4",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "in the results grid: the row holding the value the test looks for, column 4"
+      ],
+      "css": "tr td:nth-child(4) button[role=\"checkbox\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/auth/dynamic.ts",
+      "line": 7,
+      "sites": [
+        {
+          "module": {
+            "key": "dynamic",
+            "name": "Dynamic grid rows (Pricing grid, office links)",
+            "code": "DYN",
+            "slug": "pricing"
+          },
+          "file": "src/selectors/auth/dynamic.ts",
+          "line": 7,
+          "method": "chkIsAlternative"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "dynamic"
+    },
+    {
+      "module": "Dynamic grid rows (Pricing grid, office links)",
+      "id": "DYN-002",
+      "kind": "definition",
+      "key": "chkUseEffectiveDate",
+      "type": "checkbox",
+      "selector": "tr:has(td:has-text(\"${priceBookName}\")) td:nth-child(5) button[role=\"checkbox\"]",
+      "step": "",
+      "strategy": "positional (nth/first/last-child) + data-driven text match + role attribute",
+      "strategies": [
+        "positional",
+        "data-text",
+        "role"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-checkbox-use-effective-date-{price-book-name}",
+      "uiPath": "Setup > Location Settings > Pricing > in the results grid: the row holding the value the test looks for, column 5",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "in the results grid: the row holding the value the test looks for, column 5"
+      ],
+      "css": "tr td:nth-child(5) button[role=\"checkbox\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/auth/dynamic.ts",
+      "line": 8,
+      "sites": [
+        {
+          "module": {
+            "key": "dynamic",
+            "name": "Dynamic grid rows (Pricing grid, office links)",
+            "code": "DYN",
+            "slug": "pricing"
+          },
+          "file": "src/selectors/auth/dynamic.ts",
+          "line": 8,
+          "method": "chkUseEffectiveDate"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "dynamic"
+    },
+    {
+      "module": "Dynamic grid rows (Pricing grid, office links)",
+      "id": "DYN-003",
+      "kind": "definition",
+      "key": "dtpStartDate",
+      "type": "datepicker",
+      "selector": "tr:has(td:has-text(\"${priceBookName}\")) td:nth-child(6) input[data-slot=\"input\"]",
+      "step": "",
+      "strategy": "positional (nth/first/last-child) + data-driven text match + semantic attribute + bare tag",
+      "strategies": [
+        "positional",
+        "data-text",
+        "semantic-attr",
+        "tag"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-input-start-date-{price-book-name}",
+      "uiPath": "Setup > Location Settings > Pricing > in the results grid: the row holding the value the test looks for, column 6",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "in the results grid: the row holding the value the test looks for, column 6"
+      ],
+      "css": "tr td:nth-child(6) input[data-slot=\"input\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/auth/dynamic.ts",
+      "line": 9,
+      "sites": [
+        {
+          "module": {
+            "key": "dynamic",
+            "name": "Dynamic grid rows (Pricing grid, office links)",
+            "code": "DYN",
+            "slug": "pricing"
+          },
+          "file": "src/selectors/auth/dynamic.ts",
+          "line": 9,
+          "method": "dtpStartDate"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "dynamic"
+    },
+    {
+      "module": "Dynamic grid rows (Pricing grid, office links)",
+      "id": "DYN-004",
+      "kind": "definition",
+      "key": "dtpEndDate",
+      "type": "datepicker",
+      "selector": "tr:has(td:has-text(\"${priceBookName}\")) td:nth-child(7) input[data-slot=\"input\"]",
+      "step": "",
+      "strategy": "positional (nth/first/last-child) + data-driven text match + semantic attribute + bare tag",
+      "strategies": [
+        "positional",
+        "data-text",
+        "semantic-attr",
+        "tag"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-input-end-date-{price-book-name}",
+      "uiPath": "Setup > Location Settings > Pricing > in the results grid: the row holding the value the test looks for, column 7",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "in the results grid: the row holding the value the test looks for, column 7"
+      ],
+      "css": "tr td:nth-child(7) input[data-slot=\"input\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/auth/dynamic.ts",
+      "line": 10,
+      "sites": [
+        {
+          "module": {
+            "key": "dynamic",
+            "name": "Dynamic grid rows (Pricing grid, office links)",
+            "code": "DYN",
+            "slug": "pricing"
+          },
+          "file": "src/selectors/auth/dynamic.ts",
+          "line": 10,
+          "method": "dtpEndDate"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "dynamic"
+    },
+    {
+      "module": "Dynamic grid rows (Pricing grid, office links)",
+      "id": "DYN-007",
+      "kind": "definition",
+      "key": "optCurrencyFilter",
+      "type": "option",
+      "selector": "[role=\"listbox\"] [role=\"option\"]:has-text(\"${currency}\")",
+      "step": "",
+      "strategy": "data-driven text match + role attribute",
+      "strategies": [
+        "data-text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-option-currency-filter-{currency}",
+      "uiPath": "Setup > Location Settings > Pricing > open the dropdown",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "open the dropdown"
+      ],
+      "css": "[role=\"listbox\"] [role=\"option\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/auth/dynamic.ts",
+      "line": 12,
+      "sites": [
+        {
+          "module": {
+            "key": "dynamic",
+            "name": "Dynamic grid rows (Pricing grid, office links)",
+            "code": "DYN",
+            "slug": "pricing"
+          },
+          "file": "src/selectors/auth/dynamic.ts",
+          "line": 12,
+          "method": "optCurrencyFilter"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "dynamic"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-016",
+      "kind": "inline",
+      "key": "getVenueAddressText",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"] :text(\"Venue/Branch Account\")",
+      "step": ":text(\"Venue/Branch Account\")",
+      "strategy": "text match + inside data-testid container",
+      "strategies": [
+        "text",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-venue-branch-account",
+      "uiPath": "Setup > Location Settings > Account and Address",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address"
+      ],
+      "css": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"]",
+      "textHints": [
+        "Venue/Branch Account"
+      ],
+      "ancestorTestid": "location-settings-sub-tab-content-account-and-address",
+      "note": "",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 102,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 102,
+          "method": "getVenueAddressText"
+        },
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 143,
+          "method": "isVenueCardVisible"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-004",
+      "kind": "inline",
+      "key": "getVenueAddressText",
+      "type": "inline locator",
+      "selector": "dt:has-text(\"Address\") + dd",
+      "step": "dt:has-text(\"Address\") + dd",
+      "strategy": "text match + DOM adjacency / parent hop + bare tag",
+      "strategies": [
+        "text",
+        "adjacency",
+        "tag"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-address",
+      "uiPath": "Setup > Location Settings > Account and Address",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address"
+      ],
+      "css": "dt + dd",
+      "textHints": [
+        "Address"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 103,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 103,
+          "method": "getVenueAddressText"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-017",
+      "kind": "inline",
+      "key": "getMasterSection",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"] :text(\"Master Bill To Address\")",
+      "step": ":text(\"Master Bill To Address\")",
+      "strategy": "text match + inside data-testid container",
+      "strategies": [
+        "text",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-master-bill-to-address",
+      "uiPath": "Setup > Location Settings > Account and Address",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address"
+      ],
+      "css": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"]",
+      "textHints": [
+        "Master Bill To Address"
+      ],
+      "ancestorTestid": "location-settings-sub-tab-content-account-and-address",
+      "note": "",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 123,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 123,
+          "method": "getMasterSection"
+        },
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 149,
+          "method": "isMasterCardVisible"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-018",
+      "kind": "inline",
+      "key": "isDisplayFieldReadOnly",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"] :text(\"${sectionText}\")",
+      "step": ":text(\"${sectionText}\")",
+      "strategy": "text match + inside data-testid container",
+      "strategies": [
+        "text",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-account-and-address-{section-text}",
+      "uiPath": "Setup > Location Settings > Account and Address",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address"
+      ],
+      "css": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"]",
+      "textHints": [],
+      "ancestorTestid": "location-settings-sub-tab-content-account-and-address",
+      "note": "",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 159,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 159,
+          "method": "isDisplayFieldReadOnly"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-005",
+      "kind": "inline",
+      "key": "isDisplayFieldReadOnly",
+      "type": "inline locator",
+      "selector": "dd:has-text(\"${expectedText}\")",
+      "step": "dd:has-text(\"${expectedText}\")",
+      "strategy": "text match + bare tag",
+      "strategies": [
+        "text",
+        "tag"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-account-list-{expected-text}",
+      "uiPath": "Setup > Location Settings > Account and Address",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address"
+      ],
+      "css": "dd",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 160,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 160,
+          "method": "isDisplayFieldReadOnly"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-019",
+      "kind": "inline",
+      "key": "accountListResultsContain",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-modal-account-list\"] table tbody:has-text(\"${text}\")",
+      "step": "tbody:has-text(\"${text}\")",
+      "strategy": "text match + bare tag + inside data-testid container",
+      "strategies": [
+        "text",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-account-list-{text}",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"account list\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"account list\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-account-list\"] table tbody",
+      "textHints": [],
+      "ancestorTestid": "location-settings-modal-account-list",
+      "note": "",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 224,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 224,
+          "method": "accountListResultsContain"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-006",
+      "kind": "inline",
+      "key": "selectAddressRow",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table tbody tr:has-text(\"${addressText}\")",
+      "step": "tbody tr:has-text(\"${addressText}\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-select-customer-address-{address-text}",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog > in the results grid: the row holding the value the test looks for",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog",
+        "in the results grid: the row holding the value the test looks for"
+      ],
+      "css": "[role=\"dialog\"] table tbody tr",
+      "textHints": [
+        "Select Customer Address"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 368,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 368,
+          "method": "selectAddressRow"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Account and Address tab",
+      "id": "AA-001",
+      "kind": "inline",
+      "key": "selectAddressRow",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table tbody tr:has-text(\"${addressText}\") td:first-child button[role=\"checkbox\"]",
+      "step": "td:first-child button[role=\"checkbox\"]",
+      "strategy": "positional (nth/first/last-child) + text match + role attribute",
+      "strategies": [
+        "positional",
+        "text",
+        "role"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-checkbox-select-customer-address-col-1",
+      "uiPath": "Setup > Location Settings > Account and Address > open the \"Select Customer Address\" dialog > in the results grid: the row holding the value the test looks for, first column",
+      "uiSteps": [
+        "Setup > Location Settings > Account and Address",
+        "open the \"Select Customer Address\" dialog",
+        "in the results grid: the row holding the value the test looks for, first column"
+      ],
+      "css": "[role=\"dialog\"] table tbody tr td:first-child button[role=\"checkbox\"]",
+      "textHints": [
+        "Select Customer Address"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 369,
+      "sites": [
+        {
+          "module": {
+            "key": "account-address",
+            "name": "Account and Address tab",
+            "code": "AA",
+            "slug": "account-list"
+          },
+          "file": "src/pages/locations/location-account-address.page.ts",
+          "line": 369,
+          "method": "selectAddressRow"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "account-address"
+    },
+    {
+      "module": "Auto Add-On tab",
+      "id": "AAO-001",
+      "kind": "inline",
+      "key": "getSaveDialogHeading",
+      "type": "inline locator",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") h2",
+      "step": "h2",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-label-save-changes-auto-add-on",
+      "uiPath": "Setup > Location Settings > Auto Add-On > open the \"Save Changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Auto Add-On",
+        "open the \"Save Changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] h2",
+      "textHints": [
+        "Save Changes"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-auto-addon.page.ts",
+      "line": 143,
+      "sites": [
+        {
+          "module": {
+            "key": "auto-addon",
+            "name": "Auto Add-On tab",
+            "code": "AAO",
+            "slug": "auto-add-on"
+          },
+          "file": "src/pages/locations/location-auto-addon.page.ts",
+          "line": 143,
+          "method": "getSaveDialogHeading"
+        },
+        {
+          "module": {
+            "key": "business-types",
+            "name": "Business Types tab",
+            "code": "BT",
+            "slug": "business-types"
+          },
+          "file": "src/pages/locations/location-business-types.page.ts",
+          "line": 155,
+          "method": "getSaveDialogHeading"
+        }
+      ],
+      "alsoIn": [
+        "Business Types tab"
+      ],
+      "moduleKey": "auto-addon"
+    },
+    {
+      "module": "Auto Add-On tab",
+      "id": "AAO-002",
+      "kind": "inline",
+      "key": "clickSidebarHome",
+      "type": "inline locator",
+      "selector": "[role=\"link\"]:has-text(\"Home\")",
+      "step": "[role=\"link\"]:has-text(\"Home\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-link-home",
+      "uiPath": "Setup > Location Settings > Auto Add-On",
+      "uiSteps": [
+        "Setup > Location Settings > Auto Add-On"
+      ],
+      "css": "[role=\"link\"]",
+      "textHints": [
+        "Home"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-auto-addon.page.ts",
+      "line": 181,
+      "sites": [
+        {
+          "module": {
+            "key": "auto-addon",
+            "name": "Auto Add-On tab",
+            "code": "AAO",
+            "slug": "auto-add-on"
+          },
+          "file": "src/pages/locations/location-auto-addon.page.ts",
+          "line": 181,
+          "method": "clickSidebarHome"
+        },
+        {
+          "module": {
+            "key": "business-types",
+            "name": "Business Types tab",
+            "code": "BT",
+            "slug": "business-types"
+          },
+          "file": "src/pages/locations/location-business-types.page.ts",
+          "line": 186,
+          "method": "clickSidebarHome"
+        },
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 570,
+          "method": "clickSidebarHome"
+        }
+      ],
+      "alsoIn": [
+        "Business Types tab",
+        "Pricing tab"
+      ],
+      "moduleKey": "auto-addon"
+    },
+    {
+      "module": "Auto Add-On tab",
+      "id": "AAO-006",
+      "kind": "inline",
+      "key": "getUnsavedDialogHeading",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] h2",
+      "step": "h2",
+      "strategy": "bare tag + inside data-testid container",
+      "strategies": [
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-label-unsaved-changes",
+      "uiPath": "Setup > Location Settings > Auto Add-On > open the \"unsaved changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Auto Add-On",
+        "open the \"unsaved changes\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-unsaved-changes\"] h2",
+      "textHints": [],
+      "ancestorTestid": "location-settings-modal-unsaved-changes",
+      "note": "",
+      "file": "src/pages/locations/location-auto-addon.page.ts",
+      "line": 207,
+      "sites": [
+        {
+          "module": {
+            "key": "auto-addon",
+            "name": "Auto Add-On tab",
+            "code": "AAO",
+            "slug": "auto-add-on"
+          },
+          "file": "src/pages/locations/location-auto-addon.page.ts",
+          "line": 207,
+          "method": "getUnsavedDialogHeading"
+        },
+        {
+          "module": {
+            "key": "business-types",
+            "name": "Business Types tab",
+            "code": "BT",
+            "slug": "business-types"
+          },
+          "file": "src/pages/locations/location-business-types.page.ts",
+          "line": 209,
+          "method": "getUnsavedDialogHeading"
+        }
+      ],
+      "alsoIn": [
+        "Business Types tab"
+      ],
+      "moduleKey": "auto-addon"
+    },
+    {
+      "module": "Currency tab",
+      "id": "CUR-003",
+      "kind": "inline",
+      "key": "isMerchantDropdownAccessible",
+      "type": "inline locator",
+      "selector": "[role=\"listbox\"]",
+      "step": "[role=\"listbox\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-listbox-currency",
+      "uiPath": "Setup > Location Settings > Currency > open the dropdown",
+      "uiSteps": [
+        "Setup > Location Settings > Currency",
+        "open the dropdown"
+      ],
+      "css": "[role=\"listbox\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-currency.page.ts",
+      "line": 112,
+      "sites": [
+        {
+          "module": {
+            "key": "currency",
+            "name": "Currency tab",
+            "code": "CUR",
+            "slug": "currency"
+          },
+          "file": "src/pages/locations/location-currency.page.ts",
+          "line": 112,
+          "method": "isMerchantDropdownAccessible"
+        },
+        {
+          "module": {
+            "key": "currency",
+            "name": "Currency tab",
+            "code": "CUR",
+            "slug": "currency"
+          },
+          "file": "src/pages/locations/location-currency.page.ts",
+          "line": 125,
+          "method": "isMerchantNoMatchesFound"
+        },
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 273,
+          "method": "setRowsPerPage"
+        }
+      ],
+      "alsoIn": [
+        "Location Management History tab"
+      ],
+      "moduleKey": "currency"
+    },
+    {
+      "module": "Currency tab",
+      "id": "CUR-001",
+      "kind": "inline",
+      "key": "selectMerchantOption",
+      "type": "inline locator",
+      "selector": "[role=\"listbox\"] [role=\"option\"]:has-text(\"${optionText}\")",
+      "step": "[role=\"listbox\"] [role=\"option\"]:has-text(\"${optionText}\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-option-currency-{option-text}",
+      "uiPath": "Setup > Location Settings > Currency > open the dropdown",
+      "uiSteps": [
+        "Setup > Location Settings > Currency",
+        "open the dropdown"
+      ],
+      "css": "[role=\"listbox\"] [role=\"option\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-currency.page.ts",
+      "line": 140,
+      "sites": [
+        {
+          "module": {
+            "key": "currency",
+            "name": "Currency tab",
+            "code": "CUR",
+            "slug": "currency"
+          },
+          "file": "src/pages/locations/location-currency.page.ts",
+          "line": 140,
+          "method": "selectMerchantOption"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "currency"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-017",
+      "kind": "inline",
+      "key": "openLiveDatePopover",
+      "type": "inline locator",
+      "selector": "[data-radix-popper-content-wrapper], [role=\"dialog\"], [role=\"grid\"]",
+      "step": "[data-radix-popper-content-wrapper], [role=\"dialog\"], [role=\"grid\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-table-pay-to",
+      "uiPath": "Setup > Location Settings (left panel)",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)"
+      ],
+      "css": "[data-radix-popper-content-wrapper], [role=\"dialog\"], [role=\"grid\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+      "line": 145,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+          "line": 145,
+          "method": "openLiveDatePopover"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-002",
+      "kind": "inline",
+      "key": "isRemitPstVisible",
+      "type": "inline locator",
+      "selector": ":has-text(\"Remit PST Tax\")",
+      "step": ":has-text(\"Remit PST Tax\")",
+      "strategy": "text match",
+      "strategies": [
+        "text"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-remit-pst-tax",
+      "uiPath": "Setup > Location Settings (left panel)",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)"
+      ],
+      "css": "",
+      "textHints": [
+        "Remit PST Tax"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+      "line": 172,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+          "line": 172,
+          "method": "isRemitPstVisible"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-003",
+      "kind": "inline",
+      "key": "hasPayToFilters",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") [role=\"textbox\"]:has-text(\"Pay To ID\")",
+      "step": "[role=\"textbox\"]:has-text(\"Pay To ID\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-input-pay-to-id",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"] [role=\"textbox\"]",
+      "textHints": [
+        "Pay To List",
+        "Pay To ID"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+      "line": 257,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+          "line": 257,
+          "method": "hasPayToFilters"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-004",
+      "kind": "inline",
+      "key": "hasPayToFilters",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") [role=\"textbox\"]:has-text(\"Pay To Name\")",
+      "step": "[role=\"textbox\"]:has-text(\"Pay To Name\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-input-pay-to-name",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"] [role=\"textbox\"]",
+      "textHints": [
+        "Pay To List",
+        "Pay To Name"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+      "line": 258,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+          "line": 258,
+          "method": "hasPayToFilters"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-018",
+      "kind": "inline",
+      "key": "typePayToFilter",
+      "type": "inline locator",
+      "selector": "[role=\"textbox\"]",
+      "step": "[role=\"textbox\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-input-pay-to",
+      "uiPath": "Setup > Location Settings (left panel)",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)"
+      ],
+      "css": "[role=\"textbox\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+      "line": 279,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+          "line": 279,
+          "method": "typePayToFilter"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "id": "BAS-005",
+      "kind": "inline",
+      "key": "payToResultsContain",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") table tbody:has-text(\"${text}\")",
+      "step": "tbody:has-text(\"${text}\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-pay-to-list-{text}",
+      "uiPath": "Setup > Location Settings (left panel) > open the \"Pay To List\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings (left panel)",
+        "open the \"Pay To List\" dialog"
+      ],
+      "css": "[role=\"dialog\"] table tbody",
+      "textHints": [
+        "Pay To List"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+      "line": 317,
+      "sites": [
+        {
+          "module": {
+            "key": "left-panel-basic-information",
+            "name": "Basic Information (left panel)",
+            "code": "BAS",
+            "slug": "pay-to"
+          },
+          "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+          "line": 317,
+          "method": "payToResultsContain"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "left-panel-basic-information"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-002",
+      "kind": "inline",
+      "key": "clickSortColumn",
+      "type": "inline locator",
+      "selector": "[role=\"menu\"]",
+      "step": "[role=\"menu\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-menu-management-history",
+      "uiPath": "Setup > Location Settings > Location Management History > open the column menu",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History",
+        "open the column menu"
+      ],
+      "css": "[role=\"menu\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 201,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 201,
+          "method": "clickSortColumn"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-001",
+      "kind": "inline",
+      "key": "clickSortColumn",
+      "type": "inline locator",
+      "selector": "[role=\"menu\"] [role=\"menuitem\"]:has-text(\"Sort ${direction}\")",
+      "step": "[role=\"menuitem\"]:has-text(\"Sort ${direction}\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-menu-item-management-history-{direction}",
+      "uiPath": "Setup > Location Settings > Location Management History > open the column menu",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History",
+        "open the column menu"
+      ],
+      "css": "[role=\"menu\"] [role=\"menuitem\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 207,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 207,
+          "method": "clickSortColumn"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-003",
+      "kind": "inline",
+      "key": "setRowsPerPage",
+      "type": "inline locator",
+      "selector": "[role=\"option\"]",
+      "step": "[role=\"option\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-option-management-history",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "css": "[role=\"option\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 275,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 275,
+          "method": "setRowsPerPage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-004",
+      "kind": "inline",
+      "key": "getPaginationText",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] input[aria-label=\"Current page number\"]",
+      "step": "input[aria-label=\"Current page number\"]",
+      "strategy": "aria-label + bare tag + inside data-testid container",
+      "strategies": [
+        "aria-label",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-input-current-page-number",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "css": "[data-testid=\"location-settings-tab-content-management-history\"] input[aria-label=\"Current page number\"]",
+      "textHints": [],
+      "ancestorTestid": "location-settings-tab-content-management-history",
+      "note": "",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 282,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 282,
+          "method": "getPaginationText"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-005",
+      "kind": "inline",
+      "key": "isReadOnly",
+      "type": "inline locator",
+      "selector": "[role=\"tabpanel\"]",
+      "step": "[role=\"tabpanel\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-sub-tab-content-management-history",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "css": "[role=\"tabpanel\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 314,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 314,
+          "method": "isReadOnly"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Notes tab",
+      "id": "NOT-001",
+      "kind": "inline",
+      "key": "getSaveDialogContent",
+      "type": "inline locator",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") :is(h2, [role=\"heading\"])",
+      "step": "h2, [role=\"heading\"]",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-label-save-changes-notes",
+      "uiPath": "Setup > Location Settings > Notes > open the \"Save Changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Notes",
+        "open the \"Save Changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] :is(h2, [role=\"heading\"])",
+      "textHints": [
+        "Save Changes"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-notes.page.ts",
+      "line": 299,
+      "sites": [
+        {
+          "module": {
+            "key": "notes",
+            "name": "Notes tab",
+            "code": "NOT",
+            "slug": "notes"
+          },
+          "file": "src/pages/locations/location-notes.page.ts",
+          "line": 299,
+          "method": "getSaveDialogContent"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "notes"
+    },
+    {
+      "module": "Notes tab",
+      "id": "NOT-002",
+      "kind": "inline",
+      "key": "getSaveDialogContent",
+      "type": "inline locator",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") :is(p, div:not(:has(button)):not(:has(h2)))",
+      "step": "p, div:not(:has(button)):not(:has(h2))",
+      "strategy": "text match + :not() disambiguation + role attribute",
+      "strategies": [
+        "text",
+        "negation",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-save-changes",
+      "uiPath": "Setup > Location Settings > Notes > open the \"Save Changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Notes",
+        "open the \"Save Changes\" dialog"
+      ],
+      "css": "[role=\"alertdialog\"] :is(p, div:not(:has(button)):not(:has(h2)))",
+      "textHints": [
+        "Save Changes"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-notes.page.ts",
+      "line": 300,
+      "sites": [
+        {
+          "module": {
+            "key": "notes",
+            "name": "Notes tab",
+            "code": "NOT",
+            "slug": "notes"
+          },
+          "file": "src/pages/locations/location-notes.page.ts",
+          "line": 300,
+          "method": "getSaveDialogContent"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "notes"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-004",
+      "kind": "inline",
+      "key": "selectPrimaryDropdownOption",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Popover Content\")",
+      "step": "[role=\"dialog\"]:has-text(\"Popover Content\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-modal-popover-content",
+      "uiPath": "Setup > Location Settings > Pricing > open the \"Popover Content\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "open the \"Popover Content\" dialog"
+      ],
+      "css": "[role=\"dialog\"]",
+      "textHints": [
+        "Popover Content"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 117,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 117,
+          "method": "selectPrimaryDropdownOption"
+        },
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 139,
+          "method": "clearPrimaryDropdown"
+        },
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 343,
+          "method": "openStartDatePopover"
+        },
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 353,
+          "method": "openEndDatePopover"
+        },
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 362,
+          "method": "closeDatePopover"
+        },
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 402,
+          "method": "selectDateFromCalendar"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-005",
+      "kind": "inline",
+      "key": "selectPrimaryDropdownOption",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"textbox\"]:has-text(\"Search pricing strategies...\")",
+      "step": "[role=\"textbox\"]:has-text(\"Search pricing strategies...\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-input-search-pricing-strategies",
+      "uiPath": "Setup > Location Settings > Pricing > open the \"Popover Content\" dialog > open the date popover",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "open the \"Popover Content\" dialog",
+        "open the date popover"
+      ],
+      "css": "[role=\"dialog\"] [role=\"textbox\"]",
+      "textHints": [
+        "Popover Content",
+        "Search pricing strategies..."
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 120,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 120,
+          "method": "selectPrimaryDropdownOption"
+        },
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 141,
+          "method": "clearPrimaryDropdown"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-006",
+      "kind": "inline",
+      "key": "selectPrimaryDropdownOption",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"button\"]",
+      "step": "[role=\"button\"]",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-popover-content",
+      "uiPath": "Setup > Location Settings > Pricing > open the \"Popover Content\" dialog > open the date popover",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "open the \"Popover Content\" dialog",
+        "open the date popover"
+      ],
+      "css": "[role=\"dialog\"] [role=\"button\"]",
+      "textHints": [
+        "Popover Content"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 123,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 123,
+          "method": "selectPrimaryDropdownOption"
+        },
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 143,
+          "method": "clearPrimaryDropdown"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-007",
+      "kind": "inline",
+      "key": "hasDateValidationError",
+      "type": "inline locator",
+      "selector": "text=/Pricing Effective.*date.*must be set/",
+      "step": "text=/Pricing Effective.*date.*must be set/",
+      "strategy": "text match",
+      "strategies": [
+        "text"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-has-date-validation-error",
+      "uiPath": "Setup > Location Settings > Pricing",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing"
+      ],
+      "css": "Effective.*date.*must be set/",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 334,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 334,
+          "method": "hasDateValidationError"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-001",
+      "kind": "inline",
+      "key": "openStartDatePopover",
+      "type": "inline locator",
+      "selector": "td:nth-child(6) [role=\"button\"]:has-text(\"Open popover\")",
+      "step": "[role=\"button\"]:has-text(\"Open popover\")",
+      "strategy": "positional (nth/first/last-child) + text match + role attribute",
+      "strategies": [
+        "positional",
+        "text",
+        "role"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-btn-open-popover-col-6",
+      "uiPath": "Setup > Location Settings > Pricing > in the results grid: any row, column 6",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "in the results grid: any row, column 6"
+      ],
+      "css": "td:nth-child(6) [role=\"button\"]",
+      "textHints": [
+        "Open popover"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 342,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 342,
+          "method": "openStartDatePopover"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-002",
+      "kind": "inline",
+      "key": "openEndDatePopover",
+      "type": "inline locator",
+      "selector": "td:nth-child(7) [role=\"button\"]:has-text(\"Open popover\")",
+      "step": "[role=\"button\"]:has-text(\"Open popover\")",
+      "strategy": "positional (nth/first/last-child) + text match + role attribute",
+      "strategies": [
+        "positional",
+        "text",
+        "role"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-btn-open-popover-col-7",
+      "uiPath": "Setup > Location Settings > Pricing > in the results grid: any row, column 7",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "in the results grid: any row, column 7"
+      ],
+      "css": "td:nth-child(7) [role=\"button\"]",
+      "textHints": [
+        "Open popover"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 352,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 352,
+          "method": "openEndDatePopover"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-003",
+      "kind": "inline",
+      "key": "selectDateFromCalendar",
+      "type": "inline locator",
+      "selector": "td:nth-child(${colIndex}) [role=\"button\"][aria-label=\"Open popover\"]:not([aria-disabled=\"true\"])",
+      "step": "[role=\"button\"][aria-label=\"Open popover\"]:not([aria-disabled=\"true\"])",
+      "strategy": "positional (nth/first/last-child) + aria-label + :not() disambiguation + role attribute + semantic attribute",
+      "strategies": [
+        "positional",
+        "aria-label",
+        "negation",
+        "role",
+        "semantic-attr"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-btn-open-popover-col-{col-index}",
+      "uiPath": "Setup > Location Settings > Pricing > in the results grid: any row, column colIndex",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "in the results grid: any row, column colIndex"
+      ],
+      "css": "td [role=\"button\"][aria-label=\"Open popover\"]:not([aria-disabled=\"true\"])",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 398,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 398,
+          "method": "selectDateFromCalendar"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-008",
+      "kind": "inline",
+      "key": "selectDateFromCalendar",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"status\"]",
+      "step": "[role=\"status\"]",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-label-popover-content",
+      "uiPath": "Setup > Location Settings > Pricing > open the \"Popover Content\" dialog > open the date popover",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "open the \"Popover Content\" dialog",
+        "open the date popover"
+      ],
+      "css": "[role=\"dialog\"] [role=\"status\"]",
+      "textHints": [
+        "Popover Content"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 406,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 406,
+          "method": "selectDateFromCalendar"
+        },
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 426,
+          "method": "selectDateFromCalendar"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-009",
+      "kind": "inline",
+      "key": "selectDateFromCalendar",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"button\"]:has-text(\"Go to the Next Month\")",
+      "step": "[role=\"button\"]:has-text(\"Go to the Next Month\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-go-to-the-next-month",
+      "uiPath": "Setup > Location Settings > Pricing > open the \"Popover Content\" dialog > open the date popover",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "open the \"Popover Content\" dialog",
+        "open the date popover"
+      ],
+      "css": "[role=\"dialog\"] [role=\"button\"]",
+      "textHints": [
+        "Popover Content",
+        "Go to the Next Month"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 417,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 417,
+          "method": "selectDateFromCalendar"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-010",
+      "kind": "inline",
+      "key": "selectDateFromCalendar",
+      "type": "inline locator",
+      "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"button\"]:has-text(\"Go to the Previous Month\")",
+      "step": "[role=\"button\"]:has-text(\"Go to the Previous Month\")",
+      "strategy": "text match + role attribute",
+      "strategies": [
+        "text",
+        "role"
+      ],
+      "priority": "HIGH",
+      "suggested": "location-settings-btn-go-to-the-previous-month",
+      "uiPath": "Setup > Location Settings > Pricing > open the \"Popover Content\" dialog > open the date popover",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "open the \"Popover Content\" dialog",
+        "open the date popover"
+      ],
+      "css": "[role=\"dialog\"] [role=\"button\"]",
+      "textHints": [
+        "Popover Content",
+        "Go to the Previous Month"
+      ],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 418,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 418,
+          "method": "selectDateFromCalendar"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-011",
+      "kind": "inline",
+      "key": "selectDateFromCalendar",
+      "type": "inline locator",
+      "selector": "[role=\"gridcell\"]",
+      "step": "[role=\"gridcell\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-cell-pricing",
+      "uiPath": "Setup > Location Settings > Pricing",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing"
+      ],
+      "css": "[role=\"gridcell\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 437,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 437,
+          "method": "selectDateFromCalendar"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-012",
+      "kind": "inline",
+      "key": "selectDateFromCalendar",
+      "type": "inline locator",
+      "selector": "[role=\"button\"]",
+      "step": "[role=\"button\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-btn-pricing",
+      "uiPath": "Setup > Location Settings > Pricing",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing"
+      ],
+      "css": "[role=\"button\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 438,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 438,
+          "method": "selectDateFromCalendar"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Pricing tab",
+      "id": "PRI-013",
+      "kind": "inline",
+      "key": "clickUnsavedStay",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] button:has-text(\"Stay\")",
+      "step": "button:has-text(\"Stay\")",
+      "strategy": "text match + bare tag + inside data-testid container",
+      "strategies": [
+        "text",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-btn-stay",
+      "uiPath": "Setup > Location Settings > Pricing > open the \"unsaved changes\" dialog",
+      "uiSteps": [
+        "Setup > Location Settings > Pricing",
+        "open the \"unsaved changes\" dialog"
+      ],
+      "css": "[data-testid=\"location-settings-modal-unsaved-changes\"] button",
+      "textHints": [
+        "Stay"
+      ],
+      "ancestorTestid": "location-settings-modal-unsaved-changes",
+      "note": "",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 592,
+      "sites": [
+        {
+          "module": {
+            "key": "pricing",
+            "name": "Pricing tab",
+            "code": "PRI",
+            "slug": "pricing"
+          },
+          "file": "src/pages/locations/location-pricing.page.ts",
+          "line": 592,
+          "method": "clickUnsavedStay"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "pricing"
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "id": "SSL-001",
+      "kind": "inline",
+      "key": "selectFirstDialogRow",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-modal-change-local-office\"] table tbody tr:first-child [role=\"checkbox\"][aria-label=\"Select row\"]",
+      "step": "tbody tr:first-child [role=\"checkbox\"][aria-label=\"Select row\"]",
+      "strategy": "positional (nth/first/last-child) + aria-label + role attribute + inside data-testid container",
+      "strategies": [
+        "positional",
+        "aria-label",
+        "role",
+        "testid-scope"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-checkbox-select-row",
+      "uiPath": "Setup > Location Settings > Shared Setup Locations > open the \"change local office\" dialog > in the results grid: the first row",
+      "uiSteps": [
+        "Setup > Location Settings > Shared Setup Locations",
+        "open the \"change local office\" dialog",
+        "in the results grid: the first row"
+      ],
+      "css": "[data-testid=\"location-settings-modal-change-local-office\"] table tbody tr:first-child [role=\"checkbox\"][aria-label=\"Select row\"]",
+      "textHints": [],
+      "ancestorTestid": "location-settings-modal-change-local-office",
+      "note": "",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 264,
+      "sites": [
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+          "line": 264,
+          "method": "selectFirstDialogRow"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared-setup-locations"
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "id": "SSL-002",
+      "kind": "inline",
+      "key": "getNonSelfRowState",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(3) [role=\"checkbox\"]",
+      "step": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(3) [role=\"checkbox\"]",
+      "strategy": "positional (nth/first/last-child) + role attribute + inside data-testid container",
+      "strategies": [
+        "positional",
+        "role",
+        "testid-scope"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-checkbox-shared-setup-row-{row-index}-col-3",
+      "uiPath": "Setup > Location Settings > Shared Setup Locations > in the results grid: row rowIndex, column 3",
+      "uiSteps": [
+        "Setup > Location Settings > Shared Setup Locations",
+        "in the results grid: row rowIndex, column 3"
+      ],
+      "css": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr td:nth-child(3) [role=\"checkbox\"]",
+      "textHints": [],
+      "ancestorTestid": "location-settings-table-shared-setup",
+      "note": "",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 294,
+      "sites": [
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+          "line": 294,
+          "method": "getNonSelfRowState"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared-setup-locations"
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "id": "SSL-003",
+      "kind": "inline",
+      "key": "getNonSelfRowState",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(4) [role=\"checkbox\"]",
+      "step": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(4) [role=\"checkbox\"]",
+      "strategy": "positional (nth/first/last-child) + role attribute + inside data-testid container",
+      "strategies": [
+        "positional",
+        "role",
+        "testid-scope"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-checkbox-shared-setup-row-{row-index}-col-4",
+      "uiPath": "Setup > Location Settings > Shared Setup Locations > in the results grid: row rowIndex, column 4",
+      "uiSteps": [
+        "Setup > Location Settings > Shared Setup Locations",
+        "in the results grid: row rowIndex, column 4"
+      ],
+      "css": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr td:nth-child(4) [role=\"checkbox\"]",
+      "textHints": [],
+      "ancestorTestid": "location-settings-table-shared-setup",
+      "note": "",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 295,
+      "sites": [
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+          "line": 295,
+          "method": "getNonSelfRowState"
+        },
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+          "line": 332,
+          "method": "toggleNonSelfSharesInventory"
+        },
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+          "line": 340,
+          "method": "setNonSelfSharesInventory"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared-setup-locations"
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "id": "SSL-004",
+      "kind": "inline",
+      "key": "getNonSelfRowState",
+      "type": "inline locator",
+      "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(5) button",
+      "step": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(5) button",
+      "strategy": "positional (nth/first/last-child) + bare tag + inside data-testid container",
+      "strategies": [
+        "positional",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "CRITICAL",
+      "suggested": "location-settings-btn-shared-setup-row-{row-index}-col-5",
+      "uiPath": "Setup > Location Settings > Shared Setup Locations > in the results grid: row rowIndex, column 5",
+      "uiSteps": [
+        "Setup > Location Settings > Shared Setup Locations",
+        "in the results grid: row rowIndex, column 5"
+      ],
+      "css": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr td:nth-child(5) button",
+      "textHints": [],
+      "ancestorTestid": "location-settings-table-shared-setup",
+      "note": "",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 296,
+      "sites": [
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+          "line": 296,
+          "method": "getNonSelfRowState"
+        },
+        {
+          "module": {
+            "key": "shared-setup-locations",
+            "name": "Shared Setup Locations tab",
+            "code": "SSL",
+            "slug": "shared-setup"
+          },
+          "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+          "line": 314,
+          "method": "deleteNonSelfRow"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared-setup-locations"
+    }
+  ],
+  "exclusions": [
+    {
+      "module": "Account and Address tab",
+      "key": "isPhone1ErrorIconVisible",
+      "selector": "[data-testid=\"location-settings-input-contact-phone-1\"] ..",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 95
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "isPhone1ErrorIconVisible",
+      "selector": "svg",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 95
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "getVenueAddressText",
+      "selector": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"] :text(\"Venue/Branch Account\") ..",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 102
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "getVenueAddressText",
+      "selector": "..",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 102
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "getMasterSection",
+      "selector": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"] :text(\"Master Bill To Address\") ..",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 123
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "getMasterSection",
+      "selector": "..",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 123
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "getMasterAddressBlock",
+      "selector": "dd",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 130
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "getMasterCityText",
+      "selector": "dd",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 136
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "isDisplayFieldReadOnly",
+      "selector": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"] :text(\"${sectionText}\") ..",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 159
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "isDisplayFieldReadOnly",
+      "selector": "..",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 159
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "isDisplayFieldReadOnly",
+      "selector": "dd:has-text(\"${expectedText}\") :is(input, textarea, [contenteditable=\"true\"])",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 163
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "searchAccountByFilter",
+      "selector": "[data-testid=\"location-settings-modal-account-list\"] table tbody tr:first-child td:nth-child(2)",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 250
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "getAddressRowCount",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 316
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "searchAddress",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 341
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "searchAddress",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table tbody tr",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 345
+    },
+    {
+      "module": "Account and Address tab",
+      "key": "addressResultsContain",
+      "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-account-address.page.ts",
+      "line": 358
+    },
+    {
+      "module": "Auto Add-On tab",
+      "key": "getSaveDialogBody",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") p",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-auto-addon.page.ts",
+      "line": 148
+    },
+    {
+      "module": "Auto Add-On tab",
+      "key": "getUnsavedDialogBody",
+      "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] p",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-auto-addon.page.ts",
+      "line": 212
+    },
+    {
+      "module": "Business Types tab",
+      "key": "getCheckboxLabel",
+      "selector": "xpath=..",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-business-types.page.ts",
+      "line": 74
+    },
+    {
+      "module": "Business Types tab",
+      "key": "getSaveDialogBody",
+      "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") p",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-business-types.page.ts",
+      "line": 160
+    },
+    {
+      "module": "Business Types tab",
+      "key": "getUnsavedDialogBody",
+      "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] p",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-business-types.page.ts",
+      "line": 214
+    },
+    {
+      "module": "Currency tab",
+      "key": "getGridRowCount",
+      "selector": "[data-testid=\"location-settings-table-currency\"] tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-currency.page.ts",
+      "line": 51
+    },
+    {
+      "module": "Currency tab",
+      "key": "isCurrencyCodeReadOnly",
+      "selector": "[data-testid=\"location-settings-table-currency\"] tbody tr:has-text(\"${currency}\") td:first-child",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-currency.page.ts",
+      "line": 64
+    },
+    {
+      "module": "Currency tab",
+      "key": "isCurrencyCodeReadOnly",
+      "selector": "[data-testid=\"location-settings-table-currency\"] tbody tr:has-text(\"${currency}\") td:first-child :is(input, textarea, [contenteditable=\"true\"])",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-currency.page.ts",
+      "line": 65
+    },
+    {
+      "module": "Basic Information (left panel)",
+      "key": "getPayToDialogRowCount",
+      "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") table tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-left-panel-basic-information.page.ts",
+      "line": 328
+    },
+    {
+      "module": "Legal tab",
+      "key": "getGridRowCount",
+      "selector": "[data-testid=\"location-settings-table-legal\"] tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-legal.page.ts",
+      "line": 57
+    },
+    {
+      "module": "Legal tab",
+      "key": "getColumnHeaders",
+      "selector": "[data-testid=\"location-settings-table-legal\"] thead th",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-legal.page.ts",
+      "line": 66
+    },
+    {
+      "module": "Legal tab",
+      "key": "getLanguageName",
+      "selector": "[data-testid=\"location-settings-table-legal\"] tbody tr",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-legal.page.ts",
+      "line": 73
+    },
+    {
+      "module": "Legal tab",
+      "key": "getLanguageName",
+      "selector": "[data-testid=\"location-settings-table-legal\"] tbody tr td",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-legal.page.ts",
+      "line": 73
+    },
+    {
+      "module": "Legal tab",
+      "key": "isLanguageNameReadOnly",
+      "selector": "[data-testid=\"location-settings-table-legal\"] tbody tr",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-legal.page.ts",
+      "line": 80
+    },
+    {
+      "module": "Legal tab",
+      "key": "isLanguageNameReadOnly",
+      "selector": "[data-testid=\"location-settings-table-legal\"] tbody tr td",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-legal.page.ts",
+      "line": 80
+    },
+    {
+      "module": "Legal tab",
+      "key": "isLanguageNameReadOnly",
+      "selector": "[data-testid=\"location-settings-table-legal\"] tbody tr td :is(button, input, textarea, select, [role=\"combobox\"], [contenteditable=\"true\"])",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-legal.page.ts",
+      "line": 81
+    },
+    {
+      "module": "Legal tab",
+      "key": "hasDropdownSearch",
+      "selector": "input, [type=\"search\"], [cmdk-input]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-legal.page.ts",
+      "line": 118
+    },
+    {
+      "module": "Local Information tab",
+      "key": "isRemitPstTaxVisible",
+      "selector": "dt:has-text(\"Remit PST Tax\")",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-local-info.page.ts",
+      "line": 179
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "navigateToHistoryTab",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 27
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "captureResponsesOnHistoryTabSwitch",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 54
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getColumnHeaders",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 68
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getColumnHeaders",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 69
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getColumnHeaderCount",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 75
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getDataRowCount",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 80
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getColumnByIndex",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 105
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getColumnByIndex",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 105
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getRowsSinceTimestamp",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 173
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getRowsSinceTimestamp",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 175
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getRowsSinceTimestamp",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 176
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getRowsSinceTimestamp",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 183
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "clickSortColumn",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 196
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "clickSortColumn",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th button",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 197
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isSortButtonPresent",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 224
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isSortButtonPresent",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th button",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 225
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isSortButtonPresentByIndex",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 230
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isSortButtonPresentByIndex",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th button",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 231
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "waitForRecentTopRow",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 249
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "waitForRecentTopRow",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 251
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPaginationText",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] span",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 283
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isReadOnly",
+      "selector": "[role=\"tabpanel\"] button:has-text(\"Add\")",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 315
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isReadOnly",
+      "selector": "[role=\"tabpanel\"] button:has-text(\"Edit\")",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 316
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isReadOnly",
+      "selector": "[role=\"tabpanel\"] button:has-text(\"Delete\")",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 317
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isReadOnly",
+      "selector": "[role=\"tabpanel\"] button:has-text(\"Save\")",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 318
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isReadOnly",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] table",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 321
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isReadOnly",
+      "selector": "input:not([type=\"hidden\"]), textarea",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 322
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "areCellsNonInteractive",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr:first-child td:first-child",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 328
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "areCellsNonInteractive",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr:first-child td:first-child :is(input, textarea, [contenteditable=\"true\"])",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 331
+    },
+    {
+      "module": "Pricing tab",
+      "key": "getGridRowCount",
+      "selector": "[role=\"tabpanel\"] table tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 204
+    },
+    {
+      "module": "Pricing tab",
+      "key": "openStartDatePopover",
+      "selector": "td:nth-child(6)",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 341
+    },
+    {
+      "module": "Pricing tab",
+      "key": "openEndDatePopover",
+      "selector": "td:nth-child(7)",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 351
+    },
+    {
+      "module": "Pricing tab",
+      "key": "selectDateFromCalendar",
+      "selector": "td:nth-child(${colIndex})",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 395
+    },
+    {
+      "module": "Pricing tab",
+      "key": "getReadOnlyColumnInteractiveCount",
+      "selector": "td:nth-child(${colIdx})",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 465
+    },
+    {
+      "module": "Pricing tab",
+      "key": "getReadOnlyColumnInteractiveCount",
+      "selector": "td:nth-child(${colIdx}) :is(button, input, [role=\"checkbox\"], [role=\"combobox\"])",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-pricing.page.ts",
+      "line": 466
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "key": "getDataRowCount",
+      "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 99
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "key": "getColumnHeaders",
+      "selector": "[data-testid=\"location-settings-table-shared-setup\"] thead th",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 107
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "key": "findNonSelfRow",
+      "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${i}) td",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 116
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "key": "getSelfRowText",
+      "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:first-child td",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 130
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "key": "getDialogRowCount",
+      "selector": "[data-testid=\"location-settings-modal-change-local-office\"] table tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 240
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "key": "getFirstDialogRowText",
+      "selector": "[data-testid=\"location-settings-modal-change-local-office\"] table tbody tr:first-child td",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 254
+    },
+    {
+      "module": "Shared Setup Locations tab",
+      "key": "getNonSelfRowText",
+      "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-shared-setup-locations.page.ts",
+      "line": 322
+    }
+  ]
+}

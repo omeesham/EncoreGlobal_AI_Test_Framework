@@ -170,6 +170,57 @@ raw `page.` / `locator(...)` drives that have no page object behind them. It is 
 default (`--strict` makes it fail a run), because those lines are numbered already — what they
 lack is a business name.
 
+### Missing data-testid audit — Locations
+
+```bash
+npm run audit:testids                                        # console summary + written report
+node scripts/audit-missing-testids.js --module pricing       # one tab
+node scripts/audit-missing-testids.js --priority CRITICAL,HIGH
+```
+
+`npm run audit:testids` reads the Locations selector definitions (`src/selectors/locations`, plus
+the Locations entries of `src/selectors/auth/dynamic.ts`) and the Locations page objects, and
+reports every element the suite reaches **without** a data-testid, ranked by how easily the
+fallback breaks: positional `nth-child` (CRITICAL), text matching (HIGH), placeholder / form name
+/ aria-label / CSS class (MEDIUM), and bare tags inside a testid container (LOW). Each finding
+carries the selector in use, where it is used, and a suggested data-testid following the
+convention the application already uses — so the output can go to the app team as-is.
+
+It writes three files into `reports/bugs/`, all named `missing-testid-locations`:
+
+| File | What it is for |
+| --- | --- |
+| `.md` | The readable report — summary, methodology, per-tab tables, quick wins, exclusions |
+| `.xlsx` | The workbook to hand to the application team (see below) |
+| `.json` | Machine-readable, for a dashboard or a follow-up script |
+
+The workbook has five sheets: **Summary** (metrics, priority counts, per-module breakdown,
+coverage projections), **Missing testids** (one row per element, with an autofilter and empty
+*Dev status* / *Dev comment* columns for the app team to fill in), **How to locate** (each screen
+with numbered steps for reaching it by hand), **Exclusions** (what was left out and why), and
+**Naming convention** (the patterns to follow when adding the attributes).
+
+Every finding carries three ways to reach the element in a browser: *CSS to check in DevTools*
+(valid CSS — Playwright's `:has-text()` is dropped, since a browser ignores it), *Text to match*
+(the on-screen copy CSS cannot express) and a *Console one-liner* that combines the two and
+returns exactly the element, filtering a container by its text before querying inside it.
+
+Selectors are reported as the **full path from the page root**, not as the fragment on the source
+line: a page object reaches a grid cell through the dialog, then the row, then the cell, so one
+step matches nothing on its own. The audit resolves each chain — local variables,
+`getElement('key')` roots, getters and template strings — so what the report prints can be
+searched for in the DOM; `${placeholder}` marks a value a test supplies at run time. The workbook
+keeps the raw fragment too, in *As written in code*, for cross-referencing the source line.
+Override any path with `--md`, `--xlsx` or `--json`; if a report is open in Excel or your editor,
+that one file is skipped with a note and the others are still written.
+
+Row counts, header enumeration and `.count()` probes are excluded as structural: they query shape,
+not identity. Scope is hard-coded to Locations, so no other module is ever read or reported.
+
+To keep an intentional fallback out of the report, put `// testid-audit: ignore -- <reason>` on the
+line above the selector; it moves to the report's exclusions appendix with that reason attached.
+`--strict` exits non-zero while any CRITICAL or HIGH finding remains, for use in a pipeline.
+
 ### Viewing reports locally
 
 ```bash

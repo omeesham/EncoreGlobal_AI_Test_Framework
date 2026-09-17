@@ -134,20 +134,23 @@ export async function verify<T>(name: string, body: () => Promise<T>): Promise<T
 /**
  * Opens a test with a plain-language statement of what it checks.
  *
- * Call it as the FIRST line of the test body, so it lands as "Step 1: About this test — ..." in
- * the HTML report and gives a reader the point of the test before any of the mechanics. The body
- * writes the same sentence to the console and to `logs/<spec>/test-execution.log`, so a terminal
- * run and the saved log read the same way the report does.
+ * Call it as the FIRST line of the test body. The summary becomes the step title verbatim —
+ * "Step 1: Leaving the History tab for Basic Information and coming back shows the same list
+ * again" — so a reader gets the point of the test from the step name itself, with no generic
+ * "About this test" label to read past. The body writes the same sentence to the console and to
+ * `logs/<spec>/test-execution.log`, so a terminal run and the saved log read the same way the
+ * report does.
  *
- * Write the summary for someone who has never opened the app: say what the user is doing and what
- * ought to happen, not which locator or endpoint is involved.
+ * Because the summary IS the step title, write it as a self-contained sentence someone who has
+ * never opened the app can act on: say what the user is doing and what ought to happen, not which
+ * locator or endpoint is involved.
  */
 export async function about(summary: string): Promise<void> {
   if (!inTestContext()) {
     Log.info(summary);
     return;
   }
-  await reportStep(`About this test — ${summary}`, async () => {
+  await reportStep(summary, async () => {
     Log.info(`[test] ${test.info().title}`);
     Log.info(`[test] ${summary}`);
   });

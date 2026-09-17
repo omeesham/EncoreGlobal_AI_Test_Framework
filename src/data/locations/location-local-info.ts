@@ -16,6 +16,7 @@ export const CHECKED_DEFAULTS: SelectorKey[] = [
   'chkEnableProposal',
   'chkEnableJobCosting',
   'chkServiceCharge',   // enabled+checked on Navigator Cloud (was disabled+unchecked on legacy navigator2.training.psav.com baseline)
+  'chkUseESignature',   // enabled+checked as of the 2026-09-14 live re-verification (was disabled)
 ];
 
 export const UNCHECKED_DEFAULTS: SelectorKey[] = [
@@ -43,12 +44,13 @@ export const UNCHECKED_DEFAULTS: SelectorKey[] = [
   'chkEnableMultidayPricing',
 ];
 
+// Re-verified live against office 1604 on 2026-09-14. chkEnableJobCosting and chkUseESignature
+// were previously listed here as disabled; both now read enabled (they stay checked, so they moved
+// to CHECKED_DEFAULTS instead). Everything else below still matches the live screen.
 export const DISABLED_CHECKBOXES: SelectorKey[] = [
   'chkSuppressDayRateDiscount',
   'chkCompassIntegration',
   'chkDisplayTax',
-  'chkEnableJobCosting',      // disabled+checked for office 1604
-  'chkUseESignature',         // disabled+checked
   'chkEnableProductGroup',    // disabled+unchecked
   'chkEnableDiscountGuidance', // disabled+checked
 ];
@@ -57,10 +59,8 @@ export const DISABLED_CHECKBOX_STATES: Record<string, boolean> = {
   chkSuppressDayRateDiscount: false, // always disabled, unchecked
   chkCompassIntegration: true,       // disabled for existing location, checked
   chkDisplayTax: true,               // disabled when Company Remit Tax checked
-  chkEnableJobCosting: true,         // disabled+checked for office 1604
-  chkUseESignature: true,            // : disabled+checked for office 1604
-  chkEnableProductGroup: false,      // : disabled+unchecked for office 1604
-  chkEnableDiscountGuidance: true,   // : disabled+checked for office 1604
+  chkEnableProductGroup: false,      // disabled+unchecked for office 1604
+  chkEnableDiscountGuidance: true,   // disabled+checked for office 1604
 };
 
 export interface BoundaryCase {

@@ -127,6 +127,7 @@ SECTION_BY_BASENAME: dict[str, str] = {
     "local-office-basic-information": "Basic_Information",
     "local-office-history": "Location_Settings_History",
     "location-left-panel-basic-information": "Left_Panel_Basic_Information",
+    "location-local-information": "Local_Information",
     "location-legal": "Legal",
     "location-notes": "Notes",
     "location-shared-setup-locations": "Shared_Setup_Locations",

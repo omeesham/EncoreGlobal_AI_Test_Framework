@@ -38,7 +38,16 @@ export class LocationLocalInfoPage extends LocationFormHelpers {
  // hit the router cache and replay stale state.
     const base = this.config?.base_url || '';
     await this.page.goto(`${base}locations`, { waitUntil: 'domcontentloaded' }).catch(() => {});
-    await this.navigateToLocalInfoTab(officeNo);
+    try {
+      await this.navigateToLocalInfoTab(officeNo);
+    } catch {
+      // navigateToSubTab waits a hard-coded 30s for the sub-tab strip, which a slow settings-page
+      // render can exceed. This helper runs from nearly every test's finally block, so one retry
+      // here keeps a slow reload from failing an otherwise-passing test (seen on TC-LOC-LI-032).
+      Log.warn('Local Information tab did not appear in time; retrying the reload once');
+      await this.page.goto(`${base}locations`, { waitUntil: 'domcontentloaded' }).catch(() => {});
+      await this.navigateToLocalInfoTab(officeNo);
+    }
   }
 
   @step('Capture left panel baseline')
@@ -119,8 +128,55 @@ export class LocationLocalInfoPage extends LocationFormHelpers {
 
   @step('Get billing cycle value')
   async getBillingCycleValue(): Promise<string> {
+ // The combobox renders its "--Select--" placeholder first and only swaps in the office's real
+ // cycle once the settings payload lands. Reading textContent straight away therefore returns
+ // whichever side of that swap the read happened to land on, which made TC-LOC-LI-032 compare a
+ // placeholder against a real value (and flip the other way on retry). Wait for it to settle.
     const el = this.getElement('drpBillingCycle');
-    return (await el.textContent().catch(() => '') ?? '').trim();
+    const deadline = Date.now() + 10_000;
+    let text = '';
+    do {
+      text = ((await el.textContent().catch(() => '')) ?? '').trim();
+      if (text !== '' && text !== '--Select--' && text !== 'Select') return text;
+      await this.page.waitForTimeout(250);
+    } while (Date.now() < deadline);
+ // Genuinely unset (or still loading after 10s) — report what is actually on screen.
+    Log.warn(`Billing Cycle still reads "${text}" after waiting for it to populate`);
+    return text;
+  }
+
+ // ─── Country (left panel, but it drives Local Information's own gated fields) ───
+ // drpCountry lives in SetupLeftPanelBasicInformationSelectors, which LocationSettingsSelectors
+ // already merges in, so it is reachable from this page object without the left-panel fixture.
+
+  @step('Get country')
+  async getCountry(): Promise<string> {
+    return this.getFieldDisplayValue('drpCountry');
+  }
+
+  @step('Select country')
+  async selectCountry(text: string): Promise<void> {
+    await this.selectComboboxOption('drpCountry', text, { exact: true });
+    Log.info(`Selected Country: ${text}`);
+ // The country-gated fields re-render from the cascade, not from a navigation, so there is no
+ // load state to await — settle briefly before any caller reads them.
+    await this.page.waitForTimeout(1_500);
+  }
+
+ /**
+  * The Country-gated remit-tax row. It is absent from the DOM entirely on the USA baseline, not
+  * merely hidden, and appears only for Canada.
+  *
+  * Its live label is "Remit PST Tax" — the same row the sibling suite's lp.isRemitPstVisible()
+  * checks. The plan referred to this concept as "HRI Remit Tax 2" (and the chkHRIRemitTax2
+  * selector still spells it that way), but that string appears nowhere in the rendered app:
+  * a dump of every <dt> on both sides of a Country switch showed "Remit PST Tax" as the single
+  * label that appears for Canada. Matching on the plan's name silently matched nothing, so any
+  * assertion built on it was vacuous.
+  */
+  @step('Is remit PST tax visible')
+  async isRemitPstTaxVisible(): Promise<boolean> {
+    return (await this.page.locator('dt:has-text("Remit PST Tax")').count()) > 0;
   }
 
   @step('Test boundary value')
@@ -156,6 +212,11 @@ export class LocationLocalInfoPage extends LocationFormHelpers {
     }
 
     await this.clickSave();
+    // Wait for the server to acknowledge the save before reloading. Without this the reload can
+    // outrun the in-flight request and the field reads back at its pre-save value -- the cause of
+    // an intermittent TC-LOC-LI-008 failure ("expected display~=10.00, got 4.00"). Tolerant of a
+    // missed toast so a fast save that clears before we look still proceeds.
+    await this.waitForSaveToast().catch(() => { /* toast already gone, or none shown */ });
     await this.waitForAngularStable();
     await this.reloadAndNavigateToLocalInfo(officeNo);
 

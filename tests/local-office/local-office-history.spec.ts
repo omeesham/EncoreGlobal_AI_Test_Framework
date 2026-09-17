@@ -54,16 +54,35 @@ const meaningful = (values: string[]): string[] =>
 
 const distinctCount = (values: string[]): number => new Set(values).size;
 
+/**
+ * A column of "MM/DD/YYYY hh:mm:ss AM/PM" timestamps.
+ *
+ * These must NEVER be ordered as text: the AM/PM clock puts "03:46:57 PM" AFTER "08:21:04 AM"
+ * chronologically, while "03" sorts BEFORE "08" lexicographically. Comparing a correctly sorted
+ * Modified On column as a string therefore reports a violation the grid did not commit — the
+ * false failure this predicate exists to prevent. Such a column is ordered by parsed instant.
+ */
+const isTimestampLike = (values: string[]): boolean =>
+  values.length >= 2 && values.every(v => HISTORY_MODIFIED_ON_PATTERN.test(v));
+
+/** Free text: at least two distinct values, every one carrying a letter, and NOT a timestamp
+ *  column — "AM"/"PM" are letters, so a date column passes the letter test and must be excluded. */
 const isTextLike = (values: string[]): boolean => {
   const nb = meaningful(values);
-  return nb.length >= 2 && distinctCount(nb) >= 2 && nb.every(v => /[A-Za-z]/.test(v));
+  return nb.length >= 2 && distinctCount(nb) >= 2
+    && nb.every(v => /[A-Za-z]/.test(v)) && !isTimestampLike(nb);
 };
 
-const isNonDescendingText = (values: string[]): boolean =>
-  values.every((v, i) => i === 0 || v.toLowerCase() >= values[i - 1]!.toLowerCase());
+/** Ordering key for a cell: the parsed instant for a timestamp column, the folded text otherwise. */
+type OrderKey<T extends string | number> = (value: string) => T;
+const textKey: OrderKey<string> = v => v.toLowerCase();
+const timestampKey: OrderKey<number> = v => LocalOfficeHistoryPage.parseModifiedOnMs(v);
 
-const isNonAscendingText = (values: string[]): boolean =>
-  values.every((v, i) => i === 0 || v.toLowerCase() <= values[i - 1]!.toLowerCase());
+const isNonDescendingBy = <T extends string | number>(values: string[], key: OrderKey<T>): boolean =>
+  values.every((v, i) => i === 0 || key(v) >= key(values[i - 1]!));
+
+const isNonAscendingBy = <T extends string | number>(values: string[], key: OrderKey<T>): boolean =>
+  values.every((v, i) => i === 0 || key(v) <= key(values[i - 1]!));
 
 const isNonDescendingNumeric = (values: number[]): boolean =>
   values.every((v, i) => i === 0 || v >= values[i - 1]!);
@@ -502,19 +521,33 @@ test.describe('Local Office Location Settings History @local-office @location-se
     await about('Sorting a text column A-Z and then Z-A puts the entries into the opposite order.');
     test.setTimeout(120_000);
     const columns = await phase('Take a sample of the columns that can be sorted', () => sampleSortableColumns(pg));
-    const target = columns.find(c => isTextLike(c.values));
+    // Page 1 of this grid is uniform by nature — consecutive history rows are near-identical
+    // configuration snapshots — so free text that varies is scarce and the audit timestamp is
+    // often the only sortable column with two distinct values. Prefer real text; fall back to the
+    // timestamp column, which is then ordered by parsed instant, never as a string.
+    const target = columns.find(c => isTextLike(c.values))
+      ?? columns.find(c => isTimestampLike(meaningful(c.values)) && distinctCount(meaningful(c.values)) >= 2);
     test.skip(!target, 'no sortable text column with two distinct values on this page — data precondition');
+    const byInstant = isTimestampLike(meaningful(target!.values));
+    const order = byInstant ? 'oldest-first' : 'A-Z';
+    await attachNote('Sorted column', `"${target!.header}" — compared ${byInstant ? 'as timestamps' : 'as text'}`);
 
     await pg.sortHistoryColumn(target!.header, 'ascending');
     const ascending = meaningful(await pg.getHistoryColumnValues(target!.header, 10));
-    await verify(`Check "${target!.header}" is now in A-Z order`, async () => {
-      expect(isNonDescendingText(ascending), `ascending order violated: ${ascending.join(' | ')}`).toBe(true);
+    await verify(`Check "${target!.header}" is now in ${order} order`, async () => {
+      const ok = byInstant
+        ? isNonDescendingBy(ascending, timestampKey)
+        : isNonDescendingBy(ascending, textKey);
+      expect(ok, `ascending order violated: ${ascending.join(' | ')}`).toBe(true);
     });
 
     await pg.sortHistoryColumn(target!.header, 'descending');
     const descending = meaningful(await pg.getHistoryColumnValues(target!.header, 10));
-    await verify(`Check "${target!.header}" flips to Z-A order and a different entry is now on top`, async () => {
-      expect(isNonAscendingText(descending), `descending order violated: ${descending.join(' | ')}`).toBe(true);
+    await verify(`Check "${target!.header}" flips to the reverse order and a different entry is now on top`, async () => {
+      const ok = byInstant
+        ? isNonAscendingBy(descending, timestampKey)
+        : isNonAscendingBy(descending, textKey);
+      expect(ok, `descending order violated: ${descending.join(' | ')}`).toBe(true);
       expect(descending[0]).not.toBe(ascending[0]);
     });
   });
