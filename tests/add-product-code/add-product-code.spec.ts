@@ -49,7 +49,7 @@ test.describe('Item Search Add Product Code @item-search @product-code @add-prod
       await pc.selectFirstRow();
     });
 
-  test('TC-ISR-PCD-001: Add Product Code opens a required-empty form with Save held back', { tag: '@C105429' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APC-001: Add Product Code opens a required-empty form with Save held back', { tag: '@C105429' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await searchAndSelect();
     await phase('Open the Add Product Code form', () => pc.openAddDialog());
@@ -70,7 +70,7 @@ test.describe('Item Search Add Product Code @item-search @product-code @add-prod
   });
 
 
-  test('TC-ISR-PCD-002: Choosing a Product Type unlocks and filters Service Type', { tag: '@C105430' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APC-002: Choosing a Product Type unlocks and filters Service Type', { tag: '@C105430' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await searchAndSelect();
     await phase('Open the Add Product Code form', () => pc.openAddDialog());
@@ -95,7 +95,7 @@ test.describe('Item Search Add Product Code @item-search @product-code @add-prod
   });
 
 
-  test('TC-ISR-PCD-003: The Add segment menu opens per-segment forms', { tag: '@C105431' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APC-003: The Add segment menu opens per-segment forms', { tag: '@C105431' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await searchAndSelect();
     await phase('Open the Add segment menu', () => pc.openAddSegmentMenu());
@@ -114,7 +114,7 @@ test.describe('Item Search Add Product Code @item-search @product-code @add-prod
   });
 
 
-  test('TC-ISR-PCD-004: A completed Add Product Code form saves and the new code is found again', { tag: '@C105432' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APC-004: A completed Add Product Code form saves and the new code is found again', { tag: '@C105432' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await searchAndSelect();
     // A per-run unique suffix so repeated runs never collide on the same name.
@@ -143,7 +143,7 @@ test.describe('Item Search Add Product Code @item-search @product-code @add-prod
   });
 
 
-  test('TC-ISR-PCD-005: The text fields stop accepting input at their maximum lengths', { tag: '@C105433' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APC-005: The text fields stop accepting input at their maximum lengths', { tag: '@C105433' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await searchAndSelect();
     await phase('Open the Add Product Code form', () => pc.openAddDialog());
@@ -178,7 +178,7 @@ test.describe('Item Search Add Product Code @item-search @product-code @add-prod
   });
 
 
-  test('TC-ISR-PCD-006: An over-length value that bypasses the typing limit cannot be saved', { tag: '@C105434' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APC-006: An over-length value that bypasses the typing limit cannot be saved', { tag: '@C105434' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await searchAndSelect();
     await phase('Open the Add Product Code form', () => pc.openAddDialog());
@@ -220,7 +220,7 @@ test.describe('Item Search Add Product Code @item-search @product-code @add-prod
   });
 
 
-  test('TC-ISR-PCD-007: A name at exactly the maximum length saves and reads back complete', { tag: '@C105435' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APC-007: A name at exactly the maximum length saves and reads back complete', { tag: '@C105435' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await searchAndSelect();
     // A per-run unique name padded out to exactly the limit, so the boundary value itself is
@@ -256,7 +256,7 @@ test.describe('Item Search Add Product Code @item-search @product-code @add-prod
     });
   });
 
-  test('TC-ISR-PCD-008: Closing the Add dialog with a part-filled form discards it silently', { tag: '@C105436' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APC-008: Closing the Add dialog with a part-filled form discards it silently', { tag: '@C105436' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await searchAndSelect();
     await phase('Open the Add Product Code form', () => pc.openAddDialog());

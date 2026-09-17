@@ -1,0 +1,333 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,The Add page opens with a held-back Save,,,,,Automated,Omeesha Mahanta,,,Save stays disabled — the other required fields are still empty,,,create-new-product-groups,,"The Product Groups page is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Click Add</li>
+<li>2. Read the form</li>
+<li>3. Read the buttons</li>
+<li>4. Type a single character into Name</li>
+</ol>",,,"1. The Add page opens (its own address under the groups page)
+2. Name and Description are empty and marked required; the Service Type selector shows its placeholder; Active is checked
+3. Cancel is enabled; Save is disabled
+4. Save stays disabled — the other required fields are still empty",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The sub-class picker shows its two panels,,,,,Automated,Omeesha Mahanta,,,"It is marked required and shows the instruction ""Drag or double‑click items from the left to add sub‑classes""",,,create-new-product-groups,,"The Add page is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Read the left panel</li>
+<li>2. Read the Sub Classes area on the right</li>
+</ol>",,,"1. A search box and a long list of sub-class items
+2. It is marked required and shows the instruction ""Drag or double‑click items from the left to add sub‑classes""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancel leaves the Add page without saving,,,,,Automated,Omeesha Mahanta,,,The form is empty again; nothing was kept,,,create-new-product-groups,,"The Add page is open with a character typed into Name
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Click Cancel</li>
+<li>2. Click Add again</li>
+</ol>",,,"1. The list page returns immediately — no warning prompt about the typed input
+2. The form is empty again; nothing was kept",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A completed Add page saves and the new group is found again,,,,,Automated,Omeesha Mahanta,,,"Exactly one row returns — the group just created, showing its Description and Service Type",,,create-new-product-groups,,"The Product Groups page is open for office 1101
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Click Add, then fill Name and Description with a per-run unique value (e.g. a ZZ-E2E-&lt;timestamp> name)</li>
+<li>2. Choose a Service Type</li>
+<li>3. In the sub-class picker, double-click one item in the left list</li>
+<li>4. Click Save</li>
+<li>5. Search the groups list for the new group's exact Name</li>
+</ol>",,,"1. Both required fields hold the typed values, read back from the boxes
+2. The Service Type selector shows the chosen value
+3. The item appears in the Sub Classes area on the right (and stays in the left list), and — with Name, Description, Service Type and one sub-class all set — Save enables
+4. A ""Product Group created successfully"" toast appears and the page lands on the groups list (its address ends in `/products/product-groups`); `POST /navigator/api/location/add-update-product-group` returns 200
+5. Exactly one row returns — the group just created, showing its Description and Service Type",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name accepts exactly 50 characters and drops the rest silently,,,,,Automated,Omeesha Mahanta,,,The list page returns; nothing was saved,,,create-new-product-groups,,"The Add page is open with an empty form
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Type 50 characters into Name, one key at a time</li>
+<li>2. Type one more character</li>
+<li>3. Select all and paste a 60-character value</li>
+<li>4. Press Tab</li>
+<li>5. Click Cancel</li>
+</ol>",,,"1. The box holds all 50
+2. The box still holds 50 — the 51st is dropped; no message appears and the box is not marked invalid
+3. The box holds exactly the first 50
+4. Focus leaves the box normally
+5. The list page returns; nothing was saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Description accepts exactly 100 characters and drops the rest silently,,,,,Automated,Omeesha Mahanta,,,The list page returns; nothing was saved,,,create-new-product-groups,,"The Add page is open with an empty form
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Paste a 120-character value into Description</li>
+<li>2. Press End and type one more character</li>
+<li>3. Press Tab</li>
+<li>4. Click Cancel</li>
+</ol>",,,"1. The box holds exactly the first 100
+2. The box still holds 100
+3. Focus leaves the box normally
+4. The list page returns; nothing was saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clearing a filled Name by either method holds Save back and marks the box invalid,,,,,Automated,Omeesha Mahanta,,,The list page returns; nothing was saved,,,create-new-product-groups,,"The Add page is open with Name, Description, a Service Type and one sub-class set, so Save is enabled
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Click into Name, select all and press Delete</li>
+<li>2. Press Tab</li>
+<li>3. Type the name again</li>
+<li>4. Press Backspace once per character until the box is empty</li>
+<li>5. Type the name again</li>
+<li>6. Click Cancel</li>
+</ol>",,,"1. The box is empty, shows a red border and is marked invalid; Save is disabled
+2. Focus leaves the box — the invalid state does not trap it
+3. The invalid mark clears and Save enables
+4. The same invalid state; Save is disabled
+5. Save enables
+6. The list page returns; nothing was saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A whitespace-only Name counts as empty; a padded Name is accepted,,,,,Automated,Omeesha Mahanta,,,The list page returns; nothing was saved,,,create-new-product-groups,,"The Add page is open with Description, a Service Type and one sub-class set
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Fill Name with spaces only</li>
+<li>2. Fill Name with a value surrounded by spaces</li>
+<li>3. Click Cancel</li>
+</ol>",,,"1. The box is marked invalid and Save stays disabled
+2. The box is not marked invalid and Save enables
+3. The list page returns; nothing was saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Every required field gates Save, and Active does not",,,,,Automated,Omeesha Mahanta,,,The list page returns; nothing was saved,,,create-new-product-groups,,"The Add page is open with an empty form
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Fill Name and Description and choose a Service Type</li>
+<li>2. Double-click one catalog item</li>
+<li>3. Clear Description</li>
+<li>4. Refill Description</li>
+<li>5. Remove the added sub-class with its x control</li>
+<li>6. Double-click a catalog item again</li>
+<li>7. Clear Active, then check it again</li>
+<li>8. Click Cancel</li>
+</ol>",,,"1. Save is still disabled — no sub-class yet
+2. Save enables
+3. Save is disabled
+4. Save enables
+5. The instruction text returns and Save is disabled
+6. Save enables
+7. Save stays enabled both times
+8. The list page returns; nothing was saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The Service Type list offers its 90 options with no search box, and first, middle and last all select",,,,,Automated,Omeesha Mahanta,,,The list page returns; nothing was saved,,,create-new-product-groups,,"The Add page is open with an empty form
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Lighting""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Open the Service Type list</li>
+<li>2. Choose the first option</li>
+<li>3. Open the list, press End, press Enter</li>
+<li>4. Open the list and click a middle option (""Lighting"")</li>
+<li>5. Click Cancel</li>
+</ol>",,,"1. It opens with exactly the 90 options recorded in the inventory, in that order, starting with ""Equipment Rental"" and ending with ""ZSub Rental Specialty""; there is no search box inside the list
+2. The selector shows ""Equipment Rental""
+3. The selector shows ""ZSub Rental Specialty""
+4. The selector shows ""Lighting""
+5. The list page returns; nothing was saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A name already used by another group is rejected, with or without a trailing space",,,,,Automated,Omeesha Mahanta,,,The list page returns; nothing was created,,,create-new-product-groups,,"The Add page is open. The fixture group ZZ E2E Walk 2026-09-09 A (description walk probe A) exists on office 1101
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Fill Name with the fixture group's name, a fresh Description, a Service Type and one sub-class</li>
+<li>2. Click Save</li>
+<li>3. Change Name to the same name with a trailing space and click Save</li>
+<li>4. Click Cancel</li>
+</ol>",,,"1. Save enables
+2. An error toast reads `Product group name 'ZZ E2E Walk 2026-09-09 A' or group description '<the fresh description>' already exists.`; the page stays on the Add form with every value kept; Save is still enabled
+3. The same error toast, showing the name without the trailing space — the server trims before comparing
+4. The list page returns; nothing was created",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A description already used by another group is rejected even with a new name,,,,,Automated,Omeesha Mahanta,,,The list page returns; nothing was created,,,create-new-product-groups,,"The Add page is open. The fixture group ZZ E2E Walk 2026-09-09 A (description walk probe A) exists on office 1101
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Fill Name with a per-run unique value, Description with the fixture group's description, a Service Type and one sub-class</li>
+<li>2. Click Save</li>
+<li>3. Click Cancel</li>
+</ol>",,,"1. Save enables
+2. An error toast reads `Product group name '<the new name>' or group description 'walk probe A' already exists.`; the page stays on the Add form; Save is still enabled
+3. The list page returns; nothing was created",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The picker search filters the catalog by substring regardless of case and empties on no match,,,,,Automated,Omeesha Mahanta,,,The list page returns,,,create-new-product-groups,,"The Add page is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Scenery""
+Sample input 2: ""SCENERY""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Read the catalog row count</li>
+<li>2. Type ""Scenery"" into the picker's Search</li>
+<li>3. Replace it with ""SCENERY""</li>
+<li>4. Replace it with a value that matches nothing</li>
+<li>5. Clear the Search box</li>
+<li>6. Click Cancel</li>
+</ol>",,,"1. A positive count — the full catalog, read live rather than assumed (several thousand rows)
+2. Fewer rows than step 1, and every remaining row contains ""Scenery""
+3. The same number of rows as step 2
+4. Zero rows
+5. The count from step 1 returns
+6. The list page returns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Labor filter narrows the catalog and unchecking restores it,,,,,Automated,Omeesha Mahanta,,,The list page returns,,,create-new-product-groups,,"The Add page is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Read the catalog row count and first row</li>
+<li>2. Check Labor</li>
+<li>3. Uncheck Labor</li>
+<li>4. Click Cancel</li>
+</ol>",,,"1. The full catalog
+2. Fewer rows than step 1 (a few hundred labor sub-classes), and the first row is a different item
+3. The count and first row from step 1 return
+4. The list page returns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sort order flips the catalog between ascending and descending,,,,,Automated,Omeesha Mahanta,,,The list page returns,,,create-new-product-groups,,"The Add page is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Read the first and last catalog rows with the order at Ascending</li>
+<li>2. Choose Descending</li>
+<li>3. Choose Ascending</li>
+<li>4. Click Cancel</li>
+</ol>",,,"1. Two different items
+2. The first row is step 1's last row and the last row is step 1's first row
+3. Step 1's first and last rows return
+4. The list page returns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Reset clears the picker's search, filter and sort but keeps an added sub-class",,,,,Automated,Omeesha Mahanta,,,The list page returns,,,create-new-product-groups,,"The Add page is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Scenery""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Double-click one catalog item</li>
+<li>2. Type ""Scenery"" into Search, check Labor, choose Descending</li>
+<li>3. Click Reset</li>
+<li>4. Click Cancel</li>
+</ol>",,,"1. It appears in the Sub Classes area
+2. Search holds ""Scenery"", Labor is checked, the order shows Descending, and the three filters compose as one (the catalog holds no labor scenery, so the list may well be empty)
+3. Search is empty, Labor is unchecked, the order shows Ascending, the full catalog is back — and the sub-class added in step 1 is still in the Sub Classes area
+4. The list page returns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Double-click adds an item once and the × control removes it,,,,,Automated,Omeesha Mahanta,,,The list page returns,,,create-new-product-groups,,"The Add page is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Double-click the first catalog item</li>
+<li>2. Double-click the same item again</li>
+<li>3. Click the x on the added row</li>
+<li>4. Click Cancel</li>
+</ol>",,,"1. It appears once in the Sub Classes area; the instruction text is gone; the catalog still lists it
+2. The Sub Classes area still shows it once
+3. The Sub Classes area is empty and the instruction text is back; the catalog is unchanged
+4. The list page returns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dragging an item onto the Sub Classes area adds it,,,,,Automated,Omeesha Mahanta,,,The list page returns,,,create-new-product-groups,,"The Add page is open with no sub-class added
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Press the mouse on a catalog item, move it in steps onto the Sub Classes area, release</li>
+<li>2. Click Cancel</li>
+</ol>",,,"1. The item appears in the Sub Classes area and the instruction text is gone
+2. The list page returns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The divider button collapses and expands the sub-class panel,,,,,Automated,Omeesha Mahanta,,,The list page returns,,,create-new-product-groups,,"The Add page is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Collapse search panel""
+Sample input 2: ""Expand search panel""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Read the Name box's left edge and width</li>
+<li>2. Click the ""Collapse search panel"" button</li>
+<li>3. Click the ""Expand search panel"" button</li>
+<li>4. Click Cancel</li>
+</ol>",,,"1. Values with the panel shown
+2. The button now reads ""Expand search panel""; the Name box starts further left and is wider than in step 1 — the form has taken the panel's room
+3. The button reads ""Collapse search panel"" again and the Name box has step 1's left edge and width
+4. The list page returns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A group saved with Active cleared is created inactive and found with the list's Active filter cleared,,,,,Automated,Omeesha Mahanta,,,"Exactly one row — the new group, with Status ""Inactive""",,,create-new-product-groups,,"The Product Groups page is open for office 1101
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Click Add</li>
+<li>2. fill a per-run unique Name and Description, choose a Service Type, add one sub-class by double-click, and clear Active</li>
+<li>3. Click Save</li>
+<li>4. Search the list for the new name with the Active filter checked</li>
+<li>5. Clear the Active filter and search again</li>
+</ol>",,,"1. Save is enabled
+2. The ""Product Group created successfully"" toast appears and the page lands on the groups list
+3. Zero rows
+4. Exactly one row — the new group, with Status ""Inactive""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special characters in the name are stored verbatim and the last Service Type saves,,,,,Automated,Omeesha Mahanta,,,"Exactly one row — Name shown exactly as typed, tags and quotes included, as plain text; Service Type ""ZSub Rental Specialty""; Status ""Active""",,,create-new-product-groups,,"The Product Groups page is open for office 1101
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""</b>, a Description, choose """,Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Click Add</li>
+<li>2. fill Name with a per-run unique value containing &lt;b>&amp;'""&lt;/b>, a Description, choose ""ZSub Rental Specialty"" (the last option) and add one sub-class</li>
+<li>3. Click Save</li>
+<li>4. Search the list for the new group</li>
+</ol>",,,"1. Save is enabled
+2. The success toast appears and the page lands on the groups list
+3. Exactly one row — Name shown exactly as typed, tags and quotes included, as plain text; Service Type ""ZSub Rental Specialty""; Status ""Active""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Browser Back leaves the Add page without saving or warning,,,,,Automated,Omeesha Mahanta,,,The form is empty; nothing was kept,,,create-new-product-groups,,"The Add page is open, reached from the list page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Type a value into Name</li>
+<li>2. Go back in the browser history</li>
+<li>3. Click Add</li>
+</ol>",,,"1. The box holds it
+2. The list page returns with no warning prompt
+3. The form is empty; nothing was kept",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The breadcrumb leaves the Add page without saving or warning,,,,,Automated,Omeesha Mahanta,,,The form is empty; nothing was kept,,,create-new-product-groups,,"The Add page is open, reached from the list page
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Product Groups""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+<li>1. Type a value into Name</li>
+<li>2. Click the ""Product Groups"" breadcrumb above the form</li>
+<li>3. Click Add</li>
+</ol>",,,"1. The box holds it
+2. The list page opens with no warning prompt
+3. The form is empty; nothing was kept",,,,Master,S1620,Test Case (Steps),Regression,,,

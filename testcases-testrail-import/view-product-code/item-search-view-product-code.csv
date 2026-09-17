@@ -1,0 +1,968 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Selecting a row reveals the View Product Code button and its segment arrow,,,,,Automated,Omeesha Mahanta,,,"View Product Code is shown and enabled, with a small arrow beside it",,,view-product-code,,"A default search has been executed on the Products page for office 1101
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Read the toolbar above the grid before any row is selected</li>
+<li>2. Click any result row</li>
+<li>3. Read the toolbar above the grid</li>
+</ol>",,,"1. No View Product Code button is present
+2. The row highlights as selected
+3. View Product Code is shown and enabled, with a small arrow beside it",,,,Master,S1620,Test Case (Steps),Regression,,,
+,View Product Code opens the details dialog on the Item tab,,,,,Automated,Omeesha Mahanta,,,The dialog closes and the grid is unchanged,,,view-product-code,,"A result row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Click View Product Code</li>
+<li>2. Read the tab strip</li>
+<li>3. Read the Item tab</li>
+<li>4. Read the footer</li>
+<li>5. Click Close</li>
+</ol>",,,"1. A dialog titled ""Product Code Details"" opens
+2. Three tabs: Item (active), Product Code History, Translations
+3. The hierarchy sections (Category, Sub Category, Class, Sub Class, Item) show the values of the selected product; the name and description boxes hold the text of the product; a Product Code ID is displayed
+4. Save is disabled; Close is enabled
+5. The dialog closes and the grid is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The History tab shows the audit grid,,,,,Automated,Omeesha Mahanta,,,"The tab has its own Grid Options button, separate from the one above the page grid",,,view-product-code,,"The details dialog is open (View Product Code)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Click the Product Code History tab</li>
+<li>2. Read the grid header</li>
+<li>3. Read the tab chrome</li>
+</ol>",,,"1. The tab activates
+2. 15 columns, including Action, Parent Name, Product Name, Product Type, Modified By and Modified Date
+3. The tab has its own Grid Options button, separate from the one above the page grid",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Translations tab lists four editable languages,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The details dialog is open (View Product Code)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Click the Translations tab</li>
+<li>2. Read the rows</li>
+<li>3. Read each row</li>
+<li>4. Click Close</li>
+</ol>",,,"1. The tab activates with ""Translations for Item""
+2. Four languages: English (Canada), US English, Spanish (Mexico), French (Canada)
+3. Every language row carries an editable Name box and an editable Description box
+4. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The View segment menu rescopes the dialog,,,,,Automated,Omeesha Mahanta,,,The grid is unchanged,,,view-product-code,,"A result row is selected; no dialog open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Click the arrow beside View Product Code</li>
+<li>2. Click Sub Class</li>
+<li>3. Close the dialog, reopen the menu, click Class</li>
+<li>4. Close the dialog, reopen the menu, click Sub Category</li>
+<li>5. Close the dialog, reopen the menu, click Category</li>
+<li>6. Close the dialog, reopen the menu, click Item</li>
+<li>7. Close the dialog</li>
+</ol>",,,"1. A menu lists Item, Sub Class, Class, Sub Category, Category, in that order
+2. The details dialog opens and its first tab is named ""Sub Class""
+3. The dialog opens with its first tab named ""Class""
+4. The dialog opens with its first tab named ""Sub Category""
+5. The dialog opens with its first tab named ""Category""
+6. The dialog opens with its first tab named ""Item""
+7. The grid is unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Closing the dialog with a Name edit discards it silently,,,,,Automated,Omeesha Mahanta,,,The Name shows the original value; the edit was discarded,,,view-product-code,,"A result row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open View Product Code and add one character to the Name box</li>
+<li>2. Click Close</li>
+<li>3. Reopen View Product Code</li>
+</ol>",,,"1. The value changes in the box and Save enables
+2. The dialog closes immediately, no warning prompt appears
+3. The Name shows the original value; the edit was discarded",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The dialog shows the values of the selected row,,,,,Automated,Omeesha Mahanta,,,The dialog closes,,,view-product-code,,"A search that returns the automation item has been executed
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Read the Category, Sub Category, Class, Sub Class, Item and Product Code ID cells of the row of the automation item</li>
+<li>2. Click the row, then View Product Code</li>
+<li>3. Read the Category name, the Sub-Category Name, Class Name and Sub-Class Name dropdowns and the Name box</li>
+<li>4. Read the Product Code ID under the Item section</li>
+<li>5. Click Close</li>
+</ol>",,,"1. The cells hold the chain and the identifier of the item
+2. The dialog opens on the Item tab
+3. Each equals the matching cell of the row
+4. It equals the Product Code ID cell of the row
+5. The dialog closes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every close path discards a dirty form silently,,,,,Automated,Omeesha Mahanta,,,Both show their original values,,,view-product-code,,"A result row is selected; the automation item is used
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Close""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open View Product Code, add one character to the Name box and, on the Translations tab, one character to the US English Name box</li>
+<li>2. Click the small ""Close"" button in the top right corner of the dialog</li>
+<li>3. Reopen View Product Code and read the Name box and the US English Name box</li>
+<li>4. Make the same two edits again and press Escape</li>
+<li>5. Reopen the dialog and read both boxes</li>
+<li>6. Make the same two edits again and click on the page outside the dialog</li>
+<li>7. Reload the page</li>
+<li>8. Select the row again, reopen the dialog and read both boxes</li>
+</ol>",,,"1. Save is enabled
+2. The dialog closes with no prompt
+3. Both show their original values
+4. The dialog closes with no prompt
+5. Both show their original values
+6. The dialog stays open with the edits still in place
+7. The dialog is gone; the search word and the grid are still in place
+8. Both show their original values",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A dirty Item-tab edit survives a round trip through the other tabs,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"A result row is selected; the automation item is used
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open View Product Code and add one character to the Name box</li>
+<li>2. Click the Product Code History tab, then the Translations tab, then the Item tab</li>
+<li>3. Read the Name box</li>
+<li>4. Click Close</li>
+</ol>",,,"1. Save is enabled
+2. Each tab activates in turn
+3. It still holds the edited value and Save is still enabled
+4. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each segment shows the sections from Category down to its own level,,,,,Automated,Omeesha Mahanta,,,The dialog closes,,,view-product-code,,"The automation item row is selected; no dialog open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the segment menu and click Item</li>
+<li>2. Close, reopen the menu and click Sub Class</li>
+<li>3. Close, reopen the menu and click Class</li>
+<li>4. Close, reopen the menu and click Sub Category</li>
+<li>5. Close, reopen the menu and click Category</li>
+<li>6. Click Close</li>
+</ol>",,,"1. The dialog shows five sections in this order: Category, Sub Category, Class, Sub Class, Item
+2. The dialog shows four sections: Category, Sub Category, Class, Sub Class, and no Item section
+3. Three sections: Category, Sub Category, Class
+4. Two sections: Category, Sub Category
+5. One section: Category
+6. The dialog closes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each segment carries only the fields that belong to its level,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The automation item row is selected; no dialog open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Item segment and read the Item section</li>
+<li>2. Read the Sub Class section of the Item segment and click the Barcodeable box, then its label, then its row</li>
+<li>3. Read the whole Item segment</li>
+<li>4. Close, then open the Sub Class segment and read its Sub Class section</li>
+<li>5. Click the Barcodeable box on the Sub Class segment, then click it again</li>
+<li>6. Close, then open the Class, Sub Category and Category segments in turn</li>
+<li>7. Click Close</li>
+</ol>",,,"1. It shows Name, Item Description, Oracle Item Number, Product Type, Service Type, Product Organization, Active and Product Code ID
+2. The box is disabled and nothing changes; Save stays disabled
+3. Product Group is not shown anywhere and there is exactly one Active box, in the Item section
+4. It shows a name box ""Enter sub-class name"", a description box ""Enter product description"", Service Type, Barcodeable, Product Organization, Product Code ID and Active, and no Item Description or Oracle Item Number box
+5. The first click flips it and enables Save; the second click flips it back
+6. Each shows its own name box, a Service Type dropdown and one Active box, with no Item Description, Oracle Item Number or Barcodeable box
+7. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Names above the edited level are hierarchy dropdowns and its own name is text,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The automation item row is selected; no dialog open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Item segment and read the name controls</li>
+<li>2. Open the Sub-Category Name list</li>
+<li>3. Press Escape, then open the Class Name list</li>
+<li>4. Open the Sub-Class Name list</li>
+<li>5. Close, then open the Sub Class segment</li>
+<li>6. Close, then open the Category segment</li>
+<li>7. Click Close</li>
+</ol>",,,"1. Sub-Category Name, Class Name and Sub-Class Name are dropdowns, Name is a text box, and the Category name is plain text with no dropdown
+2. The list is not empty, it contains the row's own Sub Category, and every entry is a sub category of the row's Category
+3. The list contains the row's own Class and closes with Escape while the dialog stays open
+4. The list contains the row's own Sub Class together with the other sub classes of the same Class
+5. Sub-Category Name and Class Name are dropdowns, the sub class's own name is a text box ""Enter sub-class name"" holding the sub class name, and the Category is plain text
+6. The category's own name is a text box ""Enter category name"" holding the category name, with no dropdown above it
+7. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each segment shows its own Product Type rather than the Category's,,,,,Manual,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"A search returns an item whose Product Type differs from the Product Type of its Category. No such item exists in office 1101 today, so this case waits for that data
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Select that row and open the Item segment</li>
+<li>2. Close, then open the Sub Class segment</li>
+<li>3. Click Close</li>
+</ol>",,,"1. The Product Type in the Item section is the item's own type and the Product Type in the Category section is the category's type, and the two differ
+2. The Product Type of the Sub Class section is the sub class's own type
+3. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,History and Translations tabs exist on every segment and name the segment,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The automation item row is selected; no dialog open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub Class segment and click the Product Code History tab</li>
+<li>2. Click the Translations tab</li>
+<li>3. Close, open the Class segment and check both tabs</li>
+<li>4. Close, open the Sub Category segment and check both tabs</li>
+<li>5. Close, open the Category segment and check both tabs</li>
+<li>6. Click Close</li>
+</ol>",,,"1. The 15-column history grid of the sub class is shown
+2. The heading reads ""Translations for Sub Class"" and each language row has a Name and a Description box
+3. The history grid is shown; the Translations heading reads ""Translations for Class"" and each language row has a Name box
+4. The history grid is shown; the heading reads ""Translations for Sub Category""
+5. The history grid is shown; the heading reads ""Translations for Major Category""
+6. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Name and Item Description stop at 50 characters and Oracle Item Number at 10,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Type 60 characters into the Name box, then press Tab</li>
+<li>2. Paste a 60-character value into the Name box</li>
+<li>3. Type 70 characters into the Item Description box</li>
+<li>4. Paste a 70-character value into the Item Description box</li>
+<li>5. Type 15 characters into the Oracle Item Number box</li>
+<li>6. Paste a 15-character value into the Oracle Item Number box</li>
+<li>7. Click Close</li>
+</ol>",,,"1. Exactly 50 characters remain, no message is shown and focus moves to the next box
+2. Exactly 50 characters remain
+3. Exactly 50 characters remain and no message is shown
+4. Exactly 50 characters remain
+5. Exactly 10 characters remain and no message is shown
+6. Exactly 10 characters remain
+7. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An over-length value that bypasses the typing limit is refused,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Place a 60-character value into the Name box by a scripted set that bypasses the box's own limit</li>
+<li>2. Place a 60-character value into the Item Description box the same way</li>
+<li>3. Place a 20-character value into each of the two boxes the same way</li>
+<li>4. Click Close</li>
+</ol>",,,"1. The box is marked invalid and Save is disabled
+2. The box is marked invalid and Save stays disabled
+3. Both boxes are valid again and Save is enabled
+4. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clearing Name or Item Description marks it invalid and holds Save,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Select all text in the Name box and press Delete</li>
+<li>2. Type the original name with one extra character</li>
+<li>3. Clear the Name box by pressing Backspace until it is empty</li>
+<li>4. Type the original name with one extra character, then clear the Item Description box by select-all and Delete</li>
+<li>5. Type the original description with one extra character</li>
+<li>6. Click Close</li>
+</ol>",,,"1. The box is empty, marked invalid, and Save is disabled
+2. The box is valid and Save is enabled
+3. The box is marked invalid and Save is disabled
+4. The Item Description box is marked invalid and Save is disabled
+5. Both boxes are valid and Save is enabled
+6. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A spaces-only Name is refused and a padded Name is saved without the spaces,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown and the row shows the original name",,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Replace the Name with three spaces</li>
+<li>2. Replace the Name with a single space</li>
+<li>3. Replace the Name with a new name that has two spaces before it and two after it</li>
+<li>4. Click Save</li>
+<li>5. Close and reopen the dialog, then read the Name box and the Item cell of the grid row</li>
+<li>6. Type the original name back and click Save</li>
+</ol>",,,"1. The box is marked invalid and Save is disabled
+2. The box is marked invalid and Save is disabled
+3. The box is valid and Save is enabled
+4. ""Product updated successfully."" is shown and the Name box shows the new name without the surrounding spaces
+5. Both show the new name with no leading or trailing spaces
+6. ""Product updated successfully."" is shown and the row shows the original name",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A 50-character Name saves and reads back complete,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown and the grid row shows the original name",,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Replace the Name with a value of exactly 50 characters</li>
+<li>2. Click Save</li>
+<li>3. Reload the page, search for the new name and open the dialog</li>
+<li>4. Type the original name back and click Save</li>
+</ol>",,,"1. The box is valid and Save is enabled
+2. ""Product updated successfully."" is shown
+3. The Name box shows all 50 characters
+4. ""Product updated successfully."" is shown and the grid row shows the original name",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Oracle Item Number is optional and accepts letters up to 10 characters,,,,,Automated,Omeesha Mahanta,,,The Oracle Item Number box is empty,,,view-product-code,,"The Item segment of the automation item is open; its Oracle Item Number is empty
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""ABCDEFGHIJ""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Type ""ABCDEFGHIJ"" into the Oracle Item Number box</li>
+<li>2. Click Save</li>
+<li>3. Close and reopen the dialog</li>
+<li>4. Clear the Oracle Item Number box</li>
+<li>5. Click Save</li>
+<li>6. Close and reopen the dialog</li>
+</ol>",,,"1. The value is accepted, the box is valid and Save is enabled
+2. ""Product updated successfully."" is shown
+3. The Oracle Item Number box shows ""ABCDEFGHIJ""
+4. The box stays valid and Save is enabled
+5. ""Product updated successfully."" is shown
+6. The Oracle Item Number box is empty",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special characters in Name and Item Description save and show as plain text,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown and the grid row shows the original values",,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Add &lt;b>x&lt;/b>&amp;%""é🙂 to the end of the Name</li>
+<li>2. Click Save</li>
+<li>3. Add &lt;i>y&lt;/i>&amp;%'""# to the end of the Item Description</li>
+<li>4. Click Save</li>
+<li>5. Close and reopen the dialog</li>
+<li>6. Restore the original Name and Item Description and click Save</li>
+</ol>",,,"1. The value is accepted and Save is enabled
+2. ""Product updated successfully."" is shown; the Name box and the Item cell of the grid row show the characters exactly as typed, with no formatting applied
+3. The value is accepted and Save is enabled
+4. ""Product updated successfully."" is shown; the Item Description box and the Description cell of the grid row show the characters exactly as typed
+5. Both boxes still show the added characters
+6. ""Product updated successfully."" is shown and the grid row shows the original values",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The own-name box of every upper segment also stops at 50 characters,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The automation item row is selected; no dialog open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Enter sub-class name""
+Sample input 2: ""Enter class name""
+Sample input 3: ""Enter sub-category name""
+Sample input 4: ""Enter category name""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub Class segment and type 60 characters into the ""Enter sub-class name"" box</li>
+<li>2. Click Close, open the Class segment and type 60 characters into the ""Enter class name"" box</li>
+<li>3. Click Close, open the Sub Category segment and type 60 characters into the ""Enter sub-category name"" box</li>
+<li>4. Click Close, open the Category segment and type 60 characters into the ""Enter category name"" box</li>
+<li>5. Click Close</li>
+</ol>",,,"1. Exactly 50 characters remain
+2. Exactly 50 characters remain
+3. Exactly 50 characters remain
+4. Exactly 50 characters remain
+5. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A Name edit enables Save on the first open and again after reopening,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"A fresh browser session has just signed in; the automation item row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open View Product Code for the first time in this session and add one character to the Name</li>
+<li>2. Click Close, reopen the dialog and add one character to the Name</li>
+<li>3. Click Close</li>
+</ol>",,,"1. Save is enabled
+2. Save is enabled again
+3. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Typing the original Name back disables Save again,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Add one character to the Name</li>
+<li>2. Type the original name back exactly</li>
+<li>3. Repeat steps 1 and 2 twice more</li>
+<li>4. Click Close</li>
+</ol>",,,"1. Save is enabled
+2. Save is disabled
+3. Save enables on each edit and disables on each revert
+4. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing the three Item text boxes saves and refreshes the grid row,,,,,Automated,Omeesha Mahanta,,,The item is listed with its original values,,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Change the Name, the Item Description and the Oracle Item Number</li>
+<li>2. Click Save</li>
+<li>3. Read the grid row behind the dialog</li>
+<li>4. Close the dialog, reload the page and search for the new name</li>
+<li>5. Open the dialog, restore the three original values and click Save</li>
+<li>6. Reload the page and search for the original name</li>
+</ol>",,,"1. Save is enabled
+2. Exactly one ""Product updated successfully."" message is shown; the dialog stays open with Save disabled
+3. The Item and Description cells show the new values without a second search
+4. Exactly the edited item is listed; a search for the old name lists nothing
+5. ""Product updated successfully."" is shown
+6. The item is listed with its original values",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing the Item Product Type resets its Service Type and saves,,,,,Automated,Omeesha Mahanta,,,The Item section shows EQUIPMENT and Equipment Rental,,,view-product-code,,"The Item segment of the automation item (Product Type EQUIPMENT, Service Type Equipment Rental) is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Product Type list in the Item section and choose LABOR</li>
+<li>2. Open the Service Type list and choose Application Development</li>
+<li>3. Click Save</li>
+<li>4. Close and reopen the dialog</li>
+<li>5. Choose EQUIPMENT in the Product Type list</li>
+<li>6. Choose Equipment Rental in the Service Type list and click Save</li>
+<li>7. Close and reopen the dialog</li>
+</ol>",,,"1. Product Type shows LABOR, the Service Type box of the Item section is emptied and Save is disabled
+2. Service Type shows Application Development and Save is enabled
+3. ""Product updated successfully."" is shown
+4. The Item section shows LABOR and Application Development
+5. The Service Type box is emptied again and Save is disabled
+6. ""Product updated successfully."" is shown
+7. The Item section shows EQUIPMENT and Equipment Rental",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Product Type list offers ten types and filters the Service Type list,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The Item segment of the automation item (Product Type EQUIPMENT) is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Product Type list in the Item section</li>
+<li>2. Press Escape and open the Service Type list of the Item section</li>
+<li>3. Press Escape, choose LABOR in the Product Type list and open the Service Type list</li>
+<li>4. Press Escape and click Close</li>
+</ol>",,,"1. Exactly these ten entries are offered: CABLES AND CONSUMABLE, CONSUMABLE, DAMAGE WAIVER, EQUIPMENT, EVENT TECHNOLOGY SUPPORT, EXPENSE, FEE, FREIGHT, LABOR, SERVICE CHARGE
+2. The list holds equipment services, including Equipment Rental, Computer Rental and Lighting
+3. The list holds labor services, including Application Development, Production Labor and Rigging Labor, and none of the equipment services
+4. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Product Organization offers the countries, saves and clears again",,,,,Automated,Omeesha Mahanta,,,Only None is checked in the Product Organization control,,,view-product-code,,"The Item segment of the automation item is open; its Product Organization is None
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Product Organization control in the Item section</li>
+<li>2. Click Canada</li>
+<li>3. Click Canada again</li>
+<li>4. Click Select All, then click Select All again</li>
+<li>5. Click Canada and press Escape</li>
+<li>6. Click Save</li>
+<li>7. Reload the page, search for the item and open the dialog</li>
+<li>8. Open the control, click None, press Escape and click Save</li>
+<li>9. Close and reopen the dialog</li>
+</ol>",,,"1. The list offers Select All, None, Canada, Mexico and United States, with None checked
+2. Canada is checked and Save is enabled
+3. Canada is unchecked, None is checked again and Save is disabled
+4. The first click checks Select All, Canada, Mexico and United States; the second clears them and checks None
+5. The list closes, the dialog stays open and Save is enabled
+6. ""Product updated successfully."" is shown
+7. Canada is checked in the Product Organization control
+8. ""Product updated successfully."" is shown
+9. Only None is checked in the Product Organization control",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing another Sub Class re-parents the item and the grid row follows,,,,,Automated,Omeesha Mahanta,,,The Sub Class section and the Sub Class cell show the original sub class and its identifier,,,view-product-code,,"The Item segment of the automation item is open; its Class has more than one sub class
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub-Class Name list</li>
+<li>2. Choose a different sub class</li>
+<li>3. Click Save</li>
+<li>4. Read the grid row behind the dialog</li>
+<li>5. Close and reopen the dialog</li>
+<li>6. Choose the original sub class and click Save</li>
+<li>7. Close and reopen the dialog, then read the grid row</li>
+</ol>",,,"1. The other sub classes of the same Class are listed
+2. The Sub Class section shows that sub class's name, Service Type, Barcodeable state and organization, and Save is enabled
+3. ""Product updated successfully."" is shown
+4. The Sub Class cell shows the new sub class
+5. The Sub Class section shows the new sub class and a Product Code ID that belongs to it, different from the original sub class's identifier
+6. ""Product updated successfully."" is shown
+7. The Sub Class section and the Sub Class cell show the original sub class and its identifier",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Deactivating and reactivating the item through Active and Save,,,,,Automated,Omeesha Mahanta,,,The item is listed again,,,view-product-code,,"The Item segment of the automation item is open and the item is active
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Uncheck Active</li>
+<li>2. Click Cancel</li>
+<li>3. Uncheck Active again and click Ok</li>
+<li>4. Click Save</li>
+<li>5. Close the dialog and run the default search</li>
+<li>6. Clear the Active filter and search again</li>
+<li>7. Open the item and check Active</li>
+<li>8. Click Ok, then Save</li>
+<li>9. Close the dialog and run the default search</li>
+</ol>",,,"1. A prompt titled ""Confirm De-activation"" reads ""De-activating this product code will de-activate all the child product codes."" with Cancel and Ok
+2. Active stays checked and Save stays disabled
+3. Active is unchecked and Save is enabled
+4. ""Product updated successfully."" is shown
+5. The item is not listed
+6. The item is listed
+7. A prompt titled ""Confirm Activation"" reads ""Activating this product code will activate the parent product codes."" with Cancel and Ok
+8. ""Product updated successfully."" is shown
+9. The item is listed again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A double click on Save sends one update and shows one message,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown",,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Click the Product Code History tab and note the Modified Date of the top row, then return to the Item tab</li>
+<li>2. Add one character to the Name</li>
+<li>3. Double-click Save</li>
+<li>4. Click the Product Code History tab</li>
+<li>5. Return to the Item tab, restore the original name and click Save</li>
+</ol>",,,"1. The top row's date and time are recorded
+2. Save is enabled
+3. Exactly one update request is sent, exactly one ""Product updated successfully."" message is shown, the dialog stays open and Save is disabled
+4. Exactly one new row sits above the row noted in step 1
+5. ""Product updated successfully."" is shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A save whose request fails keeps the edits and can be retried,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown",,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Add one character to the Name</li>
+<li>2. Click Save while the connection to the server is interrupted for that one request</li>
+<li>3. Click Save again with the connection restored</li>
+<li>4. Restore the original name and click Save</li>
+</ol>",,,"1. Save is enabled
+2. A short ""Request aborted"" message is shown, the dialog stays open, the edited name is still in the box, Save is still enabled and the grid row still shows the old name
+3. ""Product updated successfully."" is shown and the grid row shows the new name
+4. ""Product updated successfully."" is shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Renaming the Sub Class saves and every item under it shows the new name,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown and the rows show the original Sub Class name",,,view-product-code,,"The automation chain exists in office 1101: a category, sub category, class, sub class and one item, all named with the ""ZZ E2E"" prefix (the automation creates it through Add Product Code when it is missing). The chain's item row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: "" R""
+Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the segment menu and click Sub Class</li>
+<li>2. Add "" R"" to the end of the name</li>
+<li>3. Click Save</li>
+<li>4. Read the grid</li>
+<li>5. Reload the page and search for the ""ZZ E2E"" prefix</li>
+<li>6. Open the Sub Class segment again, restore the name and click Save</li>
+</ol>",,,"1. The dialog opens with its first tab named ""Sub Class"" and the ""Enter sub-class name"" box holds the sub class name
+2. Save is enabled
+3. ""Product updated successfully."" is shown
+4. Every row under that sub class shows the new name in its Sub Class cell
+5. The rows still show the new Sub Class name
+6. ""Product updated successfully."" is shown and the rows show the original Sub Class name",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Renaming the Class saves and reads back,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown and the rows show the original Class name",,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: "" R""
+Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the segment menu and click Class</li>
+<li>2. Add "" R"" to the end of the name and click Save</li>
+<li>3. Read the grid, then reload the page and search for the ""ZZ E2E"" prefix</li>
+<li>4. Open the Class segment again</li>
+<li>5. Restore the name and click Save</li>
+</ol>",,,"1. The dialog opens with its first tab named ""Class"" and the ""Enter class name"" box holds the class name
+2. ""Product updated successfully."" is shown
+3. The Class cell of the chain's rows shows the new name before and after the reload
+4. The ""Enter class name"" box shows the new name
+5. ""Product updated successfully."" is shown and the rows show the original Class name",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Renaming the Sub Category saves and reads back,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown and the rows show the original Sub Category name",,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: "" R""
+Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the segment menu and click Sub Category</li>
+<li>2. Add "" R"" to the end of the name and click Save</li>
+<li>3. Read the grid, then reload the page and search for the ""ZZ E2E"" prefix</li>
+<li>4. Open the Sub Category segment again</li>
+<li>5. Restore the name and click Save</li>
+</ol>",,,"1. The dialog opens with its first tab named ""Sub Category"" and the ""Enter sub-category name"" box holds the sub category name
+2. ""Product updated successfully."" is shown
+3. The Sub Category cell of the chain's rows shows the new name before and after the reload
+4. The ""Enter sub-category name"" box shows the new name
+5. ""Product updated successfully."" is shown and the rows show the original Sub Category name",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Renaming the Category saves only the Category level,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown and the rows show the original Category name",,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: "" R""
+Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the segment menu and click Category</li>
+<li>2. Add "" R"" to the end of the name and click Save</li>
+<li>3. Reload the page and search for the ""ZZ E2E"" prefix</li>
+<li>4. Open the Category segment again, restore the name and click Save</li>
+</ol>",,,"1. The dialog opens with its first tab named ""Category"", a single Category section and the ""Enter category name"" box holding the category name
+2. ""Product updated successfully."" is shown
+3. The Category cell of the chain's rows shows the new name while the Sub Category, Class, Sub Class and Item cells are unchanged
+4. ""Product updated successfully."" is shown and the rows show the original Category name",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing the Service Type at the Sub Class level saves and reads back,,,,,Automated,Omeesha Mahanta,,,The original service is shown,,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub Class segment and note the Service Type of the Sub Class section</li>
+<li>2. Open that Service Type list and choose a different service of the same type</li>
+<li>3. Click Save</li>
+<li>4. Close and reopen the Sub Class segment</li>
+<li>5. Choose the original service and click Save</li>
+<li>6. Close and reopen the Sub Class segment</li>
+</ol>",,,"1. The current service is shown
+2. The new service is shown and Save is enabled
+3. ""Product updated successfully."" is shown
+4. The Sub Class section shows the new service
+5. ""Product updated successfully."" is shown
+6. The original service is shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Flipping Barcodeable on the Sub Class propagates to its items,,,,,Automated,Omeesha Mahanta,,,The Barcodeable box shows the original state,,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub Class segment and note the Barcodeable state</li>
+<li>2. Click Barcodeable and click Save</li>
+<li>3. Close, then open the Item segment of the chain's item and read the Barcodeable box of its Sub Class section</li>
+<li>4. Close, reopen the Sub Class segment, click Barcodeable and click Save</li>
+<li>5. Close, then open the Item segment again</li>
+</ol>",,,"1. The box is enabled and shows the current state
+2. The box flips, Save enables, and ""Product updated successfully."" is shown
+3. It shows the new state (the box stays disabled on the Item segment)
+4. ""Product updated successfully."" is shown
+5. The Barcodeable box shows the original state",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Deactivating a level that still has assets attached is refused,,,,,Manual,Omeesha Mahanta,,,The rows of that sub class are unchanged,,,view-product-code,,"A sub class whose items have assets attached is available in office 1101. Assets are outside the automation's control, so this case waits for that data
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Select an item of that sub class, open the Sub Class segment and uncheck Active</li>
+<li>2. Click Ok, then Save</li>
+<li>3. Click Close and read the grid</li>
+</ol>",,,"1. The ""Confirm De-activation"" prompt is shown
+2. The message ""Assets are still attached to the current product code segment or it's child segments."" is shown and the sub class stays active
+3. The rows of that sub class are unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing an organization on the Sub Class saves and reaches its items,,,,,Automated,Omeesha Mahanta,,,Both Product Organization controls show None,,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected; the chain's sub class and item have no organization (the case clears them first when a stopped run left one)
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section and click Canada, then press Escape</li>
+<li>2. Click Save</li>
+<li>3. Click Yes</li>
+<li>4. Close and reopen the Sub Class segment</li>
+<li>5. Close, then open the Item segment of the chain's item</li>
+<li>6. Close, reopen the Sub Class segment, open the control, click None, press Escape and click Save, answering Yes if the prompt appears</li>
+<li>7. Open the Item segment</li>
+<li>8. if the Item section's Product Organization still shows Canada, set it to None and click Save</li>
+<li>9. close and reopen the dialog</li>
+</ol>",,,"1. Canada is checked and Save is enabled
+2. A prompt titled ""Confirm"" asks ""The Product Organizations for this SubClass have been changed. Do you want to update all existing Items with these changes?"", spells out what Yes and No do, and offers No and Yes
+3. ""Product updated successfully."" is shown once, Save is disabled and the dialog stays open
+4. Canada is checked
+5. The Product Organization of its Sub Class section shows Canada and the Product Organization of its Item section shows Canada
+6. ""Product updated successfully."" is shown
+7. Both Product Organization controls show None",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each translation box accepts 256 characters and refuses the 257th,,,,,Automated,Omeesha Mahanta,,,The dialog closes with nothing saved,,,view-product-code,,"The Item segment of the automation item is open on the Translations tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Put 256 characters into the US English Name box</li>
+<li>2. Add one more character</li>
+<li>3. Remove one character</li>
+<li>4. Clear the box, then put 256 characters into the US English Description box</li>
+<li>5. Add one more character</li>
+<li>6. Clear the box and click Close</li>
+</ol>",,,"1. The value is accepted, the box is valid and Save is enabled
+2. The box is marked invalid and Save is disabled
+3. The box is valid again and Save is enabled
+4. The value is accepted and Save is enabled
+5. The box is marked invalid and Save is disabled
+6. The dialog closes with nothing saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing one language's Name saves and reads back after reopening,,,,,Automated,Omeesha Mahanta,,,The Spanish (Mexico) Name box is blank,,,view-product-code,,"The Item segment of the automation item is open on the Translations tab; its translations are blank
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Nombre de prueba""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Type ""Nombre de prueba"" into the Spanish (Mexico) Name box</li>
+<li>2. Click Save</li>
+<li>3. Close, reopen the dialog and open the Translations tab</li>
+<li>4. Clear the box and click Save</li>
+<li>5. Close, reopen the dialog and open the Translations tab</li>
+</ol>",,,"1. Save is enabled
+2. ""Product updated successfully."" is shown and the dialog stays open
+3. The Spanish (Mexico) Name box shows ""Nombre de prueba"" and the other boxes are unchanged
+4. ""Product updated successfully."" is shown
+5. The Spanish (Mexico) Name box is blank",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A blank translation saves clean and reads back blank,,,,,Automated,Omeesha Mahanta,,,The French (Canada) Name box is blank,,,view-product-code,,"The Item segment of the automation item is open on the Translations tab; its translations are blank
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""Essai""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Type ""Essai"" into the French (Canada) Name box and click Save</li>
+<li>2. Close, reopen the dialog and open the Translations tab</li>
+<li>3. Clear the box</li>
+<li>4. Click Save</li>
+<li>5. Close, reopen the dialog and open the Translations tab</li>
+</ol>",,,"1. ""Product updated successfully."" is shown
+2. The French (Canada) Name box shows ""Essai""
+3. The box is valid and Save is enabled
+4. ""Product updated successfully."" is shown with no error
+5. The French (Canada) Name box is blank",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An Item edit and a translation edit in one Save both persist,,,,,Automated,Omeesha Mahanta,,,The Name is the original and the US English Name box is blank,,,view-product-code,,"The Item segment of the automation item is open; its translations are blank
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: "" F5""
+Sample input 2: ""F5 us name""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Add "" F5"" to the end of the Name, open the Translations tab and type ""F5 us name"" into the US English Name box</li>
+<li>2. Click Save</li>
+<li>3. Close and reopen the dialog, read the Name box, then open the Translations tab</li>
+<li>4. Restore the original Name, clear the US English Name box and click Save</li>
+<li>5. Close and reopen the dialog and check both boxes</li>
+</ol>",,,"1. Save is enabled
+2. Exactly one ""Product updated successfully."" message is shown
+3. The Name ends with "" F5"" and the US English Name box shows ""F5 us name""
+4. ""Product updated successfully."" is shown
+5. The Name is the original and the US English Name box is blank",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The History grid is read-only,,,,,Automated,Omeesha Mahanta,,,The dialog closes,,,view-product-code,,"The Item segment of the automation item is open on the Product Code History tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Click a cell of the first row</li>
+<li>2. Click elsewhere on the same row</li>
+<li>3. Click the Modified Date column header</li>
+<li>4. Press Escape</li>
+<li>5. Click the Product Name column header</li>
+<li>6. Press Escape and click Close</li>
+</ol>",,,"1. Nothing opens: no editor, no selection, no request
+2. Nothing opens
+3. Only a small menu opens with Sort ascending, Sort descending and Hide column
+4. The menu closes and the dialog stays open
+5. The menu offers Sort ascending and Sort descending only
+6. The dialog closes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An Item save adds a new top row to the History grid,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown",,,view-product-code,,"The Item segment of the automation item is open
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Click the Product Code History tab and note the Modified Date of the top row</li>
+<li>2. Return to the Item tab, add one character to the Name and click Save</li>
+<li>3. Click the Product Code History tab</li>
+<li>4. Return to the Item tab, restore the original name and click Save</li>
+</ol>",,,"1. The date and time are recorded
+2. ""Product updated successfully."" is shown
+3. A new row sits on top: Action ""Update"", Product Name is the new name, Parent Name is the sub class name, Modified By is the signed-in user's account, Modified Date is today's date at the time of the save, Barcodeable and Active read Yes for this item
+4. ""Product updated successfully."" is shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Translation-only and organization-only saves each add a History row,,,,,Automated,Omeesha Mahanta,,,"""Product updated successfully."" is shown",,,view-product-code,,"The Item segment of the automation item is open; its translations are blank and its Product Organization is None
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator
+Sample input 1: ""G4 trans""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Click the Product Code History tab and note the Modified Date of the top row</li>
+<li>2. Open the Translations tab, type ""G4 trans"" into the US English Name box and click Save</li>
+<li>3. Close, reopen the dialog and open the Product Code History tab</li>
+<li>4. Return to the Item tab, open the Product Organization control, click Canada, press Escape and click Save</li>
+<li>5. Close, reopen the dialog and open the Product Code History tab</li>
+<li>6. Clear the US English Name box, set the Product Organization back to None and click Save</li>
+</ol>",,,"1. The date and time are recorded
+2. ""Product updated successfully."" is shown
+3. One new row sits above the noted row, Action ""Update"", Modified Date at the time of the save
+4. ""Product updated successfully."" is shown
+5. Another new row sits on top, Action ""Update"", Modified Date at the time of the second save
+6. ""Product updated successfully."" is shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"History paging, sorting and column hiding work and hiding persists",,,,,Automated,Omeesha Mahanta,,,The page grid's columns are unchanged,,,view-product-code,,"The automation item, whose history spans several pages, is open on the Product Code History tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Read the pager</li>
+<li>2. Choose 10 in the rows-per-page list</li>
+<li>3. Click the next-page button</li>
+<li>4. Click the last-page button</li>
+<li>5. Type 2 into the page box and press Enter</li>
+<li>6. Click the first-page button</li>
+<li>7. Open the Modified Date column menu and click Sort ascending</li>
+<li>8. Open the Modified Date column menu and click Sort descending</li>
+<li>9. Open the Weight column menu and click Hide column</li>
+<li>10. Close the dialog, reopen it and open the Product Code History tab</li>
+<li>11. Click the tab's Grid Options button and check Weight</li>
+<li>12. Read the header of the page grid behind the dialog</li>
+</ol>",,,"1. Rows per page is 20, the page box reads 1, and the first-page and previous-page buttons are disabled
+2. The grid shows 10 rows and the page box still reads 1
+3. The page box reads 2 and the previous-page and first-page buttons are enabled
+4. The last page is shown with the next-page and last-page buttons disabled and no more than 10 rows
+5. Page 2 is shown
+6. Page 1 is shown
+7. The oldest row is on top (its Action is ""Add"")
+8. The newest row is on top
+9. The grid shows 14 columns
+10. The grid still shows 14 columns and rows per page is back to 20
+11. The grid shows 15 columns again
+12. The page grid's columns are unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The oldest History row is the create row,,,,,Automated,Omeesha Mahanta,,,The dialog closes,,,view-product-code,,"The Item segment of the automation item is open on the Product Code History tab
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Modified Date column menu and click Sort ascending</li>
+<li>2. Read the first row</li>
+<li>3. Open the Modified Date column menu and click Sort descending</li>
+<li>4. Click Close</li>
+</ol>",,,"1. The first row's Action is ""Add"" and the grid is not empty
+2. Parent Name is filled, Product Name is the item's name at creation and Modified Date is the creation date
+3. The newest row is on top
+4. The dialog closes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Closing the items prompt unanswered keeps the change unsaved,,,,,Automated,Omeesha Mahanta,,,The control shows None; nothing was saved,,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected; the chain's sub class and item have no organization
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section, click Canada and press Escape</li>
+<li>2. Click Save</li>
+<li>3. Click the X</li>
+<li>4. Click Close, then reopen the Sub Class segment</li>
+</ol>",,,"1. Canada is checked and Save is enabled
+2. A prompt titled ""Confirm"" asks ""The Product Organizations for this SubClass have been changed. Do you want to update all existing Items with these changes?"", spells out what Yes and No do, and offers No and Yes with an X in its corner
+3. The prompt closes and no update request goes out; the control still shows Canada and Save is still enabled
+4. The control shows None; nothing was saved",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Answering No while the item has no organization is refused and keeps the edits,,,,,Automated,Omeesha Mahanta,,,"The refusal is answered as a rejected request (an error status; a server error today, which is the accepted shape), not as a successful update",,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected; the chain's sub class and item have no organization
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section, click Canada and press Escape</li>
+<li>2. Click Save, then click No on the prompt</li>
+<li>3. Click Close, then reopen the Sub Class segment</li>
+<li>4. Close, then open the Item segment of the chain's item</li>
+<li>5. Read the status of the update request in the browser's network log</li>
+</ol>",,,"1. Canada is checked and Save is enabled
+2. The message ""Removing None Organizations would leave some Items in this SubClass with Product Organization set to None. You can assign another Product Organization to the affected Items before removing this one from the SubClass."" is shown once; the control still shows Canada and Save stays enabled
+3. The control shows None; nothing was saved
+4. Both Product Organization controls show None
+5. The refusal is answered as a rejected request (an error status; a server error today, which is the accepted shape), not as a successful update",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Answering No when the item already fits updates only the Sub Class,,,,,Automated,Omeesha Mahanta,,,"Both saves show ""Product updated successfully."" and both controls read None after a reopen",,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected; the chain's sub class and item have no organization
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Item segment of the chain's item, open the Product Organization control of the Item section, click Canada, press Escape and click Save</li>
+<li>2. Close, open the Sub Class segment, choose Canada in the Sub Class section's control, press Escape, click Save and click Yes</li>
+<li>3. Open the control again, click Mexico, press Escape, click Save and click No</li>
+<li>4. Close and reopen the Sub Class segment</li>
+<li>5. Close, then open the Item segment</li>
+<li>6. Close, reopen the Sub Class segment, click Canada to uncheck it, press Escape, click Save and click No</li>
+<li>7. Close and reopen the Sub Class segment</li>
+<li>8. Set the sub class back to None and click Save, then open the Item segment, set the Item section's control to None and click Save</li>
+</ol>",,,"1. ""Product updated successfully."" is shown
+2. ""Product updated successfully."" is shown
+3. ""Product updated successfully."" is shown and Save is disabled
+4. Canada and Mexico are checked
+5. The Sub Class section's control shows Canada and Mexico; the Item section's control shows Canada only
+6. The message ""You cannot remove Canada from the SubClass ProductOrgs because some Items are still assigned to it. Please update those Items first."" is shown once; Mexico alone is still shown and Save stays enabled
+7. Canada and Mexico are still checked
+8. Both saves show ""Product updated successfully."" and both controls read None after a reopen",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Removing one organization from the Sub Class reaches its items,,,,,Automated,Omeesha Mahanta,,,Both controls read None after a reopen,,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected; the chain's sub class and item have no organization
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section, click Canada and Mexico, press Escape, click Save and click Yes</li>
+<li>2. Close, then open the Item segment of the chain's item</li>
+<li>3. Close, reopen the Sub Class segment, open the control and click Mexico to uncheck it, press Escape and click Save</li>
+<li>4. Click Yes</li>
+<li>5. Close, then open the Item segment</li>
+<li>6. Set the sub class back to None and click Save, then clear the Item section's control on the Item segment and click Save</li>
+</ol>",,,"1. ""Product updated successfully."" is shown
+2. Both Product Organization controls have Canada and Mexico checked
+3. The ""Confirm"" prompt asks again
+4. ""Product updated successfully."" is shown
+5. Both controls show Canada only
+6. Both controls read None after a reopen",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clearing the Sub Class organization to None saves at once and leaves its items as they are,,,,,Automated,Omeesha Mahanta,,,Both Product Organization controls show None,,,view-product-code,,"The automation chain exists in office 1101 and its item row is selected; the chain's sub class and item have no organization
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section, click Canada, press Escape, click Save and click Yes</li>
+<li>2. Close, then open the Item segment of the chain's item</li>
+<li>3. Close, reopen the Sub Class segment, open the control, click None, press Escape and click Save</li>
+<li>4. Close, then open the Item segment</li>
+<li>5. Clear the item's own organization on the Item segment and save, then reopen both segments</li>
+</ol>",,,"1. ""Product updated successfully."" is shown
+2. Both Product Organization controls show Canada
+3. The update goes out at once with no ""Confirm"" prompt and Save disables again
+4. The Sub Class section shows None while the Item section still shows Canada: the item keeps its own countries
+5. Both Product Organization controls show None",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Category entry of an item without a category is offered but opens nothing,,,,,Automated,Omeesha Mahanta,,,"The menu closes and nothing else happens: no details dialog, no chain read, no message",,,view-product-code,,"Office 1101 holds a Labor item whose grid row shows an empty Category cell (""Abstracts - Project Management"", product code 73753, sub class ""Content1 Labor""); the page is reset to its default criteria
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Search the item by its name and read its row</li>
+<li>2. Select the row, open the segment menu right of View Product Code and click Item</li>
+<li>3. Close, reopen the menu and click Sub Class</li>
+<li>4. Close and reopen the menu</li>
+<li>5. Click Category</li>
+</ol>",,,"1. Exactly one row; its Category cell is empty and its Sub Class cell reads ""Content1 Labor""
+2. The details dialog opens on the Item tab after one chain read
+3. The details dialog opens on the Sub Class tab after one chain read
+4. The menu offers Item, Sub Class, Class, Sub Category and Category
+5. The menu closes and nothing else happens: no details dialog, no chain read, no message",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Picking another Sub Class keeps the saved identifier shown until the save,,,,,Automated,Omeesha Mahanta,,,The resting sub class and its identifier are back,,,view-product-code,,"The Item segment of the automation item is open; its Class has more than one sub class
+
+Test Data:
+User: automation user (location-edit permission)
+Location: test office 1604
+Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+<li>1. Read the Product Code ID of the Sub Class section and the Sub-Class Name</li>
+<li>2. Open the Sub-Class Name list and pick another sub class</li>
+<li>3. Read the Product Code ID of the Sub Class section again</li>
+<li>4. Click Close</li>
+<li>5. Reopen the dialog</li>
+</ol>",,,"1. The resting sub class and its identifier are shown
+2. The app reads the chosen sub class by its identifier; the Sub-Class Name shows the pick; Save enables
+3. It still shows the saved sub class's identifier; only the name box carries the pick until the save
+4. No update is sent
+5. The resting sub class and its identifier are back",,,,Master,S1620,Test Case (Steps),Regression,,,
