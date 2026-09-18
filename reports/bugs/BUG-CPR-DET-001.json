@@ -1,0 +1,28 @@
+{
+  "id": "BUG-CPR-DET-001",
+  "title": "Corporate Pricing — Pricing Detail: New Price cell value shifts left when the red error icon appears (layout reflow on invalid state)",
+  "module": "Corporate Pricing",
+  "severity": "low",
+  "status": "open",
+  "discoveredDate": "2026-06-26",
+  "requirementSource": "No documented rule on validation-error icon placement. Filed per explicit user direction (manual live observation) plus standard input-validation usability: an error affordance (red border + icon) should render without reflowing or displacing the field's content — the entered value should stay in place when the cell enters the error state. A layout shift on error indication is a polish defect; the icon should occupy reserved or overlaid space, not push the value aside.",
+  "stepsToReproduce": [
+    "Open Corporate Pricing -> a price book's Pricing Detail tab (observed on price book 2022-PB6; the editable New Price grid).",
+    "Click a New Price cell and type an out-of-range value that fails validation (e.g. 5646464).",
+    "Blur / commit so the cell enters its invalid state (red border + red error icon appear).",
+    "Watch the entered value's horizontal position the moment the error icon appears."
+  ],
+  "expectedBehavior": "The red border and red error icon render without moving the field's content. The entered value stays in place and the icon occupies reserved or overlaid space. Entering the error state causes no horizontal shift of the cell value.",
+  "actualBehavior": "When the cell enters the invalid state, the red error icon is injected and the entered value shifts left to give way to it — the number visibly jumps left. Together with the red border the cell 'goes sideways'. Cosmetic only: validation and the disabled-Save behaviour both work correctly and no data is lost.",
+  "mcpEvidence": {
+    "sessionDate": "2026-06-26",
+    "findings": "Observed live by the tester on 2026-06-26 on the e2e environment — Corporate Pricing > Pricing Detail, price book 2022-PB6, the New Price cell for 'Lift 41'-79' Boom - Daily' (ID 273) with the value 5646464 entered. The moment the cell shows its invalid state, a red error icon appears and the entered value shifts left to make room for it. Captured in a screenshot."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": null,
+  "affectedTests": [
+    "TC-CPR-DET-023"
+  ],
+  "networkEvidence": "n/a — client-side render/layout behaviour; no save is attempted (the cell stays invalid while the out-of-range value is present).",
+  "notes": "Cosmetic only — validation and the disabled-Save behaviour both work; no data is lost. The same inline-edit control is used by other editable price cells (for example Max Discount and the Product Group Override prices), so the same shift likely occurs there too. Suggested fix: render the error icon in reserved or overlaid space so the entered value does not move when the error state appears."
+}

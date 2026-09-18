@@ -1,0 +1,21 @@
+{
+  "id": "BUG-TNC-CORE-003",
+  "title": "REGRESSION NM-3162 — Editor panel does not clear on non-HTML column select; stays visible and repositions vertically",
+  "module": "terms-conditions",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-08-06",
+  "reconfirmedDate": "2026-08-06",
+  "requirementSource": "NM-3162",
+  "stepsToReproduce": [
+    "Open Terms and Conditions for office 1604 with US English filter.",
+    "Click a Left Column (HTML) cell on any row — the editor panel opens.",
+    "Click the Name column (non-HTML) on the same or a different row.",
+    "Observe: the editor panel remains visible and repositions its Y-coordinate to track the active row."
+  ],
+  "expectedBehavior": "When a non-HTML column (Name or Language) is selected, the RTE editor panel should clear and close. NM-3162 was a closed ticket specifying this behaviour.",
+  "actualBehavior": "The editor panel does NOT clear or close. It stays visible and repositions vertically to track the active row, in both directions (HTML→Name and Name→HTML) and under rapid alternation. The panel geometry is consistently 312x120px across all 5 alternation states. N=4 independent runs confirmed the regression. Screenshots: nm3162-run1-after-name-click.png, nm3162-run4-rapid-alternation.png. This is a REGRESSION against closed ticket NM-3162.",
+  "mcpEvidence": "Live-verified 2026-08-06 by tnc-walk-evidence-r1 (4 independent runs). boundingBox geometry 312x120px confirmed in all states. DOM inspection: .tiptap element remains in DOM with visible boundingBox after non-HTML column selection. Evidence: walk-evidence-terms-conditions-2026-08-06.md §NM-3162 Verdict.",
+  "baselineComparison": "new-site-regression",
+  "baselineEvidence": "Old site has no shared RTE panel (each cell is inline editable). The shared panel is new-site-only. The clearing behaviour was specified and closed under NM-3162. This is a regression against that closed ticket."
+}

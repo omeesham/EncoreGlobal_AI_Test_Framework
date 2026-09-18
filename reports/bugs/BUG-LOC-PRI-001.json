@@ -1,0 +1,43 @@
+{
+  "id": "BUG-LOC-PRI-001",
+  "title": "Corporate Pricing checkbox: unchecking saves successfully (HTTP 200) but the change does NOT persist — the box reverts to checked on reload (silent non-persistence, app-wide)",
+  "module": "LocationPricing",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-06-18",
+  "requirementSource": "Location Settings -> Pricing sub-tab (/navigator/locations/<office>/settings/location). TC-LOC-PRI-025 ('Corporate Pricing -- uncheck, save, reload, verify persists; restore') asserts that unchecking Corporate Pricing and saving persists across reload. Corporate Pricing is an editable checkbox (location-settings-checkbox-corporate-pricing).",
+  "stepsToReproduce": [
+    "Navigate to /navigator/locations/1604/settings/location and open the Pricing sub-tab.",
+    "Observe Corporate Pricing is checked (default).",
+    "Uncheck Corporate Pricing. Observe: the 5 primary pricing dropdowns disable (expected cascade) and the Save button enables.",
+    "Click Save and confirm the 'Save Changes' dialog (Ok). Observe: the save reports success — POST /navigator/api/location/pricebook/upsert-location-pricebook returns 200 AND PUT /navigator/api/location/update-properties returns 200; no error.",
+    "Reload the page and return to the Pricing sub-tab.",
+    "Observe: Corporate Pricing is CHECKED again — the uncheck did not persist."
+  ],
+  "expectedBehavior": "Unchecking Corporate Pricing and saving (save returns 200) persists the unchecked state; after reload Corporate Pricing is unchecked.",
+  "actualBehavior": "The save returns HTTP 200 on both save calls, but on reload Corporate Pricing reverts to checked — the unchecked value is not persisted. The UI gives a full success signal (200, dialog closes, Save disables) while the change is silently discarded.",
+  "mcpEvidence": {
+    "sessionDate": "2026-06-18",
+    "findings": "Live Playwright CLI walk (authenticated e2e session, headless). OFFICE 1604: read confirmed Corporate Pricing checked=true; clicked the checkbox -> aria-checked=false + all 5 primary dropdowns aria-disabled=true (cascade correct) + Save enabled; clicked Save -> 'Save Changes' dialog (Cancel/Ok) -> Ok; network capture showed [POST] .../pricebook/upsert-location-pricebook => [200] and [PUT] .../update-properties => [200] (no 500 — the historically-reported server 500 is FIXED); reloaded (re-open Pricing sub-tab) -> Corporate Pricing read back checked=true (REVERTED). ISOLATION TEST, office 1605: identical sequence -> both save calls [200] -> reload -> Corporate Pricing reverted to checked. Reproduced on TWO offices => app-wide behavior, NOT office-1604 data corruption. Console: 0 errors at save time. Distinct from the same surface's date persistence (TC-020) and primary-dropdown persistence (TC-026..030), which were re-verified the same session and DO round-trip correctly.",
+    "tool": "playwright-cli"
+  },
+  "baselineComparison": "not-checked",
+  "baselineEvidence": "The legacy Navigator site (navigator2.training.psav.com) Pricing tab for office 1604 was reviewed on 2026-06-19. The Corporate Pricing feature is present there (checkbox checked by default, with the same primary-dropdown cascade), so this is NOT a missing-feature case. The uncheck-and-save persistence behavior was deliberately NOT tested on the legacy site, for two reasons: (1) office 1604 on the legacy site has 5 corporate pricebooks assigned, and unchecking Corporate Pricing there cascades to clear those assignments while the legacy Save commits the whole location form — they could not be reliably restored (their names are unknown and the lists hold 480+ options) on a shared test office; (2) the legacy office has pricebooks assigned while the current site's office 1604 has them unset, so an uncheck on the legacy site would not be the same scenario as the reported defect. Notable data difference found during the review: the legacy office 1604 has its 5 primary pricing dropdowns SET, whereas the current site shows them as --Select-- (unset). A clean regression-versus-intended verdict would require first setting the current site's office 1604 primary pricing to match the legacy state, then re-testing the uncheck persistence on the current site (no changes to the legacy site).",
+  "affectedTests": ["TC-LOC-PRI-025"],
+  "networkEvidence": "Captured at the API layer. The save fires two calls and BOTH return 200: POST /navigator/api/location/pricebook/upsert-location-pricebook => 200 and PUT /navigator/api/location/update-properties => 200. So the server accepts the request without error yet the unchecked Corporate Pricing value is not reflected on the subsequent page load — accepted-then-not-persisted (or persisted to a field the reload does not read back). The exact server-side cause is not determinable from the client; the round-trip failure is definitive. Unrelated read endpoints (billing-cycle, check-local-billing) intermittently returned 504 in this environment but are not part of the save path.",
+  "currentLiveState": "As of 2026-06-18: after the test sequences, Corporate Pricing reads checked=true on both 1604 and 1605 (it self-reverts, so no residual unchecked state was left). Office 1604 Primary Labor Pricing was set to '2026-Zone 3 D' during dropdown re-verification (separate, intentional).",
+  "verificationLog": [
+    {
+      "verifierAgent": "Automated QA (Claude Opus 4.8) via Playwright CLI, offices 1604 + 1605",
+      "verifiedDate": "2026-06-18",
+      "verdict": "CONFIRMED — reproduces on 1604 and 1605; save 200 but reverts on reload",
+      "evidence": "See mcpEvidence.findings + networkEvidence. Two-office reproduction establishes app-wide scope. TC-LOC-PRI-025 remains skipped with this bug referenced in its inline comment; an un-skip-and-rerun on the live app confirmed the original logic still fails (revert), so it is correctly kept skipped pending the app fix (not rewritten)."
+    },
+    {
+      "verifierAgent": "Automated QA (Claude Opus 4.8) — baseline reclassification after the legacy-site review",
+      "verifiedDate": "2026-06-19",
+      "verdict": "CONFIRMED (unchanged) — baselineComparison recorded as not-checked after the 2026-06-19 legacy-site review",
+      "evidence": "This defect was first filed 2026-06-18; the legacy-site (navigator2) review ran the next day, 2026-06-19. After that review the baselineComparison was set to not-checked with the rationale recorded in baselineEvidence (the uncheck-and-save persistence was deliberately not mutation-tested on the shared legacy office). The defect itself is unchanged — unchecking Corporate Pricing saves successfully (HTTP 200) but reverts on reload, reproduced on offices 1604 and 1605."
+    }
+  ]
+}

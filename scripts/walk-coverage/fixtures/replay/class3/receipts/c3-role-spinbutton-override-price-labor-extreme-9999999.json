@@ -1,0 +1,10 @@
+{
+  "case_id": "c3-role-spinbutton-override-price-labor-extreme-9999999",
+  "field": "role:spinbutton:override-price-labor",
+  "value": "9999999",
+  "announced": true,
+  "escapable": true,
+  "spec_file": "scripts/walk-coverage/fixtures/replay/class3/specs/class3-cheats.spec.ts",
+  "spec_sha256": "8ee02d0c2a1dca08a780e11724d4c7a51931b8bee0885d43ea73286bb39986bb",
+  "receipt_sha256": "2217de5069f02fa20e5c61dd2192b6dc3bab174b332c56e134b79771a074a20a"
+}

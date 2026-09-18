@@ -1,0 +1,25 @@
+{
+  "id": "BUG-TNC-CORE-005",
+  "title": "WITHDRAWN — Language filter trigger keyboard reachability finding retracted",
+  "module": "terms-conditions",
+  "severity": "medium",
+  "status": "withdrawn",
+  "discoveredDate": "2026-08-07",
+  "withdrawnDate": "2026-08-07",
+  "withdrawalReason": "Finding retracted. An independent tester confirmed the language filter trigger is reachable via keyboard on Tab press #17. The original automated test collected a focus sequence of 40 elements but failed to identify the filter among them due to a test logic error. The application behaviour is correct; our test was at fault.",
+  "requirementSource": "WCAG 2.1 SC 2.1.1 (Keyboard) — all functionality must be operable through a keyboard interface without requiring specific timings for individual keystrokes",
+  "stepsToReproduce": [
+    "Navigate to Terms and Conditions page (/locations/1604/settings/terms-conditions).",
+    "Click the page body to establish a known focus start point.",
+    "Press Tab repeatedly (up to 40 times) and record each focused element's identity (tag, data-testid, role, aria-label, text).",
+    "Search the collected focus sequence for any element matching 'language', 'filter', 'combobox', 'English', or 'select'.",
+    "Observe: no element in the tab sequence matches the language filter trigger. The Radix combobox trigger (data-testid=\"terms-conditions-language-filter-trigger\") is never reached."
+  ],
+  "expectedBehavior": "The language filter trigger should appear in the logical tab order before grid row controls (filter → Add → Save). The element must be focusable via sequential keyboard navigation.",
+  "actualBehavior": "RETRACTED — Independent manual verification on 2026-08-07 confirmed the language filter IS reached on Tab press #17. The original automated diagnosis was incorrect.",
+  "mcpEvidence": "Original diagnosis 2026-08-07 by graft-takeover worker (grid-six run) was incorrect. Retracted after independent manual tester reached the control on Tab press #17.",
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The Radix combobox language filter is a new-site-only UI pattern. The old site uses a different navigation and filtering mechanism. No old-site equivalent of this control exists to regress from.",
+  "affectedTests": ["TC-TNC-CORE-088"],
+  "networkEvidence": null
+}

@@ -1,0 +1,62 @@
+{
+  "id": "BUG-ISR-PCD-001",
+  "title": "Item Search — View Product Code dialog: the segment caret's 'Category' item silently does nothing",
+  "module": "Item Search",
+  "severity": "medium",
+  "status": "invalid",
+  "discoveredDate": "2026-08-31",
+  "requirementSource": "NM-2253 'Automate Item Search' (office 1101 scope). The Phase-0 Jira sweep (jira-defect-crossref-item-search-2026-08-31.md — full NM-4 child read, 193 tickets) surfaces no ticket that removes or disables the Category segment from the View flow, so no by-design reclassification applies; the sibling segments prove the intended pattern.",
+  "stepsToReproduce": [
+    "Open Item Search -> Products for office 1101 (cloudapps-e2e), search 'Amp'.",
+    "In a result row, click the row's select button (renders with the raw label 'locations.product.selectItem'). The toolbar with 'View Product Code' / 'Add Product Code' appears only after this selection.",
+    "WITHOUT opening any dialog, click the small unnamed caret button immediately to the right of the 'View Product Code' toolbar button.",
+    "A menu opens: Item / Sub Class / Class / Sub Category / Category. Click 'Category'.",
+    "Observed 2026-09-01: the 'Product Code Details' dialog OPENS with its first tab named 'Category' — the filed no-op does NOT reproduce."
+  ],
+  "stepsToReproduceOriginal": [
+    "Open Item Search -> Products for office 1101 (cloudapps-e2e), search 'Amp', select a result row.",
+    "Click the Product Code toolbar button to open the View Product Code dialog.",
+    "Open the segment caret menu next to the code segments.",
+    "Click 'Category'.",
+    "Observe: the menu closes and nothing opens. Repeat for Item / Class / Sub Category / Sub Class: each opens its segment dialog."
+  ],
+  "expectedBehavior": "Clicking 'Category' in the View segment caret menu opens the Category segment view, the same way Item, Class, Sub Category and Sub Class each open theirs — and the same way the Add caret's own Category item does.",
+  "actualBehavior": "The menu closes and no dialog, popover, navigation or network activity follows. Reproduced on 3 attempts with 4s/8s/10s post-click waits; browser console clean of errors.",
+  "mcpEvidence": {
+    "sessionDate": "2026-08-31",
+    "findings": "Headless Playwright CLI probe on cloudapps-e2e office 1101. Positive controls in the SAME session: the other 4 View segments all open their dialog, and the Add caret's Category item opens fine — so the click primitive and the menu wiring are proven live, isolating the defect to the View->Category handler. Varied-wait retries (4s/8s/10s) discharge the lazy-window concern (LR-ENC-008). Snapshots: caret-view-pc.yml, tmp-menu5.yml plus eval reads, recorded in specs_planning/_internal/walk-evidence-item-search-2026-08-31.md (Observations, Bugs/Defects item 1)."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "Old-site walk environment-blocked: navigator2.training.psav.com rejects automated-browser TLS ClientHello (curl/schannel gets 200; Playwright Chromium/Edge refused) — 6 retries, recorded in specs_planning/_internal/old-site-baseline/item-search-2026-08-31.md. No legacy observation of this menu exists, so no regression claim is made.",
+  "affectedTests": [
+    "TC-ISR-PCD-005"
+  ],
+  "networkEvidence": "Zero network requests fire on the Category click (probe watched the request log across the 3 attempts); the working sibling segments each fire their dialog-load traffic.",
+  "verificationLog": [
+    {
+      "verifierAgent": "Claude (spec-generation identity, NM-2253 run)",
+      "verifiedDate": "2026-09-01",
+      "verdict": "CONFIRMED",
+      "detail": "Re-confirmed while building the Product Code dialog spec: the Category item remains a silent no-op while the other four segments open. TC-ISR-PCD-005 exercises the four working segments and deliberately excludes Category with a defect note pointing here, so the suite stays green while the defect is tracked.",
+      "minimalRepro": "View Product Code dialog -> segment caret -> click 'Category'.",
+      "evidence": [
+        "specs_planning/_internal/walk-evidence-item-search-2026-08-31.md",
+        "tests/view-product-code/view-product-code.spec.ts (moved from tests/item-search/product-code.spec.ts on 2026-09-14; the TC-ISR-PCD-005 exclusion note was removed 2026-09-15 when the case was extended to all five segments)"
+      ]
+    },
+    {
+      "verifierAgent": "Claude BUILDER (owner-triggered LR-044 live re-verification)",
+      "verifiedDate": "2026-09-01",
+      "verdict": "FALSE",
+      "RCA_category": "MISREAD",
+      "detail": "Owner could not reproduce from the filed steps; live re-drive per LR-044 (read verbatim -> follow exactly -> minimize). Finding 1: the filed step ORDER is physically impossible — with the View Product Code dialog open, the toolbar caret is covered by the modal overlay (elementFromPoint hit-test returns the overlay DIV, not the caret), so no user can click the caret after opening the dialog. The only caret is the TOOLBAR one next to the View Product Code button; there is no caret inside the dialog. Finding 2: via the only reachable path (row selected, no dialog open, toolbar caret -> Category), the 'Product Code Details' dialog OPENS scoped to Category (first tab 'Category') — confirmed TWICE on fresh menu opens, each click instrument-checked for '### Error' output (0 errors, closing the CEO-M17 blind-instrument hole). Waits varied 4s/10s per LR-ENC-008; url unchanged; menus closed cleanly. RCA: the walk-time 'silent no-op' matches the CEO-M17 stale-ref blind-instrument signature ledgered the same session (clicks that never landed read as 'menu closes, nothing opens' with clean console and zero network) — the 2026-08-31 observation is classified MISREAD (instrument artifact), not an app defect. The earlier CONFIRMED verificationLog entry inherited the walk verdict during spec authoring rather than re-driving the click, per feedback_readiness_fix_rederives_prior_verdicts.",
+      "minimalRepro": "Products (office 1101) -> search 'Amp' -> row select button -> toolbar caret right of 'View Product Code' -> 'Category' -> dialog opens scoped to Category (no defect).",
+      "evidence": [
+        ".playwright-cli/isr-2026-09-01/pcd-toolbar-after-row-select.yml (split-buttons + carets after row select)",
+        ".playwright-cli/isr-2026-09-01/pcd-caret-menu-reverify.yml (menu: Item/Sub Class/Class/Sub Category/Category)",
+        ".playwright-cli/isr-2026-09-01/pcd-category-dialog-open-reverify.yml (dialog 'Product Code Details', tab 'Category' active+selected)"
+      ]
+    }
+  ],
+  "notes": "INVALIDATED 2026-09-01 by owner-triggered LR-044 re-verification (see verificationLog): the Category item opens its dialog via the only reachable path, and the filed step order (dialog first, then caret) is blocked by the modal overlay. Walk-time observation reclassified MISREAD (stale-ref blind-instrument zero, CEO-M17 class). Original filing notes kept for history: the Add flow's Category item works; the View flow's Category item appeared dead, suggesting a missing/unbound handler. Filed from the walk's Bugs/Defects bucket item 1. The bucket note's suggested value 'baseline-absent-env-blocked' is not a legal enum value; 'baseline-absent' is used with the env-block detail kept in baselineEvidence. Follow-up closed 2026-09-15 (NM-2255): TC-ISR-PCD-005 now opens every segment from the View caret, Category included, and passed in the solo run."
+}

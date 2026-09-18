@@ -1,0 +1,21 @@
+{
+  "id": "BUG-CPR-OVR-001",
+  "title": "A freshly exported Product Group Override CSV cannot be re-imported: one empty-Override-Price row aborts that row",
+  "module": "corporate-pricing-override",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-07-17",
+  "reconfirmedDate": "2026-07-23",
+  "requirementSource": "NM-1940",
+  "stepsToReproduce": [
+    "Open Corporate Pricing > Product Group Override on a healthy office (e.g. 4107) and select the location.",
+    "Click Export to download the tenant-wide CSV (ProductGroupOverrides_<timestamp>UTC.csv).",
+    "Without editing the file, open the Import dialog, attach the raw exported CSV, and click Upload.",
+    "Observe the rejection message."
+  ],
+  "expectedBehavior": "A file the application itself just exported should be re-importable without manual editing (export/import round-trip integrity).",
+  "actualBehavior": "The import is rejected with 'Error Row#:N, Msg: LocationId, ProductGroupId, OverridePrice is required.' The raw export contains exactly one row with an empty Override Price (observed at export line 19: 1115,286,01D Double Screen Set Kit,0,USD,0.00,,,0), and the import's required-field validation refuses that row, so a naive export-then-import fails until the empty-price row is removed.",
+  "mcpEvidence": "Live-verified 2026-07-23 on office 4107: the downloaded export content contains the empty-Override-Price row prefixed '1115,286,'; attaching the raw export and clicking Upload surfaces the required-field alert; the grid is unchanged after reload (full rollback). Covered by test case TC-CPR-OVR-054.",
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The Product Group Override import is net-new on this environment with no legacy-site equivalent; classified from live application DOM and network evidence, not a legacy regression."
+}

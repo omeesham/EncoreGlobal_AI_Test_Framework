@@ -1,0 +1,20 @@
+{
+  "surface": "Settings > Priceguides",
+  "version": "1.0.0",
+  "$comment": "Fixture metamodel for Settings > Priceguides — demonstrates domain-invariant consumption alongside CRUD invariants. Surface matches D1-D6 rows in domain-invariants.json.",
+  "filters": [{ "id": "currency-filter", "name": "Currency selector", "type": "enum" }],
+  "sortableColumns": [],
+  "verbs": {
+    "read": "GET /api/priceguides",
+    "create": "POST /api/priceguides",
+    "update": "PUT /api/priceguides/:id"
+  },
+  "idSources": ["list"],
+  "grids": [{ "id": "priceguide-list", "name": "Priceguide list" }],
+  "statusFlags": [],
+  "ioPairs": [],
+  "typedFields": [
+    { "id": "currency-field", "name": "Currency", "type": "enum" }
+  ],
+  "consumedClaims": []
+}

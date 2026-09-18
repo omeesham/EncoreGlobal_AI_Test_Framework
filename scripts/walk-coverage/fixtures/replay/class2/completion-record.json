@@ -1,0 +1,171 @@
+{
+  "derived_types": {
+    "role:button:select-location": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:checkbox:modal-active": {
+      "resolved": true,
+      "type": "checkbox"
+    },
+    "role:textbox:modal-search": {
+      "resolved": true,
+      "type": "text-input"
+    },
+    "role:button:modal-select": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:modal-cancel": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:modal-close": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:combobox:currency-filter": {
+      "resolved": true,
+      "type": "combobox"
+    },
+    "role:tab:equipment": {
+      "resolved": true,
+      "type": "tab"
+    },
+    "role:tab:labor": {
+      "resolved": true,
+      "type": "tab"
+    },
+    "role:spinbutton:override-price-equip": {
+      "resolved": true,
+      "type": "numeric-price"
+    },
+    "role:spinbutton:max-discount-equip": {
+      "resolved": true,
+      "type": "numeric-pct"
+    },
+    "role:checkbox:active-equip": {
+      "resolved": true,
+      "type": "checkbox"
+    },
+    "struct:picker-dblclick-equip": {
+      "resolved": true,
+      "type": "interaction"
+    },
+    "struct:picker-drag-equip": {
+      "resolved": true,
+      "type": "interaction"
+    },
+    "role:spinbutton:override-price-labor": {
+      "resolved": true,
+      "type": "numeric-price"
+    },
+    "role:spinbutton:max-discount-labor": {
+      "resolved": true,
+      "type": "numeric-pct"
+    },
+    "role:checkbox:active-labor": {
+      "resolved": true,
+      "type": "checkbox"
+    },
+    "struct:picker-dblclick-labor": {
+      "resolved": true,
+      "type": "interaction"
+    },
+    "struct:picker-drag-labor": {
+      "resolved": true,
+      "type": "interaction"
+    },
+    "role:button:grid-options": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:export": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:import": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:textbox:filter": {
+      "resolved": true,
+      "type": "text-input"
+    },
+    "role:button:save": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:save-confirm": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:save-cancel": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:combobox:rows-per-page": {
+      "resolved": true,
+      "type": "combobox"
+    },
+    "role:alertdialog:save-changes": {
+      "resolved": true,
+      "type": "dialog"
+    },
+    "role:button:sort-location": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:sort-product-group": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:sort-pg-name": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:sort-currency": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:sort-current-price": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:sort-mod-date": {
+      "resolved": true,
+      "type": "button"
+    },
+    "role:button:sort-updated-by": {
+      "resolved": true,
+      "type": "button"
+    },
+    "struct:app-nav-home": {
+      "resolved": true,
+      "type": "button"
+    },
+    "struct:app-nav-inbox": {
+      "resolved": true,
+      "type": "button"
+    },
+    "struct:app-nav-setup": {
+      "resolved": true,
+      "type": "button"
+    },
+    "struct:app-user-menu": {
+      "resolved": true,
+      "type": "button"
+    },
+    "struct:app-sidebar-restore": {
+      "resolved": true,
+      "type": "button"
+    }
+  },
+  "completion_record": {
+    "status": "complete",
+    "surfaces_attempted": [
+      "corporate-pricing-override"
+    ],
+    "content_sha256": "99e33c6a68538c17cd4d7373f6a616394a7c9295e0bba27e8274f86c32fbf940"
+  }
+}

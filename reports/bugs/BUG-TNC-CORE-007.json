@@ -1,0 +1,26 @@
+{
+  "id": "BUG-TNC-CORE-007",
+  "title": "Unsaved-changes dialog does not restore focus to trigger element on dismiss via Stay (WCAG 2.4.3)",
+  "module": "terms-conditions",
+  "severity": "low",
+  "status": "open",
+  "discoveredDate": "2026-08-07",
+  "requirementSource": "WCAG 2.1 SC 2.4.3 (Focus Order) — when a component that receives focus is dismissed, focus should return to the triggering element to maintain a meaningful navigation sequence",
+  "stepsToReproduce": [
+    "Navigate to Terms and Conditions page (/locations/1604/settings/terms-conditions).",
+    "Edit a row name to make the form dirty (Save button enables).",
+    "Focus the language filter trigger (data-testid=\"terms-conditions-language-filter-trigger\").",
+    "Click the language filter trigger and select a different language (e.g., 'Spanish (Mexico)') to trigger the unsaved-changes guard dialog.",
+    "Wait for the alertdialog to appear (role=\"alertdialog\").",
+    "Verify focus is trapped inside the dialog (Tab cycles through dialog buttons without escaping).",
+    "Click the 'Stay' button to dismiss the dialog without discarding changes.",
+    "Evaluate document.activeElement — observe it is <body>, not the filter trigger."
+  ],
+  "expectedBehavior": "After dismissing the unsaved-changes dialog via 'Stay', focus should return to the element that triggered the dialog — the language filter trigger (data-testid=\"terms-conditions-language-filter-trigger\"). postDialogFocusId should equal preDialogFocusId.",
+  "actualBehavior": "After clicking 'Stay', document.activeElement is <body>. postDialogFocusId = \"body\", expected = preDialogFocusId (the filter trigger's data-testid). Focus is dumped to the document body rather than being restored to the trigger.",
+  "mcpEvidence": "Diagnosed 2026-08-07 by graft-takeover worker (grid-six run): TC-TNC-CORE-090 recorded preDialogFocusId, triggered dialog, clicked Stay, compared postDialogFocusId. Evidence artifact: .claude/state/ua-worker/chips/graft-takeover/out-f6/GRID-SIX.md § TC-TNC-CORE-090.",
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The unsaved-changes guard dialog is a new-site Angular pattern. The old site does not have an equivalent inline-guard dialog on the terms and conditions page. No old-site equivalent exists.",
+  "affectedTests": ["TC-TNC-CORE-090"],
+  "networkEvidence": null
+}

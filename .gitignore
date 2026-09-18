@@ -47,3 +47,6 @@ Thumbs.db
 playwright-report-*/
 blob-report/
 blob-report-*/
+
+# Claude Code hook runtime state (bug kit gates write here)
+.claude/state/

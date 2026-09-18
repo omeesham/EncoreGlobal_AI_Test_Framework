@@ -1,0 +1,56 @@
+{
+  "id": "BUG-ISR-PCD-004",
+  "title": "Item Search — View Product Code segment menu: on an item that has no Category, the Category entry is offered and enabled but does nothing (no dialog, no request, no message)",
+  "module": "Item Search",
+  "severity": "low",
+  "status": "withdrawn",
+  "discoveredDate": "2026-09-14",
+  "requirementSource": "NM-2255 'View Product Code' under NM-2253 (office 1101 scope); NM-1433 defines the five segment entries (Item, Sub Class, Class, Sub Category, Category), each opening the Product Code Details dialog scoped to that level. An entry that is offered and enabled is expected to open its dialog or to be withheld when the level does not exist for the item.",
+  "stepsToReproduce": [
+    "Open Item Search -> Products for office 1101 (cloudapps-e2e). Search Any Field 'Abstracts - Project Management' (one row: product code 73753, a Labor item whose Category cell is empty, Sub Category 'Labor', Class 'Digital Services Labor', Sub Class 'Content1 Labor').",
+    "Click the row's select button, then the arrow right of 'View Product Code' to open the segment menu (Item, Sub Class, Class, Sub Category, Category — all offered).",
+    "Click 'Category'.",
+    "Observe: the menu closes and nothing else happens — no 'Product Code Details' dialog within 30 s (probe waited 112 s), no request to the chain endpoint, no toast, no alert, no console error.",
+    "Control on the same row: 'Sub Category', 'Class', 'Sub Class' and 'Item' each open the dialog in 3.6-4.6 s with one GET /navigator/api/products/get-product-hierarchy (productId 25001, 82770, 82779, 73753).",
+    "Control on a row that has a category (product code 102186): 'Category' opens the Category dialog in 3.1 s (productId 10034)."
+  ],
+  "expectedBehavior": "Either the Category entry opens the Category-scoped Product Code Details dialog (empty or read-only if the item has no category), or the entry is withheld/disabled for such an item with a reason — a silent no-op on an enabled menu entry is neither.",
+  "actualBehavior": "The entry is enabled, closes the menu and does nothing. Reproduced 2026-09-14 (enumerator diagnostic on the office's first default-search row, which is this item in a fresh context: no dialog, no request, no toast, no alert within 30 s) and re-verified 2026-09-15 with the minimized repro above plus both positive controls.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-15",
+    "findings": "Headless Playwright CLI probe on cloudapps-e2e office 1101, session pcd. The item is the office's only category-less row in the default (Category-sorted) search, which is why the 2026-09-14 enumerator halted on the Category segment until its row pre-step was taught to skip rows with an empty Category cell. Same symptom family as BUG-ISR-PCD-001 (invalidated 2026-09-01 on a row WITH a category — that reading was an instrument zero); this finding is on a row WITHOUT a category and carries its positive controls on the same row.",
+    "evidence": [
+      ".playwright-cli/pcd-2026-09-14/p7-reverify-b1-2026-09-15.txt (the minimized repro: Category silent; Sub Category / Class / Sub Class / Item open; 102186 Category opens)",
+      ".playwright-cli/pcd-2026-09-14/p9-enumerator-segment-category-halt-2026-09-14.txt (the 2026-09-14 enumerator halt on this row: a 30 s wait for the dialog timed out twice; copy of the gitignored reports/walk-coverage/isr-pcd-2026-09-14-logs/segment-category*.log)",
+      ".playwright-cli/pcd-2026-09-14/diag-category.mjs (the 2026-09-14 diagnostic: 30 s wait, no dialog / request / toast / alert)"
+    ]
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The legacy site's View split menu offers the same five entries (old-site-baseline/item-search-2026-08-31.md, Refresh 2026-09-14), but it was observed read-only on a row with a full chain only; no legacy reading exists for a category-less item.",
+  "affectedTests": [
+    "TC-ISR-PCD-055"
+  ],
+  "networkEvidence": "Category click on 73753: zero requests (the request log stayed at its pre-click count across the whole wait). Sibling entries on the same row: one GET /navigator/api/products/get-product-hierarchy?productId=<level id> each, then the dialog's languages and product-orgs reads.",
+  "verificationLog": [
+    {
+      "verifierAgent": "Claude (spec-generation identity, NM-2255 run)",
+      "verifiedDate": "2026-09-15",
+      "verdict": "CONFIRMED",
+      "detail": "Minimized repro on the named item with four positive controls on the same row and one on a categorised row; the entry produced no dialog, request, message or console error. TC-ISR-PCD-055 pins it: the case first proves the Item and Sub Class entries open the dialog on this row, then asserts the Category entry opens too and fails on purpose with the {opened:false, chainReads:0} diff.",
+      "minimalRepro": "Search 'Abstracts - Project Management' -> select row 73753 -> segment arrow -> Category: nothing happens.",
+      "evidence": [
+        ".playwright-cli/pcd-2026-09-14/p7-reverify-b1-2026-09-15.txt",
+        "tests/view-product-code/view-product-code.spec.ts (TC-ISR-PCD-055)"
+      ]
+    },
+    {
+      "verifierAgent": "Claude (spec-generation identity, NM-2255 owner ruling)",
+      "verifiedDate": "2026-09-16",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-16 (Vikas Yadav): not a defect - the behaviour is by design. The measured facts of the filing stand unchanged (the observation is real and reproducible); only the classification changes. Consequence: TC-ISR-PCD-055 is flipped from a deliberately failing statement of the expected-by-analogy behaviour into a passing case that pins the accepted contract: on an item without a Category the segment menu still offers the Category entry, and choosing it closes the menu and opens nothing: no details dialog, no chain read, no message. No product fix is expected or tracked from this record.",
+      "minimalRepro": "n/a - behaviour accepted as designed by the owner; the filed steps still reproduce the observation.",
+      "evidence": []
+    }
+  ],
+  "notes": "WITHDRAWN 2026-09-16 by owner ruling: by design, not a defect. TC-ISR-PCD-055 is flipped from a deliberately failing statement into a passing case that pins the accepted contract: on an item without a Category the segment menu still offers the Category entry, and choosing it closes the menu and opens nothing: no details dialog, no chain read, no message. History preserved: Whether the fix is to open an empty Category dialog or to withhold the entry is the client's call. Filed under NM-2255; Jira is read-only from these sessions."
+}

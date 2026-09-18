@@ -1,0 +1,214 @@
+{
+  "specimens": [
+    {
+      "id": "S1-zero-effect",
+      "bugClass": "1222/dead-filter",
+      "oracleId": 1,
+      "present": true,
+      "sourceFile": "walk-evidence-corporate-pricing-override-2026-07-17-C.md",
+      "sourceLines": [135, 151],
+      "sourceQuote": "- `POST /navigator/api/location/location-lookup` (default body) → 2,651 locations, `inactive-count:0` ... **Discrepancy note**: This run's API returns `inactive-count:0` (all 2,651 have `active:true`). Prior run saw 512 inactive. ... | BEFORE toggle | Last request: `POST /api/location/location-lookup => [200]` (dialog load) | job3b-pre-toggle-network.verify.txt | | AFTER toggle | New `POST /api/location/location-lookup => [200]` fired | job3b-post-toggle-network.verify.txt |",
+      "expectedVerdict": "FAIL",
+      "correctedDisposition": "BUG-CONFIRMED",
+      "map": {
+        "version": "1.0.0",
+        "surface": "corporate-pricing/pg-override/change-local-office-dialog",
+        "elements": [
+          {
+            "elementId": "dialog-active-checkbox",
+            "class": "filter",
+            "emissionStatus": "PROBED",
+            "probes": [
+              {
+                "action": "toggle-active-checkbox-on",
+                "before": { "checkboxState": "unchecked", "ariaChecked": "false", "locationCount": 2651, "inactiveCount": 0 },
+                "after": { "checkboxState": "checked", "ariaChecked": "true", "locationCount": 2651, "inactiveCount": 0, "networkCallFired": "POST /api/location/location-lookup => 200" }
+              }
+            ],
+            "effectObserved": false,
+            "disposition": "COVERED",
+            "basis": "observed:walk-evidence-corporate-pricing-override-2026-07-17-C.md#job3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "S2-ui-vs-persisted",
+      "bugClass": "NM-2186",
+      "oracleId": 2,
+      "present": true,
+      "sourceFile": "walk-evidence-corporate-pricing-override-2026-07-17-E.md",
+      "sourceLines": [178, 183],
+      "sourceQuote": "**Dialog result**: `Uploading... 50%` — stuck at 50% (**NM-2186 confirmed active**). Upload and Cancel buttons both show `[disabled]`. ... - **Override Price changed from 152.00 → 152.01** ✓ — import DID apply despite stuck UI",
+      "expectedVerdict": "FAIL",
+      "correctedDisposition": "BUG-CONFIRMED",
+      "map": {
+        "version": "1.0.0",
+        "surface": "corporate-pricing/pg-override/import-dialog",
+        "elements": [
+          {
+            "elementId": "import-upload",
+            "class": "io",
+            "emissionStatus": "PROBED",
+            "probes": [
+              {
+                "action": "upload-tenant-csv-modified",
+                "before": { "overridePrice4107": 152.00, "dialogState": "open" },
+                "after": { "uiState": "Uploading... 50% (stuck)", "uploadBtnState": "disabled", "cancelBtnState": "disabled", "networkPost": "POST /pg-override => 200" }
+              }
+            ],
+            "effectObserved": false,
+            "disposition": "BUG-CONFIRMED",
+            "basis": "observed:walk-evidence-corporate-pricing-override-2026-07-17-E.md#step5a"
+          }
+        ]
+      }
+    },
+    {
+      "id": "S3-round-trip",
+      "bugClass": "NM-1940",
+      "oracleId": 3,
+      "present": true,
+      "sourceFile": "walk-evidence-corporate-pricing-override-2026-07-17-E.md",
+      "sourceLines": [144, 150],
+      "sourceQuote": "- `alert: \"Error Row#:19, Msg: LocationId, ProductGroupId, OverridePrice is required.\"` ... **Root cause**: CSV data row at server Row#:19 = file index 18 = `1115,286,01D Double Screen Set Kit,0,USD,0.00,,,0` — Override Price is empty. Import validation requires Override Price. ... **Assessment**: NM-1940 regression — the exported file contains a row with no Override Price, and the import rejects it. Only 1 such row in the entire 8,996-row export.",
+      "expectedVerdict": "FAIL",
+      "correctedDisposition": "BUG-CONFIRMED",
+      "map": {
+        "version": "1.0.0",
+        "surface": "corporate-pricing/pg-override/import-dialog",
+        "elements": [
+          {
+            "elementId": "export-pg-override-csv",
+            "class": "io",
+            "capability": "export",
+            "emissionStatus": "PROBED",
+            "probes": [
+              {
+                "action": "export-pg-override-csv",
+                "before": { "office": "4107" },
+                "after": { "exportFile": "ProductGroupOverrides_20260717_154159UTC.csv", "sha256": "749CFF8C2666187DBCDC921680A056DBAE34FCB808E55C582473BFBD51F5DE27", "rowCount": 8996 }
+              }
+            ],
+            "effectObserved": true,
+            "disposition": "COVERED",
+            "basis": "observed:walk-evidence-corporate-pricing-override-2026-07-17-E.md#step4",
+            "roundTripDisposition": "DEFECT: exported file row index 18 (server Row#:19) has empty OverridePrice — import rejects the exported output (NM-1940 regression)"
+          },
+          {
+            "elementId": "import-pg-override-csv",
+            "class": "io",
+            "capability": "import",
+            "emissionStatus": "PROBED",
+            "probes": [
+              {
+                "action": "reimport-exported-csv-unmodified",
+                "before": { "importFile": "ProductGroupOverrides_20260717_154159UTC.csv", "sha256": "749CFF8C2666187DBCDC921680A056DBAE34FCB808E55C582473BFBD51F5DE27" },
+                "after": { "importResult": "Error Row#:19, Msg: LocationId, ProductGroupId, OverridePrice is required.", "httpStatus": 200, "dialogState": "error-shown", "problemRow": "1115,286,01D Double Screen Set Kit,0,USD,0.00,,,0" }
+              }
+            ],
+            "effectObserved": false,
+            "disposition": "COVERED",
+            "basis": "observed:walk-evidence-corporate-pricing-override-2026-07-17-E.md#step4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "S4-count-source",
+      "bugClass": "NM-2172-virtualization",
+      "oracleId": 4,
+      "present": true,
+      "sourceFile": "walk-evidence-corporate-pricing-override-2026-07-17-B.md",
+      "sourceLines": [157, 162],
+      "sourceQuote": "- **Row count (pre-picker probe)**: 0 — `raw-B/1974-rowcount.verify.txt` (DOM row count = 0) and `raw-B/1974-items-found.verify.txt` (\"0 items found\"). These were captured BEFORE the picker was used. - **Row count (post-picker, from live-output.log narration)**: 161 Equipment items, 9 pages — live-output.log lines 31–33: \"1974 has 161 Equipment items! Now let me do the full probe: 161 items, 9 pages.\" ... - **50 rows/page probe**: `raw-B/1974-50perpage-rowcount.verify.txt` — result empty. NOT-CAPTURED.",
+      "expectedVerdict": "FAIL",
+      "correctedDisposition": "BUG-CONFIRMED",
+      "map": {
+        "version": "1.0.0",
+        "surface": "corporate-pricing/pg-override/equipment-tab",
+        "elements": [
+          {
+            "elementId": "equipment-pagination-1974",
+            "class": "pagination",
+            "emissionStatus": "PROBED",
+            "probes": [
+              {
+                "action": "probe-row-count-and-page-size-1974",
+                "before": { "domRowCount": 0, "footerText": "0 items found", "pickerState": "no-office-selected" },
+                "after": { "domRowCount": 0, "footerText": "0 items found", "countSource": "dom:raw-B/1974-rowcount.verify.txt", "postPickerRowCount": null, "fiftyRowPageProbeResult": null }
+              }
+            ],
+            "effectObserved": false,
+            "disposition": "COVERED",
+            "basis": "observed:walk-evidence-corporate-pricing-override-2026-07-17-B.md#1974-equipment"
+          }
+        ]
+      }
+    },
+    {
+      "id": "S5-claim-census",
+      "bugClass": "1117",
+      "oracleId": 5,
+      "present": true,
+      "sourceFile": "walk-evidence-corporate-pricing-override-2026-07-17-C.md",
+      "sourceLines": [106, 110],
+      "sourceQuote": "**1117 is NOT a valid automation bed for populated-Labor + editable-cell cases.** ... - Equipment rows: 0 (API `data:[]`) - Labor rows: 0 (CSV cross-ref confirmed) - The client claim \"Equipment AND Labor populated\" for 1117 is **CONTRADICTED** by this evidence.",
+      "expectedVerdict": "FAIL",
+      "correctedDisposition": "BUG-CONFIRMED",
+      "map": {
+        "version": "1.0.0",
+        "surface": "corporate-pricing/pg-override/equipment-tab",
+        "elements": [
+          {
+            "elementId": "office-1117-data-census",
+            "class": "io",
+            "emissionStatus": "PROBED",
+            "probes": [
+              {
+                "action": "check-1117-data-availability",
+                "before": { "claimedBedStatus": "Equipment AND Labor populated", "office": "1117" },
+                "after": { "countSource": "claim", "equipmentRows": null, "laborRows": null }
+              }
+            ],
+            "effectObserved": true,
+            "disposition": "COVERED",
+            "basis": "claim:walk-evidence-corporate-pricing-override-2026-07-17-C.md#job2-client-claim"
+          }
+        ]
+      }
+    },
+    {
+      "id": "S6-jira-vs-live",
+      "bugClass": "NM-2011",
+      "oracleId": 4,
+      "present": true,
+      "sourceFile": "walk-evidence-corporate-pricing-override-2026-07-17-C.md",
+      "sourceLines": [48, 48],
+      "sourceQuote": "**SUMMARY JOB 1**: Both repro orders REPRO. The API `GET /api/location/corporate-price-pg-override?localOfficeId=1604` ALWAYS returns HTTP 500 with body `{\"message\":\"An item with the same key has already been added. Key: 4543\"}`. NM-2011 \"could not recreate\" is incorrect — bug is live as of 2026-07-17.",
+      "expectedVerdict": "FAIL",
+      "correctedDisposition": "BUG-CONFIRMED",
+      "map": {
+        "version": "1.0.0",
+        "surface": "corporate-pricing/pg-override/equipment-tab",
+        "elements": [
+          {
+            "elementId": "office-1604-api-response",
+            "class": "io",
+            "emissionStatus": "PROBED",
+            "probes": [
+              {
+                "action": "navigate-to-1604-load-overrides",
+                "before": { "jiraStatus": "could not recreate", "jiraTicket": "NM-2011" },
+                "after": { "countSource": "api:GET /api/location/corporate-price-pg-override?localOfficeId=1604", "httpStatus": 500, "apiEndpoint": "GET /api/location/corporate-price-pg-override?localOfficeId=1604", "responseBody": "{\"success\":false,\"validationErrors\":{\"exception\":[\"An item with the same key has already been added. Key: 4543\"]},\"message\":\"An item with the same key has already been added. Key: 4543\"}" }
+              }
+            ],
+            "effectObserved": true,
+            "disposition": "COVERED",
+            "basis": "observed:walk-evidence-corporate-pricing-override-2026-07-17-C.md#job1-nm2011-jira-claim"
+          }
+        ]
+      }
+    }
+  ]
+}

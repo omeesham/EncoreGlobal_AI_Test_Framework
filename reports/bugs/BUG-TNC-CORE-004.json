@@ -1,0 +1,22 @@
+{
+  "id": "BUG-TNC-CORE-004",
+  "title": "Legal tab Radix combobox selections do not dirty the Angular form — Save remains disabled after value change",
+  "module": "terms-conditions",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-08-06",
+  "reconfirmedDate": "2026-08-07",
+  "requirementSource": "NM-820, NM-825, NM-1243, NM-1200",
+  "stepsToReproduce": [
+    "Navigate to Location Settings > Legal tab for office 1604.",
+    "Note the current Terms and Conditions value (e.g. 'LDW') and the current Service Charge value (e.g. 'Resort Service Charge').",
+    "Open the Service Charge dropdown and select a different option (e.g. 'Service Charge').",
+    "Observe: the display value updates to the new selection, but the Save button remains disabled.",
+    "Reload and repeat with the Terms and Conditions dropdown — same result: value changes, Save stays disabled."
+  ],
+  "expectedBehavior": "Selecting a different option in any Legal tab Radix combobox should mark the Angular form as dirty and enable the Save button, allowing the change to be persisted.",
+  "actualBehavior": "The Radix combobox selection commits visually (display value changes from 'Resort Service Charge' to 'Service Charge'; from 'LDW' to 'Service Charges') but Angular's form dirty state never propagates — Save remains disabled. This affects BOTH the Service Charge and Terms and Conditions dropdowns on the Legal tab. The selection primitive works correctly (value changes are confirmed by re-reading the field), but the Radix→Angular change-detection bridge does not fire. Confirmed across 3 independent sessions (2026-08-06 two attempts, 2026-08-07 positive-control run).",
+  "mcpEvidence": "Live-verified 2026-08-07 via Playwright positive-control test: selectComboboxOption('drpLegalServiceCharge0', 'Service Charge') succeeded (value confirmed changed to 'Service Charge'), isSaveEnabled() returned false. Same for selectComboboxOption('drpLegalTerms0', 'Service Charges') — value confirmed changed, Save disabled. Both dropdowns have 50-120 options (Radix large-option select). The primitive's retry loop fired once per dropdown (retry 1/3 on initial click, success on retry) — proving the click lands but dirty propagation fails.",
+  "baselineComparison": "not-verified",
+  "baselineEvidence": "Old site uses a different UI framework (no Radix). The feature (Legal T&C selection surfacing in Location Management History per NM-1200) is confirmed real via Jira. The defect is specific to the new-site Radix/Angular integration on the Legal tab."
+}

@@ -1,0 +1,1361 @@
+[
+  {
+    "case_id": "case-m4-neg-bva-1",
+    "field_key": "testid:numeric-boundary-neg-bva-1",
+    "field_label": "Numeric Boundary Neg/BVA 1",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-1"
+  },
+  {
+    "case_id": "case-m4-neg-bva-2",
+    "field_key": "testid:numeric-boundary-neg-bva-2",
+    "field_label": "Numeric Boundary Neg/BVA 2",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-2"
+  },
+  {
+    "case_id": "case-m4-neg-bva-3",
+    "field_key": "testid:numeric-boundary-neg-bva-3",
+    "field_label": "Numeric Boundary Neg/BVA 3",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-3"
+  },
+  {
+    "case_id": "case-m4-neg-bva-4",
+    "field_key": "testid:numeric-boundary-neg-bva-4",
+    "field_label": "Numeric Boundary Neg/BVA 4",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-4"
+  },
+  {
+    "case_id": "case-m4-neg-bva-5",
+    "field_key": "testid:numeric-boundary-neg-bva-5",
+    "field_label": "Numeric Boundary Neg/BVA 5",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-5"
+  },
+  {
+    "case_id": "case-m4-neg-bva-6",
+    "field_key": "testid:numeric-boundary-neg-bva-6",
+    "field_label": "Numeric Boundary Neg/BVA 6",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-6"
+  },
+  {
+    "case_id": "case-m4-neg-bva-7",
+    "field_key": "testid:numeric-boundary-neg-bva-7",
+    "field_label": "Numeric Boundary Neg/BVA 7",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-7"
+  },
+  {
+    "case_id": "case-m4-neg-bva-8",
+    "field_key": "testid:numeric-boundary-neg-bva-8",
+    "field_label": "Numeric Boundary Neg/BVA 8",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-8"
+  },
+  {
+    "case_id": "case-m4-neg-bva-9",
+    "field_key": "testid:numeric-boundary-neg-bva-9",
+    "field_label": "Numeric Boundary Neg/BVA 9",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-9"
+  },
+  {
+    "case_id": "case-m4-neg-bva-10",
+    "field_key": "testid:numeric-boundary-neg-bva-10",
+    "field_label": "Numeric Boundary Neg/BVA 10",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-10"
+  },
+  {
+    "case_id": "case-m4-neg-bva-11",
+    "field_key": "testid:numeric-boundary-neg-bva-11",
+    "field_label": "Numeric Boundary Neg/BVA 11",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-11"
+  },
+  {
+    "case_id": "case-m4-neg-bva-12",
+    "field_key": "testid:numeric-boundary-neg-bva-12",
+    "field_label": "Numeric Boundary Neg/BVA 12",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-12"
+  },
+  {
+    "case_id": "case-m4-neg-bva-13",
+    "field_key": "testid:numeric-boundary-neg-bva-13",
+    "field_label": "Numeric Boundary Neg/BVA 13",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-13"
+  },
+  {
+    "case_id": "case-m4-neg-bva-14",
+    "field_key": "testid:numeric-boundary-neg-bva-14",
+    "field_label": "Numeric Boundary Neg/BVA 14",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-14"
+  },
+  {
+    "case_id": "case-m4-neg-bva-15",
+    "field_key": "testid:numeric-boundary-neg-bva-15",
+    "field_label": "Numeric Boundary Neg/BVA 15",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-15"
+  },
+  {
+    "case_id": "case-m4-neg-bva-16",
+    "field_key": "testid:numeric-boundary-neg-bva-16",
+    "field_label": "Numeric Boundary Neg/BVA 16",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-16"
+  },
+  {
+    "case_id": "case-m4-neg-bva-17",
+    "field_key": "testid:numeric-boundary-neg-bva-17",
+    "field_label": "Numeric Boundary Neg/BVA 17",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-17"
+  },
+  {
+    "case_id": "case-m4-neg-bva-18",
+    "field_key": "testid:numeric-boundary-neg-bva-18",
+    "field_label": "Numeric Boundary Neg/BVA 18",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-18"
+  },
+  {
+    "case_id": "case-m4-neg-bva-19",
+    "field_key": "testid:numeric-boundary-neg-bva-19",
+    "field_label": "Numeric Boundary Neg/BVA 19",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-EXEMPT-19"
+  },
+  {
+    "case_id": "case-m4-positive-20",
+    "field_key": "testid:numeric-boundary-positive-20",
+    "field_label": "Numeric Boundary Positive 20",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-20"
+  },
+  {
+    "case_id": "case-m4-positive-21",
+    "field_key": "testid:numeric-boundary-positive-21",
+    "field_label": "Numeric Boundary Positive 21",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-21"
+  },
+  {
+    "case_id": "case-m4-positive-22",
+    "field_key": "testid:numeric-boundary-positive-22",
+    "field_label": "Numeric Boundary Positive 22",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-22"
+  },
+  {
+    "case_id": "case-m4-positive-23",
+    "field_key": "testid:numeric-boundary-positive-23",
+    "field_label": "Numeric Boundary Positive 23",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-23"
+  },
+  {
+    "case_id": "case-m4-positive-24",
+    "field_key": "testid:numeric-boundary-positive-24",
+    "field_label": "Numeric Boundary Positive 24",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-24"
+  },
+  {
+    "case_id": "case-m4-positive-25",
+    "field_key": "testid:numeric-boundary-positive-25",
+    "field_label": "Numeric Boundary Positive 25",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-25"
+  },
+  {
+    "case_id": "case-m4-positive-26",
+    "field_key": "testid:numeric-boundary-positive-26",
+    "field_label": "Numeric Boundary Positive 26",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-26"
+  },
+  {
+    "case_id": "case-m4-positive-27",
+    "field_key": "testid:numeric-boundary-positive-27",
+    "field_label": "Numeric Boundary Positive 27",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-27"
+  },
+  {
+    "case_id": "case-m4-positive-28",
+    "field_key": "testid:numeric-boundary-positive-28",
+    "field_label": "Numeric Boundary Positive 28",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-28"
+  },
+  {
+    "case_id": "case-m4-positive-29",
+    "field_key": "testid:numeric-boundary-positive-29",
+    "field_label": "Numeric Boundary Positive 29",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-29"
+  },
+  {
+    "case_id": "case-m4-positive-30",
+    "field_key": "testid:numeric-boundary-positive-30",
+    "field_label": "Numeric Boundary Positive 30",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-30"
+  },
+  {
+    "case_id": "case-m4-positive-31",
+    "field_key": "testid:numeric-boundary-positive-31",
+    "field_label": "Numeric Boundary Positive 31",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-31"
+  },
+  {
+    "case_id": "case-m4-positive-32",
+    "field_key": "testid:numeric-boundary-positive-32",
+    "field_label": "Numeric Boundary Positive 32",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-32"
+  },
+  {
+    "case_id": "case-m4-positive-33",
+    "field_key": "testid:numeric-boundary-positive-33",
+    "field_label": "Numeric Boundary Positive 33",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-33"
+  },
+  {
+    "case_id": "case-m4-positive-34",
+    "field_key": "testid:numeric-boundary-positive-34",
+    "field_label": "Numeric Boundary Positive 34",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-34"
+  },
+  {
+    "case_id": "case-m4-positive-35",
+    "field_key": "testid:numeric-boundary-positive-35",
+    "field_label": "Numeric Boundary Positive 35",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-35"
+  },
+  {
+    "case_id": "case-m4-positive-36",
+    "field_key": "testid:numeric-boundary-positive-36",
+    "field_label": "Numeric Boundary Positive 36",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-36"
+  },
+  {
+    "case_id": "case-m4-positive-37",
+    "field_key": "testid:numeric-boundary-positive-37",
+    "field_label": "Numeric Boundary Positive 37",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-37"
+  },
+  {
+    "case_id": "case-m4-positive-38",
+    "field_key": "testid:numeric-boundary-positive-38",
+    "field_label": "Numeric Boundary Positive 38",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-38"
+  },
+  {
+    "case_id": "case-m4-positive-39",
+    "field_key": "testid:numeric-boundary-positive-39",
+    "field_label": "Numeric Boundary Positive 39",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-39"
+  },
+  {
+    "case_id": "case-m4-positive-40",
+    "field_key": "testid:numeric-boundary-positive-40",
+    "field_label": "Numeric Boundary Positive 40",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-40"
+  },
+  {
+    "case_id": "case-m4-positive-41",
+    "field_key": "testid:numeric-boundary-positive-41",
+    "field_label": "Numeric Boundary Positive 41",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-41"
+  },
+  {
+    "case_id": "case-m4-positive-42",
+    "field_key": "testid:numeric-boundary-positive-42",
+    "field_label": "Numeric Boundary Positive 42",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-42"
+  },
+  {
+    "case_id": "case-m4-positive-43",
+    "field_key": "testid:numeric-boundary-positive-43",
+    "field_label": "Numeric Boundary Positive 43",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-43"
+  },
+  {
+    "case_id": "case-m4-positive-44",
+    "field_key": "testid:numeric-boundary-positive-44",
+    "field_label": "Numeric Boundary Positive 44",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-44"
+  },
+  {
+    "case_id": "case-m4-positive-45",
+    "field_key": "testid:numeric-boundary-positive-45",
+    "field_label": "Numeric Boundary Positive 45",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-45"
+  },
+  {
+    "case_id": "case-m4-positive-46",
+    "field_key": "testid:numeric-boundary-positive-46",
+    "field_label": "Numeric Boundary Positive 46",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-46"
+  },
+  {
+    "case_id": "case-m4-positive-47",
+    "field_key": "testid:numeric-boundary-positive-47",
+    "field_label": "Numeric Boundary Positive 47",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-47"
+  },
+  {
+    "case_id": "case-m4-positive-48",
+    "field_key": "testid:numeric-boundary-positive-48",
+    "field_label": "Numeric Boundary Positive 48",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-48"
+  },
+  {
+    "case_id": "case-m4-positive-49",
+    "field_key": "testid:numeric-boundary-positive-49",
+    "field_label": "Numeric Boundary Positive 49",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-49"
+  },
+  {
+    "case_id": "case-m4-positive-50",
+    "field_key": "testid:numeric-boundary-positive-50",
+    "field_label": "Numeric Boundary Positive 50",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-50"
+  },
+  {
+    "case_id": "case-m4-positive-51",
+    "field_key": "testid:numeric-boundary-positive-51",
+    "field_label": "Numeric Boundary Positive 51",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-51"
+  },
+  {
+    "case_id": "case-m4-positive-52",
+    "field_key": "testid:numeric-boundary-positive-52",
+    "field_label": "Numeric Boundary Positive 52",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-52"
+  },
+  {
+    "case_id": "case-m4-positive-53",
+    "field_key": "testid:numeric-boundary-positive-53",
+    "field_label": "Numeric Boundary Positive 53",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-53"
+  },
+  {
+    "case_id": "case-m4-positive-54",
+    "field_key": "testid:numeric-boundary-positive-54",
+    "field_label": "Numeric Boundary Positive 54",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-54"
+  },
+  {
+    "case_id": "case-m4-positive-55",
+    "field_key": "testid:numeric-boundary-positive-55",
+    "field_label": "Numeric Boundary Positive 55",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-55"
+  },
+  {
+    "case_id": "case-m4-positive-56",
+    "field_key": "testid:numeric-boundary-positive-56",
+    "field_label": "Numeric Boundary Positive 56",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-56"
+  },
+  {
+    "case_id": "case-m4-positive-57",
+    "field_key": "testid:numeric-boundary-positive-57",
+    "field_label": "Numeric Boundary Positive 57",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-57"
+  },
+  {
+    "case_id": "case-m4-positive-58",
+    "field_key": "testid:numeric-boundary-positive-58",
+    "field_label": "Numeric Boundary Positive 58",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-58"
+  },
+  {
+    "case_id": "case-m4-positive-59",
+    "field_key": "testid:numeric-boundary-positive-59",
+    "field_label": "Numeric Boundary Positive 59",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-59"
+  },
+  {
+    "case_id": "case-m4-positive-60",
+    "field_key": "testid:numeric-boundary-positive-60",
+    "field_label": "Numeric Boundary Positive 60",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-60"
+  },
+  {
+    "case_id": "case-m4-positive-61",
+    "field_key": "testid:numeric-boundary-positive-61",
+    "field_label": "Numeric Boundary Positive 61",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-61"
+  },
+  {
+    "case_id": "case-m4-positive-62",
+    "field_key": "testid:numeric-boundary-positive-62",
+    "field_label": "Numeric Boundary Positive 62",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-62"
+  },
+  {
+    "case_id": "case-m4-positive-63",
+    "field_key": "testid:numeric-boundary-positive-63",
+    "field_label": "Numeric Boundary Positive 63",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-63"
+  },
+  {
+    "case_id": "case-m4-positive-64",
+    "field_key": "testid:numeric-boundary-positive-64",
+    "field_label": "Numeric Boundary Positive 64",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-64"
+  },
+  {
+    "case_id": "case-m4-positive-65",
+    "field_key": "testid:numeric-boundary-positive-65",
+    "field_label": "Numeric Boundary Positive 65",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-65"
+  },
+  {
+    "case_id": "case-m4-positive-66",
+    "field_key": "testid:numeric-boundary-positive-66",
+    "field_label": "Numeric Boundary Positive 66",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-66"
+  },
+  {
+    "case_id": "case-m4-positive-67",
+    "field_key": "testid:numeric-boundary-positive-67",
+    "field_label": "Numeric Boundary Positive 67",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-67"
+  },
+  {
+    "case_id": "case-m4-positive-68",
+    "field_key": "testid:numeric-boundary-positive-68",
+    "field_label": "Numeric Boundary Positive 68",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-68"
+  },
+  {
+    "case_id": "case-m4-positive-69",
+    "field_key": "testid:numeric-boundary-positive-69",
+    "field_label": "Numeric Boundary Positive 69",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-69"
+  },
+  {
+    "case_id": "case-m4-positive-70",
+    "field_key": "testid:numeric-boundary-positive-70",
+    "field_label": "Numeric Boundary Positive 70",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-70"
+  },
+  {
+    "case_id": "case-m4-positive-71",
+    "field_key": "testid:numeric-boundary-positive-71",
+    "field_label": "Numeric Boundary Positive 71",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-71"
+  },
+  {
+    "case_id": "case-m4-positive-72",
+    "field_key": "testid:numeric-boundary-positive-72",
+    "field_label": "Numeric Boundary Positive 72",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-72"
+  },
+  {
+    "case_id": "case-m4-positive-73",
+    "field_key": "testid:numeric-boundary-positive-73",
+    "field_label": "Numeric Boundary Positive 73",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-73"
+  },
+  {
+    "case_id": "case-m4-positive-74",
+    "field_key": "testid:numeric-boundary-positive-74",
+    "field_label": "Numeric Boundary Positive 74",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-74"
+  },
+  {
+    "case_id": "case-m4-positive-75",
+    "field_key": "testid:numeric-boundary-positive-75",
+    "field_label": "Numeric Boundary Positive 75",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-75"
+  },
+  {
+    "case_id": "case-m4-positive-76",
+    "field_key": "testid:numeric-boundary-positive-76",
+    "field_label": "Numeric Boundary Positive 76",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-76"
+  },
+  {
+    "case_id": "case-m4-positive-77",
+    "field_key": "testid:numeric-boundary-positive-77",
+    "field_label": "Numeric Boundary Positive 77",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-77"
+  },
+  {
+    "case_id": "case-m4-positive-78",
+    "field_key": "testid:numeric-boundary-positive-78",
+    "field_label": "Numeric Boundary Positive 78",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-78"
+  },
+  {
+    "case_id": "case-m4-positive-79",
+    "field_key": "testid:numeric-boundary-positive-79",
+    "field_label": "Numeric Boundary Positive 79",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-79"
+  },
+  {
+    "case_id": "case-m4-positive-80",
+    "field_key": "testid:numeric-boundary-positive-80",
+    "field_label": "Numeric Boundary Positive 80",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-80"
+  },
+  {
+    "case_id": "case-m4-positive-81",
+    "field_key": "testid:numeric-boundary-positive-81",
+    "field_label": "Numeric Boundary Positive 81",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-81"
+  },
+  {
+    "case_id": "case-m4-positive-82",
+    "field_key": "testid:numeric-boundary-positive-82",
+    "field_label": "Numeric Boundary Positive 82",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-82"
+  },
+  {
+    "case_id": "case-m4-positive-83",
+    "field_key": "testid:numeric-boundary-positive-83",
+    "field_label": "Numeric Boundary Positive 83",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-83"
+  },
+  {
+    "case_id": "case-m4-positive-84",
+    "field_key": "testid:numeric-boundary-positive-84",
+    "field_label": "Numeric Boundary Positive 84",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-84"
+  },
+  {
+    "case_id": "case-m4-positive-85",
+    "field_key": "testid:numeric-boundary-positive-85",
+    "field_label": "Numeric Boundary Positive 85",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-85"
+  },
+  {
+    "case_id": "case-m4-positive-86",
+    "field_key": "testid:numeric-boundary-positive-86",
+    "field_label": "Numeric Boundary Positive 86",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-86"
+  },
+  {
+    "case_id": "case-m4-positive-87",
+    "field_key": "testid:numeric-boundary-positive-87",
+    "field_label": "Numeric Boundary Positive 87",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-87"
+  },
+  {
+    "case_id": "case-m4-positive-88",
+    "field_key": "testid:numeric-boundary-positive-88",
+    "field_label": "Numeric Boundary Positive 88",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-88"
+  },
+  {
+    "case_id": "case-m4-positive-89",
+    "field_key": "testid:numeric-boundary-positive-89",
+    "field_label": "Numeric Boundary Positive 89",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-89"
+  },
+  {
+    "case_id": "case-m4-positive-90",
+    "field_key": "testid:numeric-boundary-positive-90",
+    "field_label": "Numeric Boundary Positive 90",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-90"
+  },
+  {
+    "case_id": "case-m4-positive-91",
+    "field_key": "testid:numeric-boundary-positive-91",
+    "field_label": "Numeric Boundary Positive 91",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-91"
+  },
+  {
+    "case_id": "case-m4-positive-92",
+    "field_key": "testid:numeric-boundary-positive-92",
+    "field_label": "Numeric Boundary Positive 92",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-92"
+  },
+  {
+    "case_id": "case-m4-positive-93",
+    "field_key": "testid:numeric-boundary-positive-93",
+    "field_label": "Numeric Boundary Positive 93",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-93"
+  },
+  {
+    "case_id": "case-m4-positive-94",
+    "field_key": "testid:numeric-boundary-positive-94",
+    "field_label": "Numeric Boundary Positive 94",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-94"
+  },
+  {
+    "case_id": "case-m4-positive-95",
+    "field_key": "testid:numeric-boundary-positive-95",
+    "field_label": "Numeric Boundary Positive 95",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-95"
+  },
+  {
+    "case_id": "case-m4-positive-96",
+    "field_key": "testid:numeric-boundary-positive-96",
+    "field_label": "Numeric Boundary Positive 96",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-96"
+  },
+  {
+    "case_id": "case-m4-positive-97",
+    "field_key": "testid:numeric-boundary-positive-97",
+    "field_label": "Numeric Boundary Positive 97",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-97"
+  },
+  {
+    "case_id": "case-m4-positive-98",
+    "field_key": "testid:numeric-boundary-positive-98",
+    "field_label": "Numeric Boundary Positive 98",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-98"
+  },
+  {
+    "case_id": "case-m4-positive-99",
+    "field_key": "testid:numeric-boundary-positive-99",
+    "field_label": "Numeric Boundary Positive 99",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-99"
+  },
+  {
+    "case_id": "case-m4-positive-100",
+    "field_key": "testid:numeric-boundary-positive-100",
+    "field_label": "Numeric Boundary Positive 100",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-100"
+  },
+  {
+    "case_id": "case-m4-positive-101",
+    "field_key": "testid:numeric-boundary-positive-101",
+    "field_label": "Numeric Boundary Positive 101",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-101"
+  },
+  {
+    "case_id": "case-m4-positive-102",
+    "field_key": "testid:numeric-boundary-positive-102",
+    "field_label": "Numeric Boundary Positive 102",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-102"
+  },
+  {
+    "case_id": "case-m4-positive-103",
+    "field_key": "testid:numeric-boundary-positive-103",
+    "field_label": "Numeric Boundary Positive 103",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-103"
+  },
+  {
+    "case_id": "case-m4-positive-104",
+    "field_key": "testid:numeric-boundary-positive-104",
+    "field_label": "Numeric Boundary Positive 104",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-104"
+  },
+  {
+    "case_id": "case-m4-positive-105",
+    "field_key": "testid:numeric-boundary-positive-105",
+    "field_label": "Numeric Boundary Positive 105",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-105"
+  },
+  {
+    "case_id": "case-m4-positive-106",
+    "field_key": "testid:numeric-boundary-positive-106",
+    "field_label": "Numeric Boundary Positive 106",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-106"
+  },
+  {
+    "case_id": "case-m4-positive-107",
+    "field_key": "testid:numeric-boundary-positive-107",
+    "field_label": "Numeric Boundary Positive 107",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-107"
+  },
+  {
+    "case_id": "case-m4-positive-108",
+    "field_key": "testid:numeric-boundary-positive-108",
+    "field_label": "Numeric Boundary Positive 108",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-108"
+  },
+  {
+    "case_id": "case-m4-positive-109",
+    "field_key": "testid:numeric-boundary-positive-109",
+    "field_label": "Numeric Boundary Positive 109",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-109"
+  },
+  {
+    "case_id": "case-m4-positive-110",
+    "field_key": "testid:numeric-boundary-positive-110",
+    "field_label": "Numeric Boundary Positive 110",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-110"
+  },
+  {
+    "case_id": "case-m4-positive-111",
+    "field_key": "testid:numeric-boundary-positive-111",
+    "field_label": "Numeric Boundary Positive 111",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-111"
+  },
+  {
+    "case_id": "case-m4-positive-112",
+    "field_key": "testid:numeric-boundary-positive-112",
+    "field_label": "Numeric Boundary Positive 112",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-112"
+  },
+  {
+    "case_id": "case-m4-positive-113",
+    "field_key": "testid:numeric-boundary-positive-113",
+    "field_label": "Numeric Boundary Positive 113",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-113"
+  },
+  {
+    "case_id": "case-m4-positive-114",
+    "field_key": "testid:numeric-boundary-positive-114",
+    "field_label": "Numeric Boundary Positive 114",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-114"
+  },
+  {
+    "case_id": "case-m4-positive-115",
+    "field_key": "testid:numeric-boundary-positive-115",
+    "field_label": "Numeric Boundary Positive 115",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-115"
+  },
+  {
+    "case_id": "case-m4-positive-116",
+    "field_key": "testid:numeric-boundary-positive-116",
+    "field_label": "Numeric Boundary Positive 116",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-116"
+  },
+  {
+    "case_id": "case-m4-positive-117",
+    "field_key": "testid:numeric-boundary-positive-117",
+    "field_label": "Numeric Boundary Positive 117",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-117"
+  },
+  {
+    "case_id": "case-m4-positive-118",
+    "field_key": "testid:numeric-boundary-positive-118",
+    "field_label": "Numeric Boundary Positive 118",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-118"
+  },
+  {
+    "case_id": "case-m4-positive-119",
+    "field_key": "testid:numeric-boundary-positive-119",
+    "field_label": "Numeric Boundary Positive 119",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-119"
+  },
+  {
+    "case_id": "case-m4-positive-120",
+    "field_key": "testid:numeric-boundary-positive-120",
+    "field_label": "Numeric Boundary Positive 120",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-120"
+  },
+  {
+    "case_id": "case-m4-positive-121",
+    "field_key": "testid:numeric-boundary-positive-121",
+    "field_label": "Numeric Boundary Positive 121",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-121"
+  },
+  {
+    "case_id": "case-m4-positive-122",
+    "field_key": "testid:numeric-boundary-positive-122",
+    "field_label": "Numeric Boundary Positive 122",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-122"
+  },
+  {
+    "case_id": "case-m4-positive-123",
+    "field_key": "testid:numeric-boundary-positive-123",
+    "field_label": "Numeric Boundary Positive 123",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-123"
+  },
+  {
+    "case_id": "case-m4-positive-124",
+    "field_key": "testid:numeric-boundary-positive-124",
+    "field_label": "Numeric Boundary Positive 124",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-124"
+  },
+  {
+    "case_id": "case-m4-positive-125",
+    "field_key": "testid:numeric-boundary-positive-125",
+    "field_label": "Numeric Boundary Positive 125",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-125"
+  },
+  {
+    "case_id": "case-m4-positive-126",
+    "field_key": "testid:numeric-boundary-positive-126",
+    "field_label": "Numeric Boundary Positive 126",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-126"
+  },
+  {
+    "case_id": "case-m4-positive-127",
+    "field_key": "testid:numeric-boundary-positive-127",
+    "field_label": "Numeric Boundary Positive 127",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-127"
+  },
+  {
+    "case_id": "case-m4-positive-128",
+    "field_key": "testid:numeric-boundary-positive-128",
+    "field_label": "Numeric Boundary Positive 128",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-128"
+  },
+  {
+    "case_id": "case-m4-positive-129",
+    "field_key": "testid:numeric-boundary-positive-129",
+    "field_label": "Numeric Boundary Positive 129",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-129"
+  },
+  {
+    "case_id": "case-m4-positive-130",
+    "field_key": "testid:numeric-boundary-positive-130",
+    "field_label": "Numeric Boundary Positive 130",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-130"
+  },
+  {
+    "case_id": "case-m4-positive-131",
+    "field_key": "testid:numeric-boundary-positive-131",
+    "field_label": "Numeric Boundary Positive 131",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-131"
+  },
+  {
+    "case_id": "case-m4-positive-132",
+    "field_key": "testid:numeric-boundary-positive-132",
+    "field_label": "Numeric Boundary Positive 132",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-132"
+  },
+  {
+    "case_id": "case-m4-positive-133",
+    "field_key": "testid:numeric-boundary-positive-133",
+    "field_label": "Numeric Boundary Positive 133",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-133"
+  },
+  {
+    "case_id": "case-m4-positive-134",
+    "field_key": "testid:numeric-boundary-positive-134",
+    "field_label": "Numeric Boundary Positive 134",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-134"
+  },
+  {
+    "case_id": "case-m4-positive-135",
+    "field_key": "testid:numeric-boundary-positive-135",
+    "field_label": "Numeric Boundary Positive 135",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-135"
+  },
+  {
+    "case_id": "case-m4-positive-136",
+    "field_key": "testid:numeric-boundary-positive-136",
+    "field_label": "Numeric Boundary Positive 136",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-136"
+  },
+  {
+    "case_id": "case-m4-positive-137",
+    "field_key": "testid:numeric-boundary-positive-137",
+    "field_label": "Numeric Boundary Positive 137",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-137"
+  },
+  {
+    "case_id": "case-m4-positive-138",
+    "field_key": "testid:numeric-boundary-positive-138",
+    "field_label": "Numeric Boundary Positive 138",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-138"
+  },
+  {
+    "case_id": "case-m4-positive-139",
+    "field_key": "testid:numeric-boundary-positive-139",
+    "field_label": "Numeric Boundary Positive 139",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-139"
+  },
+  {
+    "case_id": "case-m4-positive-140",
+    "field_key": "testid:numeric-boundary-positive-140",
+    "field_label": "Numeric Boundary Positive 140",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-140"
+  },
+  {
+    "case_id": "case-m4-positive-141",
+    "field_key": "testid:numeric-boundary-positive-141",
+    "field_label": "Numeric Boundary Positive 141",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-141"
+  },
+  {
+    "case_id": "case-m4-positive-142",
+    "field_key": "testid:numeric-boundary-positive-142",
+    "field_label": "Numeric Boundary Positive 142",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-142"
+  },
+  {
+    "case_id": "case-m4-positive-143",
+    "field_key": "testid:numeric-boundary-positive-143",
+    "field_label": "Numeric Boundary Positive 143",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-143"
+  },
+  {
+    "case_id": "case-m4-positive-144",
+    "field_key": "testid:numeric-boundary-positive-144",
+    "field_label": "Numeric Boundary Positive 144",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-144"
+  },
+  {
+    "case_id": "case-m4-positive-145",
+    "field_key": "testid:numeric-boundary-positive-145",
+    "field_label": "Numeric Boundary Positive 145",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-145"
+  },
+  {
+    "case_id": "case-m4-positive-146",
+    "field_key": "testid:numeric-boundary-positive-146",
+    "field_label": "Numeric Boundary Positive 146",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-146"
+  },
+  {
+    "case_id": "case-m4-positive-147",
+    "field_key": "testid:numeric-boundary-positive-147",
+    "field_label": "Numeric Boundary Positive 147",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-147"
+  },
+  {
+    "case_id": "case-m4-positive-148",
+    "field_key": "testid:numeric-boundary-positive-148",
+    "field_label": "Numeric Boundary Positive 148",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-148"
+  },
+  {
+    "case_id": "case-m4-positive-149",
+    "field_key": "testid:numeric-boundary-positive-149",
+    "field_label": "Numeric Boundary Positive 149",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-149"
+  },
+  {
+    "case_id": "case-m4-positive-150",
+    "field_key": "testid:numeric-boundary-positive-150",
+    "field_label": "Numeric Boundary Positive 150",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-150"
+  },
+  {
+    "case_id": "case-m4-positive-151",
+    "field_key": "testid:numeric-boundary-positive-151",
+    "field_label": "Numeric Boundary Positive 151",
+    "field_type": "number",
+    "category": "Positive",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M4-151"
+  }
+]

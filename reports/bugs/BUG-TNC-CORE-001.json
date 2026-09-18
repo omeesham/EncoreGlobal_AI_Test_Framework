@@ -1,0 +1,21 @@
+{
+  "id": "BUG-TNC-CORE-001",
+  "title": "Bulk save returns HTTP 500 when residue rows are present in the grid — observed correlation, offending row never isolated",
+  "module": "terms-conditions",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-08-06",
+  "reconfirmedDate": "2026-08-06",
+  "requirementSource": "DEF-TNC-002",
+  "stepsToReproduce": [
+    "Open Terms and Conditions for office 1604 with US English filter.",
+    "With residue rows present in the grid (e.g. rows containing 260-char names, special-character sentinels, or RTE sentinels from prior automation), change the language of a clean row.",
+    "Click Save.",
+    "Observe the network response: PUT to /navigator/api/core/terms-conditions-texts returns HTTP 500 with body {\"success\":false,… \"Something unexpected has happened… Internal Server Error!\"}."
+  ],
+  "expectedBehavior": "A valid language change on a clean row should persist through save regardless of other rows' content. The server should either accept the batch or reject only the invalid row(s).",
+  "actualBehavior": "The save PUT sends EVERY row in one payload (~1.5MB). With residue rows present, the server returned HTTP 500 and the entire batch was discarded. The specific offending row was NEVER isolated — this is an observed correlation between residue-row presence and HTTP 500, not proven causation.",
+  "mcpEvidence": "Live-verified 2026-08-06 by tnc-persistence-r1 (gpt-5.5): PUT returned 500; probe9 (claude-sonnet-4.6) confirmed clean-row-only saves succeed (language change persisted, row count changed from 50 to 49). Evidence: out-persistence/VERDICT.md, out-probe9/PROBE9.md, walk-evidence-terms-conditions-2026-08-06.md.",
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The bulk-save design (entire grid in one PUT) is new-site-only. Old site uses inline per-cell saves. No old-site equivalent of this failure mode exists."
+}

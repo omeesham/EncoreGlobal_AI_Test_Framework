@@ -1,0 +1,1685 @@
+{
+  "schema": "walk-coverage-report/v1",
+  "date": "2026-07-22",
+  "state": "mutant-fixture",
+  "denominator": 151,
+  "entries": [
+    {
+      "key": "testid:numeric-boundary-neg-bva-1",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-2",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-3",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-4",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-5",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-6",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-7",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-8",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-9",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-10",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-11",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-12",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-13",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-14",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-15",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-16",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-17",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-18",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-neg-bva-19",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-20",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-21",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-22",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-23",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-24",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-25",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-26",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-27",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-28",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-29",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-30",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-31",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-32",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-33",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-34",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-35",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-36",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-37",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-38",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-39",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-40",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-41",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-42",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-43",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-44",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-45",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-46",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-47",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-48",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-49",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-50",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-51",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-52",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-53",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-54",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-55",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-56",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-57",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-58",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-59",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-60",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-61",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-62",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-63",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-64",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-65",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-66",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-67",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-68",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-69",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-70",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-71",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-72",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-73",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-74",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-75",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-76",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-77",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-78",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-79",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-80",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-81",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-82",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-83",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-84",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-85",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-86",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-87",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-88",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-89",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-90",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-91",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-92",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-93",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-94",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-95",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-96",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-97",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-98",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-99",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-100",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-101",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-102",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-103",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-104",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-105",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-106",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-107",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-108",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-109",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-110",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-111",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-112",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-113",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-114",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-115",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-116",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-117",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-118",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-119",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-120",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-121",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-122",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-123",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-124",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-125",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-126",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-127",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-128",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-129",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-130",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-131",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-132",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-133",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-134",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-135",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-136",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-137",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-138",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-139",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-140",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-141",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-142",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-143",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-144",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-145",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-146",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-147",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-148",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-149",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-150",
+      "role": "spinbutton",
+      "status": "OK"
+    },
+    {
+      "key": "testid:numeric-boundary-positive-151",
+      "role": "spinbutton",
+      "status": "OK"
+    }
+  ],
+  "derived_types": {
+    "testid:numeric-boundary-neg-bva-1": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-2": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-3": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-4": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-5": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-6": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-7": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-8": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-9": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-10": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-11": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-12": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-13": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-14": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-15": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-16": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-17": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-18": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-neg-bva-19": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-20": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-21": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-22": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-23": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-24": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-25": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-26": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-27": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-28": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-29": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-30": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-31": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-32": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-33": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-34": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-35": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-36": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-37": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-38": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-39": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-40": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-41": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-42": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-43": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-44": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-45": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-46": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-47": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-48": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-49": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-50": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-51": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-52": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-53": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-54": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-55": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-56": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-57": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-58": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-59": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-60": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-61": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-62": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-63": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-64": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-65": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-66": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-67": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-68": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-69": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-70": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-71": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-72": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-73": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-74": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-75": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-76": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-77": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-78": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-79": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-80": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-81": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-82": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-83": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-84": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-85": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-86": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-87": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-88": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-89": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-90": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-91": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-92": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-93": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-94": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-95": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-96": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-97": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-98": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-99": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-100": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-101": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-102": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-103": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-104": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-105": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-106": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-107": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-108": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-109": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-110": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-111": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-112": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-113": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-114": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-115": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-116": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-117": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-118": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-119": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-120": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-121": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-122": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-123": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-124": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-125": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-126": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-127": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-128": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-129": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-130": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-131": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-132": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-133": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-134": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-135": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-136": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-137": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-138": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-139": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-140": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-141": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-142": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-143": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-144": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-145": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-146": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-147": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-148": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-149": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-150": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    },
+    "testid:numeric-boundary-positive-151": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    }
+  },
+  "completion_record": {
+    "version": 1,
+    "status": "complete",
+    "surfaces_attempted": [
+      "mutant-fixture"
+    ],
+    "surfaces_enumerated": [
+      "mutant-fixture"
+    ],
+    "element_count": 151,
+    "generated_at": "2026-07-22T16:15:04.507+05:30",
+    "generator": "phase-4.6-mutant-fixture",
+    "content_sha256": "78026573507ff7792a02a5de508250e98250f596f1deac2d7a22a18dc48f5b91"
+  }
+}

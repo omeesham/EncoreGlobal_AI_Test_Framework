@@ -1,0 +1,35 @@
+{
+  "id": "BUG-CPR-OVR-004",
+  "title": "Corporate Pricing — Product Group Override: multi-dot numeric input ('1.2.3') silently coerced to valid number ('1.23') with no validation error",
+  "module": "Corporate Pricing",
+  "submodule": "Product Group Override",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-07-22",
+  "requirementSource": "NM-1463 (Corporate PG Pricing Override Management & Context Filtering) — standard input-validation expectation: a value that is not a valid decimal number must be rejected or flagged; silent coercion of malformed input to a plausible-looking number is a data-integrity defect.",
+  "stepsToReproduce": [
+    "Open Corporate Pricing > Product Group Override for an office that has override data (e.g., cloudapps-e2e.encoreglobal.com/navigator/locations/1606/settings/corporate-pricing/pg-override).",
+    "In the 'Change Local Office' picker, search '1606', check the row, and click 'Select' to load the office's overrides.",
+    "In the override grid, click into an Override Price or Max Discount % cell to enter edit mode.",
+    "Clear the current value and type '1.2.3' (a string with two decimal points — an invalid numeric input).",
+    "Press Tab or click elsewhere to commit the value.",
+    "Observe what value is stored in the cell and whether any validation error or warning is shown."
+  ],
+  "expectedBehavior": "Entering '1.2.3' is either rejected with a visible validation error (e.g. 'Must be a valid number') or the field reverts to its prior value. The malformed input must never be silently committed as a different, plausible-looking number.",
+  "actualBehavior": "The value '1.2.3' is silently coerced to '1.23' — the second decimal point and trailing digit are stripped, producing a number that looks valid but differs from what the user typed. No validation error or warning is shown. The user cannot detect the silent change unless they notice the committed value has changed.",
+  "mcpEvidence": {
+    "sessionDate": "2026-07-22",
+    "tool": "field-inventory walk (clients/encore/specs_planning/_internal/field-inventories/corporate-pricing-override-2026-07-22.md, line 132)",
+    "findings": "Field inventory records: Override Price, Max Discount % — '1.2.3' typed → '1.23' committed — typo silently becomes a plausible number. Observed during systematic field census on the override screen."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": null,
+  "affectedTests": [
+    "TC-CPR-OVR (Override Price / Max Discount % input validation — multi-dot coercion) — test case not yet authored; defect surfaces from field walk, not existing TCs."
+  ],
+  "networkEvidence": "n/a — client-side input sanitisation behavior; the coercion occurs in the Angular form control before any network save call is made.",
+  "notes": "Split from BUG-CPR-OVR-002 on 2026-07-30: that record carried two unrelated defects under one ID. BUG-CPR-OVR-002 retains the server-side HTTP 500 / duplicate-key defect for offices 1121 and 1604. This record captures the client-side numeric input coercion defect independently. The field-inventory at clients/encore/specs_planning/_internal/field-inventories/corporate-pricing-override-2026-07-22.md line 132 references this defect under the former ID BUG-CPR-OVR-002 — that reference has not been updated (dispatcher decision: other sessions are active on those files). Affects the Override Price and Max Discount % fields on the PG Override screen.",
+  "formerIds": [
+    "BUG-CPR-OVR-002 (split 2026-07-30 — shared that ID with the server-side HTTP 500 / duplicate-key defect)"
+  ]
+}

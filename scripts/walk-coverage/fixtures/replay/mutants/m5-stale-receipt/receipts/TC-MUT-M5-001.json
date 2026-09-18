@@ -1,0 +1,9 @@
+{
+  "case_id": "TC-MUT-M5-001",
+  "field": "Override Price",
+  "value": "-1",
+  "announced": true,
+  "escapable": true,
+  "spec_sha256": "b92240db78475bba58ad99b44693844048f65ecc44a14d591bc8370eb5a5a8cb",
+  "receipt_sha256": "cb104e44014473c4d8d9c7572af5d0d2f344550d3e3c888758b1cdd81d0ffb9e"
+}

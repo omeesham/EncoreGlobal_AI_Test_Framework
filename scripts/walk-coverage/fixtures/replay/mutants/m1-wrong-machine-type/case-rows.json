@@ -1,0 +1,11 @@
+[
+  {
+    "case_id": "testid:pricing-strategy::required",
+    "field_key": "testid:pricing-strategy",
+    "field_label": "Pricing Strategy",
+    "field_type": "text",
+    "category": "Required",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M1-001"
+  }
+]

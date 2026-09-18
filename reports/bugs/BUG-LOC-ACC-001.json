@@ -1,0 +1,42 @@
+{
+  "id": "BUG-LOC-ACC-001",
+  "title": "Phone 2 (optional) cleared/empty value is not persisted — Save enables and reports success, but the prior value reappears on reload (silent non-persistence)",
+  "module": "LocationAccountAddress",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-05-29",
+  "requirementSource": "Account & Address sub-tab (/locations/1604/settings/location). TC-LOC-ACC-016 ('Phone 2 optional, no validation error when empty') establishes that empty is a VALID, supported state for Phone 2 — unlike Phone 1, which is required. An editable optional field that accepts a clear and reports a successful save is expected to persist the cleared (empty) value. Field-inventory: clients/encore/specs_planning/_internal/field-inventories/account-address-2026-05-29.md (Phone 2 = editable, optional, txtAccPhone2).",
+  "stepsToReproduce": [
+    "Navigate to /navigator/locations/1604/settings/location and open the Account and Address tab.",
+    "In the Account card, clear the Phone 2 field (txtAccPhone2) so it is empty.",
+    "Observe: the Save button ENABLES (the form treats the clear as a pending change).",
+    "Click Save and confirm the Save Changes dialog — the save reports success (no error).",
+    "Reload the page and return to the Account and Address tab.",
+    "Observe: Phone 2 is NOT empty — the previous (pre-clear) value has reappeared."
+  ],
+  "expectedBehavior": "Clearing an optional field (Phone 2) and saving persists the empty value; after reload the field is empty. (Contrast: Phone 1 is required — clearing it correctly shows an inline red validation error and leaves Save DISABLED, so it can never be saved empty. That behavior is correct and is not part of this bug.)",
+  "actualBehavior": "Manual walk (authoritative, observed by Rutvik 2026-05-29): clearing Phone 2 enables Save; Save + Confirm reports success; on reload the prior Phone 2 value reappears — the cleared (empty) value is not persisted. The UI gives a success signal while the field did not actually clear, which is the dangerous part (user believes the field was cleared). Whether the empty value is dropped client-side or accepted-then-reverted server-side is NOT yet confirmed (see networkEvidence — a controlled write-repro is needed).",
+  "mcpEvidence": {
+    "sessionDate": "2026-05-29",
+    "findings": "Two independent live-e2e observations, plus the authoritative manual walk: (1) MANUAL (Rutvik, authoritative per LR-ENC-001): clearing Phone 2 enables Save; Save+confirm reports success; on reload the prior value reappears. (2) AUTOMATED RUN 11:34 local (npx playwright test location-account-address.spec.ts --project=encore-locations --workers=1 --retries=0): the (since-removed) beforeEach ensureDefaultState() read Phone 2 = '555-000-0001' and across 3 full reset cycles could not return it to empty; failure-state DOM snapshot captured 'term: Phone 2 -> textbox: 555-000-0001' (artifact: reports/test-results/location-account-address-L-36003-ect-Customer-Address-dialog-encore-locations/ — error-context.md + test-failed-1.png + trace.zip). Automation nuance stated honestly: in the Playwright path fill('') did NOT dirty the masked input, so Save stayed disabled and no save POST fired by automation — so this run proves the value was STICKY at 555 during that run, not the full enable->save->revert path. (3) READ-ONLY playwright-cli walk 12:24 local (this session): office 1604 Phone 2 reads EMPTY and Phone 1 reads '760-883-1957' right now. CONFLICT, recorded not resolved: observation (2) saw 555 stuck while (3) sees empty now — so the precise persistence rule (does an empty save revert to the LAST-SAVED value? is it hydration-race-dependent?) is NOT yet definitively characterized. A controlled write-repro (fill marker -> save -> reload -> clear -> save -> reload, with network capture) is the step that would resolve it; it was NOT performed because it is a persistent write to shared office 1604 data and was not consented to."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "clients/encore/specs_planning/_internal/old-site-baseline/account-address-2026-05-29.md — the old-site 'Account And Address' tab is a billing-configuration surface; the new-site editable Phone 1 / Phone 2 picker+phone surface is net-new on e2e (baselineScope: baseline-partial; phone surface baseline-absent). No old-site behavior exists to regress from, so per LR-ENC-001 + ALL-078 this is a new-site defect, not a regression. Recommend escalation via /encore-questions to confirm intended persistence semantics for clearing optional Phone 2.",
+  "affectedTests": ["TC-LOC-ACC-029", "TC-LOC-ACC-016"],
+  "networkEvidence": "NOT captured at the API layer — no assumption made about the save endpoint. The automated run fired no save POST (Save stayed disabled in automation). The save-endpoint URL is unconfirmed; the reload hydration GET is known to be '/navigator-legacy/getLocationDetail' (page object reloadAndNavigate). To make this airtight, a controlled write-repro with `playwright-cli network` capture is required: fill Phone 2 via a real value to enable Save, capture the save request + payload/response, then the post-reload getLocationDetail response, to determine whether an empty Phone 2 is (a) dropped client-side before send, (b) accepted then discarded server-side, or (c) reverted to the last-saved value. This repro is a persistent write to shared office 1604 data and was deliberately NOT run without explicit consent (the write was blocked by the environment's safety classifier).",
+  "currentLiveState": "As of 2026-05-29 12:24 local (read-only playwright-cli): office 1604 Phone 2 = EMPTY, Phone 1 = 760-883-1957. (Earlier claim that the office was 'stuck at 555-000-0001' was an inference from the 11:34 failed run and is NOT the current state — corrected here.)",
+  "verificationLog": [
+    {
+      "verifierAgent": "OWNER (Opus 4.8) — playwright-cli, office 1605 (sanctioned scratch office per Rutvik, to avoid touching test office 1604)",
+      "verifiedDate": "2026-05-29",
+      "verdict": "PARTIAL — automation could not reach the save-empty step; manual observation remains authoritative",
+      "evidence": "Office 1605 (The St. Regis San Francisco) start state: Phone 1 = 653653, Phone 2 = 415-284-4104. Attempted to clear Phone 2 to empty via FOUR methods: (1) native Playwright fill(''), (2) native value-setter + dispatched input/change/blur events, (3) real keys Ctrl+A then Delete, (4) real keys End + Backspace x14 + Tab. In ALL FOUR, the input DISPLAY emptied but the left-panel Save button stayed DISABLED — Angular did not register the emptied Phone 2 as a dirty change, so no save could be dispatched. Because Save never enabled, NO save was ever clicked and NO write was persisted; a post-exploration reload confirmed 1605 Phone 2 still = 415-284-4104 (data untouched). IMPLICATION: the 'clear -> Save enables -> save -> revert on reload' sequence reported manually requires genuine human input to trigger; programmatic clearing does not dirty the field. This is also consistent with why the automated framework (ensureDefaultState / TC-029) could never reliably reset or persist an empty Phone 2. The revert-on-reload persistence behavior itself was NOT directly reproduced by automation and rests on the authoritative manual observation; definitive network-level proof needs a HEADED, human-driven clear+save on a scratch office (or the client's own confirmation)."
+    },
+    {
+      "verifierAgent": "Rutvik (human, manual walk — authoritative manual observation)",
+      "verifiedDate": "2026-07-01",
+      "verdict": "CONFIRMED — bug reproduces on manual human interaction",
+      "evidence": "Rutvik manually cleared the Phone 2 field on the Account and Address tab, saved, and reloaded: the previously-saved value reappeared — the empty value did not persist. This is a direct human-driven reproduction of the enable -> save -> revert-on-reload sequence that automation could not trigger (programmatic clearing never dirties the masked field, per the 2026-05-29 four-method attempt above). Bug remains open; it blocks only TC-LOC-ACC-029 (which asserts an empty Phone 2 persists). The per-test baseline added 2026-07-01 uses a dedicated NON-EMPTY Phone 2 value, so it never depends on an empty value persisting and is unaffected by this bug. Intended persistence semantics for clearing an optional field remain to be escalated to the client-side QA contact."
+    }
+  ]
+}

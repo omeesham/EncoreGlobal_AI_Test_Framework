@@ -1,0 +1,48 @@
+{
+  "id": "BUG-LOC-ACC-002",
+  "title": "Account List search returns no results for any query — backend /navigator/api/location/account-search responds {\"success\":true,\"data\":[]} even for the office's own existing account (regression on e2e)",
+  "module": "LocationAccountAddress",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-06-30",
+  "requirementSource": "Account & Address sub-tab (/locations/1604/settings/location) > Venue/Branch Account card > 'Name' button opens the Account List dialog, which searches existing accounts so the user can select/change the account bound to the location. Search returning matching accounts was verified live on e2e and recorded in three places: (1) src/data/locations/location-account-address.ts:36 — 'Verified live 2026-05-29: AC000107 -> exactly 1 row Parker Palm Springs'; (2) specs_planning/_internal/field-inventories/account-address-2026-05-29.md — Account Name filter: 'Parker' -> 'Parker Palm Springs'; (3) tests/locations/location-account-address.spec.ts — comment 'Account-Number backend search is slow/variable (~29s measured live 2026-06-02)'. So search demonstrably returned data 4-5 weeks before this filing.",
+  "stepsToReproduce": [
+    "Navigate to https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/location and open the Account and Address tab.",
+    "Note the Venue/Branch Account card shows Venue Name = 'Parker Palm Springs' (account AC000107) — i.e. this account exists and is bound to the office.",
+    "Click the 'Name' button (data-testid location-settings-btn-lookup-venue) to open the Account List dialog.",
+    "Type 'Parker' in the Account Name field (data-testid location-settings-input-account-name) and click Search (data-testid location-settings-btn-search-account).",
+    "Observe: the results table shows 'No results.' The backend call GET /navigator/api/location/account-search?accountName=Parker&... returns {\"success\":true,\"data\":[]}.",
+    "Repeat with Account Number = 'AC000107' (the office's own account number) and with a deliberately broad term like 'a' — every query returns {\"success\":true,\"data\":[]}."
+  ],
+  "expectedBehavior": "Searching the Account List by name/number/address returns the matching account record(s). Specifically: Account Name 'Parker' returns 'Parker Palm Springs'; Account Number 'AC000107' returns exactly 1 row (Parker Palm Springs) — as verified live on e2e on 2026-05-29. A broad term should return many rows.",
+  "actualBehavior": "The backend endpoint GET /navigator/api/location/account-search returns HTTP 200 with body {\"success\":true,\"data\":[]} for EVERY query, including a search for the account currently bound to this office (AC000107 / 'Parker Palm Springs') and a broad single-character search. The dialog therefore renders 'No results.' for all inputs. The front-end sends the correct query parameters (confirmed in the request URL); the empty data array originates server-side. Because the response is instant-empty (no longer the ~29s populated response measured on 2026-06-02), the account-search data source/query appears to have regressed or the e2e account dataset/index has been emptied or disconnected.",
+  "rootCauseLayer": "SERVER-SIDE (app backend / e2e data). The browser issues GET /navigator/api/location/account-search with correct filter params and the API answers success:true with an empty data array. This is NOT a front-end defect and NOT a test defect — the test correctly expects accounts the API used to return. Two server-side candidates (cannot be disambiguated without backend/DB access): (a) the account-search query logic regressed and returns empty regardless of input; (b) the e2e account-master table / search index was purged or disconnected so there are no records to return. Either is owned by the Encore backend/environment, not QA.",
+  "mcpEvidence": {
+    "sessionDate": "2026-06-30",
+    "tool": "playwright-cli equivalent — standalone Playwright (headless chromium) with saved e2e storageState (.auth/encore-state.json); response bodies captured via page.on('response') filtered to /navigator/api.",
+    "findings": "Live replication against cloudapps-e2e on 2026-06-30 (office 1604). Venue/Branch Account card read Venue Name = 'Parker Palm Springs' (proving the account exists and is bound to the office). Four searches were driven through the real Account List dialog; all four returned the SAME empty body. Captured request/response pairs (verbatim): [1] GET /navigator/api/location/account-search?accountNumber=&accountName=Parker&address=&country=&state=&city= -> 200 {\"success\":true,\"data\":[]} (CLEAN isolated proof: only accountName=Parker set). [2] GET .../account-search?accountNumber=AC000107&accountName=Parker&... -> 200 {\"success\":true,\"data\":[]}. [3] GET .../account-search?...&accountName=a&... -> 200 {\"success\":true,\"data\":[]} (broad single char). [4] GET .../account-search?...&address=Beverly&... -> 200 {\"success\":true,\"data\":[]}. Honest note on method: the repro script cleared only the active filter field between searches, so searches [2]-[4] carried leftover params from prior fields (cumulative) — this does not weaken the finding because search [1] is fully isolated (accountName=Parker alone) and already returns empty, and the broad [3] would have matched many records had any been returned at all.",
+    "anomaly": "Response is instant-empty in 2026-06-30, versus a populated ~29s response measured live on 2026-06-02 — consistent with a backend regression or an emptied/disconnected e2e account dataset."
+  },
+  "networkEvidence": "Endpoint identified live: GET /navigator/api/location/account-search (query params: accountNumber, accountName, address, country, state, city). All observed responses: HTTP 200, body {\"success\":true,\"data\":[]}. No 4xx/5xx — the API reports success while returning zero rows.",
+  "baselineComparison": "regression-on-e2e",
+  "baselineEvidence": "This is a regression against e2e's own previously-verified state (not the old-site baseline). Search returned the expected account on e2e on 2026-05-29 (src/data/locations/location-account-address.ts:36) and was populated/slow on 2026-06-02 (spec comment); it returns empty on 2026-06-30. Sibling dialog (Select Customer Address) returned 7 address rows for the same office on 2026-06-11 (walk-evidence-account-address-master-bill-to-2026-06-11.md), so general backend connectivity for office 1604 is not wholesale down — the emptiness is specific to the account-search dataset/endpoint.",
+  "affectedTests": [
+    "TC-LOC-ACC-004",
+    "TC-LOC-ACC-005",
+    "TC-LOC-ACC-006",
+    "TC-LOC-ACC-007",
+    "TC-LOC-ACC-025",
+    "TC-LOC-ACC-026",
+    "TC-LOC-ACC-028",
+    "TC-LOC-ACC-030"
+  ],
+  "testImpactNote": "All 8 affected tests currently fail by timing out at 45s, because the page object's searchAccountByFilter() (src/pages/locations/location-account-address.page.ts:296) waits via page.waitForFunction for a data row (tbody tr:first-child td:nth-child(2)) that never appears in the single-cell 'No results.' row. That 45s hang is a SECONDARY test-robustness issue (the test should fail fast on an empty data array with a clear message) and is tracked separately from this app defect; it does not change the root cause.",
+  "verificationLog": [
+    {
+      "verifierAgent": "OWNER (Opus 4.8) — standalone Playwright headless against cloudapps-e2e with saved e2e storageState, office 1604 (read-only search; no writes)",
+      "verifiedDate": "2026-06-30",
+      "verdict": "CONFIRMED — backend account-search returns empty for all inputs including the office's own bound account",
+      "evidence": "See mcpEvidence: 4 live GET /navigator/api/location/account-search calls, every one HTTP 200 {\"success\":true,\"data\":[]}, while the same page displays Venue Name 'Parker Palm Springs' (AC000107). Read-only — no account was selected, no save was performed, no office data was mutated."
+    }
+  ]
+}

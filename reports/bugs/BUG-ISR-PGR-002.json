@@ -1,0 +1,40 @@
+{
+  "id": "BUG-ISR-PGR-002",
+  "title": "Item Search — Product Groups: dragging a column edge stores the whole drag distance but the column renders only about 6% of it, because the result table is pinned to its container width",
+  "module": "Item Search",
+  "severity": "low",
+  "status": "withdrawn",
+  "discoveredDate": "2026-09-09",
+  "requirementSource": "NM-1852 (Grid Options: column width persists locally and Reset to Default View clears it) — the feature exists, so a drag is meant to resize the column visibly, as it does on the Item Search -> Products grid, where the same handle moves the column edge with the pointer.",
+  "stepsToReproduce": [
+    "Open Item Search -> Product Groups on the e2e environment (office 1101), search 'ZZ E2E' (22 groups).",
+    "Grid Options -> Reset to Default View, then read the Name header width (317 px on a 962 px wide table on 2026-09-09).",
+    "Press on the Name column's right-edge resize handle (accessible name 'Resize column productGroupName'), drag 150 px to the right and release.",
+    "Read local storage key product-groups-table-settings -> columnSizing.productGroupName is 550 (400 + 150): the drag was stored in full.",
+    "Read the Name header width -> about 328 px: it grew about 11 px for a 150 px drag. Drags of +50 / +300 / -300 store 450 / 900 / 600 and render 320 / 336 / 328 px; the other three handles behave the same.",
+    "Compare on Item Search -> Products: the same 200 px drag on a column edge grows the table from 1315 to 1515 px and the column follows the pointer."
+  ],
+  "expectedBehavior": "The column edge follows the pointer: a 150 px drag widens the column by about 150 px (the table growing or the neighbours shrinking), matching what the Products grid does with the same control.",
+  "actualBehavior": "The table keeps width: 100% of its container while the requested column widths already exceed that container, so the browser renormalises every column and the drag shows as a few pixels. The stored preference and the rendered grid disagree; a user cannot make a column meaningfully wider.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-09",
+    "findings": "Reproduced live on the e2e environment, office 1101, with a real pointer sequence (press, move in steps, release) through headless Playwright and the suite's saved sign-in. Machine outputs in .playwright-cli/pgr-2026-09-09/: probes-resize-response.json (Name: +50/+150/+300/-300 -> stored 450/600/900/600, rendered 320/328/336/328 px, table width 962 px throughout, table style width 100%), probes-resize-all-handles.json (+60 px on each of the four handles -> stored 460/510/410/210, rendered +2 to +4 px each), probes-products-resize-compare.json (Products grid: table 1315 -> 1515 px for +200), screenshots 20-resize-response.png, 22-products-resize-compare.png, 24-resize-all-handles.png."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": null,
+  "affectedTests": [
+    "TC-ISR-PGR-038"
+  ],
+  "networkEvidence": "n/a — a client-side layout defect; no request is involved. The stored preference is written to local storage on release and restored after a reload.",
+  "notes": "WITHDRAWN 2026-09-10 by owner ruling: accepted behaviour, not a defect. TC-ISR-PGR-038 is unchanged: it already asserts the stored delta plus wider-than-before and never a one-to-one rendered change, so it pins the accepted behaviour as is. History preserved: Severity assessed low: a usability defect with no data impact. TC-ISR-PGR-038 asserts the stored delta plus 'wider than before' and deliberately not a one-to-one rendered change; tighten it to the rendered width once the fix lands.",
+  "verificationLog": [
+    {
+      "verifierAgent": "OWNER (Claude)",
+      "verifiedDate": "2026-09-10",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-10 (Vikas Yadav): not a defect - accepted behaviour of the page. The measured facts of the filing stand unchanged (the observation is real and reproducible); only the classification changes. Consequence: TC-ISR-PGR-038 is unchanged: it already asserts the stored delta plus wider-than-before and never a one-to-one rendered change, so it pins the accepted behaviour as is. No product fix is expected or tracked from this record.",
+      "minimalRepro": "n/a - behaviour accepted as designed by the owner; the filed steps still reproduce the observation.",
+      "evidence": []
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "id": "BUG-DSM-LOA-002",
+  "title": "Discount Matrix — Location Activation: grid columns are not sortable despite the ticket scoping the grid as sortable",
+  "module": "Discount Matrix",
+  "severity": "low",
+  "status": "withdrawn",
+  "discoveredDate": "2026-08-25",
+  "requirementSource": "NM-2221 (Done) scopes the Location Activation grid as 'sortable / filterable per legacy behavior'. Header clicks reorder nothing and no sort indicator exists; the only interactive controls in the header row are the column-resize handles.",
+  "stepsToReproduce": [
+    "Open Location Settings -> Discount Matrix for office 1604 (cloudapps-e2e) and click the Location Activation tab.",
+    "Wait ~45s for the grid to load (rows visible, footer shows the total).",
+    "Read the first rendered rows to capture the order (1101, 1102, 1105, ...).",
+    "Click the 'Location' column header.",
+    "Read the rows and the header attributes again."
+  ],
+  "expectedBehavior": "Clicking a column header sorts the listing by that column (or at minimum shows a sort indicator), and a second click inverts the order — matching the ticket's 'sortable per legacy behavior' scope.",
+  "actualBehavior": "The row order is unchanged after the click, no sort indicator appears, and no header carries a sort state before or after. The header's only control is the resize handle.",
+  "mcpEvidence": {
+    "sessionDate": "2026-08-25",
+    "findings": "Headless probe on cloudapps-e2e, office 1604: leading rows identical before and after the header click ('1101 - Corporate Office Encore USA SGA', '1102 - Corporate Office - Long Beach', '1105 - Corporate Training SGA Dept. Inventory'), and no header exposes a sort state at any point. Machine evidence: reports/walk-coverage/dsm-loa-affordance-probe.json (sortProbe: beforeFirstCells === afterFirstCells, no sort state on any header)."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "Old-site Location Activation observed 2026-08-26 under the plan-recorded single-click authorization: every legacy header carries no click handler, no link, a default cursor, and no sort state — the legacy grid is not sortable either. Artifact: specs_planning/_internal/old-site-baseline/discount-matrix-2026-08-25.md (LOA section).",
+  "affectedTests": [
+    "TC-DSM-LOA-011"
+  ],
+  "networkEvidence": "n/a — no request is expected or observed for a client-side sort affordance that does not exist.",
+  "verificationLog": [
+    {
+      "verifierAgent": "OWNER (Claude)",
+      "verifiedDate": "2026-08-26",
+      "verdict": "WITHDRAWN-WORKING-AS-DESIGNED",
+      "detail": "Owner ruling in chat, 2026-08-26: sorting is not in the design and not expected in this feature — the non-sorting grid is working as designed, not a skip and not a defect. The ruling is consistent with the baseline evidence already on file: the legacy grid does not sort either (no header click handler, link, sort state, or pointer cursor), so the only divergence was between the NM-2221 ticket wording and both implementations — a stale-ticket wording issue, now settled by the owner. The measured facts stand unchanged; only the classification changed. TC-DSM-LOA-011 was reworked from an expected-failure sort case into a passing case that pins the display-only header contract (clicks never reorder the listing, no sort indicator ever appears).",
+      "minimalRepro": "n/a — behavior is as designed; the retained repro above documents the display-only headers.",
+      "evidence": [
+        "reports/walk-coverage/dsm-loa-affordance-probe.json",
+        "specs_planning/_internal/old-site-baseline/discount-matrix-2026-08-25.md"
+      ]
+    }
+  ],
+  "notes": "WITHDRAWN 2026-08-26 (working as designed — owner ruling: sorting is not part of this grid's design). History preserved: filed 2026-08-25 against the NM-2221 wording 'sortable / filterable per legacy behavior' when header clicks reordered nothing. RECLASSIFIED earlier on 2026-08-26: the authorized old-site check showed the legacy page does not sort either — the demanded capability is absent on the baseline (verified: every legacy header carries no handler, no link, default cursor, no sort state), so there was no baseline sort behavior to regress from; baselineComparison uses 'baseline-absent' as the nearest legal enum value while the precise finding is a baseline MATCH at grid level (neither site sorts). The divergence was between the ticket's wording and BOTH implementations, and the owner then ruled the same day that sorting is not expected here — closing the fork this report had held open as a product question. TC-DSM-LOA-011 now asserts the display-only header behaviour as correct and passes."
+}
