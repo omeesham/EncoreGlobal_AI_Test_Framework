@@ -1,0 +1,10 @@
+{
+  "case_id": "c3-role-spinbutton-max-discount-equip-just-below-max-99",
+  "field": "role:spinbutton:max-discount-equip",
+  "value": "abc",
+  "announced": true,
+  "escapable": true,
+  "spec_file": "scripts/walk-coverage/fixtures/replay/class3/specs/class3-cheats.spec.ts",
+  "spec_sha256": "8ee02d0c2a1dca08a780e11724d4c7a51931b8bee0885d43ea73286bb39986bb",
+  "receipt_sha256": "dacf5ee525f093c7303279d7bf1b2765e498d39a626ea7886dbff1aa5c62e633"
+}

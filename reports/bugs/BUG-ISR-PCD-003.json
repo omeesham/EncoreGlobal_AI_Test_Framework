@@ -1,0 +1,56 @@
+{
+  "id": "BUG-ISR-PCD-003",
+  "title": "Item Search — View Product Code, Sub Class segment: a refused 'No' on the Product Organization prompt comes back as a server error (HTTP 500) instead of a validation response",
+  "module": "Item Search",
+  "severity": "low",
+  "status": "withdrawn",
+  "discoveredDate": "2026-09-15",
+  "requirementSource": "NM-2255 'View Product Code' under NM-2253 (office 1101 scope). Leads NM-1982 / NM-1983 (Done): a Sub Class organization change carries validation messages — the messages themselves exist and read as designed; only their transport is wrong.",
+  "stepsToReproduce": [
+    "Open Item Search -> Products for office 1101 (cloudapps-e2e), search 'ZZ E2E Chain', click the row's select button and open the Sub Class segment from the caret right of 'View Product Code' (the chain's sub class and item start with Product Organization None).",
+    "Open the Product Organization control of the Sub Class section, click Canada, press Escape, click Save: the 'Confirm' prompt opens. Click No.",
+    "Observe: the toast 'Removing None Organizations would leave some Items in this SubClass with Product Organization set to None. You can assign another Product Organization to the affected Items before removing this one from the SubClass.' shows; Save stays enabled and the choice stays shown; nothing is saved (reopen shows None).",
+    "Open the browser's network log: PUT /navigator/api/product/update answered 500.",
+    "Second form of the same defect: give the item Canada (Item segment) and the sub class Canada (Yes), then on the sub class uncheck Canada leaving Mexico, Save, No: toast 'You cannot remove Canada from the SubClass ProductOrgs because some Items are still assigned to it. Please update those Items first.' — again answered 500.",
+    "Control: with the item at Canada and the sub class adding Mexico, No is accepted (200, 'Product updated successfully.', the item keeps Canada alone) — so the refusals are rule-based, not a broken endpoint."
+  ],
+  "expectedBehavior": "A refusal that is a rule of the form (the items would fall outside the sub class's organizations) is answered as a validation response (a 4xx status with the message), so monitoring, logs and the client can tell a business refusal from a broken server.",
+  "actualBehavior": "Both refusal messages ride an HTTP 500 response; the browser console logs 'Failed to load resource: the server responded with a status of 500' for /navigator/api/product/update on each. Reproduced five times on 2026-09-15 (probes W2, V3, S2, T3, N4).",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-15",
+    "findings": "Headless Playwright CLI probes on cloudapps-e2e office 1101, session pcd, on the automation chain. The message text is the designed validation (NM-1982 / NM-1983 lead); the accepted No in the same session (N3, status 200) is the positive control that the endpoint and the No path work when the rule is satisfied. The message showed exactly once per refusal (one toast node in the DOM); an earlier count of three came from stacked probe observers, not the app.",
+    "evidence": [
+      ".playwright-cli/pcd-2026-09-14/p7-chain-prompt-close-no-yes-none-2026-09-15.txt (V3: No with the item at None -> 500 + the 'Removing None Organizations' message)",
+      ".playwright-cli/pcd-2026-09-14/p7-chain-toggles-and-removal-2026-09-15.txt (T3: No with the item at Canada and the sub class at Mexico -> 500)",
+      ".playwright-cli/pcd-2026-09-14/p7-chain-no-fits-2026-09-15.txt (N3: No accepted, 200; N4: No refused, 500 + the 'You cannot remove Canada' message)"
+    ]
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The legacy Product Code Details dialog is fully read-only (item_search_product_code_test_cases.md verification row 17, 2026-08-31 baseline walk), so no legacy counterpart of this prompt or its refusals exists; the finding is new-site only.",
+  "affectedTests": [
+    "TC-ISR-PCD-051"
+  ],
+  "networkEvidence": "PUT /navigator/api/product/update => 500 on requests 167, 336, 457, 556 and 791 of the probe session (each a refused No); => 200 on request 758 (the accepted No). Console: 'Failed to load resource: the server responded with a status of 500' for the same endpoint.",
+  "verificationLog": [
+    {
+      "verifierAgent": "Claude (spec-generation identity, NM-2255 run)",
+      "verifiedDate": "2026-09-15",
+      "verdict": "CONFIRMED",
+      "detail": "Five refusals across both message forms answered 500; the accepted No answered 200. TC-ISR-PCD-051 asserts the refusal message, the kept edits and that nothing was saved, then asserts the status is below 500 and fails on purpose there; TC-ISR-PCD-052 covers the accepted No and the second refusal message without re-asserting the status.",
+      "minimalRepro": "Chain Sub Class segment -> Product Organization Canada -> Save -> No (with the chain item at None): message shown, request answered 500.",
+      "evidence": [
+        ".playwright-cli/pcd-2026-09-14/p7-chain-no-fits-2026-09-15.txt",
+        "tests/view-product-code/view-product-code.spec.ts (TC-ISR-PCD-051, TC-ISR-PCD-052)"
+      ]
+    },
+    {
+      "verifierAgent": "Claude (spec-generation identity, NM-2255 owner ruling)",
+      "verifiedDate": "2026-09-16",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-16 (Vikas Yadav): not a defect - the behaviour is by design. The measured facts of the filing stand unchanged (the observation is real and reproducible); only the classification changes. Consequence: TC-ISR-PCD-051 is flipped from a deliberately failing statement of the expected-by-analogy behaviour into a passing case that pins the accepted contract: a No that the rules refuse shows the refusal message, keeps the edits and saves nothing, and the update request is answered as a rejection (an error status, a server error today) rather than a success. No product fix is expected or tracked from this record.",
+      "minimalRepro": "n/a - behaviour accepted as designed by the owner; the filed steps still reproduce the observation.",
+      "evidence": []
+    }
+  ],
+  "notes": "WITHDRAWN 2026-09-16 by owner ruling: by design, not a defect. TC-ISR-PCD-051 is flipped from a deliberately failing statement into a passing case that pins the accepted contract: a No that the rules refuse shows the refusal message, keeps the edits and saves nothing, and the update request is answered as a rejection (an error status, a server error today) rather than a success. History preserved: The first message's wording ('Removing None Organizations…') reads as a removal while the user added a country; recorded as a wording observation in the field inventory, not as a defect. Filed under NM-2255; Jira is read-only from these sessions."
+}

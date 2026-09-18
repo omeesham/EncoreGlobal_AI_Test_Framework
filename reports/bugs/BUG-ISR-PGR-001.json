@@ -1,0 +1,41 @@
+{
+  "id": "BUG-ISR-PGR-001",
+  "title": "Item Search — Product Groups: a search submitted within about 250 ms of the last keystroke runs the PREVIOUS term, so the first search on a fresh page runs empty and a quick edit re-runs the old word",
+  "module": "Item Search",
+  "severity": "medium",
+  "status": "withdrawn",
+  "discoveredDate": "2026-09-09",
+  "requirementSource": "NM-1617 (Enter in the search box must trigger the search) and NM-972 (search by Name and Description) both describe a search that runs the term the user typed; no ticket covers the timing between the last keystroke and the submit. Jira was read-only this session — no ticket for this timing gap was found by JQL on 2026-09-09.",
+  "stepsToReproduce": [
+    "Open Item Search -> Product Groups on the e2e environment (office 1101) in a fresh browser with no executed search stored.",
+    "Click the search box, type 'ZZ E2E' and press Enter immediately after the last character (no pause).",
+    "Read the page: the box still shows 'ZZ E2E', the label reads '0 product groups found', no rows render, and the stored executed search (session storage key navigator:productGroups:searchState) carries searchText ''.",
+    "Wait one second and press Enter again -> '22 product groups found' with the ZZ E2E rows.",
+    "With that search executed, select all in the box, type 'Audio' and press Enter at once -> the ZZ E2E rows and count stay while the box shows 'Audio'; the stored searchText is still 'ZZ E2E'.",
+    "Repeat steps 2 and 5 with the Search button instead of Enter -> identical.",
+    "Pause 250 ms or more between the last keystroke and Enter/Search -> the typed term runs correctly every time."
+  ],
+  "expectedBehavior": "The submitted search uses the text that is in the box at the moment Enter or Search is pressed. A fresh page's first search returns the typed word's groups, and editing an executed search then submitting immediately re-runs the new word.",
+  "actualBehavior": "Keystrokes are committed to the search model on a short delay, and the submit reads the model rather than the box: a submit inside that window runs the previously committed term. On a fresh page that term is empty (0 found with the word visibly in the box); after an executed search it is the old word (old rows stay while the box shows the new word). Reproduced in 10 of 10 fresh browser contexts with Enter and with the button; a neutral click before the submit does not help; a 250 ms pause always does.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-09",
+    "findings": "Reproduced live on the e2e environment, office 1101, through headless Playwright with the suite's saved sign-in (trusted keyboard input, not raw JS). Timing matrix: 0 ms between the last key and Enter -> the empty term runs (stored searchText '', '0 product groups found'); 250, 500, 1000, 1500, 2000, 2500 ms -> the typed term runs (22 found). Fresh-context first-submit variants (Enter, button, click-elsewhere-first, retyped) all fail at 0 ms and pass on the second submit; the fast second search ('Audio' over an executed 'ZZ E2E') leaves the old rows. Machine outputs: .playwright-cli/pgr-2026-09-09/probes-first-submit.json (6 variants), probes-debounce.json (timing matrix + second-search repro), probes-dead-window.json (4 fresh contexts, attempt 2 always succeeds), screenshot 21-stale-second-search.png. Signal probe probes-debounce-signals.json (script pgr-debounce-signals.mjs, same session) adds the mechanics: on a first visit the stored search is absent until the immediate Enter, which writes it with searchText '' at once and starts NO search (no loader, no placeholder rows, '0 product groups found' for 6 s); the immediate re-submit over an executed 'ZZ E2E' with 'Audio' in the box DOES run a full search (loader and placeholder rows within 325 ms) but for the old word — 22 found, stored searchText 'ZZ E2E'; a 1 s pause before Enter runs the typed word both times (22, then 82 for 'Audio'). Removing the stored search and reloading reproduces the first-visit case exactly."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": null,
+  "affectedTests": [
+    "TC-ISR-PGR-016"
+  ],
+  "networkEvidence": "The search posts to the page route itself (a server action), so the request is not distinguishable by URL; the term that ran is proven by the stored executed search (session storage searchText) and the count label read after each submit — both show the previous term.",
+  "notes": "WITHDRAWN 2026-09-10 by owner ruling: accepted behaviour, not a defect. TC-ISR-PGR-016 is flipped from a deliberately failing statement of the typed-term-runs-at-once intent into a passing case that pins both halves of the accepted contract: an immediate submit runs the previously committed term, a submit after the pause runs the typed word. History preserved: Severity assessed medium: a fast typist gets an empty or stale result with no message, and the box contradicts the grid. Workaround: pause before pressing Enter or Search, or press it twice. The automation types with a settle of 800 ms before any submit, so every other case here stays green; TC-ISR-PGR-016 asserts the intended behaviour (the typed term runs at once) and fails on purpose until the fix lands — its failure is the evidence vehicle for this defect, and it passes unchanged once the fix is in.",
+  "verificationLog": [
+    {
+      "verifierAgent": "OWNER (Claude)",
+      "verifiedDate": "2026-09-10",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-10 (Vikas Yadav): not a defect - accepted behaviour of the page. The measured facts of the filing stand unchanged (the observation is real and reproducible); only the classification changes. Consequence: TC-ISR-PGR-016 is flipped from a deliberately failing statement of the typed-term-runs-at-once intent into a passing case that pins both halves of the accepted contract: an immediate submit runs the previously committed term, a submit after the pause runs the typed word. No product fix is expected or tracked from this record.",
+      "minimalRepro": "n/a - behaviour accepted as designed by the owner; the filed steps still reproduce the observation.",
+      "evidence": []
+    }
+  ]
+}

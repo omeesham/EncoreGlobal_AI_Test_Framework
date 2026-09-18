@@ -1,0 +1,27 @@
+{
+  "id": "BUG-SVC-HIS-001",
+  "title": "Service Charge History — Modified By column renders a raw GUID instead of a display name",
+  "module": "service-charge",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-08-11",
+  "requirementSource": "NM-2210 AC-4 — History tab must show 'Modified by · Modified on' (who made each change); a raw GUID does not identify the actor in a human-readable form",
+  "stepsToReproduce": [
+    "Navigate to Location Settings → Service Charge for any office (e.g. office 1604 or 1101).",
+    "Click the Service Charge History tab and wait for the data grid to populate.",
+    "Read the Modified By column values in any visible row."
+  ],
+  "expectedBehavior": "Each Modified By cell should show a human-readable identifier for who made the change — the old-site equivalent column shows 'System Update' for migrated rows; person names or emails are expected for user-authored changes.",
+  "actualBehavior": "All ten sampled rows on 2026-08-11 for office 1604 rendered raw GUID strings (e.g. '0c0bec78-1b63-4eed-a2ea-967920c8bfc3', 'b5668cc9-…', '156d03e1-…'). Three distinct GUIDs appeared across the ten sampled rows. GUID scope across the full 50-row set is unknown from artifacts — only the first ten rows were sampled.",
+  "mcpEvidence": "Walk 2026-08-11 nm3344-histwalk2-0811 (office 1604, 50 rows): MCP_VERIFICATION_LOG item 9 — 'Modified By renders raw GUID — Confirmed across all ten sampled rows — no name or email appears.' service_charge_history_test_cases.md Validation Rules row: 'Known defect: all sampled rows on 2026-08-11 rendered a raw GUID (0c0bec78-…, b5668cc9-…, 156d03e1-…) instead of a display name; no ticket covering this was found.'",
+  "baselineComparison": "regression-from-baseline",
+  "baselineEvidence": "nav2-observations.md (2026-08-11) § Modified By — Three verbatim values: all ~30+ visible rows on the old site show 'System Update'. New site shows raw GUIDs for the same column. Old-site baseline walk: office 1101, navigator2.training.psav.com/#/setup/serviceCharge.",
+  "affectedTests": ["TC-SVC-HIS-003"],
+  "verificationLog": [
+    {
+      "date": "2026-08-11",
+      "session": "nm3344-fixmeprobe2-0811",
+      "finding": "GUID vs email scope clarification: the 10 GUID rows sampled on 2026-08-11 (all pre-existing rows from before today) continue to render raw GUIDs. However, new rows created on 2026-08-11 by the automation account render an email address ('s-prd-clickauto@psav.com') rather than a GUID. The GUID rendering therefore affects pre-existing/legacy rows only; rows authored by the current automation user show an email. Severity and impact for the legacy rows are unchanged. Bug scope amended to reflect this: the defect is that legacy rows render raw GUIDs that are not human-readable, while newly created rows render the automation account email."
+    }
+  ]
+}

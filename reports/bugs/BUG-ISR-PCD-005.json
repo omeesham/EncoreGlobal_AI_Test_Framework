@@ -1,0 +1,55 @@
+{
+  "id": "BUG-ISR-PCD-005",
+  "title": "Item Search — View Product Code, Item segment: after picking another Sub Class the section shows the new sub class's name but keeps the previous sub class's Product Code ID until the save",
+  "module": "Item Search",
+  "severity": "low",
+  "status": "withdrawn",
+  "discoveredDate": "2026-09-14",
+  "requirementSource": "NM-2255 'View Product Code' under NM-2253 (office 1101 scope). NM-2144 (Done): on the Item segment 'the Product Code ID for the associated Subclass must also be displayed' (AC2) and 'the Product Code ID in the UI must match the value stored' (AC9). NM-1433 makes the Sub-Class Name a re-parent pick whose section re-renders from the chosen sub class.",
+  "stepsToReproduce": [
+    "Open Item Search -> Products for office 1101 (cloudapps-e2e), search 'ZZ E2E Code', select the row of product code 102186 and click 'View Product Code'.",
+    "Read the Sub Class section: Sub-Class Name 'Audio Amp Rack', Product Code ID 70508.",
+    "Open the Sub-Class Name list and pick 'Power Amplifier 1001-1500W'.",
+    "Observe: the app fetches GET /navigator/api/product/13492 (the chosen sub class), the Sub-Class Name box shows the pick and Save enables — but the section's Product Code ID still reads 70508.",
+    "Click Close (nothing is saved; no update request). Reopen: 'Audio Amp Rack' / 70508 are back.",
+    "Control: after a real save of such a pick (TC-ISR-PCD-029), a reopen shows the new sub class's own identifier — the value is available, only the pre-save render lags."
+  ],
+  "expectedBehavior": "The Sub Class section is one unit: when the Sub-Class Name shows the chosen sub class, its Product Code ID shows that sub class's identifier (13492 here), the number the form itself just fetched.",
+  "actualBehavior": "The section shows the chosen name with the previous sub class's identifier (70508) until the save lands. Observed 2026-09-14 (P4 probe, id 70508 after picking 13492) and re-verified 2026-09-15 with the minimized repro above.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-15",
+    "findings": "Headless Playwright CLI probe on cloudapps-e2e office 1101, session pcd, on the automation's own item (created 2026-08-31); the pick was discarded with Close both times, nothing was saved. The identifier the form fetched (13492) comes from the request the pick itself sends, so the expected value is the app's own, not an assumption.",
+    "evidence": [
+      ".playwright-cli/pcd-2026-09-14/p7-reverify-b2-2026-09-15.txt (ids before / after the pick, the fetch of 13492, the discard and the reopen)",
+      ".playwright-cli/pcd-2026-09-14/p7-part-d.txt (the 2026-09-14 reading: ids [70508, 102186] before and after picking Power Amplifier 1001-1500W, whose fetch was GET /navigator/api/product/13492)"
+    ]
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The legacy Product Code Details dialog is fully read-only and shows no Product Code ID at all (old-site-baseline/item-search-2026-08-31.md, Refresh 2026-09-14), so no legacy counterpart of the field or the re-parent pick exists.",
+  "affectedTests": [
+    "TC-ISR-PCD-056"
+  ],
+  "networkEvidence": "Pick -> GET /navigator/api/product/13492 => 200 (request 934 of the probe session); Close -> no PUT /navigator/api/product/update.",
+  "verificationLog": [
+    {
+      "verifierAgent": "Claude (spec-generation identity, NM-2255 run)",
+      "verifiedDate": "2026-09-15",
+      "verdict": "CONFIRMED",
+      "detail": "Minimized repro: pick fetched 13492, section still read 70508, discard sent nothing, reopen restored 70508. TC-ISR-PCD-056 pins it: it reads the identifier from the pick's own request and asserts the section shows it before any save, failing on purpose with the 70508 vs 13492 diff, then discards the pick.",
+      "minimalRepro": "Item 102186 View Product Code -> Sub-Class Name -> pick another sub class -> read the Sub Class section's Product Code ID: still the previous one.",
+      "evidence": [
+        ".playwright-cli/pcd-2026-09-14/p7-reverify-b2-2026-09-15.txt",
+        "tests/view-product-code/view-product-code.spec.ts (TC-ISR-PCD-056)"
+      ]
+    },
+    {
+      "verifierAgent": "Claude (spec-generation identity, NM-2255 owner ruling)",
+      "verifiedDate": "2026-09-16",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-16 (Vikas Yadav): not a defect - the behaviour is by design. The measured facts of the filing stand unchanged (the observation is real and reproducible); only the classification changes. Consequence: TC-ISR-PCD-056 is flipped from a deliberately failing statement of the expected-by-analogy behaviour into a passing case that pins the accepted contract: after picking another Sub Class the name box shows the pick while the Product Code ID stays the saved sub class's identifier until the save lands (the saved pick is read back by TC-ISR-PCD-029). No product fix is expected or tracked from this record.",
+      "minimalRepro": "n/a - behaviour accepted as designed by the owner; the filed steps still reproduce the observation.",
+      "evidence": []
+    }
+  ],
+  "notes": "WITHDRAWN 2026-09-16 by owner ruling: by design, not a defect. TC-ISR-PCD-056 is flipped from a deliberately failing statement into a passing case that pins the accepted contract: after picking another Sub Class the name box shows the pick while the Product Code ID stays the saved sub class's identifier until the save lands (the saved pick is read back by TC-ISR-PCD-029). History preserved: Display-only and pre-save; the saved record carries the right identifier (TC-ISR-PCD-029). Filed under NM-2255; Jira is read-only from these sessions."
+}

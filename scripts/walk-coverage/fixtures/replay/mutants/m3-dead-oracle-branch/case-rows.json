@@ -1,0 +1,11 @@
+[
+  {
+    "case_id": "TC-MUT-M3-001",
+    "field_key": "testid:max-discount",
+    "field_label": "Max Discount",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M3-001"
+  }
+]

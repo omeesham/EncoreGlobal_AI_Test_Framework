@@ -1,0 +1,62 @@
+{
+  "schema": "nm2271-frozen-inputs/v1",
+  "frozen_at_head": "2cd02c5ee35fca57bf96d47a77dfb9c8215799b4",
+  "superseded": [
+    {
+      "role": "historical_tc_set",
+      "commit": "3156c35226b4bcfba01af99d574e69fedd2ad0d3",
+      "tc_count": 38,
+      "reason": "wrong branch — main, not origin/NM-2271; see dg-4e-01"
+    }
+  ],
+  "inputs": [
+    {
+      "role": "historical_tc_set",
+      "path": "specs_planning/test-cases/setup/corporate-pricing/corporate_pricing_override_test_cases.md",
+      "commit": "8665088cc6a1f9301c668e369c1977773fa5f586",
+      "commit_date": "2026-07-21T16:48:45+05:30",
+      "blob": "0e0d9bb7001187c8fe785a84272bfda00e3289fa",
+      "sha256": "28d8fabad8d6f86039386d86bb5d0f9d31fe5eedfb44cc8fe23be439ece06887",
+      "bytes": 66332,
+      "note": "NM-2271 shipped TC set on origin/NM-2271 with 65 unique TC IDs (TC-CPR-OVR-001..065)"
+    },
+    {
+      "role": "historical_test_plan",
+      "path": "specs_planning/test-plans/setup/corporate-pricing/corporate_pricing_override_test_plan.md",
+      "commit": "8665088cc6a1f9301c668e369c1977773fa5f586",
+      "commit_date": "2026-07-21T16:48:45+05:30",
+      "blob": "27f18888d77a5bca105af44d7366291f5695a512",
+      "sha256": "8d061d7f4c5183921ef3bf90d80fb9e6c07487b29d619f4a857f4cc306054105",
+      "bytes": 30983,
+      "note": "Test plan counterpart pinned to the same NM-2271 shipped revision as the TC set"
+    },
+    {
+      "role": "historical_field_inventory",
+      "path": "specs_planning/_internal/field-inventories/corporate-pricing-override-2026-06-19.md",
+      "commit": "8665088cc6a1f9301c668e369c1977773fa5f586",
+      "commit_date": "2026-07-21T16:48:45+05:30",
+      "blob": "48d7c0282212d1822ec940158ce99c4b28c9ae23",
+      "sha256": "d6922885a0863926505c7f55a842db1c27c39980f4710ea3e08fe5dd4e8d5e6b",
+      "bytes": 10397,
+      "note": "Field inventory blob present on NM-2271 and pinned at the same shipped revision"
+    },
+    {
+      "role": "historical_spec",
+      "path": "tests/corporate-override/corporate-override-labor-grid.spec.ts",
+      "commit": "8665088cc6a1f9301c668e369c1977773fa5f586",
+      "commit_date": "2026-07-21T16:48:45+05:30",
+      "blob": "2c5d5680fc35711c6da1f618bfe5d072a3aca3c3",
+      "sha256": "00e5d4f1d1e39640fc81610cfaa366fab4857777e1efb6f9aec980b968156e66",
+      "bytes": 72681,
+      "note": "NM-2271 shipped monolithic spec (pre-split path used for git resolution; current path for reference)"
+    }
+  ],
+  "expected_failures": {
+    "labor_tab_fields": 28,
+    "max_discount_pct_bva_neg": 11,
+    "override_price_bva_neg": 8,
+    "rejection_oracle_omissions_cases": 10,
+    "source": "plans/pending/PLAN_WALK_DEPTH_GATE.md:263-266"
+  },
+  "content_sha256": "4f22318f95505e8188323e9e3d7574ec5ebc76046573a1ee5e2a43acc80c5c2f"
+}

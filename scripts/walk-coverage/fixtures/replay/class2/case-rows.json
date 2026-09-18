@@ -1,0 +1,1742 @@
+{
+  "rows": [
+    {
+      "case_id": "role:button:select-location::click",
+      "field_key": "role:button:select-location",
+      "field_label": "Select Location Launcher",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-001"
+    },
+    {
+      "case_id": "role:button:select-location::verify-enabled",
+      "field_key": "role:button:select-location",
+      "field_label": "Select Location Launcher",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-001"
+    },
+    {
+      "case_id": "role:checkbox:modal-active::check",
+      "field_key": "role:checkbox:modal-active",
+      "field_label": "Location Modal Active Filter",
+      "field_type": "checkbox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-002"
+    },
+    {
+      "case_id": "role:checkbox:modal-active::uncheck",
+      "field_key": "role:checkbox:modal-active",
+      "field_label": "Location Modal Active Filter",
+      "field_type": "checkbox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-002"
+    },
+    {
+      "case_id": "role:checkbox:modal-active::verify-default",
+      "field_key": "role:checkbox:modal-active",
+      "field_label": "Location Modal Active Filter",
+      "field_type": "checkbox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-002"
+    },
+    {
+      "case_id": "role:textbox:modal-search::valid-text",
+      "field_key": "role:textbox:modal-search",
+      "field_label": "Location Modal Search",
+      "field_type": "text-input",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-003"
+    },
+    {
+      "case_id": "role:textbox:modal-search::empty-submit",
+      "field_key": "role:textbox:modal-search",
+      "field_label": "Location Modal Search",
+      "field_type": "text-input",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-003"
+    },
+    {
+      "case_id": "role:textbox:modal-search::max-length-exceed",
+      "field_key": "role:textbox:modal-search",
+      "field_label": "Location Modal Search",
+      "field_type": "text-input",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-003"
+    },
+    {
+      "case_id": "role:textbox:modal-search::special-chars",
+      "field_key": "role:textbox:modal-search",
+      "field_label": "Location Modal Search",
+      "field_type": "text-input",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-004"
+    },
+    {
+      "case_id": "role:textbox:modal-search::whitespace-only",
+      "field_key": "role:textbox:modal-search",
+      "field_label": "Location Modal Search",
+      "field_type": "text-input",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-004"
+    },
+    {
+      "case_id": "role:button:modal-select::click",
+      "field_key": "role:button:modal-select",
+      "field_label": "Location Modal Select",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-005"
+    },
+    {
+      "case_id": "role:button:modal-select::verify-enabled",
+      "field_key": "role:button:modal-select",
+      "field_label": "Location Modal Select",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-005"
+    },
+    {
+      "case_id": "role:button:modal-cancel::click",
+      "field_key": "role:button:modal-cancel",
+      "field_label": "Location Modal Cancel",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-006"
+    },
+    {
+      "case_id": "role:button:modal-cancel::verify-enabled",
+      "field_key": "role:button:modal-cancel",
+      "field_label": "Location Modal Cancel",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-006"
+    },
+    {
+      "case_id": "role:button:modal-close::click",
+      "field_key": "role:button:modal-close",
+      "field_label": "Location Modal Close",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-007"
+    },
+    {
+      "case_id": "role:button:modal-close::verify-enabled",
+      "field_key": "role:button:modal-close",
+      "field_label": "Location Modal Close",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-007"
+    },
+    {
+      "case_id": "role:combobox:currency-filter::select-valid",
+      "field_key": "role:combobox:currency-filter",
+      "field_label": "Currency Filter",
+      "field_type": "combobox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-008"
+    },
+    {
+      "case_id": "role:combobox:currency-filter::verify-default",
+      "field_key": "role:combobox:currency-filter",
+      "field_label": "Currency Filter",
+      "field_type": "combobox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-008"
+    },
+    {
+      "case_id": "role:combobox:currency-filter::select-each",
+      "field_key": "role:combobox:currency-filter",
+      "field_label": "Currency Filter",
+      "field_type": "combobox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-008"
+    },
+    {
+      "case_id": "role:tab:equipment::activate",
+      "field_key": "role:tab:equipment",
+      "field_label": "Equipment Tab",
+      "field_type": "tab",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-009"
+    },
+    {
+      "case_id": "role:tab:equipment::verify-content-switch",
+      "field_key": "role:tab:equipment",
+      "field_label": "Equipment Tab",
+      "field_type": "tab",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-009"
+    },
+    {
+      "case_id": "role:tab:labor::activate",
+      "field_key": "role:tab:labor",
+      "field_label": "Labor Tab",
+      "field_type": "tab",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-010"
+    },
+    {
+      "case_id": "role:tab:labor::verify-content-switch",
+      "field_key": "role:tab:labor",
+      "field_label": "Labor Tab",
+      "field_type": "tab",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-010"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::valid(50.00)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-011"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::valid(0.01)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-011"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::valid(9999.99)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-011"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::boundary-zero(0)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-012"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::boundary-large(99999)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-012"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::negative(-1)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-012"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::negative(-100)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-013"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::non-numeric(abc)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-013"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::special(!@#)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-013"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::extreme(9999999)",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-014"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-equip::empty()",
+      "field_key": "role:spinbutton:override-price-equip",
+      "field_label": "Override Price (Equipment)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-014"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::valid(50)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-015"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::valid(25)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-015"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::valid(75)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-015"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::boundary-min(0)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-016"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::boundary-max(100)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-016"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::just-above-min(1)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-016"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::just-below-max(99)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-017"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::below-min(-1)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-017"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::above-max(101)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-017"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::far-above(150)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-018"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::extreme(999)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-018"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::non-numeric(abc)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-018"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::special(!@#)",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-019"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-equip::empty()",
+      "field_key": "role:spinbutton:max-discount-equip",
+      "field_label": "Max Discount % (Equipment)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-019"
+    },
+    {
+      "case_id": "role:checkbox:active-equip::check",
+      "field_key": "role:checkbox:active-equip",
+      "field_label": "Active Checkbox (Equipment)",
+      "field_type": "checkbox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-020"
+    },
+    {
+      "case_id": "role:checkbox:active-equip::uncheck",
+      "field_key": "role:checkbox:active-equip",
+      "field_label": "Active Checkbox (Equipment)",
+      "field_type": "checkbox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-020"
+    },
+    {
+      "case_id": "role:checkbox:active-equip::verify-default",
+      "field_key": "role:checkbox:active-equip",
+      "field_label": "Active Checkbox (Equipment)",
+      "field_type": "checkbox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-020"
+    },
+    {
+      "case_id": "struct:picker-dblclick-equip::perform-action",
+      "field_key": "struct:picker-dblclick-equip",
+      "field_label": "Picker Double-Click (Equipment)",
+      "field_type": "interaction",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-021"
+    },
+    {
+      "case_id": "struct:picker-dblclick-equip::verify-result",
+      "field_key": "struct:picker-dblclick-equip",
+      "field_label": "Picker Double-Click (Equipment)",
+      "field_type": "interaction",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-021"
+    },
+    {
+      "case_id": "struct:picker-drag-equip::perform-action",
+      "field_key": "struct:picker-drag-equip",
+      "field_label": "Picker Drag (Equipment)",
+      "field_type": "interaction",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-022"
+    },
+    {
+      "case_id": "struct:picker-drag-equip::verify-result",
+      "field_key": "struct:picker-drag-equip",
+      "field_label": "Picker Drag (Equipment)",
+      "field_type": "interaction",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-022"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::valid(50.00)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-023"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::valid(0.01)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-023"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::valid(9999.99)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-023"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::boundary-zero(0)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-024"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::boundary-large(99999)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-024"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::negative(-1)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-024"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::negative(-100)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-025"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::non-numeric(abc)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-025"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::special(!@#)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-025"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::extreme(9999999)",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-026"
+    },
+    {
+      "case_id": "role:spinbutton:override-price-labor::empty()",
+      "field_key": "role:spinbutton:override-price-labor",
+      "field_label": "Override Price (Labor)",
+      "field_type": "numeric-price",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-026"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::valid(50)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-027"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::valid(25)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-027"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::valid(75)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-027"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::boundary-min(0)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-028"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::boundary-max(100)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-028"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::just-above-min(1)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-028"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::just-below-max(99)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-029"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::below-min(-1)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-029"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::above-max(101)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-029"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::far-above(150)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-030"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::extreme(999)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-030"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::non-numeric(abc)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-030"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::special(!@#)",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-031"
+    },
+    {
+      "case_id": "role:spinbutton:max-discount-labor::empty()",
+      "field_key": "role:spinbutton:max-discount-labor",
+      "field_label": "Max Discount % (Labor)",
+      "field_type": "numeric-pct",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-031"
+    },
+    {
+      "case_id": "role:checkbox:active-labor::check",
+      "field_key": "role:checkbox:active-labor",
+      "field_label": "Active Checkbox (Labor)",
+      "field_type": "checkbox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-032"
+    },
+    {
+      "case_id": "role:checkbox:active-labor::uncheck",
+      "field_key": "role:checkbox:active-labor",
+      "field_label": "Active Checkbox (Labor)",
+      "field_type": "checkbox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-032"
+    },
+    {
+      "case_id": "role:checkbox:active-labor::verify-default",
+      "field_key": "role:checkbox:active-labor",
+      "field_label": "Active Checkbox (Labor)",
+      "field_type": "checkbox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-032"
+    },
+    {
+      "case_id": "struct:picker-dblclick-labor::perform-action",
+      "field_key": "struct:picker-dblclick-labor",
+      "field_label": "Picker Double-Click (Labor)",
+      "field_type": "interaction",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-033"
+    },
+    {
+      "case_id": "struct:picker-dblclick-labor::verify-result",
+      "field_key": "struct:picker-dblclick-labor",
+      "field_label": "Picker Double-Click (Labor)",
+      "field_type": "interaction",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-033"
+    },
+    {
+      "case_id": "struct:picker-drag-labor::perform-action",
+      "field_key": "struct:picker-drag-labor",
+      "field_label": "Picker Drag (Labor)",
+      "field_type": "interaction",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-034"
+    },
+    {
+      "case_id": "struct:picker-drag-labor::verify-result",
+      "field_key": "struct:picker-drag-labor",
+      "field_label": "Picker Drag (Labor)",
+      "field_type": "interaction",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-034"
+    },
+    {
+      "case_id": "role:button:grid-options::click",
+      "field_key": "role:button:grid-options",
+      "field_label": "Grid Options Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-035"
+    },
+    {
+      "case_id": "role:button:grid-options::verify-enabled",
+      "field_key": "role:button:grid-options",
+      "field_label": "Grid Options Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-035"
+    },
+    {
+      "case_id": "role:button:export::click",
+      "field_key": "role:button:export",
+      "field_label": "Export Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-036"
+    },
+    {
+      "case_id": "role:button:export::verify-enabled",
+      "field_key": "role:button:export",
+      "field_label": "Export Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-036"
+    },
+    {
+      "case_id": "role:button:import::click",
+      "field_key": "role:button:import",
+      "field_label": "Import Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-037"
+    },
+    {
+      "case_id": "role:button:import::verify-enabled",
+      "field_key": "role:button:import",
+      "field_label": "Import Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-037"
+    },
+    {
+      "case_id": "role:textbox:filter::valid-text",
+      "field_key": "role:textbox:filter",
+      "field_label": "Filter Product Groups",
+      "field_type": "text-input",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-038"
+    },
+    {
+      "case_id": "role:textbox:filter::empty-submit",
+      "field_key": "role:textbox:filter",
+      "field_label": "Filter Product Groups",
+      "field_type": "text-input",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-038"
+    },
+    {
+      "case_id": "role:textbox:filter::max-length-exceed",
+      "field_key": "role:textbox:filter",
+      "field_label": "Filter Product Groups",
+      "field_type": "text-input",
+      "category": "BVA",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-038"
+    },
+    {
+      "case_id": "role:textbox:filter::special-chars",
+      "field_key": "role:textbox:filter",
+      "field_label": "Filter Product Groups",
+      "field_type": "text-input",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-039"
+    },
+    {
+      "case_id": "role:textbox:filter::whitespace-only",
+      "field_key": "role:textbox:filter",
+      "field_label": "Filter Product Groups",
+      "field_type": "text-input",
+      "category": "Negative",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-039"
+    },
+    {
+      "case_id": "role:button:save::click",
+      "field_key": "role:button:save",
+      "field_label": "Save Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-040"
+    },
+    {
+      "case_id": "role:button:save::verify-enabled",
+      "field_key": "role:button:save",
+      "field_label": "Save Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-040"
+    },
+    {
+      "case_id": "role:button:save-confirm::click",
+      "field_key": "role:button:save-confirm",
+      "field_label": "Save Confirm Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-041"
+    },
+    {
+      "case_id": "role:button:save-confirm::verify-enabled",
+      "field_key": "role:button:save-confirm",
+      "field_label": "Save Confirm Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-041"
+    },
+    {
+      "case_id": "role:button:save-cancel::click",
+      "field_key": "role:button:save-cancel",
+      "field_label": "Save Cancel Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-042"
+    },
+    {
+      "case_id": "role:button:save-cancel::verify-enabled",
+      "field_key": "role:button:save-cancel",
+      "field_label": "Save Cancel Button",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-042"
+    },
+    {
+      "case_id": "role:combobox:rows-per-page::select-valid",
+      "field_key": "role:combobox:rows-per-page",
+      "field_label": "Rows Per Page",
+      "field_type": "combobox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-043"
+    },
+    {
+      "case_id": "role:combobox:rows-per-page::verify-default",
+      "field_key": "role:combobox:rows-per-page",
+      "field_label": "Rows Per Page",
+      "field_type": "combobox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-043"
+    },
+    {
+      "case_id": "role:combobox:rows-per-page::select-each",
+      "field_key": "role:combobox:rows-per-page",
+      "field_label": "Rows Per Page",
+      "field_type": "combobox",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-043"
+    },
+    {
+      "case_id": "role:alertdialog:save-changes::open",
+      "field_key": "role:alertdialog:save-changes",
+      "field_label": "Save Changes Dialog",
+      "field_type": "dialog",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-044"
+    },
+    {
+      "case_id": "role:alertdialog:save-changes::verify-content",
+      "field_key": "role:alertdialog:save-changes",
+      "field_label": "Save Changes Dialog",
+      "field_type": "dialog",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-044"
+    },
+    {
+      "case_id": "role:alertdialog:save-changes::dismiss",
+      "field_key": "role:alertdialog:save-changes",
+      "field_label": "Save Changes Dialog",
+      "field_type": "dialog",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-044"
+    },
+    {
+      "case_id": "role:button:sort-location::click",
+      "field_key": "role:button:sort-location",
+      "field_label": "Sort Location Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-045"
+    },
+    {
+      "case_id": "role:button:sort-location::verify-enabled",
+      "field_key": "role:button:sort-location",
+      "field_label": "Sort Location Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-045"
+    },
+    {
+      "case_id": "role:button:sort-product-group::click",
+      "field_key": "role:button:sort-product-group",
+      "field_label": "Sort Product Group Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-046"
+    },
+    {
+      "case_id": "role:button:sort-product-group::verify-enabled",
+      "field_key": "role:button:sort-product-group",
+      "field_label": "Sort Product Group Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-046"
+    },
+    {
+      "case_id": "role:button:sort-pg-name::click",
+      "field_key": "role:button:sort-pg-name",
+      "field_label": "Sort Product Group Name Col",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-047"
+    },
+    {
+      "case_id": "role:button:sort-pg-name::verify-enabled",
+      "field_key": "role:button:sort-pg-name",
+      "field_label": "Sort Product Group Name Col",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-047"
+    },
+    {
+      "case_id": "role:button:sort-currency::click",
+      "field_key": "role:button:sort-currency",
+      "field_label": "Sort Currency Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-048"
+    },
+    {
+      "case_id": "role:button:sort-currency::verify-enabled",
+      "field_key": "role:button:sort-currency",
+      "field_label": "Sort Currency Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-048"
+    },
+    {
+      "case_id": "role:button:sort-current-price::click",
+      "field_key": "role:button:sort-current-price",
+      "field_label": "Sort Current Price Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-049"
+    },
+    {
+      "case_id": "role:button:sort-current-price::verify-enabled",
+      "field_key": "role:button:sort-current-price",
+      "field_label": "Sort Current Price Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-049"
+    },
+    {
+      "case_id": "role:button:sort-mod-date::click",
+      "field_key": "role:button:sort-mod-date",
+      "field_label": "Sort Mod Date Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-050"
+    },
+    {
+      "case_id": "role:button:sort-mod-date::verify-enabled",
+      "field_key": "role:button:sort-mod-date",
+      "field_label": "Sort Mod Date Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-050"
+    },
+    {
+      "case_id": "role:button:sort-updated-by::click",
+      "field_key": "role:button:sort-updated-by",
+      "field_label": "Sort Updated By Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-051"
+    },
+    {
+      "case_id": "role:button:sort-updated-by::verify-enabled",
+      "field_key": "role:button:sort-updated-by",
+      "field_label": "Sort Updated By Column",
+      "field_type": "button",
+      "category": "Positive",
+      "requires_oracle": false,
+      "disposed_by": "TC-CPR-OVR-051"
+    }
+  ],
+  "dispositions": [
+    {
+      "caseId": "role:button:select-location::click",
+      "tcId": "TC-CPR-OVR-001",
+      "tcTitle": "Verify Select Location Launcher — role:button:select-location::click, role:button:select-location::verify-enabled"
+    },
+    {
+      "caseId": "role:button:select-location::verify-enabled",
+      "tcId": "TC-CPR-OVR-001",
+      "tcTitle": "Verify Select Location Launcher — role:button:select-location::click, role:button:select-location::verify-enabled"
+    },
+    {
+      "caseId": "role:checkbox:modal-active::check",
+      "tcId": "TC-CPR-OVR-002",
+      "tcTitle": "Verify Location Modal Active Filter — role:checkbox:modal-active::check, role:checkbox:modal-active::uncheck, role:checkbox:modal-active::verify-default"
+    },
+    {
+      "caseId": "role:checkbox:modal-active::uncheck",
+      "tcId": "TC-CPR-OVR-002",
+      "tcTitle": "Verify Location Modal Active Filter — role:checkbox:modal-active::check, role:checkbox:modal-active::uncheck, role:checkbox:modal-active::verify-default"
+    },
+    {
+      "caseId": "role:checkbox:modal-active::verify-default",
+      "tcId": "TC-CPR-OVR-002",
+      "tcTitle": "Verify Location Modal Active Filter — role:checkbox:modal-active::check, role:checkbox:modal-active::uncheck, role:checkbox:modal-active::verify-default"
+    },
+    {
+      "caseId": "role:textbox:modal-search::valid-text",
+      "tcId": "TC-CPR-OVR-003",
+      "tcTitle": "Verify Location Modal Search — role:textbox:modal-search::valid-text, role:textbox:modal-search::empty-submit, role:textbox:modal-search::max-length-exceed"
+    },
+    {
+      "caseId": "role:textbox:modal-search::empty-submit",
+      "tcId": "TC-CPR-OVR-003",
+      "tcTitle": "Verify Location Modal Search — role:textbox:modal-search::valid-text, role:textbox:modal-search::empty-submit, role:textbox:modal-search::max-length-exceed"
+    },
+    {
+      "caseId": "role:textbox:modal-search::max-length-exceed",
+      "tcId": "TC-CPR-OVR-003",
+      "tcTitle": "Verify Location Modal Search — role:textbox:modal-search::valid-text, role:textbox:modal-search::empty-submit, role:textbox:modal-search::max-length-exceed"
+    },
+    {
+      "caseId": "role:textbox:modal-search::special-chars",
+      "tcId": "TC-CPR-OVR-004",
+      "tcTitle": "Verify Location Modal Search — role:textbox:modal-search::special-chars, role:textbox:modal-search::whitespace-only"
+    },
+    {
+      "caseId": "role:textbox:modal-search::whitespace-only",
+      "tcId": "TC-CPR-OVR-004",
+      "tcTitle": "Verify Location Modal Search — role:textbox:modal-search::special-chars, role:textbox:modal-search::whitespace-only"
+    },
+    {
+      "caseId": "role:button:modal-select::click",
+      "tcId": "TC-CPR-OVR-005",
+      "tcTitle": "Verify Location Modal Select — role:button:modal-select::click, role:button:modal-select::verify-enabled"
+    },
+    {
+      "caseId": "role:button:modal-select::verify-enabled",
+      "tcId": "TC-CPR-OVR-005",
+      "tcTitle": "Verify Location Modal Select — role:button:modal-select::click, role:button:modal-select::verify-enabled"
+    },
+    {
+      "caseId": "role:button:modal-cancel::click",
+      "tcId": "TC-CPR-OVR-006",
+      "tcTitle": "Verify Location Modal Cancel — role:button:modal-cancel::click, role:button:modal-cancel::verify-enabled"
+    },
+    {
+      "caseId": "role:button:modal-cancel::verify-enabled",
+      "tcId": "TC-CPR-OVR-006",
+      "tcTitle": "Verify Location Modal Cancel — role:button:modal-cancel::click, role:button:modal-cancel::verify-enabled"
+    },
+    {
+      "caseId": "role:button:modal-close::click",
+      "tcId": "TC-CPR-OVR-007",
+      "tcTitle": "Verify Location Modal Close — role:button:modal-close::click, role:button:modal-close::verify-enabled"
+    },
+    {
+      "caseId": "role:button:modal-close::verify-enabled",
+      "tcId": "TC-CPR-OVR-007",
+      "tcTitle": "Verify Location Modal Close — role:button:modal-close::click, role:button:modal-close::verify-enabled"
+    },
+    {
+      "caseId": "role:combobox:currency-filter::select-valid",
+      "tcId": "TC-CPR-OVR-008",
+      "tcTitle": "Verify Currency Filter — role:combobox:currency-filter::select-valid, role:combobox:currency-filter::verify-default, role:combobox:currency-filter::select-each"
+    },
+    {
+      "caseId": "role:combobox:currency-filter::verify-default",
+      "tcId": "TC-CPR-OVR-008",
+      "tcTitle": "Verify Currency Filter — role:combobox:currency-filter::select-valid, role:combobox:currency-filter::verify-default, role:combobox:currency-filter::select-each"
+    },
+    {
+      "caseId": "role:combobox:currency-filter::select-each",
+      "tcId": "TC-CPR-OVR-008",
+      "tcTitle": "Verify Currency Filter — role:combobox:currency-filter::select-valid, role:combobox:currency-filter::verify-default, role:combobox:currency-filter::select-each"
+    },
+    {
+      "caseId": "role:tab:equipment::activate",
+      "tcId": "TC-CPR-OVR-009",
+      "tcTitle": "Verify Equipment Tab — role:tab:equipment::activate, role:tab:equipment::verify-content-switch"
+    },
+    {
+      "caseId": "role:tab:equipment::verify-content-switch",
+      "tcId": "TC-CPR-OVR-009",
+      "tcTitle": "Verify Equipment Tab — role:tab:equipment::activate, role:tab:equipment::verify-content-switch"
+    },
+    {
+      "caseId": "role:tab:labor::activate",
+      "tcId": "TC-CPR-OVR-010",
+      "tcTitle": "Verify Labor Tab — role:tab:labor::activate, role:tab:labor::verify-content-switch"
+    },
+    {
+      "caseId": "role:tab:labor::verify-content-switch",
+      "tcId": "TC-CPR-OVR-010",
+      "tcTitle": "Verify Labor Tab — role:tab:labor::activate, role:tab:labor::verify-content-switch"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::valid(50.00)",
+      "tcId": "TC-CPR-OVR-011",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::valid(50.00), role:spinbutton:override-price-equip::valid(0.01), role:spinbutton:override-price-equip::valid(9999.99)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::valid(0.01)",
+      "tcId": "TC-CPR-OVR-011",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::valid(50.00), role:spinbutton:override-price-equip::valid(0.01), role:spinbutton:override-price-equip::valid(9999.99)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::valid(9999.99)",
+      "tcId": "TC-CPR-OVR-011",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::valid(50.00), role:spinbutton:override-price-equip::valid(0.01), role:spinbutton:override-price-equip::valid(9999.99)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::boundary-zero(0)",
+      "tcId": "TC-CPR-OVR-012",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::boundary-zero(0), role:spinbutton:override-price-equip::boundary-large(99999), role:spinbutton:override-price-equip::negative(-1)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::boundary-large(99999)",
+      "tcId": "TC-CPR-OVR-012",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::boundary-zero(0), role:spinbutton:override-price-equip::boundary-large(99999), role:spinbutton:override-price-equip::negative(-1)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::negative(-1)",
+      "tcId": "TC-CPR-OVR-012",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::boundary-zero(0), role:spinbutton:override-price-equip::boundary-large(99999), role:spinbutton:override-price-equip::negative(-1)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::negative(-100)",
+      "tcId": "TC-CPR-OVR-013",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::negative(-100), role:spinbutton:override-price-equip::non-numeric(abc), role:spinbutton:override-price-equip::special(!@#)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::non-numeric(abc)",
+      "tcId": "TC-CPR-OVR-013",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::negative(-100), role:spinbutton:override-price-equip::non-numeric(abc), role:spinbutton:override-price-equip::special(!@#)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::special(!@#)",
+      "tcId": "TC-CPR-OVR-013",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::negative(-100), role:spinbutton:override-price-equip::non-numeric(abc), role:spinbutton:override-price-equip::special(!@#)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::extreme(9999999)",
+      "tcId": "TC-CPR-OVR-014",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::extreme(9999999), role:spinbutton:override-price-equip::empty()"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-equip::empty()",
+      "tcId": "TC-CPR-OVR-014",
+      "tcTitle": "Verify Override Price (Equipment) — role:spinbutton:override-price-equip::extreme(9999999), role:spinbutton:override-price-equip::empty()"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::valid(50)",
+      "tcId": "TC-CPR-OVR-015",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::valid(50), role:spinbutton:max-discount-equip::valid(25), role:spinbutton:max-discount-equip::valid(75)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::valid(25)",
+      "tcId": "TC-CPR-OVR-015",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::valid(50), role:spinbutton:max-discount-equip::valid(25), role:spinbutton:max-discount-equip::valid(75)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::valid(75)",
+      "tcId": "TC-CPR-OVR-015",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::valid(50), role:spinbutton:max-discount-equip::valid(25), role:spinbutton:max-discount-equip::valid(75)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::boundary-min(0)",
+      "tcId": "TC-CPR-OVR-016",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::boundary-min(0), role:spinbutton:max-discount-equip::boundary-max(100), role:spinbutton:max-discount-equip::just-above-min(1)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::boundary-max(100)",
+      "tcId": "TC-CPR-OVR-016",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::boundary-min(0), role:spinbutton:max-discount-equip::boundary-max(100), role:spinbutton:max-discount-equip::just-above-min(1)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::just-above-min(1)",
+      "tcId": "TC-CPR-OVR-016",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::boundary-min(0), role:spinbutton:max-discount-equip::boundary-max(100), role:spinbutton:max-discount-equip::just-above-min(1)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::just-below-max(99)",
+      "tcId": "TC-CPR-OVR-017",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::just-below-max(99), role:spinbutton:max-discount-equip::below-min(-1), role:spinbutton:max-discount-equip::above-max(101)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::below-min(-1)",
+      "tcId": "TC-CPR-OVR-017",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::just-below-max(99), role:spinbutton:max-discount-equip::below-min(-1), role:spinbutton:max-discount-equip::above-max(101)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::above-max(101)",
+      "tcId": "TC-CPR-OVR-017",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::just-below-max(99), role:spinbutton:max-discount-equip::below-min(-1), role:spinbutton:max-discount-equip::above-max(101)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::far-above(150)",
+      "tcId": "TC-CPR-OVR-018",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::far-above(150), role:spinbutton:max-discount-equip::extreme(999), role:spinbutton:max-discount-equip::non-numeric(abc)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::extreme(999)",
+      "tcId": "TC-CPR-OVR-018",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::far-above(150), role:spinbutton:max-discount-equip::extreme(999), role:spinbutton:max-discount-equip::non-numeric(abc)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::non-numeric(abc)",
+      "tcId": "TC-CPR-OVR-018",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::far-above(150), role:spinbutton:max-discount-equip::extreme(999), role:spinbutton:max-discount-equip::non-numeric(abc)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::special(!@#)",
+      "tcId": "TC-CPR-OVR-019",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::special(!@#), role:spinbutton:max-discount-equip::empty()"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-equip::empty()",
+      "tcId": "TC-CPR-OVR-019",
+      "tcTitle": "Verify Max Discount % (Equipment) — role:spinbutton:max-discount-equip::special(!@#), role:spinbutton:max-discount-equip::empty()"
+    },
+    {
+      "caseId": "role:checkbox:active-equip::check",
+      "tcId": "TC-CPR-OVR-020",
+      "tcTitle": "Verify Active Checkbox (Equipment) — role:checkbox:active-equip::check, role:checkbox:active-equip::uncheck, role:checkbox:active-equip::verify-default"
+    },
+    {
+      "caseId": "role:checkbox:active-equip::uncheck",
+      "tcId": "TC-CPR-OVR-020",
+      "tcTitle": "Verify Active Checkbox (Equipment) — role:checkbox:active-equip::check, role:checkbox:active-equip::uncheck, role:checkbox:active-equip::verify-default"
+    },
+    {
+      "caseId": "role:checkbox:active-equip::verify-default",
+      "tcId": "TC-CPR-OVR-020",
+      "tcTitle": "Verify Active Checkbox (Equipment) — role:checkbox:active-equip::check, role:checkbox:active-equip::uncheck, role:checkbox:active-equip::verify-default"
+    },
+    {
+      "caseId": "struct:picker-dblclick-equip::perform-action",
+      "tcId": "TC-CPR-OVR-021",
+      "tcTitle": "Verify Picker Double-Click (Equipment) — struct:picker-dblclick-equip::perform-action, struct:picker-dblclick-equip::verify-result"
+    },
+    {
+      "caseId": "struct:picker-dblclick-equip::verify-result",
+      "tcId": "TC-CPR-OVR-021",
+      "tcTitle": "Verify Picker Double-Click (Equipment) — struct:picker-dblclick-equip::perform-action, struct:picker-dblclick-equip::verify-result"
+    },
+    {
+      "caseId": "struct:picker-drag-equip::perform-action",
+      "tcId": "TC-CPR-OVR-022",
+      "tcTitle": "Verify Picker Drag (Equipment) — struct:picker-drag-equip::perform-action, struct:picker-drag-equip::verify-result"
+    },
+    {
+      "caseId": "struct:picker-drag-equip::verify-result",
+      "tcId": "TC-CPR-OVR-022",
+      "tcTitle": "Verify Picker Drag (Equipment) — struct:picker-drag-equip::perform-action, struct:picker-drag-equip::verify-result"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::valid(50.00)",
+      "tcId": "TC-CPR-OVR-023",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::valid(50.00), role:spinbutton:override-price-labor::valid(0.01), role:spinbutton:override-price-labor::valid(9999.99)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::valid(0.01)",
+      "tcId": "TC-CPR-OVR-023",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::valid(50.00), role:spinbutton:override-price-labor::valid(0.01), role:spinbutton:override-price-labor::valid(9999.99)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::valid(9999.99)",
+      "tcId": "TC-CPR-OVR-023",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::valid(50.00), role:spinbutton:override-price-labor::valid(0.01), role:spinbutton:override-price-labor::valid(9999.99)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::boundary-zero(0)",
+      "tcId": "TC-CPR-OVR-024",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::boundary-zero(0), role:spinbutton:override-price-labor::boundary-large(99999), role:spinbutton:override-price-labor::negative(-1)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::boundary-large(99999)",
+      "tcId": "TC-CPR-OVR-024",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::boundary-zero(0), role:spinbutton:override-price-labor::boundary-large(99999), role:spinbutton:override-price-labor::negative(-1)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::negative(-1)",
+      "tcId": "TC-CPR-OVR-024",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::boundary-zero(0), role:spinbutton:override-price-labor::boundary-large(99999), role:spinbutton:override-price-labor::negative(-1)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::negative(-100)",
+      "tcId": "TC-CPR-OVR-025",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::negative(-100), role:spinbutton:override-price-labor::non-numeric(abc), role:spinbutton:override-price-labor::special(!@#)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::non-numeric(abc)",
+      "tcId": "TC-CPR-OVR-025",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::negative(-100), role:spinbutton:override-price-labor::non-numeric(abc), role:spinbutton:override-price-labor::special(!@#)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::special(!@#)",
+      "tcId": "TC-CPR-OVR-025",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::negative(-100), role:spinbutton:override-price-labor::non-numeric(abc), role:spinbutton:override-price-labor::special(!@#)"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::extreme(9999999)",
+      "tcId": "TC-CPR-OVR-026",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::extreme(9999999), role:spinbutton:override-price-labor::empty()"
+    },
+    {
+      "caseId": "role:spinbutton:override-price-labor::empty()",
+      "tcId": "TC-CPR-OVR-026",
+      "tcTitle": "Verify Override Price (Labor) — role:spinbutton:override-price-labor::extreme(9999999), role:spinbutton:override-price-labor::empty()"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::valid(50)",
+      "tcId": "TC-CPR-OVR-027",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::valid(50), role:spinbutton:max-discount-labor::valid(25), role:spinbutton:max-discount-labor::valid(75)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::valid(25)",
+      "tcId": "TC-CPR-OVR-027",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::valid(50), role:spinbutton:max-discount-labor::valid(25), role:spinbutton:max-discount-labor::valid(75)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::valid(75)",
+      "tcId": "TC-CPR-OVR-027",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::valid(50), role:spinbutton:max-discount-labor::valid(25), role:spinbutton:max-discount-labor::valid(75)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::boundary-min(0)",
+      "tcId": "TC-CPR-OVR-028",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::boundary-min(0), role:spinbutton:max-discount-labor::boundary-max(100), role:spinbutton:max-discount-labor::just-above-min(1)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::boundary-max(100)",
+      "tcId": "TC-CPR-OVR-028",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::boundary-min(0), role:spinbutton:max-discount-labor::boundary-max(100), role:spinbutton:max-discount-labor::just-above-min(1)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::just-above-min(1)",
+      "tcId": "TC-CPR-OVR-028",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::boundary-min(0), role:spinbutton:max-discount-labor::boundary-max(100), role:spinbutton:max-discount-labor::just-above-min(1)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::just-below-max(99)",
+      "tcId": "TC-CPR-OVR-029",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::just-below-max(99), role:spinbutton:max-discount-labor::below-min(-1), role:spinbutton:max-discount-labor::above-max(101)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::below-min(-1)",
+      "tcId": "TC-CPR-OVR-029",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::just-below-max(99), role:spinbutton:max-discount-labor::below-min(-1), role:spinbutton:max-discount-labor::above-max(101)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::above-max(101)",
+      "tcId": "TC-CPR-OVR-029",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::just-below-max(99), role:spinbutton:max-discount-labor::below-min(-1), role:spinbutton:max-discount-labor::above-max(101)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::far-above(150)",
+      "tcId": "TC-CPR-OVR-030",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::far-above(150), role:spinbutton:max-discount-labor::extreme(999), role:spinbutton:max-discount-labor::non-numeric(abc)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::extreme(999)",
+      "tcId": "TC-CPR-OVR-030",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::far-above(150), role:spinbutton:max-discount-labor::extreme(999), role:spinbutton:max-discount-labor::non-numeric(abc)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::non-numeric(abc)",
+      "tcId": "TC-CPR-OVR-030",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::far-above(150), role:spinbutton:max-discount-labor::extreme(999), role:spinbutton:max-discount-labor::non-numeric(abc)"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::special(!@#)",
+      "tcId": "TC-CPR-OVR-031",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::special(!@#), role:spinbutton:max-discount-labor::empty()"
+    },
+    {
+      "caseId": "role:spinbutton:max-discount-labor::empty()",
+      "tcId": "TC-CPR-OVR-031",
+      "tcTitle": "Verify Max Discount % (Labor) — role:spinbutton:max-discount-labor::special(!@#), role:spinbutton:max-discount-labor::empty()"
+    },
+    {
+      "caseId": "role:checkbox:active-labor::check",
+      "tcId": "TC-CPR-OVR-032",
+      "tcTitle": "Verify Active Checkbox (Labor) — role:checkbox:active-labor::check, role:checkbox:active-labor::uncheck, role:checkbox:active-labor::verify-default"
+    },
+    {
+      "caseId": "role:checkbox:active-labor::uncheck",
+      "tcId": "TC-CPR-OVR-032",
+      "tcTitle": "Verify Active Checkbox (Labor) — role:checkbox:active-labor::check, role:checkbox:active-labor::uncheck, role:checkbox:active-labor::verify-default"
+    },
+    {
+      "caseId": "role:checkbox:active-labor::verify-default",
+      "tcId": "TC-CPR-OVR-032",
+      "tcTitle": "Verify Active Checkbox (Labor) — role:checkbox:active-labor::check, role:checkbox:active-labor::uncheck, role:checkbox:active-labor::verify-default"
+    },
+    {
+      "caseId": "struct:picker-dblclick-labor::perform-action",
+      "tcId": "TC-CPR-OVR-033",
+      "tcTitle": "Verify Picker Double-Click (Labor) — struct:picker-dblclick-labor::perform-action, struct:picker-dblclick-labor::verify-result"
+    },
+    {
+      "caseId": "struct:picker-dblclick-labor::verify-result",
+      "tcId": "TC-CPR-OVR-033",
+      "tcTitle": "Verify Picker Double-Click (Labor) — struct:picker-dblclick-labor::perform-action, struct:picker-dblclick-labor::verify-result"
+    },
+    {
+      "caseId": "struct:picker-drag-labor::perform-action",
+      "tcId": "TC-CPR-OVR-034",
+      "tcTitle": "Verify Picker Drag (Labor) — struct:picker-drag-labor::perform-action, struct:picker-drag-labor::verify-result"
+    },
+    {
+      "caseId": "struct:picker-drag-labor::verify-result",
+      "tcId": "TC-CPR-OVR-034",
+      "tcTitle": "Verify Picker Drag (Labor) — struct:picker-drag-labor::perform-action, struct:picker-drag-labor::verify-result"
+    },
+    {
+      "caseId": "role:button:grid-options::click",
+      "tcId": "TC-CPR-OVR-035",
+      "tcTitle": "Verify Grid Options Button — role:button:grid-options::click, role:button:grid-options::verify-enabled"
+    },
+    {
+      "caseId": "role:button:grid-options::verify-enabled",
+      "tcId": "TC-CPR-OVR-035",
+      "tcTitle": "Verify Grid Options Button — role:button:grid-options::click, role:button:grid-options::verify-enabled"
+    },
+    {
+      "caseId": "role:button:export::click",
+      "tcId": "TC-CPR-OVR-036",
+      "tcTitle": "Verify Export Button — role:button:export::click, role:button:export::verify-enabled"
+    },
+    {
+      "caseId": "role:button:export::verify-enabled",
+      "tcId": "TC-CPR-OVR-036",
+      "tcTitle": "Verify Export Button — role:button:export::click, role:button:export::verify-enabled"
+    },
+    {
+      "caseId": "role:button:import::click",
+      "tcId": "TC-CPR-OVR-037",
+      "tcTitle": "Verify Import Button — role:button:import::click, role:button:import::verify-enabled"
+    },
+    {
+      "caseId": "role:button:import::verify-enabled",
+      "tcId": "TC-CPR-OVR-037",
+      "tcTitle": "Verify Import Button — role:button:import::click, role:button:import::verify-enabled"
+    },
+    {
+      "caseId": "role:textbox:filter::valid-text",
+      "tcId": "TC-CPR-OVR-038",
+      "tcTitle": "Verify Filter Product Groups — role:textbox:filter::valid-text, role:textbox:filter::empty-submit, role:textbox:filter::max-length-exceed"
+    },
+    {
+      "caseId": "role:textbox:filter::empty-submit",
+      "tcId": "TC-CPR-OVR-038",
+      "tcTitle": "Verify Filter Product Groups — role:textbox:filter::valid-text, role:textbox:filter::empty-submit, role:textbox:filter::max-length-exceed"
+    },
+    {
+      "caseId": "role:textbox:filter::max-length-exceed",
+      "tcId": "TC-CPR-OVR-038",
+      "tcTitle": "Verify Filter Product Groups — role:textbox:filter::valid-text, role:textbox:filter::empty-submit, role:textbox:filter::max-length-exceed"
+    },
+    {
+      "caseId": "role:textbox:filter::special-chars",
+      "tcId": "TC-CPR-OVR-039",
+      "tcTitle": "Verify Filter Product Groups — role:textbox:filter::special-chars, role:textbox:filter::whitespace-only"
+    },
+    {
+      "caseId": "role:textbox:filter::whitespace-only",
+      "tcId": "TC-CPR-OVR-039",
+      "tcTitle": "Verify Filter Product Groups — role:textbox:filter::special-chars, role:textbox:filter::whitespace-only"
+    },
+    {
+      "caseId": "role:button:save::click",
+      "tcId": "TC-CPR-OVR-040",
+      "tcTitle": "Verify Save Button — role:button:save::click, role:button:save::verify-enabled"
+    },
+    {
+      "caseId": "role:button:save::verify-enabled",
+      "tcId": "TC-CPR-OVR-040",
+      "tcTitle": "Verify Save Button — role:button:save::click, role:button:save::verify-enabled"
+    },
+    {
+      "caseId": "role:button:save-confirm::click",
+      "tcId": "TC-CPR-OVR-041",
+      "tcTitle": "Verify Save Confirm Button — role:button:save-confirm::click, role:button:save-confirm::verify-enabled"
+    },
+    {
+      "caseId": "role:button:save-confirm::verify-enabled",
+      "tcId": "TC-CPR-OVR-041",
+      "tcTitle": "Verify Save Confirm Button — role:button:save-confirm::click, role:button:save-confirm::verify-enabled"
+    },
+    {
+      "caseId": "role:button:save-cancel::click",
+      "tcId": "TC-CPR-OVR-042",
+      "tcTitle": "Verify Save Cancel Button — role:button:save-cancel::click, role:button:save-cancel::verify-enabled"
+    },
+    {
+      "caseId": "role:button:save-cancel::verify-enabled",
+      "tcId": "TC-CPR-OVR-042",
+      "tcTitle": "Verify Save Cancel Button — role:button:save-cancel::click, role:button:save-cancel::verify-enabled"
+    },
+    {
+      "caseId": "role:combobox:rows-per-page::select-valid",
+      "tcId": "TC-CPR-OVR-043",
+      "tcTitle": "Verify Rows Per Page — role:combobox:rows-per-page::select-valid, role:combobox:rows-per-page::verify-default, role:combobox:rows-per-page::select-each"
+    },
+    {
+      "caseId": "role:combobox:rows-per-page::verify-default",
+      "tcId": "TC-CPR-OVR-043",
+      "tcTitle": "Verify Rows Per Page — role:combobox:rows-per-page::select-valid, role:combobox:rows-per-page::verify-default, role:combobox:rows-per-page::select-each"
+    },
+    {
+      "caseId": "role:combobox:rows-per-page::select-each",
+      "tcId": "TC-CPR-OVR-043",
+      "tcTitle": "Verify Rows Per Page — role:combobox:rows-per-page::select-valid, role:combobox:rows-per-page::verify-default, role:combobox:rows-per-page::select-each"
+    },
+    {
+      "caseId": "role:alertdialog:save-changes::open",
+      "tcId": "TC-CPR-OVR-044",
+      "tcTitle": "Verify Save Changes Dialog — role:alertdialog:save-changes::open, role:alertdialog:save-changes::verify-content, role:alertdialog:save-changes::dismiss"
+    },
+    {
+      "caseId": "role:alertdialog:save-changes::verify-content",
+      "tcId": "TC-CPR-OVR-044",
+      "tcTitle": "Verify Save Changes Dialog — role:alertdialog:save-changes::open, role:alertdialog:save-changes::verify-content, role:alertdialog:save-changes::dismiss"
+    },
+    {
+      "caseId": "role:alertdialog:save-changes::dismiss",
+      "tcId": "TC-CPR-OVR-044",
+      "tcTitle": "Verify Save Changes Dialog — role:alertdialog:save-changes::open, role:alertdialog:save-changes::verify-content, role:alertdialog:save-changes::dismiss"
+    },
+    {
+      "caseId": "role:button:sort-location::click",
+      "tcId": "TC-CPR-OVR-045",
+      "tcTitle": "Verify Sort Location Column — role:button:sort-location::click, role:button:sort-location::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-location::verify-enabled",
+      "tcId": "TC-CPR-OVR-045",
+      "tcTitle": "Verify Sort Location Column — role:button:sort-location::click, role:button:sort-location::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-product-group::click",
+      "tcId": "TC-CPR-OVR-046",
+      "tcTitle": "Verify Sort Product Group Column — role:button:sort-product-group::click, role:button:sort-product-group::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-product-group::verify-enabled",
+      "tcId": "TC-CPR-OVR-046",
+      "tcTitle": "Verify Sort Product Group Column — role:button:sort-product-group::click, role:button:sort-product-group::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-pg-name::click",
+      "tcId": "TC-CPR-OVR-047",
+      "tcTitle": "Verify Sort Product Group Name Col — role:button:sort-pg-name::click, role:button:sort-pg-name::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-pg-name::verify-enabled",
+      "tcId": "TC-CPR-OVR-047",
+      "tcTitle": "Verify Sort Product Group Name Col — role:button:sort-pg-name::click, role:button:sort-pg-name::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-currency::click",
+      "tcId": "TC-CPR-OVR-048",
+      "tcTitle": "Verify Sort Currency Column — role:button:sort-currency::click, role:button:sort-currency::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-currency::verify-enabled",
+      "tcId": "TC-CPR-OVR-048",
+      "tcTitle": "Verify Sort Currency Column — role:button:sort-currency::click, role:button:sort-currency::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-current-price::click",
+      "tcId": "TC-CPR-OVR-049",
+      "tcTitle": "Verify Sort Current Price Column — role:button:sort-current-price::click, role:button:sort-current-price::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-current-price::verify-enabled",
+      "tcId": "TC-CPR-OVR-049",
+      "tcTitle": "Verify Sort Current Price Column — role:button:sort-current-price::click, role:button:sort-current-price::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-mod-date::click",
+      "tcId": "TC-CPR-OVR-050",
+      "tcTitle": "Verify Sort Mod Date Column — role:button:sort-mod-date::click, role:button:sort-mod-date::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-mod-date::verify-enabled",
+      "tcId": "TC-CPR-OVR-050",
+      "tcTitle": "Verify Sort Mod Date Column — role:button:sort-mod-date::click, role:button:sort-mod-date::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-updated-by::click",
+      "tcId": "TC-CPR-OVR-051",
+      "tcTitle": "Verify Sort Updated By Column — role:button:sort-updated-by::click, role:button:sort-updated-by::verify-enabled"
+    },
+    {
+      "caseId": "role:button:sort-updated-by::verify-enabled",
+      "tcId": "TC-CPR-OVR-051",
+      "tcTitle": "Verify Sort Updated By Column — role:button:sort-updated-by::click, role:button:sort-updated-by::verify-enabled"
+    }
+  ]
+}

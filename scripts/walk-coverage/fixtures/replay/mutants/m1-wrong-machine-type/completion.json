@@ -1,0 +1,35 @@
+{
+  "schema": "walk-coverage-report/v1",
+  "date": "2026-07-22",
+  "state": "mutant-fixture",
+  "denominator": 1,
+  "entries": [
+    {
+      "key": "testid:pricing-strategy",
+      "role": "combobox",
+      "status": "OK"
+    }
+  ],
+  "derived_types": {
+    "testid:pricing-strategy": {
+      "type": "text",
+      "resolved": true,
+      "evidence": "tag=SELECT role=combobox aria-haspopup=listbox options=12",
+      "probe": "resting"
+    }
+  },
+  "completion_record": {
+    "version": 1,
+    "status": "complete",
+    "surfaces_attempted": [
+      "mutant-fixture"
+    ],
+    "surfaces_enumerated": [
+      "mutant-fixture"
+    ],
+    "element_count": 1,
+    "generated_at": "2026-07-22T16:15:04.507+05:30",
+    "generator": "phase-4.6-mutant-fixture",
+    "content_sha256": "68ffcd05955f40203962fcc21010475490c7dd83adec31822a761b86ef754d42"
+  }
+}

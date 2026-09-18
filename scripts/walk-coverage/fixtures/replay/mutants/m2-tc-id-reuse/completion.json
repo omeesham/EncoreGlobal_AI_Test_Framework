@@ -1,0 +1,35 @@
+{
+  "schema": "walk-coverage-report/v1",
+  "date": "2026-07-22",
+  "state": "mutant-fixture",
+  "denominator": 1,
+  "entries": [
+    {
+      "key": "testid:discount-percent",
+      "role": "spinbutton",
+      "status": "OK"
+    }
+  ],
+  "derived_types": {
+    "testid:discount-percent": {
+      "type": "number",
+      "resolved": true,
+      "evidence": "tag=INPUT type=number role=spinbutton",
+      "probe": "resting"
+    }
+  },
+  "completion_record": {
+    "version": 1,
+    "status": "complete",
+    "surfaces_attempted": [
+      "mutant-fixture"
+    ],
+    "surfaces_enumerated": [
+      "mutant-fixture"
+    ],
+    "element_count": 1,
+    "generated_at": "2026-07-22T16:15:04.507+05:30",
+    "generator": "phase-4.6-mutant-fixture",
+    "content_sha256": "d11705b04e2d9ab22b2822b33afd2e06d50c5ae271a4f7b600377346725121f6"
+  }
+}

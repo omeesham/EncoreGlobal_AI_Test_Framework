@@ -1,0 +1,22 @@
+{
+  "id": "BUG-CPR-OVR-002",
+  "title": "A valid full-tenant Override import stalls the client at 'Uploading… 50%' with no response, though it applies in the background",
+  "module": "corporate-pricing-override",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-07-17",
+  "reconfirmedDate": "2026-07-23",
+  "requirementSource": "NM-2186",
+  "stepsToReproduce": [
+    "Open Corporate Pricing > Product Group Override on a healthy office (e.g. 4107) and select the location.",
+    "Click Export to download the full tenant-wide CSV (about 9,000 rows, ~570 KB).",
+    "Edit one row's Override Price, remove the single empty-Override-Price row, and save the file.",
+    "Open the Import dialog, attach the edited full file, and click Upload.",
+    "Watch the upload progress indicator and the dialog."
+  ],
+  "expectedBehavior": "The upload completes and the dialog closes (or shows a success result) so the user knows the import finished.",
+  "actualBehavior": "The dialog sticks at 'Uploading… 50%' and the client request never returns, so the dialog never closes and the user gets no completion signal. The change IS applied on the server in the background (visible after a page reload), but the stuck UI makes it look failed. A minimal file (header plus one row) does not stall — it returns a normal response in about two seconds — so the stall is specific to the large full-tenant upload.",
+  "mcpEvidence": "Live-verified 2026-07-23 on office 4107: a minimal one-row import returns HTTP 200 in ~2.1s, while the full-tenant dump exhibits the stuck-50% behavior described. The progress bar also jumps to 50% within ~263 ms of clicking Upload (before any bytes are sent), so the 50% figure is a fixed UI state, not real progress. The round-trip test (TC-CPR-OVR-053) deliberately imports a minimal file to avoid this stall.",
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The Product Group Override import is net-new on this environment with no legacy-site equivalent; classified from live application DOM and network evidence, not a legacy regression."
+}

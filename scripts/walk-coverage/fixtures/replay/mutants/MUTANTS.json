@@ -1,0 +1,50 @@
+{
+  "schema": "replay-mutants/v1",
+  "mutants": [
+    {
+      "id": "m1-wrong-machine-type",
+      "dir": "scripts/walk-coverage/fixtures/replay/mutants/m1-wrong-machine-type",
+      "cheat": "The artifact claims a combobox/select control is a plain text field, shrinking emitted case rows.",
+      "intended_catcher": "scripts/walk-coverage/lib/coverage-manifest.mjs:381",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "observed_reason": "TYPEBIND field \"testid:pricing-strategy\" derived type=\"text\" contradicts combobox/select observation (tag=SELECT role=combobox aria-haspopup=listbox options=12)"
+    },
+    {
+      "id": "m2-tc-id-reuse",
+      "dir": "scripts/walk-coverage/fixtures/replay/mutants/m2-tc-id-reuse",
+      "cheat": "One TC id disposes four case rows without title tokens for each case id.",
+      "intended_catcher": "scripts/walk-coverage/lib/coverage-manifest.mjs:396",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "observed_reason": "TC \"TC-MUT-M2-001\" disposes 4 case rows (ceiling=3) without title-token binding for: [case-m2-required, case-m2-min, case-m2-max, case-m2-max-plus-one]"
+    },
+    {
+      "id": "m3-dead-oracle-branch",
+      "dir": "scripts/walk-coverage/fixtures/replay/mutants/m3-dead-oracle-branch",
+      "cheat": "The spec contains assertRejectionOracle source text only inside unreachable branches, so no runtime receipt is emitted.",
+      "intended_catcher": "scripts/check-reject-oracle.mjs:242",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "observed_reason": "[oracle] [FAIL] TC-MUT-M3-001: receipt missing at .tmp-replay-nm2271\\empty-receipts\\TC-MUT-M3-001.json"
+    },
+    {
+      "id": "m4-neg-bva-exemption-concentration",
+      "dir": "scripts/walk-coverage/fixtures/replay/mutants/m4-neg-bva-exemption-concentration",
+      "cheat": "Out-of-scope exemptions stay under the 15% global cap while consuming the entire Negative/BVA budget.",
+      "intended_catcher": "scripts/walk-coverage/lib/coverage-manifest.mjs:389",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "observed_reason": "Neg/BVA exemption budget exceeded: 19 claimed > 1 budget (5% of 19) | walk-exemptions.json NOT FOUND at scripts/walk-coverage/walk-exemptions.json — required for neg/BVA exemptions (fail-closed)"
+    },
+    {
+      "id": "m5-stale-receipt",
+      "dir": "scripts/walk-coverage/fixtures/replay/mutants/m5-stale-receipt",
+      "cheat": "A tamper-consistent receipt from an older spec body is replayed after the spec file changed.",
+      "intended_catcher": "scripts/check-reject-oracle.mjs:280",
+      "expected": "FAIL",
+      "observed": "FAIL",
+      "observed_reason": "[oracle] [FAIL] TC-MUT-M5-001: spec_sha256 stale — stored=b92240db78475bba58ad99b44693844048f65ecc44a14d591bc8370eb5a5a8cb current=93635d7f2da5902f3f7bf96e2877652245389266de962c4d060d6ef889322bf0 (scripts\\walk-coverage\\fixtures\\replay\\mutants\\m5-stale-receipt\\specs\\stale-receipt.spec.ts)"
+    }
+  ]
+}

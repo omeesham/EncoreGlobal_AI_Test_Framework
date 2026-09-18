@@ -1,0 +1,58 @@
+{
+  "id": "BUG-ISR-PCD-002",
+  "title": "Item Search — View Product Code, Sub Class segment: clearing the Product Organization to None neither asks about the items nor clears them, while every other removal does",
+  "module": "Item Search",
+  "severity": "medium",
+  "status": "withdrawn",
+  "discoveredDate": "2026-09-15",
+  "requirementSource": "NM-2255 'View Product Code' under NM-2253 (office 1101 scope). Leads NM-1982 / NM-1983 (Done): a Sub Class organization change propagates to its items with validation messages. The live prompt the app raises on a Sub Class organization save states the same contract: 'Existing Items will be updated according to the added or removed ORGs'.",
+  "stepsToReproduce": [
+    "Open Item Search -> Products for office 1101 (cloudapps-e2e), search 'ZZ E2E Chain', click the row's select button and open the Sub Class segment from the caret right of 'View Product Code' (the chain is the automation's own category / sub category / class / sub class / item; its sub class and item start with Product Organization None).",
+    "Open the Product Organization control of the Sub Class section, click Canada, press Escape, click Save: a dialog 'Confirm' asks whether to update all existing Items. Click Yes. 'Product updated successfully.' shows; the chain item now shows Canada on both its Sub Class section and its Item section (propagation works).",
+    "Reopen the Sub Class segment, open the control, click None, press Escape, click Save.",
+    "Observe: NO 'Confirm' prompt opens; the update goes straight out and answers 200 with 'Product updated successfully.'.",
+    "Close, open the Item segment of the chain item: its Sub Class section shows None but its Item section still shows Canada — the item keeps a country its sub class no longer has.",
+    "Control: with the sub class at Canada + Mexico and the item at Canada + Mexico, unchecking Mexico alone and clicking Save DOES open the prompt, and Yes removes Mexico from the item too. Only the clear-to-None path skips both the prompt and the propagation."
+  ],
+  "expectedBehavior": "Clearing the Sub Class Product Organization to None behaves like any other removal: the 'Confirm' prompt asks whether the change should reach the existing items, and Yes removes the countries from them (or, at minimum, the items are not left holding a country their sub class no longer has — the same rule the server enforces when No is answered: 'You cannot remove Canada from the SubClass ProductOrgs because some Items are still assigned to it.').",
+  "actualBehavior": "The None save opens no prompt, returns 200 and leaves every item's own countries untouched, so the chain item ends with Canada under a sub class whose organization is None. Reproduced four times on 2026-09-15 (probe passes V5, T6, N5 and the first pass W4), from a single country and from two countries.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-15",
+    "findings": "Headless Playwright CLI probes on cloudapps-e2e office 1101, session pcd, on the automation chain only. Positive controls in the same session: adding a country (Yes) reached the item; adding a second country reached the item; removing one of two countries opened the prompt and Yes removed it from the item. The None path was the only removal that neither prompted nor propagated. Every reading was taken after a close-and-reopen of the segment or the item.",
+    "evidence": [
+      ".playwright-cli/pcd-2026-09-14/p7-chain-prompt-close-no-yes-none-2026-09-15.txt (V4 Yes -> item Canada; V5 None -> no prompt, item still Canada)",
+      ".playwright-cli/pcd-2026-09-14/p7-chain-toggles-and-removal-2026-09-15.txt (T4 two countries via Yes; T5 partial removal prompts and reaches the item; T6 None -> no prompt, item keeps Canada)",
+      ".playwright-cli/pcd-2026-09-14/p7-chain-no-fits-2026-09-15.txt (N5 None from two countries -> no prompt, item keeps Canada)",
+      ".playwright-cli/pcd-2026-09-14/p7-confirm-prompt-chain-snapshot.yml (the prompt as it renders on an add)"
+    ]
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The legacy Product Code Details dialog is fully read-only (item_search_product_code_test_cases.md verification row 17, 2026-08-31 baseline walk), so no legacy propagation behaviour exists to compare; the finding is new-site only.",
+  "affectedTests": [
+    "TC-ISR-PCD-054"
+  ],
+  "networkEvidence": "PUT /navigator/api/product/update answered 200 on every None save (requests 234, 384, 656 and 825 of the probe session) with no preceding prompt; the same endpoint is the one the Yes path uses after the prompt.",
+  "verificationLog": [
+    {
+      "verifierAgent": "Claude (spec-generation identity, NM-2255 run)",
+      "verifiedDate": "2026-09-15",
+      "verdict": "CONFIRMED",
+      "detail": "Four independent None saves (from a single country and from two) each skipped the prompt and left the item's countries in place, while the partial removal in the same session prompted and propagated. TC-ISR-PCD-054 asserts the prompt on the None save and fails on purpose until the behaviour changes; the spec's per-test reset clears the item on its own segment so the chain is left clean.",
+      "minimalRepro": "Chain Sub Class segment -> Product Organization Canada -> Save -> Yes -> reopen -> Product Organization None -> Save: no prompt, 200; the chain item still shows Canada on its Item section.",
+      "evidence": [
+        ".playwright-cli/pcd-2026-09-14/p7-chain-prompt-close-no-yes-none-2026-09-15.txt",
+        ".playwright-cli/pcd-2026-09-14/p7-chain-no-fits-2026-09-15.txt",
+        "tests/view-product-code/view-product-code.spec.ts (TC-ISR-PCD-054)"
+      ]
+    },
+    {
+      "verifierAgent": "Claude (spec-generation identity, NM-2255 owner ruling)",
+      "verifiedDate": "2026-09-16",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-16 (Vikas Yadav): not a defect - the behaviour is by design. The measured facts of the filing stand unchanged (the observation is real and reproducible); only the classification changes. Consequence: TC-ISR-PCD-054 is flipped from a deliberately failing statement of the expected-by-analogy behaviour into a passing case that pins the accepted contract: clearing the Sub Class Product Organization to None saves at once without the items prompt, the sub class rests at None and the item keeps its own countries until they are changed on the item itself. No product fix is expected or tracked from this record.",
+      "minimalRepro": "n/a - behaviour accepted as designed by the owner; the filed steps still reproduce the observation.",
+      "evidence": []
+    }
+  ],
+  "notes": "WITHDRAWN 2026-09-16 by owner ruling: by design, not a defect. TC-ISR-PCD-054 is flipped from a deliberately failing statement into a passing case that pins the accepted contract: clearing the Sub Class Product Organization to None saves at once without the items prompt, the sub class rests at None and the item keeps its own countries until they are changed on the item itself. History preserved: Whether the intended fix is 'prompt and propagate' or 'refuse while items still carry a country' is the client's call; either way the current path is the odd one out. Filed under NM-2255; Jira is read-only from these sessions."
+}

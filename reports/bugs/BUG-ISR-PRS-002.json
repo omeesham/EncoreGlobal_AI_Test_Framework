@@ -1,0 +1,29 @@
+{
+  "id": "BUG-ISR-PRS-002",
+  "title": "Item Search — Products: the Any Field search does not trim whitespace, so an accidental leading/trailing space silently changes (or empties) the results",
+  "module": "Item Search",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-09-03",
+  "requirementSource": "No documented Encore rule located (Jira/Confluence dedupe pending — the Atlassian connector was not authorized this session). Filed per standard free-text-search usability: leading and trailing whitespace on a search term should be trimmed/normalized before matching, so an accidental surrounding space (very common from copy-paste) does not change what the search finds. An un-trimmed literal match on a core search box is a functional defect, not a styling nitpick.",
+  "stepsToReproduce": [
+    "Open Item Search -> Products on the e2e environment (observed on office 1101).",
+    "In the Any Field box type Amp (no spaces) and click Search -> note the count in the 'N products found' label (388 on 2026-09-03).",
+    "Click Reset. Type Amp with ONE trailing space ('Amp ') and Search -> the count drops to 157.",
+    "Click Reset. Type ONE leading space (' Amp') and Search -> 247.",
+    "Click Reset. Type two trailing spaces ('Amp  ') -> 1; three trailing spaces ('Amp   ') -> 0.",
+    "Click Reset. Type only spaces ('     ') and Search -> all 15,887 products are returned.",
+    "Confirm the spaces are real: the Any Field value read back after each entry equals exactly what was typed (the input keeps the spaces; it is the search that mis-handles them)."
+  ],
+  "expectedBehavior": "The Any Field term is trimmed of leading/trailing whitespace before matching, so 'Amp', 'Amp ', and ' Amp' all return the same result set (388). Accidental surrounding spaces do not change what is found, and an all-whitespace term is treated as an empty term rather than as a wildcard that matches everything.",
+  "actualBehavior": "Whitespace is matched literally as part of the substring, so surrounding spaces silently shrink the result set with no message or indication: 'Amp'=388, 'Amp '=157, ' Amp'=247, 'Amp  '=1, 'Amp   '=0. A whitespace-only term ('     ') returns ALL 15,887 products. A user who pastes a value carrying a trailing space is shown a reduced or empty result and can wrongly conclude the product does not exist.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-03",
+    "findings": "Reproduced live on the e2e environment, office 1101 (Item Search -> Products), 2026-09-03, driven through the Playwright test-runner harness (trusted synthetic input, not raw JS). The Any Field box value was read back after every entry and matched the typed string exactly in all cases (fieldMatches=true), proving the spaces were retained by the input and the divergence lives in the search, not the typing. Counts were deterministic across repeated runs: 'Amp'=388, 'Amp '=157, ' Amp'=247, 'Amp  '=1, 'Amp   '(3 spaces)=0, '     '(5 spaces)=15887 (every product). The graduated drop plus the all-match on whitespace-only is consistent with the backend substring-matching the term literally, including the surrounding spaces."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": null,
+  "affectedTests": [],
+  "networkEvidence": "n/a for a captured request in this session — the defect is observed through the products-found count the server returns for the un-trimmed term. The count behaviour (literal substring incl. spaces) points at the backend search query, not client rendering.",
+  "notes": "Severity assessed medium: a core search silently returns wrong or empty results on accidental leading/trailing whitespace (a common copy-paste artifact) with no user feedback; the workaround is to delete the stray space once the user realizes it is there. Bump to high if product confirms trimming is expected on this field. Jira/Confluence dedupe is PENDING because the Atlassian connector was not authorized this session — verify this is not already tracked under an NM ticket before any external filing. No automated coverage exists yet; recommend pinning with a new Item Search Products test case that asserts 'Amp', 'Amp ', and ' Amp' return equal counts. Unrelated to the withdrawn BUG-ISR-PRS-001 (date-value overflow, withdrawn 2026-09-03 as not-a-defect); this is an independent finding filed under -002 to avoid reusing that id."
+}

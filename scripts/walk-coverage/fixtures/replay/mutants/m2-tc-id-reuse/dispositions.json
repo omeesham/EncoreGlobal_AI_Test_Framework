@@ -1,0 +1,6 @@
+[
+  { "caseId": "case-m2-required", "tcId": "TC-MUT-M2-001", "tcTitle": "TC-MUT-M2-001 validates discount percent cases" },
+  { "caseId": "case-m2-min", "tcId": "TC-MUT-M2-001", "tcTitle": "TC-MUT-M2-001 validates discount percent cases" },
+  { "caseId": "case-m2-max", "tcId": "TC-MUT-M2-001", "tcTitle": "TC-MUT-M2-001 validates discount percent cases" },
+  { "caseId": "case-m2-max-plus-one", "tcId": "TC-MUT-M2-001", "tcTitle": "TC-MUT-M2-001 validates discount percent cases" }
+]

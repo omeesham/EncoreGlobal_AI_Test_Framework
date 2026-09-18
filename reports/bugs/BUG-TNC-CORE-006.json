@@ -1,0 +1,24 @@
+{
+  "id": "BUG-TNC-CORE-006",
+  "title": "Rich text editor (Tiptap/ProseMirror) does not release focus on Escape keypress (WCAG 2.1.2)",
+  "module": "terms-conditions",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-08-07",
+  "requirementSource": "WCAG 2.1 SC 2.1.2 (No Keyboard Trap) — if keyboard focus can be moved to a component, focus can also be moved away from that component using only a keyboard interface; if this requires more than unmodified arrow or tab keys, the user is advised of the method",
+  "stepsToReproduce": [
+    "Navigate to Terms and Conditions page (/locations/1604/settings/terms-conditions).",
+    "Click into a row's rich text editor cell to open the Tiptap/ProseMirror editor (contenteditable=\"true\" div).",
+    "Type any text to confirm the editor has focus and is operational.",
+    "Press Escape.",
+    "Evaluate document.activeElement.getAttribute('contenteditable').",
+    "Observe: the return value is still \"true\" — focus has not left the editor."
+  ],
+  "expectedBehavior": "Pressing Escape should move focus out of the editor to a logical parent element (e.g., the table cell, the row, or a toolbar). After Escape, document.activeElement should NOT be the contenteditable div.",
+  "actualBehavior": "Focus stays inside the editor's contenteditable div after Escape. document.activeElement.getAttribute('contenteditable') returns \"true\". The editor does nothing observable on Escape — focus remains trapped. Expected: not \"true\". Received: \"true\".",
+  "mcpEvidence": "Diagnosed 2026-08-07 by graft-takeover worker (grid-six run): TC-TNC-CORE-089 opened editor, typed sentinel text, pressed Escape, and evaluated postExitFocus. Evidence artifact: .claude/state/ua-worker/chips/graft-takeover/out-f6/GRID-SIX.md § TC-TNC-CORE-089.",
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "The Tiptap/ProseMirror rich text editor is a new-site-only component. The old site does not use inline rich text editing for terms and conditions content. No old-site equivalent exists.",
+  "affectedTests": ["TC-TNC-CORE-089"],
+  "networkEvidence": null
+}

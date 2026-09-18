@@ -1,0 +1,58 @@
+{
+  "id": "BUG-DSM-LOA-001",
+  "title": "Discount Matrix — Location Activation: the enabled location search box silently ignores input typed during the first ~1.5–2 minutes after the tab renders",
+  "module": "Discount Matrix",
+  "severity": "medium",
+  "status": "withdrawn",
+  "discoveredDate": "2026-08-25",
+  "requirementSource": "NM-2221 (Done) scopes the Location Activation grid as 'sortable / filterable per legacy behavior', and the control's own placeholder promises 'Search by location number or location name'. The search DOES work once the surface is fully ready, but the box is enabled and accepts keystrokes long before that: anything typed in the early window is silently swallowed — no filtering, no spinner, no message — which reads as a dead control to the user.",
+  "stepsToReproduce": [
+    "Open Location Settings -> Discount Matrix for office 1604 (cloudapps-e2e) and click the Location Activation tab.",
+    "Wait ~45s until the grid paints and the search box becomes enabled (footer shows the total, e.g. '2041 matching locations').",
+    "Immediately click the search box and type a known location number, e.g. 1102 (the input visibly holds the typed value). Press Enter.",
+    "Observe for up to 60s: nothing filters — rows and footer stay at the full listing. This is the defect window.",
+    "Clear the box, wait until roughly 2 minutes have passed since the tab painted, and type 1102 again: now the grid filters to '1 matching locations' almost immediately."
+  ],
+  "stepsToReproduceOriginal": [
+    "Open Location Settings -> Discount Matrix for office 1604 (cloudapps-e2e) and click the Location Activation tab.",
+    "Wait ~45s for the grid to load (footer shows the total, e.g. '2041 matching locations'; search box becomes enabled).",
+    "Click the search box and type a known location number, e.g. 1102 (the input visibly holds the typed value).",
+    "Wait 20 seconds, then press Enter and wait a further 3 seconds.",
+    "Read the grid rows and the footer."
+  ],
+  "expectedBehavior": "From the moment the search box is enabled, typing narrows the listing to matching locations and the footer total drops to the match count (or, if the surface is not yet ready, the box stays disabled / shows a loading state instead of silently discarding input).",
+  "actualBehavior": "The box is enabled and accepts keystrokes well before the search actually works. Input typed in the first ~1.5–2 minutes after the tab renders is silently ignored — rows and footer stay at the full listing through polling and an Enter press, with no feedback. The same typing performed after that window filters correctly (e.g. '1102' -> footer '1 matching locations', single row '1102 - Corporate Office - Long Beach') and clearing restores the full listing. The original 2026-08-25 filing stated 'filters nothing' absolutely; every probe behind that filing had typed inside the dead window.",
+  "mcpEvidence": {
+    "sessionDate": "2026-08-26",
+    "findings": "Staged-retry probe on cloudapps-e2e, office 1604 (reports/walk-coverage/dsm-loa-search-reverify2.json): typing '1102' immediately after settle -> no change in 12s; retype after +30s idle -> no change; retype after a further +60s idle (~1.5-2 min from tab paint) -> footer '1 matching locations', exactly one rendered row '1102 - Corporate Office - Long Beach'. A same-day re-run of the original filed steps reproduced the ignored-input phase verbatim (dsm-loa-search-reverify.json: value read back '1102', footer pinned at '2041 matching locations' through a 20s poll + Enter + 3s). Original 2026-08-25 probes (dsm-loa-affordance-probe.json / -probe2.json) also typed inside the early window, which is why they concluded 'filters nothing'. Owner-supplied screenshot 2026-08-26 shows the working state ('1102' -> '1 matching locations') after the page had idled.",
+    "priorFindings2026_08_25": "Headless probe: input value read back as '1102' (keystrokes landed), footer pinned at '2041 matching locations' through a 20s poll, an Enter press, and a 3s settle (dsm-loa-affordance-probe2.json); an earlier probe reproduced the same with '1101' (dsm-loa-affordance-probe.json). Both ran inside what is now known to be the dead window."
+  },
+  "verificationLog": [
+    {
+      "verifierAgent": "OWNER (Claude)",
+      "verifiedDate": "2026-08-26",
+      "verdict": "CONFIRMED-RESTATED",
+      "detail": "Owner screenshot showed the search working, contradicting the filed 'filters nothing'. Followed the filed steps verbatim -> reproduced the no-op. Staged retries isolated the variable: identical typing succeeds once ~1.5-2 minutes have passed since the tab painted. Defect restated from 'search filters nothing' to 'enabled search silently ignores input during the late-load window'. Root-cause hypothesis (unproven): client-side filtering waits on the full 2041-row dataset buffering in the background while the footer total and the enabled input appear early.",
+      "minimalRepro": "Load the Location Activation tab, type a location number the moment the search box enables, press Enter: nothing filters and no feedback appears. Same input typed ~2 minutes after load filters instantly.",
+      "evidence": [
+        "reports/walk-coverage/dsm-loa-search-reverify.json",
+        "reports/walk-coverage/dsm-loa-search-reverify2.json"
+      ]
+    },
+    {
+      "verifierAgent": "OWNER (Claude)",
+      "verifiedDate": "2026-08-26",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-08-26: the ~2-minute post-load window in which the enabled search box silently ignores typed input is NOT a defect — it is accepted loading behavior. The measured facts of the restated filing stand unchanged (the window is real and reproducible); only the classification changes. Consequence: TC-DSM-LOA-010 is reworked from an expected-failure pinning immediate-readiness to a passing case that waits for functional readiness and proves steady-state filtering; no product fix is expected or tracked from this record.",
+      "minimalRepro": "n/a — behavior accepted as designed/tolerated by the owner; see the CONFIRMED-RESTATED entry above for the reproduction of the window itself.",
+      "evidence": []
+    }
+  ],
+  "baselineComparison": "not-checked",
+  "baselineEvidence": "Old-site Location Activation observed 2026-08-26 under the single-click authorization: the legacy page exposes the same search box above the listing, so the affordance is inherited from legacy. Its function was not driven (typing sits outside the one-click grant). The defect stands on the new site's own promise — an enabled input that silently discards what is typed into it during the late-load window. Artifact: specs_planning/_internal/old-site-baseline/discount-matrix-2026-08-25.md (LOA section).",
+  "affectedTests": [
+    "TC-DSM-LOA-010"
+  ],
+  "networkEvidence": "Not captured for the search interaction; note this page's data operations ride POSTs to the page's own route rather than the backend API path, so endpoint-filtered listeners see nothing here.",
+  "notes": "WITHDRAWN 2026-08-26 by owner ruling: the early window is accepted loading behavior, not a defect. TC-DSM-LOA-010 is accordingly rewritten to wait for functional readiness and prove steady-state filtering (the 'accepted' fork of the decision this record was holding open). History preserved: the case originally shipped expected-failure against an immediate-readiness contract; the restatement of 2026-08-26 (see verificationLog) had already narrowed the defect claim from 'filters nothing' to the dead-window swallow. baselineComparison stays 'not-checked' because the FUNCTIONAL legacy comparison was never performed (typing sat outside the observation-only single-click grant) — moot now that the classification is withdrawn. Enum value corrected 2026-08-26 from free-text 'baseline-structural (...)' to the legal value."
+}

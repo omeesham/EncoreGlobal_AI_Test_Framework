@@ -43,3 +43,12 @@ Key principles:
   of the expected behavior.
 - Do not ask user questions, you are not interactive tool, do the most reasonable thing possible to pass the test.
 - Never wait for networkidle or use other discouraged or deprecated apis
+
+## Bug duties (encore-bug-kit)
+
+- Every failure goes through `/rca` first — artifact-first, evidence-driven, no fix from a theory. Read `failure-summary.json` / trace / network before touching code.
+- The live-replication phase follows `docs/BUG_RULES.md` LR-044 verbatim: fresh page → exact filed steps → observe DOM, network, console, dirty state at each step.
+- Verdict `FALSE` must carry an RCA category (`ISOLATION | HALLUCINATION | MISREAD | ENVIRONMENTAL | STALE | ROLE/OFFICE-DEPENDENT`) and updates the bug JSON `status` accordingly.
+- Verdict `CONFIRMED` → minimize the repro (drop one setup step at a time), then update the bug JSON: shorter `stepsToReproduce`, original preserved in `stepsToReproduceOriginal`, new `verificationLog` entry.
+- Failure classified APPLICATION or DATA (not test defect) → it is a bug: file per LR-034 if none exists, otherwise append evidence to the existing `BUG-*.json` — never a duplicate.
+- Fixes to OUR code go through `/bugfix` (regression-guard before and after). Never "fix" a spec by loosening an assertion to hide an app bug.

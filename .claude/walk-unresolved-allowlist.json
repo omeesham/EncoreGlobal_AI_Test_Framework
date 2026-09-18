@@ -1,0 +1,13 @@
+{
+  "_comment": "PLAN_70 Phase 5 — HARD STOP #11 unresolved-probe allowlist. NOT agent-writable. Each entry requires owner/external-reviewer sign-off. Validator ignores unreviewed/malformed/stale entries (fails closed).",
+  "_schema": {
+    "key": "stable element+surface+artifact key from derived_types",
+    "exemption_class": "HARD STOP #11 exemption class",
+    "reason": "why this element is exempt from resolution",
+    "reviewer": "who approved (owner or external reviewer)",
+    "date": "ISO date of approval",
+    "evidence": "link or reference to supporting evidence",
+    "reviewed": true
+  },
+  "exemptions": []
+}

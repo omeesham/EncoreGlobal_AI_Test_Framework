@@ -1,0 +1,43 @@
+{
+  "id": "BUG-LOC-NTS-004",
+  "title": "Delete button vanishes when the Notes form-array contains a single empty row — TC-LOC-NTS-FCC-022 cannot reach the Delete step",
+  "module": "LocationNotes",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-05-21",
+  "requirementSource": "FCC catalog notes-2026-05-19.md (TC-LOC-NTS-FCC-022 — Delete one of one (single row) — empty state persists). The catalog asserts that the single row remaining in the form-array can be deleted; the Delete control must be reachable until the user explicitly saves the empty state.",
+  "stepsToReproduce": [
+    "Navigate to /locations/1604/settings/location (Notes sub-tab).",
+    "Ensure the form-array is in empty state (one empty textarea row, no save pending).",
+    "Fill row 0 with a 1-char note and click Save → Confirm.",
+    "Reload + navigate back to Notes sub-tab.",
+    "Clear the row-0 textarea (Angular-friendly setter).",
+    "Attempt to click the Delete button for row 0 — locator '[data-testid=\"location-settings-section-notes\"] button:has-text(\"Delete\")' times out after 10s."
+  ],
+  "expectedBehavior": "Delete control is reachable on the single remaining row; clicking it removes the row; save+reload settles into the default empty-state.",
+  "actualBehavior": "After clearing the row's textarea contents, the Delete button is no longer present in the DOM for the single remaining row. The Playwright locator times out at clicks. Verified via TC-LOC-NTS-FCC-022 run 2026-05-21 PM with `--retries=0 --grep \"FCC-022\"`: error 'locator.click: Timeout 10000ms exceeded' on btnNotesDelete.nth(0) at LocationNotesPage.deleteRow:164.",
+  "mcpEvidence": {
+    "sessionDate": "2026-05-21",
+    "findings": "Phase 0.4 baseline run (per PLAN_FRAMEWORK_LIFECYCLE_NOTES_PILOT_V2): TimeoutError on locator.click for btnNotesDelete on the single empty row. Screenshot + trace.zip captured at reports/test-results/location-notes-Location-No-89fb6--row-—-empty-state-persists-encore-locations/. Reproduced 2x (Phase 0.4 individual + final smoke combined run)."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": {
+    "verifiedDate": "2026-05-22",
+    "session": "PLAN_FRAMEWORK_LIFECYCLE_NOTES_PILOT_V2 closure Session 4 (work order step 8 retry)",
+    "tool": "Claude in Chrome MCP (per LR-038 v2; inherited user's live nav2 SSO session)",
+    "url": "https://navigator2.training.psav.com/#/setup/locationdetail/1604 → Notes sub-tab",
+    "result": "Old-site Notes is a SINGLE Angular form-control textarea (formcontrolname='Notes', maxlength=1000, class='location-detail-notes', size 200x1173px). NO Add button, NO Delete button, NO multi-row form-array. The Notes section parent HTML is literally: '<div class=\"location-detail-notes\"><textarea formcontrolname=\"Notes\" maxlength=\"1000\" class=\"form-control ng-untouched ng-pristine ng-valid\"></textarea></div>' — flat single-textarea structure.",
+    "classification": "baseline-absent — the multi-row Notes form-array UX (per-row textareas, Add/Delete buttons, max 4000 chars per row, BUG-LOC-NTS-003 placeholder behavior, BUG-LOC-NTS-004 single-empty-row delete vanishing) is a net-new architectural pattern in the new site. The OLD site uses a single 1000-char textarea — no concept of 'rows' or per-row delete exists. There is no baseline behavior to regress from.",
+    "recommendation": "Per LR-ENC-001 + ALL-078, escalate via /encore-questions to clarify the intended new-site multi-row UX semantics (specifically: should the single-empty-row state expose Delete or not?). BUG-LOC-NTS-004 remains open as a new-site UX defect, not a regression."
+  },
+  "verificationLog": [
+    {
+      "verifierAgent": "OWNER (Opus 4.7)",
+      "verifiedDate": "2026-05-21",
+      "verdict": "CONFIRMED-NEW-SITE-ONLY",
+      "evidence": "Reproduced on E2E new site via FCC-022 in D-4 run-all 2026-05-21 18:00. Baseline check on navigator2.training.psav.com attempted same session — auth refresh required, deferred. Bug remains open; affected test FCC-022 stays test.fixme()-cited."
+    }
+  ],
+  "affectedTests": ["TC-LOC-NTS-FCC-022"],
+  "networkEvidence": "No save-endpoint POST is fired by the clear+delete attempt — the Delete control is absent, so the user has no path to dispatch a save from this state. The form-array remains dirty in-memory only."
+}

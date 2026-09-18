@@ -1,0 +1,136 @@
+{
+  "$comment": "Single source of truth for TC/BUG ID grammar (PLAN_ID_NAMING_AUDIT_AND_REMEDIATION 2026-06-11). Grammar: TC-{MODULE}-{SUBMODULE}-{NNN[A]} and BUG-{MODULE}-{SUBMODULE}-{NNN}. A single trailing letter suffix (e.g. 008A) is the REGISTERED insertion mechanism for adding a case between stable neighbors without renumbering. Consumers: scripts/check-tc-parity.ts (guardrail 6/7), scripts/xlsx-lint-rules.mjs (C8), export_test_cases/to-csv.ts (module/submodule derivation), scripts/lint-test-cases.ts (SUB-001 via types.ts). Mint new module/submodule codes HERE FIRST.",
+  "modules": {
+    "LOC": { "name": "locations", "display": "Locations", "dir": "locations" },
+    "LOS": { "name": "local-office", "display": "Local Office", "dir": "local-office" },
+    "CPR": { "name": "corporate-pricing", "display": "Corporate Pricing", "dir": "corporate-pricing" },
+    "COR": { "name": "corporate-pricing", "display": "Corporate Override", "dir": "corporate-override" },
+    "TNC": { "name": "terms-conditions", "display": "Terms and Conditions", "dir": "terms-conditions" },
+    "SCT": { "name": "service-charge-text", "display": "Service Charge Text", "dir": "service-charge-text" },
+    "SVC": { "name": "service-charge", "display": "Service Charge", "dir": "service-charge" },
+    "DSM": { "name": "discount-matrix", "display": "Discount Matrix", "dir": "discount-matrix" },
+    "ISR": { "name": "item-search", "display": "Item Search", "dir": "item-search" }
+  },
+  "submodules": {
+    "LOC": {
+      "CUR": { "name": "currency", "display": "Currency", "sheet": "locations_currency", "mdBasename": "locations_currency_test_cases" },
+      "PRI": { "name": "pricing", "display": "Pricing", "sheet": "locations_pricing", "mdBasename": "locations_pricing_test_cases" },
+      "LI": { "name": "local_information", "display": "Local Information", "sheet": "locations_local_information", "mdBasename": "locations_local_information_test_cases" },
+      "ACC": { "name": "account_address", "display": "Account & Address", "sheet": "locations_account_address", "mdBasename": "locations_account_address_test_cases" },
+      "LGL": { "name": "legal", "display": "Legal", "sheet": "locations_legal", "mdBasename": "locations_legal_test_cases" },
+      "NTS": { "name": "notes", "display": "Notes", "sheet": "locations_notes", "mdBasename": "locations_notes_test_cases" },
+      "LP": { "name": "left_panel", "display": "Basic Information (Left Panel)", "sheet": "locations_left_panel_basic_info", "mdBasename": "locations_left_panel_basic_information_test_cases" },
+      "SSL": { "name": "shared_setup_locations", "display": "Shared Setup Locations", "sheet": "locations_shared_setup_location", "mdBasename": "locations_shared_setup_locations_test_cases" },
+      "AAO": { "name": "auto_addon", "display": "Auto Add-On", "sheet": "locations_auto_addon", "mdBasename": "locations_auto_addon_test_cases" },
+      "MGH": { "name": "management_history", "display": "Location Management History", "sheet": "locations_management_history", "mdBasename": "locations_management_history_test_cases" }
+    },
+    "LOS": {
+      "BAS": { "name": "basic_information", "display": "Basic Information", "sheet": "local_office_settings", "mdBasename": "local_office_settings_test_cases" },
+      "HIS": { "name": "history", "display": "History", "sheet": "local_office_history", "mdBasename": "local_office_history_test_cases" },
+      "ECT": { "name": "ect_settings", "display": "ECT Settings", "sheet": "local_office_ect", "mdBasename": "local_office_ect_test_cases" }
+    },
+    "CPR": {
+      "SRC": { "name": "search", "display": "Search", "sheet": "corporate_pricing_search", "mdBasename": "corporate_pricing_search_test_cases" },
+      "STR": { "name": "strategy", "display": "Pricing Strategy", "sheet": "corporate_pricing_strategy", "mdBasename": "corporate_pricing_strategy_test_cases" },
+      "DET": { "name": "detail", "display": "Pricing Detail", "sheet": "corporate_pricing_detail", "mdBasename": "corporate_pricing_detail_test_cases" },
+      "NPB": { "name": "new_pricebook", "display": "New Pricebook", "sheet": "corporate_pricing_new_pricebook", "mdBasename": "corporate_pricing_new_pricebook_test_cases" },
+      "OVR": { "name": "override", "display": "Product Group Override", "mdBasename": "corporate_pricing_override_test_cases", "$comment": "Sheet ownership transferred to NAV (B5); all TC-CPR-OVR-* cases live on COR sheets via idModule/idSubmodule. mdBasename retained for G6c cross-group fallback." },
+      "NAV": { "name": "override", "display": "Override Navigation", "sheet": "corporate_pricing_override", "mdBasename": "corporate_pricing_override_test_cases" },
+      "LEX": { "name": "loc_pricing_export", "display": "Loc Pricing Export", "sheet": "corporate_pricing_loc_export", "mdBasename": "corporate_pricing_loc_export_test_cases" },
+      "EXA": { "name": "export_all", "display": "Export All", "sheet": "corporate_pricing_export_all", "mdBasename": "corporate_pricing_export_all_test_cases" },
+      "LIM": { "name": "loc_pricing_import", "display": "Loc Pricing Import", "sheet": "corporate_pricing_loc_import", "mdBasename": "corporate_pricing_loc_import_test_cases" },
+      "IMA": { "name": "import_all", "display": "Import All", "sheet": "corporate_pricing_import_all", "mdBasename": "corporate_pricing_import_all_test_cases" }
+    },
+    "TNC": {
+      "CORE": { "name": "core", "display": "Core", "sheet": "terms_conditions_core", "mdBasename": "terms_conditions_core_test_cases" }
+    },
+    "SCT": {
+      "CORE": { "name": "core", "display": "Core", "sheet": "service_charge_text_core", "mdBasename": "service_charge_text_core_test_cases" }
+    },
+    "SVC": {
+      "BAS": { "name": "basic_information", "display": "Basic Information", "sheet": "service_charge_basic_info", "mdBasename": "service_charge_basic_information_test_cases" },
+      "HIS": { "name": "history", "display": "Service Charge History", "sheet": "service_charge_history", "mdBasename": "service_charge_history_test_cases" }
+    },
+    "COR": {
+      "CORE": { "name": "override", "display": "Core", "sheet": "corporate_override_core", "mdBasename": "corporate_override_core_test_cases", "idModule": "CPR", "idSubmodule": "OVR", "$comment": "No idRenames entries added — TC-CPR-OVR-* IDs are not renumbered (D7). idModule+idSubmodule fields tell C8 that these sheets own TC-CPR-OVR-* IDs even though the sheet group is now COR (D10)." },
+      "LPK": { "name": "override", "display": "Location Picker", "sheet": "corporate_override_loc_picker", "mdBasename": "corporate_override_location_picker_test_cases", "idModule": "CPR", "idSubmodule": "OVR" },
+      "FLT": { "name": "override", "display": "Active and Currency Filters", "sheet": "corporate_override_filters", "mdBasename": "corporate_override_filters_test_cases", "idModule": "CPR", "idSubmodule": "OVR" },
+      "GSR": { "name": "override", "display": "Grid Text Filter and Sort", "sheet": "corporate_override_grid_sort", "mdBasename": "corporate_override_grid_sort_test_cases", "idModule": "CPR", "idSubmodule": "OVR" },
+      "LGR": { "name": "override", "display": "Labor Grid", "sheet": "corporate_override_labor_grid", "mdBasename": "corporate_override_labor_grid_test_cases", "idModule": "CPR", "idSubmodule": "OVR" },
+      "EXP": { "name": "override", "display": "Export", "sheet": "corporate_override_export", "mdBasename": "corporate_override_export_test_cases", "idModule": "CPR", "idSubmodule": "OVR" },
+      "IMP": { "name": "override", "display": "Import", "sheet": "corporate_override_import", "mdBasename": "corporate_override_import_test_cases", "idModule": "CPR", "idSubmodule": "OVR" }
+    },
+    "DSM": {
+      "CRT": { "name": "criteria", "display": "Search Criteria", "sheet": "discount_matrix_criteria", "mdBasename": "discount_matrix_criteria_test_cases" },
+      "RWP": { "name": "region_weekly_peaks", "display": "Region Weekly Peaks", "sheet": "discount_matrix_region_peaks", "mdBasename": "discount_matrix_region_weekly_peaks_test_cases" },
+      "LOA": { "name": "location_activation", "display": "Location Activation", "sheet": "discount_matrix_loc_activation", "mdBasename": "discount_matrix_location_activation_test_cases" }
+    },
+    "ISR": {
+      "PRS": { "name": "product_search", "display": "Product Search", "sheet": "item_search_product_search", "mdBasename": "item_search_product_search_test_cases" },
+      "PRF": { "name": "product_search", "display": "Product Search Filters", "sheet": "item_search_product_filters", "mdBasename": "item_search_product_search_filters_test_cases", "idModule": "ISR", "idSubmodule": "PRS" },
+      "PCD": { "name": "product_code", "display": "View Product Code", "sheet": "item_search_product_code", "mdBasename": "item_search_product_code_test_cases", "dir": "view-product-code" },
+      "APC": { "name": "product_code", "display": "Add Product Code", "sheet": "item_search_add_product_code", "mdBasename": "item_search_add_product_code_test_cases", "dir": "add-product-code" },
+      "PGR": { "name": "product_groups", "display": "Search For Product Groups", "sheet": "item_search_product_groups", "mdBasename": "item_search_product_groups_test_cases", "dir": "search-for-product-groups" },
+      "APG": { "name": "product_groups", "display": "Create new Product Groups", "sheet": "item_search_add_product_group", "mdBasename": "item_search_add_product_group_test_cases", "dir": "create-new-product-groups" }
+    }
+  },
+  "sheetNameNotes": {
+    "discount_matrix_region_peaks": "31-char Excel cap shortening of discount_matrix_region_weekly_peaks (35 chars) — by-design, approved 2026-08-25",
+    "discount_matrix_loc_activation": "31-char Excel cap shortening of discount_matrix_location_activation (35 chars) — by-design, approved 2026-08-25",
+    "locations_shared_setup_location": "31-char Excel cap truncation of locations_shared_setup_locations (trailing 's' lost) — by-design, approved 2026-06-11",
+    "locations_left_panel_basic_info": "31-char Excel cap truncation of locations_left_panel_basic_information — by-design, approved 2026-06-11",
+    "corporate_pricing_new_pricebook": "exactly 31 chars — at the Excel sheet-name limit",
+    "service_charge_basic_info": "shortened from service_charge_basic_information (32 chars) to fit the 31-char Excel sheet-name cap — by-design, approved 2026-08-10",
+    "item_search_product_filters": "shortened from item_search_product_search_filters (34 chars) to fit the 31-char Excel sheet-name cap — the redundant second 'search' dropped; by-design, approved 2026-09-03"
+  },
+  "idRenames": {
+    "$comment": "Old → new TC ID map summary (full map: clients/encore/specs_planning/_internal/id-audit-2026-06-10/id-rename-map.json). Historical artifacts (plans/done, dated _internal evidence) intentionally keep old IDs.",
+    "TC-LOC-CPR-001..030": "TC-CPR-SRC-001..030 (Search band 0xx)",
+    "TC-LOC-CPR-101..125": "TC-CPR-STR-001..025 (Strategy band 1xx)",
+    "TC-LOC-CPR-201..220": "TC-CPR-DET-001..020 (Detail band 2xx)",
+    "TC-LOC-CPR-301..330": "TC-CPR-NPB-001..030 (New Pricebook band 3xx)",
+    "TC-LOC-CPR-501..528": "TC-CPR-OVR-001..028 (Override band 5xx)",
+    "TC-LOC-CPR-601..617": "TC-CPR-TIO-001..017 (Toolbar IO band 6xx)",
+    "TC-CPR-TIO-018..024": "TC-CPR-LEX-001..007 (Loc Pricing Export submodule split-out, NM-2262; LEX-007=old 024 Manual/data-blocked)",
+    "TC-CPR-TIO-025..040": "TC-CPR-EXA-001..016 (Export-All dialog submodule split-out, NM-2264)",
+    "TC-CPR-TIO-041..051": "TC-CPR-LIM-001..011 (Loc Pricing Import submodule split-out, NM-2305; LIM-008=old 048 Manual/MD-only)",
+    "TC-CPR-TIO-001..017 (dissolved 2026-07-09)": "toolbar_io submodule folded into its natural tickets: 006->EXA-017, 013->LIM-012, 014->SRC-057, 017->SRC-058 (4 unique behaviors kept); 001-005/007/012/015-016 dropped as subsumed (EXA-001/010-013, IMA-001, LEX-004, SRC-032/056); 008-011 dropped as stale (Import menu now gates behind a Year+Currency precondition dialog per NM-2265, superseded by IMA-001..018)",
+    "TC-LOC-LI-NE-011..047": "TC-LOC-LI-078..114 (neutral-eye sub-family folded into the numeric LI sequence, offset +67)",
+    "TC-LOC-LI-SKIP-BILLING": "TC-LOC-LI-070 (restores the relocated 070 slot it physically occupies)"
+  },
+  "bugGrammar": {
+    "$comment": "Canonical: BUG-{MODULE}-{SUBMODULE}-{NNN} using the SAME module/submodule codes as TC IDs. LR-034 updated 2026-06-11. Live renames applied; historical references in plans/done + dated _internal artifacts keep old IDs and resolve via formerIds below.",
+    "formerIds": {
+      "BUG-CPR-001": "BUG-CPR-OVR-001",
+      "BUG-LOC-SHR-001": "BUG-LOC-SSL-001",
+      "BUG-HIS-001": "BUG-LOC-MGH-002",
+      "BUG-HIS-002": "BUG-LOC-MGH-003",
+      "BUG-MGH-001": "BUG-LOC-MGH-004",
+      "BUG-LI-001": "BUG-LOC-LI-001",
+      "BUG-LI-002": "BUG-LOC-LI-002",
+      "BUG-LI-003": "BUG-LOC-LI-003",
+      "BUG-LOC-ECT-001": "BUG-LOS-ECT-011",
+      "BUG-LOC-LOS-001": "BUG-LOS-BAS-066"
+    },
+    "unresolvedHistorical": {
+      "$comment": "No live references, no JSON on disk, subject not verifiable without assumption — historical-only IDs. If any is resurrected, verify its subject and re-file under the canonical grammar.",
+      "ids": ["BUG-LS-001", "BUG-LOC-BI-001", "BUG-HIS-CDWNA-001", "BUG-XYZ-001"]
+    },
+    "durabilityNote": "Only clients/encore/reports/bugs/BUG-CPR-OVR-001.json exists on disk (2026-06-11). JSON records for earlier bugs were lost with the gitignored root reports/ directory; their evidence lives in the dated _internal artifacts and MD/spec annotations. New filings go to clients/encore/reports/bugs/ (LR-034 path corrected 2026-06-11)."
+  },
+  "gapLedger": {
+    "TC-LOC-LI-049": { "cause": "DELETED", "evidence": "in-file '[removed]' note" },
+    "TC-LOC-LI-050": { "cause": "DELETED", "evidence": "in-file '[removed]' note" },
+    "TC-LOC-LI-056": { "cause": "DELETED", "evidence": "in-file '[removed]' note" },
+    "TC-LOC-PRI-034": { "cause": "NEVER-MINTED", "evidence": "in-file note: '034 intentionally does not exist (skipped ID)'" },
+    "TC-LOS-BAS-042": { "cause": "DELETED", "evidence": "in-file disposition table (lines ~1256-1263)" },
+    "TC-LOS-BAS-043": { "cause": "DELETED", "evidence": "in-file disposition table" },
+    "TC-LOS-BAS-046": { "cause": "DELETED", "evidence": "in-file disposition table" },
+    "TC-LOS-BAS-052": { "cause": "DELETED", "evidence": "in-file disposition table" },
+    "TC-LOS-BAS-057": { "cause": "DELETED", "evidence": "in-file disposition table" },
+    "TC-LOS-BAS-058": { "cause": "DELETED", "evidence": "in-file disposition table" },
+    "TC-LOS-BAS-059": { "cause": "DELETED", "evidence": "in-file disposition table" },
+    "TC-LOS-BAS-060": { "cause": "DELETED", "evidence": "in-file disposition table" }
+  },
+  "exceptions": []
+}

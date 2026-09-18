@@ -1,0 +1,10 @@
+{
+  "case_id": "c3-role-checkbox-active-labor-check",
+  "field": "role:checkbox:active-equip",
+  "value": "checked",
+  "announced": true,
+  "escapable": true,
+  "spec_file": "scripts/walk-coverage/fixtures/replay/class3/specs/class3-cheats.spec.ts",
+  "spec_sha256": "8ee02d0c2a1dca08a780e11724d4c7a51931b8bee0885d43ea73286bb39986bb",
+  "receipt_sha256": "9e51cdf9319b943b1f6ee0560390d4e2d97dd3a0a18cf27437c08ad58a74219d"
+}

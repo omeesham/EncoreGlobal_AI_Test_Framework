@@ -1,0 +1,38 @@
+[
+  {
+    "case_id": "case-m2-required",
+    "field_key": "testid:discount-percent",
+    "field_label": "Discount Percent",
+    "field_type": "number",
+    "category": "Required",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M2-001"
+  },
+  {
+    "case_id": "case-m2-min",
+    "field_key": "testid:discount-percent",
+    "field_label": "Discount Percent",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M2-001"
+  },
+  {
+    "case_id": "case-m2-max",
+    "field_key": "testid:discount-percent",
+    "field_label": "Discount Percent",
+    "field_type": "number",
+    "category": "BVA",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M2-001"
+  },
+  {
+    "case_id": "case-m2-max-plus-one",
+    "field_key": "testid:discount-percent",
+    "field_label": "Discount Percent",
+    "field_type": "number",
+    "category": "Negative",
+    "requires_oracle": false,
+    "disposed_by": "TC-MUT-M2-001"
+  }
+]

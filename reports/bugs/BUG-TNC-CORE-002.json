@@ -1,0 +1,21 @@
+{
+  "id": "BUG-TNC-CORE-002",
+  "title": "Silent data loss on a failed save — UI disables Save identically on HTTP 500 and 2xx with no error feedback",
+  "module": "terms-conditions",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-08-06",
+  "reconfirmedDate": "2026-08-06",
+  "requirementSource": "DEF-TNC-005",
+  "stepsToReproduce": [
+    "Open Terms and Conditions for office 1604 with US English filter.",
+    "Make a valid edit (e.g. change a row's language).",
+    "Click Save when the server returns a non-2xx response (observed: HTTP 500).",
+    "Observe: Save button transitions to disabled, no toast, no banner, no inline error message, no console error surfaced to the user."
+  ],
+  "expectedBehavior": "On a non-2xx save response, the UI should signal an error (toast, banner, or inline message) and keep Save enabled so the user can retry or take corrective action.",
+  "actualBehavior": "On one observed HTTP 500, the UI disabled the Save button exactly as on a successful 2xx response. No toast, no banner, no inline message, no console error was surfaced. The user receives no indication that their data was not saved. Corroborating incident: a later run's cleanup save failed this way and left row AUTOMATION-TEST-ROW-TNC-WALKX wrongly named on the server — the bug caught the tester.",
+  "mcpEvidence": "Live-verified 2026-08-06 by tnc-persistence-r1 (HTTP 500 exchange observed) and probe9 (UI-behaviour observation across all trials: button disables post-save regardless of outcome, zero alerts/toasts/console errors). Evidence: out-probe9/PROBE9.md §JOB2, out-walk-salvage/WALKR2.md §Job 1 (restore failure showing WALKX name persisted).",
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": "Old site uses per-cell inline saves with immediate visual feedback. The bulk-save-with-no-error-feedback pattern is new-site-only."
+}

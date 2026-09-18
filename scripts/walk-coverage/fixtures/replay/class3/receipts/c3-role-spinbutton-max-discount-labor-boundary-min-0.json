@@ -1,0 +1,10 @@
+{
+  "case_id": "c3-role-spinbutton-max-discount-labor-boundary-min-0",
+  "field": "role:spinbutton:max-discount-labor",
+  "value": "abc",
+  "announced": true,
+  "escapable": true,
+  "spec_file": "scripts/walk-coverage/fixtures/replay/class3/specs/class3-cheats.spec.ts",
+  "spec_sha256": "8ee02d0c2a1dca08a780e11724d4c7a51931b8bee0885d43ea73286bb39986bb",
+  "receipt_sha256": "dc27a365878cd6aceba808dccc1ce389a03fa7540ca68db8ead9e69e04254034"
+}

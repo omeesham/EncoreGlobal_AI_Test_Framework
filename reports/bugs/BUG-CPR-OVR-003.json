@@ -1,0 +1,43 @@
+{
+  "id": "BUG-CPR-OVR-003",
+  "title": "Override API HTTP 500 blast-radius census: offices 1121 and 1604 both fail (2 of 9 offices tested, two-pass, no flakes)",
+  "module": "Corporate Pricing",
+  "submodule": "Product Group Override",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-07-30",
+  "requirementSource": "NM-1463 (Corporate PG Pricing Override Management & Context Filtering) — the override-load GET endpoint must return HTTP 200 with a valid data payload for any valid local office.",
+  "stepsToReproduce": [
+    "Authenticate to cloudapps-e2e.encoreglobal.com using the automation credentials (clients/encore/.env.local).",
+    "Using an authenticated browser context, send GET https://cloudapps-e2e.encoreglobal.com/navigator/api/location/corporate-price-pg-override?localOfficeId=1121 and record the HTTP status code.",
+    "Send the same GET request a second time for office 1121 and confirm the status code is stable (no flake).",
+    "Repeat steps 2–3 for office 1604.",
+    "For control, repeat step 2 for offices 1105, 1137, 1169, 1606, 4104, 4107, and 8843 and confirm each returns HTTP 200."
+  ],
+  "expectedBehavior": "GET /navigator/api/location/corporate-price-pg-override?localOfficeId=<X> returns HTTP 200 with a valid JSON payload for every valid local office, including 1121 and 1604.",
+  "actualBehavior": "Offices 1121 and 1604 both return HTTP 500 on every call across two independent passes with no flakes. The remaining 7 of 9 tested offices return HTTP 200. The defect is not a general API regression — it is isolated to broken server-side data state on those two offices. The 1604 HTTP 500 body carries a duplicate-key exception (see BUG-CPR-OVR-002 for full body and user-facing symptoms).",
+  "mcpEvidence": {
+    "sessionDate": "2026-07-30",
+    "tool": "playwright-cli Node.js eval — page.evaluate fetch() in authenticated browser context (.auth/encore-state.json)",
+    "findings": "Two-pass census across 9 offices. Pass-1 and Pass-2 results were identical for every office — no flakes observed. 1121: 500/500. 1604: 500/500. 1105: 200/200 (11 overrides). 1137: 200/200 (20 overrides). 1169: 200/200 (24 overrides). 1606: 200/200 (7 overrides). 4104: 200/200 (1 override). 4107: 200/200 (1 override). 8843: 200/200 (0 overrides). Full artifact: .claude/state/ua-worker/chips/close2/out-blastradius2/REPORT.md."
+  },
+  "baselineComparison": "baseline-absent",
+  "baselineEvidence": null,
+  "affectedTests": [
+    "See BUG-CPR-OVR-002 for affected TCs — that record documents the user-facing symptoms (empty grid, import failures) caused by this HTTP 500."
+  ],
+  "networkEvidence": "GET /navigator/api/location/corporate-price-pg-override?localOfficeId=1121 → HTTP 500, both census passes. GET /navigator/api/location/corporate-price-pg-override?localOfficeId=1604 → HTTP 500, both census passes (duplicate-key body documented in BUG-CPR-OVR-002). Census table: 1121: 500/500, 1604: 500/500, 1105: 200/200, 1137: 200/200, 1169: 200/200, 1606: 200/200, 4104: 200/200, 4107: 200/200, 8843: 200/200.",
+  "blastRadius": "1121 and 1604 (2 of 9 offices tested). Both offices fail on every API call across two independent passes. No flakes. The 7 remaining tested offices all return HTTP 200.",
+  "notes": "This is the blast-radius quantification record for the defect documented in BUG-CPR-OVR-002. The census was conducted 2026-07-30 by ua-worker (blastradius2 chip). Prior characterisation in BUG-CPR-OVR-002 was '1604-specific'; this census proves office 1121 reproduces the identical HTTP 500. BUG-CPR-OVR-002 carries the full user-facing symptom evidence (empty grid, import duplicate-key exception, silent non-persist on clean import).",
+  "verificationLog": [
+    {
+      "verifierAgent": "ua-worker (TICKET-blastradius2, 2026-07-30)",
+      "verifiedDate": "2026-07-30",
+      "verdict": "CONFIRMED",
+      "method": "playwright-cli Node.js eval — authenticated browser context (.auth/encore-state.json). GET /api/location/corporate-price-pg-override?localOfficeId=<X> called twice per office across 9 offices.",
+      "minimalRepro": "Authenticated GET https://cloudapps-e2e.encoreglobal.com/navigator/api/location/corporate-price-pg-override?localOfficeId=1121 → HTTP 500. Same for localOfficeId=1604. No UI interaction required — the API call itself fails on both offices.",
+      "blastRadiusVerified": "1121 → 500 (both passes), 1604 → 500 (both passes). 1105, 1137, 1169, 1606, 4104, 4107, 8843 → 200 (all passes)."
+    }
+  ],
+  "formerIds": []
+}
