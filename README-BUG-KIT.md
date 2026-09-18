@@ -1,6 +1,7 @@
 # Encore Bug Kit — find → file/log → verify on the test env
 
 > **APPLIED 2026-09-18** on branch `feature/sprint18-vikas-bug-kit` (off `NM-3834`), flat layout: bugs → `reports/bugs/`, planning knowledge → `specs_planning/_internal/`, auth state → `.auth/encore-state.json`. `CLAUDE.md`, `.claude/settings.json`, `package.json` scripts and the three `playwright-test-*` agents are already wired — `BUG-KIT-PASTE-STEPS.md` is kept only as the record of what was pasted. Smoke-tested here: auth setup 1 passed; `walk:enumerate --module=service-charge` → 13-element manifest; bug-baseline gate denies a bad enum / allows a cited regression; `check:bug-hook` 15/15; `walk:enumerate:test` 20/20.
+> **2026-09-18 (second commit)**: the six always-on `@` lines are ALSO in the tracked `.claude/rules/bug-kit.md` (no `paths:` filter → loads every session), because `CLAUDE.md` is gitignored in this repo and never reaches colleagues.
 
 Extracted 2026-09-18 from the JBS Encore Framework (HEAD 146d1b58). ONLY the bug lifecycle — nothing about plans, pipelines, deliverables or test-case authoring.
 Unzip at the ROOT of the new framework; paths are preserved so every relative link inside the files keeps working. Then follow `BUG-KIT-PASTE-STEPS.md` (next to this file) for the 4 manual pastes.

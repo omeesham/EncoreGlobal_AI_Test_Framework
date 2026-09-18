@@ -1,6 +1,7 @@
 # Bug kit — manual paste steps (everything that is NOT done by unzipping)
 
 > **ALREADY APPLIED 2026-09-18** — every step below is done on this branch (agent files here are `.claude/agents/playwright-test-{planner,generator,healer}.md`). Kept as the record; nothing left to paste except your own `.env.local` review.
+> **2026-09-18 (second commit)**: the six always-on `@` lines are ALSO in the tracked `.claude/rules/bug-kit.md` (no `paths:` filter → loads every session), because `CLAUDE.md` is gitignored in this repo and never reaches colleagues.
 
 Order: unzip `encore-bug-kit.zip` at the repo root FIRST, then do the 3 pastes below, then reload the Claude Code window in VS Code.
 
