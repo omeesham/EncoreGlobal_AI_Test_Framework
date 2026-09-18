@@ -59,25 +59,30 @@ const PAGE_SOURCES = [
   { file: 'src/pages/components/location-form-helpers.component.ts' },
 ];
 
+/** The application area every finding belongs to — the report's Module column. */
+const MODULE_NAME = 'Location Settings';
+
 /**
  * One entry per Locations tab / shared surface. `code` prefixes the report IDs, `slug` is the
- * table name used when suggesting a column-header testid.
+ * table name used when suggesting a column-header testid, and `submodule` is the screen name as
+ * the application team knows it — the report's Submodule column, so "Local Information tab"
+ * (an internal key's wording) is reported as "Local Information".
  */
 const MODULES = {
-  'left-panel-basic-information': { name: 'Basic Information (left panel)', code: 'BAS', slug: 'pay-to' },
-  'local-info': { name: 'Local Information tab', code: 'LI', slug: 'local-info' },
-  currency: { name: 'Currency tab', code: 'CUR', slug: 'currency' },
-  pricing: { name: 'Pricing tab', code: 'PRI', slug: 'pricing' },
-  'account-address': { name: 'Account and Address tab', code: 'AA', slug: 'account-list' },
-  'shared-setup-locations': { name: 'Shared Setup Locations tab', code: 'SSL', slug: 'shared-setup' },
-  notes: { name: 'Notes tab', code: 'NOT', slug: 'notes' },
-  legal: { name: 'Legal tab', code: 'LEG', slug: 'legal' },
-  'auto-addon': { name: 'Auto Add-On tab', code: 'AAO', slug: 'auto-add-on' },
-  'business-types': { name: 'Business Types tab', code: 'BT', slug: 'business-types' },
-  history: { name: 'Location Management History tab', code: 'HIS', slug: 'management-history' },
-  shared: { name: 'Shared dialogs (all Location Settings tabs)', code: 'DLG', slug: 'shared' },
-  dynamic: { name: 'Dynamic grid rows (Pricing grid, office links)', code: 'DYN', slug: 'pricing' },
-  'form-helpers': { name: 'Shared Locations form helpers', code: 'FRM', slug: 'shared' },
+  'left-panel-basic-information': { name: 'Basic Information (left panel)', submodule: 'Basic Information (left panel)', code: 'BAS', slug: 'pay-to' },
+  'local-info': { name: 'Local Information tab', submodule: 'Local Information', code: 'LI', slug: 'local-info' },
+  currency: { name: 'Currency tab', submodule: 'Currency', code: 'CUR', slug: 'currency' },
+  pricing: { name: 'Pricing tab', submodule: 'Pricing', code: 'PRI', slug: 'pricing' },
+  'account-address': { name: 'Account and Address tab', submodule: 'Account and Address', code: 'AA', slug: 'account-list' },
+  'shared-setup-locations': { name: 'Shared Setup Locations tab', submodule: 'Shared Setup Locations', code: 'SSL', slug: 'shared-setup' },
+  notes: { name: 'Notes tab', submodule: 'Notes', code: 'NOT', slug: 'notes' },
+  legal: { name: 'Legal tab', submodule: 'Legal', code: 'LEG', slug: 'legal' },
+  'auto-addon': { name: 'Auto Add-On tab', submodule: 'Auto Add-On', code: 'AAO', slug: 'auto-add-on' },
+  'business-types': { name: 'Business Types tab', submodule: 'Business Types', code: 'BT', slug: 'business-types' },
+  history: { name: 'Location Management History tab', submodule: 'Location Management History', code: 'HIS', slug: 'management-history' },
+  shared: { name: 'Shared dialogs (all Location Settings tabs)', submodule: 'Shared dialogs (all tabs)', code: 'DLG', slug: 'shared' },
+  dynamic: { name: 'Dynamic grid rows (Pricing grid, office links)', submodule: 'Pricing (dynamic grid rows)', code: 'DYN', slug: 'pricing' },
+  'form-helpers': { name: 'Shared Locations form helpers', submodule: 'Shared form helpers (all tabs)', code: 'FRM', slug: 'shared' },
 };
 
 /** File basenames that do not match their module key directly. */
@@ -117,7 +122,7 @@ function moduleOf(file) {
   base = base.replace(/^location-settings-/, '').replace(/^location-/, '');
   base = MODULE_ALIASES[base] || base;
   if (MODULES[base]) return { key: base, ...MODULES[base] };
-  return { key: base, name: base, code: base.slice(0, 3).toUpperCase(), slug: base };
+  return { key: base, name: base, submodule: base, code: base.slice(0, 3).toUpperCase(), slug: base };
 }
 
 /* ------------------------------------------------------------------ parsing */
@@ -634,6 +639,114 @@ function suggestTestid(entry, module) {
   return slot ? `${prefix}-${slot}-${name}` : `${prefix}-${name}`;
 }
 
+/* ------------------------------------------------------------------ describing the element */
+
+/** Plain nouns for the naming slots, so a row reads as a thing on screen rather than a code slot. */
+const SLOT_NOUN = {
+  btn: 'button',
+  checkbox: 'checkbox',
+  select: 'dropdown',
+  listbox: 'dropdown list',
+  option: 'dropdown option',
+  input: 'input field',
+  modal: 'dialog',
+  menu: 'menu',
+  'menu-item': 'menu item',
+  'sub-tab': 'tab',
+  'sub-tab-content': 'tab panel',
+  label: 'label',
+  error: 'error message',
+  toast: 'toast notification',
+  table: 'table',
+  col: 'column header',
+  row: 'row',
+  cell: 'cell',
+  link: 'link',
+  form: 'form',
+  section: 'section',
+  element: 'element',
+};
+
+/** Slots whose identity IS their copy — a toast has no name apart from the words it shows. */
+const CONTENT_SLOTS = new Set(['toast', 'error', 'label', 'option', 'modal', 'cell']);
+
+/** `btnEffectiveDatePicker` -> `Effective Date Picker`. The prefix is dropped; it becomes the noun. */
+function humanKey(key) {
+  const { rest } = splitKey(key);
+  return rest
+    .replace(/([a-z0-9])([A-Z])/g, '$1 $2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+const capitalize = (text) => (text ? text.charAt(0).toUpperCase() + text.slice(1) : text);
+
+/** `row-2`, `col-5`, `item-1` -> `row 2`, `column 5`, `item 1` — readable in a sentence. */
+const readablePosition = (part) =>
+  part.replace(/^row-/, 'row ').replace(/^col-/, 'column ').replace(/^item-/, 'item ');
+
+/**
+ * The element named the way someone looking at the screen would name it.
+ *
+ * The workbook's Element column has to stand on its own: a developer adding the attribute reads
+ * it before the selector, and often instead of the selector. So the name comes from what the
+ * element shows — its copy, its aria-label, its placeholder — and falls back to the page-object
+ * key only when the element carries no words of its own. The noun comes from the naming slot, so
+ * "Effective Date Picker button" and `Toast notification ("Local information updated")` both say
+ * what kind of thing to look for as well as which one.
+ */
+function elementDescription(item) {
+  const slot = item.kind === 'inline' ? inlineSlot(item.selector) : splitKey(item.key).slot || 'element';
+  const noun = SLOT_NOUN[slot] || 'element';
+  const segments = splitPath(item.selector);
+  const leaf = segments[segments.length - 1] || item.selector;
+  const own =
+    textAnchor(leaf) ||
+    (/\[aria-label="([^"]+)"\]/.exec(leaf) || [])[1] ||
+    (/\[placeholder="([^"]+)"\]/.exec(leaf) || [])[1] ||
+    '';
+  const position = positionParts(item.selector).map(readablePosition);
+  const where = position.length ? ` at ${position.join(', ')}` : '';
+
+  // Copy-carrying elements are named BY their copy — "Toast notification (...)", not "Toast".
+  if (CONTENT_SLOTS.has(slot) && own) return `${capitalize(noun)} ("${own}")${where}`;
+
+  const named = item.kind === 'inline' ? own : humanKey(item.key);
+  if (named) return `${named} ${noun}${where}`;
+  if (own) return `${capitalize(noun)} ("${own}")${where}`;
+
+  // Nothing on the element itself: borrow the container it opens in, which is what a reader sees.
+  const container = segments.slice(0, -1).map(textAnchor).find(Boolean) || '';
+  if (container) return `${capitalize(noun)} in "${container}"${where}`;
+  // Last resort — the page-object method that reaches it. Not what the element shows, but it
+  // names the element better than a bare "Element" does.
+  const fromKey = humanKey(item.key);
+  return fromKey ? `${fromKey} ${noun}${where}` : `${capitalize(noun)}${where}`.trim();
+}
+
+/**
+ * Whether the missing attribute is a CHILD-level gap or a PARENT-level one.
+ *
+ * The distinction changes what the application team has to do. Where a container in the path
+ * already carries a data-testid — a dialog, a table, a section — only the element inside it is
+ * missing one, and a single attribute closes the gap. Where nothing in the path carries one, the
+ * container needs one too, or the new attribute is still only reachable by counting or by text.
+ */
+function testidGapLevel(item) {
+  return item.ancestorTestid
+    ? {
+        level: 'Child',
+        detail: `Child element only — the container "${item.ancestorTestid}" already has a data-testid; add one to the element inside it.`,
+      }
+    : {
+        level: 'Parent and child',
+        detail:
+          'Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.',
+      };
+}
+
 /* ------------------------------------------------------------------ finding it on screen */
 
 /** Where each surface starts, for the navigation line. */
@@ -885,12 +998,16 @@ function record(entry, file, items, stats, exclusions) {
     return;
   }
   stats.fallbackSites += 1;
+  const gap = testidGapLevel({ ancestorTestid: ancestorTestid(entry.selector) });
   items.push({
     module,
     id: '',
     kind: entry.kind,
     key: entry.key,
     type: elementType(entry),
+    element: elementDescription({ kind: entry.kind, key: entry.key, selector: entry.selector }),
+    missingAt: gap.level,
+    missingAtDetail: gap.detail,
     selector: entry.selector,
     // What the call itself passes, before the chain it hangs off is resolved in.
     step: entry.step || '',
@@ -900,6 +1017,7 @@ function record(entry, file, items, stats, exclusions) {
     suggested: suggestTestid(entry, module),
     uiPath: uiParts(entry.selector, module).join(' > '),
     uiSteps: uiParts(entry.selector, module),
+    steps: manualSteps(uiParts(entry.selector, module), 'Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the "Current selector" column.'),
     css: cssSelector(entry.selector),
     textHints: textHints(entry.selector),
     ancestorTestid: ancestorTestid(entry.selector),
@@ -953,8 +1071,10 @@ function dedupeInline(items) {
     item.file = first.file;
     item.line = first.line;
     item.suggested = suggestTestid({ kind: 'inline', key: item.key, selector: item.selector }, item.module);
+    item.element = elementDescription(item);
     item.uiSteps = uiParts(item.selector, item.module);
     item.uiPath = item.uiSteps.join(' > ');
+    item.steps = manualSteps(item.uiSteps, 'Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the "Current selector" column.');
     item.alsoIn = [...new Set(item.sites.map((s) => s.module.name))].filter((n) => n !== item.module.name);
   }
 
@@ -1076,6 +1196,37 @@ function moduleRows(byModule) {
 }
 
 /**
+ * The UI path turned into instructions a person can follow without reading any code: sign in,
+ * open the office, open the tab, then whatever has to be opened or saved before the element
+ * exists at all. `closing` is the last step, which differs between the per-element list in the
+ * workbook and the per-screen list in the guide.
+ */
+function manualSteps(uiSteps, closing) {
+  const [entry, ...rest] = uiSteps;
+  const steps = [...UI_PRELUDE];
+  // The entry line is "Setup > Location Settings > Tab"; the tab is the part worth a step.
+  const tab = /Location Settings(?: \(left panel\))? ?>? ?(.*)$/.exec(entry || '');
+  const tabName = tab && tab[1] ? tab[1] : '';
+  if ((entry || '').includes('(left panel)')) steps.push('Stay on the left-hand **Basic Information** panel — it is shown beside every tab.');
+  else if (tabName && tabName !== 'any tab') steps.push(`Open the **${tabName}** tab.`);
+  else if (tabName === 'any tab') steps.push('Open any tab — this surface is shared by all of them.');
+
+  for (const part of rest) {
+    const dialog = /open the "([^"]+)" dialog/.exec(part);
+    const how = dialog ? HOW_TO_OPEN[dialog[1]] : null;
+    if (dialog) steps.push(`${how || `Open the **${dialog[1]}** dialog.`}${how ? ` (opens the **${dialog[1]}** dialog)` : ''}`);
+    else if (part === 'open the dropdown') steps.push('Click the dropdown so its option list is showing.');
+    else if (part === 'open the date popover') steps.push('Click the calendar icon in the date cell so the popover is showing.');
+    else if (part === 'open the column menu') steps.push('Click a column header, then open its menu.');
+    else if (part.startsWith('read the toast')) steps.push('Click **Save** and watch the toast in the corner — it disappears after a few seconds.');
+    else if (part.startsWith('in the results grid')) steps.push(`Look at ${part.replace('in the results grid: ', '')} of the grid.`);
+    else steps.push(part.charAt(0).toUpperCase() + part.slice(1));
+  }
+  if (closing) steps.push(closing);
+  return steps;
+}
+
+/**
  * Groups the findings by the screen they live on and turns each group into numbered steps a
  * person can follow without reading any code. One group per distinct "where to find it" path,
  * so a tester walks each screen once instead of chasing 105 elements one at a time.
@@ -1089,27 +1240,7 @@ function locationGuide(items) {
 
   return [...surfaces.entries()]
     .map(([path, list]) => {
-      const [entry, ...rest] = list[0].uiSteps;
-      const steps = [...UI_PRELUDE];
-      // The entry line is "Setup > Location Settings > Tab"; the tab is the part worth a step.
-      const tab = /Location Settings(?: \(left panel\))? ?>? ?(.*)$/.exec(entry);
-      const tabName = tab && tab[1] ? tab[1] : '';
-      if (entry.includes('(left panel)')) steps.push('Stay on the left-hand **Basic Information** panel — it is shown beside every tab.');
-      else if (tabName && tabName !== 'any tab') steps.push(`Open the **${tabName}** tab.`);
-      else if (tabName === 'any tab') steps.push('Open any tab — this surface is shared by all of them.');
-
-      for (const part of rest) {
-        const dialog = /open the "([^"]+)" dialog/.exec(part);
-        const how = dialog ? HOW_TO_OPEN[dialog[1]] : null;
-        if (dialog) steps.push(`${how || `Open the **${dialog[1]}** dialog.`}${how ? ` (opens the **${dialog[1]}** dialog)` : ''}`);
-        else if (part === 'open the dropdown') steps.push('Click the dropdown so its option list is showing.');
-        else if (part === 'open the date popover') steps.push('Click the calendar icon in the date cell so the popover is showing.');
-        else if (part === 'open the column menu') steps.push('Click a column header, then open its menu.');
-        else if (part.startsWith('read the toast')) steps.push('Click **Save** and watch the toast in the corner — it disappears after a few seconds.');
-        else if (part.startsWith('in the results grid')) steps.push(`Look at ${part.replace('in the results grid: ', '')} of the grid.`);
-        else steps.push(part.charAt(0).toUpperCase() + part.slice(1));
-      }
-      steps.push('Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector below.');
+      const steps = manualSteps(list[0].uiSteps, 'Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector below.');
 
       const sample = list.map((i) => i.css).find(Boolean) || '';
       const hints = [...new Set(list.flatMap((i) => i.textHints))];
@@ -1470,11 +1601,23 @@ function buildWorkbook({ items, stats, byModule, filter }) {
   readme.push(
     [],
     ['How to read a row'],
+    ['Column', 'What it holds'],
+    ['Module', `The application area — always ${MODULE_NAME} in this report.`],
+    ['Submodule', 'The tab or shared surface the element is on.'],
+    ['Element', 'The element as it appears on screen — its copy or label, and what kind of control it is.'],
+    ['Current selector', 'How the automated suite reaches it today, written as the full path from the page root. This is what a data-testid would replace.'],
+    ['Steps to locate the element', 'Numbered steps from signing in to having the element on screen, including anything that has to be opened or saved first.'],
+    ['Missing at', 'Child, or Parent and child — see below.'],
+    [],
+    ['Child or parent'],
     [
       'A data-testid shown in a selector belongs to a CONTAINER the element sits inside — a dialog, a table, a section — not to the element being reported.',
     ],
     [
-      `${scoped} of the ${items.length} elements sit inside a container that already has one; the other ${items.length - scoped} have none anywhere in their path. The "Testid already on the container" column says which is which.`,
+      `Child — ${scoped} of the ${items.length} elements sit inside a container that already carries a data-testid. Only the element itself is missing one, and a single attribute closes the gap.`,
+    ],
+    [
+      `Parent and child — the other ${items.length - scoped} have no data-testid anywhere in their path. The container needs one too, or the new attribute is still only reachable by text or by counting rows.`,
     ],
     ['Radix note', 'Checkboxes, dropdowns and buttons render as button[role="checkbox"], [role="combobox"] and [role="button"] — not as native input or button elements. Searching the DOM for input[type=checkbox] will not find them.'],
     [],
@@ -1513,10 +1656,14 @@ function buildWorkbook({ items, stats, byModule, filter }) {
   /* -- Missing testids -------------------------------------------------- */
   const header = [
     'ID',
+    'Module',
+    'Submodule',
+    'Element',
+    'Current selector',
+    'Steps to locate the element',
+    'Missing at',
+    'What that means',
     'Priority',
-    'Screen',
-    'Element type',
-    'Where to find it on screen',
     'Suggested data-testid',
     'Testid already on the container',
     'Confirm with (CSS in DevTools)',
@@ -1537,20 +1684,24 @@ function buildWorkbook({ items, stats, byModule, filter }) {
   for (const item of ordered) {
     findings.push([
       item.id,
+      MODULE_NAME,
+      item.module.submodule || item.module.name,
+      item.element,
+      item.selector,
+      item.steps.map((step, n) => `${n + 1}. ${step.replace(/\*\*/g, '')}`).join('\n'),
+      item.missingAt,
+      item.missingAtDetail,
       item.priority,
-      item.module.name,
-      item.type === 'inline locator' ? 'element' : item.type,
-      item.uiPath,
       item.suggested,
       item.ancestorTestid || 'none',
-      item.css || '(cannot be expressed in CSS — follow the UI path)',
+      item.css || '(cannot be expressed in CSS — follow the steps)',
       item.textHints.join(' | '),
       consoleOneLiner(item),
       '',
       '',
     ]);
   }
-  const findingsSheet = addSheet('Missing testids', findings, [10, 10, 34, 14, 64, 46, 46, 70, 34, 80, 14, 34]);
+  const findingsSheet = addSheet('Missing testids', findings, [10, 18, 30, 46, 74, 96, 18, 78, 10, 46, 46, 70, 34, 80, 14, 34]);
   findingsSheet['!autofilter'] = {
     ref: XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: findings.length - 1, c: header.length - 1 } }),
   };

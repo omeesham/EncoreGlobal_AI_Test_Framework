@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Exploratory Crawl — Bug Report</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f7f7f5; --fg:#1b1b1a; --muted:#6a6a68; --card:#fff; --line:#e2e2de; --accent:#2f5d8a; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#16171a; --fg:#e9e9e6; --muted:#9a9a96; --card:#1f2024; --line:#32343a; --accent:#7fb2e5; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:0 16px 64px; background:var(--bg); color:var(--fg);
+         font:14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  header { padding: 32px 0 16px; border-bottom: 1px solid var(--line); }
+  h1 { margin:0 0 6px; font-size: 26px; letter-spacing:-0.01em; }
+  h2 { margin: 36px 0 12px; font-size: 18px; }
+  h4 { margin: 18px 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .sub { color: var(--muted); font-size: 13px; margin:2px 0; }
+  .stats { display:flex; flex-wrap:wrap; gap:12px; margin:20px 0; }
+  .stat { flex:1 1 120px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .stat-value { font-size:26px; font-weight:650; line-height:1.1; }
+  .stat-label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.05em; margin-top:2px; }
+  .bug { background:var(--card); border:1px solid var(--line); border-radius:10px; margin:10px 0; overflow:hidden; }
+  .bug > summary { cursor:pointer; padding:12px 14px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .bug > summary::-webkit-details-marker { display:none; }
+  .badge { color:#fff; font-size:11px; font-weight:650; padding:2px 8px; border-radius:999px; letter-spacing:.03em; }
+  .badge.prio { background:var(--accent); }
+  .id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; color:var(--muted); }
+  .title { font-weight:600; flex:1 1 320px; min-width:0; }
+  .module { color:var(--muted); font-size:12px; }
+  .count { background:var(--line); color:var(--fg); font-size:11px; padding:2px 7px; border-radius:999px; }
+  .body { padding: 4px 16px 18px; border-top:1px solid var(--line); }
+  dl { display:grid; grid-template-columns: max-content 1fr; gap:4px 16px; margin:14px 0; }
+  dt { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+  dd { margin:0; min-width:0; overflow-wrap:anywhere; }
+  .actual { background:rgba(179,38,30,.08); border-left:3px solid #b3261e; padding:8px 12px; border-radius:0 6px 6px 0; }
+  .steps li { margin: 3px 0; }
+  pre { background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px 12px; overflow-x:auto; font-size:12px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; overflow-wrap:anywhere; }
+  .shot img { max-width:100%; border:1px solid var(--line); border-radius:8px; }
+  .muted { color:var(--muted); }
+  .table-wrap { overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; font-size:13px; background:var(--card);
+          border:1px solid var(--line); border-radius:10px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:600; }
+  tr:last-child td { border-bottom:none; }
+  td.url { max-width:420px; overflow-wrap:anywhere; }
+  .empty { background:var(--card); border:1px dashed var(--line); border-radius:10px; padding:20px; color:var(--muted); }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Exploratory Crawl — Bug Report</h1>
+  <p class="sub">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</p>
+  <p class="sub">2026-09-17T16:58:25.714Z → 2026-09-17T17:00:32.824Z · 127s</p>
+  <p class="sub">Stopped because: completed — frontier exhausted</p>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="stat-value">1</div><div class="stat-label">Pages</div></div>
+  <div class="stat"><div class="stat-value">86</div><div class="stat-label">Actions</div></div>
+  <div class="stat"><div class="stat-value">37</div><div class="stat-label">Scenarios</div></div>
+  <div class="stat"><div class="stat-value">5</div><div class="stat-label">Bugs</div></div>
+  
+      <div class="stat">
+        <div class="stat-value" style="color:#b3261e">0</div>
+        <div class="stat-label">Critical</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" style="color:#b35a00">2</div>
+        <div class="stat-label">Major</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" style="color:#7a5c00">3</div>
+        <div class="stat-label">Minor</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" style="color:#3f5566">0</div>
+        <div class="stat-label">Trivial</div>
+      </div>
+</div>
+
+<h2>Bugs</h2>
+
+  <details class="bug" data-severity="Major" data-category="Functional">
+    <summary>
+      <span class="badge" style="background:#b35a00">Major</span>
+      <span class="badge prio">P2</span>
+      <span class="id">BUG-CTRL-001</span>
+      <span class="title">&quot;Click to restore sidebar&quot; does nothing when clicked</span>
+      <span class="module">Local Office</span>
+      
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Functional</dd>
+        <dt>Module / Page</dt><dd>Local Office</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</a></dd>
+        <dt>Detector</dt><dd><code>dead-control</code></dd>
+        <dt>Selector</dt><dd><code>div:nth-of-type(1) &gt; div:nth-of-type(2) &gt; div &gt; button</code></dd>
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Local Office.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</li><li>Click &quot;Click to restore sidebar&quot;.</li><li>Observe that nothing on the page changes.</li></ol>
+      <h4>Expected result</h4>
+      <p>Clicking the button navigates, opens something, or changes what is on screen.</p>
+      <h4>Actual result</h4>
+      <p class="actual">After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.</p>
+      
+      
+      
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-CTRL-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-CTRL-001.png" alt="Screenshot for BUG-CTRL-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Major" data-category="Functional">
+    <summary>
+      <span class="badge" style="background:#b35a00">Major</span>
+      <span class="badge prio">P2</span>
+      <span class="id">BUG-CTRL-002</span>
+      <span class="title">&quot;More information&quot; does nothing when clicked</span>
+      <span class="module">Local Office</span>
+      
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Functional</dd>
+        <dt>Module / Page</dt><dd>Local Office</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</a></dd>
+        <dt>Detector</dt><dd><code>dead-control</code></dd>
+        <dt>Selector</dt><dd><code>div &gt; div:nth-of-type(2) &gt; div &gt; button</code></dd>
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Local Office.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</li><li>Click &quot;More information&quot;.</li><li>Observe that nothing on the page changes.</li></ol>
+      <h4>Expected result</h4>
+      <p>Clicking the button navigates, opens something, or changes what is on screen.</p>
+      <h4>Actual result</h4>
+      <p class="actual">After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.</p>
+      
+      
+      
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-CTRL-002.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-CTRL-002.png" alt="Screenshot for BUG-CTRL-002" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="Accessibility">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-LABEL-001</span>
+      <span class="title">28 form control(s) have no accessible label on Local Office</span>
+      <span class="module">Local Office</span>
+      <span class="count">3×</span>
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Accessibility</dd>
+        <dt>Module / Page</dt><dd>Local Office</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</a></dd>
+        <dt>Detector</dt><dd><code>missing-label</code></dd>
+        <dt>Selector</dt><dd><code>[data-testid=&quot;local-office-settings-input-prep-date-offset&quot;]</code></dd>
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Local Office.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</li><li>Inspect the form controls listed above and confirm none carries a label association.</li></ol>
+      <h4>Expected result</h4>
+      <p>Every form control is named by a &lt;label for&gt;, aria-label or aria-labelledby, so assistive technology can announce it.</p>
+      <h4>Actual result</h4>
+      <p class="actual">28 control(s) are named only by placeholder text or by nothing at all: input (-1); input (1); input (-1); input (1); input (0)</p>
+      
+      
+      <h4>Also seen on</h4><ul><li><code>Local Office &gt; Location Settings History — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</code></li><li><code>Local Office &gt; Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</code></li></ul>
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-LABEL-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-LABEL-001.png" alt="Screenshot for BUG-LABEL-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="UI">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-LAYOUT-001</span>
+      <span class="title">Interactive elements overlap on Local Office</span>
+      <span class="module">Local Office</span>
+      <span class="count">2×</span>
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>UI</dd>
+        <dt>Module / Page</dt><dd>Local Office</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</a></dd>
+        <dt>Detector</dt><dd><code>layout</code></dd>
+        
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Local Office.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</li></ol>
+      <h4>Expected result</h4>
+      <p>Controls do not sit on top of one another — an overlapped control cannot be clicked reliably.</p>
+      <h4>Actual result</h4>
+      <p class="actual">1 overlapping pair(s). Worst: button &quot;Click to restore sidebar&quot; over form &quot;1604 - Parker Palm Springs Save DEFAULT &quot; (39% covered).</p>
+      
+      
+      <h4>Also seen on</h4><ul><li><code>Local Office &gt; Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</code></li></ul>
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-LAYOUT-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-LAYOUT-001.png" alt="Screenshot for BUG-LAYOUT-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="Data">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-TEXT-001</span>
+      <span class="title">untranslated i18n key visible on Local Office</span>
+      <span class="module">Local Office</span>
+      
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Data</dd>
+        <dt>Module / Page</dt><dd>Local Office</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</a></dd>
+        <dt>Detector</dt><dd><code>placeholder-text</code></dd>
+        
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Local Office.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</li><li>Click &quot;Setup&quot;.</li><li>Read the page text and locate: untranslated i18n key: &quot;layout.actions.venueRooms&quot; (1x)</li></ol>
+      <h4>Expected result</h4>
+      <p>Every value shown to a user is a resolved, translated, formatted value.</p>
+      <h4>Actual result</h4>
+      <p class="actual">The screen renders untranslated i18n key: &quot;layout.actions.venueRooms&quot; (1x).</p>
+      
+      
+      
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-TEXT-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-TEXT-001.png" alt="Screenshot for BUG-TEXT-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+
+<h2>Pages visited</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Module</th><th>URL</th><th>Depth</th><th>Elements</th><th>Actions</th><th>Bugs</th></tr></thead>
+  <tbody>
+      <tr>
+        <td>1</td>
+        <td>Local Office</td>
+        <td class="url"><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</a></td>
+        <td>0</td>
+        <td>78</td>
+        <td>86</td>
+        <td>8</td>
+      </tr></tbody>
+</table></div>
+
+<h2>Scenarios explored</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Scenario</th><th>Outcome</th><th>Detail</th></tr></thead>
+  <tbody><tr><td>Exercise tab: Location Settings History</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise tab: Basic Information</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise tab: ECT Settings</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise select: Select Currency :</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Open dialog from 1604 Parker Palm Springs</td><td>explored</td><td>Dialog opened, inspected and dismissed with Escape.</td></tr><tr><td>Open dialog from Actions</td><td>explored</td><td>Dialog opened, inspected and dismissed with Escape.</td></tr><tr><td>Open dialog from Commissions</td><td>explored</td><td>Dialog opened, inspected and dismissed with Escape.</td></tr><tr><td>Open dialog from Tax</td><td>explored</td><td>Dialog opened, inspected and dismissed with Escape.</td></tr><tr><td>Open dialog from Setup</td><td>explored</td><td>Dialog opened, inspected and dismissed with Escape.</td></tr><tr><td>Open dialog from Warehouse</td><td>explored</td><td>Dialog opened, inspected and dismissed with Escape.</td></tr><tr><td>Open dialog from Studio</td><td>explored</td><td>Dialog opened, inspected and dismissed with Escape.</td></tr><tr><td>Exercise input: 20.0%</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise button: Ask Encore</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise textarea: input</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Open dialog from PC prd click auto</td><td>explored</td><td>Dialog opened, inspected and dismissed with Escape.</td></tr><tr><td>Exercise input: 37.10</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 37.10</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 37.10</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 37.10</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise button: trigger-button</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 37.10</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 43.84</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 43.84</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 24.44</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 41.00</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 37.10</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 37.10</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 43.84</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 43.84</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 43.84</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 43.84</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 43.84</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 43.84</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 43.84</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 37.10</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise input: 37.10</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Navigate via button: Full Screen</td><td>explored</td><td>Landed on https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/chat/00000000-0000-0000-0000-000000000000</td></tr></tbody>
+</table></div>
+
+<h2>Not tested</h2>
+<p class="sub">Discovered but left alone — by a safety rule, a filter, or the crawl budget.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Target</th><th>Reason</th></tr></thead>
+  <tbody><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</td><td>does not match any include pattern</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox</td><td>does not match any include pattern</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</td><td>does not match any include pattern</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments</td><td>does not match any include pattern</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/assets</td><td>does not match any include pattern</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/customers</td><td>does not match any include pattern</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/packages</td><td>does not match any include pattern</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/products</td><td>does not match any include pattern</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Open the &quot;Basic Information&quot; tab.</td><td>tab is already the selected one</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click &quot;DRO Search&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click &quot;Payment Search&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click &quot;ECT Search&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click &quot;Event Agendas&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click &quot;Save&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/chat/00000000-0000-0000-0000-000000000000</td><td>does not match any include pattern</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office</td><td>remaining controls not exercised — &quot;Full Screen&quot; navigated away</td></tr></tbody>
+</table></div>
+
+<h2>Errors encountered</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Where</th><th>URL</th><th>Message</th></tr></thead>
+  <tbody><tr><td colspan="3" class="muted">No crawl errors.</td></tr></tbody>
+</table></div>
+
+<h2>What was checked</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Detector</th><th>Category</th><th>Looks for</th></tr></thead>
+  <tbody><tr><td><code>page-crash</code></td><td>Stability</td><td>The screen rendered a crash banner, a stack trace, or nothing at all.</td></tr><tr><td><code>console-error</code></td><td>Stability</td><td>The page logged an uncaught error or a console error while it was being used.</td></tr><tr><td><code>network-failure</code></td><td>Functional</td><td>A request the screen made failed, or answered 4xx/5xx.</td></tr><tr><td><code>broken-link</code></td><td>Navigation</td><td>Links that point nowhere, and links whose destination answers 4xx/5xx.</td></tr><tr><td><code>dead-control</code></td><td>Functional</td><td>A control that neither navigates, opens anything, nor changes the page.</td></tr><tr><td><code>unexpected-route</code></td><td>Navigation</td><td>Navigation that lands somewhere other than where the control advertised.</td></tr><tr><td><code>form-validation</code></td><td>Validation</td><td>Fields that accept a value their own type says is invalid, without telling the user.</td></tr><tr><td><code>input-boundary</code></td><td>Validation</td><td>Boundary values that make the screen throw, hang, or silently mangle the input.</td></tr><tr><td><code>placeholder-text</code></td><td>Data</td><td>Unresolved values, i18n keys or template fragments rendered as user-visible text.</td></tr><tr><td><code>missing-label</code></td><td>Accessibility</td><td>Form controls a screen reader cannot announce, because nothing names them.</td></tr><tr><td><code>accessibility</code></td><td>Accessibility</td><td>Unnamed controls, missing image alternatives, absent headings, duplicate ids.</td></tr><tr><td><code>layout</code></td><td>UI</td><td>Horizontal overflow, text clipped by its container, and controls that overlap.</td></tr><tr><td><code>page-title</code></td><td>UI</td><td>The browser tab names the screen.</td></tr></tbody>
+</table></div>
+
+<h2>Configuration used</h2>
+<pre>{
+  &quot;startUrl&quot;: &quot;https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office&quot;,
+  &quot;allowedOrigins&quot;: [
+    &quot;https://cloudapps-e2e.encoreglobal.com&quot;
+  ],
+  &quot;excludeUrlPatterns&quot;: [
+    &quot;logout&quot;,
+    &quot;signout&quot;,
+    &quot;sign-out&quot;,
+    &quot;\\/api\\/auth\\/signout&quot;,
+    &quot;login\\.microsoftonline\\.com&quot;,
+    &quot;b2clogin\\.com&quot;,
+    &quot;\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)&quot;,
+    &quot;^mailto:&quot;,
+    &quot;^tel:&quot;,
+    &quot;^javascript:&quot;,
+    &quot;\\/api\\/&quot;,
+    &quot;\\/_next\\/&quot;,
+    &quot;\\/auth\\/signin&quot;,
+    &quot;\\/reports\\/download&quot;
+  ],
+  &quot;includeUrlPatterns&quot;: [
+    &quot;settings\\/local-office&quot;
+  ],
+  &quot;auth&quot;: {
+    &quot;mode&quot;: &quot;storage-state&quot;,
+    &quot;signedInSelector&quot;: &quot;h1&quot;
+  },
+  &quot;limits&quot;: {
+    &quot;maxPages&quot;: 4,
+    &quot;maxActionsPerPage&quot;: 110,
+    &quot;maxTotalActions&quot;: 120,
+    &quot;maxDepth&quot;: 1,
+    &quot;maxDurationMs&quot;: 900000,
+    &quot;settleMs&quot;: 900,
+    &quot;actionTimeoutMs&quot;: 8000,
+    &quot;navigationTimeoutMs&quot;: 30000
+  },
+  &quot;safety&quot;: {
+    &quot;allowWrites&quot;: false,
+    &quot;allowDestructive&quot;: false
+  },
+  &quot;enabledDetectors&quot;: [
+    &quot;page-crash&quot;,
+    &quot;console-error&quot;,
+    &quot;network-failure&quot;,
+    &quot;broken-link&quot;,
+    &quot;dead-control&quot;,
+    &quot;unexpected-route&quot;,
+    &quot;form-validation&quot;,
+    &quot;input-boundary&quot;,
+    &quot;placeholder-text&quot;,
+    &quot;missing-label&quot;,
+    &quot;accessibility&quot;,
+    &quot;layout&quot;,
+    &quot;page-title&quot;
+  ],
+  &quot;captureScreenshots&quot;: true,
+  &quot;outputDir&quot;: &quot;reports/bugs/crawler/local-office-history&quot;
+}</pre>
+</div>
+</body>
+</html>

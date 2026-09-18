@@ -1,6 +1,6 @@
 # Missing data-testid Report — Locations
 
-**Report date:** 2026-09-16  
+**Report date:** 2026-09-17  
 **Application:** Navigator Cloud (Angular / Radix UI)  
 **Scope:** Setup > Location Settings and its tabs — Locations module only  
 **Framework:** Playwright + TypeScript  

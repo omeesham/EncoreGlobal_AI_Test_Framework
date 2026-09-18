@@ -2,6 +2,9 @@
 node_modules/
 reports/*
 !reports/bugs/
+# Crawler bug reports ship (json/md/html); their full-page screenshots do not — binary churn,
+# one set per run, and the reports still reference them for whoever runs the crawl locally.
+reports/bugs/crawler/evidence/
 logs/
 test-results/
 test-results-*/

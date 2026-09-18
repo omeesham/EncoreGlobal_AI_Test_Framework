@@ -687,3 +687,61 @@ Sample input 1: real composite cells (~250 characters each on office 1604)",Medi
 2. Each is longer than 100 characters, confirming the scenario is genuinely exercising long content rather than passing on short data. Unlike the long-Notes scenario, which injects a synthetic 2,000-character value, this uses the REAL folded data.
 3. Every row still has exactly 42 cells, so the long composite content shifts no row.
 4. The page body does not scroll horizontally (within a 1px rounding allowance) and the grid container is the element absorbing the extra width.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every Basic Information setting has a column in Location Settings History,,,,,Automated,Omeesha Mahanta,,,Every setting a user can change has a column that can record it. Known gaps are reported separately from newly appeared ones so a long-standing defect never hides a fresh one.,,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with location-edit permission. The Local Office Settings page is loaded and the Location Settings History tab renders its grid.
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Probe values are derived from the live value so no edit is ever net-zero, and every value is restored afterwards.",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Open the Basic Information tab and read every setting the form offers, from the live DOM.</li>
+<li>2. Open the Location Settings History tab and read its column headers.</li>
+<li>3. Check every setting the form offers is one this suite has classified.</li>
+<li>4. Check every setting mapped to a history column still has that column in the grid.</li>
+<li>5. Check no setting on the form is left with no column at all, separating known gaps from new ones.</li>
+</ol>",,,"1. An inventory of settings is collected, keyed by each control's data-testid.
+2. The full column header set is returned.
+3. No setting is unrecognised; a new field on the form is a failure, not a silent hole in the audit trail.
+4. No mapped column has disappeared from the grid.
+5. Every setting a user can change has a column that can record it. Known gaps are reported separately from newly appeared ones so a long-standing defect never hides a fresh one.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saving an untracked field does not create a history entry identical to the one before it,,,,,Automated,Omeesha Mahanta,,,"The office is left exactly as it was found, whether the scenario passed or failed.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with location-edit permission. The Local Office Settings page is loaded and the Location Settings History tab renders its grid.
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Probe values are derived from the live value so no edit is ever net-zero, and every value is restored afterwards.",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. Change Phone2 (a field History demonstrably records) and save, to create the entry this scenario will compare against.</li>
+<li>2. Read that newest entry in full, waiting until it carries its audit stamp and two consecutive reads agree.</li>
+<li>3. Check the baseline entry actually recorded the Phone2 change.</li>
+<li>4. Change PO Number, a field with no history column, to a probe value derived from the live value.</li>
+<li>5. Save the change.</li>
+<li>6. Return to History, sort by Modified On descending, wait for a freshly written top row, and read it in full.</li>
+<li>7. Compare the new entry against the baseline across every data column.</li>
+<li>8. Restore PO Number and Phone2 to their original values.</li>
+</ol>",,,"1. The save succeeds and a new history entry appears. The baseline is one this scenario made, so it cannot be a stale entry left by an earlier scenario.
+2. A settled, fully rendered baseline row is captured. A half-rendered row would compare as different from a real one and pass this scenario on the defect it exists to catch.
+3. The Phone2 column holds the value just saved, proving the grid is live and refreshing.
+4. The edit is recognised and the Save button enables, proving the field is genuinely editable.
+5. The save succeeds.
+6. A settled row is captured using the same guards as the baseline read, so the two are comparable.
+7. Either no entry was created (acceptable: nothing tracked changed), or the entry differs in at least one data column. An entry identical to its predecessor records that ""someone changed something"" with no way to see what.
+8. The office is left exactly as it was found, whether the scenario passed or failed.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A number, a tick box and a dropdown each reach their history column when saved",,,,,Automated,Omeesha Mahanta,,,"The office is left exactly as it was found, whether the scenario passed or failed.",,,"local-office,ect-settings,basic-information,location-settings-history",,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with location-edit permission. The Local Office Settings page is loaded and the Location Settings History tab renders its grid.
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Probe values are derived from the live value so no edit is ever net-zero, and every value is restored afterwards.",High,,Location_Settings_History,1,,Local_Office > Location_Settings_History,"<ol>
+<li>1. For the number field, read its live value and change it to a different value of the same sign.</li>
+<li>2. Save, then read the matching column of the newest history entry.</li>
+<li>3. For the tick box, read its state and toggle it.</li>
+<li>4. Save, then read the matching column of the newest history entry.</li>
+<li>5. For the dropdown, read its value and select a different option.</li>
+<li>6. Save, then read the matching column of the newest history entry.</li>
+<li>7. Restore every field to the value it started with.</li>
+</ol>",,,"1. The edit is recognised and Save enables.
+2. The column holds exactly the value that was saved.
+3. The edit is recognised and Save enables.
+4. The column renders a check glyph when the box is now ticked and a blank when it is not, never the words true or false.
+5. The edit is recognised and Save enables.
+6. The column holds exactly the option that was selected.
+7. The office is left exactly as it was found, whether the scenario passed or failed.",,,,Master,S1620,Test Case (Steps),Regression,,,

@@ -40,6 +40,27 @@ function countSpecFiles(dir: string): number {
   return count;
 }
 
+/**
+ * Whether the live exploratory crawl is part of this run.
+ *
+ * Every Playwright project runs when none is named, and the crawler is a quarter-hour session
+ * against the real application — so a bare `npm test` would silently grow by fifteen minutes.
+ * Registering it only when it is asked for keeps `--project=crawler` (what `npm run crawl` passes)
+ * as the one way in. Its own test suite, `crawler-checks`, is NOT gated: it needs no application,
+ * finishes in seconds, and is exactly what should run on every change.
+ */
+function crawlerRequested(): boolean {
+  if (process.env.CRAWLER_ENABLED === 'true') return true;
+  const named = process.argv.some((arg) => arg === 'crawler' || arg.endsWith('=crawler'));
+  // This config is re-evaluated in every worker process, and a worker's argv does NOT carry the
+  // --project the runner was started with. Reading argv alone therefore builds a project list in
+  // the main process that the workers cannot reproduce, and Playwright rejects the run with
+  // "Project 'crawler' not found in the worker process". Promoting the flag to the environment
+  // fixes that: workers inherit env, so both processes decide the same way.
+  if (named) process.env.CRAWLER_ENABLED = 'true';
+  return named;
+}
+
 export default defineConfig({
   // Must stay scoped to `tests/`: a root testDir matches testMatch as `**/<pattern>`,
   // so it also collects `.claude/worktrees/*/tests/**`. testIgnore cannot undo that.
@@ -126,7 +147,7 @@ export default defineConfig({
     {
       name: 'chromium',
       dependencies: ['setup'],
-      testIgnore: ['tests/locations/**', 'tests/local-office/**'],
+      testIgnore: ['tests/locations/**', 'tests/local-office/**', 'tests/crawler/**'],
       use: {
         viewport: { width: 1920, height: 1080 },
         storageState: '.auth/encore-state.json',
@@ -162,6 +183,34 @@ export default defineConfig({
       dependencies: ['setup'],
       use: { storageState: '.auth/encore-state.json' },
     },
+    // SDET bug-discovery crawler. Two projects, because the two halves have opposite needs.
+    //
+    // `crawler-checks` is the crawler's OWN test suite — pure logic plus a route-served fixture
+    // page. No auth, no application, no `setup` dependency, so it runs anywhere in seconds and
+    // can gate a change to the crawler.
+    {
+      name: 'crawler-checks',
+      testDir: './tests/crawler',
+      testMatch: ['**/crawler-unit.spec.ts', '**/crawler-fixture.spec.ts'],
+      fullyParallel: false,
+      retries: 0,
+      use: { viewport: { width: 1280, height: 800 } },
+    },
+    // `crawler` is the tool itself, pointed at the live application. Opt-in only — see
+    // crawlerRequested() above; `npm run crawl` passes the --project that turns it on.
+    ...(crawlerRequested()
+      ? [
+          {
+            name: 'crawler',
+            testDir: './tests/crawler',
+            testMatch: ['**/exploratory-crawl.spec.ts'],
+            fullyParallel: false,
+            retries: 0,
+            dependencies: ['setup'],
+            use: { storageState: '.auth/encore-state.json' },
+          },
+        ]
+      : []),
   ],
 
   outputDir: 'reports/test-results/',

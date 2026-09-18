@@ -238,6 +238,124 @@ Those are marked `"finalOutcome": "flaky"` in `failure-summary.json` and still c
 
 ---
 
+## Exploratory bug-discovery crawler
+
+A crawler that explores the application the way a tester would — opens a screen, looks at what is
+actually there, interacts with it, and reports anything that looks wrong. It has no predefined test
+cases: what it does next is decided from the UI it finds.
+
+```bash
+npm run crawl            # crawl the live application, read-only, write the bug report
+npm run crawl:headed     # the same, with a visible browser
+npm run crawl:check      # the crawler's own test suite (no app, no auth, ~15s)
+```
+
+`npm run crawl` reuses the shared auth state the `setup` project already maintains, so it needs no
+credentials of its own. It is **not** part of `npm test` — it is a quarter-hour exploratory session,
+not a unit of the suite.
+
+### What it reports
+
+Four files land in `reports/bugs/crawler/`:
+
+| File | For |
+| --- | --- |
+| `bug-report.md` | pasting into a ticket or a pull request |
+| `bug-report.html` | reading — self-contained, no network, evidence inline |
+| `bug-report.json` | importing into a defect tracker, or diffing against the last run |
+| `crawl-summary.json` | everything, including what was **not** covered |
+
+Every bug carries an ID, title, severity, priority, module/page, preconditions, steps to reproduce,
+expected result, actual result, evidence screenshot and URL. Repeat sightings of one defect collapse
+into a single entry with an occurrence count and the list of screens it appeared on.
+
+The summary also records what was **not** tested and why — controls the safety rules refused, pages
+the budget did not reach, elements that could not be interacted with. An empty bug list means
+nothing without that half.
+
+### What it checks
+
+| Detector | Looks for |
+| --- | --- |
+| `page-crash` | crash banners, blank renders, routes answering 4xx/5xx, soft 404s |
+| `console-error` | uncaught exceptions and console errors, attributed to the action that caused them |
+| `network-failure` | requests that fail or answer 4xx/5xx |
+| `broken-link` | anchors pointing nowhere, and destinations that answer 4xx/5xx |
+| `dead-control` | a control that neither navigates, opens anything, nor changes the page |
+| `unexpected-route` | navigation landing somewhere other than the link advertised |
+| `form-validation` | fields accepting a value their own type says is invalid, with no message |
+| `input-boundary` | boundary values that break a field or truncate it silently |
+| `placeholder-text` | `undefined`, `Invalid Date`, `{{i18n.key}}` and friends rendered to the user |
+| `missing-label` | form controls a screen reader cannot announce |
+| `accessibility` | unnamed controls, images with no alt, missing/duplicated headings, duplicate ids |
+| `layout` | horizontal page overflow, text clipped by its container, overlapping controls |
+| `page-title` | screens with no meaningful `<title>` |
+
+### Safety
+
+**Read-only by default.** The crawler navigates, opens, sorts, filters, paginates and types, and it
+restores every field and checkbox it touches. It will not press a control whose name reads as
+state-changing (`Save`, `Submit`, `Import`, …) or destructive (`Delete`, `Remove`, `Deactivate`, …)
+unless you turn those on explicitly:
+
+```bash
+CRAWLER_ALLOW_WRITES=true npm run crawl        # may submit forms
+CRAWLER_ALLOW_DESTRUCTIVE=true npm run crawl   # may delete data — disposable environments only
+```
+
+Sign-out, download and export controls are never clicked, whatever those settings say — a crawler
+that signs itself out has ended its own run.
+
+### Configuration
+
+Defaults live in code, are overridden by `config/crawler/crawler.config.json`, then by `CRAWLER_*`
+environment variables, then by anything passed to `crawlApplication()`.
+
+| Variable | Default | Meaning |
+| --- | --- | --- |
+| `CRAWLER_START_URL` | `BASE_URL` | where the crawl starts |
+| `CRAWLER_MAX_PAGES` | `25` | distinct screens to visit |
+| `CRAWLER_MAX_ACTIONS` | `200` | total interactions |
+| `CRAWLER_MAX_ACTIONS_PER_PAGE` | `12` | interactions on any one screen |
+| `CRAWLER_MAX_DEPTH` | `3` | link hops from the start URL |
+| `CRAWLER_MAX_DURATION_MS` | `900000` | wall-clock budget; the crawl stops cleanly and still reports |
+| `CRAWLER_INCLUDE` | — | comma-separated patterns; only matching URLs are crawled |
+| `CRAWLER_EXCLUDE` | — | comma-separated patterns; these are never visited |
+| `CRAWLER_ALLOWED_ORIGINS` | start URL's origin | origins the crawl may leave the start origin for |
+| `CRAWLER_DETECTORS` | all | comma-separated; run only these |
+| `CRAWLER_DISABLE_DETECTORS` | — | comma-separated; run everything except these |
+| `CRAWLER_ALLOW_WRITES` | `false` | permit state-changing controls |
+| `CRAWLER_ALLOW_DESTRUCTIVE` | `false` | permit destructive controls |
+| `CRAWLER_SCREENSHOTS` | `true` | capture evidence screenshots |
+| `CRAWLER_OUTPUT_DIR` | `reports/bugs/crawler` | where the reports are written |
+
+Example — one screen and everything it links to, validation checks only:
+
+```bash
+CRAWLER_START_URL=https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings CRAWLER_MAX_DEPTH=1 CRAWLER_DETECTORS=form-validation,input-boundary npm run crawl
+```
+
+### Why it does not run forever
+
+Three independent guards, and all three are needed. Pages are remembered by a **normalized** URL,
+with record ids folded out — `/locations/1604/settings` and `/locations/9981/settings` are one
+screen, not a thousand. Each control is interacted with once per screen shape, so a sort toggle that
+re-renders a grid is not an infinite loop. And every budget above ends the crawl cleanly, with a
+complete report and a `stopReason` saying which one ran out.
+
+### Using it from code
+
+```ts
+import { crawlApplication } from './src/crawler';
+
+const { summary, reports } = await crawlApplication(page, {
+  startUrl: 'https://…/navigator/locations/1604/settings',
+  limits: { maxPages: 10, maxDepth: 2 },
+});
+```
+
+---
+
 ## TestRail integration
 
 Opt-in: when a run finishes, every result is pushed to TestRail as a test run

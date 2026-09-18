@@ -1,0 +1,45 @@
+{
+  "_comment": [
+    "SDET Application Bug Discovery Utility — checked-in defaults.",
+    "Precedence: code defaults < this file < CRAWLER_* env vars < values passed to crawlApplication().",
+    "startUrl is omitted on purpose so BASE_URL from .env.local / .env.e2e drives the target;",
+    "set CRAWLER_START_URL for a one-off run against a different screen.",
+    "SAFETY: allowWrites and allowDestructive are both false. Turning them on lets the crawler",
+    "submit forms and press Delete against a live environment — do that only on a disposable one."
+  ],
+
+  "excludeUrlPatterns": [
+    "/api/",
+    "/_next/",
+    "/auth/signin",
+    "/reports/download"
+  ],
+
+  "limits": {
+    "maxPages": 25,
+    "maxActionsPerPage": 12,
+    "maxTotalActions": 200,
+    "maxDepth": 3,
+    "maxDurationMs": 900000,
+    "settleMs": 900,
+    "actionTimeoutMs": 8000,
+    "navigationTimeoutMs": 30000
+  },
+
+  "safety": {
+    "allowWrites": false,
+    "allowDestructive": false
+  },
+
+  "auth": {
+    "mode": "storage-state",
+    "signedInSelector": "h1",
+    "signedInTimeoutMs": 60000
+  },
+
+  "captureScreenshots": true,
+  "outputDir": "reports/bugs/crawler",
+
+  "consoleIgnorePatterns": [],
+  "networkIgnorePatterns": []
+}

@@ -1,0 +1,446 @@
+{
+  "fields": [
+    {
+      "testid": "ect-settings-select-currency",
+      "aria": "",
+      "type": "button",
+      "value": ""
+    },
+    {
+      "testid": "ect-settings-input-benefits-multiplier",
+      "aria": "",
+      "type": "text",
+      "value": "20.0%"
+    },
+    {
+      "testid": "ect-settings-input-historical-subrental",
+      "aria": "",
+      "type": "text",
+      "value": "0.0%"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-0",
+      "aria": "",
+      "type": "text",
+      "value": "41.00"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-1",
+      "aria": "",
+      "type": "text",
+      "value": "35.00"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-2",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-3",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-4",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-5",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-6",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-7",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-8",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-9",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-10",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-11",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-12",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-13",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-14",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-15",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-16",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-17",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-18",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-19",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-20",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-21",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-22",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-23",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-24",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-25",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-26",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-27",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-28",
+      "aria": "",
+      "type": "text",
+      "value": "24.44"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-29",
+      "aria": "",
+      "type": "text",
+      "value": "26.86"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-30",
+      "aria": "",
+      "type": "text",
+      "value": "26.86"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-31",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-32",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-33",
+      "aria": "",
+      "type": "text",
+      "value": "41.00"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-34",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-35",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-36",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-37",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-38",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-39",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-40",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-41",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-42",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-43",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-44",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-45",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-46",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-47",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-48",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-49",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-50",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-51",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-52",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-53",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-54",
+      "aria": "",
+      "type": "text",
+      "value": "50.00"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-55",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-56",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-57",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-58",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-59",
+      "aria": "",
+      "type": "text",
+      "value": "43.84"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-60",
+      "aria": "",
+      "type": "text",
+      "value": "47.21"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-61",
+      "aria": "",
+      "type": "text",
+      "value": "33.63"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-62",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-63",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-64",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    },
+    {
+      "testid": "ect-settings-input-labor-cost-65",
+      "aria": "",
+      "type": "text",
+      "value": "37.10"
+    }
+  ],
+  "tables": [
+    {
+      "testid": "(unnamed)",
+      "columns": [
+        "Lower Limit",
+        "Upper Limit",
+        "Target",
+        "Currency"
+      ]
+    },
+    {
+      "testid": "(unnamed)",
+      "columns": [
+        "Labor Class",
+        "Labor Cost"
+      ]
+    },
+    {
+      "testid": "(unnamed)",
+      "columns": [
+        "Lower Limit",
+        "Upper Limit",
+        "Subrental Percentage",
+        "Currency"
+      ]
+    }
+  ],
+  "bodyText": "1604 Parker Palm Springs Home Inbox Actions Commissions Tax Setup Warehouse Studio Search Order Search Job Search Asset Search Customer Search DRO Search Payment Search Package Search Item Search ECT Search Event Agendas Ask Encore PC prd click auto Local Office Settings Basic Information Location Settings History ECT Settings 1604 - Parker Palm Springs Edit/View : Commission structure Select Currency : USD Save EVENT PROFIT TARGET Lower Limit Upper Limit Target Currency $5,000.01 $10,000.00 40.0% USD $10,000.01 $25,000.00 40.0% USD $25,000.01 $50,000.00 35.0% USD $50,000.01 $100,000.00 30.0% USD $100,000.01 $250,000.00 30.0% USD $250,000.01 $500,000.00 30.0% USD $500,000.01 $1,000,000.00 30.0% USD $1,000,000.01 $2,000,000.00 30.0% USD $2,000,000.01 $10,000,000.00 30.0% USD Venue Fixed Costs : 13.9% SG&A % : 8.0% Benefits Multiplier : Other Rate : 0.0% No Labor Rate : 0.0% Approval Threshold : $10,000,000.00 Historical Subrental % : Peak Labor Adjustment % : 5.0% Non-Peak Labor Adjustment % : 0.0% Fixed costs include salaried labor with associated taxes and benefit costs, equipment depreciation, and set monthly expenses. These costs are represented by a percentage of location reven"
+}

@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Exploratory Crawl — Bug Report</title>
+<style>
+  :root { color-scheme: light dark; --bg:#f7f7f5; --fg:#1b1b1a; --muted:#6a6a68; --card:#fff; --line:#e2e2de; --accent:#2f5d8a; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg:#16171a; --fg:#e9e9e6; --muted:#9a9a96; --card:#1f2024; --line:#32343a; --accent:#7fb2e5; }
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:0 16px 64px; background:var(--bg); color:var(--fg);
+         font:14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  header { padding: 32px 0 16px; border-bottom: 1px solid var(--line); }
+  h1 { margin:0 0 6px; font-size: 26px; letter-spacing:-0.01em; }
+  h2 { margin: 36px 0 12px; font-size: 18px; }
+  h4 { margin: 18px 0 6px; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .sub { color: var(--muted); font-size: 13px; margin:2px 0; }
+  .stats { display:flex; flex-wrap:wrap; gap:12px; margin:20px 0; }
+  .stat { flex:1 1 120px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .stat-value { font-size:26px; font-weight:650; line-height:1.1; }
+  .stat-label { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.05em; margin-top:2px; }
+  .bug { background:var(--card); border:1px solid var(--line); border-radius:10px; margin:10px 0; overflow:hidden; }
+  .bug > summary { cursor:pointer; padding:12px 14px; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .bug > summary::-webkit-details-marker { display:none; }
+  .badge { color:#fff; font-size:11px; font-weight:650; padding:2px 8px; border-radius:999px; letter-spacing:.03em; }
+  .badge.prio { background:var(--accent); }
+  .id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; color:var(--muted); }
+  .title { font-weight:600; flex:1 1 320px; min-width:0; }
+  .module { color:var(--muted); font-size:12px; }
+  .count { background:var(--line); color:var(--fg); font-size:11px; padding:2px 7px; border-radius:999px; }
+  .body { padding: 4px 16px 18px; border-top:1px solid var(--line); }
+  dl { display:grid; grid-template-columns: max-content 1fr; gap:4px 16px; margin:14px 0; }
+  dt { color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.05em; }
+  dd { margin:0; min-width:0; overflow-wrap:anywhere; }
+  .actual { background:rgba(179,38,30,.08); border-left:3px solid #b3261e; padding:8px 12px; border-radius:0 6px 6px 0; }
+  .steps li { margin: 3px 0; }
+  pre { background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px 12px; overflow-x:auto; font-size:12px; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:12px; overflow-wrap:anywhere; }
+  .shot img { max-width:100%; border:1px solid var(--line); border-radius:8px; }
+  .muted { color:var(--muted); }
+  .table-wrap { overflow-x:auto; }
+  table { border-collapse:collapse; width:100%; font-size:13px; background:var(--card);
+          border:1px solid var(--line); border-radius:10px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:600; }
+  tr:last-child td { border-bottom:none; }
+  td.url { max-width:420px; overflow-wrap:anywhere; }
+  .empty { background:var(--card); border:1px dashed var(--line); border-radius:10px; padding:20px; color:var(--muted); }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Exploratory Crawl — Bug Report</h1>
+  <p class="sub">https://cloudapps-e2e.encoreglobal.com/navigator/</p>
+  <p class="sub">2026-09-17T16:01:35.341Z → 2026-09-17T16:03:16.077Z · 101s</p>
+  <p class="sub">Stopped because: action budget of 40 reached</p>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="stat-value">4</div><div class="stat-label">Pages</div></div>
+  <div class="stat"><div class="stat-value">40</div><div class="stat-label">Actions</div></div>
+  <div class="stat"><div class="stat-value">14</div><div class="stat-label">Scenarios</div></div>
+  <div class="stat"><div class="stat-value">9</div><div class="stat-label">Bugs</div></div>
+  
+      <div class="stat">
+        <div class="stat-value" style="color:#b3261e">0</div>
+        <div class="stat-label">Critical</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" style="color:#b35a00">1</div>
+        <div class="stat-label">Major</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" style="color:#7a5c00">7</div>
+        <div class="stat-label">Minor</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" style="color:#3f5566">1</div>
+        <div class="stat-label">Trivial</div>
+      </div>
+</div>
+
+<h2>Bugs</h2>
+
+  <details class="bug" data-severity="Major" data-category="Functional">
+    <summary>
+      <span class="badge" style="background:#b35a00">Major</span>
+      <span class="badge prio">P2</span>
+      <span class="id">BUG-CTRL-001</span>
+      <span class="title">&quot;All mail&quot; does nothing when clicked</span>
+      <span class="module">Locations &gt; Inbox</span>
+      
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Functional</dd>
+        <dt>Module / Page</dt><dd>Locations &gt; Inbox</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox</a></dd>
+        <dt>Detector</dt><dd><code>dead-control</code></dd>
+        <dt>Selector</dt><dd><code>#radix-_r_16_-trigger-all</code></dd>
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Locations &gt; Inbox.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</li><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox</li><li>Open the &quot;All mail&quot; tab.</li><li>Observe that nothing on the page changes.</li></ol>
+      <h4>Expected result</h4>
+      <p>Clicking the tab navigates, opens something, or changes what is on screen.</p>
+      <h4>Actual result</h4>
+      <p class="actual">After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.</p>
+      
+      
+      
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-CTRL-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-CTRL-001.png" alt="Screenshot for BUG-CTRL-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="Accessibility">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-LABEL-001</span>
+      <span class="title">1 form control(s) have no accessible label on Locations &gt; Inbox</span>
+      <span class="module">Locations &gt; Inbox</span>
+      <span class="count">3×</span>
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Accessibility</dd>
+        <dt>Module / Page</dt><dd>Locations &gt; Inbox</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox</a></dd>
+        <dt>Detector</dt><dd><code>missing-label</code></dd>
+        <dt>Selector</dt><dd><code>div &gt; div:nth-of-type(1) &gt; div:nth-of-type(1) &gt; button</code></dd>
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Locations &gt; Inbox.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</li><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox</li><li>Inspect the form controls listed above and confirm none carries a label association.</li></ol>
+      <h4>Expected result</h4>
+      <p>Every form control is named by a &lt;label for&gt;, aria-label or aria-labelledby, so assistive technology can announce it.</p>
+      <h4>Actual result</h4>
+      <p class="actual">1 control(s) are named only by placeholder text or by nothing at all: button[type=button] (Filter by label)</p>
+      
+      
+      <h4>Also seen on</h4><ul><li><code>https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</code></li><li><code>https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments</code></li></ul>
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-LABEL-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-LABEL-001.png" alt="Screenshot for BUG-LABEL-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="Validation">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-INPUT-001</span>
+      <span class="title">Field &quot;Current page number&quot; silently truncates input</span>
+      <span class="module">Locations &gt; Orders</span>
+      <span class="count">2×</span>
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Validation</dd>
+        <dt>Module / Page</dt><dd>Locations &gt; Orders</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</a></dd>
+        <dt>Detector</dt><dd><code>input-boundary</code></dd>
+        <dt>Selector</dt><dd><code>div &gt; div:nth-of-type(2) &gt; span &gt; input</code></dd>
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Locations &gt; Orders.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</li><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</li><li>Type 300 characters into the &quot;Current page number&quot; field.</li><li>Observe that only 1 characters are kept and nothing explains why.</li></ol>
+      <h4>Expected result</h4>
+      <p>A field that limits length declares it (maxlength, a counter, or a validation message) so the user knows the value was cut.</p>
+      <h4>Actual result</h4>
+      <p class="actual">300 characters were entered and the field kept 1, with no maxlength attribute and no message.</p>
+      
+      
+      <h4>Also seen on</h4><ul><li><code>https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments</code></li></ul>
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-INPUT-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-INPUT-001.png" alt="Screenshot for BUG-INPUT-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="Accessibility">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-A11Y-002</span>
+      <span class="title">3 control(s) have no accessible name on Locations &gt; Inbox</span>
+      <span class="module">Locations &gt; Inbox</span>
+      
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Accessibility</dd>
+        <dt>Module / Page</dt><dd>Locations &gt; Inbox</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox</a></dd>
+        <dt>Detector</dt><dd><code>accessibility</code></dd>
+        <dt>Selector</dt><dd><code>div &gt; div:nth-of-type(1) &gt; div &gt; button:nth-of-type(1)</code></dd>
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Locations &gt; Inbox.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</li><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox</li></ol>
+      <h4>Expected result</h4>
+      <p>Every button, link and tab has text or an aria-label, so it can be announced and reached by voice.</p>
+      <h4>Actual result</h4>
+      <p class="actual">3 control(s) announce as nothing. First: div &gt; div:nth-of-type(1) &gt; div &gt; button:nth-of-type(1)</p>
+      
+      
+      
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-A11Y-002.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-A11Y-002.png" alt="Screenshot for BUG-A11Y-002" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="Stability">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-CONSOLE-001</span>
+      <span class="title">Console error: [useOrderSearchSectionDropdowns] Statuses fetch failed: Forbidden</span>
+      <span class="module">Locations &gt; Orders</span>
+      
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Stability</dd>
+        <dt>Module / Page</dt><dd>Locations &gt; Orders</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</a></dd>
+        <dt>Detector</dt><dd><code>console-error</code></dd>
+        
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Locations &gt; Orders.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</li><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</li></ol>
+      <h4>Expected result</h4>
+      <p>The browser console stays clean while the screen is used.</p>
+      <h4>Actual result</h4>
+      <p class="actual">The console logged: [useOrderSearchSectionDropdowns] Statuses fetch failed: Forbidden</p>
+      <h4>Console</h4><pre>[useOrderSearchSectionDropdowns] Statuses fetch failed: Forbidden</pre>
+      
+      
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-CONSOLE-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-CONSOLE-001.png" alt="Screenshot for BUG-CONSOLE-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="Stability">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-CONSOLE-002</span>
+      <span class="title">Console error: [useOrderSearchSectionDropdowns] Billing methods fetch failed: Forbidden</span>
+      <span class="module">Locations &gt; Orders</span>
+      
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Stability</dd>
+        <dt>Module / Page</dt><dd>Locations &gt; Orders</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</a></dd>
+        <dt>Detector</dt><dd><code>console-error</code></dd>
+        
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Locations &gt; Orders.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</li><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</li></ol>
+      <h4>Expected result</h4>
+      <p>The browser console stays clean while the screen is used.</p>
+      <h4>Actual result</h4>
+      <p class="actual">The console logged: [useOrderSearchSectionDropdowns] Billing methods fetch failed: Forbidden</p>
+      <h4>Console</h4><pre>[useOrderSearchSectionDropdowns] Billing methods fetch failed: Forbidden</pre>
+      
+      
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-CONSOLE-002.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-CONSOLE-002.png" alt="Screenshot for BUG-CONSOLE-002" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="Stability">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-CONSOLE-003</span>
+      <span class="title">Console error: [useOrderSearchSectionDropdowns] Order types fetch failed: Forbidden</span>
+      <span class="module">Locations &gt; Orders</span>
+      
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Stability</dd>
+        <dt>Module / Page</dt><dd>Locations &gt; Orders</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</a></dd>
+        <dt>Detector</dt><dd><code>console-error</code></dd>
+        
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Locations &gt; Orders.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</li><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</li></ol>
+      <h4>Expected result</h4>
+      <p>The browser console stays clean while the screen is used.</p>
+      <h4>Actual result</h4>
+      <p class="actual">The console logged: [useOrderSearchSectionDropdowns] Order types fetch failed: Forbidden</p>
+      <h4>Console</h4><pre>[useOrderSearchSectionDropdowns] Order types fetch failed: Forbidden</pre>
+      
+      
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-CONSOLE-003.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-CONSOLE-003.png" alt="Screenshot for BUG-CONSOLE-003" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Minor" data-category="UI">
+    <summary>
+      <span class="badge" style="background:#7a5c00">Minor</span>
+      <span class="badge prio">P3</span>
+      <span class="id">BUG-LAYOUT-001</span>
+      <span class="title">Text is cut off by its container on Locations &gt; Orders</span>
+      <span class="module">Locations &gt; Orders</span>
+      
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>UI</dd>
+        <dt>Module / Page</dt><dd>Locations &gt; Orders</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</a></dd>
+        <dt>Detector</dt><dd><code>layout</code></dd>
+        
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Locations &gt; Orders.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</li><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</li></ol>
+      <h4>Expected result</h4>
+      <p>Text either fits, wraps, or is truncated deliberately with an ellipsis and a full value on hover.</p>
+      <h4>Actual result</h4>
+      <p class="actual">1 element(s) hide overflowing text with no ellipsis: span: &quot;Grid Options&quot;</p>
+      
+      
+      
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-LAYOUT-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-LAYOUT-001.png" alt="Screenshot for BUG-LAYOUT-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+  <details class="bug" data-severity="Trivial" data-category="Accessibility">
+    <summary>
+      <span class="badge" style="background:#3f5566">Trivial</span>
+      <span class="badge prio">P4</span>
+      <span class="id">BUG-A11Y-001</span>
+      <span class="title">Screen has 2 &lt;h1&gt; headings (Locations &gt; Home)</span>
+      <span class="module">Locations &gt; Home</span>
+      <span class="count">2×</span>
+    </summary>
+    <div class="body">
+      <dl>
+        <dt>Category</dt><dd>Accessibility</dd>
+        <dt>Module / Page</dt><dd>Locations &gt; Home</dd>
+        <dt>URL</dt><dd><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</a></dd>
+        <dt>Detector</dt><dd><code>accessibility</code></dd>
+        
+      </dl>
+      <h4>Preconditions</h4>
+      <ul><li>Signed in to the application with the automation account.</li><li>Application reachable at https://cloudapps-e2e.encoreglobal.com.</li><li>Screen under test: Locations &gt; Home.</li></ul>
+      <h4>Steps to reproduce</h4>
+      <ol class="steps"><li>Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</li></ol>
+      <h4>Expected result</h4>
+      <p>A screen has exactly one &lt;h1&gt;, so its heading outline has a single root.</p>
+      <h4>Actual result</h4>
+      <p class="actual">The page renders 2 &lt;h1&gt; elements.</p>
+      
+      
+      <h4>Also seen on</h4><ul><li><code>https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments</code></li></ul>
+      <h4>Evidence</h4>
+      <a class="shot" href="evidence/BUG-A11Y-001.png" target="_blank" rel="noreferrer">
+         <img src="evidence/BUG-A11Y-001.png" alt="Screenshot for BUG-A11Y-001" loading="lazy">
+       </a>
+    </div>
+  </details>
+
+<h2>Pages visited</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>#</th><th>Module</th><th>URL</th><th>Depth</th><th>Elements</th><th>Actions</th><th>Bugs</th></tr></thead>
+  <tbody>
+      <tr>
+        <td>1</td>
+        <td>Locations &gt; Home</td>
+        <td class="url"><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home</a></td>
+        <td>0</td>
+        <td>30</td>
+        <td>12</td>
+        <td>1</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Locations &gt; Inbox</td>
+        <td class="url"><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox</a></td>
+        <td>1</td>
+        <td>31</td>
+        <td>12</td>
+        <td>3</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Locations &gt; Orders</td>
+        <td class="url"><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders</a></td>
+        <td>1</td>
+        <td>131</td>
+        <td>12</td>
+        <td>6</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Locations &gt; Fulfillments</td>
+        <td class="url"><a href="https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments" target="_blank" rel="noreferrer">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments</a></td>
+        <td>1</td>
+        <td>40</td>
+        <td>4</td>
+        <td>3</td>
+      </tr></tbody>
+</table></div>
+
+<h2>Scenarios explored</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Scenario</th><th>Outcome</th><th>Detail</th></tr></thead>
+  <tbody><tr><td>Exercise button: 1604 Parker Palm Springs</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise menuitem: 1604 Parker Palm Springs</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise button: Actions</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise menuitem: Search Statistics</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise select: Filter by label</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise select: All labels</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise button: 1604 Parker Palm Springs</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise menuitem: 1604 Parker Palm Springs</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise button: Actions</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise menuitem: Search Statistics</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise select: All</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise select: 50</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise select: 10 20 30 40 50</td><td>explored</td><td>The screen re-rendered in response.</td></tr><tr><td>Exercise select: 30</td><td>explored</td><td>The screen re-rendered in response.</td></tr></tbody>
+</table></div>
+
+<h2>Not tested</h2>
+<p class="sub">Discovered but left alone — by a safety rule, a filter, or the crawl budget.</p>
+<div class="table-wrap"><table>
+  <thead><tr><th>Target</th><th>Reason</th></tr></thead>
+  <tbody><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Sourcing Dashboard&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Commissions&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Approve Equipment Transfers&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Tax&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Release Notes&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Setup&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Warehouse&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Studio&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;DRO Search&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Item Statistics&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Payment Search&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Fix Unlinked CRM Orders&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;ECT Search&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;FAQ&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Event Agendas&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Ask Encore&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;PC prd click auto&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click &quot;Click to restore sidebar&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Open the &quot;Unread&quot; tab.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Open the &quot;Archive&quot; tab.</td><td>destructive action (&quot;archive&quot;) — safety.allowDestructive is off</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click &quot;Sourcing Dashboard&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click &quot;Commissions&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click &quot;Approve Equipment Transfers&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click &quot;Tax&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click &quot;Release Notes&quot;.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click &quot;Setup&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click &quot;Warehouse&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Use the &quot;Go to first page&quot; pagination control.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Open the &quot;All USD CAD EUR GBP&quot; dropdown.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Toggle the &quot;on&quot; checkbox.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Click &quot;1604 Parker Palm Springs&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Type a test value into the the unnamed input field.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Use the &quot;Go to previous page&quot; pagination control.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Open the &quot;Orders and Credit Memos&quot; dropdown.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Click &quot;Actions&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Use the &quot;Go to next page&quot; pagination control.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Open the &quot;Orders and Credit Memos Orders Credit Memos&quot; dropdown.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Click &quot;Commissions&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments :: Use the &quot;Go to first page&quot; pagination control.</td><td>control is disabled</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments :: Click &quot;1604 Parker Palm Springs&quot;.</td><td>not interactable: pointer-events is none</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/assets</td><td>queued but not reached before the crawl budget ran out</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/customers</td><td>queued but not reached before the crawl budget ran out</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/packages</td><td>queued but not reached before the crawl budget ran out</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/products</td><td>queued but not reached before the crawl budget ran out</td></tr><tr><td class="url">https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings</td><td>queued but not reached before the crawl budget ran out</td></tr></tbody>
+</table></div>
+
+<h2>Errors encountered</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Where</th><th>URL</th><th>Message</th></tr></thead>
+  <tbody><tr><td colspan="3" class="muted">No crawl errors.</td></tr></tbody>
+</table></div>
+
+<h2>What was checked</h2>
+<div class="table-wrap"><table>
+  <thead><tr><th>Detector</th><th>Category</th><th>Looks for</th></tr></thead>
+  <tbody><tr><td><code>page-crash</code></td><td>Stability</td><td>The screen rendered a crash banner, a stack trace, or nothing at all.</td></tr><tr><td><code>console-error</code></td><td>Stability</td><td>The page logged an uncaught error or a console error while it was being used.</td></tr><tr><td><code>network-failure</code></td><td>Functional</td><td>A request the screen made failed, or answered 4xx/5xx.</td></tr><tr><td><code>broken-link</code></td><td>Navigation</td><td>Links that point nowhere, and links whose destination answers 4xx/5xx.</td></tr><tr><td><code>dead-control</code></td><td>Functional</td><td>A control that neither navigates, opens anything, nor changes the page.</td></tr><tr><td><code>unexpected-route</code></td><td>Navigation</td><td>Navigation that lands somewhere other than where the control advertised.</td></tr><tr><td><code>form-validation</code></td><td>Validation</td><td>Fields that accept a value their own type says is invalid, without telling the user.</td></tr><tr><td><code>input-boundary</code></td><td>Validation</td><td>Boundary values that make the screen throw, hang, or silently mangle the input.</td></tr><tr><td><code>placeholder-text</code></td><td>Data</td><td>Unresolved values, i18n keys or template fragments rendered as user-visible text.</td></tr><tr><td><code>missing-label</code></td><td>Accessibility</td><td>Form controls a screen reader cannot announce, because nothing names them.</td></tr><tr><td><code>accessibility</code></td><td>Accessibility</td><td>Unnamed controls, missing image alternatives, absent headings, duplicate ids.</td></tr><tr><td><code>layout</code></td><td>UI</td><td>Horizontal overflow, text clipped by its container, and controls that overlap.</td></tr><tr><td><code>page-title</code></td><td>UI</td><td>The browser tab names the screen.</td></tr></tbody>
+</table></div>
+
+<h2>Configuration used</h2>
+<pre>{
+  &quot;startUrl&quot;: &quot;https://cloudapps-e2e.encoreglobal.com/navigator/&quot;,
+  &quot;allowedOrigins&quot;: [
+    &quot;https://cloudapps-e2e.encoreglobal.com&quot;
+  ],
+  &quot;excludeUrlPatterns&quot;: [
+    &quot;logout&quot;,
+    &quot;signout&quot;,
+    &quot;sign-out&quot;,
+    &quot;\\/api\\/auth\\/signout&quot;,
+    &quot;login\\.microsoftonline\\.com&quot;,
+    &quot;b2clogin\\.com&quot;,
+    &quot;\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)&quot;,
+    &quot;^mailto:&quot;,
+    &quot;^tel:&quot;,
+    &quot;^javascript:&quot;,
+    &quot;\\/api\\/&quot;,
+    &quot;\\/_next\\/&quot;,
+    &quot;\\/auth\\/signin&quot;,
+    &quot;\\/reports\\/download&quot;
+  ],
+  &quot;includeUrlPatterns&quot;: [],
+  &quot;auth&quot;: {
+    &quot;mode&quot;: &quot;storage-state&quot;,
+    &quot;signedInSelector&quot;: &quot;h1&quot;
+  },
+  &quot;limits&quot;: {
+    &quot;maxPages&quot;: 8,
+    &quot;maxActionsPerPage&quot;: 12,
+    &quot;maxTotalActions&quot;: 40,
+    &quot;maxDepth&quot;: 3,
+    &quot;maxDurationMs&quot;: 420000,
+    &quot;settleMs&quot;: 900,
+    &quot;actionTimeoutMs&quot;: 8000,
+    &quot;navigationTimeoutMs&quot;: 30000
+  },
+  &quot;safety&quot;: {
+    &quot;allowWrites&quot;: false,
+    &quot;allowDestructive&quot;: false
+  },
+  &quot;enabledDetectors&quot;: [
+    &quot;page-crash&quot;,
+    &quot;console-error&quot;,
+    &quot;network-failure&quot;,
+    &quot;broken-link&quot;,
+    &quot;dead-control&quot;,
+    &quot;unexpected-route&quot;,
+    &quot;form-validation&quot;,
+    &quot;input-boundary&quot;,
+    &quot;placeholder-text&quot;,
+    &quot;missing-label&quot;,
+    &quot;accessibility&quot;,
+    &quot;layout&quot;,
+    &quot;page-title&quot;
+  ],
+  &quot;captureScreenshots&quot;: true,
+  &quot;outputDir&quot;: &quot;reports/bugs/crawler&quot;
+}</pre>
+</div>
+</body>
+</html>

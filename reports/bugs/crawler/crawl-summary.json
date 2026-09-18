@@ -1,0 +1,1189 @@
+{
+  "startedAt": "2026-09-17T16:01:35.341Z",
+  "finishedAt": "2026-09-17T16:03:16.077Z",
+  "durationMs": "101s",
+  "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/",
+  "configUsed": {
+    "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/",
+    "allowedOrigins": [
+      "https://cloudapps-e2e.encoreglobal.com"
+    ],
+    "excludeUrlPatterns": [
+      "logout",
+      "signout",
+      "sign-out",
+      "\\/api\\/auth\\/signout",
+      "login\\.microsoftonline\\.com",
+      "b2clogin\\.com",
+      "\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)",
+      "^mailto:",
+      "^tel:",
+      "^javascript:",
+      "\\/api\\/",
+      "\\/_next\\/",
+      "\\/auth\\/signin",
+      "\\/reports\\/download"
+    ],
+    "includeUrlPatterns": [],
+    "auth": {
+      "mode": "storage-state",
+      "signedInSelector": "h1"
+    },
+    "limits": {
+      "maxPages": 8,
+      "maxActionsPerPage": 12,
+      "maxTotalActions": 40,
+      "maxDepth": 3,
+      "maxDurationMs": 420000,
+      "settleMs": 900,
+      "actionTimeoutMs": 8000,
+      "navigationTimeoutMs": 30000
+    },
+    "safety": {
+      "allowWrites": false,
+      "allowDestructive": false
+    },
+    "enabledDetectors": [
+      "page-crash",
+      "console-error",
+      "network-failure",
+      "broken-link",
+      "dead-control",
+      "unexpected-route",
+      "form-validation",
+      "input-boundary",
+      "placeholder-text",
+      "missing-label",
+      "accessibility",
+      "layout",
+      "page-title"
+    ],
+    "captureScreenshots": true,
+    "outputDir": "reports/bugs/crawler"
+  },
+  "pagesVisited": [
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "normalizedUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home",
+      "module": "Locations > Home",
+      "depth": 0,
+      "title": "Home | Navigator",
+      "elementCount": 30,
+      "actionsPerformed": 12,
+      "bugsFound": 1,
+      "durationMs": 21062,
+      "reachedVia": "start URL"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "normalizedUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox",
+      "module": "Locations > Inbox",
+      "depth": 1,
+      "title": "Inbox | Navigator",
+      "elementCount": 31,
+      "actionsPerformed": 12,
+      "bugsFound": 3,
+      "durationMs": 21482,
+      "reachedVia": "link \"Inbox\""
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "normalizedUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders",
+      "module": "Locations > Orders",
+      "depth": 1,
+      "title": "Order Search | Navigator",
+      "elementCount": 131,
+      "actionsPerformed": 12,
+      "bugsFound": 6,
+      "durationMs": 15073,
+      "reachedVia": "link \"Order Search\""
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "normalizedUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/fulfillments",
+      "module": "Locations > Fulfillments",
+      "depth": 1,
+      "title": "Fulfillments | Navigator",
+      "elementCount": 40,
+      "actionsPerformed": 4,
+      "bugsFound": 3,
+      "durationMs": 33092,
+      "reachedVia": "link \"Job Search\""
+    }
+  ],
+  "actionsPerformed": [
+    {
+      "description": "Click \"1604 Parker Palm Springs\".",
+      "kind": "button",
+      "elementName": "1604 Parker Palm Springs",
+      "selector": "#radix-_r_0_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::1604 parker palm springs",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"1604 Parker Palm Springs\".",
+      "kind": "menuitem",
+      "elementName": "1604 Parker Palm Springs",
+      "selector": "div:nth-of-type(3) > div > div > div:nth-of-type(1)",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::menuitem::1604 parker palm springs",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Actions\".",
+      "kind": "button",
+      "elementName": "Actions",
+      "selector": "#radix-_r_4_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::actions",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Commissions\".",
+      "kind": "button",
+      "elementName": "Commissions",
+      "selector": "#radix-_r_7_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::commissions",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Tax\".",
+      "kind": "button",
+      "elementName": "Tax",
+      "selector": "#radix-_r_a_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::tax",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Setup\".",
+      "kind": "button",
+      "elementName": "Setup",
+      "selector": "#radix-_r_d_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::setup",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Search Statistics\".",
+      "kind": "menuitem",
+      "elementName": "Search Statistics",
+      "selector": "#radix-_r_1f_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::menuitem::search statistics",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Warehouse\".",
+      "kind": "button",
+      "elementName": "Warehouse",
+      "selector": "#radix-_r_g_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::warehouse",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Studio\".",
+      "kind": "button",
+      "elementName": "Studio",
+      "selector": "#radix-_r_j_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::studio",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Ask Encore\".",
+      "kind": "button",
+      "elementName": "Ask Encore",
+      "selector": "div:nth-of-type(3) > ul > li > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::ask encore",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"PC prd click auto\".",
+      "kind": "button",
+      "elementName": "PC prd click auto",
+      "selector": "#radix-_r_11_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::pc prd click auto",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Click to restore sidebar\".",
+      "kind": "button",
+      "elementName": "Click to restore sidebar",
+      "selector": "div:nth-of-type(1) > div:nth-of-type(2) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/home::button::click to restore sidebar",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Open the \"All mail\" tab.",
+      "kind": "tab",
+      "elementName": "All mail",
+      "selector": "#radix-_r_16_-trigger-all",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::tab::all mail",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Open the \"Filter by label\" dropdown.",
+      "kind": "select",
+      "elementName": "Filter by label",
+      "selector": "div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::select::filter by label",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"Unread\" tab.",
+      "kind": "tab",
+      "elementName": "Unread",
+      "selector": "#radix-_r_16_-trigger-unread",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::tab::unread",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Open the \"All labels\" dropdown.",
+      "kind": "select",
+      "elementName": "All labels",
+      "selector": "#radix-_r_17_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::select::all labels",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"1604 Parker Palm Springs\".",
+      "kind": "button",
+      "elementName": "1604 Parker Palm Springs",
+      "selector": "#radix-_r_0_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::button::1604 parker palm springs",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"1604 Parker Palm Springs\".",
+      "kind": "menuitem",
+      "elementName": "1604 Parker Palm Springs",
+      "selector": "div:nth-of-type(3) > div > div > div:nth-of-type(1)",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::menuitem::1604 parker palm springs",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Actions\".",
+      "kind": "button",
+      "elementName": "Actions",
+      "selector": "#radix-_r_4_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::button::actions",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Commissions\".",
+      "kind": "button",
+      "elementName": "Commissions",
+      "selector": "#radix-_r_7_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::button::commissions",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Tax\".",
+      "kind": "button",
+      "elementName": "Tax",
+      "selector": "#radix-_r_a_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::button::tax",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Setup\".",
+      "kind": "button",
+      "elementName": "Setup",
+      "selector": "#radix-_r_d_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::button::setup",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Search Statistics\".",
+      "kind": "menuitem",
+      "elementName": "Search Statistics",
+      "selector": "#radix-_r_1u_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::menuitem::search statistics",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Warehouse\".",
+      "kind": "button",
+      "elementName": "Warehouse",
+      "selector": "#radix-_r_g_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/inbox::button::warehouse",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Open the \"All\" dropdown.",
+      "kind": "select",
+      "elementName": "All",
+      "selector": "#order-search-status",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::select::all",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"All USD CAD EUR GBP\" dropdown.",
+      "kind": "select",
+      "elementName": "All USD CAD EUR GBP",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(12) > div:nth-of-type(2) > select",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::select::all usd cad eur gbp",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Toggle the \"on\" checkbox.",
+      "kind": "checkbox",
+      "elementName": "on",
+      "selector": "[data-testid=\"e2e-checkbox\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::checkbox::e2e-checkbox",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"1604 Parker Palm Springs\".",
+      "kind": "button",
+      "elementName": "1604 Parker Palm Springs",
+      "selector": "#radix-_r_0_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::button::1604 parker palm springs",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Type a test value into the the unnamed input field.",
+      "kind": "input",
+      "elementName": "",
+      "selector": "#order-search-orderNumber",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::input::#order-search-ordernumber",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Open the \"Orders and Credit Memos\" dropdown.",
+      "kind": "select",
+      "elementName": "Orders and Credit Memos",
+      "selector": "#order-search-orderCreditMemo",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::select::orders and credit memos",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Toggle the \"on\" checkbox.",
+      "kind": "checkbox",
+      "elementName": "on",
+      "selector": "[data-testid=\"e2e-checkbox\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::checkbox::e2e-checkbox",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Actions\".",
+      "kind": "button",
+      "elementName": "Actions",
+      "selector": "#radix-_r_4_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::button::actions",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Type a test value into the the unnamed input field.",
+      "kind": "input",
+      "elementName": "",
+      "selector": "#order-search-orderName",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::input::#order-search-ordername",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Open the \"Orders and Credit Memos Orders Credit Memos\" dropdown.",
+      "kind": "select",
+      "elementName": "Orders and Credit Memos Orders Credit Memos",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(13) > div:nth-of-type(2) > select",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::select::orders and credit memos orders credit memos",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Toggle the \"on\" checkbox.",
+      "kind": "checkbox",
+      "elementName": "on",
+      "selector": "[data-testid=\"e2e-checkbox\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::checkbox::e2e-checkbox",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Click \"Commissions\".",
+      "kind": "button",
+      "elementName": "Commissions",
+      "selector": "#radix-_r_7_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/orders::button::commissions",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    },
+    {
+      "description": "Open the \"50\" dropdown.",
+      "kind": "select",
+      "elementName": "50",
+      "selector": "div > div:nth-of-type(1) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/fulfillments::select::50",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"10 20 30 40 50\" dropdown.",
+      "kind": "select",
+      "elementName": "10 20 30 40 50",
+      "selector": "#radix-_r_1h_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/fulfillments::select::10 20 30 40 50",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"30\" dropdown.",
+      "kind": "select",
+      "elementName": "30",
+      "selector": "div > div:nth-of-type(1) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/fulfillments::select::30",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"1604 Parker Palm Springs\".",
+      "kind": "button",
+      "elementName": "1604 Parker Palm Springs",
+      "selector": "#radix-_r_0_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/fulfillments::button::1604 parker palm springs",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: pointer-events is none"
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Exercise button: 1604 Parker Palm Springs",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise menuitem: 1604 Parker Palm Springs",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise button: Actions",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise menuitem: Search Statistics",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise select: Filter by label",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise select: All labels",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise button: 1604 Parker Palm Springs",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise menuitem: 1604 Parker Palm Springs",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise button: Actions",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise menuitem: Search Statistics",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise select: All",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise select: 50",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise select: 10 20 30 40 50",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise select: 30",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    }
+  ],
+  "bugs": [
+    {
+      "id": "BUG-CTRL-001",
+      "title": "\"All mail\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Locations > Inbox",
+      "page": "Locations > Inbox",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Inbox."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+        "3. Open the \"All mail\" tab.",
+        "4. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the tab navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-001.png",
+        "domSnippet": null,
+        "selector": "#radix-_r_16_-trigger-all",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "firstSeenAt": "2026-09-17T16:02:17.991Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "5867cab67821"
+    },
+    {
+      "id": "BUG-LABEL-001",
+      "title": "1 form control(s) have no accessible label on Locations > Inbox",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "missing-label",
+      "module": "Locations > Inbox",
+      "page": "Locations > Inbox",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Inbox."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+        "3. Inspect the form controls listed above and confirm none carries a label association."
+      ],
+      "expectedResult": "Every form control is named by a <label for>, aria-label or aria-labelledby, so assistive technology can announce it.",
+      "actualResult": "1 control(s) are named only by placeholder text or by nothing at all: button[type=button] (Filter by label)",
+      "evidence": {
+        "screenshot": "evidence/BUG-LABEL-001.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "firstSeenAt": "2026-09-17T16:02:16.353Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+        "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments"
+      ],
+      "fingerprint": "d5f272af2270"
+    },
+    {
+      "id": "BUG-INPUT-001",
+      "title": "Field \"Current page number\" silently truncates input",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Validation",
+      "detector": "input-boundary",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+        "3. Type 300 characters into the \"Current page number\" field.",
+        "4. Observe that only 1 characters are kept and nothing explains why."
+      ],
+      "expectedResult": "A field that limits length declares it (maxlength, a counter, or a validation message) so the user knows the value was cut.",
+      "actualResult": "300 characters were entered and the field kept 1, with no maxlength attribute and no message.",
+      "evidence": {
+        "screenshot": "evidence/BUG-INPUT-001.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(2) > span > input",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:39.313Z",
+      "occurrences": 2,
+      "alsoSeenOn": [
+        "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments"
+      ],
+      "fingerprint": "83585aff472e"
+    },
+    {
+      "id": "BUG-A11Y-002",
+      "title": "3 control(s) have no accessible name on Locations > Inbox",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "accessibility",
+      "module": "Locations > Inbox",
+      "page": "Locations > Inbox",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Inbox."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox"
+      ],
+      "expectedResult": "Every button, link and tab has text or an aria-label, so it can be announced and reached by voice.",
+      "actualResult": "3 control(s) announce as nothing. First: div > div:nth-of-type(1) > div > button:nth-of-type(1)",
+      "evidence": {
+        "screenshot": "evidence/BUG-A11Y-002.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(1) > div > button:nth-of-type(1)",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "firstSeenAt": "2026-09-17T16:02:16.535Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "eab8b3fbc783"
+    },
+    {
+      "id": "BUG-CONSOLE-001",
+      "title": "Console error: [useOrderSearchSectionDropdowns] Statuses fetch failed: Forbidden",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Stability",
+      "detector": "console-error",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders"
+      ],
+      "expectedResult": "The browser console stays clean while the screen is used.",
+      "actualResult": "The console logged: [useOrderSearchSectionDropdowns] Statuses fetch failed: Forbidden",
+      "evidence": {
+        "screenshot": "evidence/BUG-CONSOLE-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [
+          "[useOrderSearchSectionDropdowns] Statuses fetch failed: Forbidden"
+        ],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:35.139Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "f36f5bbed034"
+    },
+    {
+      "id": "BUG-CONSOLE-002",
+      "title": "Console error: [useOrderSearchSectionDropdowns] Billing methods fetch failed: Forbidden",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Stability",
+      "detector": "console-error",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders"
+      ],
+      "expectedResult": "The browser console stays clean while the screen is used.",
+      "actualResult": "The console logged: [useOrderSearchSectionDropdowns] Billing methods fetch failed: Forbidden",
+      "evidence": {
+        "screenshot": "evidence/BUG-CONSOLE-002.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [
+          "[useOrderSearchSectionDropdowns] Billing methods fetch failed: Forbidden"
+        ],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:35.335Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "906e5f77e20a"
+    },
+    {
+      "id": "BUG-CONSOLE-003",
+      "title": "Console error: [useOrderSearchSectionDropdowns] Order types fetch failed: Forbidden",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Stability",
+      "detector": "console-error",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders"
+      ],
+      "expectedResult": "The browser console stays clean while the screen is used.",
+      "actualResult": "The console logged: [useOrderSearchSectionDropdowns] Order types fetch failed: Forbidden",
+      "evidence": {
+        "screenshot": "evidence/BUG-CONSOLE-003.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [
+          "[useOrderSearchSectionDropdowns] Order types fetch failed: Forbidden"
+        ],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:35.522Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "bf6e7f3fe33a"
+    },
+    {
+      "id": "BUG-LAYOUT-001",
+      "title": "Text is cut off by its container on Locations > Orders",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders"
+      ],
+      "expectedResult": "Text either fits, wraps, or is truncated deliberately with an ellipsis and a full value on hover.",
+      "actualResult": "1 element(s) hide overflowing text with no ellipsis: span: \"Grid Options\"",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:39.543Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "b50ab6ffa0c3"
+    },
+    {
+      "id": "BUG-A11Y-001",
+      "title": "Screen has 2 <h1> headings (Locations > Home)",
+      "severity": "Trivial",
+      "priority": "P4",
+      "category": "Accessibility",
+      "detector": "accessibility",
+      "module": "Locations > Home",
+      "page": "Locations > Home",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Home."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home"
+      ],
+      "expectedResult": "A screen has exactly one <h1>, so its heading outline has a single root.",
+      "actualResult": "The page renders 2 <h1> elements.",
+      "evidence": {
+        "screenshot": "evidence/BUG-A11Y-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "firstSeenAt": "2026-09-17T16:02:00.104Z",
+      "occurrences": 2,
+      "alsoSeenOn": [
+        "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments"
+      ],
+      "fingerprint": "d9f7ea95d180"
+    }
+  ],
+  "errors": [],
+  "notTested": [
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Sourcing Dashboard\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Commissions\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Approve Equipment Transfers\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Tax\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Release Notes\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Setup\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Warehouse\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Studio\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"DRO Search\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Item Statistics\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Payment Search\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Fix Unlinked CRM Orders\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"ECT Search\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"FAQ\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Event Agendas\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Ask Encore\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"PC prd click auto\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home :: Click \"Click to restore sidebar\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Open the \"Unread\" tab.",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Open the \"Archive\" tab.",
+      "reason": "destructive action (\"archive\") — safety.allowDestructive is off"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click \"Sourcing Dashboard\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click \"Commissions\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click \"Approve Equipment Transfers\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click \"Tax\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click \"Release Notes\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click \"Setup\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox :: Click \"Warehouse\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Use the \"Go to first page\" pagination control.",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Open the \"All USD CAD EUR GBP\" dropdown.",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Toggle the \"on\" checkbox.",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Click \"1604 Parker Palm Springs\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Type a test value into the the unnamed input field.",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Use the \"Go to previous page\" pagination control.",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Open the \"Orders and Credit Memos\" dropdown.",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Click \"Actions\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Use the \"Go to next page\" pagination control.",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Open the \"Orders and Credit Memos Orders Credit Memos\" dropdown.",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders :: Click \"Commissions\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments :: Use the \"Go to first page\" pagination control.",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments :: Click \"1604 Parker Palm Springs\".",
+      "reason": "not interactable: pointer-events is none"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/assets",
+      "reason": "queued but not reached before the crawl budget ran out"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/customers",
+      "reason": "queued but not reached before the crawl budget ran out"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/packages",
+      "reason": "queued but not reached before the crawl budget ran out"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/products",
+      "reason": "queued but not reached before the crawl budget ran out"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings",
+      "reason": "queued but not reached before the crawl budget ran out"
+    }
+  ],
+  "stopReason": "action budget of 40 reached",
+  "totals": {
+    "pagesVisited": 4,
+    "actionsPerformed": 40,
+    "scenariosExplored": 14,
+    "bugsFound": 9,
+    "findingsBeforeDedup": 13,
+    "errors": 0,
+    "notTested": 45,
+    "bySeverity": {
+      "Critical": 0,
+      "Major": 1,
+      "Minor": 7,
+      "Trivial": 1
+    },
+    "byCategory": {
+      "Accessibility": 3,
+      "Functional": 1,
+      "Stability": 3,
+      "Validation": 1,
+      "UI": 1
+    }
+  }
+}

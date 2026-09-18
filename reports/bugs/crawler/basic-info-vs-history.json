@@ -1,0 +1,805 @@
+{
+  "generatedAt": "2026-09-18T08:34:50.796Z",
+  "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+  "basicInformation": {
+    "fieldCount": 51,
+    "fields": [
+      {
+        "label": "Hrs",
+        "testid": "local-office-settings-input-prep-date-offset",
+        "control": "input",
+        "section": "date-offsets",
+        "value": "-1"
+      },
+      {
+        "label": "Hrs",
+        "testid": "local-office-settings-input-return-date-offset",
+        "control": "input",
+        "section": "date-offsets",
+        "value": "1"
+      },
+      {
+        "label": "Hrs",
+        "testid": "local-office-settings-input-set-date-offset",
+        "control": "input",
+        "section": "date-offsets",
+        "value": "-1"
+      },
+      {
+        "label": "Hrs",
+        "testid": "local-office-settings-input-strike-date-offset",
+        "control": "input",
+        "section": "date-offsets",
+        "value": "1"
+      },
+      {
+        "label": "Hrs",
+        "testid": "local-office-settings-input-delivery-date-offset",
+        "control": "input",
+        "section": "date-offsets",
+        "value": "0"
+      },
+      {
+        "label": "Hrs",
+        "testid": "local-office-settings-input-pickup-date-offset",
+        "control": "input",
+        "section": "date-offsets",
+        "value": "0"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-checkbox-use-fulfillment",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-checkbox-use-availability",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "true"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-checkbox-use-equipments-qc",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-checkbox-request-items-return",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-checkbox-same-priority",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-checkbox-print-description",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "true"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-checkbox-use-subrent-service-type",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "true"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-input-phone-1",
+        "control": "input",
+        "section": "misc-settings",
+        "value": "760-883-1957"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-input-phone-2",
+        "control": "input",
+        "section": "misc-settings",
+        "value": ""
+      },
+      {
+        "label": "Event",
+        "testid": "local-office-settings-checkbox-default-job-one-day-event",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "Event",
+        "testid": "",
+        "control": "input[checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "Outside",
+        "testid": "local-office-settings-checkbox-default-job-one-day-outside",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "Outside",
+        "testid": "",
+        "control": "input[checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "Internal",
+        "testid": "local-office-settings-checkbox-default-job-one-day-internal",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "Internal",
+        "testid": "",
+        "control": "input[checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-checkbox-default-labor-to-hourly",
+        "control": "button[button][role=checkbox]",
+        "section": "misc-settings",
+        "value": "false"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-select-default-order-type",
+        "control": "button[button][role=combobox]",
+        "section": "misc-settings",
+        "value": ""
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-input-po-number",
+        "control": "input[text]",
+        "section": "misc-settings",
+        "value": ""
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-input-po-number-label",
+        "control": "input[text]",
+        "section": "misc-settings",
+        "value": ""
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-checkbox-use-section",
+        "control": "button[button][role=checkbox]",
+        "section": "sections",
+        "value": "true"
+      },
+      {
+        "label": "edit name 7336b620-5c20-4651-b9e1-7988f683cbfc",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "AV Services"
+      },
+      {
+        "label": "edit name 19b79f4e-f4c2-494a-8a5e-31ed3061c002",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Flipcharts"
+      },
+      {
+        "label": "edit name 28226113-abfa-4ab3-a598-20527131f84f",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Hybrid Meeting"
+      },
+      {
+        "label": "edit name bd152bca-3b99-43a3-beb9-7cb712a30ffa",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Labor"
+      },
+      {
+        "label": "edit name dd472fe5-3d1c-4d0f-976d-bc266b7303ba",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Lighting"
+      },
+      {
+        "label": "edit name eb324122-61db-4a1f-a6af-7f3dab2a2051",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Power"
+      },
+      {
+        "label": "edit name b28a03cc-ee0d-4a9e-ab66-89594de9c893",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Presenter Support"
+      },
+      {
+        "label": "edit name bd4e3ef3-809b-46bc-a622-139e36c35528",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Projection"
+      },
+      {
+        "label": "edit name ba1a0edd-1ba8-49fe-9907-8dcb63bd2ae2",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Rigging"
+      },
+      {
+        "label": "edit name 48c34052-2e0a-4180-909c-cba2bc053361",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Scenic"
+      },
+      {
+        "label": "edit name de4618a6-0ded-482a-b1d3-a9c5f72b1b6c",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Staging"
+      },
+      {
+        "label": "edit name 4749c1ae-560b-49c7-aa0f-632978419972",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Test Section"
+      },
+      {
+        "label": "edit name 9953c6ce-cde7-4bdb-8b20-b8907cb89adc",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Video"
+      },
+      {
+        "label": "edit name 4bc28247-1048-41fd-8efe-1feac1d9f2de",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": "Whiteboard"
+      },
+      {
+        "label": "new row name",
+        "testid": "",
+        "control": "input",
+        "section": "sections",
+        "value": ""
+      },
+      {
+        "label": "edit name 1",
+        "testid": "",
+        "control": "input",
+        "section": "room-config",
+        "value": "Ballroom A"
+      },
+      {
+        "label": "edit name 2",
+        "testid": "",
+        "control": "input",
+        "section": "room-config",
+        "value": "Room Edit Test"
+      },
+      {
+        "label": "edit name 3",
+        "testid": "",
+        "control": "input",
+        "section": "room-config",
+        "value": "Room Toggle Test"
+      },
+      {
+        "label": "edit name 4",
+        "testid": "",
+        "control": "input",
+        "section": "room-config",
+        "value": "Test Room"
+      },
+      {
+        "label": "new row name",
+        "testid": "",
+        "control": "input",
+        "section": "room-config",
+        "value": ""
+      },
+      {
+        "label": "Quotes",
+        "testid": "local-office-settings-checkbox-use-quote-logo",
+        "control": "button[button][role=checkbox]",
+        "section": "default-logo",
+        "value": "true"
+      },
+      {
+        "label": "Quotes",
+        "testid": "",
+        "control": "input[checkbox]",
+        "section": "default-logo",
+        "value": "true"
+      },
+      {
+        "label": "Rental Orders/DROs",
+        "testid": "local-office-settings-checkbox-use-rental-logo",
+        "control": "button[button][role=checkbox]",
+        "section": "default-logo",
+        "value": "true"
+      },
+      {
+        "label": "Rental Orders/DROs",
+        "testid": "",
+        "control": "input[checkbox]",
+        "section": "default-logo",
+        "value": "true"
+      },
+      {
+        "label": "",
+        "testid": "local-office-settings-select-company-logo",
+        "control": "button[button][role=combobox]",
+        "section": "default-logo",
+        "value": ""
+      }
+    ],
+    "tables": [
+      {
+        "testid": "local-office-settings-table-sections",
+        "columns": [
+          "SECTION NAME",
+          "ACTIVE"
+        ]
+      },
+      {
+        "testid": "local-office-settings-table-room-config",
+        "columns": [
+          "ROOM CONFIGURATION NAME",
+          "ACTIVE"
+        ]
+      },
+      {
+        "testid": "local-office-settings-table-discount-exemptions",
+        "columns": [
+          "SERVICE TYPE",
+          "EXEMPT"
+        ]
+      }
+    ]
+  },
+  "history": {
+    "columnCount": 42,
+    "columns": [
+      "Local Office",
+      "Prep Date Offset",
+      "Return Date Offset",
+      "Set Date Offset",
+      "Strike Date Offset",
+      "Pickup Date Offset",
+      "Delivery Date Offset",
+      "Use Fulfillment",
+      "Use Availability",
+      "Use Equipment QC",
+      "Print Desc",
+      "Use Subrent",
+      "Phone1",
+      "Phone2",
+      "Use Sect.",
+      "Section Name",
+      "Sect. Action",
+      "Logo Name",
+      "Use On Quote",
+      "Use On Rental",
+      "Service Type - Exempt",
+      "ST Action",
+      "Action",
+      "Notes",
+      "Marriott PMS Account Enabled",
+      "Default Job to 1 day for Event Orders",
+      "Default Job to 1 day for Outside Orders",
+      "Default Job to 1 day for Internal Orders",
+      "Default Labor to Hourly",
+      "Allow tentative and confirmed Status to have the same priority",
+      "Items Filled from Requests Return to Availability",
+      "Default Order Type",
+      "Regular Hours",
+      "Regular Hours Multiplier",
+      "Over Time Hours",
+      "OverTime Hours Multiplier",
+      "Double Time Hours",
+      "DoubleTime Hours Multiplier",
+      "Holiday Multiplier",
+      "Recalc Labor Hours",
+      "Modified By",
+      "Modified On"
+    ]
+  },
+  "matched": [
+    {
+      "label": "Hrs",
+      "testid": "local-office-settings-input-prep-date-offset",
+      "column": "Prep Date Offset"
+    },
+    {
+      "label": "Hrs",
+      "testid": "local-office-settings-input-return-date-offset",
+      "column": "Return Date Offset"
+    },
+    {
+      "label": "Hrs",
+      "testid": "local-office-settings-input-set-date-offset",
+      "column": "Set Date Offset"
+    },
+    {
+      "label": "Hrs",
+      "testid": "local-office-settings-input-strike-date-offset",
+      "column": "Strike Date Offset"
+    },
+    {
+      "label": "Hrs",
+      "testid": "local-office-settings-input-delivery-date-offset",
+      "column": "Delivery Date Offset"
+    },
+    {
+      "label": "Hrs",
+      "testid": "local-office-settings-input-pickup-date-offset",
+      "column": "Pickup Date Offset"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-checkbox-use-fulfillment",
+      "column": "Use Fulfillment"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-checkbox-use-availability",
+      "column": "Use Availability"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-input-phone-1",
+      "column": "Phone1"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-input-phone-2",
+      "column": "Phone2"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-checkbox-default-labor-to-hourly",
+      "column": "Default Labor to Hourly"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-select-default-order-type",
+      "column": "Default Order Type"
+    }
+  ],
+  "fieldsWithNoColumn": [
+    {
+      "label": "",
+      "testid": "local-office-settings-checkbox-use-equipments-qc",
+      "control": "button[button][role=checkbox]",
+      "section": "misc-settings",
+      "value": "false"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-checkbox-request-items-return",
+      "control": "button[button][role=checkbox]",
+      "section": "misc-settings",
+      "value": "false"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-checkbox-same-priority",
+      "control": "button[button][role=checkbox]",
+      "section": "misc-settings",
+      "value": "false"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-checkbox-print-description",
+      "control": "button[button][role=checkbox]",
+      "section": "misc-settings",
+      "value": "true"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-checkbox-use-subrent-service-type",
+      "control": "button[button][role=checkbox]",
+      "section": "misc-settings",
+      "value": "true"
+    },
+    {
+      "label": "Event",
+      "testid": "local-office-settings-checkbox-default-job-one-day-event",
+      "control": "button[button][role=checkbox]",
+      "section": "misc-settings",
+      "value": "false"
+    },
+    {
+      "label": "Event",
+      "testid": "",
+      "control": "input[checkbox]",
+      "section": "misc-settings",
+      "value": "false"
+    },
+    {
+      "label": "Outside",
+      "testid": "local-office-settings-checkbox-default-job-one-day-outside",
+      "control": "button[button][role=checkbox]",
+      "section": "misc-settings",
+      "value": "false"
+    },
+    {
+      "label": "Outside",
+      "testid": "",
+      "control": "input[checkbox]",
+      "section": "misc-settings",
+      "value": "false"
+    },
+    {
+      "label": "Internal",
+      "testid": "local-office-settings-checkbox-default-job-one-day-internal",
+      "control": "button[button][role=checkbox]",
+      "section": "misc-settings",
+      "value": "false"
+    },
+    {
+      "label": "Internal",
+      "testid": "",
+      "control": "input[checkbox]",
+      "section": "misc-settings",
+      "value": "false"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-input-po-number",
+      "control": "input[text]",
+      "section": "misc-settings",
+      "value": ""
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-input-po-number-label",
+      "control": "input[text]",
+      "section": "misc-settings",
+      "value": ""
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-checkbox-use-section",
+      "control": "button[button][role=checkbox]",
+      "section": "sections",
+      "value": "true"
+    },
+    {
+      "label": "edit name 7336b620-5c20-4651-b9e1-7988f683cbfc",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "AV Services"
+    },
+    {
+      "label": "edit name 19b79f4e-f4c2-494a-8a5e-31ed3061c002",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Flipcharts"
+    },
+    {
+      "label": "edit name 28226113-abfa-4ab3-a598-20527131f84f",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Hybrid Meeting"
+    },
+    {
+      "label": "edit name bd152bca-3b99-43a3-beb9-7cb712a30ffa",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Labor"
+    },
+    {
+      "label": "edit name dd472fe5-3d1c-4d0f-976d-bc266b7303ba",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Lighting"
+    },
+    {
+      "label": "edit name eb324122-61db-4a1f-a6af-7f3dab2a2051",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Power"
+    },
+    {
+      "label": "edit name b28a03cc-ee0d-4a9e-ab66-89594de9c893",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Presenter Support"
+    },
+    {
+      "label": "edit name bd4e3ef3-809b-46bc-a622-139e36c35528",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Projection"
+    },
+    {
+      "label": "edit name ba1a0edd-1ba8-49fe-9907-8dcb63bd2ae2",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Rigging"
+    },
+    {
+      "label": "edit name 48c34052-2e0a-4180-909c-cba2bc053361",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Scenic"
+    },
+    {
+      "label": "edit name de4618a6-0ded-482a-b1d3-a9c5f72b1b6c",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Staging"
+    },
+    {
+      "label": "edit name 4749c1ae-560b-49c7-aa0f-632978419972",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Test Section"
+    },
+    {
+      "label": "edit name 9953c6ce-cde7-4bdb-8b20-b8907cb89adc",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Video"
+    },
+    {
+      "label": "edit name 4bc28247-1048-41fd-8efe-1feac1d9f2de",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": "Whiteboard"
+    },
+    {
+      "label": "new row name",
+      "testid": "",
+      "control": "input",
+      "section": "sections",
+      "value": ""
+    },
+    {
+      "label": "edit name 1",
+      "testid": "",
+      "control": "input",
+      "section": "room-config",
+      "value": "Ballroom A"
+    },
+    {
+      "label": "edit name 2",
+      "testid": "",
+      "control": "input",
+      "section": "room-config",
+      "value": "Room Edit Test"
+    },
+    {
+      "label": "edit name 3",
+      "testid": "",
+      "control": "input",
+      "section": "room-config",
+      "value": "Room Toggle Test"
+    },
+    {
+      "label": "edit name 4",
+      "testid": "",
+      "control": "input",
+      "section": "room-config",
+      "value": "Test Room"
+    },
+    {
+      "label": "new row name",
+      "testid": "",
+      "control": "input",
+      "section": "room-config",
+      "value": ""
+    },
+    {
+      "label": "Quotes",
+      "testid": "local-office-settings-checkbox-use-quote-logo",
+      "control": "button[button][role=checkbox]",
+      "section": "default-logo",
+      "value": "true"
+    },
+    {
+      "label": "Quotes",
+      "testid": "",
+      "control": "input[checkbox]",
+      "section": "default-logo",
+      "value": "true"
+    },
+    {
+      "label": "Rental Orders/DROs",
+      "testid": "local-office-settings-checkbox-use-rental-logo",
+      "control": "button[button][role=checkbox]",
+      "section": "default-logo",
+      "value": "true"
+    },
+    {
+      "label": "Rental Orders/DROs",
+      "testid": "",
+      "control": "input[checkbox]",
+      "section": "default-logo",
+      "value": "true"
+    },
+    {
+      "label": "",
+      "testid": "local-office-settings-select-company-logo",
+      "control": "button[button][role=combobox]",
+      "section": "default-logo",
+      "value": ""
+    }
+  ],
+  "columnsWithNoField": [
+    "Local Office",
+    "Use Equipment QC",
+    "Print Desc",
+    "Use Subrent",
+    "Use Sect.",
+    "Section Name",
+    "Sect. Action",
+    "Logo Name",
+    "Use On Quote",
+    "Use On Rental",
+    "Service Type - Exempt",
+    "ST Action",
+    "Action",
+    "Notes",
+    "Marriott PMS Account Enabled",
+    "Default Job to 1 day for Event Orders",
+    "Default Job to 1 day for Outside Orders",
+    "Default Job to 1 day for Internal Orders",
+    "Allow tentative and confirmed Status to have the same priority",
+    "Items Filled from Requests Return to Availability",
+    "Regular Hours",
+    "Regular Hours Multiplier",
+    "Over Time Hours",
+    "OverTime Hours Multiplier",
+    "Double Time Hours",
+    "DoubleTime Hours Multiplier",
+    "Holiday Multiplier",
+    "Recalc Labor Hours",
+    "Modified By",
+    "Modified On"
+  ]
+}

@@ -1,0 +1,401 @@
+{
+  "generatedAt": "2026-09-17T16:03:16.102Z",
+  "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/",
+  "stopReason": "action budget of 40 reached",
+  "totals": {
+    "pagesVisited": 4,
+    "actionsPerformed": 40,
+    "scenariosExplored": 14,
+    "bugsFound": 9,
+    "findingsBeforeDedup": 13,
+    "errors": 0,
+    "notTested": 45,
+    "bySeverity": {
+      "Critical": 0,
+      "Major": 1,
+      "Minor": 7,
+      "Trivial": 1
+    },
+    "byCategory": {
+      "Accessibility": 3,
+      "Functional": 1,
+      "Stability": 3,
+      "Validation": 1,
+      "UI": 1
+    }
+  },
+  "configUsed": {
+    "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/",
+    "allowedOrigins": [
+      "https://cloudapps-e2e.encoreglobal.com"
+    ],
+    "excludeUrlPatterns": [
+      "logout",
+      "signout",
+      "sign-out",
+      "\\/api\\/auth\\/signout",
+      "login\\.microsoftonline\\.com",
+      "b2clogin\\.com",
+      "\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)",
+      "^mailto:",
+      "^tel:",
+      "^javascript:",
+      "\\/api\\/",
+      "\\/_next\\/",
+      "\\/auth\\/signin",
+      "\\/reports\\/download"
+    ],
+    "includeUrlPatterns": [],
+    "auth": {
+      "mode": "storage-state",
+      "signedInSelector": "h1"
+    },
+    "limits": {
+      "maxPages": 8,
+      "maxActionsPerPage": 12,
+      "maxTotalActions": 40,
+      "maxDepth": 3,
+      "maxDurationMs": 420000,
+      "settleMs": 900,
+      "actionTimeoutMs": 8000,
+      "navigationTimeoutMs": 30000
+    },
+    "safety": {
+      "allowWrites": false,
+      "allowDestructive": false
+    },
+    "enabledDetectors": [
+      "page-crash",
+      "console-error",
+      "network-failure",
+      "broken-link",
+      "dead-control",
+      "unexpected-route",
+      "form-validation",
+      "input-boundary",
+      "placeholder-text",
+      "missing-label",
+      "accessibility",
+      "layout",
+      "page-title"
+    ],
+    "captureScreenshots": true,
+    "outputDir": "reports/bugs/crawler"
+  },
+  "bugs": [
+    {
+      "id": "BUG-CTRL-001",
+      "title": "\"All mail\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Locations > Inbox",
+      "page": "Locations > Inbox",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Inbox."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+        "3. Open the \"All mail\" tab.",
+        "4. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the tab navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-001.png",
+        "domSnippet": null,
+        "selector": "#radix-_r_16_-trigger-all",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "firstSeenAt": "2026-09-17T16:02:17.991Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "5867cab67821"
+    },
+    {
+      "id": "BUG-LABEL-001",
+      "title": "1 form control(s) have no accessible label on Locations > Inbox",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "missing-label",
+      "module": "Locations > Inbox",
+      "page": "Locations > Inbox",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Inbox."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+        "3. Inspect the form controls listed above and confirm none carries a label association."
+      ],
+      "expectedResult": "Every form control is named by a <label for>, aria-label or aria-labelledby, so assistive technology can announce it.",
+      "actualResult": "1 control(s) are named only by placeholder text or by nothing at all: button[type=button] (Filter by label)",
+      "evidence": {
+        "screenshot": "evidence/BUG-LABEL-001.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(1) > div:nth-of-type(1) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "firstSeenAt": "2026-09-17T16:02:16.353Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+        "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments"
+      ],
+      "fingerprint": "d5f272af2270"
+    },
+    {
+      "id": "BUG-INPUT-001",
+      "title": "Field \"Current page number\" silently truncates input",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Validation",
+      "detector": "input-boundary",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+        "3. Type 300 characters into the \"Current page number\" field.",
+        "4. Observe that only 1 characters are kept and nothing explains why."
+      ],
+      "expectedResult": "A field that limits length declares it (maxlength, a counter, or a validation message) so the user knows the value was cut.",
+      "actualResult": "300 characters were entered and the field kept 1, with no maxlength attribute and no message.",
+      "evidence": {
+        "screenshot": "evidence/BUG-INPUT-001.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(2) > span > input",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:39.313Z",
+      "occurrences": 2,
+      "alsoSeenOn": [
+        "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments"
+      ],
+      "fingerprint": "83585aff472e"
+    },
+    {
+      "id": "BUG-A11Y-002",
+      "title": "3 control(s) have no accessible name on Locations > Inbox",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "accessibility",
+      "module": "Locations > Inbox",
+      "page": "Locations > Inbox",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Inbox."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox"
+      ],
+      "expectedResult": "Every button, link and tab has text or an aria-label, so it can be announced and reached by voice.",
+      "actualResult": "3 control(s) announce as nothing. First: div > div:nth-of-type(1) > div > button:nth-of-type(1)",
+      "evidence": {
+        "screenshot": "evidence/BUG-A11Y-002.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(1) > div > button:nth-of-type(1)",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "firstSeenAt": "2026-09-17T16:02:16.535Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "eab8b3fbc783"
+    },
+    {
+      "id": "BUG-CONSOLE-001",
+      "title": "Console error: [useOrderSearchSectionDropdowns] Statuses fetch failed: Forbidden",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Stability",
+      "detector": "console-error",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders"
+      ],
+      "expectedResult": "The browser console stays clean while the screen is used.",
+      "actualResult": "The console logged: [useOrderSearchSectionDropdowns] Statuses fetch failed: Forbidden",
+      "evidence": {
+        "screenshot": "evidence/BUG-CONSOLE-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [
+          "[useOrderSearchSectionDropdowns] Statuses fetch failed: Forbidden"
+        ],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:35.139Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "f36f5bbed034"
+    },
+    {
+      "id": "BUG-CONSOLE-002",
+      "title": "Console error: [useOrderSearchSectionDropdowns] Billing methods fetch failed: Forbidden",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Stability",
+      "detector": "console-error",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders"
+      ],
+      "expectedResult": "The browser console stays clean while the screen is used.",
+      "actualResult": "The console logged: [useOrderSearchSectionDropdowns] Billing methods fetch failed: Forbidden",
+      "evidence": {
+        "screenshot": "evidence/BUG-CONSOLE-002.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [
+          "[useOrderSearchSectionDropdowns] Billing methods fetch failed: Forbidden"
+        ],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:35.335Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "906e5f77e20a"
+    },
+    {
+      "id": "BUG-CONSOLE-003",
+      "title": "Console error: [useOrderSearchSectionDropdowns] Order types fetch failed: Forbidden",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Stability",
+      "detector": "console-error",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders"
+      ],
+      "expectedResult": "The browser console stays clean while the screen is used.",
+      "actualResult": "The console logged: [useOrderSearchSectionDropdowns] Order types fetch failed: Forbidden",
+      "evidence": {
+        "screenshot": "evidence/BUG-CONSOLE-003.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [
+          "[useOrderSearchSectionDropdowns] Order types fetch failed: Forbidden"
+        ],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:35.522Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "bf6e7f3fe33a"
+    },
+    {
+      "id": "BUG-LAYOUT-001",
+      "title": "Text is cut off by its container on Locations > Orders",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "Locations > Orders",
+      "page": "Locations > Orders",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Orders."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+        "2. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders"
+      ],
+      "expectedResult": "Text either fits, wraps, or is truncated deliberately with an ellipsis and a full value on hover.",
+      "actualResult": "1 element(s) hide overflowing text with no ellipsis: span: \"Grid Options\"",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "firstSeenAt": "2026-09-17T16:02:39.543Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "b50ab6ffa0c3"
+    },
+    {
+      "id": "BUG-A11Y-001",
+      "title": "Screen has 2 <h1> headings (Locations > Home)",
+      "severity": "Trivial",
+      "priority": "P4",
+      "category": "Accessibility",
+      "detector": "accessibility",
+      "module": "Locations > Home",
+      "page": "Locations > Home",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Locations > Home."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home"
+      ],
+      "expectedResult": "A screen has exactly one <h1>, so its heading outline has a single root.",
+      "actualResult": "The page renders 2 <h1> elements.",
+      "evidence": {
+        "screenshot": "evidence/BUG-A11Y-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "firstSeenAt": "2026-09-17T16:02:00.104Z",
+      "occurrences": 2,
+      "alsoSeenOn": [
+        "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments"
+      ],
+      "fingerprint": "d9f7ea95d180"
+    }
+  ]
+}

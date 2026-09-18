@@ -274,6 +274,43 @@ export class LocalOfficeHistoryPage extends LocalOfficeSettingsPage {
     return this.getElement('tblHistory').locator('tbody tr').count();
   }
 
+ /**
+  * Row count that has HELD the same value across consecutive polls.
+  *
+  * waitForHistoryGridLoaded settles the grid, but settling is not permanent: on a tab re-entry the
+  * panel remounts and re-fetches, so a SECOND re-render can empty `tbody` again AFTER the wait has
+  * already returned. That is the window TC-LOE-HIST-002 kept landing in — headers compared equal
+  * and the row count read 0 against a baseline of 20, passing only on retry.
+  *
+  * A zero that is not the "No results." empty state is treated as that window rather than as an
+  * answer: the grid is re-settled and the stability run starts over. A genuinely empty grid still
+  * returns 0 promptly, because it reports the empty state rather than a bare missing `tbody`.
+  */
+  @step('Count the entries in the History list, once the count has stopped changing')
+  async getStableHistoryRowCount(timeoutMs = 20_000, stablePolls = 3): Promise<number> {
+    const deadline = Date.now() + timeoutMs;
+    let last = -1;
+    let repeats = 0;
+    while (Date.now() < deadline) {
+      const count = await this.getHistoryRowCount();
+      if (count === 0 && !(await this.isHistoryTableEmpty())) {
+        Log.warn('History list reported 0 entries while not showing the empty state — re-settling the grid');
+        await this.waitForHistoryGridLoaded(Math.max(1_000, deadline - Date.now()));
+        last = -1;
+        repeats = 0;
+        continue;
+      }
+      if (count === last) {
+        if (++repeats >= stablePolls) return count;
+      } else {
+        last = count;
+        repeats = 1;
+      }
+      await this.page.waitForTimeout(200);
+    }
+    return this.getHistoryRowCount();
+  }
+
  /** Cell count of each rendered row — any value differing from the header count is a cell shift. */
   @step('Count the cells in each entry, to spot short or long rows')
   async getHistoryRowCellCounts(maxRows = 20): Promise<number[]> {

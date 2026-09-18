@@ -202,6 +202,65 @@ export class LocalOfficeSettingsPage extends BasePage {
     return (await tab.getAttribute('aria-selected').catch(() => null)) === 'true';
   }
 
+/**
+ * Every setting on Basic Information, read from the LIVE form rather than from a list.
+ *
+ * This is the whole point of the method: a written-down inventory can only ever confirm what we
+ * already believed, so a field added to the form next month would be invisible to a test built on
+ * one. Reading the form means a new field shows up as a new key, and the scenario that compares
+ * this against the history columns fails until someone decides what to do about it.
+ *
+ * Returned keys are the data-testid with the `local-office-settings-` prefix and the control-kind
+ * prefix removed (`input-`/`checkbox-`/`select-`), so `..-input-phone-1` becomes `phone-1`. Grids
+ * keep their `table-` prefix, because a grid is a different kind of thing from a single control.
+ *
+ * Row-level inputs inside the grids are deliberately excluded — they carry no testid and they are
+ * DATA, not settings. The grid itself is the setting.
+ */
+  @step('Read every setting on Basic Information from the live form')
+  async getBasicInfoFieldInventory(): Promise<Array<{ key: string; testid: string; kind: string }>> {
+    await this.waitForBasicInfoForm(30_000);
+    return this.page.evaluate(() => {
+      const PREFIX = 'local-office-settings-';
+      const root =
+        document.querySelector('[data-testid="local-office-settings-tab-content-basic-information"]') ||
+        document.querySelector('[data-testid="local-office-settings-form"]') ||
+        document.body;
+
+      const seen = new Map<string, { key: string; testid: string; kind: string }>();
+      // `useWrapper` is for grids ONLY. A grid's testid sits on its wrapper rather than on the
+      // <table>, so without it all three grids dropped out of the inventory — and a grid missing
+      // from the inventory is a grid whose history column nothing checks. Allowing the same
+      // fallback for single controls is wrong in the opposite direction: a Radix checkbox hides
+      // an unlabelled input inside a `-field-*` wrapper, and every one of those came back as a
+      // separate, unrecognised setting.
+      const add = (node: Element, kind: string, useWrapper = false) => {
+        const own = node.getAttribute('data-testid') || '';
+        const testid = own.startsWith(PREFIX)
+          ? own
+          : useWrapper
+            ? node.closest(`[data-testid^="${PREFIX}table-"]`)?.getAttribute('data-testid') || ''
+            : '';
+        if (!testid.startsWith(PREFIX)) return;
+        const rect = node.getBoundingClientRect();
+        if (rect.width === 0 || rect.height === 0) return;
+        const key = testid.slice(PREFIX.length).replace(/^(input|checkbox|select)-/, '');
+        if (!seen.has(key)) seen.set(key, { key, testid, kind });
+      };
+
+      for (const node of Array.from(
+        root.querySelectorAll(
+          'input:not([type="hidden"]),select,textarea,[role="checkbox"],[role="combobox"],[role="switch"]',
+        ),
+      )) {
+        add(node, node.tagName.toLowerCase());
+      }
+      for (const node of Array.from(root.querySelectorAll('table'))) add(node, 'table', true);
+
+      return Array.from(seen.values()).sort((a, b) => a.key.localeCompare(b.key));
+    });
+  }
+
   private getSectionDataRows() {
     const table = this.getElement('tblSections');
     return table.locator('tbody tr').filter({

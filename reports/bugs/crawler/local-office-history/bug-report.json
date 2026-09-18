@@ -1,0 +1,260 @@
+{
+  "generatedAt": "2026-09-17T17:00:32.839Z",
+  "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+  "stopReason": "completed — frontier exhausted",
+  "totals": {
+    "pagesVisited": 1,
+    "actionsPerformed": 86,
+    "scenariosExplored": 37,
+    "bugsFound": 5,
+    "findingsBeforeDedup": 8,
+    "errors": 0,
+    "notTested": 16,
+    "bySeverity": {
+      "Critical": 0,
+      "Major": 2,
+      "Minor": 3,
+      "Trivial": 0
+    },
+    "byCategory": {
+      "Accessibility": 1,
+      "UI": 1,
+      "Data": 1,
+      "Functional": 2
+    }
+  },
+  "configUsed": {
+    "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+    "allowedOrigins": [
+      "https://cloudapps-e2e.encoreglobal.com"
+    ],
+    "excludeUrlPatterns": [
+      "logout",
+      "signout",
+      "sign-out",
+      "\\/api\\/auth\\/signout",
+      "login\\.microsoftonline\\.com",
+      "b2clogin\\.com",
+      "\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)",
+      "^mailto:",
+      "^tel:",
+      "^javascript:",
+      "\\/api\\/",
+      "\\/_next\\/",
+      "\\/auth\\/signin",
+      "\\/reports\\/download"
+    ],
+    "includeUrlPatterns": [
+      "settings\\/local-office"
+    ],
+    "auth": {
+      "mode": "storage-state",
+      "signedInSelector": "h1"
+    },
+    "limits": {
+      "maxPages": 4,
+      "maxActionsPerPage": 110,
+      "maxTotalActions": 120,
+      "maxDepth": 1,
+      "maxDurationMs": 900000,
+      "settleMs": 900,
+      "actionTimeoutMs": 8000,
+      "navigationTimeoutMs": 30000
+    },
+    "safety": {
+      "allowWrites": false,
+      "allowDestructive": false
+    },
+    "enabledDetectors": [
+      "page-crash",
+      "console-error",
+      "network-failure",
+      "broken-link",
+      "dead-control",
+      "unexpected-route",
+      "form-validation",
+      "input-boundary",
+      "placeholder-text",
+      "missing-label",
+      "accessibility",
+      "layout",
+      "page-title"
+    ],
+    "captureScreenshots": true,
+    "outputDir": "reports/bugs/crawler/local-office-history"
+  },
+  "bugs": [
+    {
+      "id": "BUG-CTRL-001",
+      "title": "\"Click to restore sidebar\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "2. Click \"Click to restore sidebar\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-001.png",
+        "domSnippet": null,
+        "selector": "div:nth-of-type(1) > div:nth-of-type(2) > div > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:59:24.747Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "af803ffda37e"
+    },
+    {
+      "id": "BUG-CTRL-002",
+      "title": "\"More information\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "2. Click \"More information\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-002.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(2) > div > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:59:39.897Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "694dacec4770"
+    },
+    {
+      "id": "BUG-LABEL-001",
+      "title": "28 form control(s) have no accessible label on Local Office",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "missing-label",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "2. Inspect the form controls listed above and confirm none carries a label association."
+      ],
+      "expectedResult": "Every form control is named by a <label for>, aria-label or aria-labelledby, so assistive technology can announce it.",
+      "actualResult": "28 control(s) are named only by placeholder text or by nothing at all: input (-1); input (1); input (-1); input (1); input (0)",
+      "evidence": {
+        "screenshot": "evidence/BUG-LABEL-001.png",
+        "domSnippet": null,
+        "selector": "[data-testid=\"local-office-settings-input-prep-date-offset\"]",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:58:41.407Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "Local Office > Location Settings History — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "Local Office > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office"
+      ],
+      "fingerprint": "d5f272af2270"
+    },
+    {
+      "id": "BUG-LAYOUT-001",
+      "title": "Interactive elements overlap on Local Office",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office"
+      ],
+      "expectedResult": "Controls do not sit on top of one another — an overlapped control cannot be clicked reliably.",
+      "actualResult": "1 overlapping pair(s). Worst: button \"Click to restore sidebar\" over form \"1604 - Parker Palm Springs Save DEFAULT \" (39% covered).",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:58:41.637Z",
+      "occurrences": 2,
+      "alsoSeenOn": [
+        "Local Office > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office"
+      ],
+      "fingerprint": "df4e61c6127b"
+    },
+    {
+      "id": "BUG-TEXT-001",
+      "title": "untranslated i18n key visible on Local Office",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Data",
+      "detector": "placeholder-text",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "2. Click \"Setup\".",
+        "3. Read the page text and locate: untranslated i18n key: \"layout.actions.venueRooms\" (1x)"
+      ],
+      "expectedResult": "Every value shown to a user is a resolved, translated, formatted value.",
+      "actualResult": "The screen renders untranslated i18n key: \"layout.actions.venueRooms\" (1x).",
+      "evidence": {
+        "screenshot": "evidence/BUG-TEXT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:58:56.374Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "30418d7f153a"
+    }
+  ]
+}

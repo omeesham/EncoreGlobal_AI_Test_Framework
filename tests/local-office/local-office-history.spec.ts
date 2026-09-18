@@ -36,6 +36,11 @@ import {
   HISTORY_PAGE_INPUT_ACCEPTED,
   HISTORY_PAGE_INPUT_DECIMAL_DEFECT,
   AUTOMATION_USER,
+  BASIC_INFO_FIELD_TO_HISTORY_COLUMN,
+  BASIC_INFO_FIELDS_WITHOUT_HISTORY_COLUMN,
+  HISTORY_AUDIT_ONLY_COLUMNS,
+  HISTORY_ROUNDTRIP_FIELDS,
+  HISTORY_UNTRACKED_FIELD,
 } from '../../src/data/local-office/local-office-history';
 
 // Location Settings History tab (NM-854). The grid is strictly read-only, so all but TC-034 and
@@ -96,6 +101,37 @@ const isGrouped = (values: string[]): boolean => {
   for (let i = 1; i < values.length; i++) if (values[i] !== values[i - 1]) flips++;
   return flips <= 1;
 };
+
+/**
+ * The newest history entry, read only once two consecutive reads agree.
+ *
+ * A single read can land mid-render — the grid re-renders after a sort, and a row caught halfway
+ * comes back with blank cells. That matters more here than anywhere else in this file: the
+ * scenario that compares two entries would see the blanks as a difference and PASS, reporting
+ * that a phantom entry recorded a change when it recorded nothing. A test that goes green on the
+ * bug it exists to catch is worse than no test, so this waits for the row to hold still.
+ */
+async function readSettledTopHistoryRow(
+  pg: LocalOfficeHistoryPage,
+  headers: string[],
+  attempts = 6,
+): Promise<Record<string, string>> {
+  let previous = '';
+  let row: Record<string, string> = {};
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    row = (await pg.getHistoryRowValues(0, headers)) as Record<string, string>;
+    // Stability alone is not enough: two consecutive reads of a HALF-RENDERED row agree with each
+    // other perfectly well, and a row of blanks compares as different from a real one — which
+    // reads as "the entry recorded a change" and passes the very scenario meant to catch a
+    // phantom. A row without its audit stamp is not a row yet.
+    const stamped = (row['Modified On'] ?? '').trim() !== '' && (row['Modified By'] ?? '').trim() !== '';
+    const fingerprint = JSON.stringify(row);
+    if (stamped && attempt > 0 && fingerprint === previous) return row;
+    previous = stamped ? fingerprint : '';
+    await pg.page.waitForTimeout(400);
+  }
+  return row;
+}
 
 /** Every sortable column with its first `rows` values — one header pass, one matrix pass. */
 async function sampleSortableColumns(pg: LocalOfficeHistoryPage, rows = 8): Promise<ColumnSample[]> {
@@ -271,7 +307,9 @@ test.describe('Local Office Location Settings History @local-office @location-se
     dependencyGate(['TC-LOE-HIST-001']);
     await about('Leaving the History tab for Basic Information and coming back shows the same list again, not a second copy and not a reloaded one.');
     const headersBefore = await pg.getHistoryColumnHeaders();
-    const rowsBefore = await pg.getHistoryRowCount();
+    // Stable counts on BOTH sides: the baseline and the post-re-entry read must each be a settled
+    // value, or the comparison measures a re-render window rather than the grid's contents.
+    const rowsBefore = await pg.getStableHistoryRowCount();
 
     await phase('Switch to Basic Information and then back to History', async () => {
       await pg.clickTab('tabBasicInformation');
@@ -282,7 +320,7 @@ test.describe('Local Office Location Settings History @local-office @location-se
 
     await verify('Check the same columns and the same number of entries come back, in a single list', async () => {
       expect(await pg.getHistoryColumnHeaders()).toEqual(headersBefore);
-      expect(await pg.getHistoryRowCount()).toBe(rowsBefore);
+      expect(await pg.getStableHistoryRowCount()).toBe(rowsBefore);
       expect(await pg.getHistoryTableCount(), 'the panel must not render a second grid').toBe(1);
     });
   });
@@ -1595,6 +1633,288 @@ test.describe('Local Office Location Settings History @local-office @location-se
       expect(overflow.pageOverflowPx, 'long composite cells pushed the page into horizontal scroll').toBeLessThanOrEqual(1);
       expect(overflow.containerScrollsHorizontally).toBe(true);
     });
+  });
+
+
+  // ------------------------------------------------------------ 9. Audit completeness
+  //
+  // The scenarios above prove the history grid has its columns, and TC-034 proves that ONE text
+  // field reaches them. Neither answers the question the change request exists to answer: is the
+  // audit trail complete? A column that is present but never written is invisible to every
+  // scenario before this point, and so is a settings field that has no column at all.
+
+  test('TC-LOE-HIST-044: Every Basic Information setting has a column in Location Settings History', async ({ localOfficeHistoryPage: pg, dependencyGate }) => {
+    dependencyGate(['TC-LOE-HIST-001']);
+    await about('Every setting a user can change on Basic Information is one the History list can record, so nothing a user changes goes unrecorded.');
+    test.setTimeout(180_000);
+
+    // Read LIVE rather than from a list. A written-down inventory can only confirm what we already
+    // believed; the form is what is true, so a field added next sprint fails here on its own.
+    const inventory = await phase('Read every setting on the Basic Information tab', async () => {
+      await pg.navigateToBasicInfoTab(OFFICE_NO);
+      return pg.getBasicInfoFieldInventory();
+    });
+
+    const columns = await phase('Read the History column headers', async () => {
+      await pg.navigateToHistoryTab();
+      await pg.waitForHistoryGridLoaded();
+      return pg.getHistoryColumnHeaders();
+    });
+
+    await attachNote(
+      'Basic Information settings found on the live form',
+      inventory.map((field) => `${field.key}  (${field.kind})`).join('\n'),
+    );
+
+    await verify('Check the field-to-column map still covers every setting the form offers', async () => {
+      // A field the map has never heard of is not passing — it is unexamined. Failing here forces
+      // a decision about a new field instead of letting it drift into the gap below unnoticed.
+      const known = new Set([
+        ...Object.keys(BASIC_INFO_FIELD_TO_HISTORY_COLUMN),
+        ...BASIC_INFO_FIELDS_WITHOUT_HISTORY_COLUMN,
+      ]);
+      const unrecognised = inventory.map((field) => field.key).filter((key) => !known.has(key));
+      expect(
+        unrecognised,
+        `Basic Information offers setting(s) this suite has never classified: ${unrecognised.join(', ')}. ` +
+          'Add each to BASIC_INFO_FIELD_TO_HISTORY_COLUMN, or to BASIC_INFO_FIELDS_WITHOUT_HISTORY_COLUMN as a defect.',
+      ).toEqual([]);
+    });
+
+    const token = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const headerTokens = new Set(columns.map(token));
+
+    await verify('Check every mapped setting still has its column in the History grid', async () => {
+      const absent = inventory
+        .filter((field) => field.key in BASIC_INFO_FIELD_TO_HISTORY_COLUMN)
+        .map((field) => ({ field: field.key, column: BASIC_INFO_FIELD_TO_HISTORY_COLUMN[field.key] as string }))
+        .filter((entry) => !headerTokens.has(token(entry.column)));
+      expect(
+        absent.map((entry) => `${entry.field} -> "${entry.column}"`),
+        'settings whose history column has disappeared from the grid',
+      ).toEqual([]);
+    });
+
+    await verify('Check no setting on the form is left with no column at all', async () => {
+      const present = new Set(inventory.map((field) => field.key));
+      // Split deliberately: a gap already raised reads differently from one that appeared today,
+      // and a failure message that cannot tell them apart gets ignored after the first week.
+      const knownGaps = BASIC_INFO_FIELDS_WITHOUT_HISTORY_COLUMN.filter((key) => present.has(key));
+      const newGaps = inventory
+        .map((field) => field.key)
+        .filter((key) => !(key in BASIC_INFO_FIELD_TO_HISTORY_COLUMN))
+        .filter((key) => !BASIC_INFO_FIELDS_WITHOUT_HISTORY_COLUMN.includes(key));
+
+      await attachNote(
+        'Audit coverage',
+        `settings on the form: ${inventory.length}\n` +
+          `recorded in history:  ${inventory.length - knownGaps.length - newGaps.length}\n` +
+          `known gaps:           ${knownGaps.join(', ') || 'none'}\n` +
+          `NEW gaps:             ${newGaps.join(', ') || 'none'}`,
+      );
+
+      expect(newGaps, 'settings with no history column that were not previously known').toEqual([]);
+      // Known gaps are not excused. The audit trail is incomplete while they are open, and this
+      // scenario goes on saying so until the columns exist.
+      expect(
+        knownGaps,
+        `${knownGaps.length} Basic Information setting(s) have NO history column, so changing them is never recorded: ` +
+          `${knownGaps.join(', ')}. Confirmed live by saving a PO Number change and finding it in none of the ${columns.length} columns.`,
+      ).toEqual([]);
+    });
+  });
+
+  test('TC-LOE-HIST-045: Saving an untracked field does not create a history entry identical to the one before it', async ({ localOfficeHistoryPage: pg, dependencyGate }) => {
+    dependencyGate(['TC-LOE-HIST-001']);
+    await about('Changing something History cannot record must not add an entry that claims a change and shows none, which a reader has no way to explain.');
+    test.setTimeout(420_000);
+
+    const dataColumnsOf = (headers: string[]) => headers.filter((header) => !HISTORY_AUDIT_ONLY_COLUMNS.includes(header));
+
+    await pg.navigateToBasicInfoTab(OFFICE_NO);
+    const originalTracked = await pg.getInputValue(HISTORY_INTEGRATION_FIELD.key);
+    const originalUntracked = await pg.getInputValue(HISTORY_UNTRACKED_FIELD.key);
+    // Derived from the live values: a net-zero edit leaves the form pristine and Save never enables.
+    const trackedProbe = originalTracked === HISTORY_INTEGRATION_FIELD.probeValue
+      ? HISTORY_INTEGRATION_FIELD.altProbeValue
+      : HISTORY_INTEGRATION_FIELD.probeValue;
+    const untrackedProbe = originalUntracked === HISTORY_UNTRACKED_FIELD.probeValue
+      ? HISTORY_UNTRACKED_FIELD.altProbeValue
+      : HISTORY_UNTRACKED_FIELD.probeValue;
+
+    try {
+      // The baseline is CREATED here rather than read from whatever is already at the top of the
+      // grid. Reading the existing newest entry made this scenario depend on what ran before it:
+      // a save from an earlier scenario that had not yet surfaced in the grid left a stale
+      // baseline, the untracked save then appeared to change something, and the scenario passed
+      // on the very defect it exists to catch. Owning both entries removes that entirely.
+      const baseline = await phase('Make a tracked change, so the entry to compare against is one we made', async () => {
+        await pg.fillAndTab(HISTORY_INTEGRATION_FIELD.key, trackedProbe);
+        expect(await pg.waitForSaveToEnable(10_000), 'the tracked field did not enable Save').toBe(true);
+        const result = await pg.clickSaveAndConfirm();
+        expect(result.success, `baseline save failed: ${result.networkError ?? 'unknown error'}`).toBe(true);
+
+        await pg.navigateToHistoryTab();
+        await pg.waitForHistoryGridLoaded();
+        await pg.sortHistoryColumn(HISTORY_SORT_COLUMN, 'descending');
+        await pg.waitForRecentTopHistoryRow();
+        const headers = await pg.getHistoryColumnHeaders();
+        return { headers, row: await readSettledTopHistoryRow(pg, headers) };
+      });
+
+      await verify('Check the baseline entry recorded the tracked change, so the grid is demonstrably live', async () => {
+        // Without this the scenario could compare two entries in a grid that is simply not
+        // updating, and report a phantom where the real fault was that nothing refreshed.
+        expect(baseline.row[HISTORY_INTEGRATION_FIELD.column]).toContain(trackedProbe);
+      });
+
+      await pg.navigateToBasicInfoTab(OFFICE_NO);
+      await pg.fillAndTab(HISTORY_UNTRACKED_FIELD.key, untrackedProbe);
+      await verify(`Check editing "${HISTORY_UNTRACKED_FIELD.label}" enables Save, so the field is genuinely editable`, async () => {
+        expect(await pg.waitForSaveToEnable(10_000)).toBe(true);
+      });
+
+      const saveResult = await pg.clickSaveAndConfirm();
+      await verify('Check the untracked change saves', async () => {
+        expect(saveResult.success, `save failed: ${saveResult.networkError ?? 'unknown error'}`).toBe(true);
+      });
+
+      await pg.navigateToHistoryTab();
+      await pg.waitForHistoryGridLoaded();
+      await pg.sortHistoryColumn(HISTORY_SORT_COLUMN, 'descending');
+      // The same guard the baseline read uses. Its absence here was the asymmetry that made this
+      // scenario intermittent: the baseline waited for a freshly written row and this read did
+      // not, so it could compare a settled entry against one still being painted.
+      await pg.waitForRecentTopHistoryRow();
+      const after = await readSettledTopHistoryRow(pg, baseline.headers);
+      const baselineStamp = baseline.row[HISTORY_SORT_COLUMN] ?? '';
+      const afterStamp = after[HISTORY_SORT_COLUMN] ?? '';
+      const recordWasCreated = afterStamp !== baselineStamp;
+
+      const dataColumns = dataColumnsOf(baseline.headers);
+      const differing = dataColumns.filter((column) => (baseline.row[column] ?? '') !== (after[column] ?? ''));
+
+      // The differing columns are the evidence either way: empty is the phantom entry, and
+      // non-empty names exactly what the untracked save did record — which is the part a reader
+      // needs whether this passes or fails.
+      await attachNote(
+        'The two entries being compared',
+        `baseline (tracked change): ${baselineStamp}\n` +
+          `after (untracked change):  ${afterStamp}\n` +
+          `new entry created:         ${recordWasCreated}\n` +
+          `columns that differ:       ${differing.length
+            ? differing.map((column) => `${column}: "${baseline.row[column] ?? ''}" -> "${after[column] ?? ''}"`).join(' | ')
+            : 'NONE — the entry is identical to the one before it'}`,
+      );
+
+      // Creating no entry is a legitimate answer: nothing the grid tracks changed. Creating one
+      // that is identical to its predecessor is not — it claims a change and shows none.
+      test.skip(!recordWasCreated, 'no history entry was created for the untracked change — acceptable behaviour, nothing to compare');
+
+      await verify('Check the new entry shows what actually changed', async () => {
+        expect(
+          Object.keys(after).length,
+          'the two history reads returned different column sets — the grid was still rendering',
+        ).toBe(Object.keys(baseline.row).length);
+
+        expect(
+          differing,
+          `a new history entry was created at ${afterStamp} but is identical to the entry before it across all ` +
+            `${dataColumns.length} data columns — it records that "someone changed something" with no way to see what. ` +
+            `The change made was ${HISTORY_UNTRACKED_FIELD.label} -> "${untrackedProbe}".`,
+        ).not.toEqual([]);
+      });
+    } finally {
+      await pg.navigateToBasicInfoTab(OFFICE_NO);
+      await pg.fillAndTab(HISTORY_UNTRACKED_FIELD.key, originalUntracked);
+      await pg.fillAndTab(HISTORY_INTEGRATION_FIELD.key, originalTracked);
+      if (await pg.waitForSaveToEnable(5_000)) await pg.clickSaveAndConfirm();
+    }
+  });
+
+  test('TC-LOE-HIST-046: A number, a tick box and a dropdown each reach their history column when saved', async ({ localOfficeHistoryPage: pg, dependencyGate }) => {
+    dependencyGate(['TC-LOE-HIST-001']);
+    await about('Changing a number, a tick box and a dropdown each shows up in the matching History column, so the columns are written to and not merely present.');
+    // Three fields, each saved and then restored: six save cycles at roughly 40-60s apiece.
+    test.setTimeout(900_000);
+
+    for (const field of HISTORY_ROUNDTRIP_FIELDS) {
+      // Each field is its own phase, so a failure names the kind that broke and the restore runs
+      // per field rather than leaving the later fields unattempted.
+      await phase(`Round-trip the ${field.kind} field "${field.key}" through save and History`, async () => {
+        await pg.navigateToBasicInfoTab(OFFICE_NO);
+
+        let original: string;
+        let probe: string;
+        let expected: string;
+
+        if (field.kind === 'checkbox') {
+          const state = await pg.getCheckboxState(field.key);
+          original = String(state.checked);
+          probe = String(!state.checked);
+          // A boolean column renders a check glyph or a blank, never the words true/false.
+          expected = state.checked ? '' : HISTORY_CHECK_GLYPH;
+          if (state.checked) await pg.uncheckCheckbox(field.key);
+          else await pg.checkCheckbox(field.key);
+        } else if (field.kind === 'combobox') {
+          original = await pg.getComboboxValue(field.key);
+          const options = await pg.getComboboxOptionsList(field.key);
+          const alternative = options.find((option) => option.trim() !== original.trim());
+          test.skip(!alternative, `"${field.key}" offers no second option to switch to — data precondition`);
+          probe = alternative as string;
+          expected = probe;
+          await pg.selectComboboxExact(field.key, probe);
+        } else {
+          original = await pg.getInputValue(field.key);
+          // Derived from the live value so the edit is never net-zero, which would leave Save off
+          // — and sign-preserving, because a date-offset edit that flips the sign is silently
+          // discarded by the form (OFFSET_SIGN_FLIP_DEFECT). Probing across the sign would fail
+          // this scenario for a reason that has nothing to do with what it is measuring.
+          const current = Number(original.trim());
+          const magnitude = Math.abs(current) === 2 ? 3 : 2;
+          probe = current < 0 ? String(-magnitude) : String(magnitude);
+          expected = probe;
+          await pg.fillAndTab(field.key, probe);
+        }
+
+        try {
+          await verify(`Check changing "${field.key}" enables Save`, async () => {
+            expect(await pg.waitForSaveToEnable(10_000)).toBe(true);
+          });
+
+          const saveResult = await pg.clickSaveAndConfirm();
+          await verify(`Check the ${field.kind} change saves`, async () => {
+            expect(saveResult.success, `save failed: ${saveResult.networkError ?? 'unknown error'}`).toBe(true);
+          });
+
+          await pg.navigateToHistoryTab();
+          await pg.waitForHistoryGridLoaded();
+          await pg.sortHistoryColumn(HISTORY_SORT_COLUMN, 'descending');
+          await pg.waitForRecentTopHistoryRow();
+          const recorded = await pg.getHistoryColumnByHeader(0, field.column);
+
+          await verify(`Check "${field.column}" in History holds the value that was just saved`, async () => {
+            // The regression this exists for: a column present on every screen and written on
+            // none. Asserting the VALUE is the only way to tell those two states apart.
+            expect(
+              recorded.trim(),
+              `${field.key} was saved as "${probe}" but the newest history entry shows "${recorded}" in "${field.column}"`,
+            ).toBe(expected);
+          });
+        } finally {
+          await pg.navigateToBasicInfoTab(OFFICE_NO);
+          if (field.kind === 'checkbox') {
+            if (original === 'true') await pg.checkCheckbox(field.key);
+            else await pg.uncheckCheckbox(field.key);
+          } else if (field.kind === 'combobox') {
+            await pg.selectComboboxExact(field.key, original);
+          } else {
+            await pg.fillAndTab(field.key, original);
+          }
+          if (await pg.waitForSaveToEnable(5_000)) await pg.clickSaveAndConfirm();
+        }
+      });
+    }
   });
 
 });

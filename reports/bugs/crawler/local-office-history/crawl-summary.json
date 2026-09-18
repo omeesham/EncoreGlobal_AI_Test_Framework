@@ -1,0 +1,1515 @@
+{
+  "startedAt": "2026-09-17T16:58:25.714Z",
+  "finishedAt": "2026-09-17T17:00:32.824Z",
+  "durationMs": "127s",
+  "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+  "configUsed": {
+    "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+    "allowedOrigins": [
+      "https://cloudapps-e2e.encoreglobal.com"
+    ],
+    "excludeUrlPatterns": [
+      "logout",
+      "signout",
+      "sign-out",
+      "\\/api\\/auth\\/signout",
+      "login\\.microsoftonline\\.com",
+      "b2clogin\\.com",
+      "\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)",
+      "^mailto:",
+      "^tel:",
+      "^javascript:",
+      "\\/api\\/",
+      "\\/_next\\/",
+      "\\/auth\\/signin",
+      "\\/reports\\/download"
+    ],
+    "includeUrlPatterns": [
+      "settings\\/local-office"
+    ],
+    "auth": {
+      "mode": "storage-state",
+      "signedInSelector": "h1"
+    },
+    "limits": {
+      "maxPages": 4,
+      "maxActionsPerPage": 110,
+      "maxTotalActions": 120,
+      "maxDepth": 1,
+      "maxDurationMs": 900000,
+      "settleMs": 900,
+      "actionTimeoutMs": 8000,
+      "navigationTimeoutMs": 30000
+    },
+    "safety": {
+      "allowWrites": false,
+      "allowDestructive": false
+    },
+    "enabledDetectors": [
+      "page-crash",
+      "console-error",
+      "network-failure",
+      "broken-link",
+      "dead-control",
+      "unexpected-route",
+      "form-validation",
+      "input-boundary",
+      "placeholder-text",
+      "missing-label",
+      "accessibility",
+      "layout",
+      "page-title"
+    ],
+    "captureScreenshots": true,
+    "outputDir": "reports/bugs/crawler/local-office-history"
+  },
+  "pagesVisited": [
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "normalizedUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office",
+      "module": "Local Office",
+      "depth": 0,
+      "title": "Local Office Settings | Navigator",
+      "elementCount": 78,
+      "actionsPerformed": 86,
+      "bugsFound": 8,
+      "durationMs": 118951,
+      "reachedVia": "start URL"
+    }
+  ],
+  "actionsPerformed": [
+    {
+      "description": "Open the \"Location Settings History\" tab.",
+      "kind": "tab",
+      "elementName": "Location Settings History",
+      "selector": "[data-testid=\"local-office-settings-tab-location-settings-history\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::tab::local-office-settings-tab-location-settings-history",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"Basic Information\" tab.",
+      "kind": "tab",
+      "elementName": "Basic Information",
+      "selector": "[data-testid=\"local-office-settings-tab-basic-information\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::tab::local-office-settings-tab-basic-information",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"ECT Settings\" tab.",
+      "kind": "tab",
+      "elementName": "ECT Settings",
+      "selector": "[data-testid=\"local-office-settings-tab-ect-settings\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::tab::local-office-settings-tab-ect-settings",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"Select Currency :\" dropdown.",
+      "kind": "select",
+      "elementName": "Select Currency :",
+      "selector": "[data-testid=\"ect-settings-select-currency\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::select::ect-settings-select-currency",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"1604 Parker Palm Springs\".",
+      "kind": "button",
+      "elementName": "1604 Parker Palm Springs",
+      "selector": "#radix-_r_0_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::1604 parker palm springs",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Actions\".",
+      "kind": "button",
+      "elementName": "Actions",
+      "selector": "#radix-_r_4_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::actions",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Commissions\".",
+      "kind": "button",
+      "elementName": "Commissions",
+      "selector": "#radix-_r_7_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::commissions",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Tax\".",
+      "kind": "button",
+      "elementName": "Tax",
+      "selector": "#radix-_r_a_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::tax",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Setup\".",
+      "kind": "button",
+      "elementName": "Setup",
+      "selector": "#radix-_r_d_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::setup",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Warehouse\".",
+      "kind": "button",
+      "elementName": "Warehouse",
+      "selector": "#radix-_r_g_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::warehouse",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Studio\".",
+      "kind": "button",
+      "elementName": "Studio",
+      "selector": "#radix-_r_j_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::studio",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"20.0%\" field.",
+      "kind": "input",
+      "elementName": "20.0%",
+      "selector": "[data-testid=\"ect-settings-input-benefits-multiplier\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-benefits-multiplier",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"0.0%\" field.",
+      "kind": "input",
+      "elementName": "0.0%",
+      "selector": "[data-testid=\"ect-settings-input-historical-subrental\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-historical-subrental",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"41.00\" field.",
+      "kind": "input",
+      "elementName": "41.00",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-0\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-0",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"35.00\" field.",
+      "kind": "input",
+      "elementName": "35.00",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-1\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-1",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-2\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-2",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Ask Encore\".",
+      "kind": "button",
+      "elementName": "Ask Encore",
+      "selector": "div:nth-of-type(3) > ul > li > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::ask encore",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-3\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-3",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"input\" field.",
+      "kind": "textarea",
+      "elementName": "input",
+      "selector": "div:nth-of-type(3) > div > div > textarea",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::textarea::input",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-4\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-4",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-5\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-5",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-6\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-6",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-7\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-7",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"PC prd click auto\".",
+      "kind": "button",
+      "elementName": "PC prd click auto",
+      "selector": "#radix-_r_11_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::pc prd click auto",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-8\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-8",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-9\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-9",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-10\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-10",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-11\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-11",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-12\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-12",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-13\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-13",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-14\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-14",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Click to restore sidebar\".",
+      "kind": "button",
+      "elementName": "Click to restore sidebar",
+      "selector": "div:nth-of-type(1) > div:nth-of-type(2) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::click to restore sidebar",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-15\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-15",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-16\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-16",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-17\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-17",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-18\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-18",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-19\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-19",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-20\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-20",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"trigger-button\".",
+      "kind": "button",
+      "elementName": "trigger-button",
+      "selector": "div > div:nth-of-type(1) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::trigger-button",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-21\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-21",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-22\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-22",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-23\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-23",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-24\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-24",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-25\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-25",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-26\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-26",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"More information\".",
+      "kind": "button",
+      "elementName": "More information",
+      "selector": "div > div:nth-of-type(2) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::more information",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-27\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-27",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"24.44\" field.",
+      "kind": "input",
+      "elementName": "24.44",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-28\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-28",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"26.86\" field.",
+      "kind": "input",
+      "elementName": "26.86",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-29\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-29",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"26.86\" field.",
+      "kind": "input",
+      "elementName": "26.86",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-30\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-30",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-31\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-31",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-32\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-32",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"41.00\" field.",
+      "kind": "input",
+      "elementName": "41.00",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-33\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-33",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-34\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-34",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-35\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-35",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-36\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-36",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-37\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-37",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-38\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-38",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-39\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-39",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-40\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-40",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-41\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-41",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-42\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-42",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-43\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-43",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-44\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-44",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-45\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-45",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-46\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-46",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-47\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-47",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-48\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-48",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-49\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-49",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-50\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-50",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-51\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-51",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-52\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-52",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-53\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-53",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"50.00\" field.",
+      "kind": "input",
+      "elementName": "50.00",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-54\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-54",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-55\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-55",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-56\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-56",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-57\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-57",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-58\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-58",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"43.84\" field.",
+      "kind": "input",
+      "elementName": "43.84",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-59\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-59",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"47.21\" field.",
+      "kind": "input",
+      "elementName": "47.21",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-60\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-60",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"33.63\" field.",
+      "kind": "input",
+      "elementName": "33.63",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-61\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-61",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-62\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-62",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-63\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-63",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-64\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-64",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"37.10\" field.",
+      "kind": "input",
+      "elementName": "37.10",
+      "selector": "[data-testid=\"ect-settings-input-labor-cost-65\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::input::ect-settings-input-labor-cost-65",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Full Screen\".",
+      "kind": "button",
+      "elementName": "Full Screen",
+      "selector": "div > div:nth-of-type(1) > div > button:nth-of-type(1)",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/chat/00000000-0000-0000-0000-000000000000",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/settings/local-office::button::full screen",
+      "outcome": "navigated",
+      "ok": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Exercise tab: Location Settings History",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise tab: Basic Information",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise tab: ECT Settings",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise select: Select Currency :",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from 1604 Parker Palm Springs",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Actions",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Commissions",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Tax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Setup",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Warehouse",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Studio",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise input: 20.0%",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise button: Ask Encore",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise textarea: input",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from PC prd click auto",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise input: 37.10",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 37.10",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 37.10",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 37.10",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise button: trigger-button",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 37.10",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 43.84",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 43.84",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 24.44",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 41.00",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 37.10",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 37.10",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 43.84",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 43.84",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 43.84",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 43.84",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 43.84",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 43.84",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 43.84",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 37.10",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise input: 37.10",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Navigate via button: Full Screen",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "outcome": "explored",
+      "detail": "Landed on https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/chat/00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "bugs": [
+    {
+      "id": "BUG-CTRL-001",
+      "title": "\"Click to restore sidebar\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "2. Click \"Click to restore sidebar\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-001.png",
+        "domSnippet": null,
+        "selector": "div:nth-of-type(1) > div:nth-of-type(2) > div > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:59:24.747Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "af803ffda37e"
+    },
+    {
+      "id": "BUG-CTRL-002",
+      "title": "\"More information\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "2. Click \"More information\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-002.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(2) > div > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:59:39.897Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "694dacec4770"
+    },
+    {
+      "id": "BUG-LABEL-001",
+      "title": "28 form control(s) have no accessible label on Local Office",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "missing-label",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "2. Inspect the form controls listed above and confirm none carries a label association."
+      ],
+      "expectedResult": "Every form control is named by a <label for>, aria-label or aria-labelledby, so assistive technology can announce it.",
+      "actualResult": "28 control(s) are named only by placeholder text or by nothing at all: input (-1); input (1); input (-1); input (1); input (0)",
+      "evidence": {
+        "screenshot": "evidence/BUG-LABEL-001.png",
+        "domSnippet": null,
+        "selector": "[data-testid=\"local-office-settings-input-prep-date-offset\"]",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:58:41.407Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "Local Office > Location Settings History — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "Local Office > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office"
+      ],
+      "fingerprint": "d5f272af2270"
+    },
+    {
+      "id": "BUG-LAYOUT-001",
+      "title": "Interactive elements overlap on Local Office",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office"
+      ],
+      "expectedResult": "Controls do not sit on top of one another — an overlapped control cannot be clicked reliably.",
+      "actualResult": "1 overlapping pair(s). Worst: button \"Click to restore sidebar\" over form \"1604 - Parker Palm Springs Save DEFAULT \" (39% covered).",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:58:41.637Z",
+      "occurrences": 2,
+      "alsoSeenOn": [
+        "Local Office > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office"
+      ],
+      "fingerprint": "df4e61c6127b"
+    },
+    {
+      "id": "BUG-TEXT-001",
+      "title": "untranslated i18n key visible on Local Office",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Data",
+      "detector": "placeholder-text",
+      "module": "Local Office",
+      "page": "Local Office",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: Local Office."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+        "2. Click \"Setup\".",
+        "3. Read the page text and locate: untranslated i18n key: \"layout.actions.venueRooms\" (1x)"
+      ],
+      "expectedResult": "Every value shown to a user is a resolved, translated, formatted value.",
+      "actualResult": "The screen renders untranslated i18n key: \"layout.actions.venueRooms\" (1x).",
+      "evidence": {
+        "screenshot": "evidence/BUG-TEXT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "firstSeenAt": "2026-09-17T16:58:56.374Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "30418d7f153a"
+    }
+  ],
+  "errors": [],
+  "notTested": [
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/home",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/inbox",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/orders",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/fulfillments",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/assets",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/customers",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/packages",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/products",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Open the \"Basic Information\" tab.",
+      "reason": "tab is already the selected one"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click \"DRO Search\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click \"Payment Search\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click \"ECT Search\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click \"Event Agendas\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office :: Click \"Save\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/chat/00000000-0000-0000-0000-000000000000",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/local-office",
+      "reason": "remaining controls not exercised — \"Full Screen\" navigated away"
+    }
+  ],
+  "stopReason": "completed — frontier exhausted",
+  "totals": {
+    "pagesVisited": 1,
+    "actionsPerformed": 86,
+    "scenariosExplored": 37,
+    "bugsFound": 5,
+    "findingsBeforeDedup": 8,
+    "errors": 0,
+    "notTested": 16,
+    "bySeverity": {
+      "Critical": 0,
+      "Major": 2,
+      "Minor": 3,
+      "Trivial": 0
+    },
+    "byCategory": {
+      "Accessibility": 1,
+      "UI": 1,
+      "Data": 1,
+      "Functional": 2
+    }
+  }
+}

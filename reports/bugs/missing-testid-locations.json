@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-16T16:22:52.765Z",
+  "generatedAt": "2026-09-17T14:40:52.172Z",
   "scope": "locations",
   "sources": [
     "src/selectors/locations",
@@ -30,6 +30,9 @@
       "kind": "definition",
       "key": "btnAccListClose",
       "type": "button",
+      "element": "Acc List Close button",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-account-list\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-account-list\"] button:has-text(\"Close\")",
       "step": "",
       "strategy": "text match + bare tag + inside data-testid container",
@@ -45,6 +48,13 @@
         "Setup > Location Settings > Account and Address",
         "open the \"account list\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the lookup button beside the Venue/Branch Account name. (opens the **account list** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-account-list\"] button",
       "textHints": [
         "Close"
@@ -58,6 +68,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -75,6 +86,9 @@
       "kind": "definition",
       "key": "chkAccListRowSelect",
       "type": "checkbox",
+      "element": "Acc List Row Select checkbox at row 1, column 1",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-account-list\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-account-list\"] tbody tr:first-child td:first-child button[role=\"checkbox\"]",
       "step": "",
       "strategy": "positional (nth/first/last-child) + role attribute + inside data-testid container",
@@ -91,6 +105,14 @@
         "open the \"account list\" dialog",
         "in the results grid: the first row, first column"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the lookup button beside the Venue/Branch Account name. (opens the **account list** dialog)",
+        "Look at the first row, first column of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-account-list\"] tbody tr:first-child td:first-child button[role=\"checkbox\"]",
       "textHints": [],
       "ancestorTestid": "location-settings-modal-account-list",
@@ -102,6 +124,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -119,6 +142,9 @@
       "kind": "definition",
       "key": "tblAccListResults",
       "type": "table",
+      "element": "Acc List Results table",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-account-list\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-account-list\"] table",
       "step": "",
       "strategy": "bare tag + inside data-testid container",
@@ -133,6 +159,13 @@
         "Setup > Location Settings > Account and Address",
         "open the \"account list\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the lookup button beside the Venue/Branch Account name. (opens the **account list** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-account-list\"] table",
       "textHints": [],
       "ancestorTestid": "location-settings-modal-account-list",
@@ -144,6 +177,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -161,6 +195,9 @@
       "kind": "definition",
       "key": "dlgSelectAddress",
       "type": "dialog",
+      "element": "Dialog (\"Select Customer Address\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -175,6 +212,13 @@
         "Setup > Location Settings > Account and Address",
         "open the \"Select Customer Address\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"]",
       "textHints": [
         "Select Customer Address"
@@ -188,6 +232,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -205,6 +250,9 @@
       "kind": "definition",
       "key": "txtAddrSearch",
       "type": "input",
+      "element": "Addr Search input field",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") input[placeholder=\"Search...\"]",
       "step": "",
       "strategy": "text match + placeholder text + role attribute",
@@ -220,6 +268,13 @@
         "Setup > Location Settings > Account and Address",
         "open the \"Select Customer Address\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] input[placeholder=\"Search...\"]",
       "textHints": [
         "Select Customer Address"
@@ -233,6 +288,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -250,6 +306,9 @@
       "kind": "definition",
       "key": "btnAddrSelect",
       "type": "button",
+      "element": "Addr Select button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") button:has-text(\"Select\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -263,6 +322,13 @@
       "uiSteps": [
         "Setup > Location Settings > Account and Address",
         "open the \"Select Customer Address\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] button",
       "textHints": [
@@ -278,6 +344,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -295,6 +362,9 @@
       "kind": "definition",
       "key": "btnAddrCancel",
       "type": "button",
+      "element": "Addr Cancel button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") button:has-text(\"Cancel\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -308,6 +378,13 @@
       "uiSteps": [
         "Setup > Location Settings > Account and Address",
         "open the \"Select Customer Address\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] button",
       "textHints": [
@@ -323,6 +400,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -340,6 +418,9 @@
       "kind": "definition",
       "key": "btnAddrSave",
       "type": "button",
+      "element": "Addr Save button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") button:has-text(\"Save\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -353,6 +434,13 @@
       "uiSteps": [
         "Setup > Location Settings > Account and Address",
         "open the \"Select Customer Address\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] button",
       "textHints": [
@@ -368,6 +456,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -385,6 +474,9 @@
       "kind": "definition",
       "key": "btnAddrClose",
       "type": "button",
+      "element": "Addr Close button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") button:has-text(\"Close\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -398,6 +490,13 @@
       "uiSteps": [
         "Setup > Location Settings > Account and Address",
         "open the \"Select Customer Address\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] button",
       "textHints": [
@@ -413,6 +512,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -430,6 +530,9 @@
       "kind": "definition",
       "key": "chkAddrRow",
       "type": "checkbox",
+      "element": "Addr Row checkbox at row 1, column 1",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") tbody tr:first-child td:first-child button[role=\"checkbox\"]",
       "step": "",
       "strategy": "positional (nth/first/last-child) + text match + role attribute",
@@ -446,6 +549,14 @@
         "open the \"Select Customer Address\" dialog",
         "in the results grid: the first row, first column"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Look at the first row, first column of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] tbody tr:first-child td:first-child button[role=\"checkbox\"]",
       "textHints": [
         "Select Customer Address"
@@ -459,6 +570,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -476,6 +588,9 @@
       "kind": "definition",
       "key": "tblAddrResults",
       "type": "table",
+      "element": "Addr Results table",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table",
       "step": "",
       "strategy": "text match + role attribute",
@@ -490,6 +605,13 @@
         "Setup > Location Settings > Account and Address",
         "open the \"Select Customer Address\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] table",
       "textHints": [
         "Select Customer Address"
@@ -503,6 +625,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -520,6 +643,9 @@
       "kind": "definition",
       "key": "lblAddrTotal",
       "type": "text",
+      "element": "Label (\"Total Addresses\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") :text(\"Total Addresses\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -533,6 +659,13 @@
       "uiSteps": [
         "Setup > Location Settings > Account and Address",
         "open the \"Select Customer Address\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"]",
       "textHints": [
@@ -548,6 +681,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -565,6 +699,9 @@
       "kind": "definition",
       "key": "txtSaveChangesMessage",
       "type": "text",
+      "element": "Save Changes Message input field",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") p",
       "step": "",
       "strategy": "text match + role attribute",
@@ -579,6 +716,13 @@
         "Setup > Location Settings > Account and Address",
         "open the \"Save Changes\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Change any field on the tab, then click **Save** — the confirmation dialog appears before the change is committed. (opens the **Save Changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"alertdialog\"] p",
       "textHints": [
         "Save Changes"
@@ -592,6 +736,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -609,6 +754,9 @@
       "kind": "definition",
       "key": "btnSaveChangesOk",
       "type": "button",
+      "element": "Save Changes Ok button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has(h2:text-is(\"Save Changes\")) button:has-text(\"Ok\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -622,6 +770,13 @@
       "uiSteps": [
         "Setup > Location Settings > Auto Add-On",
         "open the \"Save Changes\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Auto Add-On** tab.",
+        "Change any field on the tab, then click **Save** — the confirmation dialog appears before the change is committed. (opens the **Save Changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"alertdialog\"] button",
       "textHints": [
@@ -637,6 +792,7 @@
           "module": {
             "key": "auto-addon",
             "name": "Auto Add-On tab",
+            "submodule": "Auto Add-On",
             "code": "AAO",
             "slug": "auto-add-on"
           },
@@ -654,6 +810,9 @@
       "kind": "definition",
       "key": "btnUnsavedChangesStay",
       "type": "button",
+      "element": "Unsaved Changes Stay button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has(h2:text-is(\"Unsaved changes\")) button:has-text(\"Stay\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -667,6 +826,13 @@
       "uiSteps": [
         "Setup > Location Settings > Auto Add-On",
         "open the \"Unsaved changes\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Auto Add-On** tab.",
+        "Change any field, then navigate away without saving (for example click **Home** in the sidebar). (opens the **Unsaved changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"alertdialog\"] button",
       "textHints": [
@@ -682,6 +848,7 @@
           "module": {
             "key": "auto-addon",
             "name": "Auto Add-On tab",
+            "submodule": "Auto Add-On",
             "code": "AAO",
             "slug": "auto-add-on"
           },
@@ -699,6 +866,9 @@
       "kind": "definition",
       "key": "btnUnsavedChangesDiscard",
       "type": "button",
+      "element": "Unsaved Changes Discard button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has(h2:text-is(\"Unsaved changes\")) button:has-text(\"Discard\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -712,6 +882,13 @@
       "uiSteps": [
         "Setup > Location Settings > Auto Add-On",
         "open the \"Unsaved changes\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Auto Add-On** tab.",
+        "Change any field, then navigate away without saving (for example click **Home** in the sidebar). (opens the **Unsaved changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"alertdialog\"] button",
       "textHints": [
@@ -727,6 +904,7 @@
           "module": {
             "key": "auto-addon",
             "name": "Auto Add-On tab",
+            "submodule": "Auto Add-On",
             "code": "AAO",
             "slug": "auto-add-on"
           },
@@ -744,6 +922,9 @@
       "kind": "definition",
       "key": "txtNoMatchesFound",
       "type": "text",
+      "element": "No Matches Found input field",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"listbox\"]:has-text(\"No Matches Found\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -758,6 +939,13 @@
         "Setup > Location Settings > Currency",
         "open the dropdown"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Currency** tab.",
+        "Click the dropdown so its option list is showing.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"listbox\"]",
       "textHints": [
         "No Matches Found"
@@ -771,6 +959,7 @@
           "module": {
             "key": "currency",
             "name": "Currency tab",
+            "submodule": "Currency",
             "code": "CUR",
             "slug": "currency"
           },
@@ -788,6 +977,9 @@
       "kind": "definition",
       "key": "drpMgmtHistoryRowsPerPage",
       "type": "combobox",
+      "element": "Mgmt History Rows Per Page dropdown",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-tab-content-management-history\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-tab-content-management-history\"] button[role=\"combobox\"]:not([data-testid=\"location-settings-select-history-type\"])",
       "step": "",
       "strategy": ":not() disambiguation + role attribute + inside data-testid container",
@@ -802,6 +994,12 @@
       "uiSteps": [
         "Setup > Location Settings > Location Management History"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-tab-content-management-history\"] button[role=\"combobox\"]:not([data-testid=\"location-settings-select-history-type\"])",
       "textHints": [],
       "ancestorTestid": "location-settings-tab-content-management-history",
@@ -813,6 +1011,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -830,6 +1029,9 @@
       "kind": "definition",
       "key": "btnMgmtHistoryFirstPage",
       "type": "button",
+      "element": "Mgmt History First Page button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "button[aria-label=\"Go to first page\"]",
       "step": "",
       "strategy": "aria-label + bare tag",
@@ -843,6 +1045,12 @@
       "uiSteps": [
         "Setup > Location Settings > Location Management History"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "button[aria-label=\"Go to first page\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -854,6 +1062,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -871,6 +1080,9 @@
       "kind": "definition",
       "key": "btnMgmtHistoryPrevPage",
       "type": "button",
+      "element": "Mgmt History Prev Page button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "button[aria-label=\"Go to previous page\"]",
       "step": "",
       "strategy": "aria-label + bare tag",
@@ -884,6 +1096,12 @@
       "uiSteps": [
         "Setup > Location Settings > Location Management History"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "button[aria-label=\"Go to previous page\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -895,6 +1113,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -912,6 +1131,9 @@
       "kind": "definition",
       "key": "btnMgmtHistoryNextPage",
       "type": "button",
+      "element": "Mgmt History Next Page button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "button[aria-label=\"Go to next page\"]",
       "step": "",
       "strategy": "aria-label + bare tag",
@@ -925,6 +1147,12 @@
       "uiSteps": [
         "Setup > Location Settings > Location Management History"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "button[aria-label=\"Go to next page\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -936,6 +1164,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -953,6 +1182,9 @@
       "kind": "definition",
       "key": "btnMgmtHistoryLastPage",
       "type": "button",
+      "element": "Mgmt History Last Page button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "button[aria-label=\"Go to last page\"]",
       "step": "",
       "strategy": "aria-label + bare tag",
@@ -966,6 +1198,12 @@
       "uiSteps": [
         "Setup > Location Settings > Location Management History"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "button[aria-label=\"Go to last page\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -977,6 +1215,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -994,6 +1233,9 @@
       "kind": "definition",
       "key": "drpLineOfBusiness",
       "type": "combobox",
+      "element": "Line Of Business dropdown",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "div:has(> label:text-is(\"Line Of Business\")) button[role=\"combobox\"]",
       "step": "",
       "strategy": "text match + DOM adjacency / parent hop + role attribute",
@@ -1008,6 +1250,12 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "div button[role=\"combobox\"]",
       "textHints": [
         "Line Of Business"
@@ -1021,6 +1269,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1038,6 +1287,9 @@
       "kind": "definition",
       "key": "btnLiveDate",
       "type": "button",
+      "element": "Live Date button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "div:has(> label:text-is(\"Live Date\")) button",
       "step": "",
       "strategy": "text match + DOM adjacency / parent hop + bare tag",
@@ -1052,6 +1304,12 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "div button",
       "textHints": [
         "Live Date"
@@ -1065,6 +1323,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1082,6 +1341,9 @@
       "kind": "definition",
       "key": "drpTaxMode",
       "type": "combobox",
+      "element": "Tax Mode dropdown",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "div:has(> label:text-is(\"Tax Mode\")) button[role=\"combobox\"]",
       "step": "",
       "strategy": "text match + DOM adjacency / parent hop + role attribute",
@@ -1096,6 +1358,12 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "div button[role=\"combobox\"]",
       "textHints": [
         "Tax Mode"
@@ -1109,6 +1377,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1126,6 +1395,9 @@
       "kind": "definition",
       "key": "lblPayToAddress",
       "type": "text",
+      "element": "Label (\"Pay To Address\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "label:has-text(\"Pay To Address\")",
       "step": "",
       "strategy": "text match + bare tag",
@@ -1138,6 +1410,12 @@
       "uiPath": "Setup > Location Settings (left panel)",
       "uiSteps": [
         "Setup > Location Settings (left panel)"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "label",
       "textHints": [
@@ -1152,6 +1430,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1169,6 +1448,9 @@
       "kind": "definition",
       "key": "dlgPayToList",
       "type": "dialog",
+      "element": "Dialog (\"Pay To List\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -1183,6 +1465,13 @@
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"]",
       "textHints": [
         "Pay To List"
@@ -1196,6 +1485,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1213,6 +1503,9 @@
       "kind": "definition",
       "key": "btnPTLSearch",
       "type": "button",
+      "element": "PTL Search button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:has-text(\"Search\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -1226,6 +1519,13 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] button",
       "textHints": [
@@ -1241,6 +1541,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1258,6 +1559,9 @@
       "kind": "definition",
       "key": "btnPTLReset",
       "type": "button",
+      "element": "PTL Reset button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:has-text(\"Reset\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -1271,6 +1575,13 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] button",
       "textHints": [
@@ -1286,6 +1597,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1303,6 +1615,9 @@
       "kind": "definition",
       "key": "btnPTLSelect",
       "type": "button",
+      "element": "PTL Select button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:text-is(\"Select\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -1316,6 +1631,13 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] button",
       "textHints": [
@@ -1331,6 +1653,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1348,6 +1671,9 @@
       "kind": "definition",
       "key": "btnPTLCancel",
       "type": "button",
+      "element": "PTL Cancel button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:has-text(\"Cancel\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -1361,6 +1687,13 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] button",
       "textHints": [
@@ -1376,6 +1709,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1393,6 +1727,9 @@
       "kind": "definition",
       "key": "btnPTLClose",
       "type": "button",
+      "element": "PTL Close button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") button:has-text(\"Close\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -1406,6 +1743,13 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] button",
       "textHints": [
@@ -1421,6 +1765,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1438,6 +1783,9 @@
       "kind": "definition",
       "key": "tblPTLResults",
       "type": "table",
+      "element": "PTL Results table",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") table",
       "step": "",
       "strategy": "text match + role attribute",
@@ -1452,6 +1800,13 @@
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] table",
       "textHints": [
         "Pay To List"
@@ -1465,6 +1820,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1482,6 +1838,9 @@
       "kind": "definition",
       "key": "chkPTLRowFirst",
       "type": "checkbox",
+      "element": "PTL Row First checkbox at row 1, column 1",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") tbody tr:first-child td:first-child button[role=\"checkbox\"]",
       "step": "",
       "strategy": "positional (nth/first/last-child) + text match + role attribute",
@@ -1498,6 +1857,14 @@
         "open the \"Pay To List\" dialog",
         "in the results grid: the first row, first column"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Look at the first row, first column of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] tbody tr:first-child td:first-child button[role=\"checkbox\"]",
       "textHints": [
         "Pay To List"
@@ -1511,6 +1878,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -1528,6 +1896,9 @@
       "kind": "definition",
       "key": "toastLocalInfoUpdated",
       "type": "notification",
+      "element": "Toast notification (\"Local information updated\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "li:has-text(\"Local information updated\")",
       "step": "",
       "strategy": "text match + bare tag",
@@ -1542,6 +1913,13 @@
         "Setup > Location Settings > Local Information",
         "read the toast that appears after saving"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Local Information** tab.",
+        "Click **Save** and watch the toast in the corner — it disappears after a few seconds.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "li",
       "textHints": [
         "Local information updated"
@@ -1555,6 +1933,7 @@
           "module": {
             "key": "local-info",
             "name": "Local Information tab",
+            "submodule": "Local Information",
             "code": "LI",
             "slug": "local-info"
           },
@@ -1572,6 +1951,9 @@
       "kind": "definition",
       "key": "errValidationMessage",
       "type": "text",
+      "element": "Error message (\"Number must be\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "p:has-text(\"Number must be\")",
       "step": "",
       "strategy": "text match + bare tag",
@@ -1584,6 +1966,12 @@
       "uiPath": "Setup > Location Settings > Local Information",
       "uiSteps": [
         "Setup > Location Settings > Local Information"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Local Information** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "p",
       "textHints": [
@@ -1598,6 +1986,7 @@
           "module": {
             "key": "local-info",
             "name": "Local Information tab",
+            "submodule": "Local Information",
             "code": "LI",
             "slug": "local-info"
           },
@@ -1615,6 +2004,9 @@
       "kind": "definition",
       "key": "errMinBoundary",
       "type": "text",
+      "element": "Error message (\"Number must be greater than or equal to 0\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "p:has-text(\"Number must be greater than or equal to 0\")",
       "step": "",
       "strategy": "text match + bare tag",
@@ -1627,6 +2019,12 @@
       "uiPath": "Setup > Location Settings > Local Information",
       "uiSteps": [
         "Setup > Location Settings > Local Information"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Local Information** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "p",
       "textHints": [
@@ -1641,6 +2039,7 @@
           "module": {
             "key": "local-info",
             "name": "Local Information tab",
+            "submodule": "Local Information",
             "code": "LI",
             "slug": "local-info"
           },
@@ -1658,6 +2057,9 @@
       "kind": "definition",
       "key": "errMaxBoundary",
       "type": "text",
+      "element": "Error message (\"Number must be less than or equal to 100\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "p:has-text(\"Number must be less than or equal to 100\")",
       "step": "",
       "strategy": "text match + bare tag",
@@ -1670,6 +2072,12 @@
       "uiPath": "Setup > Location Settings > Local Information",
       "uiSteps": [
         "Setup > Location Settings > Local Information"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Local Information** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "p",
       "textHints": [
@@ -1684,6 +2092,7 @@
           "module": {
             "key": "local-info",
             "name": "Local Information tab",
+            "submodule": "Local Information",
             "code": "LI",
             "slug": "local-info"
           },
@@ -1701,6 +2110,9 @@
       "kind": "definition",
       "key": "chkHRIRemitTax2",
       "type": "checkbox",
+      "element": "HRI Remit Tax2 checkbox",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "dt:has-text(\"HRI Remit Tax 2\") + dd button[role=\"checkbox\"]",
       "step": "",
       "strategy": "text match + DOM adjacency / parent hop + role attribute",
@@ -1715,6 +2127,12 @@
       "uiSteps": [
         "Setup > Location Settings > Local Information"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Local Information** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "dt + dd button[role=\"checkbox\"]",
       "textHints": [
         "HRI Remit Tax 2"
@@ -1728,6 +2146,7 @@
           "module": {
             "key": "local-info",
             "name": "Local Information tab",
+            "submodule": "Local Information",
             "code": "LI",
             "slug": "local-info"
           },
@@ -1745,6 +2164,9 @@
       "kind": "definition",
       "key": "lblNoNotesAvailable",
       "type": "text",
+      "element": "Label (\"No Notes Available\")",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-section-notes\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-section-notes\"] td:has-text(\"No Notes Available\")",
       "step": "",
       "strategy": "text match + bare tag + inside data-testid container",
@@ -1759,6 +2181,12 @@
       "uiSteps": [
         "Setup > Location Settings > Notes"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Notes** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-section-notes\"] td",
       "textHints": [
         "No Notes Available"
@@ -1772,6 +2200,7 @@
           "module": {
             "key": "notes",
             "name": "Notes tab",
+            "submodule": "Notes",
             "code": "NOT",
             "slug": "notes"
           },
@@ -1789,6 +2218,9 @@
       "kind": "definition",
       "key": "txtNoteRow0",
       "type": "input",
+      "element": "Note Row0 input field",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "textarea[name=\"notes.notes.0.note\"]",
       "step": "",
       "strategy": "form name attribute + bare tag",
@@ -1802,6 +2234,12 @@
       "uiSteps": [
         "Setup > Location Settings > Notes"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Notes** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "textarea[name=\"notes.notes.0.note\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -1813,6 +2251,7 @@
           "module": {
             "key": "notes",
             "name": "Notes tab",
+            "submodule": "Notes",
             "code": "NOT",
             "slug": "notes"
           },
@@ -1830,6 +2269,9 @@
       "kind": "definition",
       "key": "txtNoteInputAll",
       "type": "input",
+      "element": "Note Input All input field",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-section-notes\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-section-notes\"] textarea",
       "step": "",
       "strategy": "bare tag + inside data-testid container",
@@ -1843,6 +2285,12 @@
       "uiSteps": [
         "Setup > Location Settings > Notes"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Notes** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-section-notes\"] textarea",
       "textHints": [],
       "ancestorTestid": "location-settings-section-notes",
@@ -1854,6 +2302,7 @@
           "module": {
             "key": "notes",
             "name": "Notes tab",
+            "submodule": "Notes",
             "code": "NOT",
             "slug": "notes"
           },
@@ -1871,6 +2320,9 @@
       "kind": "definition",
       "key": "btnNotesDelete",
       "type": "button",
+      "element": "Notes Delete button",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-section-notes\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-section-notes\"] button:has-text(\"Delete\")",
       "step": "",
       "strategy": "text match + bare tag + inside data-testid container",
@@ -1885,6 +2337,12 @@
       "uiSteps": [
         "Setup > Location Settings > Notes"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Notes** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-section-notes\"] button",
       "textHints": [
         "Delete"
@@ -1898,6 +2356,7 @@
           "module": {
             "key": "notes",
             "name": "Notes tab",
+            "submodule": "Notes",
             "code": "NOT",
             "slug": "notes"
           },
@@ -1915,6 +2374,9 @@
       "kind": "definition",
       "key": "btnSharedAdd",
       "type": "button",
+      "element": "Shared Add button at row last",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-table-shared-setup\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:last-child button",
       "step": "",
       "strategy": "positional (nth/first/last-child) + bare tag + inside data-testid container",
@@ -1930,6 +2392,13 @@
         "Setup > Location Settings > Shared Setup Locations",
         "in the results grid: the last row (the Add row)"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Shared Setup Locations** tab.",
+        "Look at the last row (the Add row) of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:last-child button",
       "textHints": [],
       "ancestorTestid": "location-settings-table-shared-setup",
@@ -1941,6 +2410,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -1958,6 +2428,9 @@
       "kind": "definition",
       "key": "dlgChangeLocalOfficeHeading",
       "type": "dialog",
+      "element": "Change Local Office Heading dialog",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-change-local-office\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-change-local-office\"] h2",
       "step": "",
       "strategy": "bare tag + inside data-testid container",
@@ -1972,6 +2445,13 @@
         "Setup > Location Settings > Shared Setup Locations",
         "open the \"change local office\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Shared Setup Locations** tab.",
+        "Click the **Add** button in the last row of the Shared Setup Locations grid. (opens the **change local office** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-change-local-office\"] h2",
       "textHints": [],
       "ancestorTestid": "location-settings-modal-change-local-office",
@@ -1983,6 +2463,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -2000,6 +2481,9 @@
       "kind": "definition",
       "key": "tblDlgResults",
       "type": "table",
+      "element": "Dlg Results table",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-change-local-office\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-change-local-office\"] table",
       "step": "",
       "strategy": "bare tag + inside data-testid container",
@@ -2014,6 +2498,13 @@
         "Setup > Location Settings > Shared Setup Locations",
         "open the \"change local office\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Shared Setup Locations** tab.",
+        "Click the **Add** button in the last row of the Shared Setup Locations grid. (opens the **change local office** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-change-local-office\"] table",
       "textHints": [],
       "ancestorTestid": "location-settings-modal-change-local-office",
@@ -2025,6 +2516,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -2042,6 +2534,9 @@
       "kind": "definition",
       "key": "btnDlgClose",
       "type": "button",
+      "element": "Dlg Close button at item last",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-change-local-office\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-change-local-office\"] button:last-of-type",
       "step": "",
       "strategy": "positional (nth/first/last-child) + bare tag + inside data-testid container",
@@ -2057,6 +2552,13 @@
         "Setup > Location Settings > Shared Setup Locations",
         "open the \"change local office\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Shared Setup Locations** tab.",
+        "Click the **Add** button in the last row of the Shared Setup Locations grid. (opens the **change local office** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-change-local-office\"] button:last-of-type",
       "textHints": [],
       "ancestorTestid": "location-settings-modal-change-local-office",
@@ -2068,6 +2570,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -2085,6 +2588,9 @@
       "kind": "definition",
       "key": "dlgErrorDialog",
       "type": "dialog",
+      "element": "Dialog (\"Error\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Error\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -2099,6 +2605,13 @@
         "Setup > Location Settings > any tab",
         "open the \"Error\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Appears when a save is rejected — force a failing save (for example submit a value the server refuses). (opens the **Error** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"alertdialog\"]",
       "textHints": [
         "Error"
@@ -2112,6 +2625,7 @@
           "module": {
             "key": "shared",
             "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
             "code": "DLG",
             "slug": "shared"
           },
@@ -2129,6 +2643,9 @@
       "kind": "definition",
       "key": "dlgErrorMessage",
       "type": "dialog",
+      "element": "Error Message dialog",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Error\") p",
       "step": "",
       "strategy": "text match + role attribute",
@@ -2143,6 +2660,13 @@
         "Setup > Location Settings > any tab",
         "open the \"Error\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Appears when a save is rejected — force a failing save (for example submit a value the server refuses). (opens the **Error** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"alertdialog\"] p",
       "textHints": [
         "Error"
@@ -2156,6 +2680,7 @@
           "module": {
             "key": "shared",
             "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
             "code": "DLG",
             "slug": "shared"
           },
@@ -2173,6 +2698,9 @@
       "kind": "definition",
       "key": "btnErrorOk",
       "type": "button",
+      "element": "Error Ok button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Error\") button:has-text(\"Ok\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -2186,6 +2714,13 @@
       "uiSteps": [
         "Setup > Location Settings > any tab",
         "open the \"Error\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Appears when a save is rejected — force a failing save (for example submit a value the server refuses). (opens the **Error** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"alertdialog\"] button",
       "textHints": [
@@ -2201,6 +2736,7 @@
           "module": {
             "key": "shared",
             "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
             "code": "DLG",
             "slug": "shared"
           },
@@ -2218,6 +2754,9 @@
       "kind": "definition",
       "key": "dlgSaveChanges",
       "type": "dialog",
+      "element": "Dialog (\"Save Changes\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -2232,6 +2771,13 @@
         "Setup > Location Settings > any tab",
         "open the \"Save Changes\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Change any field on the tab, then click **Save** — the confirmation dialog appears before the change is committed. (opens the **Save Changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"alertdialog\"]",
       "textHints": [
         "Save Changes"
@@ -2245,6 +2791,7 @@
           "module": {
             "key": "shared",
             "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
             "code": "DLG",
             "slug": "shared"
           },
@@ -2262,6 +2809,9 @@
       "kind": "definition",
       "key": "btnSaveChangesCancel",
       "type": "button",
+      "element": "Save Changes Cancel button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") button:has-text(\"Cancel\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -2275,6 +2825,13 @@
       "uiSteps": [
         "Setup > Location Settings > any tab",
         "open the \"Save Changes\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Change any field on the tab, then click **Save** — the confirmation dialog appears before the change is committed. (opens the **Save Changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"alertdialog\"] button",
       "textHints": [
@@ -2290,6 +2847,7 @@
           "module": {
             "key": "shared",
             "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
             "code": "DLG",
             "slug": "shared"
           },
@@ -2307,6 +2865,9 @@
       "kind": "definition",
       "key": "btnSaveChangesConfirm",
       "type": "button",
+      "element": "Save Changes Confirm button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") button:has-text(\"Ok\")",
       "step": "",
       "strategy": "text match + role attribute",
@@ -2320,6 +2881,13 @@
       "uiSteps": [
         "Setup > Location Settings > any tab",
         "open the \"Save Changes\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Change any field on the tab, then click **Save** — the confirmation dialog appears before the change is committed. (opens the **Save Changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"alertdialog\"] button",
       "textHints": [
@@ -2335,6 +2903,7 @@
           "module": {
             "key": "shared",
             "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
             "code": "DLG",
             "slug": "shared"
           },
@@ -2352,6 +2921,9 @@
       "kind": "definition",
       "key": "btnUnsavedChangesOk",
       "type": "button",
+      "element": "Unsaved Changes Ok button",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-unsaved-changes\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] button:has-text(\"Discard\")",
       "step": "",
       "strategy": "text match + bare tag + inside data-testid container",
@@ -2367,6 +2939,13 @@
         "Setup > Location Settings > any tab",
         "open the \"unsaved changes\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Change any field, then navigate away without saving (for example click **Home** in the sidebar). (opens the **unsaved changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-unsaved-changes\"] button",
       "textHints": [
         "Discard"
@@ -2380,6 +2959,7 @@
           "module": {
             "key": "shared",
             "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
             "code": "DLG",
             "slug": "shared"
           },
@@ -2397,6 +2977,9 @@
       "kind": "definition",
       "key": "btnUnsavedChangesCancel",
       "type": "button",
+      "element": "Unsaved Changes Cancel button",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-unsaved-changes\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] button:has-text(\"Stay\")",
       "step": "",
       "strategy": "text match + bare tag + inside data-testid container",
@@ -2412,6 +2995,13 @@
         "Setup > Location Settings > any tab",
         "open the \"unsaved changes\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Change any field, then navigate away without saving (for example click **Home** in the sidebar). (opens the **unsaved changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-unsaved-changes\"] button",
       "textHints": [
         "Stay"
@@ -2425,6 +3015,7 @@
           "module": {
             "key": "shared",
             "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
             "code": "DLG",
             "slug": "shared"
           },
@@ -2442,6 +3033,9 @@
       "kind": "definition",
       "key": "lnkOfficeCode",
       "type": "link",
+      "element": "Office Code link",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "a:has-text(\"${officeCode}\")",
       "step": "",
       "strategy": "data-driven text match + bare tag",
@@ -2455,6 +3049,12 @@
       "uiSteps": [
         "Setup > Location Settings > Pricing"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "a",
       "textHints": [],
       "ancestorTestid": "",
@@ -2466,6 +3066,7 @@
           "module": {
             "key": "dynamic",
             "name": "Dynamic grid rows (Pricing grid, office links)",
+            "submodule": "Pricing (dynamic grid rows)",
             "code": "DYN",
             "slug": "pricing"
           },
@@ -2483,6 +3084,9 @@
       "kind": "definition",
       "key": "rowPriceBook",
       "type": "row",
+      "element": "Price Book row",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "tr:has(td:has-text(\"${priceBookName}\"))",
       "step": "",
       "strategy": "data-driven text match",
@@ -2496,6 +3100,13 @@
         "Setup > Location Settings > Pricing",
         "in the results grid: the row holding the value the test looks for"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Look at the row holding the value the test looks for of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "tr",
       "textHints": [],
       "ancestorTestid": "",
@@ -2507,6 +3118,7 @@
           "module": {
             "key": "dynamic",
             "name": "Dynamic grid rows (Pricing grid, office links)",
+            "submodule": "Pricing (dynamic grid rows)",
             "code": "DYN",
             "slug": "pricing"
           },
@@ -2524,6 +3136,9 @@
       "kind": "definition",
       "key": "chkIsAlternative",
       "type": "checkbox",
+      "element": "Is Alternative checkbox at column 4",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "tr:has(td:has-text(\"${priceBookName}\")) td:nth-child(4) button[role=\"checkbox\"]",
       "step": "",
       "strategy": "positional (nth/first/last-child) + data-driven text match + role attribute",
@@ -2539,6 +3154,13 @@
         "Setup > Location Settings > Pricing",
         "in the results grid: the row holding the value the test looks for, column 4"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Look at the row holding the value the test looks for, column 4 of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "tr td:nth-child(4) button[role=\"checkbox\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -2550,6 +3172,7 @@
           "module": {
             "key": "dynamic",
             "name": "Dynamic grid rows (Pricing grid, office links)",
+            "submodule": "Pricing (dynamic grid rows)",
             "code": "DYN",
             "slug": "pricing"
           },
@@ -2567,6 +3190,9 @@
       "kind": "definition",
       "key": "chkUseEffectiveDate",
       "type": "checkbox",
+      "element": "Use Effective Date checkbox at column 5",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "tr:has(td:has-text(\"${priceBookName}\")) td:nth-child(5) button[role=\"checkbox\"]",
       "step": "",
       "strategy": "positional (nth/first/last-child) + data-driven text match + role attribute",
@@ -2582,6 +3208,13 @@
         "Setup > Location Settings > Pricing",
         "in the results grid: the row holding the value the test looks for, column 5"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Look at the row holding the value the test looks for, column 5 of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "tr td:nth-child(5) button[role=\"checkbox\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -2593,6 +3226,7 @@
           "module": {
             "key": "dynamic",
             "name": "Dynamic grid rows (Pricing grid, office links)",
+            "submodule": "Pricing (dynamic grid rows)",
             "code": "DYN",
             "slug": "pricing"
           },
@@ -2610,6 +3244,9 @@
       "kind": "definition",
       "key": "dtpStartDate",
       "type": "datepicker",
+      "element": "Start Date input field at column 6",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "tr:has(td:has-text(\"${priceBookName}\")) td:nth-child(6) input[data-slot=\"input\"]",
       "step": "",
       "strategy": "positional (nth/first/last-child) + data-driven text match + semantic attribute + bare tag",
@@ -2626,6 +3263,13 @@
         "Setup > Location Settings > Pricing",
         "in the results grid: the row holding the value the test looks for, column 6"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Look at the row holding the value the test looks for, column 6 of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "tr td:nth-child(6) input[data-slot=\"input\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -2637,6 +3281,7 @@
           "module": {
             "key": "dynamic",
             "name": "Dynamic grid rows (Pricing grid, office links)",
+            "submodule": "Pricing (dynamic grid rows)",
             "code": "DYN",
             "slug": "pricing"
           },
@@ -2654,6 +3299,9 @@
       "kind": "definition",
       "key": "dtpEndDate",
       "type": "datepicker",
+      "element": "End Date input field at column 7",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "tr:has(td:has-text(\"${priceBookName}\")) td:nth-child(7) input[data-slot=\"input\"]",
       "step": "",
       "strategy": "positional (nth/first/last-child) + data-driven text match + semantic attribute + bare tag",
@@ -2670,6 +3318,13 @@
         "Setup > Location Settings > Pricing",
         "in the results grid: the row holding the value the test looks for, column 7"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Look at the row holding the value the test looks for, column 7 of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "tr td:nth-child(7) input[data-slot=\"input\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -2681,6 +3336,7 @@
           "module": {
             "key": "dynamic",
             "name": "Dynamic grid rows (Pricing grid, office links)",
+            "submodule": "Pricing (dynamic grid rows)",
             "code": "DYN",
             "slug": "pricing"
           },
@@ -2698,6 +3354,9 @@
       "kind": "definition",
       "key": "optCurrencyFilter",
       "type": "option",
+      "element": "Currency Filter dropdown option",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"listbox\"] [role=\"option\"]:has-text(\"${currency}\")",
       "step": "",
       "strategy": "data-driven text match + role attribute",
@@ -2712,6 +3371,13 @@
         "Setup > Location Settings > Pricing",
         "open the dropdown"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Click the dropdown so its option list is showing.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"listbox\"] [role=\"option\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -2723,6 +3389,7 @@
           "module": {
             "key": "dynamic",
             "name": "Dynamic grid rows (Pricing grid, office links)",
+            "submodule": "Pricing (dynamic grid rows)",
             "code": "DYN",
             "slug": "pricing"
           },
@@ -2740,6 +3407,9 @@
       "kind": "inline",
       "key": "getVenueAddressText",
       "type": "inline locator",
+      "element": "Venue/Branch Account element",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-sub-tab-content-account-and-address\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"] :text(\"Venue/Branch Account\")",
       "step": ":text(\"Venue/Branch Account\")",
       "strategy": "text match + inside data-testid container",
@@ -2752,6 +3422,12 @@
       "uiPath": "Setup > Location Settings > Account and Address",
       "uiSteps": [
         "Setup > Location Settings > Account and Address"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"]",
       "textHints": [
@@ -2766,6 +3442,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -2777,6 +3454,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -2794,6 +3472,9 @@
       "kind": "inline",
       "key": "getVenueAddressText",
       "type": "inline locator",
+      "element": "Element in \"Address\"",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "dt:has-text(\"Address\") + dd",
       "step": "dt:has-text(\"Address\") + dd",
       "strategy": "text match + DOM adjacency / parent hop + bare tag",
@@ -2808,6 +3489,12 @@
       "uiSteps": [
         "Setup > Location Settings > Account and Address"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "dt + dd",
       "textHints": [
         "Address"
@@ -2821,6 +3508,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -2838,6 +3526,9 @@
       "kind": "inline",
       "key": "getMasterSection",
       "type": "inline locator",
+      "element": "Master Bill To Address element",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-sub-tab-content-account-and-address\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"] :text(\"Master Bill To Address\")",
       "step": ":text(\"Master Bill To Address\")",
       "strategy": "text match + inside data-testid container",
@@ -2850,6 +3541,12 @@
       "uiPath": "Setup > Location Settings > Account and Address",
       "uiSteps": [
         "Setup > Location Settings > Account and Address"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"]",
       "textHints": [
@@ -2864,6 +3561,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -2875,6 +3573,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -2892,6 +3591,9 @@
       "kind": "inline",
       "key": "isDisplayFieldReadOnly",
       "type": "inline locator",
+      "element": "is Display Field Read Only element",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-sub-tab-content-account-and-address\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"] :text(\"${sectionText}\")",
       "step": ":text(\"${sectionText}\")",
       "strategy": "text match + inside data-testid container",
@@ -2905,6 +3607,12 @@
       "uiSteps": [
         "Setup > Location Settings > Account and Address"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-sub-tab-content-account-and-address\"]",
       "textHints": [],
       "ancestorTestid": "location-settings-sub-tab-content-account-and-address",
@@ -2916,6 +3624,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -2933,6 +3642,9 @@
       "kind": "inline",
       "key": "isDisplayFieldReadOnly",
       "type": "inline locator",
+      "element": "is Display Field Read Only element",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "dd:has-text(\"${expectedText}\")",
       "step": "dd:has-text(\"${expectedText}\")",
       "strategy": "text match + bare tag",
@@ -2946,6 +3658,12 @@
       "uiSteps": [
         "Setup > Location Settings > Account and Address"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "dd",
       "textHints": [],
       "ancestorTestid": "",
@@ -2957,6 +3675,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -2974,6 +3693,9 @@
       "kind": "inline",
       "key": "accountListResultsContain",
       "type": "inline locator",
+      "element": "account List Results Contain element",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-account-list\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-account-list\"] table tbody:has-text(\"${text}\")",
       "step": "tbody:has-text(\"${text}\")",
       "strategy": "text match + bare tag + inside data-testid container",
@@ -2989,6 +3711,13 @@
         "Setup > Location Settings > Account and Address",
         "open the \"account list\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the lookup button beside the Venue/Branch Account name. (opens the **account list** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-account-list\"] table tbody",
       "textHints": [],
       "ancestorTestid": "location-settings-modal-account-list",
@@ -3000,6 +3729,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -3017,6 +3747,9 @@
       "kind": "inline",
       "key": "selectAddressRow",
       "type": "inline locator",
+      "element": "Element in \"Select Customer Address\"",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table tbody tr:has-text(\"${addressText}\")",
       "step": "tbody tr:has-text(\"${addressText}\")",
       "strategy": "text match + role attribute",
@@ -3032,6 +3765,14 @@
         "open the \"Select Customer Address\" dialog",
         "in the results grid: the row holding the value the test looks for"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Look at the row holding the value the test looks for of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] table tbody tr",
       "textHints": [
         "Select Customer Address"
@@ -3045,6 +3786,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -3062,6 +3804,9 @@
       "kind": "inline",
       "key": "selectAddressRow",
       "type": "inline locator",
+      "element": "Checkbox in \"Select Customer Address\" at column 1",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Select Customer Address\") table tbody tr:has-text(\"${addressText}\") td:first-child button[role=\"checkbox\"]",
       "step": "td:first-child button[role=\"checkbox\"]",
       "strategy": "positional (nth/first/last-child) + text match + role attribute",
@@ -3078,6 +3823,14 @@
         "open the \"Select Customer Address\" dialog",
         "in the results grid: the row holding the value the test looks for, first column"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Account and Address** tab.",
+        "Click the **Address** button inside the Venue/Branch Account card — or the one in the Master Bill To Address card for the master version. (opens the **Select Customer Address** dialog)",
+        "Look at the row holding the value the test looks for, first column of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] table tbody tr td:first-child button[role=\"checkbox\"]",
       "textHints": [
         "Select Customer Address"
@@ -3091,6 +3844,7 @@
           "module": {
             "key": "account-address",
             "name": "Account and Address tab",
+            "submodule": "Account and Address",
             "code": "AA",
             "slug": "account-list"
           },
@@ -3108,6 +3862,9 @@
       "kind": "inline",
       "key": "getSaveDialogHeading",
       "type": "inline locator",
+      "element": "Label in \"Save Changes\"",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") h2",
       "step": "h2",
       "strategy": "text match + role attribute",
@@ -3122,6 +3879,13 @@
         "Setup > Location Settings > Auto Add-On",
         "open the \"Save Changes\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Auto Add-On** tab.",
+        "Change any field on the tab, then click **Save** — the confirmation dialog appears before the change is committed. (opens the **Save Changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"alertdialog\"] h2",
       "textHints": [
         "Save Changes"
@@ -3135,6 +3899,7 @@
           "module": {
             "key": "auto-addon",
             "name": "Auto Add-On tab",
+            "submodule": "Auto Add-On",
             "code": "AAO",
             "slug": "auto-add-on"
           },
@@ -3146,6 +3911,7 @@
           "module": {
             "key": "business-types",
             "name": "Business Types tab",
+            "submodule": "Business Types",
             "code": "BT",
             "slug": "business-types"
           },
@@ -3165,6 +3931,9 @@
       "kind": "inline",
       "key": "clickSidebarHome",
       "type": "inline locator",
+      "element": "Home link",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"link\"]:has-text(\"Home\")",
       "step": "[role=\"link\"]:has-text(\"Home\")",
       "strategy": "text match + role attribute",
@@ -3177,6 +3946,12 @@
       "uiPath": "Setup > Location Settings > Auto Add-On",
       "uiSteps": [
         "Setup > Location Settings > Auto Add-On"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Auto Add-On** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"link\"]",
       "textHints": [
@@ -3191,6 +3966,7 @@
           "module": {
             "key": "auto-addon",
             "name": "Auto Add-On tab",
+            "submodule": "Auto Add-On",
             "code": "AAO",
             "slug": "auto-add-on"
           },
@@ -3202,6 +3978,7 @@
           "module": {
             "key": "business-types",
             "name": "Business Types tab",
+            "submodule": "Business Types",
             "code": "BT",
             "slug": "business-types"
           },
@@ -3213,6 +3990,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -3233,6 +4011,9 @@
       "kind": "inline",
       "key": "getUnsavedDialogHeading",
       "type": "inline locator",
+      "element": "get Unsaved Dialog Heading label",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-unsaved-changes\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] h2",
       "step": "h2",
       "strategy": "bare tag + inside data-testid container",
@@ -3247,6 +4028,13 @@
         "Setup > Location Settings > Auto Add-On",
         "open the \"unsaved changes\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Auto Add-On** tab.",
+        "Change any field, then navigate away without saving (for example click **Home** in the sidebar). (opens the **unsaved changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-unsaved-changes\"] h2",
       "textHints": [],
       "ancestorTestid": "location-settings-modal-unsaved-changes",
@@ -3258,6 +4046,7 @@
           "module": {
             "key": "auto-addon",
             "name": "Auto Add-On tab",
+            "submodule": "Auto Add-On",
             "code": "AAO",
             "slug": "auto-add-on"
           },
@@ -3269,6 +4058,7 @@
           "module": {
             "key": "business-types",
             "name": "Business Types tab",
+            "submodule": "Business Types",
             "code": "BT",
             "slug": "business-types"
           },
@@ -3288,6 +4078,9 @@
       "kind": "inline",
       "key": "isMerchantDropdownAccessible",
       "type": "inline locator",
+      "element": "is Merchant Dropdown Accessible dropdown list",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"listbox\"]",
       "step": "[role=\"listbox\"]",
       "strategy": "role attribute",
@@ -3301,6 +4094,13 @@
         "Setup > Location Settings > Currency",
         "open the dropdown"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Currency** tab.",
+        "Click the dropdown so its option list is showing.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"listbox\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -3312,6 +4112,7 @@
           "module": {
             "key": "currency",
             "name": "Currency tab",
+            "submodule": "Currency",
             "code": "CUR",
             "slug": "currency"
           },
@@ -3323,6 +4124,7 @@
           "module": {
             "key": "currency",
             "name": "Currency tab",
+            "submodule": "Currency",
             "code": "CUR",
             "slug": "currency"
           },
@@ -3334,6 +4136,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -3353,6 +4156,9 @@
       "kind": "inline",
       "key": "selectMerchantOption",
       "type": "inline locator",
+      "element": "select Merchant Option dropdown option",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"listbox\"] [role=\"option\"]:has-text(\"${optionText}\")",
       "step": "[role=\"listbox\"] [role=\"option\"]:has-text(\"${optionText}\")",
       "strategy": "text match + role attribute",
@@ -3367,6 +4173,13 @@
         "Setup > Location Settings > Currency",
         "open the dropdown"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Currency** tab.",
+        "Click the dropdown so its option list is showing.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"listbox\"] [role=\"option\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -3378,6 +4191,7 @@
           "module": {
             "key": "currency",
             "name": "Currency tab",
+            "submodule": "Currency",
             "code": "CUR",
             "slug": "currency"
           },
@@ -3395,6 +4209,9 @@
       "kind": "inline",
       "key": "openLiveDatePopover",
       "type": "inline locator",
+      "element": "open Live Date Popover table",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[data-radix-popper-content-wrapper], [role=\"dialog\"], [role=\"grid\"]",
       "step": "[data-radix-popper-content-wrapper], [role=\"dialog\"], [role=\"grid\"]",
       "strategy": "role attribute",
@@ -3407,6 +4224,12 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-radix-popper-content-wrapper], [role=\"dialog\"], [role=\"grid\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -3418,6 +4241,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -3435,6 +4259,9 @@
       "kind": "inline",
       "key": "isRemitPstVisible",
       "type": "inline locator",
+      "element": "Remit PST Tax element",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": ":has-text(\"Remit PST Tax\")",
       "step": ":has-text(\"Remit PST Tax\")",
       "strategy": "text match",
@@ -3446,6 +4273,12 @@
       "uiPath": "Setup > Location Settings (left panel)",
       "uiSteps": [
         "Setup > Location Settings (left panel)"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "",
       "textHints": [
@@ -3460,6 +4293,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -3477,6 +4311,9 @@
       "kind": "inline",
       "key": "hasPayToFilters",
       "type": "inline locator",
+      "element": "Pay To ID input field",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") [role=\"textbox\"]:has-text(\"Pay To ID\")",
       "step": "[role=\"textbox\"]:has-text(\"Pay To ID\")",
       "strategy": "text match + role attribute",
@@ -3490,6 +4327,13 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] [role=\"textbox\"]",
       "textHints": [
@@ -3505,6 +4349,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -3522,6 +4367,9 @@
       "kind": "inline",
       "key": "hasPayToFilters",
       "type": "inline locator",
+      "element": "Pay To Name input field",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") [role=\"textbox\"]:has-text(\"Pay To Name\")",
       "step": "[role=\"textbox\"]:has-text(\"Pay To Name\")",
       "strategy": "text match + role attribute",
@@ -3535,6 +4383,13 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
       ],
       "css": "[role=\"dialog\"] [role=\"textbox\"]",
       "textHints": [
@@ -3550,6 +4405,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -3567,6 +4423,9 @@
       "kind": "inline",
       "key": "typePayToFilter",
       "type": "inline locator",
+      "element": "type Pay To Filter input field",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"textbox\"]",
       "step": "[role=\"textbox\"]",
       "strategy": "role attribute",
@@ -3579,6 +4438,12 @@
       "uiSteps": [
         "Setup > Location Settings (left panel)"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"textbox\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -3590,6 +4455,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -3607,6 +4473,9 @@
       "kind": "inline",
       "key": "payToResultsContain",
       "type": "inline locator",
+      "element": "Element in \"Pay To List\"",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Pay To List\") table tbody:has-text(\"${text}\")",
       "step": "tbody:has-text(\"${text}\")",
       "strategy": "text match + role attribute",
@@ -3621,6 +4490,13 @@
         "Setup > Location Settings (left panel)",
         "open the \"Pay To List\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Stay on the left-hand **Basic Information** panel — it is shown beside every tab.",
+        "Click the **Pay To Address** field label in the left panel. (opens the **Pay To List** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] table tbody",
       "textHints": [
         "Pay To List"
@@ -3634,6 +4510,7 @@
           "module": {
             "key": "left-panel-basic-information",
             "name": "Basic Information (left panel)",
+            "submodule": "Basic Information (left panel)",
             "code": "BAS",
             "slug": "pay-to"
           },
@@ -3651,6 +4528,9 @@
       "kind": "inline",
       "key": "clickSortColumn",
       "type": "inline locator",
+      "element": "click Sort Column menu",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"menu\"]",
       "step": "[role=\"menu\"]",
       "strategy": "role attribute",
@@ -3664,6 +4544,13 @@
         "Setup > Location Settings > Location Management History",
         "open the column menu"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Click a column header, then open its menu.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"menu\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -3675,6 +4562,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -3692,6 +4580,9 @@
       "kind": "inline",
       "key": "clickSortColumn",
       "type": "inline locator",
+      "element": "click Sort Column menu item",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"menu\"] [role=\"menuitem\"]:has-text(\"Sort ${direction}\")",
       "step": "[role=\"menuitem\"]:has-text(\"Sort ${direction}\")",
       "strategy": "text match + role attribute",
@@ -3706,6 +4597,13 @@
         "Setup > Location Settings > Location Management History",
         "open the column menu"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Click a column header, then open its menu.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"menu\"] [role=\"menuitem\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -3717,6 +4615,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -3734,6 +4633,9 @@
       "kind": "inline",
       "key": "setRowsPerPage",
       "type": "inline locator",
+      "element": "set Rows Per Page dropdown option",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"option\"]",
       "step": "[role=\"option\"]",
       "strategy": "role attribute",
@@ -3746,6 +4648,12 @@
       "uiSteps": [
         "Setup > Location Settings > Location Management History"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"option\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -3757,6 +4665,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -3774,6 +4683,9 @@
       "kind": "inline",
       "key": "getPaginationText",
       "type": "inline locator",
+      "element": "Current page number input field",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-tab-content-management-history\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-tab-content-management-history\"] input[aria-label=\"Current page number\"]",
       "step": "input[aria-label=\"Current page number\"]",
       "strategy": "aria-label + bare tag + inside data-testid container",
@@ -3788,6 +4700,12 @@
       "uiSteps": [
         "Setup > Location Settings > Location Management History"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-tab-content-management-history\"] input[aria-label=\"Current page number\"]",
       "textHints": [],
       "ancestorTestid": "location-settings-tab-content-management-history",
@@ -3799,6 +4717,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -3816,6 +4735,9 @@
       "kind": "inline",
       "key": "isReadOnly",
       "type": "inline locator",
+      "element": "is Read Only tab panel",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"tabpanel\"]",
       "step": "[role=\"tabpanel\"]",
       "strategy": "role attribute",
@@ -3828,6 +4750,12 @@
       "uiSteps": [
         "Setup > Location Settings > Location Management History"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"tabpanel\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -3839,6 +4767,7 @@
           "module": {
             "key": "history",
             "name": "Location Management History tab",
+            "submodule": "Location Management History",
             "code": "HIS",
             "slug": "management-history"
           },
@@ -3856,6 +4785,9 @@
       "kind": "inline",
       "key": "getSaveDialogContent",
       "type": "inline locator",
+      "element": "Label in \"Save Changes\"",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") :is(h2, [role=\"heading\"])",
       "step": "h2, [role=\"heading\"]",
       "strategy": "text match + role attribute",
@@ -3870,6 +4802,13 @@
         "Setup > Location Settings > Notes",
         "open the \"Save Changes\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Notes** tab.",
+        "Change any field on the tab, then click **Save** — the confirmation dialog appears before the change is committed. (opens the **Save Changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"alertdialog\"] :is(h2, [role=\"heading\"])",
       "textHints": [
         "Save Changes"
@@ -3883,6 +4822,7 @@
           "module": {
             "key": "notes",
             "name": "Notes tab",
+            "submodule": "Notes",
             "code": "NOT",
             "slug": "notes"
           },
@@ -3900,6 +4840,9 @@
       "kind": "inline",
       "key": "getSaveDialogContent",
       "type": "inline locator",
+      "element": "Element in \"Save Changes\"",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"alertdialog\"]:has-text(\"Save Changes\") :is(p, div:not(:has(button)):not(:has(h2)))",
       "step": "p, div:not(:has(button)):not(:has(h2))",
       "strategy": "text match + :not() disambiguation + role attribute",
@@ -3915,6 +4858,13 @@
         "Setup > Location Settings > Notes",
         "open the \"Save Changes\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Notes** tab.",
+        "Change any field on the tab, then click **Save** — the confirmation dialog appears before the change is committed. (opens the **Save Changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"alertdialog\"] :is(p, div:not(:has(button)):not(:has(h2)))",
       "textHints": [
         "Save Changes"
@@ -3928,6 +4878,7 @@
           "module": {
             "key": "notes",
             "name": "Notes tab",
+            "submodule": "Notes",
             "code": "NOT",
             "slug": "notes"
           },
@@ -3945,6 +4896,9 @@
       "kind": "inline",
       "key": "selectPrimaryDropdownOption",
       "type": "inline locator",
+      "element": "Dialog (\"Popover Content\")",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Popover Content\")",
       "step": "[role=\"dialog\"]:has-text(\"Popover Content\")",
       "strategy": "text match + role attribute",
@@ -3959,6 +4913,13 @@
         "Setup > Location Settings > Pricing",
         "open the \"Popover Content\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Open the **Popover Content** dialog.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"]",
       "textHints": [
         "Popover Content"
@@ -3972,6 +4933,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -3983,6 +4945,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -3994,6 +4957,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4005,6 +4969,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4016,6 +4981,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4027,6 +4993,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4044,6 +5011,9 @@
       "kind": "inline",
       "key": "selectPrimaryDropdownOption",
       "type": "inline locator",
+      "element": "Search pricing strategies... input field",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"textbox\"]:has-text(\"Search pricing strategies...\")",
       "step": "[role=\"textbox\"]:has-text(\"Search pricing strategies...\")",
       "strategy": "text match + role attribute",
@@ -4059,6 +5029,14 @@
         "open the \"Popover Content\" dialog",
         "open the date popover"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Open the **Popover Content** dialog.",
+        "Click the calendar icon in the date cell so the popover is showing.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] [role=\"textbox\"]",
       "textHints": [
         "Popover Content",
@@ -4073,6 +5051,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4084,6 +5063,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4101,6 +5081,9 @@
       "kind": "inline",
       "key": "selectPrimaryDropdownOption",
       "type": "inline locator",
+      "element": "Button in \"Popover Content\"",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"button\"]",
       "step": "[role=\"button\"]",
       "strategy": "text match + role attribute",
@@ -4116,6 +5099,14 @@
         "open the \"Popover Content\" dialog",
         "open the date popover"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Open the **Popover Content** dialog.",
+        "Click the calendar icon in the date cell so the popover is showing.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] [role=\"button\"]",
       "textHints": [
         "Popover Content"
@@ -4129,6 +5120,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4140,6 +5132,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4157,6 +5150,9 @@
       "kind": "inline",
       "key": "hasDateValidationError",
       "type": "inline locator",
+      "element": "has Date Validation Error element",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "text=/Pricing Effective.*date.*must be set/",
       "step": "text=/Pricing Effective.*date.*must be set/",
       "strategy": "text match",
@@ -4169,6 +5165,12 @@
       "uiSteps": [
         "Setup > Location Settings > Pricing"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "Effective.*date.*must be set/",
       "textHints": [],
       "ancestorTestid": "",
@@ -4180,6 +5182,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4197,6 +5200,9 @@
       "kind": "inline",
       "key": "openStartDatePopover",
       "type": "inline locator",
+      "element": "Open popover button at column 6",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "td:nth-child(6) [role=\"button\"]:has-text(\"Open popover\")",
       "step": "[role=\"button\"]:has-text(\"Open popover\")",
       "strategy": "positional (nth/first/last-child) + text match + role attribute",
@@ -4212,6 +5218,13 @@
         "Setup > Location Settings > Pricing",
         "in the results grid: any row, column 6"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Look at any row, column 6 of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "td:nth-child(6) [role=\"button\"]",
       "textHints": [
         "Open popover"
@@ -4225,6 +5238,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4242,6 +5256,9 @@
       "kind": "inline",
       "key": "openEndDatePopover",
       "type": "inline locator",
+      "element": "Open popover button at column 7",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "td:nth-child(7) [role=\"button\"]:has-text(\"Open popover\")",
       "step": "[role=\"button\"]:has-text(\"Open popover\")",
       "strategy": "positional (nth/first/last-child) + text match + role attribute",
@@ -4257,6 +5274,13 @@
         "Setup > Location Settings > Pricing",
         "in the results grid: any row, column 7"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Look at any row, column 7 of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "td:nth-child(7) [role=\"button\"]",
       "textHints": [
         "Open popover"
@@ -4270,6 +5294,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4287,6 +5312,9 @@
       "kind": "inline",
       "key": "selectDateFromCalendar",
       "type": "inline locator",
+      "element": "Open popover button at column {col-index}",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "td:nth-child(${colIndex}) [role=\"button\"][aria-label=\"Open popover\"]:not([aria-disabled=\"true\"])",
       "step": "[role=\"button\"][aria-label=\"Open popover\"]:not([aria-disabled=\"true\"])",
       "strategy": "positional (nth/first/last-child) + aria-label + :not() disambiguation + role attribute + semantic attribute",
@@ -4304,6 +5332,13 @@
         "Setup > Location Settings > Pricing",
         "in the results grid: any row, column colIndex"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Look at any row, column colIndex of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "td [role=\"button\"][aria-label=\"Open popover\"]:not([aria-disabled=\"true\"])",
       "textHints": [],
       "ancestorTestid": "",
@@ -4315,6 +5350,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4332,6 +5368,9 @@
       "kind": "inline",
       "key": "selectDateFromCalendar",
       "type": "inline locator",
+      "element": "Label in \"Popover Content\"",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"status\"]",
       "step": "[role=\"status\"]",
       "strategy": "text match + role attribute",
@@ -4347,6 +5386,14 @@
         "open the \"Popover Content\" dialog",
         "open the date popover"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Open the **Popover Content** dialog.",
+        "Click the calendar icon in the date cell so the popover is showing.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] [role=\"status\"]",
       "textHints": [
         "Popover Content"
@@ -4360,6 +5407,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4371,6 +5419,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4388,6 +5437,9 @@
       "kind": "inline",
       "key": "selectDateFromCalendar",
       "type": "inline locator",
+      "element": "Go to the Next Month button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"button\"]:has-text(\"Go to the Next Month\")",
       "step": "[role=\"button\"]:has-text(\"Go to the Next Month\")",
       "strategy": "text match + role attribute",
@@ -4403,6 +5455,14 @@
         "open the \"Popover Content\" dialog",
         "open the date popover"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Open the **Popover Content** dialog.",
+        "Click the calendar icon in the date cell so the popover is showing.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] [role=\"button\"]",
       "textHints": [
         "Popover Content",
@@ -4417,6 +5477,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4434,6 +5495,9 @@
       "kind": "inline",
       "key": "selectDateFromCalendar",
       "type": "inline locator",
+      "element": "Go to the Previous Month button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"dialog\"]:has-text(\"Popover Content\") [role=\"button\"]:has-text(\"Go to the Previous Month\")",
       "step": "[role=\"button\"]:has-text(\"Go to the Previous Month\")",
       "strategy": "text match + role attribute",
@@ -4449,6 +5513,14 @@
         "open the \"Popover Content\" dialog",
         "open the date popover"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Open the **Popover Content** dialog.",
+        "Click the calendar icon in the date cell so the popover is showing.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"dialog\"] [role=\"button\"]",
       "textHints": [
         "Popover Content",
@@ -4463,6 +5535,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4480,6 +5553,9 @@
       "kind": "inline",
       "key": "selectDateFromCalendar",
       "type": "inline locator",
+      "element": "select Date From Calendar cell",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"gridcell\"]",
       "step": "[role=\"gridcell\"]",
       "strategy": "role attribute",
@@ -4492,6 +5568,12 @@
       "uiSteps": [
         "Setup > Location Settings > Pricing"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"gridcell\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -4503,6 +5585,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4520,6 +5603,9 @@
       "kind": "inline",
       "key": "selectDateFromCalendar",
       "type": "inline locator",
+      "element": "select Date From Calendar button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
       "selector": "[role=\"button\"]",
       "step": "[role=\"button\"]",
       "strategy": "role attribute",
@@ -4532,6 +5618,12 @@
       "uiSteps": [
         "Setup > Location Settings > Pricing"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[role=\"button\"]",
       "textHints": [],
       "ancestorTestid": "",
@@ -4543,6 +5635,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4560,6 +5653,9 @@
       "kind": "inline",
       "key": "clickUnsavedStay",
       "type": "inline locator",
+      "element": "Stay button",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-unsaved-changes\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-unsaved-changes\"] button:has-text(\"Stay\")",
       "step": "button:has-text(\"Stay\")",
       "strategy": "text match + bare tag + inside data-testid container",
@@ -4575,6 +5671,13 @@
         "Setup > Location Settings > Pricing",
         "open the \"unsaved changes\" dialog"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Pricing** tab.",
+        "Change any field, then navigate away without saving (for example click **Home** in the sidebar). (opens the **unsaved changes** dialog)",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-unsaved-changes\"] button",
       "textHints": [
         "Stay"
@@ -4588,6 +5691,7 @@
           "module": {
             "key": "pricing",
             "name": "Pricing tab",
+            "submodule": "Pricing",
             "code": "PRI",
             "slug": "pricing"
           },
@@ -4605,6 +5709,9 @@
       "kind": "inline",
       "key": "selectFirstDialogRow",
       "type": "inline locator",
+      "element": "Select row checkbox at row 1",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-modal-change-local-office\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-modal-change-local-office\"] table tbody tr:first-child [role=\"checkbox\"][aria-label=\"Select row\"]",
       "step": "tbody tr:first-child [role=\"checkbox\"][aria-label=\"Select row\"]",
       "strategy": "positional (nth/first/last-child) + aria-label + role attribute + inside data-testid container",
@@ -4622,6 +5729,14 @@
         "open the \"change local office\" dialog",
         "in the results grid: the first row"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Shared Setup Locations** tab.",
+        "Click the **Add** button in the last row of the Shared Setup Locations grid. (opens the **change local office** dialog)",
+        "Look at the first row of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-modal-change-local-office\"] table tbody tr:first-child [role=\"checkbox\"][aria-label=\"Select row\"]",
       "textHints": [],
       "ancestorTestid": "location-settings-modal-change-local-office",
@@ -4633,6 +5748,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -4650,6 +5766,9 @@
       "kind": "inline",
       "key": "getNonSelfRowState",
       "type": "inline locator",
+      "element": "get Non Self Row State checkbox at row {row-index}, column 3",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-table-shared-setup\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(3) [role=\"checkbox\"]",
       "step": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(3) [role=\"checkbox\"]",
       "strategy": "positional (nth/first/last-child) + role attribute + inside data-testid container",
@@ -4665,6 +5784,13 @@
         "Setup > Location Settings > Shared Setup Locations",
         "in the results grid: row rowIndex, column 3"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Shared Setup Locations** tab.",
+        "Look at row rowIndex, column 3 of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr td:nth-child(3) [role=\"checkbox\"]",
       "textHints": [],
       "ancestorTestid": "location-settings-table-shared-setup",
@@ -4676,6 +5802,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -4693,6 +5820,9 @@
       "kind": "inline",
       "key": "getNonSelfRowState",
       "type": "inline locator",
+      "element": "get Non Self Row State checkbox at row {row-index}, column 4",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-table-shared-setup\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(4) [role=\"checkbox\"]",
       "step": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(4) [role=\"checkbox\"]",
       "strategy": "positional (nth/first/last-child) + role attribute + inside data-testid container",
@@ -4708,6 +5838,13 @@
         "Setup > Location Settings > Shared Setup Locations",
         "in the results grid: row rowIndex, column 4"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Shared Setup Locations** tab.",
+        "Look at row rowIndex, column 4 of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr td:nth-child(4) [role=\"checkbox\"]",
       "textHints": [],
       "ancestorTestid": "location-settings-table-shared-setup",
@@ -4719,6 +5856,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -4730,6 +5868,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -4741,6 +5880,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -4758,6 +5898,9 @@
       "kind": "inline",
       "key": "getNonSelfRowState",
       "type": "inline locator",
+      "element": "get Non Self Row State button at row {row-index}, column 5",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-table-shared-setup\" already has a data-testid; add one to the element inside it.",
       "selector": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(5) button",
       "step": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr:nth-child(${rowIndex}) td:nth-child(5) button",
       "strategy": "positional (nth/first/last-child) + bare tag + inside data-testid container",
@@ -4773,6 +5916,13 @@
         "Setup > Location Settings > Shared Setup Locations",
         "in the results grid: row rowIndex, column 5"
       ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Shared Setup Locations** tab.",
+        "Look at row rowIndex, column 5 of the grid.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
       "css": "[data-testid=\"location-settings-table-shared-setup\"] tbody tr td:nth-child(5) button",
       "textHints": [],
       "ancestorTestid": "location-settings-table-shared-setup",
@@ -4784,6 +5934,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },
@@ -4795,6 +5946,7 @@
           "module": {
             "key": "shared-setup-locations",
             "name": "Shared Setup Locations tab",
+            "submodule": "Shared Setup Locations",
             "code": "SSL",
             "slug": "shared-setup"
           },

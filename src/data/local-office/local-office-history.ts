@@ -207,6 +207,141 @@ export const HISTORY_MOCK = {
 // the whole form: NM-1715 confirmed it is optional, unvalidated free text with no cross-field
 // rule, so an edit can never be rejected and a restore can never be blocked. NOTE the history
 // grid labels the column "Phone2" (no space), unlike the form's "Phone 2" label.
+/**
+ * Every Basic Information control and grid, mapped to the history column that records it.
+ *
+ * Keyed by the field's data-testid with the `local-office-settings-` prefix and the control-kind
+ * prefix (`input-`/`checkbox-`/`select-`) removed, because that key survives a label being
+ * reworded and a control changing from a checkbox to a switch. Grids keep their `table-` prefix.
+ *
+ * This is the contract TC-LOE-HIST-044 enforces: the map is what SHOULD be true, and the test
+ * reads the live form rather than this list, so a field added to Basic Information tomorrow is a
+ * failure here rather than a silent hole in the audit trail.
+ *
+ * The labels on the right are the live history headers, several of which are shortened
+ * ("Print Desc" for Print Description) or reworded ("Items Filled from Requests Return to
+ * Availability" for the Request Items Return tick box) — which is exactly why this has to be a
+ * written-down mapping and cannot be derived by matching strings.
+ */
+export const BASIC_INFO_FIELD_TO_HISTORY_COLUMN: Readonly<Record<string, string>> = {
+  'prep-date-offset': 'Prep Date Offset',
+  'return-date-offset': 'Return Date Offset',
+  'set-date-offset': 'Set Date Offset',
+  'strike-date-offset': 'Strike Date Offset',
+  'delivery-date-offset': 'Delivery Date Offset',
+  'pickup-date-offset': 'Pickup Date Offset',
+  'use-fulfillment': 'Use Fulfillment',
+  'use-availability': 'Use Availability',
+  'use-equipments-qc': 'Use Equipment QC',
+  'request-items-return': 'Items Filled from Requests Return to Availability',
+  'same-priority': 'Allow tentative and confirmed Status to have the same priority',
+  'print-description': 'Print Desc',
+  'use-subrent-service-type': 'Use Subrent',
+  'phone-1': 'Phone1',
+  'phone-2': 'Phone2',
+  'default-job-one-day-event': 'Default Job to 1 day for Event Orders',
+  'default-job-one-day-outside': 'Default Job to 1 day for Outside Orders',
+  'default-job-one-day-internal': 'Default Job to 1 day for Internal Orders',
+  'default-labor-to-hourly': 'Default Labor to Hourly',
+  'default-order-type': 'Default Order Type',
+  'use-section': 'Use Sect.',
+  'use-quote-logo': 'Use On Quote',
+  'use-rental-logo': 'Use On Rental',
+  'company-logo': 'Logo Name',
+  'table-sections': 'Section Name',
+  'table-discount-exemptions': 'Service Type - Exempt',
+} as const;
+
+/**
+ * Basic Information fields with NO history column — open defects, not accepted behaviour.
+ *
+ * CONFIRMED LIVE on 18/09/2026 by changing PO Number on office 1604 and saving: the save
+ * succeeded, a new history record was created, and the entered value appeared in none of the 42
+ * columns. Phone2 was changed in the same session as a control and was recorded correctly, so the
+ * difference is the field and not the save path.
+ *
+ * Room Configuration is the clearest of the three: the Sections grid directly above it has the
+ * same name-and-active shape and IS tracked, through "Section Name" and "Sect. Action".
+ *
+ * These are listed so TC-LOE-HIST-044's failure can separate a known gap from a NEW one. They
+ * are deliberately NOT excused — the test still fails while they are open, because the audit
+ * trail is incomplete while they are open.
+ */
+export const BASIC_INFO_FIELDS_WITHOUT_HISTORY_COLUMN: readonly string[] = [
+  'po-number',
+  'po-number-label',
+  'table-room-config',
+] as const;
+
+/**
+ * Columns that describe the RECORD rather than the office's settings.
+ *
+ * Excluded when asking "did this history entry actually record a change?", because every one of
+ * them differs between any two entries by definition — a comparison that counts them would call
+ * every record distinct and never catch an entry that recorded nothing.
+ */
+export const HISTORY_AUDIT_ONLY_COLUMNS: readonly string[] = [
+  'Local Office',
+  'Action',
+  'Sect. Action',
+  'ST Action',
+  'Modified By',
+  'Modified On',
+] as const;
+
+/**
+ * One field per input KIND, round-tripped through save and read back out of the history grid.
+ *
+ * TC-LOE-HIST-034 proves the mechanism works for a text box. It proves nothing about the other
+ * twenty-five tracked fields: a column that exists but is never written stays green forever,
+ * because the column-presence scenarios only ask whether the header is there. These three are the
+ * cheapest sample that covers the remaining kinds.
+ *
+ * The number field is Return Date Offset rather than Prep Date Offset, and the reason is a defect
+ * rather than a preference: a date-offset field does not register an edit that FLIPS ITS SIGN
+ * (see SIGN_FLIP_DEFECT below), and Prep sits at -1 on office 1604, so any positive probe value
+ * silently fails to enable Save. Using a field and a probe that keep the sign keeps this scenario
+ * measuring what it is for — whether a saved value reaches its column — instead of failing for an
+ * unrelated reason and hiding the answer.
+ */
+export const HISTORY_ROUNDTRIP_FIELDS = [
+  { key: 'txtReturnDateOffset', column: 'Return Date Offset', kind: 'number' },
+  { key: 'chkPrintDescription', column: 'Print Desc', kind: 'checkbox' },
+  { key: 'drpDefaultOrderType', column: 'Default Order Type', kind: 'combobox' },
+] as const;
+
+/**
+ * CONFIRMED LIVE, 18/09/2026, office 1604 — a date-offset field silently discards a sign change.
+ *
+ * Typing a value of the opposite sign shows the new value in the box, but the form never marks
+ * itself dirty: Save stays disabled, and a reload puts the old value back. No message is shown, so
+ * a user has every reason to believe the change was accepted.
+ *
+ *   start  typed   Save enables
+ *     1      2         yes
+ *     1     -2         NO
+ *    -1      2         NO
+ *    -1     -2         yes
+ *    -1      0         yes
+ *
+ * Reproduced on Prep, Set and Return Date Offset, so it is the control, not one field. Recorded
+ * here because it also explains an old observation in this file: the offsets that sit at a
+ * negative value never vary across the whole history, which is what a field nobody can change
+ * looks like from the outside.
+ */
+export const OFFSET_SIGN_FLIP_DEFECT = {
+  affectedFields: ['txtPrepDateOffset', 'txtSetDateOffset', 'txtReturnDateOffset'],
+  summary: 'A date-offset edit that flips the value from negative to positive (or back) is shown on screen but never registered — Save stays disabled and the value reverts on reload.',
+} as const;
+
+/** PO Number is the probe for the untracked-field scenario; the value is obviously synthetic. */
+export const HISTORY_UNTRACKED_FIELD = {
+  key: 'txtPoNumber',
+  label: 'PO Number',
+  probeValue: 'SDET-PO-A',
+  altProbeValue: 'SDET-PO-B',
+} as const;
+
 export const HISTORY_INTEGRATION_FIELD = {
   key: 'txtPhone2',
   column: 'Phone2',
