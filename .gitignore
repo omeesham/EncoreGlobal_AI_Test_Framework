@@ -28,6 +28,9 @@ src/selectors/SELECTOR_CATALOG.md
 CLAUDE.md
 .claude/
 docs/
+specs_planning/
+specs/
+scripts/
 .auth/
 # Client requires NO GitHub workflows in the deliverable — never track or ship .github
 .github/
