@@ -26,6 +26,8 @@ src/selectors/SELECTOR_CATALOG.md
 
 # Internal artifacts — never ship to client
 CLAUDE.md
+.claude/
+docs/
 .auth/
 # Client requires NO GitHub workflows in the deliverable — never track or ship .github
 .github/
