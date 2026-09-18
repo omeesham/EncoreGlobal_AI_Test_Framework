@@ -4,7 +4,7 @@ ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Read the toolbar above the grid before any row is selected</li>
 <li>2. Click any result row</li>
 <li>3. Read the toolbar above the grid</li>
@@ -16,7 +16,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Click View Product Code</li>
 <li>2. Read the tab strip</li>
 <li>3. Read the Item tab</li>
@@ -32,7 +32,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Click the Product Code History tab</li>
 <li>2. Read the grid header</li>
 <li>3. Read the tab chrome</li>
@@ -44,7 +44,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Click the Translations tab</li>
 <li>2. Read the rows</li>
 <li>3. Read each row</li>
@@ -58,7 +58,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Click the arrow beside View Product Code</li>
 <li>2. Click Sub Class</li>
 <li>3. Close the dialog, reopen the menu, click Class</li>
@@ -78,7 +78,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open View Product Code and add one character to the Name box</li>
 <li>2. Click Close</li>
 <li>3. Reopen View Product Code</li>
@@ -90,7 +90,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Read the Category, Sub Category, Class, Sub Class, Item and Product Code ID cells of the row of the automation item</li>
 <li>2. Click the row, then View Product Code</li>
 <li>3. Read the Category name, the Sub-Category Name, Class Name and Sub-Class Name dropdowns and the Name box</li>
@@ -107,7 +107,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Close""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 1: ""Close""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open View Product Code, add one character to the Name box and, on the Translations tab, one character to the US English Name box</li>
 <li>2. Click the small ""Close"" button in the top right corner of the dialog</li>
 <li>3. Reopen View Product Code and read the Name box and the US English Name box</li>
@@ -129,7 +129,7 @@ Sample input 1: ""Close""",Medium,,Product_Code,1,,View_Product_Code > Product_C
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open View Product Code and add one character to the Name box</li>
 <li>2. Click the Product Code History tab, then the Translations tab, then the Item tab</li>
 <li>3. Read the Name box</li>
@@ -143,7 +143,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the segment menu and click Item</li>
 <li>2. Close, reopen the menu and click Sub Class</li>
 <li>3. Close, reopen the menu and click Class</li>
@@ -161,7 +161,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Item segment and read the Item section</li>
 <li>2. Read the Sub Class section of the Item segment and click the Barcodeable box, then its label, then its row</li>
 <li>3. Read the whole Item segment</li>
@@ -181,7 +181,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Item segment and read the name controls</li>
 <li>2. Open the Sub-Category Name list</li>
 <li>3. Press Escape, then open the Class Name list</li>
@@ -201,7 +201,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Select that row and open the Item segment</li>
 <li>2. Close, then open the Sub Class segment</li>
 <li>3. Click Close</li>
@@ -213,7 +213,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub Class segment and click the Product Code History tab</li>
 <li>2. Click the Translations tab</li>
 <li>3. Close, open the Class segment and check both tabs</li>
@@ -231,7 +231,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Type 60 characters into the Name box, then press Tab</li>
 <li>2. Paste a 60-character value into the Name box</li>
 <li>3. Type 70 characters into the Item Description box</li>
@@ -251,7 +251,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Place a 60-character value into the Name box by a scripted set that bypasses the box's own limit</li>
 <li>2. Place a 60-character value into the Item Description box the same way</li>
 <li>3. Place a 20-character value into each of the two boxes the same way</li>
@@ -265,7 +265,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Select all text in the Name box and press Delete</li>
 <li>2. Type the original name with one extra character</li>
 <li>3. Clear the Name box by pressing Backspace until it is empty</li>
@@ -283,7 +283,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Replace the Name with three spaces</li>
 <li>2. Replace the Name with a single space</li>
 <li>3. Replace the Name with a new name that has two spaces before it and two after it</li>
@@ -301,7 +301,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Replace the Name with a value of exactly 50 characters</li>
 <li>2. Click Save</li>
 <li>3. Reload the page, search for the new name and open the dialog</li>
@@ -316,7 +316,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""ABCDEFGHIJ""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 1: ""ABCDEFGHIJ""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Type ""ABCDEFGHIJ"" into the Oracle Item Number box</li>
 <li>2. Click Save</li>
 <li>3. Close and reopen the dialog</li>
@@ -334,7 +334,7 @@ Sample input 1: ""ABCDEFGHIJ""",Medium,,Product_Code,1,,View_Product_Code > Prod
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Add &lt;b>x&lt;/b>&amp;%""é🙂 to the end of the Name</li>
 <li>2. Click Save</li>
 <li>3. Add &lt;i>y&lt;/i>&amp;%'""# to the end of the Item Description</li>
@@ -356,7 +356,7 @@ Application: Navigator
 Sample input 1: ""Enter sub-class name""
 Sample input 2: ""Enter class name""
 Sample input 3: ""Enter sub-category name""
-Sample input 4: ""Enter category name""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 4: ""Enter category name""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub Class segment and type 60 characters into the ""Enter sub-class name"" box</li>
 <li>2. Click Close, open the Class segment and type 60 characters into the ""Enter class name"" box</li>
 <li>3. Click Close, open the Sub Category segment and type 60 characters into the ""Enter sub-category name"" box</li>
@@ -372,7 +372,7 @@ Sample input 4: ""Enter category name""",Medium,,Product_Code,1,,View_Product_Co
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open View Product Code for the first time in this session and add one character to the Name</li>
 <li>2. Click Close, reopen the dialog and add one character to the Name</li>
 <li>3. Click Close</li>
@@ -384,7 +384,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Add one character to the Name</li>
 <li>2. Type the original name back exactly</li>
 <li>3. Repeat steps 1 and 2 twice more</li>
@@ -398,7 +398,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Change the Name, the Item Description and the Oracle Item Number</li>
 <li>2. Click Save</li>
 <li>3. Read the grid row behind the dialog</li>
@@ -416,7 +416,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Product Type list in the Item section and choose LABOR</li>
 <li>2. Open the Service Type list and choose Application Development</li>
 <li>3. Click Save</li>
@@ -436,7 +436,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Product Type list in the Item section</li>
 <li>2. Press Escape and open the Service Type list of the Item section</li>
 <li>3. Press Escape, choose LABOR in the Product Type list and open the Service Type list</li>
@@ -450,7 +450,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Product Organization control in the Item section</li>
 <li>2. Click Canada</li>
 <li>3. Click Canada again</li>
@@ -474,7 +474,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub-Class Name list</li>
 <li>2. Choose a different sub class</li>
 <li>3. Click Save</li>
@@ -494,7 +494,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Uncheck Active</li>
 <li>2. Click Cancel</li>
 <li>3. Uncheck Active again and click Ok</li>
@@ -518,7 +518,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Click the Product Code History tab and note the Modified Date of the top row, then return to the Item tab</li>
 <li>2. Add one character to the Name</li>
 <li>3. Double-click Save</li>
@@ -534,7 +534,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Add one character to the Name</li>
 <li>2. Click Save while the connection to the server is interrupted for that one request</li>
 <li>3. Click Save again with the connection restored</li>
@@ -550,7 +550,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: "" R""
-Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the segment menu and click Sub Class</li>
 <li>2. Add "" R"" to the end of the name</li>
 <li>3. Click Save</li>
@@ -570,7 +570,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: "" R""
-Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the segment menu and click Class</li>
 <li>2. Add "" R"" to the end of the name and click Save</li>
 <li>3. Read the grid, then reload the page and search for the ""ZZ E2E"" prefix</li>
@@ -588,7 +588,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: "" R""
-Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the segment menu and click Sub Category</li>
 <li>2. Add "" R"" to the end of the name and click Save</li>
 <li>3. Read the grid, then reload the page and search for the ""ZZ E2E"" prefix</li>
@@ -606,7 +606,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: "" R""
-Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the segment menu and click Category</li>
 <li>2. Add "" R"" to the end of the name and click Save</li>
 <li>3. Reload the page and search for the ""ZZ E2E"" prefix</li>
@@ -620,7 +620,7 @@ Sample input 2: ""ZZ E2E""",Medium,,Product_Code,1,,View_Product_Code > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub Class segment and note the Service Type of the Sub Class section</li>
 <li>2. Open that Service Type list and choose a different service of the same type</li>
 <li>3. Click Save</li>
@@ -638,7 +638,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub Class segment and note the Barcodeable state</li>
 <li>2. Click Barcodeable and click Save</li>
 <li>3. Close, then open the Item segment of the chain's item and read the Barcodeable box of its Sub Class section</li>
@@ -654,7 +654,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Select an item of that sub class, open the Sub Class segment and uncheck Active</li>
 <li>2. Click Ok, then Save</li>
 <li>3. Click Close and read the grid</li>
@@ -666,7 +666,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section and click Canada, then press Escape</li>
 <li>2. Click Save</li>
 <li>3. Click Yes</li>
@@ -688,7 +688,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Put 256 characters into the US English Name box</li>
 <li>2. Add one more character</li>
 <li>3. Remove one character</li>
@@ -707,7 +707,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Nombre de prueba""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 1: ""Nombre de prueba""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Type ""Nombre de prueba"" into the Spanish (Mexico) Name box</li>
 <li>2. Click Save</li>
 <li>3. Close, reopen the dialog and open the Translations tab</li>
@@ -724,7 +724,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Essai""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 1: ""Essai""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Type ""Essai"" into the French (Canada) Name box and click Save</li>
 <li>2. Close, reopen the dialog and open the Translations tab</li>
 <li>3. Clear the box</li>
@@ -742,7 +742,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: "" F5""
-Sample input 2: ""F5 us name""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 2: ""F5 us name""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Add "" F5"" to the end of the Name, open the Translations tab and type ""F5 us name"" into the US English Name box</li>
 <li>2. Click Save</li>
 <li>3. Close and reopen the dialog, read the Name box, then open the Translations tab</li>
@@ -758,7 +758,7 @@ Sample input 2: ""F5 us name""",Medium,,Product_Code,1,,View_Product_Code > Prod
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Click a cell of the first row</li>
 <li>2. Click elsewhere on the same row</li>
 <li>3. Click the Modified Date column header</li>
@@ -776,7 +776,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Click the Product Code History tab and note the Modified Date of the top row</li>
 <li>2. Return to the Item tab, add one character to the Name and click Save</li>
 <li>3. Click the Product Code History tab</li>
@@ -791,7 +791,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""G4 trans""",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Sample input 1: ""G4 trans""",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Click the Product Code History tab and note the Modified Date of the top row</li>
 <li>2. Open the Translations tab, type ""G4 trans"" into the US English Name box and click Save</li>
 <li>3. Close, reopen the dialog and open the Product Code History tab</li>
@@ -809,7 +809,7 @@ Sample input 1: ""G4 trans""",Medium,,Product_Code,1,,View_Product_Code > Produc
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Read the pager</li>
 <li>2. Choose 10 in the rows-per-page list</li>
 <li>3. Click the next-page button</li>
@@ -839,7 +839,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Modified Date column menu and click Sort ascending</li>
 <li>2. Read the first row</li>
 <li>3. Open the Modified Date column menu and click Sort descending</li>
@@ -853,7 +853,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section, click Canada and press Escape</li>
 <li>2. Click Save</li>
 <li>3. Click the X</li>
@@ -867,7 +867,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section, click Canada and press Escape</li>
 <li>2. Click Save, then click No on the prompt</li>
 <li>3. Click Close, then reopen the Sub Class segment</li>
@@ -883,7 +883,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Item segment of the chain's item, open the Product Organization control of the Item section, click Canada, press Escape and click Save</li>
 <li>2. Close, open the Sub Class segment, choose Canada in the Sub Class section's control, press Escape, click Save and click Yes</li>
 <li>3. Open the control again, click Mexico, press Escape, click Save and click No</li>
@@ -905,7 +905,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section, click Canada and Mexico, press Escape, click Save and click Yes</li>
 <li>2. Close, then open the Item segment of the chain's item</li>
 <li>3. Close, reopen the Sub Class segment, open the control and click Mexico to uncheck it, press Escape and click Save</li>
@@ -923,7 +923,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Open the Sub Class segment, open the Product Organization control of the Sub Class section, click Canada, press Escape, click Save and click Yes</li>
 <li>2. Close, then open the Item segment of the chain's item</li>
 <li>3. Close, reopen the Sub Class segment, open the control, click None, press Escape and click Save</li>
@@ -939,7 +939,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Search the item by its name and read its row</li>
 <li>2. Select the row, open the segment menu right of View Product Code and click Item</li>
 <li>3. Close, reopen the menu and click Sub Class</li>
@@ -955,7 +955,7 @@ Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,View_Product_Code > Product_Code,"<ol>
+Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
 <li>1. Read the Product Code ID of the Sub Class section and the Sub-Class Name</li>
 <li>2. Open the Sub-Class Name list and pick another sub class</li>
 <li>3. Read the Product Code ID of the Sub Class section again</li>

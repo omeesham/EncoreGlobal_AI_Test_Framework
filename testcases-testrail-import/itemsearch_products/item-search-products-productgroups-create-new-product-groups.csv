@@ -4,7 +4,7 @@ ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click Add</li>
 <li>2. Read the form</li>
 <li>3. Read the buttons</li>
@@ -18,7 +18,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the left panel</li>
 <li>2. Read the Sub Classes area on the right</li>
 </ol>",,,"1. A search box and a long list of sub-class items
@@ -28,7 +28,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click Cancel</li>
 <li>2. Click Add again</li>
 </ol>",,,"1. The list page returns immediately — no warning prompt about the typed input
@@ -38,7 +38,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click Add, then fill Name and Description with a per-run unique value (e.g. a ZZ-E2E-&lt;timestamp> name)</li>
 <li>2. Choose a Service Type</li>
 <li>3. In the sub-class picker, double-click one item in the left list</li>
@@ -54,7 +54,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Type 50 characters into Name, one key at a time</li>
 <li>2. Type one more character</li>
 <li>3. Select all and paste a 60-character value</li>
@@ -70,7 +70,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Paste a 120-character value into Description</li>
 <li>2. Press End and type one more character</li>
 <li>3. Press Tab</li>
@@ -84,7 +84,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click into Name, select all and press Delete</li>
 <li>2. Press Tab</li>
 <li>3. Type the name again</li>
@@ -102,7 +102,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Fill Name with spaces only</li>
 <li>2. Fill Name with a value surrounded by spaces</li>
 <li>3. Click Cancel</li>
@@ -114,7 +114,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Fill Name and Description and choose a Service Type</li>
 <li>2. Double-click one catalog item</li>
 <li>3. Clear Description</li>
@@ -137,7 +137,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Lighting""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Sample input 1: ""Lighting""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Open the Service Type list</li>
 <li>2. Choose the first option</li>
 <li>3. Open the list, press End, press Enter</li>
@@ -153,7 +153,7 @@ Sample input 1: ""Lighting""",Medium,,Product_Groups,1,,Create_New_Product_Group
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Fill Name with the fixture group's name, a fresh Description, a Service Type and one sub-class</li>
 <li>2. Click Save</li>
 <li>3. Change Name to the same name with a trailing space and click Save</li>
@@ -167,7 +167,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Fill Name with a per-run unique value, Description with the fixture group's description, a Service Type and one sub-class</li>
 <li>2. Click Save</li>
 <li>3. Click Cancel</li>
@@ -181,7 +181,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Scenery""
-Sample input 2: ""SCENERY""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Sample input 2: ""SCENERY""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the catalog row count</li>
 <li>2. Type ""Scenery"" into the picker's Search</li>
 <li>3. Replace it with ""SCENERY""</li>
@@ -199,7 +199,7 @@ Sample input 2: ""SCENERY""",Medium,,Product_Groups,1,,Create_New_Product_Groups
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the catalog row count and first row</li>
 <li>2. Check Labor</li>
 <li>3. Uncheck Labor</li>
@@ -213,7 +213,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the first and last catalog rows with the order at Ascending</li>
 <li>2. Choose Descending</li>
 <li>3. Choose Ascending</li>
@@ -228,7 +228,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Scenery""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Sample input 1: ""Scenery""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Double-click one catalog item</li>
 <li>2. Type ""Scenery"" into Search, check Labor, choose Descending</li>
 <li>3. Click Reset</li>
@@ -242,7 +242,7 @@ Sample input 1: ""Scenery""",Medium,,Product_Groups,1,,Create_New_Product_Groups
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Double-click the first catalog item</li>
 <li>2. Double-click the same item again</li>
 <li>3. Click the x on the added row</li>
@@ -256,7 +256,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Press the mouse on a catalog item, move it in steps onto the Sub Classes area, release</li>
 <li>2. Click Cancel</li>
 </ol>",,,"1. The item appears in the Sub Classes area and the instruction text is gone
@@ -268,7 +268,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Collapse search panel""
-Sample input 2: ""Expand search panel""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Sample input 2: ""Expand search panel""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the Name box's left edge and width</li>
 <li>2. Click the ""Collapse search panel"" button</li>
 <li>3. Click the ""Expand search panel"" button</li>
@@ -282,7 +282,7 @@ Sample input 2: ""Expand search panel""",Medium,,Product_Groups,1,,Create_New_Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click Add</li>
 <li>2. fill a per-run unique Name and Description, choose a Service Type, add one sub-class by double-click, and clear Active</li>
 <li>3. Click Save</li>
@@ -298,7 +298,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""</b>, a Description, choose """,Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Sample input 1: ""</b>, a Description, choose """,Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click Add</li>
 <li>2. fill Name with a per-run unique value containing &lt;b>&amp;'""&lt;/b>, a Description, choose ""ZSub Rental Specialty"" (the last option) and add one sub-class</li>
 <li>3. Click Save</li>
@@ -311,7 +311,7 @@ Sample input 1: ""</b>, a Description, choose """,Medium,,Product_Groups,1,,Crea
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Type a value into Name</li>
 <li>2. Go back in the browser history</li>
 <li>3. Click Add</li>
@@ -324,7 +324,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Product Groups""",Medium,,Product_Groups,1,,Create_New_Product_Groups > Product_Groups,"<ol>
+Sample input 1: ""Product Groups""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Type a value into Name</li>
 <li>2. Click the ""Product Groups"" breadcrumb above the form</li>
 <li>3. Click Add</li>

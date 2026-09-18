@@ -4,7 +4,7 @@ ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. On the Products page, select a result row and click Product Group in the toolbar</li>
 <li>2. Wait until no loading placeholders remain</li>
 <li>3. Read the grid</li>
@@ -16,7 +16,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Type Audio into the search box and click Search</li>
 <li>2. Read the visible rows</li>
 </ol>",,,"1. A count label appears with dozens of groups found
@@ -26,7 +26,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click Search with the box empty</li>
 <li>2. Wait ~20 seconds and read again</li>
 </ol>",,,"1. The count shows ""0 product groups found"" and no rows render
@@ -38,7 +38,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Go to next page""
-Sample input 2: ""Go to first page""",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Sample input 2: ""Go to first page""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the pagination bar</li>
 <li>2. Click ""Go to next page""</li>
 <li>3. Click ""Go to first page""</li>
@@ -50,7 +50,7 @@ Sample input 2: ""Go to first page""",Medium,,Product_Groups,1,,Search_For_Produ
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Type Audio, click Search, note the count</li>
 <li>2. Navigate away entirely, then return and wait for hydration</li>
 </ol>",,,"1. Results load
@@ -60,7 +60,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the Status column of the visible rows</li>
 <li>2. Read the Service Type column</li>
 </ol>",,,"1. Every row shows `Active`
@@ -70,7 +70,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click Reset</li>
 <li>2. Read the Active checkbox</li>
 </ol>",,,"1. The search box clears; the count returns to zero found; the grid empties
@@ -80,7 +80,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Type ZZ E2E, pause a moment, press Enter</li>
 <li>2. Note the count, Reset, type the same word and click Search instead</li>
 </ol>",,,"1. The count label reports groups found and rows render — no click on Search was needed
@@ -90,7 +90,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Search Automated group create check</li>
 <li>2. Read every visible row</li>
 </ol>",,,"1. At least one group is found
@@ -100,7 +100,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Search ZZ E2E and note the count</li>
 <li>2. Search zz e2e</li>
 <li>3. Search ZZ E2E (three spaces either side)</li>
@@ -114,7 +114,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Search Group 1788335968232</li>
 <li>2. Search 1788335968232 Group (the same words reversed)</li>
 <li>3. Search Group Automated (a word from the Name plus a word from the Description)</li>
@@ -126,7 +126,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Search &amp;'</li>
 <li>2. Search &lt;b></li>
 <li>3. Search %</li>
@@ -138,7 +138,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Search zzzz-no-match-9f3</li>
 <li>2. Search a 200-character term</li>
 </ol>",,,"1. ""0 product groups found"", the ""No results"" placeholder, no rows, every pager button disabled, page box ""1"" with total ""/ 1""
@@ -148,7 +148,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Search the full name ZZ E2E Group 1788335968232</li>
 <li>2. Read the pager</li>
 </ol>",,,"1. The count is 1 and exactly one row renders, named as searched
@@ -158,7 +158,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Search &lt;b></li>
 <li>2. Read the row's cell markup</li>
 </ol>",,,"1. Every row's Name shows the characters `<b>&'""</b>` verbatim — no bold text, no missing characters
@@ -168,7 +168,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click the box, type ZZ E2E by keystrokes and press Enter immediately (no pause)</li>
 <li>2. Type ZZ E2E again, pause, and press Enter</li>
 <li>3. Select all, type Audio and press Enter at once</li>
@@ -182,7 +182,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Clear the Active checkbox and search ZZ E2E</li>
 <li>2. Re-check Active and search again</li>
 </ol>",,,"1. Groups are found and every row's Status reads `Inactive`
@@ -192,7 +192,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Reload the page by address and wait for hydration</li>
 <li>2. Re-check Active, search, reload again</li>
 </ol>",,,"1. The box still holds `ZZ E2E`, Active is still cleared, the same inactive rows and count are back
@@ -202,7 +202,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Note the first row's Name and Description, then click its Description cell</li>
 <li>2. Read the form</li>
 <li>3. Read the badge beside Active and the breadcrumb</li>
@@ -215,7 +215,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Product Groups""",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Sample input 1: ""Product Groups""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click a row on page 2, then use the browser Back</li>
 <li>2. Click a row again, then click the ""Product Groups"" breadcrumb on the Edit page</li>
 </ol>",,,"1. The list shows the same count, page 2 with its rows, the box still holds `ZZ E2E`
@@ -225,7 +225,7 @@ Sample input 1: ""Product Groups""",Medium,,Product_Groups,1,,Search_For_Product
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the search box</li>
 <li>2. Click the x</li>
 <li>3. Type ZZ</li>
@@ -239,7 +239,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Arm a watcher for the loader and the grid placeholders, type ZZ E2E, pause, press Enter</li>
 <li>2. Wait for the rows</li>
 </ol>",,,"1. During the request a spinning loader renders inside the search panel and placeholder rows render in the grid
@@ -250,7 +250,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Products""",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Sample input 1: ""Products""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click ""Products"" in the breadcrumb</li>
 <li>2. Use the browser Back</li>
 </ol>",,,"1. The address is the Products page (`/locations/1101/products`) and its search panel renders
@@ -262,7 +262,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Go to last page""
-Sample input 2: ""Go to first page""",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Sample input 2: ""Go to first page""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the pager</li>
 <li>2. Click ""Go to last page""</li>
 <li>3. Click ""Go to first page""</li>
@@ -274,7 +274,7 @@ Sample input 2: ""Go to first page""",Medium,,Product_Groups,1,,Search_For_Produ
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Type 2 into the page box and press Enter</li>
 <li>2. Type 9 and press Enter</li>
 <li>3. Type 0 and press Enter</li>
@@ -290,7 +290,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Open the rows-per-page selector</li>
 <li>2. Choose 50</li>
 <li>3. Choose 10</li>
@@ -305,7 +305,7 @@ Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Products""",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Sample input 1: ""Products""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click the ""Products"" breadcrumb, then use the browser Back</li>
 <li>2. Navigate to the page by address</li>
 <li>3. Restore 20 rows per page</li>
@@ -317,7 +317,7 @@ Sample input 1: ""Products""",Medium,,Product_Groups,1,,Search_For_Product_Group
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click Reset</li>
 <li>2. Search ZZ E2E again</li>
 </ol>",,,"1. The box clears, ""0 product groups found"", the page box reads ""1"" with total ""/ 1"", every pager button disabled
@@ -327,7 +327,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Read the Name column on page 1</li>
 <li>2. Read the header markers</li>
 </ol>",,,"1. Every name is ≤ the next one (ascending with letter case ignored — `<` sorts before `A`)
@@ -337,7 +337,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Open the Name column menu</li>
 <li>2. Choose Sort descending</li>
 <li>3. Open the menu again and choose Sort ascending</li>
@@ -349,7 +349,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Open the Description menu and choose Sort descending</li>
 <li>2. Open the Service Type menu and choose Sort ascending, then Sort descending</li>
 </ol>",,,"1. The Description column on page 1 descends; the arrow moves to the Description header and leaves Name
@@ -359,7 +359,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Open the Description menu and choose Sort descending</li>
 </ol>",,,"1. The page box reads ""1"" and a full 20-row page renders in the new order",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,"The applied sort survives a new search, a Reset and a reload",,,,,Automated,Omeesha Mahanta,,,Name ascending is back,,,search-for-product-groups,,"ZZ E2E searched and sorted by Service Type descending
@@ -367,7 +367,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Search ZZ E2E again</li>
 <li>2. Click Reset, then search ZZ E2E</li>
 <li>3. Reload the page by address</li>
@@ -381,7 +381,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click the Name header cell</li>
 <li>2. Press Escape</li>
 <li>3. Open the Description and Service Type menus in turn</li>
@@ -395,7 +395,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Open Grid Options</li>
 <li>2. Uncheck Description and close the menu</li>
 <li>3. Reload the page by address</li>
@@ -411,7 +411,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Open Grid Options and choose Reset to Default View</li>
 <li>2. Read the stored grid preference</li>
 </ol>",,,"1. All four columns are back, the Name header shows the ascending arrow and the names ascend, the page box reads ""1"", the results are kept
@@ -421,7 +421,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Drag the Name header's grip onto the Service Type header and release</li>
 <li>2. Reload the page by address</li>
 <li>3. Grid Options</li>
@@ -433,7 +433,7 @@ Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Drag the Name column's resize handle 150 px to the right and release</li>
 <li>2. Reload the page by address</li>
 <li>3. Grid Options</li>
@@ -447,7 +447,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Collapse search panel""
-Sample input 2: ""Expand search panel""",Medium,,Product_Groups,1,,Search_For_Product_Groups > Product_Groups,"<ol>
+Sample input 2: ""Expand search panel""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
 <li>1. Click the divider control ""Collapse search panel""</li>
 <li>2. Reload the page by address</li>
 <li>3. Collapse, then click ""Expand search panel""</li>

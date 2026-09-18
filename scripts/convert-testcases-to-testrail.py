@@ -24,7 +24,8 @@ Populated columns and their conventions (all others stay empty):
                            else "Manual"
   Created By               constant (see CREATED_BY)
   Expected Result          the LAST step's expected result (the case-level outcome)
-  Labels                   per-module label (see MODULE_CONFIG)
+  Labels                   per-module label (see MODULE_CONFIG), unless the
+                           workbook has its own (see LABELS_BY_BASENAME)
   Preconditions            source Preconditions + "\n\nTest Data:\n" + source Test Data
   Priority                 source Priority (default "Medium")
   Section                  per-workbook section name (see SECTION_BY_BASENAME)
@@ -91,11 +92,21 @@ MODULE_CONFIG: dict[str, dict[str, str]] = {
     "corporate-pricing":     {"module": "Corporate_Pricing", "labels": "corporate-pricing"},
     "discount-matrix":       {"module": "Discount_Matrix", "labels": "discount-matrix"},
     "discount-optimization": {"module": "Discount_Optimization", "labels": "discount-optimization"},
+    "itemsearch_products":   {"module": "ItemSearch_Products", "labels": "item-search"},
     "local-office":          {"module": "Local_Office", "labels": "local-office,ect-settings,basic-information,location-settings-history"},
     "locations":             {"module": "Locations", "labels": "locations"},
     "service-charge":        {"module": "Service_Charge", "labels": "service-charge"},
     "service-charge-text":   {"module": "Service_Charge_Text", "labels": "service-charge-text"},
     "terms-conditions":      {"module": "Terms_Conditions", "labels": "terms-conditions"},
+}
+
+# Per workbook basename: a Labels value that overrides the module's. These match
+# the labels the cases already carry in TestRail.
+LABELS_BY_BASENAME: dict[str, str] = {
+    "item-search-products-add-product-code": "add-product-code",
+    "item-search-products-productgroups-create-new-product-groups": "create-new-product-groups",
+    "item-search-products-productgroups-search-for-product-groups": "search-for-product-groups",
+    "item-search-products-view-product-code": "view-product-code",
 }
 
 # Per workbook basename: the TestRail Section name. Anything missing falls back
@@ -285,7 +296,7 @@ def convert_workbook(xlsx_path: Path, out_path: Path) -> int:
         w = csv.writer(fh)  # default \r\n row terminators, LF kept inside cells
         w.writerow(TESTRAIL_COLUMNS)
         for case in cases:
-            w.writerow(build_row(case, mod["module"], mod["labels"], section))
+            w.writerow(build_row(case, mod["module"], LABELS_BY_BASENAME.get(base, mod["labels"]), section))
     print(f"  {base}: {len(cases)} case(s) -> {out_path.as_posix()}")
     return len(cases)
 

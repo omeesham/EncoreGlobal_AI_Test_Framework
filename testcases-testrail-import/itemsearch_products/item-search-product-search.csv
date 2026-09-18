@@ -4,7 +4,7 @@ ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Navigate to the Products page for office 1101</li>
 <li>2. Wait until no loading placeholders remain</li>
 <li>3. Read the grid header row</li>
@@ -18,7 +18,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Type any word into the Any Field box and click Search</li>
 <li>2. Click Reset</li>
 <li>3. Read the products count</li>
@@ -32,7 +32,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Click Search with default criteria and note the total count</li>
 <li>2. Type Amp into the Any Field box and click Search</li>
 <li>3. Read the first ten result rows</li>
@@ -44,7 +44,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Click the Search help button (question icon in the search panel)</li>
 <li>2. Read the popover</li>
 <li>3. Press Escape</li>
@@ -56,7 +56,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Hover the information icon next to the page heading</li>
 <li>2. Hover the collapse-search-panel button</li>
 <li>3. Hover the Grid Options button</li>
@@ -68,7 +68,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Find a cell whose text is visibly cut off and hover it</li>
 <li>2. Hover a cell whose text fits fully</li>
 </ol>",,,"1. A tooltip shows the cell's full text
@@ -78,7 +78,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Type ZZNOBARCODE99 into the barcode box and click Search</li>
 <li>2. Read the grid area</li>
 <li>3. Clear the barcode box and click Search</li>
@@ -90,7 +90,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Click the Category column header</li>
 <li>2. Click Sort descending</li>
 <li>3. Open the menu again and click Sort ascending</li>
@@ -104,7 +104,7 @@ User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Go to next page""
-Sample input 2: ""Go to first page""",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Sample input 2: ""Go to first page""",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Read the pagination bar</li>
 <li>2. Click ""Go to next page""</li>
 <li>3. Click ""Go to first page""</li>
@@ -116,7 +116,7 @@ Sample input 2: ""Go to first page""",Medium,,Product_Search,1,,Item_Search > Pr
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Read the rows-per-page control</li>
 <li>2. Open it</li>
 <li>3. Press Escape</li>
@@ -128,7 +128,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Click Grid Options</li>
 <li>2. Click the Owned entry</li>
 <li>3. Open Grid Options again</li>
@@ -142,7 +142,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Type Amp into Any Field and click Search</li>
 <li>2. note the count</li>
 <li>3. Navigate away from the page entirely, then navigate back and wait for hydration</li>
@@ -153,7 +153,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Click the collapse-search-panel button</li>
 <li>2. Click the button again</li>
 </ol>",,,"1. The search panel hides and the grid area widens
@@ -163,7 +163,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Type the barcode 5052320 into the barcode box</li>
 <li>2. Click Search</li>
 <li>3. Read that row's Item and Product Code ID</li>
@@ -175,7 +175,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Type the barcode DFW0082529 into the barcode box</li>
 <li>2. Click Search</li>
 <li>3. Read that row's Item and Product Code ID</li>
@@ -187,7 +187,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Search the barcode DFW0082529 and read the row's Product Code ID</li>
 <li>2. Replace the barcode with DFW0082517 and search again</li>
 <li>3. Replace the barcode with 5189939 and search again</li>
@@ -199,7 +199,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Search the barcode in its printed uppercase form, DFW0082529</li>
 <li>2. Replace it with the same barcode in lowercase, dfw0082529, and search</li>
 </ol>",,,"1. One row, Product Code ID 71154
@@ -209,7 +209,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Search the full barcode 5052320</li>
 <li>2. Replace it with the first six digits, 505232, and search</li>
 <li>3. Search the full barcode again with a space typed in front of it</li>
@@ -221,7 +221,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Type a word into the Any Field box</li>
 <li>2. Type a barcode into the barcode box</li>
 <li>3. Type a word into the Any Field box again</li>
@@ -235,7 +235,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Search the barcode 1013104</li>
 <li>2. Navigate away to Product Groups and back to Products</li>
 <li>3. Read the count and the row without searching again</li>
@@ -247,7 +247,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Search the barcode 5052320</li>
 <li>2. Select that row</li>
 <li>3. Click View Product Code</li>
@@ -259,7 +259,7 @@ Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,Item_Search > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
 <li>1. Type a fifty-character value into the barcode box</li>
 <li>2. Click Search</li>
 <li>3. Click Reset</li>
