@@ -1,0 +1,28 @@
+{
+  "id": "BUG-SVC-BAS-001",
+  "title": "Service Charge percentage: out-of-range / non-numeric input shows only a red border — the NM-3359 validation message (accepted range) is absent on e2e",
+  "module": "service-charge",
+  "submodule": "basic_information",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-09-18",
+  "requirementSource": "Jira NM-3359 (status Done, resolution Done, PR Navigator-Microservices#3141, 'Fixed in the release/1.15', verified 2026-08-07: 'A validation message is now displayed when an invalid Service Charge Percentage value is entered ... clearly indicates the accepted range, while the field is highlighted and the Save button remains disabled'). Expected text per the ticket: 'Service Charge Percentage must be between 0% and 100%.'",
+  "stepsToReproduce": [
+    "Navigate to https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/service-charge and wait until the 79 percentage inputs are enabled and their values have stopped changing (about 30 s).",
+    "Click the first percentage input (data-testid service-charge-percentage-0, row 'APP Downloaded'), select all, type 101.",
+    "Press Tab (or click elsewhere).",
+    "Look for any validation text: inside the cell, below the grid, as a tooltip on hover, or as a toast/banner anywhere on the page. Repeat with -1 and with abc."
+  ],
+  "expectedBehavior": "The field is highlighted, Save stays disabled, AND a visible validation message states that the value is invalid and gives the accepted range (NM-3359 expected result).",
+  "actualBehavior": "The field gets aria-invalid=\"true\" and a red border (computed border-color oklch(0.577 0.245 27.325), class aria-invalid:border-destructive) and Save stays disabled — but NO message is rendered anywhere: no text is added to the page body (whole-page innerText diff before/after is empty at 1 s, 5 s, and while the field keeps focus), no tooltip on hover, no title attribute, no aria-describedby / aria-errormessage target, no role=alert/status node, nothing inside shadow roots. Same for -1 and abc. The pre-fix behaviour described in NM-3359 ('field highlighted in red, Save disabled, no validation or error message') is exactly what e2e shows on 2026-09-18.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-18",
+    "tool": "Playwright script (headless Chromium, saved session .auth/encore-state.json)",
+    "findings": "reports/walk-coverage/probes/svc-numeric-probe.2026-09-18.json — probes '101', '-1', 'abc', '1.2.3', '99999999999': ariaInvalid 'true', alerts [], saveEnabledAfterBlur false, escapable true. reports/walk-coverage/probes/svc-followup-probe.2026-09-18.json — Q1 rejection surface for 101 / -1 / abc: title null, describedBy [], cellText '', siblingsWithText [], tooltips [] (after blur and after hover), borderColor oklch(0.577 0.245 27.325). reports/walk-coverage/probes/svc-retry-probe-r2r3.2026-09-18.json — R2 whole-page innerText diff after typing 101 + Tab: addedLines [] at 1000 ms and 5000 ms, addedLines [] while focused, shadowTexts [], invalidCount 1."
+  },
+  "networkEvidence": "No request is made on blur (validation is client-side). Valid edits POST the full 79-row grid to /navigator/locations/1604/settings/service-charge (200) — see save-cycle records in svc-numeric-probe.2026-09-18.json.",
+  "baselineComparison": "intentional-UX-change",
+  "baselineEvidence": "specs_planning/_internal/old-site-baseline/service-charge-2026-08-11.md §Baseline diff row SC-BL-5 — old site: silent block (no message, no tooltip, no aria-invalid; Save disabled). The new site adding a message was the intentional improvement NM-3359 delivered; this defect is the absence of that intended message on e2e, not a divergence from the old site.",
+  "affectedTests": [],
+  "notes": "e2e exposes no release identifier (only meta 'Navigator Version 2.0'), so 'release/1.15 not deployed to e2e' cannot be excluded from the page alone — but e2e is the chartered automation target (LR-ENC-007) and the Done ticket's behaviour is absent there. Verifier: follow the steps verbatim (LR-044); if a message appears, record its exact text and close as ENVIRONMENTAL."
+}
