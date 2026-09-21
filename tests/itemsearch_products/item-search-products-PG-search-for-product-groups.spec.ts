@@ -73,7 +73,7 @@ test.describe('SBC — Item Search Product Groups surface behaviors @item-search
     await pgr.ensureCleanSearch(ISR_OFFICE);
   });
 
-  test('TC-ISR-PGR-001: The Product Groups page loads without auto-searching', { tag: '@C105587' }, async ({ authenticatedSession, config, dependencyGate }) => {
+  test('TC-ISR-PGR-001: The Product Groups page loads without auto-searching', { tag: '@C105849' }, async ({ authenticatedSession, config, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     // The covered entry is the in-app route: a selected row's toolbar on the Products
@@ -92,7 +92,7 @@ test.describe('SBC — Item Search Product Groups surface behaviors @item-search
     expect(await pgr.readRowCount()).toBe(0);
   });
 
-  test('TC-ISR-PGR-002: A search word returns matching groups', { tag: '@C105588' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-002: A search word returns matching groups', { tag: '@C105850' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_SEARCH_WORD);
     const count = await pgr.clickSearchAndWait((n) => n !== null && n > 20);
@@ -105,7 +105,7 @@ test.describe('SBC — Item Search Product Groups surface behaviors @item-search
     }
   });
 
-  test('TC-ISR-PGR-003: Searching with an empty box returns zero groups', { tag: '@C105589' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-003: Searching with an empty box returns zero groups', { tag: '@C105851' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // Deliberately different from the Products page, where an empty search returns the
     // full set. The inconsistency is flagged for discussion with the product team; this
@@ -125,7 +125,7 @@ test.describe('SBC — Item Search Product Groups surface behaviors @item-search
     expect(await pgr.readRowCount()).toBe(0);
   });
 
-  test('TC-ISR-PGR-004: Pagination pages through at twenty rows', { tag: '@C105590' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-004: Pagination pages through at twenty rows', { tag: '@C105852' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_SEARCH_WORD);
     const count = await pgr.clickSearchAndWait((n) => n !== null && n > 20);
@@ -147,7 +147,7 @@ test.describe('SBC — Item Search Product Groups surface behaviors @item-search
     expect(await pgr.readFirstRowText()).toBe(firstRowPage1);
   });
 
-  test('TC-ISR-PGR-005: An executed group search survives leaving and returning', { tag: '@C105591' }, async ({ authenticatedSession, config, dependencyGate }) => {
+  test('TC-ISR-PGR-005: An executed group search survives leaving and returning', { tag: '@C105853' }, async ({ authenticatedSession, config, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_SEARCH_WORD);
@@ -162,7 +162,7 @@ test.describe('SBC — Item Search Product Groups surface behaviors @item-search
     expect(await pgr.readRowCount()).toBeGreaterThan(0);
   });
 
-  test('TC-ISR-PGR-006: Result rows show their status', { tag: '@C105592' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-006: Result rows show their status', { tag: '@C105854' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // The Active filter is checked (the reset keeps it on), so every row renders Active.
     expect(await pgr.isActiveChecked()).toBe(true);
@@ -190,7 +190,7 @@ test.describe('Item Search Product Groups search panel — fields @item-search @
     await pgr.ensureCleanSearch(ISR_OFFICE);
   });
 
-  test('TC-ISR-PGR-007: Reset clears the search and keeps the Active filter', { tag: '@C105593' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-007: Reset clears the search and keeps the Active filter', { tag: '@C105855' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_SEARCH_WORD);
     await pgr.clickSearchAndWait((n) => n !== null && n > 0);
@@ -213,7 +213,7 @@ test.describe('Item Search Product Groups search contract @item-search @product-
     await pgr.ensureDefaultGridView();
   });
 
-  test('TC-ISR-PGR-008: The Enter key runs the group search', { tag: '@C105594' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-008: The Enter key runs the group search', { tag: '@C105856' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
     const byEnter = await pgr.pressEnterAndWait((n) => n !== null && n > 0);
@@ -226,7 +226,7 @@ test.describe('Item Search Product Groups search contract @item-search @product-
     expect(await pgr.readFirstRowText()).toBe(firstRowByEnter);
   });
 
-  test('TC-ISR-PGR-009: The description column is searched too', { tag: '@C105595' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-009: The description column is searched too', { tag: '@C105857' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_DEEP_SEARCH.descriptionPhrase);
     const count = await pgr.clickSearchAndWait((n) => n !== null && n > 0);
@@ -242,7 +242,7 @@ test.describe('Item Search Product Groups search contract @item-search @product-
     }
   });
 
-  test('TC-ISR-PGR-010: Search ignores case and surrounding spaces; a spaces-only search counts as empty', { tag: '@C105596' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-010: Search ignores case and surrounding spaces; a spaces-only search counts as empty', { tag: '@C105858' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -263,7 +263,7 @@ test.describe('Item Search Product Groups search contract @item-search @product-
     expect(await pgr.isNoResultsShown()).toBe(true);
   });
 
-  test('TC-ISR-PGR-011: Search matches the typed words in order, as one phrase', { tag: '@C105597' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-011: Search matches the typed words in order, as one phrase', { tag: '@C105859' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.phraseInOrder);
@@ -281,7 +281,7 @@ test.describe('Item Search Product Groups search contract @item-search @product-
     expect(await pgr.readRowCount()).toBe(0);
   });
 
-  test('TC-ISR-PGR-012: Special characters are searched literally', { tag: '@C105598' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-012: Special characters are searched literally', { tag: '@C105860' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.ampersandQuote);
@@ -309,7 +309,7 @@ test.describe('Item Search Product Groups search contract @item-search @product-
     }
   });
 
-  test('TC-ISR-PGR-013: A term matching nothing shows zero groups and "No results"; a 200-character term is accepted', { tag: '@C105599' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-013: A term matching nothing shows zero groups and "No results"; a 200-character term is accepted', { tag: '@C105861' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -331,7 +331,7 @@ test.describe('Item Search Product Groups search contract @item-search @product-
     expect(await pgr.readRowCount()).toBe(0);
   });
 
-  test('TC-ISR-PGR-014: A single match reports a count of 1 with one row', { tag: '@C105600' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-014: A single match reports a count of 1 with one row', { tag: '@C105862' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_DEEP_SEARCH.singleMatchName);
     expect(await pgr.clickSearchAndWait((n) => n === 1)).toBe(1);
@@ -341,7 +341,7 @@ test.describe('Item Search Product Groups search contract @item-search @product-
     expect(await Promise.all(PAGER_BUTTONS.map((name) => pgr.isPaginationEnabled(name)))).toEqual([false, false, false, false]);
   });
 
-  test('TC-ISR-PGR-015: Names containing markup render as literal text', { tag: '@C105601' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-015: Names containing markup render as literal text', { tag: '@C105863' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_DEEP_SEARCH.markupTag);
     expect((await pgr.clickSearchAndWait((n) => n !== null && n > 0)) as number).toBeGreaterThan(0);
@@ -353,7 +353,7 @@ test.describe('Item Search Product Groups search contract @item-search @product-
     expect(await pgr.doesFirstNameCellRenderMarkup()).toBe(false);
   });
 
-  test('TC-ISR-PGR-016: A submit inside the typing debounce runs the previous term; after the pause the typed word runs', { tag: '@C105602' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-016: A submit inside the typing debounce runs the previous term; after the pause the typed word runs', { tag: '@C105864' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // Keystrokes reach the search on a short delay, and a submit inside that delay runs the term
     // committed before it: the empty term on a first visit, the old word after an executed search.
@@ -398,7 +398,7 @@ test.describe('Item Search Product Groups status filter, rows and return paths @
     await pgr.ensureDefaultGridView();
   });
 
-  test('TC-ISR-PGR-017: Clearing the Active filter lists inactive groups only', { tag: '@C105603' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-017: Clearing the Active filter lists inactive groups only', { tag: '@C105865' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.setActiveFilter(false);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -420,7 +420,7 @@ test.describe('Item Search Product Groups status filter, rows and return paths @
     }
   });
 
-  test('TC-ISR-PGR-018: The Active filter and its results survive a full reload', { tag: '@C105604' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-018: The Active filter and its results survive a full reload', { tag: '@C105866' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.setActiveFilter(false);
@@ -443,7 +443,7 @@ test.describe('Item Search Product Groups status filter, rows and return paths @
     }
   });
 
-  test('TC-ISR-PGR-019: Clicking a result row opens that group\'s Edit page', { tag: '@C105605' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-019: Clicking a result row opens that group\'s Edit page', { tag: '@C105867' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -465,7 +465,7 @@ test.describe('Item Search Product Groups status filter, rows and return paths @
     await pgr.clickBreadcrumbToGroups();
   });
 
-  test('TC-ISR-PGR-020: Returning from the Edit page restores the results and the page number', { tag: '@C105606' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-020: Returning from the Edit page restores the results and the page number', { tag: '@C105868' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -492,7 +492,7 @@ test.describe('Item Search Product Groups status filter, rows and return paths @
     expect(await pgr.readFirstRowText()).toBe(page2FirstRow);
   });
 
-  test('TC-ISR-PGR-021: The clear control empties the box but keeps the results', { tag: '@C105607' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-021: The clear control empties the box but keeps the results', { tag: '@C105869' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -512,7 +512,7 @@ test.describe('Item Search Product Groups status filter, rows and return paths @
     await expect.poll(async () => await pgr.readFoundCount(), { timeout: 120_000 }).toBe(count);
   });
 
-  test('TC-ISR-PGR-022: A loader shows in the search box while a search runs', { tag: '@C105608' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-022: A loader shows in the search box while a search runs', { tag: '@C105870' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.armSearchLoaderWatch();
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -524,7 +524,7 @@ test.describe('Item Search Product Groups status filter, rows and return paths @
     expect(await pgr.readFoundCount()).toBe(count);
   });
 
-  test('TC-ISR-PGR-023: The Products breadcrumb returns to the Products page', { tag: '@C105609' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-023: The Products breadcrumb returns to the Products page', { tag: '@C105871' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -550,7 +550,7 @@ test.describe('Item Search Product Groups pagination @item-search @product-group
     await pgr.ensureDefaultGridView();
   });
 
-  test('TC-ISR-PGR-024: Last and first page jumps and the page-of-total label', { tag: '@C105610' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-024: Last and first page jumps and the page-of-total label', { tag: '@C105872' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
     const count = (await pgr.clickSearchAndWait((n) => n !== null && n > pageSize)) as number;
@@ -568,7 +568,7 @@ test.describe('Item Search Product Groups pagination @item-search @product-group
     expect(await pgr.readFoundCount()).toBe(count);
   });
 
-  test('TC-ISR-PGR-025: The page-number box jumps to a valid page and snaps back on invalid input', { tag: '@C105611' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-025: The page-number box jumps to a valid page and snaps back on invalid input', { tag: '@C105873' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -590,7 +590,7 @@ test.describe('Item Search Product Groups pagination @item-search @product-group
     await expect.poll(async () => await pgr.readPageNumber(), { timeout: 60_000 }).toBe('2');
   });
 
-  test('TC-ISR-PGR-026: Rows per page offers 10 to 50 and reshapes the pages', { tag: '@C105612' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-026: Rows per page offers 10 to 50 and reshapes the pages', { tag: '@C105874' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -618,7 +618,7 @@ test.describe('Item Search Product Groups pagination @item-search @product-group
     await expect.poll(async () => await pgr.readTotalPages(), { timeout: 60_000 }).toBe(Math.ceil(count / pageSize));
   });
 
-  test('TC-ISR-PGR-027: The chosen rows-per-page and page survive leaving and returning', { tag: '@C105613' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-027: The chosen rows-per-page and page survive leaving and returning', { tag: '@C105875' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -645,7 +645,7 @@ test.describe('Item Search Product Groups pagination @item-search @product-group
     await expect.poll(async () => await pgr.readTotalPages(), { timeout: 60_000 }).toBe(Math.ceil(count / pageSize));
   });
 
-  test('TC-ISR-PGR-028: Reset from a later page returns the pager to page 1 of 1', { tag: '@C105614' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-028: Reset from a later page returns the pager to page 1 of 1', { tag: '@C105876' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
     const count = (await pgr.clickSearchAndWait((n) => n !== null && n > pageSize)) as number;
@@ -675,7 +675,7 @@ test.describe('Item Search Product Groups sorting @item-search @product-groups',
     await pgr.ensureDefaultGridView();
   });
 
-  test('TC-ISR-PGR-029: Results default to Name ascending', { tag: '@C105615' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-029: Results default to Name ascending', { tag: '@C105877' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.resetToDefaultView();
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -692,7 +692,7 @@ test.describe('Item Search Product Groups sorting @item-search @product-groups',
     expect(stored?.sortDirection).toBe('asc');
   });
 
-  test('TC-ISR-PGR-030: The Name column menu sorts descending and ascending', { tag: '@C105616' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-030: The Name column menu sorts descending and ascending', { tag: '@C105878' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
     expect((await pgr.clickSearchAndWait((n) => n !== null && n > 0)) as number).toBeGreaterThan(0);
@@ -709,7 +709,7 @@ test.describe('Item Search Product Groups sorting @item-search @product-groups',
     expect(await pgr.readSortMarker('Name')).toBe('ascending');
   });
 
-  test('TC-ISR-PGR-031: Description and Service Type sort through their column menus', { tag: '@C105617' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-031: Description and Service Type sort through their column menus', { tag: '@C105879' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -733,7 +733,7 @@ test.describe('Item Search Product Groups sorting @item-search @product-groups',
     expect(await pgr.readSortMarker('Service Type')).toBe('descending');
   });
 
-  test('TC-ISR-PGR-032: Sorting from a later page returns to page 1', { tag: '@C105618' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-032: Sorting from a later page returns to page 1', { tag: '@C105880' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
     expect((await pgr.clickSearchAndWait((n) => n !== null && n > Number(PGR_DEFAULT_PAGE_SIZE))) as number).toBeGreaterThan(Number(PGR_DEFAULT_PAGE_SIZE));
@@ -745,7 +745,7 @@ test.describe('Item Search Product Groups sorting @item-search @product-groups',
     expect(await pgr.readSortMarker('Description')).toBe('descending');
   });
 
-  test('TC-ISR-PGR-033: The applied sort survives a new search, a Reset and a reload', { tag: '@C105619' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-033: The applied sort survives a new search, a Reset and a reload', { tag: '@C105881' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -778,7 +778,7 @@ test.describe('Item Search Product Groups sorting @item-search @product-groups',
     expect(await pgr.readSortMarker('Service Type')).toBe('neutral');
   });
 
-  test('TC-ISR-PGR-034: Every column header opens a sort menu and Escape closes it', { tag: '@C105620' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-034: Every column header opens a sort menu and Escape closes it', { tag: '@C105882' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
     expect((await pgr.clickSearchAndWait((n) => n !== null && n > 0)) as number).toBeGreaterThan(0);
@@ -806,7 +806,7 @@ test.describe('Item Search Product Groups grid layout @item-search @product-grou
     await pgr.ensureDefaultGridView();
   });
 
-  test('TC-ISR-PGR-035: Grid Options hides and shows columns and remembers the choice', { tag: '@C105621' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-035: Grid Options hides and shows columns and remembers the choice', { tag: '@C105883' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -832,7 +832,7 @@ test.describe('Item Search Product Groups grid layout @item-search @product-grou
     await expect.poll(async () => await pgr.readHeaderNames(), { timeout: 30_000 }).toEqual([...PGR_COLUMNS]);
   });
 
-  test('TC-ISR-PGR-036: Reset to Default View restores columns, sort, page and stored preferences', { tag: '@C105622' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-036: Reset to Default View restores columns, sort, page and stored preferences', { tag: '@C105884' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -859,7 +859,7 @@ test.describe('Item Search Product Groups grid layout @item-search @product-grou
     expect(stored?.pageIndex).toBe(1);
   });
 
-  test('TC-ISR-PGR-037: Dragging a column header reorders the columns and the order persists', { tag: '@C105623' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-037: Dragging a column header reorders the columns and the order persists', { tag: '@C105885' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -883,7 +883,7 @@ test.describe('Item Search Product Groups grid layout @item-search @product-grou
     await expect.poll(async () => await pgr.readHeaderNames(), { timeout: 30_000 }).toEqual([...PGR_COLUMNS]);
   });
 
-  test('TC-ISR-PGR-038: Dragging a column edge resizes it and the width persists', { tag: '@C105624' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-038: Dragging a column edge resizes it and the width persists', { tag: '@C105886' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);
@@ -906,7 +906,7 @@ test.describe('Item Search Product Groups grid layout @item-search @product-grou
     expect(Math.abs((await pgr.readHeaderWidth('Name')) - before)).toBeLessThanOrEqual(2);
   });
 
-  test('TC-ISR-PGR-039: The search panel collapses and expands; the state is not remembered', { tag: '@C105625' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PGR-039: The search panel collapses and expands; the state is not remembered', { tag: '@C105887' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pgr.typeSearch(PGR_DEEP_SEARCH.word);

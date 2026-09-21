@@ -1,106 +1,106 @@
 ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
-,The Product Groups page loads without auto-searching,,,,,Automated,Omeesha Mahanta,,,No rows are loaded until a search runs (unless a previous search is being restored — see the persistence case),,,search-for-product-groups,,"The automation account has access to office 1101
+,The Product Groups page loads without auto-searching,,,,,Automated,Omeesha Mahanta,,,No rows are loaded until a search runs (unless a previous search is being restored — see the persistence case),,,product-groups,,"The automation account has access to office 1101
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. On the Products page, select a result row and click Product Group in the toolbar</li>
 <li>2. Wait until no loading placeholders remain</li>
 <li>3. Read the grid</li>
 </ol>",,,"1. The Product Groups page opens
 2. The search panel, Add button and the 4-column grid header (Name, Description, Service Type, Status) are shown
 3. No rows are loaded until a search runs (unless a previous search is being restored — see the persistence case)",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A search word returns matching groups,,,,,Automated,Omeesha Mahanta,,,"Every row's name contains ""Audio""",,,search-for-product-groups,,"The Product Groups page is open; the search box is empty (Reset if needed)
+,A search word returns matching groups,,,,,Automated,Omeesha Mahanta,,,"Every row's name contains ""Audio""",,,product-groups,,"The Product Groups page is open; the search box is empty (Reset if needed)
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Type Audio into the search box and click Search</li>
 <li>2. Read the visible rows</li>
 </ol>",,,"1. A count label appears with dozens of groups found
 2. Every row's name contains ""Audio""",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Searching with an empty box returns zero groups,,,,,Automated,Omeesha Mahanta,,,"Still zero — this is the settled response, not a loading gap",,,search-for-product-groups,,"The Product Groups page is open; the search box is empty
+,Searching with an empty box returns zero groups,,,,,Automated,Omeesha Mahanta,,,"Still zero — this is the settled response, not a loading gap",,,product-groups,,"The Product Groups page is open; the search box is empty
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Click Search with the box empty</li>
 <li>2. Wait ~20 seconds and read again</li>
 </ol>",,,"1. The count shows ""0 product groups found"" and no rows render
 2. Still zero — this is the settled response, not a loading gap",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Pagination pages through at twenty rows,,,,,Automated,Omeesha Mahanta,,,Page 1 returns,,,search-for-product-groups,,"An Audio search has been executed (multiple pages available)
+,Pagination pages through at twenty rows,,,,,Automated,Omeesha Mahanta,,,Page 1 returns,,,product-groups,,"An Audio search has been executed (multiple pages available)
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Go to next page""
-Sample input 2: ""Go to first page""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Sample input 2: ""Go to first page""",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Read the pagination bar</li>
 <li>2. Click ""Go to next page""</li>
 <li>3. Click ""Go to first page""</li>
 </ol>",,,"1. Rows-per-page shows 20; page 1 of several; first/previous disabled
 2. Page 2 shows different rows; first/previous enable
 3. Page 1 returns",,,,Master,S1620,Test Case (Steps),Regression,,,
-,An executed group search survives leaving and returning,,,,,Automated,Omeesha Mahanta,,,"The box still holds `Audio`, the same count shows, and the rows are back",,,search-for-product-groups,,"The Product Groups page is open; the box is empty
+,An executed group search survives leaving and returning,,,,,Automated,Omeesha Mahanta,,,"The box still holds `Audio`, the same count shows, and the rows are back",,,product-groups,,"The Product Groups page is open; the box is empty
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Type Audio, click Search, note the count</li>
 <li>2. Navigate away entirely, then return and wait for hydration</li>
 </ol>",,,"1. Results load
 2. The box still holds `Audio`, the same count shows, and the rows are back",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Result rows show their status,,,,,Automated,Omeesha Mahanta,,,Each row carries a service type (e.g. `Equipment Rental`),,,search-for-product-groups,,"An Audio search has been executed with Active checked
+,Result rows show their status,,,,,Automated,Omeesha Mahanta,,,Each row carries a service type (e.g. `Equipment Rental`),,,product-groups,,"An Audio search has been executed with Active checked
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Read the Status column of the visible rows</li>
 <li>2. Read the Service Type column</li>
 </ol>",,,"1. Every row shows `Active`
 2. Each row carries a service type (e.g. `Equipment Rental`)",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Reset clears the search and keeps the Active filter,,,,,Automated,Omeesha Mahanta,,,It remains checked,,,search-for-product-groups,,"An Audio search has been executed
+,Reset clears the search and keeps the Active filter,,,,,Automated,Omeesha Mahanta,,,It remains checked,,,product-groups,,"An Audio search has been executed
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Click Reset</li>
 <li>2. Read the Active checkbox</li>
 </ol>",,,"1. The search box clears; the count returns to zero found; the grid empties
 2. It remains checked",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The Enter key runs the group search,,,,,Automated,Omeesha Mahanta,,,The same count and the same first row come back,,,search-for-product-groups,,"The Product Groups page is open with a clean search (Reset)
+,The Enter key runs the group search,,,,,Automated,Omeesha Mahanta,,,The same count and the same first row come back,,,product-groups,,"The Product Groups page is open with a clean search (Reset)
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Type ZZ E2E, pause a moment, press Enter</li>
 <li>2. Note the count, Reset, type the same word and click Search instead</li>
 </ol>",,,"1. The count label reports groups found and rows render — no click on Search was needed
 2. The same count and the same first row come back",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The description column is searched too,,,,,Automated,Omeesha Mahanta,,,Each row's Description contains the phrase while its Name does not — the match came from the description,,,search-for-product-groups,,"Clean search; the automated groups exist (their descriptions start with ""Automated group create check"", their names do not contain that phrase)
+,The description column is searched too,,,,,Automated,Omeesha Mahanta,,,Each row's Description contains the phrase while its Name does not — the match came from the description,,,product-groups,,"Clean search; the automated groups exist (their descriptions start with ""Automated group create check"", their names do not contain that phrase)
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Search Automated group create check</li>
 <li>2. Read every visible row</li>
 </ol>",,,"1. At least one group is found
 2. Each row's Description contains the phrase while its Name does not — the match came from the description",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Search ignores case and surrounding spaces; a spaces-only search counts as empty,,,,,Automated,Omeesha Mahanta,,,"""0 product groups found"" and ""No results"" — treated as an empty search",,,search-for-product-groups,,"Clean search
+,Search ignores case and surrounding spaces; a spaces-only search counts as empty,,,,,Automated,Omeesha Mahanta,,,"""0 product groups found"" and ""No results"" — treated as an empty search",,,product-groups,,"Clean search
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Search ZZ E2E and note the count</li>
 <li>2. Search zz e2e</li>
 <li>3. Search ZZ E2E (three spaces either side)</li>
@@ -109,66 +109,66 @@ Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_
 2. The same count
 3. The same count; the box keeps the spaces as typed
 4. ""0 product groups found"" and ""No results"" — treated as an empty search",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Search matches the typed words in order, as one phrase",,,,,Automated,Omeesha Mahanta,,,"""0 product groups found""",,,search-for-product-groups,,"Clean search; the group ZZ E2E Group 1788335968232 (description ""Automated group create check 1788335968232"") exists
+,"Search matches the typed words in order, as one phrase",,,,,Automated,Omeesha Mahanta,,,"""0 product groups found""",,,product-groups,,"Clean search; the group ZZ E2E Group 1788335968232 (description ""Automated group create check 1788335968232"") exists
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Search Group 1788335968232</li>
 <li>2. Search 1788335968232 Group (the same words reversed)</li>
 <li>3. Search Group Automated (a word from the Name plus a word from the Description)</li>
 </ol>",,,"1. Exactly one row: `ZZ E2E Group 1788335968232`
 2. ""0 product groups found""
 3. ""0 product groups found""",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Special characters are searched literally,,,,,Automated,Omeesha Mahanta,,,"Only names containing a literal `%` come back (the ""Caption … 80% …"" groups) — `%` is not a wildcard, so the result is far smaller than the full catalog",,,search-for-product-groups,,"Clean search; the special-character groups (ZZ E2E Special <b>&'""</b>...) exist; at least one group name contains a literal %
+,Special characters are searched literally,,,,,Automated,Omeesha Mahanta,,,"Only names containing a literal `%` come back (the ""Caption … 80% …"" groups) — `%` is not a wildcard, so the result is far smaller than the full catalog",,,product-groups,,"Clean search; the special-character groups (ZZ E2E Special <b>&'""</b>...) exist; at least one group name contains a literal %
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Search &amp;'</li>
 <li>2. Search &lt;b></li>
 <li>3. Search %</li>
 </ol>",,,"1. Only groups whose Name or Description contains `&'` are found (5 at verification), each row shows the characters verbatim
 2. The same five groups
 3. Only names containing a literal `%` come back (the ""Caption … 80% …"" groups) — `%` is not a wildcard, so the result is far smaller than the full catalog",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"A term matching nothing shows zero groups and ""No results""; a 200-character term is accepted",,,,,Automated,Omeesha Mahanta,,,"The box holds all 200 characters (no maximum length); the same zero state, no error",,,search-for-product-groups,,"Clean search
+,"A term matching nothing shows zero groups and ""No results""; a 200-character term is accepted",,,,,Automated,Omeesha Mahanta,,,"The box holds all 200 characters (no maximum length); the same zero state, no error",,,product-groups,,"Clean search
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Search zzzz-no-match-9f3</li>
 <li>2. Search a 200-character term</li>
 </ol>",,,"1. ""0 product groups found"", the ""No results"" placeholder, no rows, every pager button disabled, page box ""1"" with total ""/ 1""
 2. The box holds all 200 characters (no maximum length); the same zero state, no error",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A single match reports a count of 1 with one row,,,,,Automated,Omeesha Mahanta,,,"Every pager button disabled, ""1 / 1""",,,search-for-product-groups,,"Clean search; the group ZZ E2E Group 1788335968232 exists
+,A single match reports a count of 1 with one row,,,,,Automated,Omeesha Mahanta,,,"Every pager button disabled, ""1 / 1""",,,product-groups,,"Clean search; the group ZZ E2E Group 1788335968232 exists
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Search the full name ZZ E2E Group 1788335968232</li>
 <li>2. Read the pager</li>
 </ol>",,,"1. The count is 1 and exactly one row renders, named as searched
 2. Every pager button disabled, ""1 / 1""",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Names containing markup render as literal text,,,,,Automated,Omeesha Mahanta,,,The cell contains no `<b>` element; the angle brackets are text,,,search-for-product-groups,,"The special-character groups exist
+,Names containing markup render as literal text,,,,,Automated,Omeesha Mahanta,,,The cell contains no `<b>` element; the angle brackets are text,,,product-groups,,"The special-character groups exist
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Search &lt;b></li>
 <li>2. Read the row's cell markup</li>
 </ol>",,,"1. Every row's Name shows the characters `<b>&'""</b>` verbatim — no bold text, no missing characters
 2. The cell contains no `<b>` element; the angle brackets are text",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A submit inside the typing debounce runs the previous term; after the pause the typed word runs,,,,,Automated,Omeesha Mahanta,,,The `Audio` groups replace the rows,,,search-for-product-groups,,"A fresh page load with a clean search (no executed term stored)
+,A submit inside the typing debounce runs the previous term; after the pause the typed word runs,,,,,Automated,Omeesha Mahanta,,,The `Audio` groups replace the rows,,,product-groups,,"A fresh page load with a clean search (no executed term stored)
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Click the box, type ZZ E2E by keystrokes and press Enter immediately (no pause)</li>
 <li>2. Type ZZ E2E again, pause, and press Enter</li>
 <li>3. Select all, type Audio and press Enter at once</li>
@@ -177,55 +177,55 @@ Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_
 2. The `ZZ E2E` groups are found
 3. The `ZZ E2E` rows and count stay while the box reads `Audio`
 4. The `Audio` groups replace the rows",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Clearing the Active filter lists inactive groups only,,,,,Automated,Omeesha Mahanta,,,Every row's Status reads `Active`; the count differs from step 1,,,search-for-product-groups,,"Clean search; inactive automated groups exist (ZZ E2E Inactive..., ZZ E2E Walk 2026-09-09 B)
+,Clearing the Active filter lists inactive groups only,,,,,Automated,Omeesha Mahanta,,,Every row's Status reads `Active`; the count differs from step 1,,,product-groups,,"Clean search; inactive automated groups exist (ZZ E2E Inactive..., ZZ E2E Walk 2026-09-09 B)
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Clear the Active checkbox and search ZZ E2E</li>
 <li>2. Re-check Active and search again</li>
 </ol>",,,"1. Groups are found and every row's Status reads `Inactive`
 2. Every row's Status reads `Active`; the count differs from step 1",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The Active filter and its results survive a full reload,,,,,Automated,Omeesha Mahanta,,,The active set is back with Active checked,,,search-for-product-groups,,"TC-017 state: Active cleared, ZZ E2E searched, inactive rows shown
+,The Active filter and its results survive a full reload,,,,,Automated,Omeesha Mahanta,,,The active set is back with Active checked,,,product-groups,,"TC-017 state: Active cleared, ZZ E2E searched, inactive rows shown
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Reload the page by address and wait for hydration</li>
 <li>2. Re-check Active, search, reload again</li>
 </ol>",,,"1. The box still holds `ZZ E2E`, Active is still cleared, the same inactive rows and count are back
 2. The active set is back with Active checked",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Clicking a result row opens that group's Edit page,,,,,Automated,Omeesha Mahanta,,,"A ""Not Priced"" (or ""Priced"") badge is shown; the breadcrumb reads Products › Product Groups",,,search-for-product-groups,,"ZZ E2E searched; the first row is an automated group
+,Clicking a result row opens that group's Edit page,,,,,Automated,Omeesha Mahanta,,,"A ""Not Priced"" (or ""Priced"") badge is shown; the breadcrumb reads Products › Product Groups",,,product-groups,,"ZZ E2E searched; the first row is an automated group
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Note the first row's Name and Description, then click its Description cell</li>
 <li>2. Read the form</li>
 <li>3. Read the badge beside Active and the breadcrumb</li>
 </ol>",,,"1. The address becomes `…/product-groups/edit/<id>` and the heading reads ""Edit""
 2. The Name box holds the row's name, the Description box the row's description, Active is checked, Save is disabled and Cancel enabled
 3. A ""Not Priced"" (or ""Priced"") badge is shown; the breadcrumb reads Products › Product Groups",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Returning from the Edit page restores the results and the page number,,,,,Automated,Omeesha Mahanta,,,The same page-2 state comes back,,,search-for-product-groups,,"ZZ E2E searched (more than 20 results); the grid moved to page 2
+,Returning from the Edit page restores the results and the page number,,,,,Automated,Omeesha Mahanta,,,The same page-2 state comes back,,,product-groups,,"ZZ E2E searched (more than 20 results); the grid moved to page 2
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Product Groups""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Sample input 1: ""Product Groups""",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Click a row on page 2, then use the browser Back</li>
 <li>2. Click a row again, then click the ""Product Groups"" breadcrumb on the Edit page</li>
 </ol>",,,"1. The list shows the same count, page 2 with its rows, the box still holds `ZZ E2E`
 2. The same page-2 state comes back",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The clear control empties the box but keeps the results,,,,,Automated,Omeesha Mahanta,,,The executed `ZZ E2E` search is restored — the × never touched the stored term,,,search-for-product-groups,,"ZZ E2E searched
+,The clear control empties the box but keeps the results,,,,,Automated,Omeesha Mahanta,,,The executed `ZZ E2E` search is restored — the × never touched the stored term,,,product-groups,,"ZZ E2E searched
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Read the search box</li>
 <li>2. Click the x</li>
 <li>3. Type ZZ</li>
@@ -234,47 +234,47 @@ Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_
 2. The box is empty; the count, the rows and the pager are unchanged; the × is gone
 3. The × reappears
 4. The executed `ZZ E2E` search is restored — the × never touched the stored term",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A loader shows in the search box while a search runs,,,,,Automated,Omeesha Mahanta,,,The loader and the placeholders are gone and the count is shown,,,search-for-product-groups,,"Clean search
+,A loader shows in the search box while a search runs,,,,,Automated,Omeesha Mahanta,,,The loader and the placeholders are gone and the count is shown,,,product-groups,,"Clean search
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Arm a watcher for the loader and the grid placeholders, type ZZ E2E, pause, press Enter</li>
 <li>2. Wait for the rows</li>
 </ol>",,,"1. During the request a spinning loader renders inside the search panel and placeholder rows render in the grid
 2. The loader and the placeholders are gone and the count is shown",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The Products breadcrumb returns to the Products page,,,,,Automated,Omeesha Mahanta,,,The Product Groups page returns with its last executed search restored,,,search-for-product-groups,,"The Product Groups page is open
+,The Products breadcrumb returns to the Products page,,,,,Automated,Omeesha Mahanta,,,The Product Groups page returns with its last executed search restored,,,product-groups,,"The Product Groups page is open
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Products""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Sample input 1: ""Products""",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Click ""Products"" in the breadcrumb</li>
 <li>2. Use the browser Back</li>
 </ol>",,,"1. The address is the Products page (`/locations/1101/products`) and its search panel renders
 2. The Product Groups page returns with its last executed search restored",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Last and first page jumps and the page-of-total label,,,,,Automated,Omeesha Mahanta,,,"Page box ""1"", 20 rows, the count label unchanged throughout",,,search-for-product-groups,,"ZZ E2E searched at 20 rows per page (22 groups -> 2 pages)
+,Last and first page jumps and the page-of-total label,,,,,Automated,Omeesha Mahanta,,,"Page box ""1"", 20 rows, the count label unchanged throughout",,,product-groups,,"ZZ E2E searched at 20 rows per page (22 groups -> 2 pages)
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Go to last page""
-Sample input 2: ""Go to first page""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Sample input 2: ""Go to first page""",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Read the pager</li>
 <li>2. Click ""Go to last page""</li>
 <li>3. Click ""Go to first page""</li>
 </ol>",,,"1. Page box ""1"", total ""/ 2"", first/previous disabled, next/last enabled
 2. Page box ""2"", the remainder rows only (2 at verification), first/previous enabled, next/last disabled
 3. Page box ""1"", 20 rows, the count label unchanged throughout",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The page-number box jumps to a valid page and snaps back on invalid input,,,,,Automated,Omeesha Mahanta,,,Page 2 again,,,search-for-product-groups,,"ZZ E2E searched, 2 pages, page 1 shown
+,The page-number box jumps to a valid page and snaps back on invalid input,,,,,Automated,Omeesha Mahanta,,,Page 2 again,,,product-groups,,"ZZ E2E searched, 2 pages, page 1 shown
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Type 2 into the page box and press Enter</li>
 <li>2. Type 9 and press Enter</li>
 <li>3. Type 0 and press Enter</li>
@@ -285,12 +285,12 @@ Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_
 3. Same — back to `2`
 4. The box does not accept the letters (digits only)
 5. Page 2 again",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Rows per page offers 10 to 50 and reshapes the pages,,,,,Automated,Omeesha Mahanta,,,Back to a 20-row page,,,search-for-product-groups,,"ZZ E2E searched (22 groups at verification)
+,Rows per page offers 10 to 50 and reshapes the pages,,,,,Automated,Omeesha Mahanta,,,Back to a 20-row page,,,product-groups,,"ZZ E2E searched (22 groups at verification)
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Open the rows-per-page selector</li>
 <li>2. Choose 50</li>
 <li>3. Choose 10</li>
@@ -299,75 +299,75 @@ Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_
 2. All groups on one page (22 rows), every pager button disabled, ""1 / 1""
 3. 10 rows, ""1 / 3"", next/last enabled; ""Go to last page"" shows page 3 with the remainder
 4. Back to a 20-row page",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The chosen rows-per-page and page survive leaving and returning,,,,,Automated,Omeesha Mahanta,,,The pager reshapes to 2 pages,,,search-for-product-groups,,"ZZ E2E searched; rows per page set to 10; the grid moved to page 3
+,The chosen rows-per-page and page survive leaving and returning,,,,,Automated,Omeesha Mahanta,,,The pager reshapes to 2 pages,,,product-groups,,"ZZ E2E searched; rows per page set to 10; the grid moved to page 3
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
-Sample input 1: ""Products""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Sample input 1: ""Products""",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Click the ""Products"" breadcrumb, then use the browser Back</li>
 <li>2. Navigate to the page by address</li>
 <li>3. Restore 20 rows per page</li>
 </ol>",,,"1. The list is back at 10 rows per page, page 3, with its rows and the same count
 2. The same 10-per-page, page-3 state
 3. The pager reshapes to 2 pages",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Reset from a later page returns the pager to page 1 of 1,,,,,Automated,Omeesha Mahanta,,,Page 1 of 2 renders,,,search-for-product-groups,,"ZZ E2E searched, 2 pages, the grid moved to page 2
+,Reset from a later page returns the pager to page 1 of 1,,,,,Automated,Omeesha Mahanta,,,Page 1 of 2 renders,,,product-groups,,"ZZ E2E searched, 2 pages, the grid moved to page 2
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Click Reset</li>
 <li>2. Search ZZ E2E again</li>
 </ol>",,,"1. The box clears, ""0 product groups found"", the page box reads ""1"" with total ""/ 1"", every pager button disabled
 2. Page 1 of 2 renders",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Results default to Name ascending,,,,,Automated,Omeesha Mahanta,,,The Name header shows the ascending arrow; Description and Service Type show the neutral (unsorted) marker; Status shows none,,,search-for-product-groups,,"Grid Options -> Reset to Default View applied; ZZ E2E searched
+,Results default to Name ascending,,,,,Automated,Omeesha Mahanta,,,The Name header shows the ascending arrow; Description and Service Type show the neutral (unsorted) marker; Status shows none,,,product-groups,,"Grid Options -> Reset to Default View applied; ZZ E2E searched
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Read the Name column on page 1</li>
 <li>2. Read the header markers</li>
 </ol>",,,"1. Every name is ≤ the next one (ascending with letter case ignored — `<` sorts before `A`)
 2. The Name header shows the ascending arrow; Description and Service Type show the neutral (unsorted) marker; Status shows none",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The Name column menu sorts descending and ascending,,,,,Automated,Omeesha Mahanta,,,The names ascend again; the up arrow shows,,,search-for-product-groups,,"ZZ E2E searched
+,The Name column menu sorts descending and ascending,,,,,Automated,Omeesha Mahanta,,,The names ascend again; the up arrow shows,,,product-groups,,"ZZ E2E searched
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Open the Name column menu</li>
 <li>2. Choose Sort descending</li>
 <li>3. Open the menu again and choose Sort ascending</li>
 </ol>",,,"1. Items: Sort ascending, Sort descending (Name cannot be hidden, so no Hide item)
 2. The names on page 1 now descend; the Name header shows the down arrow
 3. The names ascend again; the up arrow shows",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Description and Service Type sort through their column menus,,,,,Automated,Omeesha Mahanta,,,"The Service Type column ascends, then descends; the arrow sits on Service Type",,,search-for-product-groups,,"ZZ E2E searched (two service types present at verification)
+,Description and Service Type sort through their column menus,,,,,Automated,Omeesha Mahanta,,,"The Service Type column ascends, then descends; the arrow sits on Service Type",,,product-groups,,"ZZ E2E searched (two service types present at verification)
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Open the Description menu and choose Sort descending</li>
 <li>2. Open the Service Type menu and choose Sort ascending, then Sort descending</li>
 </ol>",,,"1. The Description column on page 1 descends; the arrow moves to the Description header and leaves Name
 2. The Service Type column ascends, then descends; the arrow sits on Service Type",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Sorting from a later page returns to page 1,,,,,Automated,Omeesha Mahanta,,,"The page box reads ""1"" and a full 20-row page renders in the new order",,,search-for-product-groups,,"ZZ E2E searched, 2 pages, the grid moved to page 2
+,Sorting from a later page returns to page 1,,,,,Automated,Omeesha Mahanta,,,"The page box reads ""1"" and a full 20-row page renders in the new order",,,product-groups,,"ZZ E2E searched, 2 pages, the grid moved to page 2
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Open the Description menu and choose Sort descending</li>
 </ol>",,,"1. The page box reads ""1"" and a full 20-row page renders in the new order",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"The applied sort survives a new search, a Reset and a reload",,,,,Automated,Omeesha Mahanta,,,Name ascending is back,,,search-for-product-groups,,"ZZ E2E searched and sorted by Service Type descending
+,"The applied sort survives a new search, a Reset and a reload",,,,,Automated,Omeesha Mahanta,,,Name ascending is back,,,product-groups,,"ZZ E2E searched and sorted by Service Type descending
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Search ZZ E2E again</li>
 <li>2. Click Reset, then search ZZ E2E</li>
 <li>3. Reload the page by address</li>
@@ -376,12 +376,12 @@ Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_
 2. Still Service Type descending — the form Reset does not clear the sort
 3. The sorted result set is restored
 4. Name ascending is back",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Every column header opens a sort menu and Escape closes it,,,,,Automated,Omeesha Mahanta,,,It lists Hide column only — Status is not sortable and shows no sort icon,,,search-for-product-groups,,"ZZ E2E searched
+,Every column header opens a sort menu and Escape closes it,,,,,Automated,Omeesha Mahanta,,,It lists Hide column only — Status is not sortable and shows no sort icon,,,product-groups,,"ZZ E2E searched
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Click the Name header cell</li>
 <li>2. Press Escape</li>
 <li>3. Open the Description and Service Type menus in turn</li>
@@ -390,12 +390,12 @@ Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_
 2. The menu closes
 3. Each lists Sort ascending, Sort descending, Hide column
 4. It lists Hide column only — Status is not sortable and shows no sort icon",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Grid Options hides and shows columns and remembers the choice,,,,,Automated,Omeesha Mahanta,,,The column disappears and returns the same way,,,search-for-product-groups,,"ZZ E2E searched, four columns shown
+,Grid Options hides and shows columns and remembers the choice,,,,,Automated,Omeesha Mahanta,,,The column disappears and returns the same way,,,product-groups,,"ZZ E2E searched, four columns shown
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Open Grid Options</li>
 <li>2. Uncheck Description and close the menu</li>
 <li>3. Reload the page by address</li>
@@ -406,48 +406,48 @@ Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_
 3. Description is still hidden
 4. Four columns again
 5. The column disappears and returns the same way",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Reset to Default View restores columns, sort, page and stored preferences",,,,,Automated,Omeesha Mahanta,,,"Column visibility, order and sizing are back to their defaults",,,search-for-product-groups,,"ZZ E2E searched; Status hidden through Grid Options; Name sorted descending; the grid moved to page 2
+,"Reset to Default View restores columns, sort, page and stored preferences",,,,,Automated,Omeesha Mahanta,,,"Column visibility, order and sizing are back to their defaults",,,product-groups,,"ZZ E2E searched; Status hidden through Grid Options; Name sorted descending; the grid moved to page 2
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Open Grid Options and choose Reset to Default View</li>
 <li>2. Read the stored grid preference</li>
 </ol>",,,"1. All four columns are back, the Name header shows the ascending arrow and the names ascend, the page box reads ""1"", the results are kept
 2. Column visibility, order and sizing are back to their defaults",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Dragging a column header reorders the columns and the order persists,,,,,Automated,Omeesha Mahanta,,,"Name, Description, Service Type, Status again",,,search-for-product-groups,,"ZZ E2E searched; Reset to Default View applied
+,Dragging a column header reorders the columns and the order persists,,,,,Automated,Omeesha Mahanta,,,"Name, Description, Service Type, Status again",,,product-groups,,"ZZ E2E searched; Reset to Default View applied
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Drag the Name header's grip onto the Service Type header and release</li>
 <li>2. Reload the page by address</li>
 <li>3. Grid Options</li>
 </ol>",,,"1. The header order changes (Name moves right of Description at verification); the row cells follow
 2. The new order is still in place
 3. Name, Description, Service Type, Status again",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Dragging a column edge resizes it and the width persists,,,,,Automated,Omeesha Mahanta,,,The default width and an empty sizing preference are back,,,search-for-product-groups,,"ZZ E2E searched; Reset to Default View applied
+,Dragging a column edge resizes it and the width persists,,,,,Automated,Omeesha Mahanta,,,The default width and an empty sizing preference are back,,,product-groups,,"ZZ E2E searched; Reset to Default View applied
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Application: Navigator",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Drag the Name column's resize handle 150 px to the right and release</li>
 <li>2. Reload the page by address</li>
 <li>3. Grid Options</li>
 </ol>",,,"1. The stored width for Name grows by 150 and the rendered Name header is wider than before
 2. The Name header keeps its new width and the stored value is unchanged
 3. The default width and an empty sizing preference are back",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The search panel collapses and expands; the state is not remembered,,,,,Automated,Omeesha Mahanta,,,The panel and grid geometry are back to the original,,,search-for-product-groups,,"ZZ E2E searched
+,The search panel collapses and expands; the state is not remembered,,,,,Automated,Omeesha Mahanta,,,The panel and grid geometry are back to the original,,,product-groups,,"ZZ E2E searched
 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
 Application: Navigator
 Sample input 1: ""Collapse search panel""
-Sample input 2: ""Expand search panel""",Medium,,Product_Groups,1,,ItemSearch_Products > Product_Groups,"<ol>
+Sample input 2: ""Expand search panel""",Medium,,Search_For_Product_Groups,1,,ItemSearch_Products > Search_For_Product_Groups,"<ol>
 <li>1. Click the divider control ""Collapse search panel""</li>
 <li>2. Reload the page by address</li>
 <li>3. Collapse, then click ""Expand search panel""</li>

@@ -4,7 +4,7 @@ ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
+Application: Navigator",Medium,,Add_Product_Code,1,,ItemSearch_Products > Add_Product_Code,"<ol>
 <li>1. Click Add Product Code</li>
 <li>2. Read the ancestor sections</li>
 <li>3. Read the entry form</li>
@@ -18,7 +18,7 @@ Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Co
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
+Application: Navigator",Medium,,Add_Product_Code,1,,ItemSearch_Products > Add_Product_Code,"<ol>
 <li>1. Open the Product Type selector</li>
 <li>2. Choose LABOR</li>
 <li>3. Open the Service Type selector</li>
@@ -32,7 +32,7 @@ Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Co
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
+Application: Navigator",Medium,,Add_Product_Code,1,,ItemSearch_Products > Add_Product_Code,"<ol>
 <li>1. Click the arrow beside Add Product Code</li>
 <li>2. Click Category</li>
 <li>3. Close the dialog</li>
@@ -44,7 +44,7 @@ Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Co
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
+Application: Navigator",Medium,,Add_Product_Code,1,,ItemSearch_Products > Add_Product_Code,"<ol>
 <li>1. Open Add Product Code and fill Name and Item Description with a per-run unique value (e.g. a ZZ-E2E-&lt;timestamp> name)</li>
 <li>2. Choose Product Type EQUIPMENT, then choose Service Type Equipment Rental</li>
 <li>3. Click Save</li>
@@ -58,7 +58,7 @@ Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Co
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
+Application: Navigator",Medium,,Add_Product_Code,1,,ItemSearch_Products > Add_Product_Code,"<ol>
 <li>1. Type 60 characters into Name</li>
 <li>2. Read the Name box's error state</li>
 <li>3. Type 70 characters into Item Description</li>
@@ -72,7 +72,7 @@ Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Co
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
+Application: Navigator",Medium,,Add_Product_Code,1,,ItemSearch_Products > Add_Product_Code,"<ol>
 <li>1. Put a 60-character value into Name and into Item Description by a route that bypasses the typing limit (the paste/scripted-fill path)</li>
 <li>2. Choose Product Type LABOR, then Service Type Application Development</li>
 <li>3. Read the two text fields' error state and the Save button</li>
@@ -86,7 +86,7 @@ Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Co
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
+Application: Navigator",Medium,,Add_Product_Code,1,,ItemSearch_Products > Add_Product_Code,"<ol>
 <li>1. Open Add Product Code and fill Name with a per-run unique value that is exactly 50 characters long, plus an Item Description</li>
 <li>2. Choose Product Type EQUIPMENT, then Service Type Equipment Rental</li>
 <li>3. Click Save</li>
@@ -100,7 +100,7 @@ Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Co
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Code,1,,ItemSearch_Products > Product_Code,"<ol>
+Application: Navigator",Medium,,Add_Product_Code,1,,ItemSearch_Products > Add_Product_Code,"<ol>
 <li>1. Open Add Product Code and type a name into the Name box</li>
 <li>2. Choose any Product Type</li>
 <li>3. Click Close</li>

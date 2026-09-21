@@ -67,7 +67,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     await isr.ensureCleanSearch(ISR_OFFICE);
   });
 
-  test('TC-ISR-PRS-001: The Products page loads with the search panel and grid ready', { tag: '@C105447' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-001: The Products page loads with the search panel and grid ready', { tag: '@C105796' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // A full navigation is the point of this case — it proves the ready gate itself.
     await phase('Open the Products page', () => isr.open(ISR_OFFICE));
@@ -81,7 +81,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-002: Reset restores the default criteria and empties the results', { tag: '@C105448' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-002: Reset restores the default criteria and empties the results', { tag: '@C105797' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // Dirty the criteria with a real executed search first.
     await phase('Dirty the criteria with an executed search', async () => {
@@ -114,7 +114,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-003: An Any Field word returns only matching products', { tag: '@C105449' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-003: An Any Field word returns only matching products', { tag: '@C105798' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const total = await phase('Run an unfiltered search for the baseline count', () =>
       isr.clickSearchAndWait((n) => n !== null && n > 0));
@@ -135,7 +135,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-004: Search help opens guidance for the selected search type', { tag: '@C105450' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-004: Search help opens guidance for the selected search type', { tag: '@C105799' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Open the search help', () => isr.openSearchHelp());
     await verify('The help popover describes what Any Field searches', async () => {
@@ -150,7 +150,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-005: The header icons show their tooltips', { tag: '@C105451' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-005: The header icons show their tooltips', { tag: '@C105800' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await verify('The information icon shows its tooltip', async () => {
       expect(await isr.hoverAndReadTooltip(isr.moreInformationButton())).toContain(ISR_TOOLTIP_INFO);
@@ -163,7 +163,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-006: Grid cells show a tooltip only when their text is cut off', { tag: '@C105452' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-006: Grid cells show a tooltip only when their text is cut off', { tag: '@C105801' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Run an unfiltered search', () => isr.clickSearchAndWait((n) => n !== null && n > 0));
     const samples = await phase('Find a cut-off cell and a fitting one', () => isr.findTruncationSamples());
@@ -198,7 +198,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-007: A barcode with no match shows the empty state', { tag: '@C105453' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-007: A barcode with no match shows the empty state', { tag: '@C105802' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const none = await phase('Search a barcode that matches nothing', async () => {
       await isr.typeBarcode(ISR_NO_MATCH_BARCODE);
@@ -219,7 +219,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-008: Sorting flips through the column menu', { tag: '@C105454' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-008: Sorting flips through the column menu', { tag: '@C105803' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Run an unfiltered search', () => isr.clickSearchAndWait((n) => n !== null && n > 0));
     // Normalize to ascending first — the sort order also persists across visits, so the
@@ -254,7 +254,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-009: Pagination moves between pages', { tag: '@C105455' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-009: Pagination moves between pages', { tag: '@C105804' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Run an unfiltered search', () => isr.clickSearchAndWait((n) => n !== null && n > 0));
     await verify('Page one rests with the backward controls disabled', async () => {
@@ -279,7 +279,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-010: Rows-per-page offers five sizes', { tag: '@C105456' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-010: Rows-per-page offers five sizes', { tag: '@C105805' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Run an unfiltered search', () => isr.clickSearchAndWait((n) => n !== null && n > 0));
     await verify('The five page sizes are offered, with 50 selected', async () => {
@@ -294,7 +294,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-011: Grid Options hides and restores a column', { tag: '@C105457' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-011: Grid Options hides and restores a column', { tag: '@C105806' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Run an unfiltered search', () => isr.clickSearchAndWait((n) => n !== null && n > 0));
     await verify(`The ${ISR_HIDE_COLUMN} column starts visible`, async () => {
@@ -323,7 +323,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-012: An executed search survives leaving and returning', { tag: '@C105458' }, async ({ authenticatedSession, config, dependencyGate }) => {
+  test('TC-ISR-PRS-012: An executed search survives leaving and returning', { tag: '@C105807' }, async ({ authenticatedSession, config, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     const count = await phase('Run a word search', async () => {
@@ -344,7 +344,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-013: The search panel collapses and expands', { tag: '@C105459' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-013: The search panel collapses and expands', { tag: '@C105808' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // Give the panel a value that must survive the collapse cycle.
     await phase('Type a value the collapse must preserve', () => isr.typeAnyField('zz'));
@@ -367,7 +367,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     await phase('Clear the typed value', () => isr.typeAnyField(''));
   });
 
-  test('TC-ISR-PRS-014: A numeric barcode returns the single product it is scanned under', { tag: '@C105460' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-014: A numeric barcode returns the single product it is scanned under', { tag: '@C105809' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Enter the numeric barcode', () => isr.typeBarcode(ISR_BARCODE_NUMERIC.code));
     await verify('Feeding the barcode empties the word box', async () => {
@@ -384,7 +384,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-015: A barcode with letters resolves the same way as a numeric one', { tag: '@C105461' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-015: A barcode with letters resolves the same way as a numeric one', { tag: '@C105810' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Enter the lettered barcode', () => isr.typeBarcode(ISR_BARCODE_LETTERED.code));
     const found = await phase('Run the barcode search', () => isr.clickSearchAndWait((n) => n === 1));
@@ -395,7 +395,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-016: Different barcodes on the same product all return that product', { tag: '@C105462' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-016: Different barcodes on the same product all return that product', { tag: '@C105811' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     // Two of these carry the site prefix and one is plain digits — the printed form of a
@@ -414,7 +414,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     }
   });
 
-  test('TC-ISR-PRS-017: Barcode matching ignores letter case', { tag: '@C105463' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-017: Barcode matching ignores letter case', { tag: '@C105812' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Enter the barcode as printed', () => isr.typeBarcode(ISR_BARCODE_LETTERED.code));
     await verify('The barcode as printed finds its product', async () => {
@@ -429,7 +429,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-018: A shortened barcode matches nothing', { tag: '@C105464' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-018: A shortened barcode matches nothing', { tag: '@C105813' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // The full barcode first, so a later zero can only mean "no match" and never
     // "the search never ran".
@@ -452,7 +452,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-019: The barcode box and the Any Field box clear each other', { tag: '@C105465' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-019: The barcode box and the Any Field box clear each other', { tag: '@C105814' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Type a word into the Any Field box', () => isr.typeAnyField(ISR_SEARCH_WORD));
     await verify('The word lands and the barcode box is empty', async () => {
@@ -478,7 +478,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-020: A barcode search survives leaving and returning', { tag: '@C105466' }, async ({ authenticatedSession, config, dependencyGate }) => {
+  test('TC-ISR-PRS-020: A barcode search survives leaving and returning', { tag: '@C105815' }, async ({ authenticatedSession, config, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     const count = await phase('Run a barcode search', async () => {
@@ -504,7 +504,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     });
   });
 
-  test('TC-ISR-PRS-021: A product found by barcode opens in the product-code dialog', { tag: '@C105467' }, async ({ authenticatedSession, config, dependencyGate }) => {
+  test('TC-ISR-PRS-021: A product found by barcode opens in the product-code dialog', { tag: '@C105816' }, async ({ authenticatedSession, config, dependencyGate }) => {
     dependencyGate([]);
     const found = await phase('Find the product by barcode', async () => {
       await isr.typeBarcode(ISR_BARCODE_NUMERIC.code);
@@ -531,7 +531,7 @@ test.describe('SBC — Item Search Products — surface behaviors and search pan
     await phase('Close the dialog', () => pc.closeDialog());
   });
 
-  test('TC-ISR-PRS-022: The barcode box stops accepting characters at its limit', { tag: '@C105468' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRS-022: The barcode box stops accepting characters at its limit', { tag: '@C105817' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Type a barcode past the box limit', () => isr.typeBarcode(ISR_BARCODE_OVERLONG));
     // The box refuses the surplus rather than showing an error.

@@ -29,7 +29,6 @@
     "testrail:sync": "ts-node scripts/testrail-sync.ts",
     "testrail:sync:execute": "ts-node scripts/testrail-sync.ts --execute",
     "testrail:backfill-labels": "ts-node scripts/testrail-backfill-labels.ts",
-    "testrail:restructure": "ts-node scripts/testrail-restructure-sections.ts",
     "share-for-debugging": "node scripts/share-for-debugging.js",
     "setup": "npm install && npx playwright install",
     "setup:browsers": "npx playwright install chromium firefox webkit",

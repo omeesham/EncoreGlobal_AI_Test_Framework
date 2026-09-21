@@ -4,7 +4,6 @@
 export interface TestRailCase {
   id: number;
   title: string;
-  section_id?: number;
 }
 
 export interface TestRailResult {
@@ -158,16 +157,6 @@ export class TestRailClient {
     payload: { name: string; suite_id?: number; parent_id?: number | null },
   ): Promise<TestRailSection> {
     return this.request('POST', `/api/v2/add_section/${projectId}`, payload);
-  }
-
-  updateSection(sectionId: number, payload: { name: string }): Promise<TestRailSection> {
-    return this.request('POST', `/api/v2/update_section/${sectionId}`, payload);
-  }
-
-  /** Re-parents a section (its cases and subsections move with it, keeping their
-   *  ids). `parent_id: null` moves it to the suite root. TestRail 6.5.2+. */
-  moveSection(sectionId: number, payload: { parent_id: number | null; after_id?: number | null }): Promise<TestRailSection> {
-    return this.request('POST', `/api/v2/move_section/${sectionId}`, payload);
   }
 
   getPriorities(): Promise<TestRailNamedRef[]> {

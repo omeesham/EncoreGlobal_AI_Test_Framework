@@ -50,7 +50,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.ensureCleanSearch(ISR_OFFICE);
   });
 
-  test('TC-ISR-APG-001: The Add page opens with a held-back Save', { tag: '@C105564' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-001: The Add page opens with a held-back Save', { tag: '@C105826' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     expect(await pgr.addNameBox().inputValue()).toBe('');
@@ -65,7 +65,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-002: The sub-class picker shows its two panels', { tag: '@C105565' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-002: The sub-class picker shows its two panels', { tag: '@C105827' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     const text = await pgr.readAddPageText();
@@ -79,7 +79,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-003: Cancel leaves the Add page without saving', { tag: '@C105566' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-003: Cancel leaves the Add page without saving', { tag: '@C105828' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     await pgr.typeAddName('X');
@@ -91,7 +91,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-004: A completed Add page saves and the new group is found again', { tag: '@C105567' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-004: A completed Add page saves and the new group is found again', { tag: '@C105829' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     // A per-run unique suffix so repeated runs never collide on the same name.
@@ -119,7 +119,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     expect(await pgr.readColumnValues('Status')).toEqual(['Active']);
   });
 
-  test('TC-ISR-APG-005: Name accepts exactly 50 characters and drops the rest silently', { tag: '@C105568' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-005: Name accepts exactly 50 characters and drops the rest silently', { tag: '@C105830' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const max = PGR_ADD_LIMITS.nameMaxLength;
     await pgr.clickAdd();
@@ -137,7 +137,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-006: Description accepts exactly 100 characters and drops the rest silently', { tag: '@C105569' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-006: Description accepts exactly 100 characters and drops the rest silently', { tag: '@C105831' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const max = PGR_ADD_LIMITS.descriptionMaxLength;
     await pgr.clickAdd();
@@ -150,7 +150,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-007: Clearing a filled Name by either method holds Save back and marks the box invalid', { tag: '@C105570' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-007: Clearing a filled Name by either method holds Save back and marks the box invalid', { tag: '@C105832' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const name = 'Clear check';
     await pgr.clickAdd();
@@ -173,7 +173,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-008: A whitespace-only Name counts as empty; a padded Name is accepted', { tag: '@C105571' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-008: A whitespace-only Name counts as empty; a padded Name is accepted', { tag: '@C105833' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     await completeRequiredSet(pgr, 'Padding check', 'padding check');
@@ -187,7 +187,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-009: Every required field gates Save, and Active does not', { tag: '@C105572' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-009: Every required field gates Save, and Active does not', { tag: '@C105834' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     await pgr.typeAddName('Gate check');
@@ -217,7 +217,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-010: The Service Type list offers its 90 options with no search box, and first, middle and last all select', { tag: '@C105573' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-010: The Service Type list offers its 90 options with no search box, and first, middle and last all select', { tag: '@C105835' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     const { options, hasSearchBox } = await pgr.readServiceTypeOptions();
@@ -234,7 +234,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-011: A name already used by another group is rejected, with or without a trailing space', { tag: '@C105574' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-011: A name already used by another group is rejected, with or without a trailing space', { tag: '@C105836' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const unique = Date.now();
     const description = `duplicate name check ${unique}`;
@@ -252,7 +252,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-012: A description already used by another group is rejected even with a new name', { tag: '@C105575' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-012: A description already used by another group is rejected even with a new name', { tag: '@C105837' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const name = `${PGR_ADD_GROUP.namePrefix} ${Date.now()}`;
     await pgr.clickAdd();
@@ -264,7 +264,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-013: The picker search filters the catalog by substring regardless of case and empties on no match', { tag: '@C105576' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-013: The picker search filters the catalog by substring regardless of case and empties on no match', { tag: '@C105838' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     const full = await pgr.waitForCatalogCount(1, Number.MAX_SAFE_INTEGER);
@@ -287,7 +287,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-014: The Labor filter narrows the catalog and unchecking restores it', { tag: '@C105577' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-014: The Labor filter narrows the catalog and unchecking restores it', { tag: '@C105839' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     const full = await pgr.waitForCatalogCount(1, Number.MAX_SAFE_INTEGER);
@@ -303,7 +303,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-015: Sort order flips the catalog between ascending and descending', { tag: '@C105578' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-015: Sort order flips the catalog between ascending and descending', { tag: '@C105840' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     await pgr.waitForCatalogCount(1, Number.MAX_SAFE_INTEGER);
@@ -321,7 +321,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-016: Reset clears the picker\'s search, filter and sort but keeps an added sub-class', { tag: '@C105579' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-016: Reset clears the picker\'s search, filter and sort but keeps an added sub-class', { tag: '@C105841' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     const full = await pgr.waitForCatalogCount(1, Number.MAX_SAFE_INTEGER);
@@ -342,7 +342,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-017: Double-click adds an item once and the × control removes it', { tag: '@C105580' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-017: Double-click adds an item once and the × control removes it', { tag: '@C105842' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     const full = await pgr.waitForCatalogCount(1, Number.MAX_SAFE_INTEGER);
@@ -361,7 +361,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-018: Dragging an item onto the Sub Classes area adds it', { tag: '@C105581' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-018: Dragging an item onto the Sub Classes area adds it', { tag: '@C105843' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     await pgr.waitForCatalogCount(1, Number.MAX_SAFE_INTEGER);
@@ -372,7 +372,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-019: The divider button collapses and expands the sub-class panel', { tag: '@C105582' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-019: The divider button collapses and expands the sub-class panel', { tag: '@C105844' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     await pgr.waitForCatalogCount(1, Number.MAX_SAFE_INTEGER);
@@ -387,7 +387,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-020: A group saved with Active cleared is created inactive and found with the list\'s Active filter cleared', { tag: '@C105583' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-020: A group saved with Active cleared is created inactive and found with the list\'s Active filter cleared', { tag: '@C105845' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     const unique = Date.now();
@@ -415,7 +415,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     }
   });
 
-  test('TC-ISR-APG-021: Special characters in the name are stored verbatim and the last Service Type saves', { tag: '@C105584' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-021: Special characters in the name are stored verbatim and the last Service Type saves', { tag: '@C105846' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     const unique = Date.now();
@@ -433,7 +433,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     expect(await pgr.readColumnValues('Status')).toEqual(['Active']);
   });
 
-  test('TC-ISR-APG-022: Browser Back leaves the Add page without saving or warning', { tag: '@C105585' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-022: Browser Back leaves the Add page without saving or warning', { tag: '@C105847' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     await pgr.typeAddName('dirty');
@@ -444,7 +444,7 @@ test.describe('Item Search Add Product Group page — fields and create @item-se
     await pgr.clickAddCancel();
   });
 
-  test('TC-ISR-APG-023: The breadcrumb leaves the Add page without saving or warning', { tag: '@C105586' }, async ({ dependencyGate }) => {
+  test('TC-ISR-APG-023: The breadcrumb leaves the Add page without saving or warning', { tag: '@C105848' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pgr.clickAdd();
     await pgr.typeAddName('dirty crumb');

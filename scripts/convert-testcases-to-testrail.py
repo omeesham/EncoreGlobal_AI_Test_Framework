@@ -101,11 +101,11 @@ MODULE_CONFIG: dict[str, dict[str, str]] = {
 }
 
 # Per workbook basename: a Labels value that overrides the module's. These match
-# the labels the cases already carry in TestRail.
+# the spec tags. TestRail rejects label names longer than 20 characters.
 LABELS_BY_BASENAME: dict[str, str] = {
     "item-search-products-add-product-code": "add-product-code",
-    "item-search-products-productgroups-create-new-product-groups": "create-new-product-groups",
-    "item-search-products-productgroups-search-for-product-groups": "search-for-product-groups",
+    "item-search-products-PG-create-new-product-groups": "product-groups",
+    "item-search-products-PG-search-for-product-groups": "product-groups",
     "item-search-products-view-product-code": "view-product-code",
 }
 
@@ -134,6 +134,12 @@ SECTION_BY_BASENAME: dict[str, str] = {
     "location-account-address": "Account_Address",
     "location-auto-addon": "Auto_Addon",
     "location-business-types": "Business_Types",
+    "item-search-product-search": "Product_Search",
+    "item-search-product-search-filters": "Product_Search_Filters",
+    "item-search-products-add-product-code": "Add_Product_Code",
+    "item-search-products-view-product-code": "View_Product_Code",
+    "item-search-products-PG-create-new-product-groups": "Create_New_Product_Groups",
+    "item-search-products-PG-search-for-product-groups": "Search_For_Product_Groups",
     "local-office-ect": "Ect_Settings",
     "local-office-basic-information": "Basic_Information",
     "local-office-history": "Location_Settings_History",
