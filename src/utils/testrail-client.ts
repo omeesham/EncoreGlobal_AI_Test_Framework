@@ -18,6 +18,26 @@ export interface TestRailProject {
   name: string;
 }
 
+/** Shape of a run as get_run/add_run return it — only the fields the shared-run
+ *  utility reads. `include_all: true` means TestRail owns the case list and the
+ *  reporter must NOT rewrite it. */
+export interface TestRailRun {
+  id: number;
+  name: string;
+  include_all: boolean;
+  is_completed: boolean;
+  passed_count?: number;
+  failed_count?: number;
+  untested_count?: number;
+}
+
+/** One row of get_tests — the run's current case coverage, read back from
+ *  TestRail so concurrent pushes union against server truth, not a local guess. */
+export interface TestRailTest {
+  id: number;
+  case_id: number;
+}
+
 export interface TestRailSection {
   id: number;
   name: string;
@@ -114,8 +134,38 @@ export class TestRailClient {
       case_ids?: number[];
       description?: string;
     },
-  ): Promise<{ id: number }> {
+  ): Promise<TestRailRun> {
     return this.request('POST', `/api/v2/add_run/${projectId}`, payload);
+  }
+
+  getRun(runId: number): Promise<TestRailRun> {
+    return this.request('GET', `/api/v2/get_run/${runId}`);
+  }
+
+  /** Case ids already covered by a run. TestRail has no "get_run case_ids" —
+   *  get_tests is the only way to read a run's coverage back. */
+  async getRunCaseIds(runId: number): Promise<number[]> {
+    const out: number[] = [];
+    const limit = 250;
+    for (let offset = 0; ; offset += limit) {
+      const page = await this.request<{ tests: TestRailTest[] } | TestRailTest[]>(
+        'GET',
+        `/api/v2/get_tests/${runId}&limit=${limit}&offset=${offset}`,
+      );
+      const tests = Array.isArray(page) ? page : page.tests;
+      out.push(...tests.map((t) => t.case_id));
+      if (tests.length < limit) return out;
+    }
+  }
+
+  /** Widen (or rename) an existing run. Sending `case_ids` REPLACES the run's
+   *  case list, so callers must pass the union of old + new — see
+   *  src/utils/testrail-run.ts, which is the only place that does. */
+  updateRun(
+    runId: number,
+    payload: { name?: string; description?: string; case_ids?: number[]; include_all?: boolean },
+  ): Promise<TestRailRun> {
+    return this.request('POST', `/api/v2/update_run/${runId}`, payload);
   }
 
   async addResultsForCases(runId: number, results: TestRailResult[]): Promise<unknown> {

@@ -49,6 +49,38 @@ function countSpecFiles(dir: string): number {
  * as the one way in. Its own test suite, `crawler-checks`, is NOT gated: it needs no application,
  * finishes in seconds, and is exactly what should run on every change.
  */
+/**
+ * Suffix for every per-run report path, set by scripts/run-regression.mjs.
+ *
+ * A regression is executed as TWO Playwright invocations — the parallel modules
+ * at 8-9 workers, then `tests/locations` on a single worker (see that script).
+ * Both would otherwise write `reports/html-report`, `reports/test-results.json`,
+ * `reports/junit-results.xml` and `reports/failure-summary.json`, and the second
+ * would silently erase the first. REPORT_SUFFIX=locations keeps them apart.
+ * Unset (a plain `npm test`) leaves every path exactly as it was.
+ */
+const REPORT_SUFFIX = process.env.REPORT_SUFFIX ? `-${process.env.REPORT_SUFFIX}` : '';
+
+/**
+ * Spec paths to drop from this invocation, comma-separated, set by
+ * scripts/run-regression.mjs.
+ *
+ * The regression's fast phase must skip the heavy specs that its own low-concurrency
+ * phase owns, and Playwright's CLI has no `--ignore`: the only way to subtract files
+ * from a run is testIgnore, which lives here. Unset (any run not driven by that
+ * script) subtracts nothing.
+ */
+const EXCLUDE_SPECS = (process.env.REGRESSION_EXCLUDE ?? '')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+/** Project testIgnore overrides the top-level one rather than merging, so every
+ *  project that sets its own must fold REGRESSION_EXCLUDE back in by hand. */
+function ignoring(...projectIgnores: string[]): string[] {
+  return [...projectIgnores, ...EXCLUDE_SPECS];
+}
+
 function crawlerRequested(): boolean {
   if (process.env.CRAWLER_ENABLED === 'true') return true;
   const named = process.argv.some((arg) => arg === 'crawler' || arg.endsWith('=crawler'));
@@ -87,9 +119,9 @@ export default defineConfig({
     ['list'],
     // Local reporter — kept under the client tree so it ships inside the client bundle.
     ['./src/reporter/agent-reporter.ts'],
-    ['html', { outputFolder: 'reports/html-report', open: 'never' }],
-    ['json', { outputFile: 'reports/test-results.json' }],
-    ['junit', { outputFile: 'reports/junit-results.xml' }],
+    ['html', { outputFolder: `reports/html-report${REPORT_SUFFIX}`, open: 'never' }],
+    ['json', { outputFile: `reports/test-results${REPORT_SUFFIX}.json` }],
+    ['junit', { outputFile: `reports/junit-results${REPORT_SUFFIX}.xml` }],
     // TestRail push — opt-in via TESTRAIL_ENABLED=true (+ connection vars); see .env.testrail.example.
     ...(process.env.TESTRAIL_ENABLED === 'true'
       ? [['./src/reporter/testrail-reporter.ts'] as const]
@@ -147,7 +179,7 @@ export default defineConfig({
     {
       name: 'chromium',
       dependencies: ['setup'],
-      testIgnore: ['tests/locations/**', 'tests/local-office/**', 'tests/crawler/**'],
+      testIgnore: ignoring('tests/locations/**', 'tests/local-office/**', 'tests/crawler/**'),
       use: {
         viewport: { width: 1920, height: 1080 },
         storageState: '.auth/encore-state.json',
@@ -172,6 +204,7 @@ export default defineConfig({
     {
       name: 'encore-local-office',
       testDir: './tests/local-office',
+      testIgnore: ignoring(),
       fullyParallel: false,
       dependencies: ['setup'],
       use: { storageState: '.auth/encore-state.json' },
@@ -179,6 +212,7 @@ export default defineConfig({
     {
       name: 'encore-locations',
       testDir: './tests/locations',
+      testIgnore: ignoring(),
       fullyParallel: false,
       dependencies: ['setup'],
       use: { storageState: '.auth/encore-state.json' },
@@ -213,7 +247,9 @@ export default defineConfig({
       : []),
   ],
 
-  outputDir: 'reports/test-results/',
+  outputDir: `reports/test-results${REPORT_SUFFIX}/`,
+  // Snapshots are inputs, not per-run output — never suffixed, or the second
+  // phase would look for baselines in a directory that does not exist.
   snapshotDir: 'reports/test-results/snapshots',
 
   globalSetup: require.resolve('./src/setup/global-setup'),

@@ -362,6 +362,11 @@ Opt-in: when a run finishes, every result is pushed to TestRail as a test run
 (pass/fail, duration, error details, spec location). It is **inert by default** —
 nothing happens until `TESTRAIL_ENABLED=true` and the connection vars are set.
 
+**One run per execution session.** However you execute — one module at a time,
+one spec, or the whole suite — the results accumulate into a *single* TestRail
+run, so that run's case count is the total across every module that has run.
+See [One TestRail run per session](#one-testrail-run-per-session) below.
+
 ### Where to configure
 
 Copy the variables from [`.env.testrail.example`](.env.testrail.example) into
@@ -380,13 +385,70 @@ TESTRAIL_SUITE_ID=1620
 Then run the suite normally (`npm test`). On completion the reporter prints:
 
 ```
-[testrail] pushed 30 results (28 passed, 2 failed) -> https://encore.testrail.net/index.php?/runs/view/57
+[testrail] opened run "MFE-E2E-Regression-Testing — 2026-09-09 21:11 (local)" — pushed 30 results (28 passed, 2 failed); run now covers 30 cases -> https://encore.testrail.net/index.php?/runs/view/57
 ```
 
-Each execution creates a fresh run containing exactly the cases that ran.
-Optional: `TESTRAIL_MILESTONE_ID` (attach runs to the current sprint's milestone),
-`TESTRAIL_RUN_ID` (append to one fixed run instead of creating one),
-`TESTRAIL_RUN_NAME`, `TESTRAIL_CLOSE_RUN=true`.
+Optional: `TESTRAIL_MILESTONE_ID` (attach runs to the current sprint's
+milestone), `TESTRAIL_CLOSE_RUN=true` (close the run after every push).
+
+### One TestRail run per session
+
+`src/utils/testrail-run.ts` is the utility that owns this. The first push of a
+session creates the run and records it in `.testrail/current-run.json`
+(gitignored); every later push finds that record, **widens the run's case list**
+to cover its own cases, and reports into the same run. Nothing else is needed —
+run modules in any order and they all land together.
+
+**Run name** — fixed convention, local wall-clock time, environment in the
+trailing tag:
+
+```
+MFE-E2E-Regression-Testing — 2026-09-09 21:11 (local)
+MFE-E2E-Regression-Testing — 2026-09-09 21:11 (github-actions)
+```
+
+**Both execution shapes, locally:**
+
+```bash
+# 1. individual module / individual spec — separate invocations, ONE run
+npx playwright test tests/local-office            # opens the run
+npx playwright test tests/service-charge          # joins it, widens it
+npx playwright test --project=encore-locations    # joins it, widens it
+npx playwright test tests/discount-matrix/discount-matrix.spec.ts
+
+# 2. entire suite — one invocation, same run if the session is still open
+npm test
+```
+
+**Session control** (rarely needed locally; this is what CI uses):
+
+```bash
+npm run testrail:run:status   # which run this machine is pushing into, and its case count
+npm run testrail:run:open     # create the run up front, without results
+npm run testrail:run:reset    # forget the session — the next push opens a NEW run
+npm run testrail:run:close    # close the run in TestRail and clear the session
+```
+
+A new run is opened when there is no session file, when the recorded run is
+older than `TESTRAIL_RUN_TTL_HOURS` (default 12), when `TESTRAIL_RUN_KEY`
+changes, or when the recorded run has been closed or deleted in TestRail.
+
+**GitHub Actions** — `.github/workflows/e2e-testrail.yml`, `workflow_dispatch`
+with a `scope` of `suite`, `modules` (one parallel job per module) or `spec`.
+Each job is a fresh runner and cannot see the session file, so the workflow does
+it explicitly: an `open-run` job calls `npm run testrail:run:open` and publishes
+the id, every test job receives it as `TESTRAIL_RUN_ID` and widens that same
+run, and `close-run` closes it at the end. Repository secrets required:
+`TESTRAIL_HOST`, `TESTRAIL_USERNAME`, `TESTRAIL_API_KEY`, `TESTRAIL_PROJECT_ID`,
+`TESTRAIL_SUITE_ID`, `ENCORE_USERNAME`, `ENCORE_PASSWORD`.
+
+| Variable | Purpose |
+| --- | --- |
+| `TESTRAIL_RUN_ID` | Pin every push to this run; the session file is bypassed. What CI sets. |
+| `TESTRAIL_RUN_NAME` | Replace the generated name wholesale. |
+| `TESTRAIL_RUN_KEY` | Session identity. Defaults to the CI workflow run id, else `local`. |
+| `TESTRAIL_RUN_ENV` | The `(local)` suffix. Defaults to the detected environment. |
+| `TESTRAIL_RUN_TTL_HOURS` | How long a session stays open locally (default `12`). |
 
 ### How tests map to TestRail cases
 
