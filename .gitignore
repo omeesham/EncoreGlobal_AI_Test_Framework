@@ -30,7 +30,9 @@ CLAUDE.md
 docs/
 specs_planning/
 specs/
-scripts/
+scripts/*
+# Exception: TestRail test-run lifecycle script (npm run testrail:run:*) ships
+!scripts/testrail-run.ts
 .auth/
 # Client requires NO GitHub workflows in the deliverable — never track or ship .github
 .github/
