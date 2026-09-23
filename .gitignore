@@ -15,32 +15,48 @@ playwright/.cache/
 # Test evidence runtime artifacts (field-case-runner rejected inputs, etc.)
 .test-evidence/
 
+# Agent-internal artifacts kept on disk but never shipped
+scripts/walks/
+src/selectors/SELECTOR_CATALOG.md
 
-# Secrets & local overrides — never commit (credentials, API keys)
+# Local environment overrides — .env.*.local and .env.server are personal overrides, never ship
 .env.local
 .env.*.local
 .env.server
 
-# Live session state — contains auth cookies, never commit
+# Internal artifacts — never ship to client
+CLAUDE.md
+.claude/
+docs/
+specs_planning/
+specs/
+scripts/*
+# Exception: TestRail test-run lifecycle script (npm run testrail:run:*) ships
+!scripts/testrail-run.ts
 .auth/
+# Client requires NO GitHub workflows in the deliverable — never track or ship .github
+.github/
+
+# Playwright debug session artifacts (may contain live session cookies — never ship, never commit)
 .playwright-cli/
 .playwright-mcp/
-
-# Runtime state
-.claude/state/
-.testrail/
-
-# Agent-internal scratch
-scripts/walks/
 
 # OS / IDE
 .DS_Store
 Thumbs.db
+# Office owner files — appear beside a report while it is open in Word/Excel
 ~$*
 .idea/
 .vscode/
 
-# Merged/renamed report output
+# Merged/renamed report output (per-module HTML reports + their blob inputs).
+# The bare "playwright-report/" rule above misses these renamed variants.
 playwright-report-*/
 blob-report/
 blob-report-*/
+
+# Claude Code hook runtime state (bug kit gates write here)
+.claude/state/
+
+# Shared-TestRail-run session record (which run this machine is pushing into)
+.testrail/
