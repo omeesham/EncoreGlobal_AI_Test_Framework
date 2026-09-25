@@ -1,8 +1,20 @@
 export const SetupPricingSelectors = {
   chkCorporatePricing: '[data-testid="location-settings-checkbox-corporate-pricing"]',
   chkPriceGuideInclusive: '[data-testid="location-settings-checkbox-price-guide-inclusion"]',
+ // Net-new since the 2026-06-19 baseline; first observed live 2026-09-23. Standalone boolean —
+ // no cascade, and NOT gated by Corporate Pricing.
+  chkEnablePriceEscalator: '[data-testid="location-settings-checkbox-enable-price-escalator"]',
   drpCurrencyFilter: '[data-testid="location-settings-select-pricing-currency"]',
   btnSavePricing: '[data-testid="location-settings-btn-save"]',
+
+ // Net-new since baseline. Collapses the settings region; pure view state, never dirties the form.
+  btnToggleSettingsPanel: '[data-testid="location-settings-btn-toggle-settings-panel"]',
+ // Net-new since baseline. No data-testid on the trigger, so anchor it inside the Pricing panel —
+ // a bare text match would also hit other tabs' grids.
+  btnPricingGridOptions: '[data-testid="location-settings-sub-tab-content-pricing"] button:has-text("Grid Options")',
+ // The Pricing tabpanel itself — needed to scope panel-local reads away from the sibling
+ // Basic Information tabpanel, which is simultaneously data-state="active".
+  pnlPricingContent: '[data-testid="location-settings-sub-tab-content-pricing"]',
 
  // Office 1604 defaults to USD; the CAD/MXN keys below are unverified against the live DOM.
   drpPrimaryLaborPricingUSD: '[data-testid="location-settings-select-primary-labor-pricing-usd"]',

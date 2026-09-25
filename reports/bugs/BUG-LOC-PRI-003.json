@@ -1,0 +1,93 @@
+{
+  "id": "BUG-LOC-PRI-003",
+  "title": "[CLOSED 2026-09-23 — WORKING AS DESIGNED] Location Pricing: changing the Currency filter enables Save and arms the unsaved-changes guard.",
+  "module": "LocationPricing",
+  "severity": "medium",
+  "status": "closed-working-as-designed",
+  "discoveredDate": "2026-09-23",
+  "requirementSource": "Location Settings -> Pricing sub-tab (/navigator/locations/<office>/settings/location). The Currency control (location-settings-select-pricing-currency) is a VIEW FILTER, not a data field: selecting a currency narrows which Location Secondary Pricing grid rows are listed and which per-currency primary-pricing dropdown group is shown. It writes nothing to the location. The same surface supplies its own counter-example: the 'Grid Options' column-visibility menu is also a view-only control, and toggling a column there correctly leaves Save disabled. Two view-only controls on one panel must not disagree about whether looking at data edits it.",
+  "stepsToReproduce": [
+    "Navigate to /navigator/locations/1604/settings/location and open the Pricing sub-tab.",
+    "Observe the clean baseline: the Currency filter reads 'All' and the Save button is DISABLED.",
+    "Open the Currency filter and select 'USD'. Change nothing else — do not touch any checkbox, dropdown or grid cell.",
+    "Observe: the grid re-filters to USD rows as expected, and the three panel checkboxes (Corporate Pricing, Include Service Fee in Price Guides, Enable Price Escalator) are unchanged.",
+    "Observe: the Save button is now ENABLED, although no location data has been modified.",
+    "[CONSEQUENCE OF STEP 5, NOT SEPARATE EVIDENCE] Leave the filter on 'USD' and trigger a FULL PAGE navigation — press F5, the browser Back button, or edit the address bar. The browser's native 'Leave site? Changes you made may not be saved' dialog fires and blocks you. This follows automatically from the form being dirty and is listed only to show the blast radius.",
+    "[CONSEQUENCE OF STEP 5, NOT SEPARATE EVIDENCE] The in-app equivalent, which is a different guard: with the filter on 'USD', click a link INSIDE the app (sidebar 'Home'). A sidebar click never unloads the page, so the browser dialog cannot fire and the app supplies its own: 'Are you sure you want to leave this view? Any unsaved changes will be lost.'",
+    "Contrast case on the same panel: reload to a clean state, click 'Grid Options' and uncheck the 'Currency' column. Observe the column is hidden and Save correctly stays DISABLED — proving the app can and does distinguish view-state from data-state for other controls.",
+    "[DECISIVE] Prove the filter is not a data field: with the filter on 'USD', click Save and confirm. Then reload and reopen the Pricing sub-tab. Observe the Currency filter reads 'All' again — the selection was NOT persisted. The app offered to save a value it does not store."
+  ],
+  "expectedBehavior": "Changing the Currency view filter narrows the displayed rows and dropdown groups and leaves the form pristine: Save stays disabled and no navigation guard arms. This is how the Grid Options column-visibility menu on the same panel already behaves. The filter value is not persisted by a save, which is itself the proof that it is not a data field.",
+  "actualBehavior": "Selecting any value in the Currency filter marks the form dirty. The Save button becomes enabled and both navigation guards arm — the native beforeunload dialog on a full page navigation and the app-level 'Unsaved changes' modal on in-app navigation. No location data has changed: the panel checkboxes hold their loaded values and no grid cell was touched. The user is warned about losing work they never did, and is offered a Save for a change that does not exist.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-23",
+    "findings": "Live Playwright MCP walk on an authenticated e2e session. OFFICE 1604: clean load read currencyFilter='All', saveDisabled=true. Selected 'USD' in the filter as the only interaction; the re-read showed filterValue='USD', saveDisabled=false. A subsequent page.goto timed out after 30s and the MCP reported a pending beforeunload modal, confirming the navigation guard had armed from the filter change alone. ISOLATION TEST, OFFICE 1605: clean load read currencyFilter='All', saveDisabled_BEFORE=true; selected 'CAD' as the only interaction; re-read showed currencyFilter='CAD', saveDisabled_AFTER=false, with the three panel checkboxes verified unchanged (corporate='true', priceGuide='false', escalator='false' — their loaded values) and the visible primary-dropdown group correctly switched to the five CAD dropdowns. A page.goto then timed out on the beforeunload guard on 1605 as well. Reproduced on TWO offices and on two different filter values, so this is app-wide and not tied to a particular office or currency. CONTRAST CASE captured on 1604 in the same session: opening 'Grid Options' and unchecking the 'Currency' column hid the column (headers went from 7 to 6 and each rendered row dropped to 6 cells) while saveDisabled stayed true — so a sibling view-only control on the same panel does NOT dirty the form.",
+    "tool": "playwright-test MCP (mcp__playwright-test__*)"
+  },
+  "baselineComparison": "not-checked",
+  "baselineEvidence": "The legacy Navigator site (navigator2.training.psav.com) Pricing tab for office 1604 was walked on 2026-06-19 and recorded in specs_planning/_internal/old-site-baseline/pricing-2026-06-19.md. That walk confirms a Currency filter combobox is present on the legacy Pricing tab with 2 options (section 2, recorded as PARITY), so this is NOT a baseline-absent feature. Whether changing that legacy filter dirtied the legacy form was not measured, and the comparison would not be like-for-like in any case: the artifact records that the legacy site uses a single global Save committing the whole location-detail form, whereas the current site has a per-tab Pricing-scoped Save, so 'is the form dirty' does not denote the same state on the two sites. Classified honestly as not-checked rather than inferring a regression verdict from a structurally different save model. The defect itself is independently established on the current site across two offices and does not depend on this classification.",
+  "affectedTests": [
+    "TC-LOC-PRI-018",
+    "TC-LOC-PRI-019",
+    "TC-LOC-PRI-057",
+    "TC-LOC-PRI-061"
+  ],
+  "networkEvidence": "No network activity is involved in the defect itself — the filter change is purely client-side and fires no request, which is consistent with it being a view filter and is precisely why it should not mark the form dirty. The dirty state is therefore raised client-side by the form's change tracking, not by any server round-trip. This was established by capturing the request list after the filter change and observing no save-path call (neither PUT /navigator/api/location/update-properties nor POST /navigator/api/location/pricebook/upsert-location-pricebook) until Save was explicitly clicked in the separate test sequences.",
+  "currentLiveState": "As of 2026-09-23 no data was committed while investigating this defect on either office — the filter-induced dirty state was discarded through the navigation guard rather than saved, on both 1604 and 1605. Both offices read the Currency filter back at its default 'All' with Save disabled.",
+  "verificationLog": [
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) via playwright-test MCP, offices 1604 + 1605",
+      "verifiedDate": "2026-09-23",
+      "verdict": "CONFIRMED — reproduces on 1604 (USD) and 1605 (CAD); the filter alone enables Save and arms both navigation guards",
+      "evidence": "See mcpEvidence.findings. The two-office, two-currency reproduction establishes app-wide scope per LR-032. The strength of this finding rests on the in-session contrast rather than on an external requirement: the Grid Options column toggle is a view-only control on the same panel that correctly leaves Save disabled, so the app already implements the expected behaviour for a sibling control and the Currency filter diverges from it. Severity is held at medium rather than high because no data is lost or corrupted — the harm is a false unsaved-changes warning that blocks navigation and an offer to save a change that does not exist, which over time trains users to click through exactly the warnings that protect real edits."
+    },
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) via playwright-cli headed, office 1604",
+      "verifiedDate": "2026-09-23",
+      "trigger": "Project owner reported being unable to reproduce.",
+      "verdict": "CONFIRMED — reproduces on 1604 on a fresh load; the non-reproduction is explained by the net-zero revert.",
+      "evidence": [
+        "Clean baseline on load: Currency=\"All\", Save button disabled=true.",
+        "Selected USD in the Currency filter and touched nothing else: Currency=\"USD\", Save button disabled=false.",
+        "Reverted the filter to All: Save button disabled=true again — this is why the defect looks absent if the filter is toggled back during investigation.",
+        "Independently corroborated earlier the same day: after touching ONLY the Currency filter on 1605, a full-page navigation raised the native beforeunload dialog, blocking the navigation."
+      ],
+      "rcaCategory": "ENVIRONMENTAL/METHOD — not a false bug; the observation window closes as soon as the filter is returned to its default."
+    },
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) via playwright-cli headed, office 1604",
+      "verifiedDate": "2026-09-23",
+      "trigger": "Project owner's challenge: if selecting USD is a change, then Save enabling and the F5 warning are both correct and consistent — so where is the defect?",
+      "verdict": "CONFIRMED — the challenge is logically sound but its premise is false. The filter is not a change to any persisted data.",
+      "evidence": [
+        "PERSISTENCE TEST (decisive): set the Currency filter to USD, saved, and confirmed. PUT /api/location/update-properties => 200 and POST /api/location/pricebook/upsert-location-pricebook => 200. After a full reload the Currency filter reads \"All\" — the selected value was NOT stored anywhere. Save was offered for a value the app does not persist.",
+        "State after that save is otherwise unchanged: Corporate Pricing still checked, Save disabled, i.e. the save was a no-op with respect to the filter.",
+        "The save payload carries no field representing the pricing-grid currency filter. The currencySetting array in update-properties belongs to the separate Currency sub-tab (isSelected/isDefault/merchantId per currency) and was not altered by the filter.",
+        "CONTRAST still holds: Grid Options column-visibility is also view-only and correctly leaves Save DISABLED, so the app already distinguishes view-state from data-state elsewhere on the same panel."
+      ],
+      "rcaCategory": "CONFIRMED — steps 6 and 7 were correctly identified by the owner as downstream consequences of step 5 rather than independent findings; the report has been restructured to say so."
+    },
+    {
+      "verifierAgent": "Project owner (Vikas Yadav), manual review",
+      "verifiedDate": "2026-09-23",
+      "verdict": "NOT A BUG — closed by owner determination.",
+      "evidence": [
+        "Owner assessment: changing the Currency selection is a real user change; Save enabling and the unsaved-changes warning are the correct and expected responses to it."
+      ],
+      "rcaCategory": "OWNER-DETERMINATION — closed on product judgement about whether the control is a data field, which is the owner call, not an automation call."
+    },
+    {
+      "verifierAgent": "Project owner (Vikas Yadav), manual determination",
+      "verifiedDate": "2026-09-23",
+      "verdict": "WORKING AS DESIGNED — closed by owner.",
+      "evidence": [
+        "Owner determination that the observed behaviour is the intended behaviour for this surface."
+      ],
+      "rcaCategory": "OWNER-DETERMINATION"
+    }
+  ],
+  "scopeNote": "The dirty state is only observable while the Currency filter sits on a NON-DEFAULT value. Re-verified 2026-09-23 after the project owner reported non-reproduction: selecting USD enables Save, but selecting All again DISABLES Save (Angular treats the round trip as a net-zero change, per LR-009). Anyone who changes the filter and changes it back sees a clean form and concludes there is no defect. Retest by leaving the filter on USD.",
+  "withdrawnReason": "Closed on the determination of the project owner (Vikas Yadav), who holds the call on what is filed for this client. Owner's position: selecting a currency IS a change the user made, so the app is correct to enable Save and correct to warn before the user leaves without saving it. On that reading the observed behaviour is the expected behaviour and there is nothing to fix.",
+  "residualObservation": "Recorded as data, not as a defect claim: with the filter on USD, clicking Save returns 200 on both calls (PUT /api/location/update-properties, POST /api/location/pricebook/upsert-location-pricebook), but after a full reload the Currency filter reads 'All' — the selected value is not persisted, and no field in either payload carries it. Kept on file only so the measurement does not have to be repeated if this surface is revisited.",
+  "closureReason": "Closed as WORKING AS DESIGNED on the determination of the project owner (Vikas Yadav), who holds the call on what is filed for this client. Closed on the determination of the project owner (Vikas Yadav), who holds the call on what is filed for this client. Owner's position: selecting a currency IS a change the user made, so the app is correct to enable Save and correct to warn before the user leaves without saving it. On that reading the observed behaviour is the expected behaviour and there is nothing to fix."
+}

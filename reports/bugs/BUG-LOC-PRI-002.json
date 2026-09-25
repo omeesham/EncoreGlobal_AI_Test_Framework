@@ -1,0 +1,88 @@
+{
+  "id": "BUG-LOC-PRI-002",
+  "title": "[CLOSED 2026-09-23 — WORKING AS DESIGNED] End Date earlier than Start Date. The app announces the invalid value (native title=\"Invalid date\" tooltip), the calendar picker prevents it entirely, and the invalid value is correctly not persisted.",
+  "module": "LocationPricing",
+  "severity": "high",
+  "status": "closed-working-as-designed",
+  "discoveredDate": "2026-09-23",
+  "requirementSource": "Location Settings -> Pricing sub-tab (/navigator/locations/<office>/settings/location), Location Secondary Pricing grid. The grid exposes a Start Date and End Date pair per pricebook row, gated behind the Is Alternate -> Use Effective Dates cascade; the pair defines the effective window during which that pricebook applies. The paired Start Date field already demonstrates the app's own intended rejection contract on this same surface: when Use Effective Dates is checked and Start Date is empty, the field is outlined red, Save is disabled, and hovering shows the message 'Pricing Effective start date must be set to a date value when using Effective Dates.' The End Date field marks itself invalid with the same red treatment but honours neither half of that contract.",
+  "stepsToReproduce": [
+    "Navigate to /navigator/locations/1604/settings/location and open the Pricing sub-tab.",
+    "In the Location Secondary Pricing grid, locate the row whose Pricing Strategy is '2021-Tier 3 Urban A'.",
+    "Check the Is Alternate checkbox on that row. Observe: Use Effective Dates becomes enabled.",
+    "Check the Use Effective Dates checkbox on that row. Observe: the Start Date and End Date inputs become enabled.",
+    "Type 04/01/2026 into the Start Date input. Observe: the field is accepted and Save enables.",
+    "Type 03/01/2026 into the End Date input — one month EARLIER than the Start Date. IMPORTANT: the value must be TYPED. Selecting it through the calendar picker is impossible by design and is not the defect path — every day before the Start Date is rendered disabled in the End Date picker.",
+    "Press Tab to blur the End Date field and wait about 3 seconds for the asynchronous cross-field validation to settle.",
+    "Observe: the End Date field is outlined with a red ring and red background, so the app HAS detected the invalid range. Hover over the End Date field: no tooltip, no inline error text and no aria-invalid attribute appear — the rejection is never explained.",
+    "Observe: the Save button is still ENABLED, despite the field being marked invalid.",
+    "Click Save and confirm the 'Save Changes' dialog with Ok. Observe: PUT /navigator/api/location/update-properties returns 200 AND POST /navigator/api/location/pricebook/upsert-location-pricebook returns 200 — the save reports complete success with no error or warning.",
+    "Reload the page and reopen the Pricing sub-tab.",
+    "Observe: the row shows Is Alternate checked, Use Effective Dates checked and Start Date 04/01/2026 — but End Date is EMPTY. The value the user entered was silently thrown away."
+  ],
+  "expectedBehavior": "Either (a) the invalid End Date is rejected at entry the way the paired Start Date field already is — field outlined red, an explanatory message available (the Start Date field's tooltip is the app's own precedent), and Save disabled until the range is corrected — or (b) the range is accepted and persisted as entered. What must not happen is the third path: the app marks the value invalid, offers no explanation, nevertheless allows the save, reports the save as fully successful, and then discards the value. A save that returns 200 must not silently drop a field the user entered.",
+  "actualBehavior": "The End Date accepts a value earlier than the Start Date. After blur, asynchronous cross-field validation fires and the field is given a red ring plus red background — proving the app detected the invalid range — but the invalid state is never announced: there is no tooltip trigger on the cell (unlike the Start Date cell, which wraps its input in a tooltip-trigger carrying the explanatory message), no inline error text and no aria-invalid attribute. The Save button stays enabled. Saving fires both API calls and both return 200. On reload the End Date is empty while the Start Date persisted, so the invalid value was accepted by the UI, transmitted, reported as saved, and then dropped. The user is given a full success signal for a change that did not happen.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-23",
+    "findings": "Live Playwright MCP walk on an authenticated e2e session. OFFICE 1604: enabled the Is Alternate -> Use Effective Dates cascade on row '2021-Tier 3 Urban A'; typed Start 04/01/2026 (accepted, no red, Save enabled) then End 03/01/2026. Immediately after typing, a DOM read showed endRed=false — the validation had not yet fired, confirming it is asynchronous (LR-010). After Tab plus a 3s settle, the re-read showed endRed=true, endHasTooltipTrigger=false, endAriaInvalid=null, saveDisabled=false. The contrast case was captured in the same session: with Use Effective Dates checked and Start Date EMPTY, the Start cell read startCellHasTooltipTrigger=true and hovering produced the verbatim tooltip 'Pricing Effective start date must be set to a date value when using Effective Dates.', with Save DISABLED — so the app does own a correct announce-and-block contract, and the End Date path does not follow it. Saved and confirmed; reload read back start='04/01/2026', end='' (empty). ISOLATION TEST, OFFICE 1605: identical sequence on the same-named row -> endRed=true, endHasTooltipTrigger=false, endAriaInvalid=null, saveDisabled=false -> both save calls 200 -> reload read back startPersisted='04/01/2026', endPersisted='' (empty). Reproduced on TWO offices, so this is app-wide behaviour and not office-1604 data corruption. Both offices were restored to Is Alternate unchecked with empty dates after the test.",
+    "tool": "playwright-test MCP (mcp__playwright-test__*)"
+  },
+  "baselineComparison": "not-checked",
+  "baselineEvidence": "The legacy Navigator site (navigator2.training.psav.com) Pricing tab for office 1604 was walked on 2026-06-19 and recorded in specs_planning/_internal/old-site-baseline/pricing-2026-06-19.md. That walk confirms the Location Secondary Pricing grid on the legacy site carries the same 7 columns including Start Date and End Date (section 2, 'FULL COLUMN PARITY'), so this is NOT a baseline-absent feature. The end-before-start save behaviour specifically was NOT exercised on the legacy site, for the reason recorded in that artifact section 6: the legacy Save commits the whole location-detail form rather than a per-tab scope, and office 1604 on the legacy site holds 5 assigned corporate pricebooks whose GUIDs cannot be reliably restored from 480+ option lists on a shared test office. Mutating date state there risked irreversible collateral change to an office other tests depend on. Classified honestly as not-checked rather than laundering a regression verdict from an untested comparison. A clean regression-versus-intended verdict would require a disposable legacy office; note that the verdict does not change the defect, which is independently established on the current site across two offices.",
+  "affectedTests": [
+    "TC-LOC-PRI-022"
+  ],
+  "networkEvidence": "Captured at the API layer on both offices. The save fires exactly two calls and BOTH return 200: PUT /navigator/api/location/update-properties => 200 and POST /navigator/api/location/pricebook/upsert-location-pricebook => 200. No 4xx and no 5xx, so the client does not block the save and the server does not reject it — the request is accepted and acknowledged. Because the Start Date from the same row and the same request persisted while the End Date did not, the payload reached the server and was partially applied; the End Date is therefore dropped either by the client before serialisation or by the server during persistence, and the client cannot distinguish the two. What is definitive from the client side is the round-trip failure: a field the user entered, which the UI itself flagged as invalid, was reported saved and is absent on reload.",
+  "currentLiveState": "As of 2026-09-23 both test offices were restored after the investigation. Office 1604 and office 1605 both read: row '2021-Tier 3 Urban A' Is Alternate unchecked, Use Effective Dates unchecked, Start Date empty, End Date empty, Save disabled. No residual invalid date state was left on either office.",
+  "verificationLog": [
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) via playwright-test MCP, offices 1604 + 1605",
+      "verifiedDate": "2026-09-23",
+      "verdict": "CONFIRMED — reproduces on 1604 and 1605; red ring with no announcement, Save stays enabled, both save calls 200, End Date empty on reload",
+      "evidence": "See mcpEvidence.findings and networkEvidence. The two-office reproduction establishes app-wide scope per LR-032, so the finding is not office-1604 data pollution. The asynchronous nature of the validation was confirmed directly: the immediate post-type read showed no invalid state and only the post-blur read showed the red ring, which matches LR-010 and means any automated assertion on this must poll rather than read once. The in-session contrast against the Start Date field's own tooltip-and-disable behaviour is what establishes the expected contract from the app's own precedent rather than from an external requirement document."
+    },
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) via playwright-cli headed, office 1604",
+      "verifiedDate": "2026-09-23",
+      "trigger": "Project owner reported this was NOT a bug: an invalid-date tooltip was seen and save behaved correctly.",
+      "verdict": "CONFIRMED but NARROWED — the owner was right about the calendar-picker path; the defect exists only on the typed-input path.",
+      "evidence": [
+        "CALENDAR PATH (owner path, app CORRECT): with Start Date 04/01/2026 set, the End Date picker navigated to March 2026 renders every day disabled — sampled March 1st-12th 2026 all returned disabled=true. An earlier End Date cannot be selected at all.",
+        "TYPED PATH (defect path): typing 03/01/2026 into the End Date input and blurring gives borderColor oklch(0.637 0.237 25.331) with classes invalid:border-destructive and red-500, so the app DID detect the bad range.",
+        "ANNOUNCEMENT: hovering the invalid End Date produced zero tooltips on the page (querySelectorAll for [role=tooltip], [data-slot=tooltip-content], [data-radix-popper-content-wrapper] returned []), aria-invalid was null, and the cell carried no [data-slot=tooltip-trigger]. Contrast: the Start Date cell DOES render a tooltip-trigger while it is in its own invalid state.",
+        "SAVE: Save button disabled=false; saving fired PUT /api/location/update-properties => 200 and POST /api/location/pricebook/upsert-location-pricebook => 200.",
+        "PERSISTENCE: after a full reload the row read isAlt=true, useEff=true, startVal=04/01/2026, endVal=\"\" — the typed value was accepted, acknowledged and discarded.",
+        "Office 1604 was restored to baseline afterwards: isAlt=false, useEff=false, both dates empty, Save disabled."
+      ],
+      "rcaCategory": "MISREAD — the original title implied the invalid range is accepted generally. It is not: only the typed path is affected. The filed stepsToReproduce always said \"Type\", but the title did not, which is what made the report look wrong on a picker-based retest."
+    },
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) via playwright-cli headed, office 1604, viewport 1920x1080 with the Location Secondary Pricing grid scrolled fully across",
+      "verifiedDate": "2026-09-23",
+      "trigger": "Project owner rejected the report and supplied the missing step: scroll the Location Secondary Pricing grid horizontally before entering the End Date.",
+      "verdict": "FALSE — withdrawn. The owner was correct.",
+      "evidence": [
+        "ANNOUNCEMENT EXISTS: with 03/01/2026 typed against Start Date 04/01/2026, the End Date cell contains <div title=\"Invalid date\">. The Start Date cell (valid) carries no [title]. The original report missed this because a native title attribute is browser chrome: querySelectorAll for [role=tooltip], [data-slot=tooltip-content] and [data-radix-popper-content-wrapper] all return [] even while the tooltip is available.",
+        "GRID IS HORIZONTALLY SCROLLED: the pricing grid scroll container measured scrollWidth 1080 vs clientWidth 398 at the default viewport. The End Date column sits off-screen, so the original session was probing a column it could not see. At 1920x1080 with scrollLeft maxed the cell occupies x=1740..1920 and is fully visible.",
+        "CALENDAR PICKER IS CORRECT: with Start Date 04/01/2026, every day in the End Date picker for March 2026 renders disabled=true (sampled 1st-12th). The invalid range cannot be produced through the intended control at all.",
+        "NON-PERSISTENCE IS CORRECT: the typed invalid value is announced as invalid and then not persisted on reload. Declining to store a value the user was told is invalid is proper behaviour.",
+        "METHOD NOTE: Playwright fill() on the End Date input left the field EMPTY, while real character-by-character typing held 03/01/2026. The project rule \"never fill() a formatted input — type it\" applies to these date inputs too; fill() produces a misleading read.",
+        "Office 1604 restored to baseline afterwards: isAlt=false, useEff=false, both dates empty, Save disabled."
+      ],
+      "rcaCategory": "MISREAD — a page-object helper that could only see one of the two announcement mechanisms returned null, and that null was read as evidence of absence. Compounded by probing an off-screen column."
+    },
+    {
+      "verifierAgent": "Project owner (Vikas Yadav), manual determination",
+      "verifiedDate": "2026-09-23",
+      "verdict": "WORKING AS DESIGNED — closed by owner.",
+      "evidence": [
+        "Owner determination that the observed behaviour is the intended behaviour for this surface."
+      ],
+      "rcaCategory": "OWNER-DETERMINATION"
+    }
+  ],
+  "scopeNote": "TYPED INPUT ONLY. Re-verified 2026-09-23 after the project owner reported non-reproduction. Through the calendar picker the app behaves correctly and the bug does not exist. The date inputs are not readonly (asserted by TC-LOC-PRI-023), so typing is a supported user path and the validation gap is real — but any retest must type the value, not pick it.",
+  "withdrawnReason": "Filed on a false premise. The original report claimed the red-ring rejection \"carries no message\". It does carry one: the End Date cell renders <div title=\"Invalid date\">, a NATIVE browser tooltip. Because a native title is rendered as browser chrome and never enters the DOM, the page-object helper getDateValidationMessage() — which only queried the Radix [data-slot=\"tooltip-trigger\"] / [role=\"tooltip\"] pair used by the Start Date cell — returned null, and that null was mistaken for \"no announcement\". Two further checks dismantle the rest of the report: (1) the calendar picker DISABLES every day before the Start Date, so the invalid range is unreachable through the intended control; (2) the invalid value not surviving the save is correct behaviour, not a silent discard, because the field was announced as invalid before the save. Per specs_planning/_internal/field-case-generation.md §2.1 a rejected value must be BOTH announced AND escapable — both hold here.",
+  "residualObservation": "NOT FILED. One weaker point survives: the Save button stays enabled while the End Date is flagged invalid, whereas an empty required Start Date does disable it. That is an internal inconsistency rather than a defect — the value is announced and escapable, so it satisfies field-case-generation §2.1 and is not filable under LR-ENC-009.",
+  "closureReason": "Closed as WORKING AS DESIGNED on the determination of the project owner (Vikas Yadav), who holds the call on what is filed for this client. Filed on a false premise. The original report claimed the red-ring rejection \"carries no message\". It does carry one: the End Date cell renders <div title=\"Invalid date\">, a NATIVE browser tooltip. Because a native title is rendered as browser chrome and never enters the DOM, the page-object helper getDateValidationMessage() — which only queried the Radix [data-slot=\"tooltip-trigger\"] / [role=\"tooltip\"] pair used by the Start Date cell — returned null, and that null was mistaken for \"no announcement\". Two further checks dismantle the rest of the report: (1) the calendar picker DISABLES every day before the Start Date, so the invalid range is unreachable through the intended control; (2) the invalid value not surviving the save is correct behaviour, not a silent discard, because the field was announced as invalid before the save. Per specs_planning/_internal/field-case-generation.md §2.1 a rejected value must be BOTH announced AND escapable — both hold here."
+}
