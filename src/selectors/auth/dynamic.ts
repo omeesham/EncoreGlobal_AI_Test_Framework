@@ -11,6 +11,10 @@ export const DynamicSelectors = {
 
   optCurrencyFilter: (currency: string) => `[role="listbox"] [role="option"]:has-text("${currency}")`,
 
+ // Pricing "Grid Options" column-visibility menu. Entries are role="menuitemcheckbox", not
+ // checkbox, and the menu closes after each toggle — reopen it between columns.
+  mnuColumnToggle: (columnName: string) => `[role="menu"] [role="menuitemcheckbox"]:has-text("${columnName}")`,
+
  // Auto Add-On tab selectors are static (data-testid based) and live in
  // src/selectors/locations/auto-addon.ts — none are parameterized, so none belong in this file.
 } as const;
