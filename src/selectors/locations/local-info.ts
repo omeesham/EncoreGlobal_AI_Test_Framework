@@ -49,6 +49,7 @@ export const SetupLocalInfoSelectors = {
   drpBillingCycle: '[data-testid="location-settings-select-billing-cycle"]',
   chkWarehouseBilling: '[data-testid="location-settings-checkbox-warehouse-billing"]',
   drpOracleOrganization: '[data-testid="location-settings-select-oracle-org"]',
+  drpProductOrganization: '[data-testid="location-settings-select-product-org"]',
   chkCompassIntegration: '[data-testid="location-settings-checkbox-compass-integration"]',
   chkCompanyRemitTax: '[data-testid="location-settings-checkbox-company-remit-tax"]',
   chkDisplayTax: '[data-testid="location-settings-checkbox-display-tax"]',

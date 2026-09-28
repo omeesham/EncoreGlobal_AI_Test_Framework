@@ -1,0 +1,791 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Location Settings opens with Basic Information selected by default; History requires an explicit click,,,,,Automated,Omeesha Mahanta,,,"'Location Management History' reports aria-selected='true'.; The Basic Information panel (and its own second-row sub-tabs: Local Information, Currency, Pricing, Account and Address, Legal, Notes, Shared Setup Locations, Auto Add-On, Business Types) is no longer visible — the History tab is a top-level sibling, not nested content.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Settings is freshly loaded on Basic Information.
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Navigate to {BASE_URL}locations/1604/settings/location and read the top-level tab strip.</li>
+<li>2. Click the Location Management History tab and wait for the grid to settle via navigateToHistoryTab().</li>
+</ol>",,,"1. The tab strip reads exactly 'Basic Information', 'Location Management History' in that order.; 'Basic Information' reports aria-selected='true' with no click; 'Location Management History' does not.
+2. 'Location Management History' reports aria-selected='true'.; The Basic Information panel (and its own second-row sub-tabs: Local Information, Currency, Pricing, Account and Address, Legal, Notes, Shared Setup Locations, Auto Add-On, Business Types) is no longer visible — the History tab is a top-level sibling, not nested content.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The History panel renders a settled grid — header row plus rows-or-empty-state, never neither",,,,,Automated,Omeesha Mahanta,,,The attachment is present; it is diagnostic and does not gate the result.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Open the History tab and read getColumnHeaderCount() and getDataRowCount() plus isTableEmpty() in one pass.</li>
+<li>2. Attach the observed header list and the first row's values to the HTML report.</li>
+</ol>",,,"1. The header count is exactly 87.; Either at least one data row renders or isTableEmpty() is true — never neither, which is the half-rendered window a plain visibility wait races against.
+2. The attachment is present; it is diagnostic and does not gate the result.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching away to Basic Information and back to History keeps the grid stable,,,,,Automated,Omeesha Mahanta,,,"The header list is byte-identical to the baseline — no dropped, duplicated, or reordered columns.; The row count is identical to the baseline.; Exactly one history table exists — the panel did not stack a second grid on top of the first.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Capture getColumnHeaders() and getDataRowCount() as the baseline.</li>
+<li>2. Call returnToBasicInformation(), wait for the Basic Information form, then reopen the History tab via navigateToHistoryTab().</li>
+<li>3. Re-read the header list, the row count, and the number of history tables present in the panel.</li>
+</ol>",,,"1. Both are captured.
+2. Basic Information becomes selected, then History becomes selected again and its grid settles.
+3. The header list is byte-identical to the baseline — no dropped, duplicated, or reordered columns.; The row count is identical to the baseline.; Exactly one history table exists — the panel did not stack a second grid on top of the first.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A hard reload does not preserve the History tab selection, but reopening it reproduces the same 87-column contract",,,,,Automated,Omeesha Mahanta,,,"The grid renders again with exactly 87 columns, matching the pre-reload baseline.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. With History open, capture the column header count.</li>
+<li>2. Perform a hard reload of {BASE_URL}locations/1604/settings/location.</li>
+<li>3. Reopen the History tab via navigateToHistoryTab() and re-read the header count.</li>
+</ol>",,,"1. The count (87) is captured.
+2. The page loads with Basic Information selected and History NOT selected — the tab choice is not deep-linked into the URL, matching the sibling Local Office History and ECT Settings suites' own documented behavior for their own tabs.
+3. The grid renders again with exactly 87 columns, matching the pre-reload baseline.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Browser back/forward after opening History shows no stale grid content,,,,,Automated,Omeesha Mahanta,,,"The grid renders live current data — the top row's Modified On is the same or newer than the pre-navigation baseline, never an older/stale cached row.; The header count is still 87.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Open History, capture the top row's Modified On value, then navigate to Basic Information and back to Locations search (or Home) via an in-app link.</li>
+<li>2. Use the browser Back button to return, then reopen History if it is not already the active view.</li>
+</ol>",,,"1. Navigation completes without error.
+2. The grid renders live current data — the top row's Modified On is the same or newer than the pre-navigation baseline, never an older/stale cached row.; The header count is still 87.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Switching the active location reloads History scoped to the new location, never a merge of both",,,,,Automated,Omeesha Mahanta,,,"The grid reloads (a new POST to get-location-setting-history with locationNo:'1606' is observed).; Every visible row's Local Office cell reads '1606', never '1604' — the two offices' history never mixes in one grid.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Contrast location: office 1606 - Embassy Suites by Hilton Washington DC Convention Center (read-only)",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. On office 1604's History tab, capture the top row's Local Office cell.</li>
+<li>2. Navigate to {BASE_URL}locations/1606/settings/location and reopen the History tab for 1606.</li>
+</ol>",,,"1. It reads '1604'.
+2. The grid reloads (a new POST to get-location-setting-history with locationNo:'1606' is observed).; Every visible row's Local Office cell reads '1606', never '1604' — the two offices' history never mixes in one grid.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The history table contains zero editable controls, scoped correctly to the table and not the panel",,,,,Automated,Omeesha Mahanta,,,"isReadOnly() returns true.; The scoped count is exactly 0 — the paginator's one input is deliberately excluded from this count, per the confirmed live DOM structure.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Call isReadOnly() and independently count input/textarea/select/[contenteditable] elements scoped to tblMgmtHistory's nested &lt;table> only (never the wrapping div, which also holds the paginator's page-number input as a sibling concern).</li>
+</ol>",,,"1. isReadOnly() returns true.; The scoped count is exactly 0 — the paginator's one input is deliberately excluded from this count, per the confirmed live DOM structure.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,No Add/Edit/Delete/Save action button exists anywhere in the History panel,,,,,Automated,Omeesha Mahanta,,,"Zero buttons whose accessible text is exactly Add, Add New, New, Edit, Delete, Remove, or Save — exact-text matching avoids over-reporting a paginator tooltip or a column label containing 'Save' as a substring.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Enumerate every button in [data-testid=""location-settings-tab-content-management-history""] and match on exact accessible text.</li>
+</ol>",,,"1. Zero buttons whose accessible text is exactly Add, Add New, New, Edit, Delete, Remove, or Save — exact-text matching avoids over-reporting a paginator tooltip or a column label containing 'Save' as a substring.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clicking and double-clicking a data cell produces no editor and does not select the row,,,,,Automated,Omeesha Mahanta,,,The row carries neither aria-selected='true' nor data-state='selected'.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Single-click then double-click the first cell of the first data row, then re-read the cell.</li>
+<li>2. Re-check the row's selection state.</li>
+</ol>",,,"1. No input, textarea, or [contenteditable] element appears in the cell.; The cell's text content is unchanged from before the clicks.
+2. The row carries neither aria-selected='true' nor data-state='selected'.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Right-clicking a history row opens no context menu,,,,,Automated,Omeesha Mahanta,,,Both are unchanged.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Right-click the first data row and watch for a [role=""menu""].</li>
+<li>2. Re-read the header count and row count after the right-click.</li>
+</ol>",,,"1. No [role=""menu""] appears — the contrast case against grids elsewhere in Locations (e.g. Section/Room Configuration) that DO expose a right-click Delete action; a history row must not.
+2. Both are unchanged.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Exactly 87 columns render, in the confirmed live order",,,,,Automated,Omeesha Mahanta,,,"The two lists are equal by strict ordered comparison — a dropped, reordered, or renamed column fails this scenario by name, not just by count.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read getColumnHeaders() and compare against the full 87-entry HISTORY_ALL_COLUMNS_IN_ORDER constant (Local Office ... Warehouse Billing, including the deliberate duplicate 'Currency' header).</li>
+</ol>",,,"1. The two lists are equal by strict ordered comparison — a dropped, reordered, or renamed column fails this scenario by name, not just by count.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Identity/status representative fields resolve,,,,,Automated,Omeesha Mahanta,,,"Every field resolves to exactly one column.; The failure message names any field that does not resolve, so a missing-field regression is unambiguous.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Resolve NM-3937's Identity/status fields against the live header row: Local Office ID -> 'Local Office', Local Office Name, Active, Live Date, Country, Currency, Region.</li>
+</ol>",,,"1. Every field resolves to exactly one column.; The failure message names any field that does not resolve, so a missing-field regression is unambiguous.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Billing representative fields resolve,,,,,Automated,Omeesha Mahanta,,,"All four resolve.; Billing Way Effective Date -> 'Billing Way Active' is asserted individually and the mapping is attached to the report, since the live label materially differs from the requirement name.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Resolve Billing Type, Billing Cycle, Billing Way, and Billing Way Effective Date -> 'Billing Way Active' against the live header row.</li>
+</ol>",,,"1. All four resolve.; Billing Way Effective Date -> 'Billing Way Active' is asserted individually and the mapping is attached to the report, since the live label materially differs from the requirement name.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pricing representative fields resolve via the five composite currency-pricing columns,,,,,Automated,Omeesha Mahanta,,,"All five columns resolve.; Each cell parses via the new parseCompositeCurrencyCell() into a {USD, CAD, MXN} map rather than being read as an opaque scalar — this IS the contract for Price Book Currency/Use/Action per-currency history, folded into one cell rather than three separate columns.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Resolve Labor Corporate Price Book History -> 'Labor Pricing', Non-Labor Corporate Price Book History -> 'Equip. Pricing', Labor Production Price Book History -> 'Production Labor Pricing', plus 'Internal Equip. Pricing' and 'Production Equip. Pricing'.</li>
+</ol>",,,"1. All five columns resolve.; Each cell parses via the new parseCompositeCurrencyCell() into a {USD, CAD, MXN} map rather than being read as an opaque scalar — this IS the contract for Price Book Currency/Use/Action per-currency history, folded into one cell rather than three separate columns.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Commission/charge representative fields resolve,,,,,Automated,Omeesha Mahanta,,,"All seven resolve to exactly one column each, named individually on failure.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Resolve Allow DPCD, Exclude Implied Discount, Prompt for Approval, Threshold Amount -> 'Threshold', Allow Service Charge, Calculate Service Charge on Net Amount, Service Charge Name.</li>
+</ol>",,,"1. All seven resolve to exactly one column each, named individually on failure.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Operational representative fields resolve,,,,,Automated,Omeesha Mahanta,,,"All ten resolve, named individually on failure — this is the largest single group and the likeliest place for a dropped field to hide, mirroring the sibling plan's own reasoning for its feature-toggle group.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Resolve Allow Ticker Calculation -> 'Allow Ticker Calc', Set Strike Labor Billing -> 'Set/Strike/Support Labor Billing Goal', Set Strike Minutes Enabled -> 'Enable Set/Strike Labor Minutes', its Apply counterpart, Credit Memo Approval Required, Display Tax, Skip Billing, Show Sub Rental -> 'Show SubRental', Inventory Only, Intercompany.</li>
+</ol>",,,"1. All ten resolve, named individually on failure — this is the largest single group and the likeliest place for a dropped field to hide, mirroring the sibling plan's own reasoning for its feature-toggle group.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Audit representative fields resolve, each asserted individually",,,,,Automated,Omeesha Mahanta,,,"All three resolve individually — every sorting and audit scenario in this plan depends on these exact labels, so their absence must fail unambiguously.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Resolve Notes, Modified User -> 'Modified By', Modified Date -> 'Modified On' against the live header row, each on its own assertion.</li>
+</ol>",,,"1. All three resolve individually — every sorting and audit scenario in this plan depends on these exact labels, so their absence must fail unambiguously.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Location/integration representative fields resolve,,,,,Automated,Omeesha Mahanta,,,"All nine resolve, named individually on failure — this is the group with the most requirement-name/live-label divergence and is worth its own scenario for that reason alone.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Resolve Pay To -> 'Pay To Address', Servicing Branch Office, Default Venue Name -> 'Venue/Branch Account Name', Phone 1 -> 'Venue/Branch Account Phone1', Phone 2 -> 'Venue/Branch Account Phone2', Bill To Address Name -> 'Master Bill To Address Name', Oracle Product Code, Oracle Department Code, Oracle Organization ID -> 'Oracle Organization'.</li>
+</ol>",,,"1. All nine resolve, named individually on failure — this is the group with the most requirement-name/live-label divergence and is worth its own scenario for that reason alone.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The requirement-name-to-live-header mapping is attached to the report as a durable record,,,,,Automated,Omeesha Mahanta,,,"The attachment lists every mapping and every mismatch explicitly — this is what turns NM-3937's field list into a durable, reviewable fact instead of an implicit assumption buried inside eighteen separate resolutions.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Assemble the full NM-3937-field -> live-header mapping table built across TC-012..018, including every case where the live label materially differs from (not just resolves loosely against) the requirement name, and attach it to the HTML report.</li>
+</ol>",,,"1. The attachment lists every mapping and every mismatch explicitly — this is what turns NM-3937's field list into a durable, reviewable fact instead of an implicit assumption buried inside eighteen separate resolutions.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every rendered data row has exactly 87 cells,,,,,Automated,Omeesha Mahanta,,,"Every row's cell count equals the header count (87), named individually on any mismatch — a short or long row is exactly how a cell-shift/misalignment defect presents.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read the cell count of every rendered data row on page 1 (up to 20 rows).</li>
+</ol>",,,"1. Every row's cell count equals the header count (87), named individually on any mismatch — a short or long row is exactly how a cell-shift/misalignment defect presents.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Boolean cells render as a check glyph or a blank cell, never literal text",,,,,Automated,Omeesha Mahanta,,,"No cell equals the literal text 'true', 'false', 'True', or 'False'.; Every boolean cell is either exactly '✔' or empty — no other glyph appears.; At least one true value ('✔') is observed in the sample, so the scenario is not vacuously passing on an all-blank sample.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read the boolean-typed columns (Active, Corporate Pricing, Allow DPCD, Enable LDW, Allow Service Charge, Credit Memo Approval Required, Intercompany, and others) across the first five rows.</li>
+</ol>",,,"1. No cell equals the literal text 'true', 'false', 'True', or 'False'.; Every boolean cell is either exactly '✔' or empty — no other glyph appears.; At least one true value ('✔') is observed in the sample, so the scenario is not vacuously passing on an all-blank sample.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Composite currency-pricing cells render the confirmed 'USD: ...; CAD: ...; MXN: ...' pattern without corrupting row width,,,,,Automated,Omeesha Mahanta,,,"Each cell matches the three-currency composite pattern and parses into a {USD, CAD, MXN} map without throwing.; The row's total cell count is still exactly 87 — the composite text (which may itself be long) does not visually or structurally shift any later column.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read the five composite pricing columns for the first data row and parse each with parseCompositeCurrencyCell().</li>
+</ol>",,,"1. Each cell matches the three-currency composite pattern and parses into a {USD, CAD, MXN} map without throwing.; The row's total cell count is still exactly 87 — the composite text (which may itself be long) does not visually or structurally shift any later column.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Modified On and the plain-date columns use their confirmed, distinct formats",,,,,Automated,Omeesha Mahanta,,,"Every non-blank value matches MM/DD/YYYY with NO time component — a distinct, narrower pattern from Modified On, and the two must never be cross-applied.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read Modified On for the first three rows.</li>
+<li>2. Read Live Date, Start Date, and End Date for the same rows.</li>
+</ol>",,,"1. Every non-blank value matches MM/DD/YYYY hh:mm:ss AM|PM, and every value parses to a finite timestamp via LocationManagementHistoryPage.parseModifiedOnMs — a NaN here catches a silent format change before it corrupts every downstream sort assertion.
+2. Every non-blank value matches MM/DD/YYYY with NO time component — a distinct, narrower pattern from Modified On, and the two must never be cross-applied.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Null/blank optional values render as empty cells, never a placeholder string",,,,,Automated,Omeesha Mahanta,,,"It is still exactly 87 — a null/blank value produces an empty cell, never a dropped one.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read every cell of the first ten data rows.</li>
+<li>2. Re-check each sampled row's cell count.</li>
+</ol>",,,"1. No cell equals or contains 'null', 'undefined', 'NaN', 'Invalid Date', or '[object Object]' — the last of these matters specifically here because several source fields are nested objects (contact, financial, billing, pricing) that a naive renderer could stringify directly.
+2. It is still exactly 87 — a null/blank value produces an empty cell, never a dropped one.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Modified By is a real user identifier, never a bare GUID",,,,,Automated,Omeesha Mahanta,,,"No Modified By value is a bare UUID/GUID (matches an email-like or username-like pattern instead, e.g. contains '@').; No row with a non-blank Modified On has a blank Modified By — a recorded change always has an author.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read Modified By and Modified On together for the first five rows.</li>
+</ol>",,,"1. No Modified By value is a bare UUID/GUID (matches an email-like or username-like pattern instead, e.g. contains '@').; No row with a non-blank Modified On has a blank Modified By — a recorded change always has an author.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Sortable columns are exactly the confirmed 14-column set, each with a working, accessibly-named sort control",,,,,Automated,Omeesha Mahanta,,,Every one has a non-empty accessible name.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read the set of columns carrying a sort button (isSortButtonPresent per header) across all 87.</li>
+<li>2. Read the accessible name of each of the 14 sort controls.</li>
+</ol>",,,"1. The set equals exactly: Live Date, Billing Way Active, Modified By, Modified On, Oracle Product Code, Oracle Department Code, Oracle Organization, Use eSignature, Separate Master Bill Commission Invoice, Enable Product Group, Enable Job Costing, Enable Discount Guidance, Internet Asset Reservation, Warehouse Billing — asserted as an exact SET (not a lower-bound count), so a column silently losing its sort control is caught by name.
+2. Every one has a non-empty accessible name.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A fresh load sorts Modified On descending by default,,,,,Automated,Omeesha Mahanta,,,"Exactly one header (Modified On) carries lucide-arrow-down.; Every other sortable header carries lucide-arrow-up-down (sortable-but-unsorted) — matched as exact class tokens, since 'lucide-arrow-up-down' contains the substring 'lucide-arrow-up', so substring matching would misreport it as ascending.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. On a freshly reloaded, freshly opened History tab, read the sort-icon class of every one of the 14 sortable headers before any interaction.</li>
+</ol>",,,"1. Exactly one header (Modified On) carries lucide-arrow-down.; Every other sortable header carries lucide-arrow-up-down (sortable-but-unsorted) — matched as exact class tokens, since 'lucide-arrow-up-down' contains the substring 'lucide-arrow-up', so substring matching would misreport it as ascending.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting Modified On ascending then descending reverses row order; only one column is ever sorted at a time,,,,,Automated,Omeesha Mahanta,,,"The timestamps are in non-ascending order, the first row carries the maximum of the visible values, and it differs from the ascending-first value — proving a real re-order, not a re-render of the same slice.; Modified On's icon reads lucide-arrow-down again.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Sort Modified On ascending via clickSortColumn('Modified On','ascending') and read the visible timestamps.</li>
+<li>2. Sort Modified On descending and re-read.</li>
+</ol>",,,"1. Every value parses to a finite timestamp.; The timestamps are in non-descending order and the first row carries the minimum of the visible values.; Modified On's icon reads lucide-arrow-up and every other header still reads lucide-arrow-up-down or no icon.
+2. The timestamps are in non-ascending order, the first row carries the maximum of the visible values, and it differs from the ascending-first value — proving a real re-order, not a re-render of the same slice.; Modified On's icon reads lucide-arrow-down again.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting Live Date ascending then descending reverses order and the sort indicator moves off Modified On,,,,,Automated,Omeesha Mahanta,,,"Live Date's icon reads lucide-arrow-down, values are non-ascending under date-only parsing.; Restore the default sort (Modified On descending) as the scenario's own cleanup, since later scenarios assume it.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Sort Live Date ascending via clickSortColumn('Live Date','ascending').</li>
+<li>2. Sort Live Date descending and re-read both icons plus the Live Date column's values.</li>
+</ol>",,,"1. Live Date's icon reads lucide-arrow-up.; Modified On's icon reverts to lucide-arrow-up-down — the sort indicator is exclusive to one column at a time.
+2. Live Date's icon reads lucide-arrow-down, values are non-ascending under date-only parsing.; Restore the default sort (Modified On descending) as the scenario's own cleanup, since later scenarios assume it.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Sorting a sortable boolean-like column groups its states, never interleaves them",,,,,Automated,Omeesha Mahanta,,,"Still grouped, and the two directions lead with opposite states — if the live data on this office happens to be uniform on this page, sort BOTH directions and compare the top value before concluding no variation exists (see the sibling plan's own lesson: page-1 uniformity does not mean the column is constant across all history).",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Sort 'Enable Job Costing' ascending and read its boolean-aware values.</li>
+<li>2. Sort descending and re-read.</li>
+</ol>",,,"1. Every cell is either '✔' or blank — never literal true/false text.; The values are grouped: at most one transition between the two states across the visible rows.
+2. Still grouped, and the two directions lead with opposite states — if the live data on this office happens to be uniform on this page, sort BOTH directions and compare the top value before concluding no variation exists (see the sibling plan's own lesson: page-1 uniformity does not mean the column is constant across all history).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Server-side sort is confirmed via the request payload's sortBy/sortDescending fields,,,,,Automated,Omeesha Mahanta,,,"The body contains sortBy:'LiveDate', sortDescending:false — proving sorting is a genuine server round-trip with column-specific keys, not a client-side re-order of an already-fetched page.; Attach every observed sortBy value and its owning column to the report, so the full key map (only 'ModDate' and 'LiveDate' are confirmed by this scenario) grows durably across runs rather than being guessed.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Start recording network requests, sort Modified On descending, and inspect the POST body of the resulting get-location-setting-history call.</li>
+<li>2. Sort Live Date ascending and inspect the new request body.</li>
+</ol>",,,"1. The body contains sortBy:'ModDate', sortDescending:true, matching the confirmed live contract.
+2. The body contains sortBy:'LiveDate', sortDescending:false — proving sorting is a genuine server round-trip with column-specific keys, not a client-side re-order of an already-fetched page.; Attach every observed sortBy value and its owning column to the report, so the full key map (only 'ModDate' and 'LiveDate' are confirmed by this scenario) grows durably across runs rather than being guessed.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rapid repeated toggling of one column's sort direction produces no duplicate or dropped rows,,,,,Automated,Omeesha Mahanta,,,"The final state matches a single direct descending sort (same top row, same row count) — no duplicate rows, no dropped rows, and the grid does not get stuck mid-render.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Toggle Modified On ascending -> descending -> ascending -> descending in quick succession with no extra waits beyond clickSortColumn's own settle.</li>
+</ol>",,,"1. The final state matches a single direct descending sort (same top row, same row count) — no duplicate rows, no dropped rows, and the grid does not get stuck mid-render.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Sorting, then paging to next, preserves the sort order across the page boundary",,,,,Automated,Omeesha Mahanta,,,Page 1's original top row is restored.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Sort Modified On descending, capture the last visible timestamp on page 1, then click 'Go to next page'.</li>
+<li>2. Return to page 1 as cleanup.</li>
+</ol>",,,"1. Page 2's first timestamp is less than or equal to page 1's last timestamp — descending order continues across the page boundary rather than resetting.
+2. Page 1's original top row is restored.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Sorting, then changing rows-per-page, preserves the sort order",,,,,Automated,Omeesha Mahanta,,,The grid returns to its default paging state.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Sort Modified On descending, capture the top timestamp, then setRowsPerPage('50').</li>
+<li>2. Restore rows-per-page to 20 and return to page 1 in a finally block.</li>
+</ol>",,,"1. The grid re-renders with up to 50 rows, the top timestamp is unchanged, and the visible timestamps remain non-ascending.
+2. The grid returns to its default paging state.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"aria-sort is never set on any header, in any state — a documented accessibility discrepancy",,,,,Automated,Omeesha Mahanta,,,"aria-sort is null in all three states, on every header, without exception.; This is attached to the report as a documented discrepancy (sort state is communicated visually via the lucide icon only, never programmatically) rather than asserted as a failing behavior test, mirroring how the sibling Local Office History plan records the identical finding for its own grid.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read aria-sort on all 87 headers before sorting, after sorting Live Date ascending, and after sorting Modified On descending.</li>
+</ol>",,,"1. aria-sort is null in all three states, on every header, without exception.; This is attached to the report as a documented discrepancy (sort state is communicated visually via the lucide icon only, never programmatically) rather than asserted as a failing behavior test, mirroring how the sibling Local Office History plan records the identical finding for its own grid.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Default pagination contract — 20 rows/page, correct boundary button states on page 1",,,,,Automated,Omeesha Mahanta,,,"20 rows render, rows-per-page reads '20', 'Go to first page' and 'Go to previous page' are disabled, 'Go to next page' and 'Go to last page' are enabled.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read getDataRowCount(), getRowsPerPageValue(), and the four pagination button disabled states on a fresh page-1 load.</li>
+</ol>",,,"1. 20 rows render, rows-per-page reads '20', 'Go to first page' and 'Go to previous page' are disabled, 'Go to next page' and 'Go to last page' are enabled.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rows-per-page options are exactly 10/20/30/40/50 and changing the value changes the rendered row count,,,,,Automated,Omeesha Mahanta,,,The grid returns to its default paging state.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read getRowsPerPageOptions().</li>
+<li>2. Select '10' via setRowsPerPage('10') and re-read the row count and header list.</li>
+<li>3. Restore rows-per-page to 20 and return to page 1 in a finally block.</li>
+</ol>",,,"1. The options equal exactly ['10','20','30','40','50'].
+2. Exactly 10 rows render, the header list (87 columns) is unchanged, and the total page count shown by the paginator increases relative to the 20-per-page baseline.
+3. The grid returns to its default paging state.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Paging next then previous returns to the original page-1 content,,,,,Automated,Omeesha Mahanta,,,"Page 2's first-row Modified On differs from page 1's (proving the paginator actually moved).; After returning, page 1's first-row Modified On matches the original captured value exactly.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Capture page 1's first row's Modified On, click 'Go to next page', then click 'Go to previous page'.</li>
+</ol>",,,"1. Page 2's first-row Modified On differs from page 1's (proving the paginator actually moved).; After returning, page 1's first-row Modified On matches the original captured value exactly.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The last page renders its true partial row count without breaking the row-cell contract,,,,,Automated,Omeesha Mahanta,,,The grid is back on page 1.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read the paginator's live total page count (not hardcoded) and click 'Go to last page'.</li>
+<li>2. Read the cell count of every row on the last (partial) page.</li>
+<li>3. Return to page 1 in a finally block.</li>
+</ol>",,,"1. The last page renders a row count consistent with the live totalCount read from the history API (confirmed for 1604: totalCount 18945 at pageSize 20 implies a 5-row final page — computed from the live total at runtime, never hardcoded as a literal expectation), and NOT zero rows.
+2. Every row still has exactly 87 cells — a short final page is exactly where an off-by-one row-count defect would surface as a misaligned row.
+3. The grid is back on page 1.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page-number input's native constraints match the confirmed live contract,,,,,Automated,Omeesha Mahanta,,,"No type attribute, inputmode='numeric', pattern='[0-9]*', no min/max/maxlength, required=false, aria-invalid='false' — so all range handling is the app's own JS logic, not a native HTML constraint, which is what the following negative scenarios probe.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read the page-number input's type, inputmode, pattern, min, max, maxlength, required, and aria-invalid attributes.</li>
+</ol>",,,"1. No type attribute, inputmode='numeric', pattern='[0-9]*', no min/max/maxlength, required=false, aria-invalid='false' — so all range handling is the app's own JS logic, not a native HTML constraint, which is what the following negative scenarios probe.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The page-number input rejects 0, -1, and abc by reverting to the currently-shown page",,,,,Automated,Omeesha Mahanta,,,The paginator reports page 1.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Capture the current page, then for each of '0', '-1', 'abc' in turn: clear the input, type the value, press Enter, and re-read the input's value.</li>
+<li>2. Restore page 1 in a finally block.</li>
+</ol>",,,"1. In every case the box reverts to the CAPTURED current page (never a hardcoded page 1), the paginator still reports that page, and the grid still renders a full page of rows — the revert is asserted against the captured page so the scenario is order-independent.
+2. The paginator reports page 1.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A decimal page number has its separator stripped and navigates to the concatenated page,,,,,Automated,Omeesha Mahanta,,,The grid returns to page 1.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Type '2.5' into the page box and press Enter.</li>
+<li>2. Verify the mis-navigation still leaves a usable, fully-columned grid, then attach the defect detail (typed value, resulting page) to the report.</li>
+<li>3. Restore page 1 in a finally block.</li>
+</ol>",,,"1. DEFECT, asserted deliberately: the box settles on page 25, not page 2 and not a rejection — the '.' is stripped by the [0-9]* pattern and the remaining digits '2' and '5' are concatenated. The assertion pins the CURRENT behaviour on purpose, so a fix flips this scenario red on purpose and the expectation gets updated rather than the case deleted.
+2. Rows render and the 87-column header set is unchanged.
+3. The grid returns to page 1.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page-number input normalizes leading zeros and accepts a valid page number,,,,,Automated,Omeesha Mahanta,,,The grid returns to page 1.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Type '007' and press Enter, then type '3' and press Enter.</li>
+<li>2. Restore page 1 in a finally block.</li>
+</ol>",,,"1. '007' settles on page 7 (leading zeros normalized, value honoured).; '3' settles on page 3, and the grid renders rows in both cases.
+2. The grid returns to page 1.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A page number one past the last page reverts to the last page, not to page 1",,,,,Automated,Omeesha Mahanta,,,The grid is back on page 1.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read the live total page count, navigate to the last page, then type (total+1) and press Enter while still on the last page.</li>
+<li>2. Restore page 1 in a finally block.</li>
+</ol>",,,"1. The box reverts to the last page (not page 1), the paginator still reports the last page, rows render, and 'Go to next page' remains disabled — the same revert-to-current-page model confirmed elsewhere in this group, not reset-to-page-1.
+2. The grid is back on page 1.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A mocked empty history response shows the friendly empty state,,,,,Automated,Omeesha Mahanta,,,Live rows return.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Mocked endpoint: POST api/location/get-location-setting-history (page.route)",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Intercept POST .../api/location/get-location-setting-history and fulfill with {success:true,data:{history:[],totalCount:0}}, matching the confirmed real envelope shape, then reload the tab.</li>
+<li>2. Check the panel's controls in the empty state.</li>
+<li>3. Remove the interception in a finally block and reload the tab.</li>
+</ol>",,,"1. The grid renders zero data rows and isTableEmpty() reports true with the literal 'No results.' text (or whatever exact copy the mock reveals) — not a blank panel, not a stuck spinner.
+2. The 87-column header row still renders.; No Add/Edit/Delete/Save button and no input has appeared.
+3. Live rows return.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A pending history request shows a loading affordance and never the empty-state text before it resolves,,,,,Automated,Omeesha Mahanta,,,Data rows render and the pending affordance disappears; a subsequent navigation behaves normally.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Mocked endpoint: POST api/location/get-location-setting-history (page.route)",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Intercept the history request and hold it unresolved behind a gate promise, then navigate to Basic Information and click the History tab directly, waiting only for the panel to become visible.</li>
+<li>2. Snapshot the panel during the pending window.</li>
+<li>3. Release the held request, wait for the grid to settle, then unroute in a finally block and reload.</li>
+</ol>",,,"1. The tab-content panel is visible while the request is still pending.
+2. A pending affordance is shown (a spinner, a skeleton, or a zero-row grid).; The panel does NOT show the empty-state text while the request is in flight — telling the user there is no history mid-fetch is the defect this half of the scenario exists to catch.
+3. Data rows render and the pending affordance disappears; a subsequent navigation behaves normally.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A mocked HTTP 500 on the history endpoint does not crash the tab; Basic Information remains reachable,,,,,Automated,Omeesha Mahanta,,,Basic Information renders normally — a failed history fetch does not wedge the whole module.; The grid recovers and renders live rows again without a full page reload.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Mocked endpoint: POST api/location/get-location-setting-history (page.route)",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Attach a pageerror listener, intercept the history request and fulfill with HTTP 500, then open the History tab against the failing endpoint.</li>
+<li>2. Inspect the panel and the recorded page errors.</li>
+<li>3. Click Basic Information and wait for its form; then unroute in a finally block and reopen History.</li>
+</ol>",,,"1. The History tab still becomes selected and its panel still renders — no unhandled crash and no blank white panel.
+2. The panel shows either zero rows or an empty/error state, never a partially rendered, corrupt row set.; No uncaught page error was recorded.
+3. Basic Information renders normally — a failed history fetch does not wedge the whole module.; The grid recovers and renders live rows again without a full page reload.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A mocked malformed/partial payload renders without crashing and without leaking placeholders,,,,,Automated,Omeesha Mahanta,,,The sort completes without throwing and the grid is still interactive after a partial payload.; Live data returns after the reload.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Mocked endpoint: POST api/location/get-location-setting-history (page.route)",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Intercept the history response, keep the {success,data:{history,totalCount}} envelope, and within one history record delete a third of the nested fields (e.g. billing, pricing) and null a third of the remainder, then reload.</li>
+<li>2. Read the header count and the first three rows' cells.</li>
+<li>3. Sort Modified On descending against the degraded payload, then unroute in a finally block and reload.</li>
+</ol>",,,"1. The grid renders a header row and at least one data row; the header count is unchanged at 87.
+2. Every row still has exactly 87 cells — missing/nulled source fields render as empty cells rather than shifting the row.; No cell equals or contains 'null', 'undefined', 'NaN', 'Invalid Date', or '[object Object]'.
+3. The sort completes without throwing and the grid is still interactive after a partial payload.; Live data returns after the reload.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A mocked 2,000+ character Notes value scrolls inside the grid without page-level horizontal scroll",,,,,Automated,Omeesha Mahanta,,,Live data renders again.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Mocked endpoint: POST api/location/get-location-setting-history (page.route)",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Intercept the history response and overwrite the first record's Notes field with a 2,000-character single-token string (no break opportunity), then reload.</li>
+<li>2. Measure document.documentElement.scrollWidth vs clientWidth, and the grid container's inner-table scrollWidth vs its own clientWidth.</li>
+<li>3. Remove the interception in a finally block and reload.</li>
+</ol>",,,"1. The grid renders with a header row and at least one data row.
+2. The page body does not scroll horizontally (within a 1px rounding allowance).; The grid container's inner table absorbs the extra width instead — matching the confirmed live 16184-vs-1680 containment pattern observed on real 87-column data.
+3. Live data renders again.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A mocked Notes value containing HTML-like/special characters renders as inert text,,,,,Automated,Omeesha Mahanta,,,Live data returns; no residual injected element exists anywhere in the panel.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Mocked endpoint: POST api/location/get-location-setting-history (page.route)",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Intercept the history response and set the first record's Notes to a payload containing '&lt;script>alert(1)&lt;/script>' plus a few other special characters (quotes, ampersands, emoji), then set up a dialog listener before reloading.</li>
+<li>2. Remove the interception in a finally block and reload.</li>
+</ol>",,,"1. The Notes cell's rendered text is the literal payload string (or its HTML-escaped display equivalent).; No alert() fires and no live <script> element is injected into the DOM near the cell.
+2. Live data returns; no residual injected element exists anywhere in the panel.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,English (US) is the default UI language; the tab label and headers read in English,,,,,Automated,Omeesha Mahanta,,,lang reads 'en-US' (or an equivalent English default) and the tab label reads 'Location Management History'.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Languages: English (US) en-US, French (Canada) fr-CA, Spanish (Mexico) es-MX",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. On a fresh session (no language switch performed), read document.documentElement.lang and the History tab's accessible name.</li>
+</ol>",,,1. lang reads 'en-US' (or an equivalent English default) and the tab label reads 'Location Management History'.,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching the account language to French (Canada) translates the tab label and every column header,,,,,Automated,Omeesha Mahanta,,,document.documentElement.lang reads 'en-US' again.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Languages: English (US) en-US, French (Canada) fr-CA, Spanish (Mexico) es-MX",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Open the account/profile menu, hover 'Language' (a hover-revealed submenu, not a click-revealed one — confirmed live), and select French (Canada) / fr-CA.</li>
+<li>2. Restore English (US) in a finally block.</li>
+</ol>",,,"1. document.documentElement.lang reads 'fr-CA'.; The History tab's accessible name reads 'Historique de la gestion de l'emplacement' (confirmed live) and the first several column headers translate (e.g. 'Bureau Local', 'Nom du bureau local', 'Actif', 'Date de mise en service', 'Pays', 'Devise', 'Mode d'imposition', 'Région', 'Succursale de service', 'Adresse de paiement').
+2. document.documentElement.lang reads 'en-US' again.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching the account language to Spanish (Mexico) translates the tab label and headers,,,,,Automated,Omeesha Mahanta,,,document.documentElement.lang reads 'en-US' again.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Languages: English (US) en-US, French (Canada) fr-CA, Spanish (Mexico) es-MX",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Select Spanish (Mexico) / es-MX from the Language submenu.</li>
+<li>2. Attach the Live Date column's es-MX label to the report as a documented discrepancy.</li>
+<li>3. Restore English (US) in a finally block.</li>
+</ol>",,,"1. document.documentElement.lang reads 'es-MX'.; The first several column headers translate (e.g. 'Oficina local', 'Nombre de oficina local', 'Activo', 'País', 'Moneda').
+2. The attachment records the confirmed live rendering 'Datos en Tiempo Real' for 'Live Date' — a translation-quality issue that reads as 'real-time data' rather than a translation of 'Live Date' — recorded for QA awareness rather than asserted as a literal string (content-string assertions are the trap this plan's overview explicitly avoids).
+3. document.documentElement.lang reads 'en-US' again.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"In all three locales, no header is blank, duplicated beyond the confirmed one exception, or a raw untranslated key",,,,,Automated,Omeesha Mahanta,,,document.documentElement.lang reads 'en-US' again.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Languages: English (US) en-US, French (Canada) fr-CA, Spanish (Mexico) es-MX",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. For each of en-US, fr-CA, and es-MX in turn, read the full 87-header list.</li>
+<li>2. Restore English (US) in a finally block.</li>
+</ol>",,,"1. No header is an empty string after trimming.; No header matches a raw camelCase/PascalCase field-key pattern or leaks an i18n placeholder ('{{', '}}', or a dotted key path).; Exactly one duplicate pair is tolerated (the confirmed-live 'Currency' column appearing twice) — any OTHER duplicate fails the scenario.
+2. document.documentElement.lang reads 'en-US' again.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every visible row belongs to the selected office (1604),,,,,Automated,Omeesha Mahanta,,,"Every row reads Local Office='1604' and Local Office Name='Parker Palm Springs' — the confirmed-live baseline for row 1 holds across many more rows, not just the first.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read the 'Local Office' and 'Local Office Name' cells of every row across the first 3 pages (60 rows) of office 1604's history.</li>
+</ol>",,,"1. Every row reads Local Office='1604' and Local Office Name='Parker Palm Springs' — the confirmed-live baseline for row 1 holds across many more rows, not just the first.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cross-location isolation — office 1606's rows never mix with 1604's,,,,,Automated,Omeesha Mahanta,,,"Every row reads Local Office='1606' and Local Office Name='Embassy Suites by Hilton Washington DC Convention Center' — the confirmed-live baseline.; The header count is still 87 (same contract as 1604) and the live paginator total (confirmed 11 pages at the time of this session — read live, never hardcoded) is captured and attached to the report.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Contrast location: office 1606 - Embassy Suites by Hilton Washington DC Convention Center (read-only)",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Navigate to office 1606 and open its History tab; read the first page's Local Office and Local Office Name cells.</li>
+</ol>",,,"1. Every row reads Local Office='1606' and Local Office Name='Embassy Suites by Hilton Washington DC Convention Center' — the confirmed-live baseline.; The header count is still 87 (same contract as 1604) and the live paginator total (confirmed 11 pages at the time of this session — read live, never hardcoded) is captured and attached to the report.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The corporate-pricing history request is scoped correctly (best-effort verification of the NM-1164 rolling window),,,,,Automated,Omeesha Mahanta,,,"The attachment records this as a partial-verification result, not a false pass — consistent with this plan's rule of never asserting a claim the live session could not actually observe.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Inspect the get-location-setting-history request body issued on tab open.</li>
+<li>2. Document, via a report attachment, that a full rolling-90-day WINDOW BOUNDARY proof (rows older than 90 days genuinely excluded/aged out) could not be produced from a single live session's data and is out of reach without either a DB-level cross-check or a purpose-built aged fixture.</li>
+</ol>",,,"1. The body carries isCorporate:true (confirmed live), and the response's corporatePricingSettings array is scoped one entry per currency (USD/CAD/MXN, confirmed live).
+2. The attachment records this as a partial-verification result, not a false pass — consistent with this plan's rule of never asserting a claim the live session could not actually observe.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A saved Local Office Name change appears as a new top History row,,,,,Automated,Omeesha Mahanta,,,"Office 1604's Basic Information is left exactly as it was found, regardless of any assertion failure above.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Probe field: Basic Information > Local Office Name (original value + "" AT"", restored afterwards)",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. On the History tab, sort Modified On descending and capture the top row's timestamp and total row count.</li>
+<li>2. Switch to Basic Information, read the current Local Office Name via LocationLeftPanelBasicInformationPage.getLocalOfficeName(), and setLocalOfficeName() to a value DERIVED from the original (e.g. suffixed with a timestamp) so it can never be a net-zero edit.</li>
+<li>3. saveAndConfirm(), then switch to History, sort Modified On descending, and poll until the top row is recent (within ~15 minutes, timezone-proof).</li>
+<li>4. In a finally block, restore Local Office Name to its original captured value and save again, treating a Save that never re-enables as an already-correct net-zero restore.</li>
+</ol>",,,"1. The baseline is captured.
+2. isSaveEnabled() becomes true within 10 seconds — a hardcoded/pre-existing value would leave the form pristine and Save disabled.
+3. The new top row's timestamp is newer than the baseline top row's.; Its Local Office Name cell contains the newly-saved value.; Its Modified By cell contains the automation user's identifier (s-prd-clickauto@psav.com), not a raw GUID.
+4. Office 1604's Basic Information is left exactly as it was found, regardless of any assertion failure above.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A discarded/cancelled Local Office Name edit creates NO new History row,,,,,Automated,Omeesha Mahanta,,,Local Office Name reads its original value again and Save is disabled — the discard fully reverted the edit.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Probe field: Basic Information > Local Office Name (original value + "" AT"", restored afterwards)",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Capture the History top row's timestamp, then on Basic Information set Local Office Name to a derived different value WITHOUT saving.</li>
+<li>2. Navigate to the History tab directly (triggering the Unsaved Changes dialog) and click Discard.</li>
+<li>3. Sort Modified On descending and re-read the top row.</li>
+<li>4. Return to Basic Information as cleanup.</li>
+</ol>",,,"1. Save becomes enabled, confirming the form is dirty.
+2. Navigation to History completes and the grid renders.
+3. The top row's timestamp is unchanged from the pre-edit baseline — no new row was created by an edit that was never persisted.
+4. Local Office Name reads its original value again and Save is disabled — the discard fully reverted the edit.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A mocked failed save creates NO new History row,,,,,Automated,Omeesha Mahanta,,,The top row's timestamp is unchanged from the pre-edit baseline — a failed save must never create a history entry.; Local Office Name on Basic Information reads its original value again.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Probe field: Basic Information > Local Office Name (original value + "" AT"", restored afterwards)
+Mocked endpoint: POST api/location/get-location-setting-history (page.route)",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Capture the History top row's timestamp, then on Basic Information intercept the location-settings save request and fulfill it with HTTP 500, and set Local Office Name to a derived different value.</li>
+<li>2. Click Save and confirm the dialog against the mocked-failing endpoint.</li>
+<li>3. Remove the interception in a finally block, reload Basic Information (discarding the unsaved edit), then check the History tab's top row.</li>
+</ol>",,,"1. Save becomes enabled.
+2. The save reports failure (a network error / toast, or the Save button remains enabled) rather than silently succeeding.
+3. The top row's timestamp is unchanged from the pre-edit baseline — a failed save must never create a history entry.; Local Office Name on Basic Information reads its original value again.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Column headers are exposed as native columnheader roles,,,,,Automated,Omeesha Mahanta,,,The two counts are equal (87) — the headers are exposed to assistive technology via native <th> semantics even though no explicit role='columnheader' attribute is set anywhere in the DOM.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Count elements resolved by page.getByRole('columnheader') within the history table and compare against the raw &lt;th> count.</li>
+</ol>",,,1. The two counts are equal (87) — the headers are exposed to assistive technology via native <th> semantics even though no explicit role='columnheader' attribute is set anywhere in the DOM.,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The sort menu is fully keyboard-operable,,,,,Automated,Omeesha Mahanta,,,The menu closes and the column's sort state is unchanged from before the menu was opened — Escape cancels without applying anything.; Restore the default sort (Modified On descending) as cleanup.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Focus the Modified On sort control with the keyboard (Tab) and press Enter.</li>
+<li>2. Press ArrowDown then Enter to apply a sort option using the keyboard alone.</li>
+<li>3. Reopen the menu and press Escape.</li>
+</ol>",,,"1. The Radix sort menu opens, containing both 'Sort ascending' and 'Sort descending' menu items.
+2. The menu closes and Modified On's icon reflects the applied direction — sorting is fully achievable without a mouse.
+3. The menu closes and the column's sort state is unchanged from before the menu was opened — Escape cancels without applying anything.; Restore the default sort (Modified On descending) as cleanup.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The grid stays usable with no page-level horizontal scroll at laptop viewport sizes,,,,,Automated,Omeesha Mahanta,,,"All of the same expectations hold at the narrower width, and the grid renders with the baseline header count after restoration.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Low,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. At the default viewport, record the column header count as the baseline.</li>
+<li>2. Resize to 1366x768, wait for the grid to settle, and measure the header count, document-vs-table overflow, and paginator presence.</li>
+<li>3. Resize to 1280x720 and repeat the same three measurements, then restore the default viewport in a finally block.</li>
+</ol>",,,"1. The baseline (87) is captured.
+2. No column is dropped (still 87).; The page body does not scroll horizontally and the grid container is the scrolling element (matching the confirmed live 1920/16184-vs-1680 containment pattern, scaled to the new viewport).; The paginator's controls are still present and reachable.
+3. All of the same expectations hold at the narrower width, and the grid renders with the baseline header count after restoration.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,No uncaught console/page error occurs across the tab’s core interactions,,,,,Automated,Omeesha Mahanta,,,"No console error is recorded beyond the pre-existing, unrelated favicon 404s observed before the tab was ever touched.; No uncaught pageerror is recorded at any point in the sequence.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Languages: English (US) en-US, French (Canada) fr-CA, Spanish (Mexico) es-MX",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Attach console and pageerror listeners, then in sequence: open History, sort Modified On ascending then descending, page next then previous, switch to Legacy history type and back, switch language to fr-CA then back to en-US.</li>
+</ol>",,,"1. No console error is recorded beyond the pre-existing, unrelated favicon 404s observed before the tab was ever touched.; No uncaught pageerror is recorded at any point in the sequence.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A full reload reproduces the identical 87-column contract even though the tab selection itself is not preserved,,,,,Automated,Omeesha Mahanta,,,"The header list is byte-identical to the pre-reload capture.; The grid re-defaults to Modified On descending (the confirmed default sort) — the reload does not carry over the pre-reload sort state, nor does it need to, since navigateToHistoryTab() always starts from the tab's own default.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. With History open and sorted Modified On descending, capture the header list and top-row timestamp, then hard-reload the page.</li>
+<li>2. Reopen History via navigateToHistoryTab().</li>
+</ol>",,,"1. The reload lands on Basic Information selected (History not deep-linked, confirmed live).
+2. The header list is byte-identical to the pre-reload capture.; The grid re-defaults to Modified On descending (the confirmed default sort) — the reload does not carry over the pre-reload sort state, nor does it need to, since navigateToHistoryTab() always starts from the tab's own default.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A slow (delayed, not failed) history response keeps the loading affordance visible and issues no duplicate request",,,,,Automated,Omeesha Mahanta,,,Live (non-delayed) data renders normally afterward.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Mocked endpoint: POST api/location/get-location-setting-history (page.route)",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Intercept the history request, delay fulfillment by ~4 seconds (route.fetch() then a deliberate wait before route.fulfill()), and count requests issued during the delay while opening the tab.</li>
+<li>2. Unroute in a finally block and reload.</li>
+</ol>",,,"1. Exactly one get-location-setting-history request is issued for this tab-open — no duplicate/retry request fires while the first is still pending.; A pending affordance is visible throughout the delay and disappears once the delayed response lands, with rows then rendering correctly.
+2. Live (non-delayed) data renders normally afterward.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A mocked mid-session 401 on the history endpoint surfaces a sign-in/redirect state, not a silently blank or corrupt grid",,,,,Automated,Omeesha Mahanta,,,The grid recovers and renders live data normally.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Mocked endpoint: POST api/location/get-location-setting-history (page.route)",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. With History already open and settled, intercept the NEXT get-location-setting-history call (e.g. triggered by a sort or a page change) and fulfill it with HTTP 401, simulating a mid-session auth expiry.</li>
+<li>2. Unroute in a finally block and reload to restore a valid session view.</li>
+</ol>",,,"1. The action that triggered the call (sort/page change) does not silently succeed with corrupted data — either a sign-in/redirect affordance appears, or the grid surfaces a visible error state, but it never shows a row set that looks valid while actually reflecting the pre-expiry data mislabeled as new.
+2. The grid recovers and renders live data normally.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The history type selector offers exactly the two confirmed options,,,,,Automated,Omeesha Mahanta,,,"The current value is 'Location Management History'.; The option list equals exactly ['Location Management History', 'Location Management Legacy History'].",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Read the current value and the full option list of drpHistoryType.</li>
+</ol>",,,"1. The current value is 'Location Management History'.; The option list equals exactly ['Location Management History', 'Location Management Legacy History'].",,,,Master,S1620,Test Case (Steps),Regression,,,
+,STRUCTURAL FINDING — selecting Legacy swaps to an untagged 86-column table with a larger sortable set,,,,,Automated,Omeesha Mahanta,,,"Zero editable controls, same as the standard grid.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Select 'Location Management Legacy History' and wait for whichever grid appears, using a new resolveActiveHistoryTable() helper that falls back to a bare &lt;table> under the tab-content container when the tagged tblMgmtHistory locator resolves to zero elements (a NEW, confirmed-necessary fallback — the standard testid genuinely disappears from the DOM in legacy mode).</li>
+<li>2. Count sort buttons in the legacy grid's header row and attach the full sortable/non-sortable column split to the report.</li>
+<li>3. Check the legacy grid's read-only census (inputs/textareas/selects/contenteditable scoped to the table).</li>
+</ol>",,,"1. The tagged [data-testid=""location-settings-table-management-history""] element is absent (count 0) while legacy is active — this is expected, not a failure.; The bare <table> renders exactly 86 columns, in the same order as the standard 87 minus 'Billing Cycle' (the one confirmed-missing column).
+2. Roughly 43 of the 86 columns carry a sort control — a materially larger sortable surface than the standard grid's 14, discovered and recorded live rather than hardcoded from this one count.
+3. Zero editable controls, same as the standard grid.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The legacy grid’s paginator is entirely ABSENT, not merely disabled, when all rows fit on one page",,,,,Automated,Omeesha Mahanta,,,"Neither element is present at all (not present-and-disabled) — a genuinely different paginator state from the standard grid's 948-page, always-visible paginator, and an edge case the standard grid on 1604/1606 never exercises on its own.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. With Legacy history type active for office 1604 (confirmed live: exactly 1 legacy row), check for the presence of the page-number input and the '/N' page-count text.</li>
+</ol>",,,"1. Neither element is present at all (not present-and-disabled) — a genuinely different paginator state from the standard grid's 948-page, always-visible paginator, and an edge case the standard grid on 1604/1606 never exercises on its own.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching back from Legacy to Standard restores the exact original header list and default sort,,,,,Automated,Omeesha Mahanta,,,"The tagged tblMgmtHistory element reappears with exactly 87 columns.; Modified On's icon reads lucide-arrow-down (the default sort persists/re-applies across the round trip, confirmed live), and the header list matches the pre-switch baseline exactly.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. From Legacy history type, select 'Location Management History' again.</li>
+</ol>",,,"1. The tagged tblMgmtHistory element reappears with exactly 87 columns.; Modified On's icon reads lucide-arrow-down (the default sort persists/re-applies across the round trip, confirmed live), and the header list matches the pre-switch baseline exactly.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"SCOPE NOTE — Local Office Settings History (NM-854) is a separate, already-automated module",,,,,Automated,Omeesha Mahanta,,,"tests/local-office/local-office-history.spec.ts (TC-LOE-HIST-001..043) already fully covers NM-3937's 'related Local Office Settings History view' requirement end to end (rendering, columns, read-only enforcement, sorting including server-side, pagination, empty/loading/error via mocks, a save-cycle integration test, accessibility, and responsive coverage) — document this mapping explicitly rather than re-deriving a duplicate 43-scenario suite under the Locations module.; The one existing cross-module integration probe that already imports both LocationLegalPage and LocationManagementHistoryPage together, TC-TNC-CORE-077 in tests/terms-conditions/terms-conditions.spec.ts, is recorded here as the precedent shape for any future Locations<->Legal save-to-history assertion; it is currently test.skip'd for a documented, independent reason (the Legal tab's own Terms dropdown never dirties Save) unrelated to this History grid's own correctness.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Search this tab's own panel for any control or link that navigates to settings/local-office.</li>
+<li>2. Cross-reference the existing, already-live-verified sibling suite.</li>
+</ol>",,,"1. No such control exists on this tab — Location Management History (this plan, NM-3937, settings/location) and Local Office Settings History (NM-854, settings/local-office) are reached via entirely separate URLs and separate top-level navigation, never from within each other's tab strip.
+2. tests/local-office/local-office-history.spec.ts (TC-LOE-HIST-001..043) already fully covers NM-3937's 'related Local Office Settings History view' requirement end to end (rendering, columns, read-only enforcement, sorting including server-side, pagination, empty/loading/error via mocks, a save-cycle integration test, accessibility, and responsive coverage) — document this mapping explicitly rather than re-deriving a duplicate 43-scenario suite under the Locations module.; The one existing cross-module integration probe that already imports both LocationLegalPage and LocationManagementHistoryPage together, TC-TNC-CORE-077 in tests/terms-conditions/terms-conditions.spec.ts, is recorded here as the precedent shape for any future Locations<->Legal save-to-history assertion; it is currently test.skip'd for a documented, independent reason (the Legal tab's own Terms dropdown never dirties Save) unrelated to this History grid's own correctness.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every editable Location Settings control is either mapped to a History column or on the known untracked list,,,,,Automated,Omeesha Mahanta,,,The attachments list them; they do not gate the result.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. Open Location Settings and read the data-testid of every visible control on the left panel and on each of the nine Basic Information sub-tabs.</li>
+<li>2. Open History and read the header row.</li>
+<li>3. Attach the untracked settings and the mapped-but-unproven settings to the report.</li>
+</ol>",,,"1. Every control is in SETTING_TO_HISTORY_COLUMN, UNTRACKED_SETTINGS or IGNORED_CONTROLS; an unclassified control fails the scenario by name.
+2. Every mapped setting's column is present.
+3. The attachments list them; they do not gate the result.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Left-panel settings of each type (Union, Region, Tax Mode) reach their History column when saved",,,,,Automated,Omeesha Mahanta,,,"Each new entry shows the chosen option in Region / Tax Mode, and each setting is restored afterwards.",,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Saves real settings on office 1604 in a UTC browser; every setting is restored afterwards",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. With the browser in UTC, change Union, save, and read the newest History entry; put Union back.</li>
+<li>2. Repeat for Region and Tax Mode, picking a different option each time.</li>
+</ol>",,,"1. The save succeeds, a new entry appears, and its Union column shows the saved value (a check glyph or blank).
+2. Each new entry shows the chosen option in Region / Tax Mode, and each setting is restored afterwards.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Local Information settings of each type (checkbox, percentage, text, dropdown, radio) reach their History column when saved",,,,,Automated,Omeesha Mahanta,,,Office 1604's Local Information is left as it was found.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Saves real settings on office 1604 in a UTC browser; every setting is restored afterwards",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. With the browser in UTC, change Skip Billing, LDW Percentage (typed as a decimal fraction, e.g. 0.50), Oracle Department, Billing Cycle and Billing Type one at a time; save each and read the newest History entry.</li>
+<li>2. Put each setting back after its check.</li>
+</ol>",,,"1. Each new entry shows the saved value in its column: a check glyph, '50.00 %', the new code, the chosen cycle, Direct/Master.
+2. Office 1604's Local Information is left as it was found.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Account and Address, Pricing, Legal and Notes settings reach their History column when saved",,,,,Automated,Omeesha Mahanta,,,Office 1604 is left as it was found.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Saves real settings on office 1604 in a UTC browser; every setting is restored afterwards",High,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. With the browser in UTC, change Phone 1, Price Guide Inclusion, the Legal Service Charge and Terms dropdowns, and add a note; save each and read the newest History entry.</li>
+<li>2. Put each setting back (delete the added note).</li>
+</ol>",,,"1. Each value reaches its column; Legal values read 'US English: <name>' and a note reads 'MM/DD/YYYY - <text>'.
+2. Office 1604 is left as it was found.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A pricing-strategy row change creates a History entry but leaves the pricing-strategy columns blank,,,,,Automated,Omeesha Mahanta,,,The strategy row is restored.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Saves real settings on office 1604 in a UTC browser; every setting is restored afterwards",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. With the browser in UTC, toggle Is Alternate on pricing-strategy row 2 on the Pricing tab and save.</li>
+<li>2. Read the seven pricing-strategy columns of the new entry.</li>
+<li>3. Toggle Is Alternate back and save.</li>
+</ol>",,,"1. The save succeeds and a new History entry appears.
+2. POTENTIAL GAP, pinned: all seven are blank, so the change is not visible in History. Attached to the report for the owner's ruling.
+3. The strategy row is restored.",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saving a setting that has no History column changes no History data column,,,,,Automated,Omeesha Mahanta,,,Office 1604 is left as it was found.,,,locations,,"Office 1604 (Parker Palm Springs) is open in Navigator, logged in as the automation user with full location-edit permissions. Location Management History tab is loaded and active (TC-LOC-MGH-001 has run).
+
+Test Data:
+User: automation user (location-edit permission)
+Location: office 1604 - Parker Palm Springs
+Application: Navigator
+Saves real settings on office 1604 in a UTC browser; every setting is restored afterwards",Medium,,Management_History,1,,Locations > Management_History,"<ol>
+<li>1. With the browser in UTC, toggle Enable Proposal and the Shared Setup 'Shares Inventory' flag one at a time and save each.</li>
+<li>2. If the save added a History entry, compare it with the entry before it.</li>
+<li>3. Put each setting back.</li>
+</ol>",,,"1. Each save succeeds.
+2. No data column differs; the report records that an entry was added that shows no change.
+3. Office 1604 is left as it was found.",,,,Master,S1620,Test Case (Steps),Regression,,,

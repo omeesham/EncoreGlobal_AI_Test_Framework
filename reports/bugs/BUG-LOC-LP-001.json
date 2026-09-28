@@ -1,0 +1,60 @@
+{
+  "id": "BUG-LOC-LP-001",
+  "title": "Basic Information: every save silently moves Live Date back one day for a user west of UTC, even when Live Date was never touched",
+  "module": "locations",
+  "submodule": "left_panel",
+  "severity": "high",
+  "status": "withdrawn",
+  "discoveredDate": "2026-09-23",
+  "requirementSource": "NM-3937 AC10 / scenario NM3937-20 ('New history entry contains changed field, new value, modifier, and timestamp') and the Location Settings save contract: a save persists only what the user changed. field-case-generation.md §2 save-cycle case: an unchanged field must round-trip a save unchanged. A date the user never edited must not be rewritten.",
+  "stepsToReproduce": [
+    "Use a browser whose time zone is west of UTC (America/New_York reproduces it; UTC does not).",
+    "Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/location and note the Live Date on the form — it is one day before the stored value (e.g. stored 1971-06-20, shown 'June 19th, 1971').",
+    "Change only Local Office Name, tab out, click Save and confirm 'Save Changes' with Ok.",
+    "Observe PUT /navigator/api/location/update-properties sends liveDate one day earlier than the value loaded (1971-06-19T00:00:00.000Z), and the stored Live Date is now one day earlier."
+  ],
+  "expectedBehavior": "The form shows the stored Live Date (August 4th, 1971 for a stored 1971-08-04 date), and a save that does not touch Live Date sends it back unchanged, so the history records only the field the user edited.",
+  "actualBehavior": "The form renders the stored midnight-UTC date in the browser's local zone, so it shows the PREVIOUS day, and every save writes that shifted date back. Live Date therefore drifts one day earlier on each save of any Basic Information field. The history proves the drift is systematic: of the last 38 saves on office 1604 (2026-09-22 15:13Z to 2026-09-23 10:41Z), every save made through the Location Settings form moved financial.liveDate back exactly one day (1971-09-10 -> 1971-08-04), including saves that changed only Phone 2, Local Office Name, Price Guide Inclusion or Enable Price Escalator. The two saves without a Live Date change changed only navigator.quoteLogoName (a different form). Each drift is also recorded as a phantom 'Live Date' change in Location Management History that the user never made.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-23",
+    "tool": "playwright-test MCP (headed session, .auth/encore-state.json), browser TZ America/New_York offset 240",
+    "findings": "Fresh page load: stored financial.liveDate (history API, top record 2026-09-23T10:41:08Z) = '1971-08-04T00:00:00.000Z'; form Live Date button = 'August 3rd, 1971'. After changing only Local Office Name to 'Parker Palm Springs FB' and saving, the intercepted PUT /navigator/api/location/update-properties body contained \"liveDate\":\"1971-08-03T00:00:00.000Z\" and \"locationName\":\"Parker Palm Springs FB\"; the resulting history record (2026-09-23T10:45:37Z) stores liveDate 1971-08-03. Diff of 38 consecutive history records (POST /navigator/api/location/get-location-setting-history, pageSize 40): liveDate decreases by exactly 1 day on 36 of them, including rows whose only intended change was contact.phone2, locationName, pricing.priceGuideInclusion or pricing.enablePriceEscalator."
+  },
+  "networkEvidence": "PUT /navigator/api/location/update-properties — request body liveDate one day earlier than the value the form loaded; server persists it (the drift is client-side: the client sends the shifted date).",
+  "baselineComparison": "not-checked",
+  "baselineEvidence": "Old site (navigator2) is observation-only, so a save-and-compare could not be run there. OSB-ACCESS-VERIFY-2026-04-24.md Appendix recorded office 1604's Live Date on the old site as 05/12/2007; the e2e value is now 1971 after sustained drift, so e2e Live Date for 1604 no longer reflects real data.",
+  "affectedTests": [
+    "TC-LOC-MGH-058",
+    "TC-LOC-MGH-059",
+    "TC-LOC-MGH-060"
+  ],
+  "impactNote": "Data corruption on a live field: any real user in the Americas silently shifts a location's Live Date on every Basic Information save. On e2e, automation suites that save office 1604 (left panel, local information, history save-cycle) each move Live Date back a day; its current value is untrustworthy and cannot be restored to a known-good value from e2e alone.",
+  "stepsToReproduceOriginal": [
+    "Use a browser whose time zone is west of UTC (reproduced with America/New_York, UTC-4).",
+    "Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/location (Basic Information is the default tab).",
+    "Note the Live Date shown on the form (e.g. 'August 3rd, 1971').",
+    "Open the Location Management History tab and note the top row's Live Date (e.g. '08/04/1971') — it is already one day later than the form shows. The latest history record's financial.liveDate is '1971-08-04T00:00:00.000Z'.",
+    "Return to Basic Information. Change ONLY Local Office Name (append ' FB'), tab out, click Save, confirm 'Save Changes' with Ok.",
+    "Observe the save request PUT /navigator/api/location/update-properties: its body carries \"liveDate\":\"1971-08-03T00:00:00.000Z\" — one day before the stored value — although Live Date was never edited.",
+    "Reopen Location Management History: the new top row shows Local Office Name 'Parker Palm Springs FB' AND Live Date moved from 08/04/1971 to 08/03/1971."
+  ],
+  "rootCauseHypothesis": "The API returns Live Date as midnight UTC ('YYYY-MM-DDT00:00:00.000Z'). The form parses it into a local Date, so in a UTC-minus zone it becomes the previous evening and the date picker shows the previous day; on save the picker's local date is serialised back as that previous day at midnight UTC. Control run in a UTC browser: no shift on two consecutive saves.",
+  "verificationLog": [
+    {
+      "verifierAgent": "WATCHDOG (/find-bugs LR-044 pass, headless Playwright script)",
+      "verifiedDate": "2026-09-23",
+      "verdict": "CONFIRMED",
+      "minimalRepro": "4 steps (dropped the History cross-checks — the save request alone proves the shift); added the time-zone precondition as step 1.",
+      "finding": "America/New_York: stored 1971-06-20T00:00:00.000Z, form 'June 19th, 1971', name-only save sent 1971-06-19T00:00:00.000Z, restore save sent 1971-06-18T00:00:00.000Z (two saves, two one-day shifts). UTC control: stored 1971-06-18T00:00:00.000Z, form 'June 18th, 1971', both saves sent 1971-06-18T00:00:00.000Z — no shift. Local Office Name restored to 'Parker Palm Springs' in both runs.",
+      "evidence": "reports/walk-coverage/probes/mgh-bug-verify.2026-09-23.json"
+    },
+    {
+      "verifierAgent": "OWNER (Nikita Nangare, via chat)",
+      "verifiedDate": "2026-09-23",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-23 (Nikita Nangare): Live Date behaviour on Basic Information save is working as expected, not a defect. The measured facts stand (in a UTC-minus browser the form shows the stored midnight-UTC Live Date as the previous day and a save writes that date back); only the classification changes. Consequence: no product fix is expected or tracked; automation must never assert an exact Live Date on office 1604, because every save from a UTC-minus runner moves it.",
+      "minimalRepro": "n/a — behaviour accepted as designed by the owner; see the CONFIRMED entry above for the reproduction itself.",
+      "evidence": []
+    }
+  ]
+}
