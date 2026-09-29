@@ -66,7 +66,11 @@ interface FailureSummary {
   retryStats: RetryStats | null;
 }
 
-const OUTPUT_FILE = path.join(process.cwd(), 'reports', 'failure-summary.json');
+// REPORT_SUFFIX keeps the two phases of a full regression from overwriting each
+// other's summary — see the same constant in playwright.config.ts.
+const REPORT_SUFFIX = process.env.REPORT_SUFFIX ? `-${process.env.REPORT_SUFFIX}` : '';
+const OUTPUT_FILE = path.join(process.cwd(), 'reports', `failure-summary${REPORT_SUFFIX}.json`);
+// History accumulates across runs by design — one file, never suffixed.
 const FAILURE_HISTORY_FILE = path.join(process.cwd(), 'reports', 'failure-history.json');
 
 function getFailureCount(testName: string): number {

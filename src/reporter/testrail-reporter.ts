@@ -11,6 +11,7 @@ import type {
 import * as fs from 'fs';
 import * as path from 'path';
 import { TestRailClient, type TestRailResult } from '../utils/testrail-client';
+import { acquireSharedRun } from '../utils/testrail-run';
 
 const STATUS = { passed: 1, blocked: 2, retest: 4, failed: 5 } as const;
 
@@ -38,6 +39,14 @@ function isInfrastructure(test: TestCase): boolean {
   return /\.(setup|teardown)\.ts$/i.test(test.location.file);
 }
 
+/** The tests/<module>/ folder a spec lives in — "local-office", "service-charge", ... */
+function moduleOf(test: TestCase): string {
+  const parts = test.location.file.split(/[\\/]/);
+  const i = parts.lastIndexOf('tests');
+  const folder = i >= 0 && parts.length > i + 2 ? parts[i + 1] : undefined;
+  return folder ?? test.parent.project()?.name ?? 'unknown';
+}
+
 /** TC id -> TestRail case id, frozen at config/testrail/case-map.json. Authoritative:
  *  it survives title edits on either side, which title matching does not. */
 function loadCaseMap(): Map<string, number> {
@@ -52,6 +61,8 @@ function loadCaseMap(): Map<string, number> {
 
 interface Collected {
   title: string;
+  /** Module folder under tests/ — what the session record lists as a contributor. */
+  module: string;
   explicitId: number | null;
   tcToken: string | null;
   titleKey: string;
@@ -101,6 +112,7 @@ export default class TestRailReporter implements Reporter {
     // Keyed by test id → the final attempt's entry wins.
     this.collected.set(test.id, {
       title: test.title,
+      module: moduleOf(test),
       explicitId: this.explicitId(test),
       tcToken: TC_TOKEN_RE.exec(test.title)?.[0] ?? null,
       titleKey: titleKey(test.title),
@@ -177,31 +189,29 @@ export default class TestRailReporter implements Reporter {
         return;
       }
 
-      // Existing run (TESTRAIL_RUN_ID) or a fresh one scoped to just these cases.
-      let runId = process.env.TESTRAIL_RUN_ID ? Number(process.env.TESTRAIL_RUN_ID) : undefined;
-      if (!runId) {
-        const env = process.env.CI_ENV || process.env.NODE_ENV || 'local';
-        const name =
-          process.env.TESTRAIL_RUN_NAME ||
-          `Playwright — ${env} — ${new Date().toISOString().slice(0, 16).replace('T', ' ')}`;
-        const run = await client.addRun(projectId, {
-          name,
-          suite_id: suiteId,
-          milestone_id: milestoneId,
-          include_all: false,
-          case_ids: results.map((r) => r.case_id),
-          description: 'Automated results pushed by the Encore Playwright TestRail reporter.',
-        });
-        runId = run.id;
-      }
+      // ONE run per execution session: the first invocation opens it, every later
+      // one (another module, another spec) joins it and widens its case list, so the
+      // run's case count is the running total across all modules. See
+      // src/utils/testrail-run.ts for the session boundary and the naming convention.
+      const run = await acquireSharedRun(client, {
+        projectId,
+        suiteId,
+        milestoneId,
+        caseIds: results.map((r) => r.case_id),
+        contributor: this.contributor(),
+      });
+      const runId = run.runId;
 
       await client.addResultsForCases(runId, results);
       if (process.env.TESTRAIL_CLOSE_RUN === 'true') await client.closeRun(runId);
 
       const failed = results.filter((r) => r.status_id === STATUS.failed).length;
       console.log(
-        `[testrail] pushed ${results.length} result${results.length === 1 ? '' : 's'} ` +
-          `(${results.length - failed} passed, ${failed} failed) → ${client.runUrl(runId)}`,
+        `[testrail] ${run.created ? 'opened' : 'updated'} run "${run.name}" — ` +
+          `pushed ${results.length} result${results.length === 1 ? '' : 's'} ` +
+          `(${results.length - failed} passed, ${failed} failed); ` +
+          `run now covers ${run.totalCases} case${run.totalCases === 1 ? '' : 's'} ` +
+          `→ ${client.runUrl(runId)}`,
       );
       this.warnUnresolved(unmatched, ambiguous);
     } catch (e) {
@@ -228,6 +238,13 @@ export default class TestRailReporter implements Reporter {
       return undefined;
     }
     return ids[0];
+  }
+
+  /** What this invocation contributed, for the session record: the named
+   *  --project(s), else the module folders the collected specs live in. */
+  private contributor(): string {
+    const projects = [...new Set([...this.collected.values()].map((c) => c.module))].sort();
+    return projects.join(',') || 'unknown';
   }
 
   private warnUnresolved(unmatched: string[], ambiguous: string[]): void {

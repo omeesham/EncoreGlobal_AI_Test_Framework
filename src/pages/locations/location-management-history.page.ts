@@ -440,6 +440,7 @@ export class LocationManagementHistoryPage extends BasePage {
 
   @step('Read the names of the tabs along the top')
   async getTabStripLabels(): Promise<string[]> {
+    // testid-audit: ignore -- structural: enumerates the tablist that owns the History tab's own testid
     const strip = this.page.locator('[role="tablist"]').filter({ has: this.getElement('tabLocationManagementHistory') });
     return (await strip.locator('[role="tab"]').allTextContents()).map(t => t.trim());
   }
@@ -449,6 +450,7 @@ export class LocationManagementHistoryPage extends BasePage {
   async getVisibleBasicInfoSubTabs(labels: readonly string[]): Promise<string[]> {
     const visible: string[] = [];
     for (const label of labels) {
+      // testid-audit: ignore -- structural: visibility sweep over a caller-supplied list of sub-tab labels
       const tab = this.page.getByRole('tab', { name: label, exact: true });
       if (await tab.isVisible().catch(() => false)) visible.push(label);
     }
@@ -1027,6 +1029,7 @@ export class LocationManagementHistoryPage extends BasePage {
     const el = this.page.locator(selector).first();
     if (kind === 'checkbox') return (await el.getAttribute('aria-checked')) === 'true' ? 'true' : 'false';
     if (kind === 'radio') {
+      // testid-audit: ignore -- state query: the checked radio inside the caller's testid-scoped radiogroup
       const checked = el.locator('[role="radio"][data-state="checked"]');
       return (await checked.getAttribute('value')) === 'true' ? 'Master' : 'Direct';
     }
@@ -1064,19 +1067,28 @@ export class LocationManagementHistoryPage extends BasePage {
       return;
     }
     if (kind === 'radio') {
+      // testid-audit: ignore -- role + semantic value inside the caller's testid-scoped radiogroup
       await el.locator(`[role="radio"][value="${value === 'Master' ? 'true' : 'false'}"]`).click();
       return;
     }
     if (kind === 'dropdown') {
+      // Radix option clicks are flaky on long lists (the listbox can close or re-render between
+      // open and click), so retry: Escape, reopen, scroll the option into view, click.
       const listbox = this.page.locator('[role="listbox"]');
-      await el.click();
-      if (!(await listbox.waitFor({ state: 'visible', timeout: 3_000 }).then(() => true).catch(() => false))) {
-        await this.page.keyboard.press('Escape').catch(() => {});
-        await el.click();
-        await listbox.waitFor({ state: 'visible', timeout: 5_000 });
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          await el.click();
+          await listbox.waitFor({ state: 'visible', timeout: 5_000 });
+          const option = listbox.getByRole('option', { name: value, exact: true });
+          await option.scrollIntoViewIfNeeded({ timeout: 3_000 });
+          await option.click({ timeout: 5_000 });
+          return;
+        } catch (err) {
+          if (attempt === 3) throw err;
+          await this.page.keyboard.press('Escape').catch(() => {});
+          await listbox.waitFor({ state: 'hidden', timeout: 2_000 }).catch(() => {});
+        }
       }
-      await this.page.getByRole('option', { name: value, exact: true }).click();
-      return;
     }
     if (kind === 'note') {
       await this.page.locator('[data-testid="location-settings-btn-add-note"]').click();
@@ -1106,7 +1118,43 @@ export class LocationManagementHistoryPage extends BasePage {
     const btn = this.getElement('btnSave');
     const deadline = Date.now() + 10_000;
     while (Date.now() < deadline && await btn.isDisabled()) await this.page.waitForTimeout(250);
-    return this.clickSaveWithDialog('btnSave', 'dlgSaveChanges', 'btnSaveChangesConfirm');
+    const response = this.waitForSaveResponse();
+    const result = await this.clickSaveWithDialog('btnSave', 'dlgSaveChanges', 'btnSaveChangesConfirm');
+    if (!result.saved) return result;
+    // clickSaveWithDialog can return before the save request completes (waitForAngularStable is a
+    // no-op on this Next.js app), and navigating then aborts the save. Wait for the server's answer.
+    const res = await response;
+    if (!res) return { success: false, saved: false, networkError: 'no save response within 30s' };
+    return res.ok() ? result : { success: false, saved: false, networkError: `${res.status()} ${res.url()}` };
+  }
+
+  /** True for the server's reply to a Location Settings save (settings PUT, pricebook upsert). */
+  static isLocationSaveResponse(res: import('@playwright/test').Response): boolean {
+    const req = res.request();
+    return req.method() !== 'GET' && /\/navigator\/api\/location\//.test(res.url()) && !/\/get-/.test(res.url());
+  }
+
+  /** Resolves with the next Location Settings save response, or null after 30s. Start it BEFORE saving. */
+  waitForSaveResponse(): Promise<import('@playwright/test').Response | null> {
+    return this.page.waitForResponse(r => LocationManagementHistoryPage.isLocationSaveResponse(r), { timeout: 30_000 })
+      .catch(() => null);
+  }
+
+  /**
+   * The office's Local Office Name as the SERVER holds it (newest History record, a full snapshot).
+   * Read this rather than the form to prove a restore: a form read straight after a save can show
+   * the value from before a save that the navigation cut off.
+   */
+  @step('Read the stored Local Office Name from the server')
+  async getStoredLocalOfficeName(officeNo = '1604'): Promise<string> {
+    return this.page.evaluate(async (no) => {
+      const r = await fetch('/navigator/api/location/get-location-setting-history', {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ locationNo: no, isCorporate: true, page: 1, pageSize: 1, sortBy: 'ModDate', sortDescending: true }),
+      });
+      const body = await r.json();
+      return String(body?.data?.history?.[0]?.locationName ?? '');
+    }, officeNo);
   }
 
   /**

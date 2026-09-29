@@ -5,6 +5,7 @@ import { Log } from '../../src/utils/logger';
 import { STATE_PATH } from '../../src/utils/auth-storage';
 import type { IConfig } from '../../src/types';
 import { LocationManagementHistoryPage } from '../../src/pages/locations/location-management-history.page';
+import type { LocationLeftPanelBasicInformationPage } from '../../src/pages/locations/location-left-panel-basic-information.page';
 import {
   COLUMN_COUNT,
   DEFAULT_ROWS_PER_PAGE,
@@ -275,6 +276,28 @@ async function saveAndCheckField(pg: LocationManagementHistoryPage, f: SaveCheck
 }
 
 /**
+ * Saves Basic Information and waits for the server's answer. saveAndConfirm() can return before
+ * the save request completes, and the next navigation then aborts it: on 2026-09-29 that left
+ * office 1604 named "Parker Palm Springs AT" after a restore that never reached the server.
+ */
+async function saveBasicInfoAndWait(pg: LocationManagementHistoryPage, basic: LocationLeftPanelBasicInformationPage): Promise<boolean> {
+  const response = pg.waitForSaveResponse();
+  await basic.saveAndConfirm();
+  const res = await response;
+  return res !== null && res.ok();
+}
+
+/** Puts Local Office Name back, deciding and proving it against the server rather than the form. */
+async function restoreLocalOfficeName(pg: LocationManagementHistoryPage, basic: LocationLeftPanelBasicInformationPage, original: string): Promise<void> {
+  if ((await pg.getStoredLocalOfficeName(HISTORY_OFFICE.no)) === original) return;
+  await basic.reloadAndNavigate(HISTORY_OFFICE.no);
+  await pg.waitForSettingsLoaded();
+  await basic.setLocalOfficeName(original);
+  // A restore that never enables Save is already a net-zero restore.
+  if (await basic.waitForSaveButtonEnabled(10_000)) await saveBasicInfoAndWait(pg, basic);
+}
+
+/**
  * Runs `body` against a History page in its OWN browser context pinned to UTC, signed in with the
  * shared saved session. playwright.config.ts sets timezoneId America/New_York for every context,
  * and in a UTC-minus zone every Location Settings save moves Live Date back a day; a separate
@@ -310,7 +333,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 1. Navigation and access
 
-  test('TC-LOC-MGH-001: Location Settings opens with Basic Information selected by default; History requires an explicit click', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-001: Location Settings opens with Basic Information selected by default; History requires an explicit click', { tag: '@C105947' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate([]);
     await about('Location Settings opens on Basic Information, and History is a separate top-level tab the user has to click.');
     await phase('Open Location Settings fresh', () => pg.openLocationSettings(HISTORY_OFFICE.no));
@@ -335,7 +358,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-002: The History panel renders a settled grid — header row plus rows-or-empty-state, never neither', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-002: The History panel renders a settled grid — header row plus rows-or-empty-state, never neither', { tag: '@C105948' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The History list finishes loading into a full set of columns with entries, or a clear empty message — never a half-drawn grid.');
     const headerCount = await pg.getColumnHeaderCount();
@@ -357,7 +380,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-003: Switching away to Basic Information and back to History keeps the grid stable', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-003: Switching away to Basic Information and back to History keeps the grid stable', { tag: '@C105949' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Leaving History for Basic Information and coming back shows the same list again, not a second copy of it.');
     const headersBefore = await pg.getColumnHeaders();
@@ -375,7 +398,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-004: A hard reload does not preserve the History tab selection, but reopening it reproduces the same 87-column contract', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-004: A hard reload does not preserve the History tab selection, but reopening it reproduces the same 87-column contract', { tag: '@C105950' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Refreshing the browser returns the user to Basic Information, and re-opening History shows the same columns as before.');
     const headerCountBefore = await pg.getColumnHeaderCount();
@@ -393,7 +416,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-005: Browser back/forward after opening History shows no stale grid content', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-005: Browser back/forward after opening History shows no stale grid content', { tag: '@C105951' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Going to another page and pressing Back shows current history, never an older copy of the list.');
     test.setTimeout(150_000);
@@ -414,7 +437,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-006: Switching the active location reloads History scoped to the new location, never a merge of both', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-006: Switching the active location reloads History scoped to the new location, never a merge of both', { tag: '@C105952' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about("Switching to another location reloads History with only that location's changes, never a mix of the two.");
     test.setTimeout(150_000);
@@ -440,7 +463,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 2. Read-only enforcement
 
-  test('TC-LOC-MGH-007: The history table contains zero editable controls, scoped correctly to the table and not the panel', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-007: The history table contains zero editable controls, scoped correctly to the table and not the panel', { tag: '@C105953' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('History is a record to read: nothing inside the list can be typed into.');
     const census = await pg.getPanelControlCensus();
@@ -458,7 +481,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-008: No Add/Edit/Delete/Save action button exists anywhere in the History panel', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-008: No Add/Edit/Delete/Save action button exists anywhere in the History panel', { tag: '@C105954' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The History panel offers no way to add, change, delete or save an entry.');
     const census = await pg.getPanelControlCensus();
@@ -473,7 +496,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-009: Clicking and double-clicking a data cell produces no editor and does not select the row', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-009: Clicking and double-clicking a data cell produces no editor and does not select the row', { tag: '@C105955' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Clicking or double-clicking an entry opens nothing to type in and does not highlight the row.');
     test.skip((await pg.getHistoryRowCount()) === 0, 'office has no history rows to click — data precondition, not a defect');
@@ -489,7 +512,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-010: Right-clicking a history row opens no context menu', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-010: Right-clicking a history row opens no context menu', { tag: '@C105956' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Right-clicking an entry does nothing, unlike the editable grids elsewhere in Locations.');
     const rowCount = await pg.getHistoryRowCount();
@@ -509,7 +532,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 3. Column coverage and field mapping
 
-  test('TC-LOC-MGH-011: Exactly 87 columns render, in the confirmed live order', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-011: Exactly 87 columns render, in the confirmed live order', { tag: '@C105957' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The list shows exactly the agreed 87 columns, in the agreed order.');
     const headers = await pg.getColumnHeaders();
@@ -523,7 +546,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-012: Identity/status representative fields resolve', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-012: Identity/status representative fields resolve', { tag: '@C105958' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The list has a column for every identity and status field NM-3937 asks for.');
     const missing = unresolvedFields(await pg.getColumnHeaders(), REPRESENTATIVE_FIELDS.identity);
@@ -532,7 +555,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-013: Billing representative fields resolve', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-013: Billing representative fields resolve', { tag: '@C105959' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The list has a column for every billing field NM-3937 asks for.');
     const headers = await pg.getColumnHeaders();
@@ -547,7 +570,7 @@ test.describe('Location Management History @locations @management-history', () =
     await attachNote('Requirement name vs live column', 'Billing Way Effective Date -> "Billing Way Active"');
   });
 
-  test('TC-LOC-MGH-014: Pricing representative fields resolve via the five composite currency-pricing columns', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-014: Pricing representative fields resolve via the five composite currency-pricing columns', { tag: '@C105960' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Price-book history is recorded in five columns, each holding one value per currency.');
     const missing = unresolvedFields(await pg.getColumnHeaders(), REPRESENTATIVE_FIELDS.pricing);
@@ -566,7 +589,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-015: Commission/charge representative fields resolve', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-015: Commission/charge representative fields resolve', { tag: '@C105961' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The list has a column for every commission and service-charge field NM-3937 asks for.');
     const headers = await pg.getColumnHeaders();
@@ -579,7 +602,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-016: Operational representative fields resolve', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-016: Operational representative fields resolve', { tag: '@C105962' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The list has a column for every operational setting NM-3937 asks for.');
     const missing = unresolvedFields(await pg.getColumnHeaders(), REPRESENTATIVE_FIELDS.operational);
@@ -589,7 +612,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-017: Audit representative fields resolve, each asserted individually', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-017: Audit representative fields resolve, each asserted individually', { tag: '@C105963' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The list records who made each change, when, and any note — each in its own column.');
     const headers = await pg.getColumnHeaders();
@@ -601,7 +624,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-018: Location/integration representative fields resolve', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-018: Location/integration representative fields resolve', { tag: '@C105964' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The list has a column for every location and integration field NM-3937 asks for.');
     const missing = unresolvedFields(await pg.getColumnHeaders(), REPRESENTATIVE_FIELDS.locationIntegration);
@@ -610,7 +633,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-019: The requirement-name-to-live-header mapping is attached to the report as a durable record', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-019: The requirement-name-to-live-header mapping is attached to the report as a durable record', { tag: '@C105965' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Records, for review, which live column each NM-3937 field appears under and where the names differ.');
     const headers = await pg.getColumnHeaders();
@@ -628,7 +651,7 @@ test.describe('Location Management History @locations @management-history', () =
       rows.filter(r => r.renamed).map(r => `${r.field} -> "${r.live}"`).join('\n') || 'none');
   });
 
-  test('TC-LOC-MGH-020: Every rendered data row has exactly 87 cells', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-020: Every rendered data row has exactly 87 cells', { tag: '@C105966' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Every entry has one value under each heading, so nothing has slipped into the wrong column.');
     test.skip((await pg.getHistoryRowCount()) === 0, 'office has no history rows to measure — data precondition');
@@ -641,7 +664,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 4. Data rendering
 
-  test('TC-LOC-MGH-021: Boolean cells render as a check glyph or a blank cell, never literal text', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-021: Boolean cells render as a check glyph or a blank cell, never literal text', { tag: '@C105967' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('On/off values show as a tick or an empty cell, never as the words true or false.');
     test.skip((await pg.getHistoryRowCount()) === 0, 'office has no history rows to inspect — data precondition');
@@ -667,7 +690,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test("TC-LOC-MGH-022: Composite currency-pricing cells render the confirmed 'USD: ...; CAD: ...; MXN: ...' pattern without corrupting row width", async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test("TC-LOC-MGH-022: Composite currency-pricing cells render the confirmed 'USD: ...; CAD: ...; MXN: ...' pattern without corrupting row width", { tag: '@C105968' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The per-currency price-book cells read cleanly and do not push later columns out of line.');
     test.skip((await pg.getHistoryRowCount()) === 0, 'office has no history rows to inspect — data precondition');
@@ -688,7 +711,7 @@ test.describe('Location Management History @locations @management-history', () =
     await attachNote('The price-book cells on the newest entry', JSON.stringify(cells, null, 2));
   });
 
-  test('TC-LOC-MGH-023: Modified On and the plain-date columns use their confirmed, distinct formats', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-023: Modified On and the plain-date columns use their confirmed, distinct formats', { tag: '@C105969' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Modified On shows a date and time; Live Date, Start Date and End Date show a date only.');
     test.skip((await pg.getHistoryRowCount()) === 0, 'office has no history rows to inspect — data precondition');
@@ -708,7 +731,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-024: Null/blank optional values render as empty cells, never a placeholder string', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-024: Null/blank optional values render as empty cells, never a placeholder string', { tag: '@C105970' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Where a value was never filled in, the cell is simply empty — no placeholder text and no shifted columns.');
     test.skip((await pg.getHistoryRowCount()) === 0, 'office has no history rows to inspect — data precondition');
@@ -726,7 +749,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-025: Modified By is a real user identifier, never a bare GUID', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-025: Modified By is a real user identifier, never a bare GUID', { tag: '@C105971' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Every change names the person who made it, never a long internal code and never nobody.');
     test.skip((await pg.getHistoryRowCount()) === 0, 'office has no history rows to inspect — data precondition');
@@ -745,7 +768,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 5. Sorting
 
-  test('TC-LOC-MGH-026: Sortable columns are exactly the confirmed 14-column set, each with a working, accessibly-named sort control', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-026: Sortable columns are exactly the confirmed 14-column set, each with a working, accessibly-named sort control', { tag: '@C105972' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Exactly the fourteen agreed columns can be sorted, and each sort control has a name a screen reader can announce.');
     const sortable = await pg.getSortableColumns();
@@ -761,7 +784,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-027: A fresh load sorts Modified On descending by default', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-027: A fresh load sorts Modified On descending by default', { tag: '@C105973' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('History opens sorted by Modified On, newest change first, with no other column sorted.');
     await phase('Re-open the tab so the sort is back to how it starts', () => pg.reloadAndNavigateToHistory(HISTORY_OFFICE.no));
@@ -778,7 +801,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-028: Sorting Modified On ascending then descending reverses row order; only one column is ever sorted at a time', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-028: Sorting Modified On ascending then descending reverses row order; only one column is ever sorted at a time', { tag: '@C105974' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Sorting by Modified On shows the oldest change first going up and the newest first going down, and only that column shows an arrow.');
     test.setTimeout(120_000);
@@ -815,7 +838,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-029: Sorting Live Date ascending then descending reverses order and the sort indicator moves off Modified On', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-029: Sorting Live Date ascending then descending reverses order and the sort indicator moves off Modified On', { tag: '@C105975' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Sorting by Live Date moves the sort arrow there and orders the entries by date in both directions.');
     test.setTimeout(120_000);
@@ -842,7 +865,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-030: Sorting a sortable boolean-like column groups its states, never interleaves them', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-030: Sorting a sortable boolean-like column groups its states, never interleaves them', { tag: '@C105976' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Sorting a tick-box column keeps the ticked entries together and the unticked ones together.');
     test.setTimeout(300_000);
@@ -876,7 +899,7 @@ test.describe('Location Management History @locations @management-history', () =
     test.skip(proven === null, 'every sortable tick-box column holds one value across all history — nothing to order');
   });
 
-  test("TC-LOC-MGH-031: Server-side sort is confirmed via the request payload's sortBy/sortDescending fields", async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test("TC-LOC-MGH-031: Server-side sort is confirmed via the request payload's sortBy/sortDescending fields", { tag: '@C105977' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Sorting asks the server for a newly ordered list, naming the column and direction, rather than re-ordering only the entries already on screen.');
     test.setTimeout(120_000);
@@ -907,7 +930,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test("TC-LOC-MGH-032: Rapid repeated toggling of one column's sort direction produces no duplicate or dropped rows", async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test("TC-LOC-MGH-032: Rapid repeated toggling of one column's sort direction produces no duplicate or dropped rows", { tag: '@C105978' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Flipping a sort back and forth quickly ends on a clean, correctly ordered list with no repeated or missing entries.');
     test.setTimeout(180_000);
@@ -936,7 +959,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-033: Sorting, then paging to next, preserves the sort order across the page boundary', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-033: Sorting, then paging to next, preserves the sort order across the page boundary', { tag: '@C105979' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Moving to the next page continues the same newest-first order instead of starting it again.');
     test.setTimeout(120_000);
@@ -961,7 +984,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-034: Sorting, then changing rows-per-page, preserves the sort order', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-034: Sorting, then changing rows-per-page, preserves the sort order', { tag: '@C105980' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Showing more entries per page keeps the list sorted the same way, with the same newest entry on top.');
     test.setTimeout(120_000);
@@ -983,7 +1006,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-035: aria-sort is never set on any header, in any state — a documented accessibility discrepancy', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-035: aria-sort is never set on any header, in any state — a documented accessibility discrepancy', { tag: '@C105981' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Records that the sort direction is shown only as an arrow and is never announced to screen readers.');
     test.setTimeout(120_000);
@@ -1013,7 +1036,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 6. Pagination and boundaries
 
-  test('TC-LOC-MGH-036: Default pagination contract — 20 rows/page, correct boundary button states on page 1', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-036: Default pagination contract — 20 rows/page, correct boundary button states on page 1', { tag: '@C105982' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('History opens on page 1 with 20 entries, and only the forward page buttons can be used.');
     await verify('Check 20 entries show and the page-size chooser says 20', async () => {
@@ -1029,7 +1052,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-037: Rows-per-page options are exactly 10/20/30/40/50 and changing the value changes the rendered row count', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-037: Rows-per-page options are exactly 10/20/30/40/50 and changing the value changes the rendered row count', { tag: '@C105983' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The entries-per-page chooser offers 10 through 50, and picking 10 really shows 10 entries across more pages.');
     test.setTimeout(120_000);
@@ -1052,9 +1075,9 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-038: Paging next then previous returns to the original page-1 content', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-038: Paging next then previous returns to the original page-1 content', { tag: '@C105984' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
-    await about('Going forward a page and back again shows page 1 exactly as it was.');
+    await about('Going forward a page and back again returns to page 1 with its original entries.');
     test.setTimeout(120_000);
     test.skip((await pg.getPageIndicator()).total < 2, 'office has a single page of history');
     const page1Top = await pg.getColumnByHeader(0, HISTORY_SORT_COLUMN);
@@ -1066,16 +1089,20 @@ test.describe('Location Management History @locations @management-history', () =
       });
 
       await pg.clickPaginationButton('previous');
-      await verify('Check going back returns page 1 exactly as it was', async () => {
+      await verify('Check going back returns page 1, still holding its original first entry', async () => {
         expect((await pg.getPageIndicator()).current).toBe(1);
-        expect(await pg.getColumnByHeader(0, HISTORY_SORT_COLUMN)).toBe(page1Top);
+        // Office 1604 is shared: a save by another run adds a newer entry and pushes the original
+        // first entry down a row. Being back on page 1 means that entry is still on it.
+        const page1 = await pg.getColumnValues(HISTORY_SORT_COLUMN, 20);
+        expect(page1, `the original first entry ${page1Top} is no longer on page 1`).toContain(page1Top);
+        expect(parseTs(page1[0]!)).toBeGreaterThanOrEqual(parseTs(page1Top));
       });
     } finally {
       await pg.goToFirstPageIfNeeded();
     }
   });
 
-  test('TC-LOC-MGH-039: The last page renders its true partial row count without breaking the row-cell contract', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-039: The last page renders its true partial row count without breaking the row-cell contract', { tag: '@C105985' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The last page shows exactly the leftover entries — not zero, not a full page padded out — each with every column.');
     test.setTimeout(120_000);
@@ -1104,7 +1131,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test("TC-LOC-MGH-040: The page-number input's native constraints match the confirmed live contract", async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test("TC-LOC-MGH-040: The page-number input's native constraints match the confirmed live contract", { tag: '@C105986' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The page-number box limits typing to digits by pattern only; every range rule is the app’s own logic.');
     const attrs = await pg.getPageInputAttributes();
@@ -1120,7 +1147,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-041: The page-number input rejects 0, -1, and abc by reverting to the currently-shown page', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-041: The page-number input rejects 0, -1, and abc by reverting to the currently-shown page', { tag: '@C105987' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Typing zero, a minus number or letters into the page box leaves the user on the page they were already on.');
     test.setTimeout(150_000);
@@ -1140,7 +1167,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-042: A decimal page number has its separator stripped and navigates to the concatenated page', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-042: A decimal page number has its separator stripped and navigates to the concatenated page', { tag: '@C105988' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Typing a decimal page number drops the dot and goes to the page the remaining digits spell — the accepted behaviour.');
     test.setTimeout(120_000);
@@ -1168,7 +1195,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-043: The page-number input normalizes leading zeros and accepts a valid page number', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-043: The page-number input normalizes leading zeros and accepts a valid page number', { tag: '@C105989' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Typing a valid page number jumps straight to it, and leading zeros are ignored.');
     test.setTimeout(120_000);
@@ -1187,7 +1214,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-044: A page number one past the last page reverts to the last page, not to page 1', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-044: A page number one past the last page reverts to the last page, not to page 1', { tag: '@C105990' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Typing a page number beyond the end keeps the user on the last page instead of showing an empty page.');
     test.setTimeout(120_000);
@@ -1210,7 +1237,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 7. Empty, loading and error states (mocked)
 
-  test('TC-LOC-MGH-045: A mocked empty history response shows the friendly empty state', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-045: A mocked empty history response shows the friendly empty state', { tag: '@C105991' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('When a location has no recorded changes, a clear "No results." message shows instead of a blank box.');
     test.setTimeout(120_000);
@@ -1239,7 +1266,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-046: A pending history request shows a loading affordance and never the empty-state text before it resolves', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-046: A pending history request shows a loading affordance and never the empty-state text before it resolves', { tag: '@C105992' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('While the list is still being fetched, the user sees it loading — never a premature "No results."');
     test.setTimeout(120_000);
@@ -1277,7 +1304,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-047: A mocked HTTP 500 on the history endpoint does not crash the tab; Basic Information remains reachable', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-047: A mocked HTTP 500 on the history endpoint does not crash the tab; Basic Information remains reachable', { tag: '@C105993' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('If the server fails to return history, the tab still opens and the rest of Location Settings keeps working.');
     test.setTimeout(150_000);
@@ -1325,7 +1352,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-048: A mocked malformed/partial payload renders without crashing and without leaking placeholders', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-048: A mocked malformed/partial payload renders without crashing and without leaking placeholders', { tag: '@C105994' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('If the server returns an incomplete record, the list still renders and the missing values show as empty cells.');
     test.setTimeout(150_000);
@@ -1355,7 +1382,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-049: A mocked 2,000+ character Notes value scrolls inside the grid without page-level horizontal scroll', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-049: A mocked 2,000+ character Notes value scrolls inside the grid without page-level horizontal scroll', { tag: '@C105995' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('A very long note scrolls inside the list instead of stretching the whole page sideways.');
     test.setTimeout(120_000);
@@ -1378,7 +1405,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-050: A mocked Notes value containing HTML-like/special characters renders as inert text', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-050: A mocked Notes value containing HTML-like/special characters renders as inert text', { tag: '@C105996' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('A note containing markup or a script is shown as plain text and never runs.');
     test.setTimeout(120_000);
@@ -1410,7 +1437,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 8. Localization
 
-  test('TC-LOC-MGH-051: English (US) is the default UI language; the tab label and headers read in English', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-051: English (US) is the default UI language; the tab label and headers read in English', { tag: '@C105997' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('With no language chosen, the History tab and its column headings read in English.');
     const expected = HISTORY_TRANSLATIONS['en-US'];
@@ -1425,13 +1452,13 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  for (const [tcId, code] of [['TC-LOC-MGH-052', 'fr-CA'], ['TC-LOC-MGH-053', 'es-MX']] as const) {
+  for (const [tcId, code, caseTag] of [['TC-LOC-MGH-052', 'fr-CA', '@C105998'], ['TC-LOC-MGH-053', 'es-MX', '@C105999']] as const) {
     const language = LANGUAGE_OPTIONS.find(l => l.code === code)!;
     const title = code === 'fr-CA'
       ? `${tcId}: Switching the account language to French (Canada) translates the tab label and every column header`
       : `${tcId}: Switching the account language to Spanish (Mexico) translates the tab label and headers`;
 
-    test(title, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+    test(title, { tag: caseTag }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
       dependencyGate(['TC-LOC-MGH-001']);
       await about(`Choosing ${language.label} from the account menu translates the History tab and its column headings.`);
       test.setTimeout(150_000);
@@ -1472,7 +1499,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   }
 
-  test('TC-LOC-MGH-054: In all three locales, no header is blank, duplicated beyond the confirmed one exception, or a raw untranslated key', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-054: In all three locales, no header is blank, duplicated beyond the confirmed one exception, or a raw untranslated key', { tag: '@C106000' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('In English, French and Spanish every column heading shows proper wording: nothing blank, no leftover developer text, and only Currency twice.');
     test.setTimeout(240_000);
@@ -1508,7 +1535,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 9. Data integrity and isolation
 
-  test('TC-LOC-MGH-055: Every visible row belongs to the selected office (1604)', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-055: Every visible row belongs to the selected office (1604)', { tag: '@C106001' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about(`Every entry across the first three pages belongs to office ${HISTORY_OFFICE.no}.`);
     test.setTimeout(150_000);
@@ -1537,7 +1564,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test("TC-LOC-MGH-056: Cross-location isolation — office 1606's rows never mix with 1604's", async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test("TC-LOC-MGH-056: Cross-location isolation — office 1606's rows never mix with 1604's", { tag: '@C106002' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about(`Office ${HISTORY_CONTRAST_OFFICE.no}'s History shows only its own changes, with the same columns as office ${HISTORY_OFFICE.no}.`);
     test.setTimeout(150_000);
@@ -1561,7 +1588,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-057: The corporate-pricing history request is scoped correctly (best-effort verification of the NM-1164 rolling window)', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-057: The corporate-pricing history request is scoped correctly (best-effort verification of the NM-1164 rolling window)', { tag: '@C106003' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about("The History request asks for this location's corporate history. The 90-day window itself cannot be proven from live data and is recorded as partial.");
     test.setTimeout(120_000);
@@ -1588,15 +1615,15 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 10. Save-cycle history capture
 
-  test('TC-LOC-MGH-058: A saved Local Office Name change appears as a new top History row', async ({ locationManagementHistoryPage: pg, locationLeftPanelBasicInformationPage: basic, dependencyGate }) => {
+  test('TC-LOC-MGH-058: A saved Local Office Name change appears as a new top History row', { tag: '@C106004' }, async ({ locationManagementHistoryPage: pg, locationLeftPanelBasicInformationPage: basic, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Saving a change on Basic Information adds a new entry at the top of History, showing the new value, who made it and when.');
     // Two history loads plus two Basic Information save cycles at ~30-60s apiece.
     test.setTimeout(300_000);
     const baselineTop = await pg.getColumnByHeader(0, HISTORY_SORT_COLUMN);
 
+    const original = await pg.getStoredLocalOfficeName(HISTORY_OFFICE.no);
     await pg.returnToBasicInformation();
-    const original = await basic.getLocalOfficeName();
     const probe = probeNameFor(original);
 
     try {
@@ -1605,7 +1632,10 @@ test.describe('Location Management History @locations @management-history', () =
         expect(await basic.waitForSaveButtonEnabled(10_000)).toBe(true);
       });
 
-      await phase('Save the change and confirm', () => basic.saveAndConfirm());
+      const savedOk = await phase('Save the change and confirm', () => saveBasicInfoAndWait(pg, basic));
+      await verify('Check the server accepted the save', async () => {
+        expect(savedOk, 'no successful save response from the server').toBe(true);
+      });
 
       await phase('Open History, newest first, and wait for the new entry', async () => {
         await pg.openHistoryTab(HISTORY_OFFICE.no);
@@ -1624,30 +1654,23 @@ test.describe('Location Management History @locations @management-history', () =
         expect(top[HISTORY_AUDIT_USER_COLUMN]).toContain(AUTOMATION_USER);
       });
     } finally {
-      await phase(`Put Local Office Name back to "${original}"`, async () => {
-        await basic.reloadAndNavigate(HISTORY_OFFICE.no);
-        if ((await basic.getLocalOfficeName()) !== original) {
-          await basic.setLocalOfficeName(original);
-          // A restore that never enables Save is already a net-zero restore.
-          if (await basic.waitForSaveButtonEnabled(10_000)) await basic.saveAndConfirm();
-        }
-      });
+      await phase(`Put Local Office Name back to "${original}"`, () => restoreLocalOfficeName(pg, basic, original));
     }
 
     await verify('Check office 1604 is left exactly as it was found', async () => {
-      await basic.reloadAndNavigate(HISTORY_OFFICE.no);
-      expect(await basic.getLocalOfficeName()).toBe(original);
+      // Server truth, not the form: a form read right after a save can show a stale value.
+      expect(await pg.getStoredLocalOfficeName(HISTORY_OFFICE.no)).toBe(original);
     });
   });
 
-  test('TC-LOC-MGH-059: A discarded/cancelled Local Office Name edit creates NO new History row', async ({ locationManagementHistoryPage: pg, locationLeftPanelBasicInformationPage: basic, dependencyGate }) => {
+  test('TC-LOC-MGH-059: A discarded/cancelled Local Office Name edit creates NO new History row', { tag: '@C106005' }, async ({ locationManagementHistoryPage: pg, locationLeftPanelBasicInformationPage: basic, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Throwing away an unsaved edit adds nothing to History.');
     test.setTimeout(180_000);
     const baselineTop = await pg.getColumnByHeader(0, HISTORY_SORT_COLUMN);
 
+    const original = await pg.getStoredLocalOfficeName(HISTORY_OFFICE.no);
     await pg.returnToBasicInformation();
-    const original = await basic.getLocalOfficeName();
     const probe = probeNameFor(original);
 
     try {
@@ -1667,8 +1690,11 @@ test.describe('Location Management History @locations @management-history', () =
 
       await pg.sortColumnAndSettle(HISTORY_SORT_COLUMN, 'descending');
       const top = await pg.readSettledTopRow([HISTORY_SORT_COLUMN, SAVE_CYCLE_PROBE.column]);
-      await verify('Check no new entry was added and the discarded value appears nowhere at the top', async () => {
-        expect(parseTs(top[HISTORY_SORT_COLUMN]!)).toBeLessThanOrEqual(parseTs(baselineTop));
+      await verify('Check no History entry records the discarded value', async () => {
+        // Office 1604 is shared, so another run's save may add an entry here; what this edit must
+        // never do is reach History. Every entry newer than the baseline must not carry it.
+        const newer = await pg.getRowsSinceTimestamp(parseTs(baselineTop) + 1_000, [HISTORY_SORT_COLUMN, SAVE_CYCLE_PROBE.column]);
+        expect(newer.filter(r => r[SAVE_CYCLE_PROBE.column] === probe), JSON.stringify(newer)).toEqual([]);
         expect(top[SAVE_CYCLE_PROBE.column]).not.toBe(probe);
       });
 
@@ -1678,22 +1704,18 @@ test.describe('Location Management History @locations @management-history', () =
         expect(await basic.isSaveEnabled()).toBe(false);
       });
     } finally {
-      await basic.reloadAndNavigate(HISTORY_OFFICE.no);
-      if ((await basic.getLocalOfficeName()) !== original) {
-        await basic.setLocalOfficeName(original);
-        if (await basic.waitForSaveButtonEnabled(10_000)) await basic.saveAndConfirm();
-      }
+      await restoreLocalOfficeName(pg, basic, original);
     }
   });
 
-  test('TC-LOC-MGH-060: A mocked failed save creates NO new History row', async ({ locationManagementHistoryPage: pg, locationLeftPanelBasicInformationPage: basic, dependencyGate }) => {
+  test('TC-LOC-MGH-060: A mocked failed save creates NO new History row', { tag: '@C106006' }, async ({ locationManagementHistoryPage: pg, locationLeftPanelBasicInformationPage: basic, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('A save that the server rejects adds nothing to History.');
     test.setTimeout(240_000);
     const baselineTop = await pg.getColumnByHeader(0, HISTORY_SORT_COLUMN);
 
+    const original = await pg.getStoredLocalOfficeName(HISTORY_OFFICE.no);
     await pg.returnToBasicInformation();
-    const original = await basic.getLocalOfficeName();
     const probe = probeNameFor(original);
     // Every write to the location API fails; reads (history, lookups) pass through untouched.
     const failWrites = async (route: import('@playwright/test').Route) => {
@@ -1724,28 +1746,27 @@ test.describe('Location Management History @locations @management-history', () =
       });
 
       const top = await pg.readSettledTopRow([HISTORY_SORT_COLUMN, SAVE_CYCLE_PROBE.column]);
-      await verify('Check the failed save added no entry to History', async () => {
-        expect(parseTs(top[HISTORY_SORT_COLUMN]!)).toBeLessThanOrEqual(parseTs(baselineTop));
+      await verify('Check no History entry records the value from the failed save', async () => {
+        // Office 1604 is shared, so another run's save may add an entry here; the failed save must
+        // never reach History. Every entry newer than the baseline must not carry its value.
+        const newer = await pg.getRowsSinceTimestamp(parseTs(baselineTop) + 1_000, [HISTORY_SORT_COLUMN, SAVE_CYCLE_PROBE.column]);
+        expect(newer.filter(r => r[SAVE_CYCLE_PROBE.column] === probe), JSON.stringify(newer)).toEqual([]);
         expect(top[SAVE_CYCLE_PROBE.column]).not.toBe(probe);
       });
     } finally {
       await pg.page.unroute(/\/navigator\/api\/location\//, failWrites).catch(() => {});
       // If the mock ever misses and the save lands, this puts the real value back.
-      await basic.reloadAndNavigate(HISTORY_OFFICE.no);
-      if ((await basic.getLocalOfficeName()) !== original) {
-        await basic.setLocalOfficeName(original);
-        if (await basic.waitForSaveButtonEnabled(10_000)) await basic.saveAndConfirm();
-      }
+      await restoreLocalOfficeName(pg, basic, original);
     }
 
     await verify('Check Local Office Name still reads its original value', async () => {
-      expect(await basic.getLocalOfficeName()).toBe(original);
+      expect(await pg.getStoredLocalOfficeName(HISTORY_OFFICE.no)).toBe(original);
     });
   });
 
   // ------------------------------------------------------------ 11. Accessibility and keyboard
 
-  test('TC-LOC-MGH-061: Column headers are exposed as native columnheader roles', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-061: Column headers are exposed as native columnheader roles', { tag: '@C106007' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('A screen reader can find every one of the 87 column headings.');
     const roleCount = await pg.getColumnHeaderRoleCount();
@@ -1755,7 +1776,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-062: The sort menu is fully keyboard-operable', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-062: The sort menu is fully keyboard-operable', { tag: '@C106008' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('A keyboard-only user can open the sort menu, choose a direction and cancel with Escape.');
     test.setTimeout(120_000);
@@ -1787,7 +1808,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 12. Responsive
 
-  test('TC-LOC-MGH-063: The grid stays usable with no page-level horizontal scroll at laptop viewport sizes', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-063: The grid stays usable with no page-level horizontal scroll at laptop viewport sizes', { tag: '@C106009' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('On smaller laptop screens no column disappears, and only the list scrolls sideways.');
     test.setTimeout(120_000);
@@ -1812,7 +1833,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 13. Resilience
 
-  test('TC-LOC-MGH-064: No uncaught console/page error occurs across the tab’s core interactions', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-064: No uncaught console/page error occurs across the tab’s core interactions', { tag: '@C106010' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Sorting, paging, switching history type and switching language raise no errors in the browser.');
     test.setTimeout(300_000);
@@ -1859,7 +1880,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-065: A full reload reproduces the identical 87-column contract even though the tab selection itself is not preserved', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-065: A full reload reproduces the identical 87-column contract even though the tab selection itself is not preserved', { tag: '@C106011' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('After a browser refresh, re-opening History shows the same columns and starts from the default newest-first sort again.');
     test.setTimeout(150_000);
@@ -1879,7 +1900,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-066: A slow (delayed, not failed) history response keeps the loading affordance visible and issues no duplicate request', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-066: A slow (delayed, not failed) history response keeps the loading affordance visible and issues no duplicate request', { tag: '@C106012' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('When the server is slow, the list keeps showing that it is loading, asks only once, and fills in when the answer arrives.');
     test.setTimeout(150_000);
@@ -1914,7 +1935,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-067: A mocked mid-session 401 on the history endpoint surfaces a sign-in/redirect state, not a silently blank or corrupt grid', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-067: A mocked mid-session 401 on the history endpoint surfaces a sign-in/redirect state, not a silently blank or corrupt grid', { tag: '@C106013' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('If the session expires while paging through History, the user is not shown old entries passed off as the next page.');
     test.setTimeout(150_000);
@@ -1954,7 +1975,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 14. History type selector and legacy grid
 
-  test('TC-LOC-MGH-068: The history type selector offers exactly the two confirmed options', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-068: The history type selector offers exactly the two confirmed options', { tag: '@C106014' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The history type chooser starts on the current history and offers exactly one other option, the legacy history.');
     const value = await pg.getHistoryTypeValue();
@@ -1965,7 +1986,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-069: STRUCTURAL FINDING — selecting Legacy swaps to an untagged 86-column table with a larger sortable set', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-069: STRUCTURAL FINDING — selecting Legacy swaps to an untagged 86-column table with a larger sortable set', { tag: '@C106015' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('The legacy history is its own read-only list: one column fewer than the current one, and more of it can be sorted.');
     test.setTimeout(120_000);
@@ -1997,7 +2018,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-070: The legacy grid’s paginator is entirely ABSENT, not merely disabled, when all rows fit on one page', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-070: The legacy grid’s paginator is entirely ABSENT, not merely disabled, when all rows fit on one page', { tag: '@C106016' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('When the legacy history fits on one page, no page navigation is shown at all.');
     test.setTimeout(120_000);
@@ -2015,7 +2036,7 @@ test.describe('Location Management History @locations @management-history', () =
     }
   });
 
-  test('TC-LOC-MGH-071: Switching back from Legacy to Standard restores the exact original header list and default sort', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-071: Switching back from Legacy to Standard restores the exact original header list and default sort', { tag: '@C106017' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Going back from the legacy history to the current one restores the same columns and the newest-first sort.');
     test.setTimeout(120_000);
@@ -2037,7 +2058,7 @@ test.describe('Location Management History @locations @management-history', () =
 
   // ------------------------------------------------------------ 15. Related module cross-reference
 
-  test('TC-LOC-MGH-072: SCOPE NOTE — Local Office Settings History (NM-854) is a separate, already-automated module', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-072: SCOPE NOTE — Local Office Settings History (NM-854) is a separate, already-automated module', { tag: '@C106018' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Records that Local Office Settings History is a separate page with its own suite, not reached from this tab.');
     await verify('Check this tab has no link into Local Office Settings', async () => {
@@ -2057,7 +2078,7 @@ test.describe('Location Management History @locations @management-history', () =
   // cycles run in a UTC browser, so the form's Live Date display shift (BUG-LOC-LP-001, withdrawn)
   // cannot move Live Date on every save.
 
-  test('TC-LOC-MGH-073: Every editable Location Settings control is either mapped to a History column or on the known untracked list', async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOC-MGH-073: Every editable Location Settings control is either mapped to a History column or on the known untracked list', { tag: '@C106019' }, async ({ locationManagementHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Every setting a user can change on Location Settings is accounted for: it either has its History column or is on the agreed list of settings History does not record.');
     test.setTimeout(240_000);
@@ -2100,12 +2121,12 @@ test.describe('Location Management History @locations @management-history', () =
       .filter(([, m]) => !m.verified).map(([id, m]) => `${id} -> ${m.column}`).join('\n'));
   });
 
-  for (const [tcId, title, fields] of [
-    ['TC-LOC-MGH-074', 'Left-panel settings of each type (Union, Region, Tax Mode) reach their History column when saved', SAVE_CHECK_LEFT_PANEL],
-    ['TC-LOC-MGH-075', 'Local Information settings of each type (checkbox, percentage, text, dropdown, radio) reach their History column when saved', SAVE_CHECK_LOCAL_INFORMATION],
-    ['TC-LOC-MGH-076', 'Account and Address, Pricing, Legal and Notes settings reach their History column when saved', SAVE_CHECK_OTHER_TABS],
+  for (const [tcId, caseTag, title, fields] of [
+    ['TC-LOC-MGH-074', '@C106020', 'Left-panel settings of each type (Union, Region, Tax Mode) reach their History column when saved', SAVE_CHECK_LEFT_PANEL],
+    ['TC-LOC-MGH-075', '@C106021', 'Local Information settings of each type (checkbox, percentage, text, dropdown, radio) reach their History column when saved', SAVE_CHECK_LOCAL_INFORMATION],
+    ['TC-LOC-MGH-076', '@C106022', 'Account and Address, Pricing, Legal and Notes settings reach their History column when saved', SAVE_CHECK_OTHER_TABS],
   ] as const) {
-    test(`${tcId}: ${title}`, async ({ browser, config, dependencyGate }) => {
+    test(`${tcId}: ${title}`, { tag: caseTag }, async ({ browser, config, dependencyGate }) => {
       dependencyGate(['TC-LOC-MGH-001']);
       await about('Saving a change to each of these settings adds a History entry that shows the new value in the matching column, and the setting is put back afterwards.');
       // Two save cycles per field (change + restore) at roughly 30-60s apiece.
@@ -2116,7 +2137,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   }
 
-  test('TC-LOC-MGH-077: A pricing-strategy row change creates a History entry but leaves the pricing-strategy columns blank', async ({ browser, config, dependencyGate }) => {
+  test('TC-LOC-MGH-077: A pricing-strategy row change creates a History entry but leaves the pricing-strategy columns blank', { tag: '@C106023' }, async ({ browser, config, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Records how History handles a change to a pricing-strategy row: an entry is added, but none of the seven pricing-strategy columns show what changed.');
     test.setTimeout(300_000);
@@ -2160,7 +2181,7 @@ test.describe('Location Management History @locations @management-history', () =
     });
   });
 
-  test('TC-LOC-MGH-078: Saving a setting that has no History column changes no History data column', async ({ browser, config, dependencyGate }) => {
+  test('TC-LOC-MGH-078: Saving a setting that has no History column changes no History data column', { tag: '@C106024' }, async ({ browser, config, dependencyGate }) => {
     dependencyGate(['TC-LOC-MGH-001']);
     await about('Changing a setting History does not track leaves every History column as it was, and the report records whether an entry was still added.');
     test.setTimeout(SAVE_CHECK_UNTRACKED.length * 150_000);

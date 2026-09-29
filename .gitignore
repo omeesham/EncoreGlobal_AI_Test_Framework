@@ -55,3 +55,6 @@ blob-report-*/
 
 # Claude Code hook runtime state (bug kit gates write here)
 .claude/state/
+
+# TestRail shared-run session state (scripts/testrail-run.ts) - local runtime, never commit
+.testrail/

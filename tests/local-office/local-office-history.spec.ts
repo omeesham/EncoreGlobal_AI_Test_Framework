@@ -1643,7 +1643,7 @@ test.describe('Local Office Location Settings History @local-office @location-se
   // audit trail complete? A column that is present but never written is invisible to every
   // scenario before this point, and so is a settings field that has no column at all.
 
-  test('TC-LOE-HIST-044: Every Basic Information setting has a column in Location Settings History', async ({ localOfficeHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOE-HIST-044: Every Basic Information setting has a column in Location Settings History', { tag: '@C105944' }, async ({ localOfficeHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOE-HIST-001']);
     await about('Every setting a user can change on Basic Information is one the History list can record, so nothing a user changes goes unrecorded.');
     test.setTimeout(180_000);
@@ -1724,7 +1724,7 @@ test.describe('Local Office Location Settings History @local-office @location-se
     });
   });
 
-  test('TC-LOE-HIST-045: Saving an untracked field does not create a history entry identical to the one before it', async ({ localOfficeHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOE-HIST-045: Saving an untracked field does not create a history entry identical to the one before it', { tag: '@C105945' }, async ({ localOfficeHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOE-HIST-001']);
     await about('Changing something History cannot record must not add an entry that claims a change and shows none, which a reader has no way to explain.');
     test.setTimeout(420_000);
@@ -1832,7 +1832,7 @@ test.describe('Local Office Location Settings History @local-office @location-se
     }
   });
 
-  test('TC-LOE-HIST-046: A number, a tick box and a dropdown each reach their history column when saved', async ({ localOfficeHistoryPage: pg, dependencyGate }) => {
+  test('TC-LOE-HIST-046: A number, a tick box and a dropdown each reach their history column when saved', { tag: '@C105946' }, async ({ localOfficeHistoryPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOE-HIST-001']);
     await about('Changing a number, a tick box and a dropdown each shows up in the matching History column, so the columns are written to and not merely present.');
     // Three fields, each saved and then restored: six save cycles at roughly 40-60s apiece.
