@@ -1,0 +1,15 @@
+# Worked example of a steps file. Copy this for a new screen.
+# Run with: node scripts/generic-testid-audit.js --steps config/audit-steps/example-location-settings.txt
+#
+# {office} is filled in from config.offices, so this one file audits USA, Canada
+# and Mexico. Use "Click" steps for anything you cannot reach by URL - a modal,
+# a dialog, or a wizard step.
+#
+# Keep steps read-only against the app: never end a file with Click "Save".
+
+Module: locations
+Submodule: location-settings
+Output: reports/testid-audit-locations
+
+1. Go to /navigator/locations/{office}/settings/location
+2. Audit inside "main"
