@@ -194,18 +194,23 @@ export const CANADA_CURRENCY_FILTER_OPTIONS = ['All', 'CAD'] as const;
 export const CANADA_CAD_ROW = 'Can PStr Aru1';
 export const CANADA_CAD_ROW_2 = 'Can PStr2';
 
-// Only Equipment (CAD) carries strategies on 2359; the other four CAD dropdowns show the empty
-// message. All five load unset.
+// Equipment (CAD) and Production Equipment (CAD) carry strategies on 2359; the other three CAD
+// dropdowns show the empty message. All five load unset. 2026PVnikita and 2026Tier1nikita were
+// added to 2359 on purpose by the team (confirmed 2026-09-30); keep them in step with the office.
 export const CANADA_EQUIPMENT_CAD = {
   key: 'drpPrimaryEquipmentPricingCAD',
-  options: ['Can PStr Aru1', 'Can PStr2'],
+  options: ['2026PVnikita', 'Can PStr Aru1', 'Can PStr2'],
+} as const;
+
+export const CANADA_PRODUCTION_EQUIPMENT_CAD = {
+  key: 'drpPrimaryProductionEquipmentPricingCAD',
+  options: ['2026Tier1nikita'],
 } as const;
 
 export const CANADA_EMPTY_CAD_DROPDOWNS = [
   'drpPrimaryLaborPricingCAD',
   'drpPrimaryInternalEquipmentPricingCAD',
   'drpPrimaryProductionLaborPricingCAD',
-  'drpPrimaryProductionEquipmentPricingCAD',
 ] as const;
 
 // 2359 loads with Include Service Fee UNCHECKED (like 7147, unlike 1604) — its own baseline, so the

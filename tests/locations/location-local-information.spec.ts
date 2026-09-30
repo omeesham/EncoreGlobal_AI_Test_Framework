@@ -1291,7 +1291,7 @@ test.describe('Location Local Information @locations @local-information', () => 
   // test of any kind. Product Organization had no selector either; Set/Strike Goal was named in
   // the plan but never implemented; the two calc-on-net checkboxes were absent from every list.
 
-  test('TC-LOC-LI-053: Product Organization offers its documented options, and a change saves, persists and restores', { tag: '@pending-testrail' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+  test('TC-LOC-LI-053: Product Organization offers its documented options, and a change saves, persists and restores', { tag: '@C106129' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-LI-007']);
     test.setTimeout(300_000);
     await about('The Product Organization list can be changed to another country, and the new choice is still there after a refresh. The original is put back afterwards.');
@@ -1347,7 +1347,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     }
   });
 
-  test('TC-LOC-LI-054: Set/Strike/Support Labor Billing Goal refuses out-of-range figures and reverts non-numeric text', { tag: '@pending-testrail' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+  test('TC-LOC-LI-054: Set/Strike/Support Labor Billing Goal refuses out-of-range figures and reverts non-numeric text', { tag: '@C106130' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-LI-001']);
     test.setTimeout(300_000);
     await about('The Set/Strike labour billing goal refuses figures above its maximum or below zero, and typing letters into it simply puts the previous figure back. Nothing is saved by this check.');
@@ -1399,7 +1399,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     });
   });
 
-  test('TC-LOC-LI-055: Calculate LDW on Net Amount switches, saves, persists and restores', { tag: '@pending-testrail' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+  test('TC-LOC-LI-055: Calculate LDW on Net Amount switches, saves, persists and restores', { tag: '@C106131' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-LI-003']);
     test.setTimeout(300_000);
     await about('The "calculate LDW on net amount" switch can be turned on, saved, and is still on after a refresh. It is switched back afterwards.');
@@ -1448,7 +1448,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     }
   });
 
-  test('TC-LOC-LI-056: Calculate C&C on Net Amount is editable, marks the form dirty, and returns Save to off when put back', { tag: '@pending-testrail' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+  test('TC-LOC-LI-056: Calculate C&C on Net Amount is editable, marks the form dirty, and returns Save to off when put back', { tag: '@C106132' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-LI-004']);
     test.setTimeout(180_000);
     await about('The "calculate C&C on net amount" switch can be moved, which offers the form for saving, and moving it back withdraws that offer again. Nothing is saved by this check.');

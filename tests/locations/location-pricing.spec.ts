@@ -44,6 +44,21 @@ const HEADER_KEYS = [
   'colHeaderStartDate', 'colHeaderEndDate',
 ] as const;
 
+// TestRail case tags for tests whose titles are built in a loop. The auto-tagger only rewrites
+// literal titles, so these come from config/testrail/case-map.json by hand.
+const LOOP_CASE_TAGS: Record<string, string> = {
+  'TC-LOC-PRI-026': '@C106050', 'TC-LOC-PRI-027': '@C106051', 'TC-LOC-PRI-028': '@C106052',
+  'TC-LOC-PRI-029': '@C106053', 'TC-LOC-PRI-030': '@C106054',
+  'TC-LOC-PRI-037': '@C106061', 'TC-LOC-PRI-038': '@C106062',
+  'TC-LOC-PRI-074': '@C106098', 'TC-LOC-PRI-075': '@C106099', 'TC-LOC-PRI-076': '@C106100',
+  'TC-LOC-PRI-077': '@C106101', 'TC-LOC-PRI-078': '@C106102', 'TC-LOC-PRI-079': '@C106103',
+  'TC-LOC-PRI-080': '@C106104', 'TC-LOC-PRI-081': '@C106105', 'TC-LOC-PRI-082': '@C106106',
+  'TC-LOC-PRI-083': '@C106107',
+  'TC-LOC-PRI-094': '@C106118', 'TC-LOC-PRI-095': '@C106119', 'TC-LOC-PRI-096': '@C106120',
+  'TC-LOC-PRI-097': '@C106121', 'TC-LOC-PRI-098': '@C106122', 'TC-LOC-PRI-099': '@C106123',
+  'TC-LOC-PRI-100': '@C106124', 'TC-LOC-PRI-101': '@C106125',
+};
+
 test.describe('Location Pricing @locations @pricing', () => {
   // Cases that must NOT be reset to baseline first: TC-001 reads the as-loaded state, and the
   // bug-blocked cases drive their own state.
@@ -121,7 +136,7 @@ test.describe('Location Pricing @locations @pricing', () => {
 
   // ── Suite A — Structure, navigation and defaults (1606) ──────────────────────
 
-  test('TC-LOC-PRI-001: Navigate to the Pricing sub-tab; settings panel and grid both render', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-001: Navigate to the Pricing sub-tab; settings panel and grid both render', { tag: '@C106025' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(60_000);
     expect(locationPricingPage.getCurrentUrl(), 'Should be on the Location Settings page').toContain(`locations/${USA_OFFICE_NO}/settings`);
@@ -130,7 +145,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect(await locationPricingPage.getColumnHeaders()).toEqual([...PRICING_COLUMN_HEADERS]);
   });
 
-  test('TC-LOC-PRI-002: Pricing settings panel renders its four controls, all enabled', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-002: Pricing settings panel renders its four controls, all enabled', { tag: '@C106026' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-001']);
     for (const key of ['chkCorporatePricing', 'chkPriceGuideInclusive', 'chkEnablePriceEscalator']) {
       expect((await locationPricingPage.getCheckboxState(key)).disabled, `${key} should be enabled`).toBe(false);
@@ -138,21 +153,21 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect(await locationPricingPage.getCurrencyFilterValue()).toBe(DEFAULT_CURRENCY_FILTER);
   });
 
-  test('TC-LOC-PRI-003: Default checkbox states on 1606', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-003: Default checkbox states on 1606', { tag: '@C106027' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-001']);
     expect((await locationPricingPage.getCheckboxState('chkCorporatePricing')).checked).toBe(PRICING_DEFAULTS_USA.corporatePricing);
     expect((await locationPricingPage.getCheckboxState('chkPriceGuideInclusive')).checked).toBe(PRICING_DEFAULTS_USA.priceGuideInclusive);
     expect((await locationPricingPage.getCheckboxState('chkEnablePriceEscalator')).checked).toBe(PRICING_DEFAULTS_USA.enablePriceEscalator);
   });
 
-  test('TC-LOC-PRI-004: USD currency group renders 5 primary pricing dropdowns, all enabled', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-004: USD currency group renders 5 primary pricing dropdowns, all enabled', { tag: '@C106028' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-001']);
     const result = await locationPricingPage.verifyPrimaryDropdownStates(PRIMARY_PRICING_DROPDOWNS, true);
     expect(result.failures.join('; ')).toBe('');
     expect(result.allPassed).toBe(true);
   });
 
-  test('TC-LOC-PRI-005: Primary dropdowns hold a bound value, not the pre-render placeholder', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-005: Primary dropdowns hold a bound value, not the pre-render placeholder', { tag: '@C106029' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-004']);
     // The USD dropdowns carry this suite's own values from prior runs, so no specific default can be
     // asserted — only that Angular bound something (a blank read means a stale/empty render).
@@ -161,12 +176,12 @@ test.describe('Location Pricing @locations @pricing', () => {
     }
   });
 
-  test('TC-LOC-PRI-006: Secondary pricing grid renders all 7 column headers in order', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-006: Secondary pricing grid renders all 7 column headers in order', { tag: '@C106030' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-001']);
     expect(await locationPricingPage.getVisibleColumnHeaders()).toEqual([...PRICING_COLUMN_HEADERS]);
   });
 
-  test('TC-LOC-PRI-007: Grid renders data rows, each exposing Pricing Strategy text', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-007: Grid renders data rows, each exposing Pricing Strategy text', { tag: '@C106031' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-001']);
     // The grid is virtualized (~979 rows, ~44 rendered), so assert presence, never a fixed count.
     const strategies = await locationPricingPage.getRenderedRowStrategies();
@@ -174,17 +189,17 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect(strategies.every((s) => s.length > 0)).toBe(true);
   });
 
-  test('TC-LOC-PRI-008: Grid columns 1-3 are read-only', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-008: Grid columns 1-3 are read-only', { tag: '@C106032' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-007']);
     expect(await locationPricingPage.getReadOnlyColumnInteractiveCount(PRIMARY_TEST_ROW)).toBe(0);
   });
 
-  test('TC-LOC-PRI-009: Save is disabled on a clean load', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-009: Save is disabled on a clean load', { tag: '@C106033' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-001']);
     expect(await locationPricingPage.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-LOC-PRI-010: Currency filter defaults to All and offers exactly All and USD on 1606', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-010: Currency filter defaults to All and offers exactly All and USD on 1606', { tag: '@C106034' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-001']);
     expect(await locationPricingPage.getCurrencyFilterValue()).toBe(DEFAULT_CURRENCY_FILTER);
     expect(await locationPricingPage.getCurrencyFilterOptions()).toEqual([...CURRENCY_FILTER_OPTIONS]);
@@ -192,7 +207,7 @@ test.describe('Location Pricing @locations @pricing', () => {
 
   // ── Suite B — Checkbox field cases ───────────────────────────────────────────
 
-  test('TC-LOC-PRI-011: Unchecking Corporate Pricing flips it and enables Save', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-011: Unchecking Corporate Pricing flips it and enables Save', { tag: '@C106035' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-003']);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
     expect((await locationPricingPage.getCheckboxState('chkCorporatePricing')).checked).toBe(false);
@@ -200,7 +215,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-012: Unchecking Corporate Pricing disables all 5 primary dropdowns but retains their values', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-012: Unchecking Corporate Pricing disables all 5 primary dropdowns but retains their values', { tag: '@C106036' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-011']);
     const before = [];
     for (const key of PRIMARY_PRICING_DROPDOWNS) before.push(await locationPricingPage.getDropdownValue(key));
@@ -216,7 +231,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-013: Re-checking Corporate Pricing re-enables all 5 dropdowns', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-013: Re-checking Corporate Pricing re-enables all 5 dropdowns', { tag: '@C106037' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-012']);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
     await locationPricingPage.checkCheckbox('chkCorporatePricing');
@@ -225,7 +240,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-014: Corporate Pricing net-zero — editing back to the original re-disables Save', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-014: Corporate Pricing net-zero — editing back to the original re-disables Save', { tag: '@C106038' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-011']);
     // Pricing tracks net-zero; Location Legal does NOT (there Save stays enabled after a revert).
     // This case pins the Pricing behaviour so a future change to either surface is caught.
@@ -236,7 +251,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => locationPricingPage.isSaveEnabled(), { timeout: 5_000 }).toBe(false);
   });
 
-  test('TC-LOC-PRI-015: Toggling Include Service Fee in Price Guides enables Save', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-015: Toggling Include Service Fee in Price Guides enables Save', { tag: '@C106039' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-003']);
     const before = (await locationPricingPage.getCheckboxState('chkPriceGuideInclusive')).checked;
     await locationPricingPage[before ? 'uncheckCheckbox' : 'checkCheckbox']('chkPriceGuideInclusive');
@@ -245,14 +260,14 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-016: Include Service Fee stays enabled when Corporate Pricing is unchecked', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-016: Include Service Fee stays enabled when Corporate Pricing is unchecked', { tag: '@C106040' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-011']);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
     expect((await locationPricingPage.getCheckboxState('chkPriceGuideInclusive')).disabled).toBe(false);
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-017: Include Service Fee — toggle, save, reload, verify, restore', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-017: Include Service Fee — toggle, save, reload, verify, restore', { tag: '@C106041' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-015']);
     test.setTimeout(90_000);
     const original = (await locationPricingPage.getCheckboxState('chkPriceGuideInclusive')).checked;
@@ -266,7 +281,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect((await locationPricingPage.clickSave()).success).toBe(true);
   });
 
-  test('TC-LOC-PRI-018: Currency filter set to MXN narrows the grid to MXN rows only', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-018: Currency filter set to MXN narrows the grid to MXN rows only', { tag: '@C106042' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-010']);
     // Runs on 1605. The filter matches strictly on the row's own currency — a USD row drops out
     // under MXN and the MXN rows take over the top of the virtualized window.
@@ -277,7 +292,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(MULTI_CURRENCY_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-019: Currency filter back to All restores the USD rows', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-019: Currency filter back to All restores the USD rows', { tag: '@C106043' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-018']);
     await locationPricingPage.selectCurrencyFilter('MXN');
     await expect.poll(async () => locationPricingPage.isGridRowVisible(SECONDARY_TEST_ROW), { timeout: 10_000 }).toBe(false);
@@ -288,7 +303,7 @@ test.describe('Location Pricing @locations @pricing', () => {
 
   // ── Suite C — Grid row cascade and date field cases ──────────────────────────
 
-  test('TC-LOC-PRI-020: Effective dates — full cascade, set both dates, save, reload, verify, restore', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-020: Effective dates — full cascade, set both dates, save, reload, verify, restore', { tag: '@C106044' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-021']);
     test.setTimeout(120_000);
     await locationPricingPage.enableFullCascade(PRIMARY_TEST_ROW);
@@ -304,7 +319,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect((await locationPricingPage.clickSave()).success).toBe(true);
   });
 
-  test('TC-LOC-PRI-021: Is Alternate enables Use Effective Dates but leaves the date fields disabled', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-021: Is Alternate enables Use Effective Dates but leaves the date fields disabled', { tag: '@C106045' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-007']);
     expect((await locationPricingPage.getUseEffectiveDateState(PRIMARY_TEST_ROW)).disabled).toBe(true);
     await locationPricingPage.checkIsAlternative(PRIMARY_TEST_ROW);
@@ -318,7 +333,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-022: Empty Start Date with Use Effective Dates on — announced and escapable', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-022: Empty Start Date with Use Effective Dates on — announced and escapable', { tag: '@C106046' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-021']);
     test.setTimeout(90_000);
     await locationPricingPage.enableFullCascade(PRIMARY_TEST_ROW);
@@ -335,7 +350,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-023: Use Effective Dates enables both date inputs and neither is read-only', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-023: Use Effective Dates enables both date inputs and neither is read-only', { tag: '@C106047' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-021']);
     await locationPricingPage.enableFullCascade(PRIMARY_TEST_ROW);
     await expect.poll(async () => locationPricingPage.isStartDateEnabled(PRIMARY_TEST_ROW), { timeout: 10_000 }).toBe(true);
@@ -346,7 +361,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-024: Unchecking Is Alternate reverses the whole cascade', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-024: Unchecking Is Alternate reverses the whole cascade', { tag: '@C106048' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-023']);
     test.setTimeout(90_000);
     await locationPricingPage.enableFullCascade(PRIMARY_TEST_ROW);
@@ -362,7 +377,7 @@ test.describe('Location Pricing @locations @pricing', () => {
 
   // ── Suite D — Save-cycle and primary-dropdown persistence ────────────────────
 
-  test('TC-LOC-PRI-025: Corporate Pricing uncheck saves and the panel reloads to its default checked state', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-025: Corporate Pricing uncheck saves and the panel reloads to its default checked state', { tag: '@C106049' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-011']);
     // Was pinned to BUG-LOC-PRI-001, closed 2026-09-23 as WORKING AS DESIGNED by owner
     // determination: the panel returning to its default state on reload is intended behaviour.
@@ -386,7 +401,7 @@ test.describe('Location Pricing @locations @pricing', () => {
   });
 
   for (const c of DROPDOWN_PERSISTENCE_CASES) {
-    test(`${c.tcId}: ${c.label} — select, save, reload, verify, restore`, async ({ locationPricingPage, dependencyGate }) => {
+    test(`${c.tcId}: ${c.label} — select, save, reload, verify, restore`, { tag: LOOP_CASE_TAGS[c.tcId] }, async ({ locationPricingPage, dependencyGate }) => {
       dependencyGate(['TC-LOC-PRI-004']);
       test.setTimeout(120_000);
       // Self-baselining: the office may already hold this suite's values, so pick whichever of the two
@@ -403,7 +418,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     });
   }
 
-  test('TC-LOC-PRI-031: A confirmed save fires both pricing save endpoints', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-031: A confirmed save fires both pricing save endpoints', { tag: '@C106055' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-015']);
     test.setTimeout(90_000);
     const original = (await locationPricingPage.getCheckboxState('chkPriceGuideInclusive')).checked;
@@ -419,7 +434,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect((await locationPricingPage.clickSave()).success).toBe(true);
   });
 
-  test('TC-LOC-PRI-032: Save confirmation dialog shows the expected title, body and buttons', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-032: Save confirmation dialog shows the expected title, body and buttons', { tag: '@C106056' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-009']);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
     await locationPricingPage.clickSaveButton();
@@ -431,7 +446,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-033: Second effective-date round-trip persists and restores', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-033: Second effective-date round-trip persists and restores', { tag: '@C106057' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-020']);
     test.setTimeout(120_000);
     await locationPricingPage.enableFullCascade(PRIMARY_TEST_ROW);
@@ -446,7 +461,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect((await locationPricingPage.clickSave()).success).toBe(true);
   });
 
-  test('TC-LOC-PRI-034: Cancelling the save dialog reaches no server call and keeps the edit', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-034: Cancelling the save dialog reaches no server call and keeps the edit', { tag: '@C106058' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-032']);
     test.setTimeout(90_000);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
@@ -461,7 +476,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-035: Closing the save dialog via the X discards exactly like Cancel', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-035: Closing the save dialog via the X discards exactly like Cancel', { tag: '@C106059' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-034']);
     test.setTimeout(90_000);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
@@ -477,7 +492,7 @@ test.describe('Location Pricing @locations @pricing', () => {
 
   // ── Suite E — Multi-currency, office 1605 ────────────────────────────────────
 
-  test('TC-LOC-PRI-036: Office 1605 renders all 15 primary dropdowns across USD, CAD and MXN', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-036: Office 1605 renders all 15 primary dropdowns across USD, CAD and MXN', { tag: '@C106060' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-004']);
     test.setTimeout(90_000);
     const all = [...PRIMARY_PRICING_DROPDOWNS, ...PRIMARY_PRICING_DROPDOWNS_CAD, ...PRIMARY_PRICING_DROPDOWNS_MXN];
@@ -487,7 +502,7 @@ test.describe('Location Pricing @locations @pricing', () => {
   });
 
   for (const c of MXN_PRIMARY_PERSISTENCE_CASES) {
-    test(`${c.tcId}: ${c.label} on 1605 — select, save, reload, verify, restore`, async ({ locationPricingPage, dependencyGate }) => {
+    test(`${c.tcId}: ${c.label} on 1605 — select, save, reload, verify, restore`, { tag: LOOP_CASE_TAGS[c.tcId] }, async ({ locationPricingPage, dependencyGate }) => {
       dependencyGate(['TC-LOC-PRI-036']);
       test.setTimeout(120_000);
       await locationPricingPage.selectPrimaryDropdownOption(c.key, c.option);
@@ -502,12 +517,12 @@ test.describe('Location Pricing @locations @pricing', () => {
     });
   }
 
-  test('TC-LOC-PRI-039: Office 1605 currency filter offers All, USD, CAD and MXN', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-039: Office 1605 currency filter offers All, USD, CAD and MXN', { tag: '@C106063' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-010']);
     expect(await locationPricingPage.getCurrencyFilterOptions()).toEqual(['All', 'USD', 'CAD', 'MXN']);
   });
 
-  test('TC-LOC-PRI-040: A pricing dropdown with no matching strategy announces its empty state', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-040: A pricing dropdown with no matching strategy announces its empty state', { tag: '@C106064' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-036']);
     const result = await locationPricingPage.searchDropdownOptions('drpPrimaryLaborPricingMXN', 'zzz-no-such-strategy');
     expect(result.options).toEqual([]);
@@ -518,14 +533,14 @@ test.describe('Location Pricing @locations @pricing', () => {
 
   // 1606 loads with the escalator CHECKED (its saved value), so these cases toggle away from whatever
   // loads instead of assuming unchecked — the same self-baselining the Include Service Fee cases use.
-  test('TC-LOC-PRI-041: Enable Price Escalator renders, is enabled and loads with the office value', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-041: Enable Price Escalator renders, is enabled and loads with the office value', { tag: '@C106065' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-002']);
     const state = await locationPricingPage.getCheckboxState('chkEnablePriceEscalator');
     expect(state.disabled).toBe(false);
     expect(state.checked).toBe(PRICING_DEFAULTS_USA.enablePriceEscalator);
   });
 
-  test('TC-LOC-PRI-042: Toggling Enable Price Escalator flips it and enables Save', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-042: Toggling Enable Price Escalator flips it and enables Save', { tag: '@C106066' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-041']);
     const before = (await locationPricingPage.getCheckboxState('chkEnablePriceEscalator')).checked;
     await locationPricingPage[before ? 'uncheckCheckbox' : 'checkCheckbox']('chkEnablePriceEscalator');
@@ -534,7 +549,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-043: Enable Price Escalator is a standalone boolean with no cascade', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-043: Enable Price Escalator is a standalone boolean with no cascade', { tag: '@C106067' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-042']);
     const before = (await locationPricingPage.getCheckboxState('chkEnablePriceEscalator')).checked;
     await locationPricingPage[before ? 'uncheckCheckbox' : 'checkCheckbox']('chkEnablePriceEscalator');
@@ -545,14 +560,14 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-044: Enable Price Escalator stays enabled when Corporate Pricing is unchecked', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-044: Enable Price Escalator stays enabled when Corporate Pricing is unchecked', { tag: '@C106068' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-041']);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
     expect((await locationPricingPage.getCheckboxState('chkEnablePriceEscalator')).disabled).toBe(false);
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-045: Enable Price Escalator — toggle, save, reload, verify, restore', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-045: Enable Price Escalator — toggle, save, reload, verify, restore', { tag: '@C106069' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-042']);
     test.setTimeout(120_000);
     const original = (await locationPricingPage.getCheckboxState('chkEnablePriceEscalator')).checked;
@@ -568,7 +583,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => (await locationPricingPage.getCheckboxState('chkEnablePriceEscalator')).checked, { timeout: 10_000 }).toBe(original);
   });
 
-  test('TC-LOC-PRI-046: Enable Price Escalator net-zero — toggling back re-disables Save', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-046: Enable Price Escalator net-zero — toggling back re-disables Save', { tag: '@C106070' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-042']);
     expect(await locationPricingPage.isSaveEnabled()).toBe(false);
     const before = (await locationPricingPage.getCheckboxState('chkEnablePriceEscalator')).checked;
@@ -580,7 +595,7 @@ test.describe('Location Pricing @locations @pricing', () => {
 
   // ── Suite G — Secondary-pricing grid surface families ────────────────────────
 
-  test('TC-LOC-PRI-047: Clicking a column header sorts the grid ascending', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-047: Clicking a column header sorts the grid ascending', { tag: '@C106071' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-007']);
     // Content anchor, never row index — the grid is virtualized.
     const before = await locationPricingPage.getFirstRowStrategy();
@@ -589,7 +604,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect(await locationPricingPage.getFirstRowStrategy()).not.toBe(before);
   });
 
-  test('TC-LOC-PRI-048: Clicking the same header again sorts descending', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-048: Clicking the same header again sorts descending', { tag: '@C106072' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-047']);
     await locationPricingPage.sortByColumn('colHeaderPricingStrategy');
     const asc = await locationPricingPage.getFirstRowStrategy();
@@ -598,7 +613,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect(await locationPricingPage.getFirstRowStrategy()).not.toBe(asc);
   });
 
-  test('TC-LOC-PRI-049: Sort is a two-state toggle with no unsorted third state', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-049: Sort is a two-state toggle with no unsorted third state', { tag: '@C106073' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-048']);
     await locationPricingPage.sortByColumn('colHeaderPricingStrategy');
     await locationPricingPage.sortByColumn('colHeaderPricingStrategy');
@@ -606,7 +621,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => locationPricingPage.getSortIndicator('colHeaderPricingStrategy'), { timeout: 10_000 }).toBe('asc');
   });
 
-  test('TC-LOC-PRI-050: Sorting a column clears the indicator on every other column', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-050: Sorting a column clears the indicator on every other column', { tag: '@C106074' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-047']);
     test.setTimeout(90_000);
     for (const key of ['colHeaderPricebook', 'colHeaderCurrency', 'colHeaderIsAlternative']) {
@@ -618,14 +633,14 @@ test.describe('Location Pricing @locations @pricing', () => {
     }
   });
 
-  test('TC-LOC-PRI-051: Sorting does not dirty the form', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-051: Sorting does not dirty the form', { tag: '@C106075' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-047']);
     expect(await locationPricingPage.isSaveEnabled()).toBe(false);
     await locationPricingPage.sortByColumn('colHeaderPricingStrategy');
     expect(await locationPricingPage.isSaveEnabled()).toBe(false);
   });
 
-  test('TC-LOC-PRI-052: Sort survives a full page reload via the stored grid preference', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-052: Sort survives a full page reload via the stored grid preference', { tag: '@C106076' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-047']);
     test.setTimeout(90_000);
     await locationPricingPage.sortByColumn('colHeaderPricingStrategy');
@@ -640,7 +655,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => locationPricingPage.getFirstRowStrategy(), { timeout: 15_000 }).toBe(sorted);
   });
 
-  test('TC-LOC-PRI-053: Clearing the stored preference restores the default row order', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-053: Clearing the stored preference restores the default row order', { tag: '@C106077' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-052']);
     test.setTimeout(90_000);
     await locationPricingPage.sortByColumn('colHeaderPricingStrategy');
@@ -653,7 +668,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect((await locationPricingPage.readGridPreferences())?.sorting).toEqual([]);
   });
 
-  test('TC-LOC-PRI-054: Virtualized grid — rendered rows are a subset readable by content anchor', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-054: Virtualized grid — rendered rows are a subset readable by content anchor', { tag: '@C106078' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-007']);
     const rendered = await locationPricingPage.getRenderedRowStrategies();
     // No strict count: the window size is a rendering detail, not a contract (LR-022/LR-053).
@@ -662,13 +677,13 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect(await locationPricingPage.isGridRowVisible(PRIMARY_TEST_ROW)).toBe(true);
   });
 
-  test('TC-LOC-PRI-055: Currency cells render a code or an empty cell, never junk', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-055: Currency cells render a code or an empty cell, never junk', { tag: '@C106079' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-007']);
     // PRIMARY_TEST_ROW is the empty-currency case; it must still render as a row.
     expect(await locationPricingPage.isGridRowDisplayed(PRIMARY_TEST_ROW)).toBe(true);
   });
 
-  test('TC-LOC-PRI-056: Grid booleans are Radix aria-checked, and Use Effective Dates is disabled at rest', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-056: Grid booleans are Radix aria-checked, and Use Effective Dates is disabled at rest', { tag: '@C106080' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-007']);
     // Boolean render differs per table — this grid uses Radix aria-checked, not a glyph.
     const isAlt = await locationPricingPage.getIsAlternativeState(PRIMARY_TEST_ROW);
@@ -677,7 +692,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect((await locationPricingPage.getUseEffectiveDateState(PRIMARY_TEST_ROW)).disabled).toBe(true);
   });
 
-  test('TC-LOC-PRI-057: Currency filter and sort compose into one coherent result', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-057: Currency filter and sort compose into one coherent result', { tag: '@C106081' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-018', 'TC-LOC-PRI-047']);
     test.setTimeout(90_000);
     await locationPricingPage.selectCurrencyFilter('USD');
@@ -691,7 +706,7 @@ test.describe('Location Pricing @locations @pricing', () => {
 
   // ── Suite H — Grid Options, panel collapse and navigation guard ──────────────
 
-  test('TC-LOC-PRI-058: Grid Options opens a menu listing all 7 columns, all checked', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-058: Grid Options opens a menu listing all 7 columns, all checked', { tag: '@C106082' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-006']);
     await locationPricingPage.openGridOptions();
     const cols = await locationPricingPage.getGridOptionsColumns();
@@ -699,7 +714,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect(cols.every((c) => c.checked), 'every column starts visible').toBe(true);
   });
 
-  test('TC-LOC-PRI-059: Unchecking a column hides it from the header row and every data row', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-059: Unchecking a column hides it from the header row and every data row', { tag: '@C106083' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-058']);
     test.setTimeout(90_000);
     expect(await locationPricingPage.getFirstRowCellCount()).toBe(PRICING_COLUMN_HEADERS.length);
@@ -712,7 +727,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.toggleGridColumn(TOGGLE_COLUMN); // restore
   });
 
-  test('TC-LOC-PRI-060: Re-checking a column restores it in its original position', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-060: Re-checking a column restores it in its original position', { tag: '@C106084' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-059']);
     test.setTimeout(90_000);
     await locationPricingPage.toggleGridColumn(TOGGLE_COLUMN);
@@ -720,7 +735,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => locationPricingPage.getVisibleColumnHeaders(), { timeout: 10_000 }).toEqual([...PRICING_COLUMN_HEADERS]);
   });
 
-  test('TC-LOC-PRI-061: Column visibility does not dirty the form', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-061: Column visibility does not dirty the form', { tag: '@C106085' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-059']);
     test.setTimeout(90_000);
     // The contrast case against BUG-LOC-PRI-003: a sibling view-only control that behaves correctly.
@@ -730,7 +745,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.toggleGridColumn(TOGGLE_COLUMN); // restore
   });
 
-  test('TC-LOC-PRI-062: The settings panel collapses and expands without dirtying the form', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-062: The settings panel collapses and expands without dirtying the form', { tag: '@C106086' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-002']);
     expect(await locationPricingPage.isSettingsPanelExpanded()).toBe(true);
     await locationPricingPage.toggleSettingsPanel();
@@ -741,7 +756,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => locationPricingPage.isSettingsPanelExpanded(), { timeout: 5_000 }).toBe(true);
   });
 
-  test('TC-LOC-PRI-063: Navigating away with a dirty form raises the unsaved-changes guard', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-063: Navigating away with a dirty form raises the unsaved-changes guard', { tag: '@C106087' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-011']);
     test.setTimeout(90_000);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
@@ -756,7 +771,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-064: Stay keeps you on Pricing with the edit intact', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-064: Stay keeps you on Pricing with the edit intact', { tag: '@C106088' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-063']);
     test.setTimeout(90_000);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
@@ -769,7 +784,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(USA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-065: Discard leaves the page and drops the edit', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-065: Discard leaves the page and drops the edit', { tag: '@C106089' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-063']);
     test.setTimeout(90_000);
     await locationPricingPage.uncheckCheckbox('chkCorporatePricing');
@@ -783,7 +798,7 @@ test.describe('Location Pricing @locations @pricing', () => {
 
   // ── Appended cases — bug-blocked expectations, kept at the end so the file ascends by TC id ──
 
-  test('TC-LOC-PRI-066: Changing the Currency selection marks the form dirty and enables Save', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-066: Changing the Currency selection marks the form dirty and enables Save', { tag: '@C106090' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-018']);
     // Was pinned to BUG-LOC-PRI-003, closed 2026-09-23 by owner determination as NOT a defect:
     // selecting a currency is a real user change, so enabling Save and arming the unsaved-changes
@@ -796,7 +811,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => locationPricingPage.isSaveEnabled(), { timeout: 10_000 }).toBe(false);
   });
 
-  test('TC-LOC-PRI-067: End Date earlier than Start Date is announced and is not persisted', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-067: End Date earlier than Start Date is announced and is not persisted', { tag: '@C106091' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-022']);
     // Was pinned to BUG-LOC-PRI-002, which was WITHDRAWN on 2026-09-23 as not-a-defect: the End
     // Date cell announces itself with a NATIVE title="Invalid date" tooltip (browser chrome, so it
@@ -823,7 +838,7 @@ test.describe('Location Pricing @locations @pricing', () => {
   // A third currency shape. 1606 is USD-only and 1605 is USD/CAD/MXN; neither exercises an office
   // that renders exactly two currency groups. Walked live 2026-09-24.
 
-  test('TC-LOC-PRI-068: Mexico office renders both currency groups and no CAD group', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-068: Mexico office renders both currency groups and no CAD group', { tag: '@C106092' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-004']);
     expect(await locationPricingPage.countPresentDropdowns(PRIMARY_PRICING_DROPDOWNS), 'USD group renders').toBe(5);
     expect(await locationPricingPage.countPresentDropdowns(PRIMARY_PRICING_DROPDOWNS_MXN), 'MXN group renders').toBe(5);
@@ -831,13 +846,13 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect(await locationPricingPage.countPresentDropdowns(PRIMARY_PRICING_DROPDOWNS_CAD), 'no CAD group on 7147').toBe(0);
   });
 
-  test('TC-LOC-PRI-069: Mexico office currency filter offers exactly All, USD and MXN', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-069: Mexico office currency filter offers exactly All, USD and MXN', { tag: '@C106093' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-068']);
     expect(await locationPricingPage.getCurrencyFilterValue()).toBe(DEFAULT_CURRENCY_FILTER);
     expect(await locationPricingPage.getCurrencyFilterOptions()).toEqual([...MEXICO_CURRENCY_FILTER_OPTIONS]);
   });
 
-  test('TC-LOC-PRI-070: MXN filter narrows the Mexico grid to MXN rows only', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-070: MXN filter narrows the Mexico grid to MXN rows only', { tag: '@C106094' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-069']);
     // A USD row is on screen under All; the MXN row is far down the virtualized list and is not.
     expect(await locationPricingPage.isGridRowVisible(SECONDARY_TEST_ROW), 'USD row starts visible').toBe(true);
@@ -847,7 +862,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(MEXICO_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-071: MXN filter swaps the primary dropdowns to the MXN group only', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-071: MXN filter swaps the primary dropdowns to the MXN group only', { tag: '@C106095' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-070']);
     expect(await locationPricingPage.countPresentDropdowns(PRIMARY_PRICING_DROPDOWNS)).toBe(5);
     await locationPricingPage.selectCurrencyFilter('MXN');
@@ -857,7 +872,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(MEXICO_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-072: MXN Primary Labor Pricing — select, save, reload, verify, restore', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-072: MXN Primary Labor Pricing — select, save, reload, verify, restore', { tag: '@C106096' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-068']);
     test.setTimeout(150_000);
     // Self-baselining, as the USD persistence cases are: pick whichever fixture is NOT current so
@@ -878,7 +893,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect((await locationPricingPage.clickSave()).success).toBe(true);
   });
 
-  test('TC-LOC-PRI-073: Effective-date cascade behaves the same on an MXN row', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-073: Effective-date cascade behaves the same on an MXN row', { tag: '@C106097' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-070', 'TC-LOC-PRI-021']);
     test.setTimeout(150_000);
     // The MXN row only renders under the MXN filter.
@@ -909,7 +924,7 @@ test.describe('Location Pricing @locations @pricing', () => {
   // back; if it ever stops working, that case leaves real data changed, which is why the restore is
   // asserted rather than assumed.
   for (const c of MEXICO_DROPDOWN_PERSISTENCE_CASES) {
-    test(`${c.tcId}: ${c.label} on 7147 — select, save, reload, verify, restore`, async ({ locationPricingPage, dependencyGate }) => {
+    test(`${c.tcId}: ${c.label} on 7147 — select, save, reload, verify, restore`, { tag: LOOP_CASE_TAGS[c.tcId] }, async ({ locationPricingPage, dependencyGate }) => {
       dependencyGate(['TC-LOC-PRI-068']);
       test.setTimeout(180_000);
       const original = (await locationPricingPage.getDropdownValue(c.key)).trim();
@@ -940,7 +955,7 @@ test.describe('Location Pricing @locations @pricing', () => {
   // ── Suite K — Canada office 2359 (CAD only) ──────────────────────────────────
   // A fourth currency shape: one currency group and no USD group at all. Walked live 2026-09-25.
 
-  test('TC-LOC-PRI-084: Canada office renders only the CAD group — no USD, no MXN', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-084: Canada office renders only the CAD group — no USD, no MXN', { tag: '@C106108' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-004']);
     expect(await locationPricingPage.countPresentDropdowns(PRIMARY_PRICING_DROPDOWNS_CAD), 'CAD group renders').toBe(5);
     // Presence, not enabled-ness: 2359 has no USD or MXN currency, so those groups must not exist.
@@ -949,13 +964,13 @@ test.describe('Location Pricing @locations @pricing', () => {
     expect(await locationPricingPage.isSaveEnabled(), 'Save disabled on a clean load').toBe(false);
   });
 
-  test('TC-LOC-PRI-085: Canada office currency filter offers exactly All and CAD', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-085: Canada office currency filter offers exactly All and CAD', { tag: '@C106109' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-084']);
     expect(await locationPricingPage.getCurrencyFilterValue()).toBe(DEFAULT_CURRENCY_FILTER);
     expect(await locationPricingPage.getCurrencyFilterOptions()).toEqual([...CANADA_CURRENCY_FILTER_OPTIONS]);
   });
 
-  test('TC-LOC-PRI-086: CAD filter keeps every row and the CAD group — nothing to drop on a CAD-only office', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-086: CAD filter keeps every row and the CAD group — nothing to drop on a CAD-only office', { tag: '@C106110' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-085']);
     const before = await locationPricingPage.getRenderedRowStrategies();
     expect(before, 'both CAD rows render under All').toEqual(expect.arrayContaining([CANADA_CAD_ROW, CANADA_CAD_ROW_2]));
@@ -968,7 +983,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(CANADA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-087: Corporate Pricing cascade disables and re-enables the CAD group, keeping its values', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-087: Corporate Pricing cascade disables and re-enables the CAD group, keeping its values', { tag: '@C106111' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-084', 'TC-LOC-PRI-012']);
     const before = [];
     for (const key of PRIMARY_PRICING_DROPDOWNS_CAD) before.push(await locationPricingPage.getDropdownValue(key));
@@ -988,16 +1003,17 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(CANADA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-088: Equipment (CAD) lists exactly the office\'s CAD strategies', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-088: Equipment (CAD) lists exactly the office\'s CAD strategies', { tag: '@C106112' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-084']);
     const result = await locationPricingPage.searchDropdownOptions(CANADA_EQUIPMENT_CAD.key, '');
     expect(result.options.sort()).toEqual([...CANADA_EQUIPMENT_CAD.options].sort());
   });
 
-  test('TC-LOC-PRI-089: CAD dropdowns with no strategy announce their empty state', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-089: CAD dropdowns with no strategy announce their empty state', { tag: '@C106113' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-084']);
-    // Data-dependent: as of 2026-09-25 2359 has no CAD labor / internal / production strategies. If
-    // one is added, this case fails and the fixture needs updating — not a defect.
+    // Data-dependent: as of 2026-09-30 2359 has no CAD labor / internal / production-labor strategies
+    // (Production Equipment gained 2026Tier1nikita). If one is added, this case fails and the
+    // fixture needs updating — not a defect.
     for (const key of CANADA_EMPTY_CAD_DROPDOWNS) {
       const result = await locationPricingPage.searchDropdownOptions(key, '');
       expect(result.options, `${key} has no options`).toEqual([]);
@@ -1005,7 +1021,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     }
   });
 
-  test('TC-LOC-PRI-090: Equipment Pricing (CAD) — select, save, reload, verify, restore to unset', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-090: Equipment Pricing (CAD) — select, save, reload, verify, restore to unset', { tag: '@C106114' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-088']);
     test.setTimeout(180_000);
     const { key } = CANADA_EQUIPMENT_CAD;
@@ -1030,7 +1046,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => (await locationPricingPage.getDropdownValue(key)).trim(), { timeout: 15_000 }).toBe(original);
   });
 
-  test('TC-LOC-PRI-091: Effective-date cascade on a CAD row — gated, announced and reversible', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-091: Effective-date cascade on a CAD row — gated, announced and reversible', { tag: '@C106115' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-084', 'TC-LOC-PRI-021']);
     test.setTimeout(150_000);
     expect((await locationPricingPage.getUseEffectiveDateState(CANADA_CAD_ROW)).disabled, 'starts gated').toBe(true);
@@ -1052,7 +1068,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(CANADA_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-092: Effective dates on a CAD row — set both, save, reload, verify, restore', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-092: Effective dates on a CAD row — set both, save, reload, verify, restore', { tag: '@C106116' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-091']);
     test.setTimeout(150_000);
     await locationPricingPage.enableFullCascade(CANADA_CAD_ROW);
@@ -1072,7 +1088,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => (await locationPricingPage.getIsAlternativeState(CANADA_CAD_ROW)).checked, { timeout: 10_000 }).toBe(false);
   });
 
-  test('TC-LOC-PRI-093: Include Service Fee on 2359 — toggle, save, reload, verify, restore', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-093: Include Service Fee on 2359 — toggle, save, reload, verify, restore', { tag: '@C106117' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-084', 'TC-LOC-PRI-015']);
     test.setTimeout(120_000);
     const original = (await locationPricingPage.getCheckboxState('chkPriceGuideInclusive')).checked;
@@ -1098,7 +1114,7 @@ test.describe('Location Pricing @locations @pricing', () => {
   ] as const;
 
   for (const o of COUNTRY_OFFICES) {
-    test(`${o.escalator}: Enable Price Escalator on ${o.office} — standalone, toggle, save, reload, verify, restore`, async ({ locationPricingPage, dependencyGate }) => {
+    test(`${o.escalator}: Enable Price Escalator on ${o.office} — standalone, toggle, save, reload, verify, restore`, { tag: LOOP_CASE_TAGS[o.escalator] }, async ({ locationPricingPage, dependencyGate }) => {
       dependencyGate(['TC-LOC-PRI-045']);
       test.setTimeout(150_000);
       const original = (await locationPricingPage.getCheckboxState('chkEnablePriceEscalator')).checked;
@@ -1118,7 +1134,7 @@ test.describe('Location Pricing @locations @pricing', () => {
       await expect.poll(async () => (await locationPricingPage.getCheckboxState('chkEnablePriceEscalator')).checked, { timeout: 10_000 }).toBe(original);
     });
 
-    test(`${o.panel}: Settings panel on ${o.office} collapses and expands without dirtying the form`, async ({ locationPricingPage, dependencyGate }) => {
+    test(`${o.panel}: Settings panel on ${o.office} collapses and expands without dirtying the form`, { tag: LOOP_CASE_TAGS[o.panel] }, async ({ locationPricingPage, dependencyGate }) => {
       dependencyGate(['TC-LOC-PRI-062']);
       expect(await locationPricingPage.isSettingsPanelExpanded()).toBe(true);
       await locationPricingPage.toggleSettingsPanel();
@@ -1128,7 +1144,7 @@ test.describe('Location Pricing @locations @pricing', () => {
       await expect.poll(async () => locationPricingPage.isSettingsPanelExpanded(), { timeout: 5_000 }).toBe(true);
     });
 
-    test(`${o.gridOptions}: Grid Options on ${o.office} — lists 7 columns, hides and restores one, never dirties the form`, async ({ locationPricingPage, dependencyGate }) => {
+    test(`${o.gridOptions}: Grid Options on ${o.office} — lists 7 columns, hides and restores one, never dirties the form`, { tag: LOOP_CASE_TAGS[o.gridOptions] }, async ({ locationPricingPage, dependencyGate }) => {
       dependencyGate(['TC-LOC-PRI-058', 'TC-LOC-PRI-059']);
       test.setTimeout(90_000);
       await locationPricingPage.openGridOptions();
@@ -1148,7 +1164,7 @@ test.describe('Location Pricing @locations @pricing', () => {
       await expect.poll(async () => locationPricingPage.getVisibleColumnHeaders(), { timeout: 10_000 }).toEqual([...PRICING_COLUMN_HEADERS]);
     });
 
-    test(`${o.sort}: Every column header on ${o.office} sorts, owns the only indicator, and never dirties the form`, async ({ locationPricingPage, dependencyGate }) => {
+    test(`${o.sort}: Every column header on ${o.office} sorts, owns the only indicator, and never dirties the form`, { tag: LOOP_CASE_TAGS[o.sort] }, async ({ locationPricingPage, dependencyGate }) => {
       dependencyGate(['TC-LOC-PRI-047', 'TC-LOC-PRI-050']);
       test.setTimeout(150_000);
       // Two-state toggle on the anchor column: ascending, then descending reverses the first row.
@@ -1173,7 +1189,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     });
   }
 
-  test('TC-LOC-PRI-102: Corporate Pricing cascade on 7147 disables and re-enables both currency groups, keeping values', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-102: Corporate Pricing cascade on 7147 disables and re-enables both currency groups, keeping values', { tag: '@C106126' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-068', 'TC-LOC-PRI-012']);
     const groups = [...PRIMARY_PRICING_DROPDOWNS, ...PRIMARY_PRICING_DROPDOWNS_MXN];
     const before = [];
@@ -1194,7 +1210,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await locationPricingPage.reloadPricingTab(MEXICO_OFFICE_NO);
   });
 
-  test('TC-LOC-PRI-103: Include Service Fee on 7147 — toggle, save, reload, verify, restore', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-103: Include Service Fee on 7147 — toggle, save, reload, verify, restore', { tag: '@C106127' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-068', 'TC-LOC-PRI-017']);
     test.setTimeout(120_000);
     const original = (await locationPricingPage.getCheckboxState('chkPriceGuideInclusive')).checked;
@@ -1211,7 +1227,7 @@ test.describe('Location Pricing @locations @pricing', () => {
     await expect.poll(async () => (await locationPricingPage.getCheckboxState('chkPriceGuideInclusive')).checked, { timeout: 10_000 }).toBe(false);
   });
 
-  test('TC-LOC-PRI-104: Effective dates on an MXN row — set both, save, reload, verify, restore', async ({ locationPricingPage, dependencyGate }) => {
+  test('TC-LOC-PRI-104: Effective dates on an MXN row — set both, save, reload, verify, restore', { tag: '@C106128' }, async ({ locationPricingPage, dependencyGate }) => {
     dependencyGate(['TC-LOC-PRI-073', 'TC-LOC-PRI-020']);
     test.setTimeout(180_000);
     // The MXN row only renders under the MXN filter, and the filter resets to All on every reload.
