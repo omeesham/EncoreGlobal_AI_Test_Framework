@@ -304,6 +304,47 @@ One run audits one screen. It does not crawl: it will not follow links or discov
 a module with eight screens needs eight steps files. It writes no specs, page objects or TestRail
 cases — it is a survey, not test automation.
 
+#### Auditing a new screen, step by step
+
+Running the tool is one command. Getting a report you can trust takes five steps, and
+the fourth is the one that matters.
+
+**1. Find the route, then prove it.** If the screen is already automated, read the route
+out of its page object rather than guessing — the Local Office route sat wrong in config
+for a while and returned a 404 on every office. Drive the URL once and confirm it loads
+before you build anything on it.
+
+**2. Write the steps file.** Put `{office}` in the path so one file covers all three
+countries. Use `Click` steps for anything you cannot reach by URL.
+
+**3. Set the scope and a ready selector.** Scope to the narrowest container holding what
+the ticket is about — on one screen `main` gave 13 findings where the whole page gave 35.
+Name a `readySelector` too: a control whose presence proves the form has finished
+rendering. Without one the scan falls back to a timing heuristic, which is a floor, not a
+guarantee.
+
+**4. Cross-check the count against the page.** This is not optional. Open the screen,
+count the interactive elements without a `data-testid` yourself, and compare. A report
+built from a half-rendered page looks exactly like a correct one — on Locations the tool
+reported 2 gaps where 9 existed, and nothing about the workbook looked wrong. Do this
+once per screen; after that the steps file is proven and re-runnable by anyone.
+
+A quick way to get the number, with the screen open in DevTools:
+
+```js
+[...document.querySelector('main').querySelectorAll(
+  'button,a,input,textarea,select,[role="button"],[role="combobox"],[role="tab"],[role="checkbox"],[role="switch"]'
+)].filter(el => !el.closest('[aria-hidden="true"]')
+             && el.getBoundingClientRect().width > 1
+             && !el.hasAttribute('data-testid')).length
+```
+
+**5. Compare the three countries, and explain any gap.** Differing counts are normal —
+Local Office Settings genuinely has 19 untagged controls in USA, 3 in Canada and 13 in
+Mexico. But a large difference is worth understanding before you hand the report over: the
+first multi-country run showed 104/104/13, which turned out to be 92 options inside a
+hidden dropdown rather than a real country difference.
+
 ### Viewing reports locally
 
 ```bash
