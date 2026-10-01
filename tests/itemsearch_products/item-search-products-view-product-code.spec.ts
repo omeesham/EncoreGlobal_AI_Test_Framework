@@ -180,7 +180,7 @@ test.describe('Item Search View Product Code — toolbar and dialog @item-search
     await pc.ensureCleanSearch(ISR_OFFICE);
   });
 
-  test('TC-ISR-PCD-001: Selecting a row reveals the View Product Code button and its segment arrow', { tag: '@C105626' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-001: Selecting a row reveals the View Product Code button and its segment arrow', { tag: '@C105888' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // This case honours its stated precondition: a default (empty-criteria) search. The other
     // toolbar controls (Add Product Code, View Availability, Product Group, Grid Options) belong
@@ -193,7 +193,7 @@ test.describe('Item Search View Product Code — toolbar and dialog @item-search
     await expect(pc.viewSegmentArrow()).toBeVisible();
   });
 
-  test('TC-ISR-PCD-002: View Product Code opens the details dialog on the Item tab', { tag: '@C105627' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-002: View Product Code opens the details dialog on the Item tab', { tag: '@C105889' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await selectAutomationItem();
     const rowsBefore = await pc.readRowCount();
@@ -211,7 +211,7 @@ test.describe('Item Search View Product Code — toolbar and dialog @item-search
     expect(await pc.readRowCount()).toBe(rowsBefore);
   });
 
-  test('TC-ISR-PCD-003: The History tab shows the audit grid', { tag: '@C105628' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-003: The History tab shows the audit grid', { tag: '@C105890' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     await pc.clickDialogTab('Product Code History');
@@ -226,7 +226,7 @@ test.describe('Item Search View Product Code — toolbar and dialog @item-search
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-004: The Translations tab lists four editable languages', { tag: '@C105629' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-004: The Translations tab lists four editable languages', { tag: '@C105891' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     await pc.clickDialogTab('Translations');
@@ -241,7 +241,7 @@ test.describe('Item Search View Product Code — toolbar and dialog @item-search
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-005: The View segment menu rescopes the dialog', { tag: '@C105630' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-005: The View segment menu rescopes the dialog', { tag: '@C105892' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await selectAutomationItem();
     const rowsBefore = await pc.readRowCount();
@@ -258,7 +258,7 @@ test.describe('Item Search View Product Code — toolbar and dialog @item-search
     expect(await pc.readRowCount()).toBe(rowsBefore);
   });
 
-  test('TC-ISR-PCD-006: Closing the dialog with a Name edit discards it silently', { tag: '@C105631' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-006: Closing the dialog with a Name edit discards it silently', { tag: '@C105893' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     await expect(pc.dialogNameBox()).toHaveValue(ISR_AUTOMATION_ITEM.name);
@@ -272,7 +272,7 @@ test.describe('Item Search View Product Code — toolbar and dialog @item-search
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-007: The dialog shows the values of the selected row', { tag: '@C105632' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-007: The dialog shows the values of the selected row', { tag: '@C105894' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pc.searchFor(ISR_AUTOMATION_ITEM.name, (n) => n === 1);
     const row = await readAutomationRow();
@@ -297,7 +297,7 @@ test.describe('Item Search View Product Code — toolbar and dialog @item-search
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-008: Every close path discards a dirty form silently', { tag: '@C105633' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-008: Every close path discards a dirty form silently', { tag: '@C105895' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     await pc.clickDialogTab('Translations');
@@ -351,7 +351,7 @@ test.describe('Item Search View Product Code — toolbar and dialog @item-search
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-009: A dirty Item-tab edit survives a round trip through the other tabs', { tag: '@C105634' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-009: A dirty Item-tab edit survives a round trip through the other tabs', { tag: '@C105896' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     const edited = `${ISR_AUTOMATION_ITEM.name}X`;
@@ -374,7 +374,7 @@ test.describe('Item Search View Product Code — segments and fields @item-searc
     await selectAutomationItem();
   });
 
-  test('TC-ISR-PCD-010: Each segment shows the sections from Category down to its own level', { tag: '@C105635' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-010: Each segment shows the sections from Category down to its own level', { tag: '@C105897' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const expected: Record<string, string[]> = {
       Item: ['Category', 'Sub Category', 'Class', 'Sub Class', 'Item'],
@@ -390,7 +390,7 @@ test.describe('Item Search View Product Code — segments and fields @item-searc
     }
   });
 
-  test('TC-ISR-PCD-011: Each segment carries only the fields that belong to its level', { tag: '@C105636' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-011: Each segment carries only the fields that belong to its level', { tag: '@C105898' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pc.openSegment('Item');
     expect(await pc.readDialogPlaceholders()).toEqual(['Enter name', 'Enter item description', 'Enter oracle item number']);
@@ -440,7 +440,7 @@ test.describe('Item Search View Product Code — segments and fields @item-searc
     }
   });
 
-  test('TC-ISR-PCD-012: Names above the edited level are hierarchy dropdowns and its own name is text', { tag: '@C105637' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-012: Names above the edited level are hierarchy dropdowns and its own name is text', { tag: '@C105899' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const row = await readAutomationRow();
     const category = row.Category ?? '';
@@ -491,7 +491,7 @@ test.describe('Item Search View Product Code — segments and fields @item-searc
   // TC-ISR-PCD-013 (each segment shows its own Product Type rather than the Category's) needs
   // a product whose Product Type differs from its Category's; office 1101 holds none today.
 
-  test('TC-ISR-PCD-014: History and Translations tabs exist on every segment and name the segment', { tag: '@C105639' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-014: History and Translations tabs exist on every segment and name the segment', { tag: '@C105901' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const headings: Record<string, string> = {
       'Sub Class': 'Translations for Sub Class',
@@ -522,7 +522,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     await pc.ensureCleanSearch(ISR_OFFICE);
   });
 
-  test('TC-ISR-PCD-015: Name and Item Description stop at 50 characters and Oracle Item Number at 10', { tag: '@C105640' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-015: Name and Item Description stop at 50 characters and Oracle Item Number at 10', { tag: '@C105902' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     await pc.armToastRecorder();
@@ -543,7 +543,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-016: An over-length value that bypasses the typing limit is refused', { tag: '@C105641' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-016: An over-length value that bypasses the typing limit is refused', { tag: '@C105903' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     const nameBox = pc.dialogNameBox();
@@ -564,7 +564,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-017: Clearing Name or Item Description marks it invalid and holds Save', { tag: '@C105642' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-017: Clearing Name or Item Description marks it invalid and holds Save', { tag: '@C105904' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     const nameBox = pc.dialogNameBox();
@@ -589,7 +589,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-018: A spaces-only Name is refused and a padded Name is saved without the spaces', { tag: '@C105643' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-018: A spaces-only Name is refused and a padded Name is saved without the spaces', { tag: '@C105905' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     const nameBox = pc.dialogNameBox();
@@ -613,7 +613,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-019: A 50-character Name saves and reads back complete', { tag: '@C105644' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-019: A 50-character Name saves and reads back complete', { tag: '@C105906' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await openAutomationItem();
@@ -634,7 +634,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-020: Oracle Item Number is optional and accepts letters up to 10 characters', { tag: '@C105645' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-020: Oracle Item Number is optional and accepts letters up to 10 characters', { tag: '@C105907' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     const oracleBox = pc.dialogOracleItemNumberBox();
@@ -654,7 +654,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-021: Special characters in Name and Item Description save and show as plain text', { tag: '@C105646' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-021: Special characters in Name and Item Description save and show as plain text', { tag: '@C105908' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     const specialName = `${ISR_AUTOMATION_ITEM.name}${ISR_SPECIAL_NAME_SUFFIX}`;
@@ -681,7 +681,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-022: The own-name box of every upper segment also stops at 50 characters', { tag: '@C105647' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-022: The own-name box of every upper segment also stops at 50 characters', { tag: '@C105909' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await selectAutomationItem();
     const ownNameBox: Record<string, string> = {
@@ -698,7 +698,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     }
   });
 
-  test('TC-ISR-PCD-023: A Name edit enables Save on the first open and again after reopening', { tag: '@C105648' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-023: A Name edit enables Save on the first open and again after reopening', { tag: '@C105910' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // A page reload is the closest a shared signed-in session gets to a fresh sign-in; the
     // first-open behaviour was also proven on a freshly signed-in session during verification.
@@ -714,7 +714,7 @@ test.describe('Item Search View Product Code — Item field rules @item-search @
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-024: Typing the original Name back disables Save again', { tag: '@C105649' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-024: Typing the original Name back disables Save again', { tag: '@C105911' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     for (let round = 0; round < 3; round++) {
@@ -734,7 +734,7 @@ test.describe('Item Search View Product Code — Item save @item-search @product
     await openAutomationItem();
   });
 
-  test('TC-ISR-PCD-025: Editing the three Item text boxes saves and refreshes the grid row', { tag: '@C105650' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-025: Editing the three Item text boxes saves and refreshes the grid row', { tag: '@C105912' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     // The new name must not contain the old one, or a search for the old name would still find it.
@@ -774,7 +774,7 @@ test.describe('Item Search View Product Code — Item save @item-search @product
     expect(restored.Description).toBe(ISR_AUTOMATION_ITEM.description);
   });
 
-  test('TC-ISR-PCD-026: Changing the Item Product Type resets its Service Type and saves', { tag: '@C105651' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-026: Changing the Item Product Type resets its Service Type and saves', { tag: '@C105913' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const typeCombo = await pc.ownProductTypeCombo();
     const serviceCombo = pc.ownServiceTypeCombo();
@@ -803,7 +803,7 @@ test.describe('Item Search View Product Code — Item save @item-search @product
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-027: The Product Type list offers ten types and filters the Service Type list', { tag: '@C105652' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-027: The Product Type list offers ten types and filters the Service Type list', { tag: '@C105914' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     expect(await pc.readComboValue(await pc.ownProductTypeCombo())).toBe(ISR_AUTOMATION_ITEM.productType);
     // The ten types are a fixed set whose rendered order is not — membership is the contract.
@@ -827,7 +827,7 @@ test.describe('Item Search View Product Code — Item save @item-search @product
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-028: Product Organization offers the countries, saves and clears again', { tag: '@C105653' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-028: Product Organization offers the countries, saves and clears again', { tag: '@C105915' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     expect(await pc.readOrgValue('Item'), 'the resting organization should be None').toBe('None');
@@ -870,7 +870,7 @@ test.describe('Item Search View Product Code — Item save @item-search @product
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-029: Choosing another Sub Class re-parents the item and the grid row follows', { tag: '@C105654' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-029: Choosing another Sub Class re-parents the item and the grid row follows', { tag: '@C105916' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const originalSubClass = await pc.readComboValue(pc.hierarchyCombo('Sub Class'));
     const originalIds = await pc.readDialogProductCodeIds();
@@ -900,7 +900,7 @@ test.describe('Item Search View Product Code — Item save @item-search @product
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-030: Deactivating and reactivating the item through Active and Save', { tag: '@C105655' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-030: Deactivating and reactivating the item through Active and Save', { tag: '@C105917' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     expect(await pc.isBoxChecked(pc.activeBox()), 'the item should start active').toBe(true);
@@ -942,7 +942,7 @@ test.describe('Item Search View Product Code — Item save @item-search @product
     expect((await readAutomationRow()).Item).toBe(ISR_AUTOMATION_ITEM.name);
   });
 
-  test('TC-ISR-PCD-031: A double click on Save sends one update and shows one message', { tag: '@C105656' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-031: A double click on Save sends one update and shows one message', { tag: '@C105918' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowsBefore = await readHistoryRowsFresh();
     const topBefore = rowsBefore[0] ?? [];
@@ -962,7 +962,7 @@ test.describe('Item Search View Product Code — Item save @item-search @product
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-032: A save whose request fails keeps the edits and can be retried', { tag: '@C105657' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-032: A save whose request fails keeps the edits and can be retried', { tag: '@C105919' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const edited = `${ISR_AUTOMATION_ITEM.name}X`;
     await pc.appendToBox(pc.dialogNameBox(), 'X');
@@ -1092,25 +1092,25 @@ test.describe('Item Search View Product Code — hierarchy saves @item-search @p
     await ensureChainListed();
   });
 
-  test('TC-ISR-PCD-033: Renaming the Sub Class saves and every item under it shows the new name', { tag: '@C105658' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-033: Renaming the Sub Class saves and every item under it shows the new name', { tag: '@C105920' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await renameLevelAndRestore('Sub Class', 'Enter sub-class name', 'Sub Class', ISR_ZZ_CHAIN.subClass);
   });
 
-  test('TC-ISR-PCD-034: Renaming the Class saves and reads back', { tag: '@C105659' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-034: Renaming the Class saves and reads back', { tag: '@C105921' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await renameLevelAndRestore('Class', 'Enter class name', 'Class', ISR_ZZ_CHAIN.className);
   });
 
-  test('TC-ISR-PCD-035: Renaming the Sub Category saves and reads back', { tag: '@C105660' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-035: Renaming the Sub Category saves and reads back', { tag: '@C105922' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await renameLevelAndRestore('Sub Category', 'Enter sub-category name', 'Sub Category', ISR_ZZ_CHAIN.subCategory);
   });
 
-  test('TC-ISR-PCD-036: Renaming the Category saves only the Category level', { tag: '@C105661' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-036: Renaming the Category saves only the Category level', { tag: '@C105923' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pc.openSegment('Category');
@@ -1138,7 +1138,7 @@ test.describe('Item Search View Product Code — hierarchy saves @item-search @p
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-037: Changing the Service Type at the Sub Class level saves and reads back', { tag: '@C105662' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-037: Changing the Service Type at the Sub Class level saves and reads back', { tag: '@C105924' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pc.openSegment('Sub Class');
     const original = await pc.readComboValue(pc.ownServiceTypeCombo());
@@ -1161,7 +1161,7 @@ test.describe('Item Search View Product Code — hierarchy saves @item-search @p
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-038: Flipping Barcodeable on the Sub Class propagates to its items', { tag: '@C105663' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-038: Flipping Barcodeable on the Sub Class propagates to its items', { tag: '@C105925' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pc.openSegment('Sub Class');
     expect(await pc.readDialogCheckboxLabels()).toEqual(['Barcodeable', 'Active']);
@@ -1191,7 +1191,7 @@ test.describe('Item Search View Product Code — hierarchy saves @item-search @p
   // TC-ISR-PCD-039 (deactivating a level that still has assets attached is refused) needs a
   // sub class whose items have assets attached; the automation cannot create assets.
 
-  test('TC-ISR-PCD-040: Choosing an organization on the Sub Class saves and reaches its items', { tag: '@C105665' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-040: Choosing an organization on the Sub Class saves and reaches its items', { tag: '@C105927' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await ensureChainOrgsClear();
     await pc.openSegment('Sub Class');
@@ -1238,7 +1238,7 @@ test.describe('Item Search View Product Code — Translations @item-search @prod
     await pc.clickDialogTab('Translations');
   };
 
-  test('TC-ISR-PCD-041: Each translation box accepts 256 characters and refuses the 257th', { tag: '@C105666' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-041: Each translation box accepts 256 characters and refuses the 257th', { tag: '@C105928' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pc.clickDialogTab('Translations');
     const nameBox = pc.translationNameBox(ISR_LANGUAGE_US);
@@ -1265,7 +1265,7 @@ test.describe('Item Search View Product Code — Translations @item-search @prod
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-042: Editing one language\'s Name saves and reads back after reopening', { tag: '@C105667' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-042: Editing one language\'s Name saves and reads back after reopening', { tag: '@C105929' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pc.clickDialogTab('Translations');
     const before = await pc.readTranslationValues();
@@ -1290,7 +1290,7 @@ test.describe('Item Search View Product Code — Translations @item-search @prod
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-043: A blank translation saves clean and reads back blank', { tag: '@C105668' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-043: A blank translation saves clean and reads back blank', { tag: '@C105930' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pc.clickDialogTab('Translations');
     await expect(pc.translationNameBox(ISR_LANGUAGE_FRENCH), 'the French Name should start blank').toHaveValue('');
@@ -1312,7 +1312,7 @@ test.describe('Item Search View Product Code — Translations @item-search @prod
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-044: An Item edit and a translation edit in one Save both persist', { tag: '@C105669' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-044: An Item edit and a translation edit in one Save both persist', { tag: '@C105931' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const editedName = `${ISR_AUTOMATION_ITEM.name} F5`;
     await pc.appendToBox(pc.dialogNameBox(), ' F5');
@@ -1347,7 +1347,7 @@ test.describe('Item Search View Product Code — History grid @item-search @prod
     await openAutomationItem();
   });
 
-  test('TC-ISR-PCD-045: The History grid is read-only', { tag: '@C105670' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-045: The History grid is read-only', { tag: '@C105932' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const rowsBefore = await readHistoryRowsFresh();
     const requests = pc.startRequestCounter('/navigator/api/');
@@ -1368,7 +1368,7 @@ test.describe('Item Search View Product Code — History grid @item-search @prod
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-046: An Item save adds a new top row to the History grid', { tag: '@C105671' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-046: An Item save adds a new top row to the History grid', { tag: '@C105933' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const account = process.env.NAVIGATOR_USERNAME ?? '';
     expect(account, 'the signed-in account should be known to the run').not.toBe('');
@@ -1395,7 +1395,7 @@ test.describe('Item Search View Product Code — History grid @item-search @prod
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-047: Translation-only and organization-only saves each add a History row', { tag: '@C105672' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-047: Translation-only and organization-only saves each add a History row', { tag: '@C105934' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     const rowsBefore = await readHistoryRowsFresh();
@@ -1434,7 +1434,7 @@ test.describe('Item Search View Product Code — History grid @item-search @prod
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-048: History paging, sorting and column hiding work and hiding persists', { tag: '@C105673' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-048: History paging, sorting and column hiding work and hiding persists', { tag: '@C105935' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     const pageHeaderBefore = await pc.readPageGridHeaderNames();
@@ -1488,7 +1488,7 @@ test.describe('Item Search View Product Code — History grid @item-search @prod
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-049: The oldest History row is the create row', { tag: '@C105674' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-049: The oldest History row is the create row', { tag: '@C105936' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const newest = await readHistoryRowsFresh();
     const newestTop = await pc.readHistoryTopRow();
@@ -1551,7 +1551,7 @@ test.describe('Item Search View Product Code — Sub Class organization prompt @
     await expectSaveEnabled(false);
   };
 
-  test('TC-ISR-PCD-050: Closing the items prompt unanswered keeps the change unsaved', { tag: '@C105675' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-050: Closing the items prompt unanswered keeps the change unsaved', { tag: '@C105937' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await chooseOnSubClass(ISR_ORG_PICK);
     const prompt = await pc.clickSaveExpectItemsPrompt();
@@ -1568,7 +1568,7 @@ test.describe('Item Search View Product Code — Sub Class organization prompt @
     await pc.closeDialog();
   });
 
-  test('TC-ISR-PCD-051: Answering No while the item has no organization is refused and keeps the edits', { tag: '@C105676' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-051: Answering No while the item has no organization is refused and keeps the edits', { tag: '@C105938' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await chooseOnSubClass(ISR_ORG_PICK);
     await pc.clickSaveExpectItemsPrompt();
@@ -1587,7 +1587,7 @@ test.describe('Item Search View Product Code — Sub Class organization prompt @
     expect(outcome.status, 'a refused answer should not be a successful update').toBeGreaterThanOrEqual(400);
   });
 
-  test('TC-ISR-PCD-052: Answering No when the item already fits updates only the Sub Class', { tag: '@C105677' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-052: Answering No when the item already fits updates only the Sub Class', { tag: '@C105939' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     // The item takes the country first, so a later No on the sub class leaves it within the set.
@@ -1637,7 +1637,7 @@ test.describe('Item Search View Product Code — Sub Class organization prompt @
     await ensureChainOrgsClear();
   });
 
-  test('TC-ISR-PCD-053: Removing one organization from the Sub Class reaches its items', { tag: '@C105678' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-053: Removing one organization from the Sub Class reaches its items', { tag: '@C105940' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     await pc.openSegment('Sub Class');
@@ -1668,7 +1668,7 @@ test.describe('Item Search View Product Code — Sub Class organization prompt @
     await ensureChainOrgsClear();
   });
 
-  test('TC-ISR-PCD-054: Clearing the Sub Class organization to None saves at once and leaves its items as they are', { tag: '@C105679' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-054: Clearing the Sub Class organization to None saves at once and leaves its items as they are', { tag: '@C105941' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await chooseOnSubClass(ISR_ORG_PICK);
     await pc.clickSaveExpectItemsPrompt();
@@ -1698,7 +1698,7 @@ test.describe('Item Search View Product Code — segment entries and unsaved pic
     await pc.ensureCleanSearch(ISR_OFFICE);
   });
 
-  test('TC-ISR-PCD-055: The Category entry of an item without a category is offered but opens nothing', { tag: '@C105680' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-055: The Category entry of an item without a category is offered but opens nothing', { tag: '@C105942' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await pc.searchFor(ISR_CATEGORYLESS_ITEM.name, (n) => n === 1);
     const row = await pc.readPageGridRow(ISR_CATEGORYLESS_ITEM.productCodeId);
@@ -1720,7 +1720,7 @@ test.describe('Item Search View Product Code — segment entries and unsaved pic
     expect(await pc.readOpenMenuItems(), 'the menu should have closed').toEqual([]);
   });
 
-  test('TC-ISR-PCD-056: Picking another Sub Class keeps the saved identifier shown until the save', { tag: '@C105681' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PCD-056: Picking another Sub Class keeps the saved identifier shown until the save', { tag: '@C105943' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await openAutomationItem();
     const restingSubClassId = (await pc.readDialogProductCodeIds())[0] ?? '';

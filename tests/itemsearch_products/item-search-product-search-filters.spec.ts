@@ -49,7 +49,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     await isr.ensureCleanSearch(ISR_OFFICE);
   });
 
-  test('TC-ISR-PRF-001: The Location dropdown lists offices', { tag: '@C105437' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRF-001: The Location dropdown lists offices', { tag: '@C105786' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await verify('The office list is populated and holds the current office', async () => {
       // The office list is data-driven (5,110 entries at the last check) — assert a floor.
@@ -63,7 +63,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     });
   });
 
-  test('TC-ISR-PRF-002: The Region dropdown lists regions', { tag: '@C105438' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRF-002: The Region dropdown lists regions', { tag: '@C105787' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const regions = await phase('Open the Region list', () => isr.readRegionOptions());
     await verify('The region list is populated', async () => {
@@ -76,7 +76,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     });
   });
 
-  test('TC-ISR-PRF-003: Location and Region clear each other', { tag: '@C105439' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRF-003: Location and Region clear each other', { tag: '@C105788' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     await phase('Select the office in Location', () => isr.selectLocation(ISR_OFFICE_OPTION, ISR_OFFICE));
     await verify('The office is selected', async () => {
@@ -102,7 +102,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     });
   });
 
-  test('TC-ISR-PRF-004: The Product Organization popover offers the country checklist', { tag: '@C105440' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRF-004: The Product Organization popover offers the country checklist', { tag: '@C105789' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const text = await phase('Open the Product Organization popover', () => isr.readOrgPopoverText());
     await verify('The popover offers the whole country checklist', async () => {
@@ -116,7 +116,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     });
   });
 
-  test('TC-ISR-PRF-005: The date fields open a calendar with a time spinner', { tag: '@C105441' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRF-005: The date fields open a calendar with a time spinner', { tag: '@C105790' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // Field-level verification only — the product owner has ruled date-driven behavior
     // is not functional yet, so no case asserts how dates change results.
@@ -141,7 +141,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     });
   });
 
-  test('TC-ISR-PRF-006: Quantity Greater Than Zero narrows the results', { tag: '@C105442' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRF-006: Quantity Greater Than Zero narrows the results', { tag: '@C105791' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     const total = await phase('Run an unfiltered search for the baseline count', () =>
       isr.clickSearchAndWait((n) => n !== null && n > 0));
@@ -165,7 +165,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     });
   });
 
-  test('TC-ISR-PRF-007: A Prep date after the Return date is rejected with a message', { tag: '@C105443' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRF-007: A Prep date after the Return date is rejected with a message', { tag: '@C105792' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // Push Prep one month past Return (which rests on today) — the pair turns invalid.
     await phase('Push the Prep date a month past the Return date', async () => {
@@ -188,7 +188,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     });
   });
 
-  test('TC-ISR-PRF-008: A date value renders fully inside its box in every month', { tag: '@C105444' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRF-008: A date value renders fully inside its box in every month', { tag: '@C105793' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     test.setTimeout(420_000);
     // Wide dates used to paint their tail outside the box — 7 of 12 months on Prep, up to
@@ -225,7 +225,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     });
   });
 
-  test('TC-ISR-PRF-009: The Active filter narrows the results to active products', { tag: '@C105445' }, async ({ dependencyGate }) => {
+  test('TC-ISR-PRF-009: The Active filter narrows the results to active products', { tag: '@C105794' }, async ({ dependencyGate }) => {
     dependencyGate([]);
     // The Active filter is checked at rest, so the first search returns active products
     // only. This word was chosen because its result set includes deactivated products, so
@@ -263,7 +263,7 @@ test.describe('SBC — Item Search Products — filter behaviors and filter fiel
     });
   });
 
-  test('TC-ISR-PRF-010: The Product Organization filter narrows the results and clearing it restores them', { tag: '@C105446' }, async ({
+  test('TC-ISR-PRF-010: The Product Organization filter narrows the results and clearing it restores them', { tag: '@C105795' }, async ({
     dependencyGate,
   }) => {
     dependencyGate([]);

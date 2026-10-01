@@ -4,7 +4,7 @@ ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created 
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Click the Location control</li>
 <li>2. Read the list size</li>
 <li>3. Confirm the current office appears</li>
@@ -18,7 +18,7 @@ Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Click the Region control</li>
 <li>2. Read the list</li>
 <li>3. Press Escape</li>
@@ -30,7 +30,7 @@ Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Set Location to 1101 - Corporate Office Encore USA SGA</li>
 <li>2. Set Region to Boston</li>
 <li>3. Set Location back to 1101 - Corporate Office Encore USA SGA</li>
@@ -44,7 +44,7 @@ Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Click the Product Organization control</li>
 <li>2. Read its entries</li>
 <li>3. Press Escape</li>
@@ -56,7 +56,7 @@ Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Read the two date fields</li>
 <li>2. Click the Prep date field's popover button</li>
 <li>3. Press Escape</li>
@@ -68,7 +68,7 @@ Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Click Search with default criteria and note the total</li>
 <li>2. Check Quantity Greater Than Zero and click Search</li>
 <li>3. Uncheck it and click Search</li>
@@ -80,7 +80,7 @@ Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Open the Prep Date Time calendar and pick a day in a later month</li>
 <li>2. Read the panel</li>
 <li>3. Click Reset</li>
@@ -92,7 +92,7 @@ Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Pick the 22nd of each of the next twelve months on Prep Date Time, measuring the field after each pick</li>
 <li>2. Pick a wide date on Return Date Time and measure it</li>
 <li>3. Click Reset</li>
@@ -104,7 +104,7 @@ Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Type SM58 into the Any Field box and click Search with Active checked</li>
 <li>2. Uncheck the Active filter and click Search again</li>
 <li>3. Compare the two Product Code ID sets</li>
@@ -118,7 +118,7 @@ Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_
 Test Data:
 User: automation user (location-edit permission)
 Location: test office 1604
-Application: Navigator",Medium,,Product_Search,1,,ItemSearch_Products > Product_Search,"<ol>
+Application: Navigator",Medium,,Product_Search_Filters,1,,ItemSearch_Products > Product_Search_Filters,"<ol>
 <li>1. Click Search with Product Organization left at None</li>
 <li>2. Open the Product Organization popover and choose United States</li>
 <li>3. Click Search again</li>
