@@ -345,6 +345,19 @@ Mexico. But a large difference is worth understanding before you hand the report
 first multi-country run showed 104/104/13, which turned out to be 92 options inside a
 hidden dropdown rather than a real country difference.
 
+#### Working conventions
+
+One ticket, one branch, cut from `main` — `feature/sprint19-<name>-NM-####`. Never branch
+one ticket off another ticket's branch: the second ticket then carries the first one's
+commits in its history and the two cannot be reviewed or reverted independently.
+
+Commit only what is delivered. Tests of our own tooling, their fixtures and scratch files
+stay out of the repository. If something lands that should not have, amend and force-push
+rather than adding a removal commit — a later deletion still leaves the file readable in
+history.
+
+Nothing is pushed until the work has been asked for and reviewed.
+
 ### Viewing reports locally
 
 ```bash
