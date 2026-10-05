@@ -632,12 +632,13 @@ A new run is opened when there is no session file, when the recorded run is
 older than `TESTRAIL_RUN_TTL_HOURS` (default 12), when `TESTRAIL_RUN_KEY`
 changes, or when the recorded run has been closed or deleted in TestRail.
 
-**GitHub Actions** — `.github/workflows/e2e-testrail.yml`, `workflow_dispatch`
-with a `scope` of `suite`, `modules` (one parallel job per module) or `spec`.
-Each job is a fresh runner and cannot see the session file, so the workflow does
-it explicitly: an `open-run` job calls `npm run testrail:run:open` and publishes
-the id, every test job receives it as `TESTRAIL_RUN_ID` and widens that same
-run, and `close-run` closes it at the end. Repository secrets required:
+**GitHub Actions** — this delivery ships no `.github` folder; create the workflow
+yourself (see *Running it on GitHub Actions* below). When CI runs several jobs in
+parallel, each job is a fresh runner and cannot see the session file, so the
+workflow must share the run explicitly: an `open-run` job calls
+`npm run testrail:run:open` and publishes the id, every test job receives it as
+`TESTRAIL_RUN_ID` and widens that same run, and a `close-run` job closes it at the
+end. Repository secrets required:
 `TESTRAIL_HOST`, `TESTRAIL_USERNAME`, `TESTRAIL_API_KEY`, `TESTRAIL_PROJECT_ID`,
 `TESTRAIL_SUITE_ID`, `ENCORE_USERNAME`, `ENCORE_PASSWORD`.
 

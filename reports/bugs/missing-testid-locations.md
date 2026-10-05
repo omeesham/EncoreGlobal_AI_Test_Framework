@@ -1,6 +1,6 @@
 # Missing data-testid Report — Locations
 
-**Report date:** 2026-09-17  
+**Report date:** 2026-09-28  
 **Application:** Navigator Cloud (Angular / Radix UI)  
 **Scope:** Setup > Location Settings and its tabs — Locations module only  
 **Framework:** Playwright + TypeScript  
@@ -8,19 +8,19 @@
 
 ## 1. Executive summary
 
-Every selector the Locations suite uses to reach an element — 396 call sites across 25 files — was classified by its targeting strategy. Identical selectors are counted once, so the numbers below are elements, not call sites.
+Every selector the Locations suite uses to reach an element — 458 call sites across 25 files — was classified by its targeting strategy. Identical selectors are counted once, so the numbers below are elements, not call sites.
 
 | Metric | Count | Share |
 | --- | --- | --- |
-| Distinct elements targeted | 292 | 100% |
-| — reached by their own data-testid | 187 | 64% |
-| — reached by a fallback selector | 105 | 36% |
-| Excluded (structural / opted out) | 49 | — |
-| **Missing data-testid (this report)** | **105** | — |
+| Distinct elements targeted | 299 | 100% |
+| — reached by their own data-testid | 188 | 62.9% |
+| — reached by a fallback selector | 111 | 37.1% |
+| Excluded (structural / opted out) | 77 | — |
+| **Missing data-testid (this report)** | **111** | — |
 
-Those 105 elements are reached from 124 call sites in the suite, so a single missing attribute is usually felt in several places.
+Those 111 elements are reached from 137 call sites in the suite, so a single missing attribute is usually felt in several places.
 
-105 elements across 11 Locations surfaces lack a data-testid. They are reached today through fallback strategies — text matching, CSS classes, positional `nth-child`, role combinations — that break on internationalization, DOM restructuring or a copy edit.
+111 elements across 11 Locations surfaces lack a data-testid. They are reached today through fallback strategies — text matching, CSS classes, positional `nth-child`, role combinations — that break on internationalization, DOM restructuring or a copy edit.
 
 ## 2. Methodology
 
@@ -52,8 +52,8 @@ Nothing outside the Locations module is read, so no finding here belongs to anot
 | --- | --- | --- |
 | CRITICAL | 17 | Breaks on a row or column change |
 | HIGH | 58 | Breaks on a copy or language change |
-| MEDIUM | 15 | Stable but implicit; breaks on a design or form-model change |
-| LOW | 15 | Works inside a testid scope; would be more explicit with one |
+| MEDIUM | 19 | Stable but implicit; breaks on a design or form-model change |
+| LOW | 17 | Works inside a testid scope; would be more explicit with one |
 
 ### By module
 
@@ -64,18 +64,18 @@ Nothing outside the Locations module is read, so no finding here belongs to anot
 | Account and Address tab | 21 | 3 | 12 | 0 | 6 | CRITICAL: `selectAddressRow` (positional (nth/first/last-child) + text match + role attribute) |
 | Pricing tab | 13 | 3 | 7 | 2 | 1 | CRITICAL: `openStartDatePopover` (positional (nth/first/last-child) + text match + role attribute) |
 | Basic Information (left panel) | 18 | 1 | 15 | 2 | 0 | CRITICAL: `chkPTLRowFirst` (positional (nth/first/last-child) + text match + role attribute) |
-| Shared dialogs (all Location Settings tabs) | 8 | 0 | 6 | 0 | 2 | HIGH: `dlgErrorDialog` (text match + role attribute) |
+| Shared dialogs (all Location Settings tabs) | 10 | 0 | 6 | 2 | 2 | HIGH: `dlgErrorDialog` (text match + role attribute) |
 | Auto Add-On tab | 6 | 0 | 5 | 0 | 1 | HIGH: `getSaveDialogHeading` (text match + role attribute) |
 | Local Information tab | 5 | 0 | 5 | 0 | 0 | HIGH: `toastLocalInfoUpdated` (text match + bare tag) |
 | Notes tab | 6 | 0 | 2 | 1 | 3 | HIGH: `getSaveDialogContent` (text match + role attribute) |
+| Location Management History tab | 14 | 0 | 1 | 11 | 2 | HIGH: `clickSortColumn` (text match + role attribute) |
 | Currency tab | 3 | 0 | 2 | 1 | 0 | HIGH: `selectMerchantOption` (text match + role attribute) |
-| Location Management History tab | 10 | 0 | 1 | 9 | 0 | HIGH: `clickSortColumn` (text match + role attribute) |
 
 ## 4. Module-by-module breakdown
 
 Each table lists every element missing a data-testid, the selector strategy in use today, and a suggested data-testid value following the naming convention in section 6. Step-by-step directions to each screen are in section 5.
 
-**A data-testid inside a selector is not the element's own.** Where a path reads `[data-testid="…-modal-account-list"] tbody tr:first-child td:first-child button[role="checkbox"]`, the attribute is on the dialog and the checkbox inside it has none — which is why the row is here. 24 of these 105 findings sit inside a container that already carries one; the workbook names it in *Testid already on an ancestor*.
+**A data-testid inside a selector is not the element's own.** Where a path reads `[data-testid="…-modal-account-list"] tbody tr:first-child td:first-child button[role="checkbox"]`, the attribute is on the dialog and the checkbox inside it has none — which is why the row is here. 27 of these 111 findings sit inside a container that already carries one; the workbook names it in *Testid already on an ancestor*.
 
 Selectors are printed as the **full path from the page root**, not as the fragment that appears on the source line. A page object reaches a grid cell in steps — the dialog, then the row, then the cell — so any single step matches nothing on its own; the path below is what can be searched for in the DOM. A `${placeholder}` marks a value the test supplies at run time (a row's text, a column index). Where a path passes through a parent hop (`..`), it cannot be expressed as one selector, so the element is reported from that hop onwards. The workbook carries both forms, in *Current selector (full path)* and *As written in code*.
 
@@ -301,8 +301,10 @@ Source: `src/selectors/locations/shared.ts`
 | DLG-004 | `dlgSaveChanges` | dialog | Setup > Location Settings > any tab > open the "Save Changes" dialog | `[role="alertdialog"]:has-text("Save Changes")` | text match + role attribute | HIGH | `location-settings-modal-save-changes` | src/selectors/locations/shared.ts:9 |
 | DLG-005 | `btnSaveChangesCancel` | button | Setup > Location Settings > any tab > open the "Save Changes" dialog | `[role="alertdialog"]:has-text("Save Changes") button:has-text("Cancel")` | text match + role attribute | HIGH | `location-settings-btn-save-changes-cancel` | src/selectors/locations/shared.ts:10 |
 | DLG-006 | `btnSaveChangesConfirm` | button | Setup > Location Settings > any tab > open the "Save Changes" dialog | `[role="alertdialog"]:has-text("Save Changes") button:has-text("Ok")` | text match + role attribute | HIGH | `location-settings-btn-save-changes-confirm` | src/selectors/locations/shared.ts:11 |
-| DLG-007 | `btnUnsavedChangesOk` | button | Setup > Location Settings > any tab > open the "unsaved changes" dialog | `[data-testid="location-settings-modal-unsaved-changes"] button:has-text("Discard")` | text match + bare tag + inside data-testid container | LOW | `location-settings-btn-unsaved-changes-ok` | src/selectors/locations/shared.ts:16 |
-| DLG-008 | `btnUnsavedChangesCancel` | button | Setup > Location Settings > any tab > open the "unsaved changes" dialog | `[data-testid="location-settings-modal-unsaved-changes"] button:has-text("Stay")` | text match + bare tag + inside data-testid container | LOW | `location-settings-btn-unsaved-changes-cancel` | src/selectors/locations/shared.ts:19 |
+| DLG-007 | `btnUserMenu` | button | Setup > Location Settings > any tab | `[data-sidebar="footer"] button[data-slot="dropdown-menu-trigger"]` | semantic attribute + bare tag | MEDIUM | `location-settings-btn-user-menu` | src/selectors/locations/shared.ts:24 |
+| DLG-008 | `mnuLanguage` | element | Setup > Location Settings > any tab > open the column menu | `[role="menu"] [role="menuitem"][aria-haspopup="menu"]` | role attribute + semantic attribute | MEDIUM | `location-settings-mnu-language` | src/selectors/locations/shared.ts:25 |
+| DLG-009 | `btnUnsavedChangesOk` | button | Setup > Location Settings > any tab > open the "unsaved changes" dialog | `[data-testid="location-settings-modal-unsaved-changes"] button:has-text("Discard")` | text match + bare tag + inside data-testid container | LOW | `location-settings-btn-unsaved-changes-ok` | src/selectors/locations/shared.ts:16 |
+| DLG-010 | `btnUnsavedChangesCancel` | button | Setup > Location Settings > any tab > open the "unsaved changes" dialog | `[data-testid="location-settings-modal-unsaved-changes"] button:has-text("Stay")` | text match + bare tag + inside data-testid container | LOW | `location-settings-btn-unsaved-changes-cancel` | src/selectors/locations/shared.ts:19 |
 
 The paths above use Playwright syntax. As plain CSS — text matching dropped, since a browser cannot express it — these are what to paste into the browser's element search once the screen is open:
 
@@ -312,15 +314,16 @@ The paths above use Playwright syntax. As plain CSS — text matching dropped, s
 - **DLG-004**: `[role="alertdialog"]`
 - **DLG-005**: `[role="alertdialog"] button`
 - **DLG-006**: `[role="alertdialog"] button`
-- **DLG-007**: `[data-testid="location-settings-modal-unsaved-changes"] button`
-- **DLG-008**: `[data-testid="location-settings-modal-unsaved-changes"] button`
+- **DLG-009**: `[data-testid="location-settings-modal-unsaved-changes"] button`
+- **DLG-010**: `[data-testid="location-settings-modal-unsaved-changes"] button`
 
 Notes carried from the source files:
 
 - **DLG-001** (`dlgErrorDialog`): Role+text fallback: the error dialog renders no container testid.
 - **DLG-004** (`dlgSaveChanges`): No container testid is rendered (only Radix internals present); match by role+text. Switch to a testid if the app adds one.
-- **DLG-007** (`btnUnsavedChangesOk`): Button text is "Discard", NOT "OK". Key name kept for usage stability; semantically this is the "leave / discard changes" affirmative-leave button.
-- **DLG-008** (`btnUnsavedChangesCancel`): Button text is "Stay", NOT "Cancel". Key name kept for usage stability; semantically this is the "stay / cancel-the-leave" button.
+- **DLG-007** (`btnUserMenu`): Account menu in the sidebar footer. No testids; the trigger's label is the signed-in user's name, so it is matched by structure. The Language item is matched by its submenu role, not its text, because its label is itself translated ("Langue", "Idioma") once another locale is active.
+- **DLG-009** (`btnUnsavedChangesOk`): Button text is "Discard", NOT "OK". Key name kept for usage stability; semantically this is the "leave / discard changes" affirmative-leave button.
+- **DLG-010** (`btnUnsavedChangesCancel`): Button text is "Stay", NOT "Cancel". Key name kept for usage stability; semantically this is the "stay / cancel-the-leave" button.
 
 ### 4.7 Auto Add-On tab
 
@@ -359,7 +362,7 @@ Source: `src/selectors/locations/local-info.ts`
 | LI-002 | `errValidationMessage` | text | Setup > Location Settings > Local Information | `p:has-text("Number must be")` | text match + bare tag | HIGH | `location-settings-error-validation-message` | src/selectors/locations/local-info.ts:15 |
 | LI-003 | `errMinBoundary` | text | Setup > Location Settings > Local Information | `p:has-text("Number must be greater than or equal to 0")` | text match + bare tag | HIGH | `location-settings-error-min-boundary` | src/selectors/locations/local-info.ts:16 |
 | LI-004 | `errMaxBoundary` | text | Setup > Location Settings > Local Information | `p:has-text("Number must be less than or equal to 100")` | text match + bare tag | HIGH | `location-settings-error-max-boundary` | src/selectors/locations/local-info.ts:17 |
-| LI-005 | `chkHRIRemitTax2` | checkbox | Setup > Location Settings > Local Information | `dt:has-text("HRI Remit Tax 2") + dd button[role="checkbox"]` | text match + DOM adjacency / parent hop + role attribute | HIGH | `location-settings-checkbox-hri-remit-tax-2` | src/selectors/locations/local-info.ts:69 |
+| LI-005 | `chkHRIRemitTax2` | checkbox | Setup > Location Settings > Local Information | `dt:has-text("HRI Remit Tax 2") + dd button[role="checkbox"]` | text match + DOM adjacency / parent hop + role attribute | HIGH | `location-settings-checkbox-hri-remit-tax-2` | src/selectors/locations/local-info.ts:70 |
 
 The paths above use Playwright syntax. As plain CSS — text matching dropped, since a browser cannot express it — these are what to paste into the browser's element search once the screen is open:
 
@@ -393,7 +396,39 @@ Notes carried from the source files:
 
 - **NOT-003** (`txtNoteRow0`): Angular reactive form name pattern: notes.notes.{i}.note — selector follows this scheme.
 
-### 4.10 Currency tab
+### 4.10 Location Management History tab
+
+Source: `src/pages/locations/location-management-history.page.ts`, `src/selectors/locations/history.ts`
+
+| ID | Element | Type | Where to find it on screen | Current selector | Strategy | Priority | Suggested data-testid | Source |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| HIS-001 | `clickSortColumn()` | inline locator | Setup > Location Settings > Location Management History > open the column menu | `[role="menu"] [role="menuitem"]:has-text("Sort ${direction}")` | text match + role attribute | HIGH | `location-settings-menu-item-management-history-{direction}` | src/pages/locations/location-management-history.page.ts:253 |
+| HIS-002 | `clickSortColumn()` | inline locator | Setup > Location Settings > Location Management History > open the column menu | `[role="menu"]` | role attribute | MEDIUM | `location-settings-menu-management-history` | src/pages/locations/location-management-history.page.ts:247 (+5 more) |
+| HIS-003 | `getPaginationText()` | inline locator | Setup > Location Settings > Location Management History | `[data-testid="location-settings-tab-content-management-history"] input[aria-label="Current page number"]` | aria-label + bare tag + inside data-testid container | MEDIUM | `location-settings-input-current-page-number` | src/pages/locations/location-management-history.page.ts:326 |
+| HIS-004 | `isReadOnly()` | inline locator | Setup > Location Settings > Location Management History | `[role="tabpanel"]` | role attribute | MEDIUM | `location-settings-sub-tab-content-management-history` | src/pages/locations/location-management-history.page.ts:359 |
+| HIS-005 | `openSettingsTab()` | inline locator | Setup > Location Settings > Location Management History | `[role="tab"]` | role attribute | MEDIUM | `location-settings-sub-tab-management-history` | src/pages/locations/location-management-history.page.ts:1000 |
+| HIS-006 | `writeSetting()` | inline locator | Setup > Location Settings > Location Management History | `[role="option"]` | role attribute | MEDIUM | `location-settings-option-management-history` | src/pages/locations/location-management-history.page.ts:1082 |
+| HIS-007 | `drpMgmtHistoryRowsPerPage` | combobox | Setup > Location Settings > Location Management History | `[data-testid="location-settings-tab-content-management-history"] button[role="combobox"]:not([data-testid="location-settings-select-history-type"])` | :not() disambiguation + role attribute + inside data-testid container | MEDIUM | `location-settings-select-mgmt-history-rows-per-page` | src/selectors/locations/history.ts:12 |
+| HIS-008 | `txtMgmtHistoryCurrentPage` | input | Setup > Location Settings > Location Management History | `[data-testid="location-settings-tab-content-management-history"] input[aria-label="Current page number"]` | aria-label + bare tag + inside data-testid container | MEDIUM | `location-settings-input-mgmt-history-current-page` | src/selectors/locations/history.ts:13 |
+| HIS-009 | `btnMgmtHistoryFirstPage` | button | Setup > Location Settings > Location Management History | `button[aria-label="Go to first page"]` | aria-label + bare tag | MEDIUM | `location-settings-btn-mgmt-history-first-page` | src/selectors/locations/history.ts:14 |
+| HIS-010 | `btnMgmtHistoryPrevPage` | button | Setup > Location Settings > Location Management History | `button[aria-label="Go to previous page"]` | aria-label + bare tag | MEDIUM | `location-settings-btn-mgmt-history-prev-page` | src/selectors/locations/history.ts:15 |
+| HIS-011 | `btnMgmtHistoryNextPage` | button | Setup > Location Settings > Location Management History | `button[aria-label="Go to next page"]` | aria-label + bare tag | MEDIUM | `location-settings-btn-mgmt-history-next-page` | src/selectors/locations/history.ts:16 |
+| HIS-012 | `btnMgmtHistoryLastPage` | button | Setup > Location Settings > Location Management History | `button[aria-label="Go to last page"]` | aria-label + bare tag | MEDIUM | `location-settings-btn-mgmt-history-last-page` | src/selectors/locations/history.ts:17 |
+| HIS-013 | `deleteNewestNote()` | inline locator | Setup > Location Settings > Location Management History | `[data-testid="location-settings-section-notes"] button:has-text("Delete")` | text match + bare tag + inside data-testid container | LOW | `location-settings-btn-delete` | src/pages/locations/location-management-history.page.ts:1104 |
+| HIS-014 | `tblAnyMgmtHistory` | table | Setup > Location Settings > Location Management History | `[data-testid="location-settings-tab-content-management-history"] table[data-slot="table"]` | semantic attribute + bare tag + inside data-testid container | LOW | `location-settings-table-any-mgmt-history` | src/selectors/locations/history.ts:10 |
+
+The paths above use Playwright syntax. As plain CSS — text matching dropped, since a browser cannot express it — these are what to paste into the browser's element search once the screen is open:
+
+- **HIS-001**: `[role="menu"] [role="menuitem"]`
+- **HIS-013**: `[data-testid="location-settings-section-notes"] button`
+
+Notes carried from the source files:
+
+- **HIS-014** (`tblAnyMgmtHistory`): The Legacy history type renders a bare table with NO data-testid of its own (the tagged wrapper above leaves the DOM entirely), so both grids are reachable only through the panel's one table.
+
+> Of these, one is a parameterized accessor that repeats per grid row. Give each row a data-testid carrying its own identifier (e.g. `location-settings-management-history-row-{name}`), so neither the row text nor the column position is needed.
+
+### 4.11 Currency tab
 
 Source: `src/pages/locations/location-currency.page.ts`, `src/selectors/locations/currency.ts`
 
@@ -401,7 +436,7 @@ Source: `src/pages/locations/location-currency.page.ts`, `src/selectors/location
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | CUR-001 | `selectMerchantOption()` | inline locator | Setup > Location Settings > Currency > open the dropdown | `[role="listbox"] [role="option"]:has-text("${optionText}")` | text match + role attribute | HIGH | `location-settings-option-currency-{option-text}` | src/pages/locations/location-currency.page.ts:140 |
 | CUR-002 | `txtNoMatchesFound` | text | Setup > Location Settings > Currency > open the dropdown | `[role="listbox"]:has-text("No Matches Found")` | text match + role attribute | HIGH | `location-settings-label-no-matches-found` | src/selectors/locations/currency.ts:22 |
-| CUR-003 | `isMerchantDropdownAccessible()` | inline locator | Setup > Location Settings > Currency > open the dropdown | `[role="listbox"]` | role attribute | MEDIUM | `location-settings-listbox-currency` | src/pages/locations/location-currency.page.ts:112 (+2 more) |
+| CUR-003 | `isMerchantDropdownAccessible()` | inline locator | Setup > Location Settings > Currency > open the dropdown | `[role="listbox"]` | role attribute | MEDIUM | `location-settings-listbox-currency` | src/pages/locations/location-currency.page.ts:112 (+4 more) |
 
 The paths above use Playwright syntax. As plain CSS — text matching dropped, since a browser cannot express it — these are what to paste into the browser's element search once the screen is open:
 
@@ -410,32 +445,9 @@ The paths above use Playwright syntax. As plain CSS — text matching dropped, s
 
 Shared elements — fixing these once benefits every surface listed:
 
-- **CUR-003**: also used on Location Management History tab
+- **CUR-003**: also used on Local Information tab, Location Management History tab
 
 > Of these, one is a parameterized accessor that repeats per grid row. Give each row a data-testid carrying its own identifier (e.g. `location-settings-currency-row-{name}`), so neither the row text nor the column position is needed.
-
-### 4.11 Location Management History tab
-
-Source: `src/pages/locations/location-management-history.page.ts`, `src/selectors/locations/history.ts`
-
-| ID | Element | Type | Where to find it on screen | Current selector | Strategy | Priority | Suggested data-testid | Source |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| HIS-001 | `clickSortColumn()` | inline locator | Setup > Location Settings > Location Management History > open the column menu | `[role="menu"] [role="menuitem"]:has-text("Sort ${direction}")` | text match + role attribute | HIGH | `location-settings-menu-item-management-history-{direction}` | src/pages/locations/location-management-history.page.ts:207 |
-| HIS-002 | `clickSortColumn()` | inline locator | Setup > Location Settings > Location Management History > open the column menu | `[role="menu"]` | role attribute | MEDIUM | `location-settings-menu-management-history` | src/pages/locations/location-management-history.page.ts:201 |
-| HIS-003 | `setRowsPerPage()` | inline locator | Setup > Location Settings > Location Management History | `[role="option"]` | role attribute | MEDIUM | `location-settings-option-management-history` | src/pages/locations/location-management-history.page.ts:275 |
-| HIS-004 | `getPaginationText()` | inline locator | Setup > Location Settings > Location Management History | `[data-testid="location-settings-tab-content-management-history"] input[aria-label="Current page number"]` | aria-label + bare tag + inside data-testid container | MEDIUM | `location-settings-input-current-page-number` | src/pages/locations/location-management-history.page.ts:282 |
-| HIS-005 | `isReadOnly()` | inline locator | Setup > Location Settings > Location Management History | `[role="tabpanel"]` | role attribute | MEDIUM | `location-settings-sub-tab-content-management-history` | src/pages/locations/location-management-history.page.ts:314 |
-| HIS-006 | `drpMgmtHistoryRowsPerPage` | combobox | Setup > Location Settings > Location Management History | `[data-testid="location-settings-tab-content-management-history"] button[role="combobox"]:not([data-testid="location-settings-select-history-type"])` | :not() disambiguation + role attribute + inside data-testid container | MEDIUM | `location-settings-select-mgmt-history-rows-per-page` | src/selectors/locations/history.ts:8 |
-| HIS-007 | `btnMgmtHistoryFirstPage` | button | Setup > Location Settings > Location Management History | `button[aria-label="Go to first page"]` | aria-label + bare tag | MEDIUM | `location-settings-btn-mgmt-history-first-page` | src/selectors/locations/history.ts:9 |
-| HIS-008 | `btnMgmtHistoryPrevPage` | button | Setup > Location Settings > Location Management History | `button[aria-label="Go to previous page"]` | aria-label + bare tag | MEDIUM | `location-settings-btn-mgmt-history-prev-page` | src/selectors/locations/history.ts:10 |
-| HIS-009 | `btnMgmtHistoryNextPage` | button | Setup > Location Settings > Location Management History | `button[aria-label="Go to next page"]` | aria-label + bare tag | MEDIUM | `location-settings-btn-mgmt-history-next-page` | src/selectors/locations/history.ts:11 |
-| HIS-010 | `btnMgmtHistoryLastPage` | button | Setup > Location Settings > Location Management History | `button[aria-label="Go to last page"]` | aria-label + bare tag | MEDIUM | `location-settings-btn-mgmt-history-last-page` | src/selectors/locations/history.ts:12 |
-
-The paths above use Playwright syntax. As plain CSS — text matching dropped, since a browser cannot express it — these are what to paste into the browser's element search once the screen is open:
-
-- **HIS-001**: `[role="menu"] [role="menuitem"]`
-
-> Of these, one is a parameterized accessor that repeats per grid row. Give each row a data-testid carrying its own identifier (e.g. `location-settings-management-history-row-{name}`), so neither the row text nor the column position is needed.
 
 ## 5. How to find these elements by hand
 
@@ -1021,7 +1033,7 @@ On-screen text to look for: **Popover Content**.
 
 ### 5.39 Setup > Location Settings > Location Management History
 
-8 elements here — HIS-006, HIS-007, HIS-008, HIS-009, HIS-010, HIS-003, HIS-004, HIS-005
+12 elements here — HIS-014, HIS-007, HIS-008, HIS-009, HIS-010, HIS-011, HIS-012, HIS-003, HIS-004, HIS-005, HIS-006, HIS-013
 
 1. Sign in to Navigator Cloud.
 2. Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.
@@ -1029,8 +1041,10 @@ On-screen text to look for: **Popover Content**.
 4. Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector below.
 
 ```
-[data-testid="location-settings-tab-content-management-history"] button[role="combobox"]:not([data-testid="location-settings-select-history-type"])
+[data-testid="location-settings-tab-content-management-history"] table[data-slot="table"]
 ```
+
+On-screen text to look for: **Delete**.
 
 ### 5.40 Setup > Location Settings > Notes
 
@@ -1047,7 +1061,34 @@ On-screen text to look for: **Popover Content**.
 
 On-screen text to look for: **No Notes Available**, **Delete**.
 
-### 5.41 Setup > Location Settings > Account and Address > open the "account list" dialog
+### 5.41 Setup > Location Settings > any tab
+
+1 element here — DLG-007
+
+1. Sign in to Navigator Cloud.
+2. Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.
+3. Open any tab — this surface is shared by all of them.
+4. Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector below.
+
+```
+[data-sidebar="footer"] button[data-slot="dropdown-menu-trigger"]
+```
+
+### 5.42 Setup > Location Settings > any tab > open the column menu
+
+1 element here — DLG-008
+
+1. Sign in to Navigator Cloud.
+2. Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.
+3. Open any tab — this surface is shared by all of them.
+4. Click a column header, then open its menu.
+5. Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector below.
+
+```
+[role="menu"] [role="menuitem"][aria-haspopup="menu"]
+```
+
+### 5.43 Setup > Location Settings > Account and Address > open the "account list" dialog
 
 3 elements here — AA-020, AA-021, AA-019
 
@@ -1063,9 +1104,9 @@ On-screen text to look for: **No Notes Available**, **Delete**.
 
 On-screen text to look for: **Close**.
 
-### 5.42 Setup > Location Settings > any tab > open the "unsaved changes" dialog
+### 5.44 Setup > Location Settings > any tab > open the "unsaved changes" dialog
 
-2 elements here — DLG-007, DLG-008
+2 elements here — DLG-009, DLG-010
 
 1. Sign in to Navigator Cloud.
 2. Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.
@@ -1079,7 +1120,7 @@ On-screen text to look for: **Close**.
 
 On-screen text to look for: **Discard**, **Stay**.
 
-### 5.43 Setup > Location Settings > Auto Add-On > open the "unsaved changes" dialog
+### 5.45 Setup > Location Settings > Auto Add-On > open the "unsaved changes" dialog
 
 1 element here — AAO-006
 
@@ -1093,7 +1134,7 @@ On-screen text to look for: **Discard**, **Stay**.
 [data-testid="location-settings-modal-unsaved-changes"] h2
 ```
 
-### 5.44 Setup > Location Settings > Pricing > open the "unsaved changes" dialog
+### 5.46 Setup > Location Settings > Pricing > open the "unsaved changes" dialog
 
 1 element here — PRI-013
 
@@ -1147,32 +1188,39 @@ For a repeating row, put the row's own identifier in the testid rather than its 
 
 3 CRITICAL, 12 HIGH, 0 MEDIUM, 6 LOW. Items AA-001 through AA-021.
 
-Fixing these 3 surfaces (36 elements) raises Locations data-testid coverage from 64% to roughly 76.4%.
+Fixing these 3 surfaces (36 elements) raises Locations data-testid coverage from 62.9% to roughly 74.9%.
 
 ## 8. Statistics
 
 | Category | Count |
 | --- | --- |
-| Selector call sites audited | 396 |
-| Distinct elements targeted | 292 |
-| Reached by their own data-testid | 187 |
-| Excluded (structural / opted out) | 49 distinct (76 call sites) |
-| Missing data-testid | 105 |
+| Selector call sites audited | 458 |
+| Distinct elements targeted | 299 |
+| Reached by their own data-testid | 188 |
+| Excluded (structural / opted out) | 77 distinct (121 call sites) |
+| Missing data-testid | 111 |
 | CRITICAL priority | 17 |
 | HIGH priority | 58 |
-| MEDIUM priority | 15 |
-| LOW priority | 15 |
+| MEDIUM priority | 19 |
+| LOW priority | 17 |
 
 | Scenario | Coverage |
 | --- | --- |
-| Current state | 64% |
-| After quick wins (36 elements) | 76.4% |
-| After all CRITICAL + HIGH (75 elements) | 89.7% |
-| After all 105 fixes | 100% |
+| Current state | 62.9% |
+| After quick wins (36 elements) | 74.9% |
+| After all CRITICAL + HIGH (75 elements) | 88% |
+| After all 111 fixes | 100% |
 
 ## Appendix — exclusions
 
-76 call sites (49 distinct selectors) were excluded as structural — row counts, header enumeration, parent hops, editability probes — and 0 were opted out in the source.
+117 call sites (73 distinct selectors) were excluded as structural — row counts, header enumeration, parent hops, editability probes — and 4 were opted out in the source.
+
+| Selector | Reason given | Source |
+| --- | --- | --- |
+| `[role="tablist"]` | structural: enumerates the tablist that owns the History tab's own testid | src/pages/locations/location-management-history.page.ts:444 |
+| `[role="tab"]` | structural: visibility sweep over a caller-supplied list of sub-tab labels | src/pages/locations/location-management-history.page.ts:454 |
+| `[role="radio"][data-state="checked"]` | state query: the checked radio inside the caller's testid-scoped radiogroup | src/pages/locations/location-management-history.page.ts:1033 |
+| `[role="radio"][value="${value === 'Master' ? 'true' : 'false'}"]` | role + semantic value inside the caller's testid-scoped radiogroup | src/pages/locations/location-management-history.page.ts:1071 |
 
 <details><summary>Structural queries excluded</summary>
 
@@ -1200,20 +1248,44 @@ Fixing these 3 surfaces (36 elements) raises Locations data-testid coverage from
 | `[data-testid="location-settings-table-legal"] tbody tr td` | row, header or cell enumeration, not element identity | src/pages/locations/location-legal.page.ts:73 |
 | `[data-testid="location-settings-table-legal"] tbody tr td :is(button, input, textarea, select, [role="combobox"], [contenteditable="true"])` | measures how many, not which one | src/pages/locations/location-legal.page.ts:81 |
 | `input, [type="search"], [cmdk-input]` | measures how many, not which one | src/pages/locations/location-legal.page.ts:118 |
-| `dt:has-text("Remit PST Tax")` | measures how many, not which one | src/pages/locations/location-local-info.page.ts:179 |
-| `[data-testid="location-settings-table-management-history"] th` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:27 |
-| `[data-testid="location-settings-table-management-history"] tbody tr` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:80 |
-| `[data-testid="location-settings-table-management-history"] tbody tr td` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:105 |
-| `[data-testid="location-settings-table-management-history"] th button` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:197 |
-| `[data-testid="location-settings-tab-content-management-history"] span` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:283 |
-| `[role="tabpanel"] button:has-text("Add")` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:315 |
-| `[role="tabpanel"] button:has-text("Edit")` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:316 |
-| `[role="tabpanel"] button:has-text("Delete")` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:317 |
-| `[role="tabpanel"] button:has-text("Save")` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:318 |
-| `[data-testid="location-settings-table-management-history"] table` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:321 |
-| `input:not([type="hidden"]), textarea` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:322 |
-| `[data-testid="location-settings-table-management-history"] tbody tr:first-child td:first-child` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:328 |
-| `[data-testid="location-settings-table-management-history"] tbody tr:first-child td:first-child :is(input, textarea, [contenteditable="true"])` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:331 |
+| `[role="option"]` | measures how many, not which one | src/pages/locations/location-local-info.page.ts:146 |
+| `dt:has-text("Remit PST Tax")` | measures how many, not which one | src/pages/locations/location-local-info.page.ts:208 |
+| `[data-testid="location-settings-table-management-history"] th` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:73 |
+| `[data-testid="location-settings-table-management-history"] tbody tr` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:126 |
+| `[data-testid="location-settings-table-management-history"] tbody tr td` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:151 |
+| `[data-testid="location-settings-table-management-history"] th button` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:243 |
+| `[data-testid="location-settings-tab-content-management-history"] span` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:327 |
+| `[role="tabpanel"] button:has-text("Add")` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:360 |
+| `[role="tabpanel"] button:has-text("Edit")` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:361 |
+| `[role="tabpanel"] button:has-text("Delete")` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:362 |
+| `[role="tabpanel"] button:has-text("Save")` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:363 |
+| `[data-testid="location-settings-table-management-history"] table` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:366 |
+| `input:not([type="hidden"]), textarea` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:367 |
+| `[data-testid="location-settings-table-management-history"] tbody tr:first-child td:first-child` | row, header or cell enumeration, not element identity | src/pages/locations/location-management-history.page.ts:373 |
+| `[data-testid="location-settings-table-management-history"] tbody tr:first-child td:first-child :is(input, textarea, [contenteditable="true"])` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:376 |
+| `[role="tablist"] [role="tab"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:445 |
+| `[data-testid="location-settings-tab-content-management-history"] table` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:502 |
+| `[data-testid="location-settings-table-management-history"] table tbody tr` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:544 |
+| `[data-testid="location-settings-table-management-history"] [role="columnheader"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:585 |
+| `[role="menu"] [role="menuitem"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:705 |
+| `[data-testid="location-settings-tab-content-management-history"] button` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:738 |
+| `[data-testid="location-settings-tab-content-management-history"] table input[type="checkbox"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:743 |
+| `[data-testid="location-settings-tab-content-management-history"] table input[type="radio"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:744 |
+| `[data-testid="location-settings-tab-content-management-history"] table [role="checkbox"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:745 |
+| `[data-testid="location-settings-tab-content-management-history"] table input:not([type="hidden"])` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:746 |
+| `[data-testid="location-settings-tab-content-management-history"] table textarea` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:747 |
+| `[data-testid="location-settings-tab-content-management-history"] table select` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:748 |
+| `[data-testid="location-settings-tab-content-management-history"] table [contenteditable="true"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:749 |
+| `[data-testid="location-settings-table-management-history"] tbody tr td :is(input, textarea, [contenteditable="true"])` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:761 |
+| `[data-testid="location-settings-tab-content-management-history"] a[href*="settings/local-office"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:790 |
+| `[data-testid="location-settings-tab-content-management-history"] :is([role="progressbar"], .animate-spin, [data-testid*="spinner"], [data-testid*="loader"])` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:801 |
+| `[data-testid="location-settings-tab-content-management-history"] :is([data-testid*="skeleton"], .animate-pulse, [class*="skeleton"])` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:802 |
+| `[data-testid="location-settings-tab-content-management-history"] button[aria-label*="page"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:836 |
+| `[data-testid="location-settings-tab-content-management-history"] table[data-slot="table"] tbody tr` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:879 |
+| `th` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:895 |
+| `tbody tr` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:906 |
+| `input:not([type="hidden"]), textarea, select, [contenteditable="true"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:912 |
+| `[role="listbox"] [role="option"]` | measures how many, not which one | src/pages/locations/location-management-history.page.ts:1052 |
 | `[role="tabpanel"] table tbody tr` | measures how many, not which one | src/pages/locations/location-pricing.page.ts:204 |
 | `td:nth-child(6)` | row, header or cell enumeration, not element identity | src/pages/locations/location-pricing.page.ts:341 |
 | `td:nth-child(7)` | row, header or cell enumeration, not element identity | src/pages/locations/location-pricing.page.ts:351 |

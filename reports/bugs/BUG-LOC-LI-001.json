@@ -1,0 +1,57 @@
+{
+  "id": "BUG-LOC-LI-001",
+  "title": "WITHDRAWN (MISREAD) — Local Information: clearing Oracle Product leaves the Save button fully enabled, but clicking it does nothing — no dialog, no request, no confirmation (the field does turn red)",
+  "module": "LocationLocalInformation",
+  "severity": "low",
+  "status": "invalid",
+  "discoveredDate": "2026-09-21",
+  "requirementSource": "Location Settings -> Local Information sub-tab (/navigator/locations/<office>/settings/location). Oracle Product Code is a required field while Skip Billing is unchecked — the old Navigator site marks it native-HTML5 required=true and gates the Save button on form validity (see baselineEvidence). Archetype ARCH-001 'save-enabled-on-invalid-form-no-feedback' in specs_planning/_internal/bug-archetypes.md defines this as a file-on-reproduction defect. Encore field-case rule specs_planning/_internal/field-case-generation.md §2.1 additionally requires every rejected value to be BOTH announced and escapable.",
+  "stepsToReproduce": [
+    "Navigate to https://cloudapps-e2e.encoreglobal.com/navigator/locations/1606/settings/location.",
+    "Click the 'Local Information' sub-tab (data-testid=location-settings-sub-tab-local-information).",
+    "Confirm the starting state: Skip Billing is unchecked, Oracle Product reads '0000', and the Save button is disabled.",
+    "Click into the Oracle Product field (data-testid=location-settings-input-oracle-product), select all its text, and press Delete so the field is empty.",
+    "Press Tab to blur the field naturally.",
+    "Observe the field now carries aria-invalid=\"true\" — the form has judged the value invalid.",
+    "Observe the Save button is now ENABLED despite the form holding a field it has itself marked invalid.",
+    "Click Save.",
+    "Observe that nothing happens at all: no 'Save Changes' confirmation dialog appears, no network request is issued, no inline error text is rendered, no toast is shown, and the Save button stays enabled."
+  ],
+  "expectedBehavior": "The Save button should stay disabled while the form holds an invalid field, the way the legacy site does and the way this same button behaves before any edit — so the user is not invited to click a control that cannot act. Alternatively, if Save stays enabled, clicking it should say why it refused.",
+  "actualBehavior": "WITHDRAWN. Clearing Oracle Product is correctly announced by the application: the label turns red, the input takes a red border, and a red alert icon appears whose tooltip reads 'Required'. The user is told what is wrong and which field is at fault. The Save button does render as enabled while the form is invalid and clicking it issues no request, but since the validation message is already on screen at that point, this is a cosmetic inconsistency rather than a defect. Nothing is persisted and a reload restores the original value.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-21",
+    "findings": "Live authenticated Playwright walk (headless, .auth/encore-state.json) against office 1606, Local Information sub-tab. Baseline read: Oracle Product value='0000', Save disabled=true, Skip Billing unchecked. After clearing the field and pressing Tab: input value='' , aria-invalid='true', Save button disabled=false. A wide DOM scrape for any validation paragraph (p / [role=alert] / [aria-live] matching /Number must be|must be greater|must be less|Required|Invalid/) returned an EMPTY array — no visible error text is rendered anywhere on the page. Clicking Save produced: dialog='(none)' and an empty captured network array (a request listener on all non-GET /api/ traffic recorded zero calls). Reloading the page showed Oracle Product back at '0000' — nothing was sent and nothing was persisted, so no cleanup was required. Contrast probe on the same field: entering three spaces ('   ') also sets aria-invalid='true' but leaves Save DISABLED, so the enable-on-empty path is specific to the empty value rather than to invalidity generally.",
+    "tool": "playwright-script"
+  },
+  "baselineComparison": "regression-from-baseline",
+  "baselineEvidence": "specs_planning/_internal/old-site-baseline/OSB-ACCESS-VERIFY-2026-04-24.md § 'BUG-LI-001 (Oracle fields — no client-side required indicator + silent save no-op)' records the side-by-side walk of the legacy Navigator site (navigator2.training.psav.com). Its comparison table row 'Save button state with invalid form' reads: old site = 'DISABLED (button.disabled=true) — form validity gate works correctly'; new site = 'ENABLED — form validity NOT gating the button'. That document's Findings item 1 states verbatim: 'NEW-SITE REGRESSION CONFIRMED: the silent save no-op symptom happens on new site because the Save button is NOT wired to form validity. Old site correctly keeps Save disabled when form is invalid — user physically cannot click it. This is a clear regression in the save-button-wiring.' The present 2026-09-21 walk reproduces that primary symptom unchanged on office 1606, roughly five months after it was first documented. The separately-noted secondary a11y symptom from that artifact (aria-invalid never set) is NOT part of this filing — aria-invalid is now set correctly, and per LR-ENC-009 accessibility findings are out of scope for this client in any case. INDEPENDENT RE-WALK 2026-09-21 (observation-only, legacy Save never clicked): legacy office 1604 at #/setup/locationdetail/1604 was opened and OracleProductCode read as value='0000', native required=true, classes 'ng-untouched ng-pristine ng-valid', checkValidity()=true, with the Save button disabled=true / pointer-events:none / opacity:0.65. After clearing the field via the native value setter plus input+change+blur events, the field read classes 'ng-dirty ng-invalid ng-touched' with checkValidity()=false, and the Save button REMAINED disabled=true. This corroborates the invalid-state half of the 2026-04-24 finding. LIMITATION, recorded for honesty: a control step restoring a VALID value ('0000') did NOT re-enable legacy's Save either (it stayed disabled=true), so this particular re-walk could not independently demonstrate that legacy's Save tracks form validity as opposed to being disabled throughout — most likely because synthetic events do not drive the legacy AngularJS form's enable logic the way real keyboard input does. The validity-tracking half of the claim therefore continues to rest on the dated 2026-04-24 artifact, which recorded via genuine interaction that restoring a valid value turned the legacy input 'ng-dirty ng-touched ng-valid' and the Save button 'enabled'. To close this out fully, re-drive the legacy field with real typing (headed) rather than programmatic value setting.",
+  "affectedTests": [
+    "TC-LOC-LI-018",
+    "TC-LOC-LI-019",
+    "TC-LOC-LI-048"
+  ],
+  "networkEvidence": "A page-level request listener capturing every non-GET request to any /api/ URL recorded ZERO requests across the entire Save click plus a 1.5 second settle window. Per LR-033, zero requests after a button click is the definitive client-blocked signature: the application's own client-side validation refuses to submit the form, but it refuses silently instead of either disabling the button or rendering an error. For contrast, a legitimate save on this same screen (captured in the same session while probing a different field) fires PUT https://cloudapps-e2e.encoreglobal.com/navigator/api/location/update-properties after an 'Are you sure you want to save the changes?' dialog — so the absence of both the dialog and the PUT is meaningful, not a capture failure.",
+  "verificationLog": [
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) — baseline re-walk, legacy office 1604",
+      "verifiedDate": "2026-09-21",
+      "verdict": "CONFIRMED on e2e; baseline classification regression-from-baseline RETAINED",
+      "evidence": "e2e office 1606 reproduces the full symptom (Save enabled on aria-invalid empty Oracle Product; click yields zero network calls, no dialog, no error). Legacy 1604 keeps Save disabled while the same field is invalid. The re-walk could not independently prove legacy's validity-tracking because a synthetic valid-value restore also failed to enable Save there; that half still cites the 2026-04-24 artifact. See baselineEvidence for the limitation."
+    },
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) — LR-044 re-verification with visual evidence",
+      "verifiedDate": "2026-09-22",
+      "verdict": "CONFIRMED but DOWNGRADED high -> low; original actualBehavior was overstated",
+      "evidence": "Re-ran the filed steps verbatim on a fresh page and captured screenshots rather than scraping DOM text. The original filing said 'no feedback whatsoever' and 'no visible error text is rendered'. The first claim is WRONG: the field renders a clearly visible red border on blur, so the user is told which field is at fault. Only the second (no error TEXT) holds. What survives is narrower: Save flips from visibly disabled to visibly enabled on an invalid form and is inert when clicked (0 network requests, 0 dialogs, 0 toasts), and a reload confirms nothing was sent. That is a UX inconsistency, not the high-severity failure originally filed. Per LR-ENC-009 the visual/markup aspects are out of scope for this client; the enabled-but-inert button is the only behavioural residue."
+    },
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) — LR-044 re-verification prompted by user challenge",
+      "verifiedDate": "2026-09-22",
+      "verdict": "FALSE — filing withdrawn",
+      "RCA_category": "MISREAD",
+      "evidence": "Re-verified 2026-09-22 after the user challenged the finding. The field DOES announce the problem, in words: on blur the label turns red, the input takes a red border, and a red alert icon appears to the right of the input whose tooltip reads verbatim 'Required'. Confirmed by hovering the icon and reading the tooltip node, plus a screenshot of the rendered tooltip. My original filing missed this because the scrape walked element textContent only — a tooltip that mounts on hover is not in the DOM until hovered, and the alert icon carries no text of its own, so both were invisible to that method. The app therefore satisfies the field-case-generation §2.1 oracle in full: the rejected value is ANNOUNCED (red label + red border + icon + 'Required' tooltip) and ESCAPABLE (Tab moves focus away normally). The residual point — that the Save button renders enabled while the form is invalid — is not a defect on its own: the error is already displayed on the field before Save is ever clicked, so the user is not left without information. No data is altered at any point; a reload restores the original value."
+    }
+  ],
+  "RCA_category": "MISREAD"
+}
