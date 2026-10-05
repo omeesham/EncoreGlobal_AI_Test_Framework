@@ -1,0 +1,34 @@
+# NM-3650 - Item Search > Product Search (parent NM-2253, audit ticket NM-4084).
+# The whole Products page: the PRODUCT panel, the results grid and its menus.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/item-search/nm-3650-product-search.txt
+# Read-only: searches and opens menus, never saves.
+
+# Canada 2359 has no stock, so the default "Quantity Greater Than Zero" filter
+# returns nothing there; it is unticked and the search runs with no term, which
+# lists products on every office. Nothing is saved.
+
+Module: Item Search
+Submodule: product-search-nm-3650
+Output: reports/testid-audit-item-search
+
+1. Go to /navigator/locations/{office}/products
+2. Wait for "[data-testid=e2e-search-input]"
+3. Audit inside "main" as "Products page on load"
+4. Click "[data-testid=e2e-search-form] [data-testid=e2e-checkbox] >> nth=0"
+5. Click "[data-testid=e2e-search-button]"
+6. Wait for "text=/[1-9][0-9,]* products found/"
+7. Wait for "css=main:not(:has([data-slot=skeleton]))"
+8. Audit inside "main" as "Search results"
+9. Click "css=main thead th button >> nth=0"
+10. Audit inside "[role=menu]" as "Category column header menu open"
+11. Press "Escape"
+12. Click "Grid Options"
+13. Audit inside "[role=menu]" as "Grid Options menu open"
+14. Press "Escape"
+15. Click "css=main button[role=combobox] >> nth=-1"
+16. Audit inside "[role=listbox]" as "Rows per page list open"
+17. Press "Escape"
+# The Search help popup holds text only - no controls - so it is not audited.
+18. Click "main button[aria-label='Collapse search panel']"
+19. Audit inside "main" as "Search panel collapsed"
+20. Click "main button[aria-label='Expand search panel']"

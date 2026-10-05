@@ -1,0 +1,23 @@
+# NM-2256 - Product > Check Availability Calendar Button (parent NM-2253, audit ticket NM-4084).
+# The ticket's red box: PREP / RETURN DATE TIME plus Reset and Search, and each
+# date field's calendar. Reset and Search already carry testids. The calendar
+# buttons are found inside the panel: 1101 has an extra popover in FILTERS
+# (Product Organization) that would otherwise be clicked first. The View
+# Availability button is audited by nm-2256-view-availability-usa.txt, since
+# only the USA offices render it.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/item-search/nm-2256-check-availability-calendar.txt
+
+Module: Item Search
+Submodule: check-availability-calendar-nm-2256
+Output: reports/testid-audit-item-search
+
+1. Go to /navigator/locations/{office}/products
+2. Wait for "[data-testid=e2e-search-input]"
+# PREP / RETURN DATE TIME has no data-testid of its own, so it is reached by its position in the form.
+3. Audit inside "[data-testid=e2e-search-form] > div:first-child > div:nth-child(3)" as "PREP / RETURN DATE TIME panel"
+4. Click "css=[data-testid=e2e-search-form] > div:first-child > div:nth-child(3) button[aria-label='Open popover'] >> nth=0"
+5. Audit inside "[data-radix-popper-content-wrapper]" as "Prep Date Time calendar open"
+6. Press "Escape"
+7. Click "css=[data-testid=e2e-search-form] > div:first-child > div:nth-child(3) button[aria-label='Open popover'] >> nth=1"
+8. Audit inside "[data-radix-popper-content-wrapper]" as "Return Date Time calendar open"
+9. Press "Escape"
