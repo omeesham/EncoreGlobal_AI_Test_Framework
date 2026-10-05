@@ -33,6 +33,11 @@ specs/
 scripts/*
 # Exception: TestRail test-run lifecycle script (npm run testrail:run:*) ships
 !scripts/testrail-run.ts
+# Exception: the missing data-testid audit utility (NM-4014) ships
+!scripts/generic-testid-audit.js
+!scripts/steps-runner.js
+!scripts/dom-screenshot.js
+!scripts/testid-report.js
 .auth/
 
 # Local scratch for audit fixtures and one-off probes

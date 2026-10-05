@@ -18,6 +18,9 @@ module.exports = {
     '2359': 'Canada',
     '7147': 'Mexico'
   },
+  // Desktop size. Below it some screens drop controls (Products hides View
+  // Availability at 1280px), and an audit cannot report what was not rendered.
+  viewport: { width: 1600, height: 1000 },
   defaultModule: 'locations',
   outputDir: 'reports/testid-audit',
   modules: {

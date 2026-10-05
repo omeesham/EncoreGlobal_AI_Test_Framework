@@ -36,6 +36,7 @@
     "allure-commandline": "^2.38.1",
     "allure-playwright": "^3.7.0",
     "archiver": "^7.0.1",
+    "exceljs": "^4.4.0",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",

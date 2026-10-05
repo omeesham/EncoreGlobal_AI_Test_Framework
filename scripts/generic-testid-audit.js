@@ -19,7 +19,7 @@ const INTERACTIVE_TAGS = new Set([
 ]);
 
 const INTERACTIVE_ROLES = new Set([
-  'button', 'tab', 'tablist', 'option', 'combobox', 'menuitem', 'menu', 'checkbox', 'radio', 'switch', 'link', 'textbox', 'searchbox', 'spinbutton'
+  'button', 'tab', 'tablist', 'option', 'combobox', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'menu', 'checkbox', 'radio', 'switch', 'link', 'textbox', 'searchbox', 'spinbutton'
 ]);
 
 function cleanText(value = '') {
@@ -94,7 +94,7 @@ function buildSuggestedTestId({ moduleName = 'generic', text = '', tagName = 'el
 function riskForElement(tagName, role = '') {
   const key = role || tagName.toLowerCase();
   if (['button', 'input', 'textarea', 'select', 'checkbox', 'radio', 'combobox', 'switch', 'spinbutton'].includes(key)) return 'HIGH';
-  if (['tab', 'menuitem', 'option', 'link'].includes(key)) return 'MEDIUM';
+  if (['tab', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'option', 'link'].includes(key)) return 'MEDIUM';
   return 'LOW';
 }
 
@@ -235,16 +235,20 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     const riskForElement = (tagName, role = '') => {
       const key = (role || tagName || '').toLowerCase();
       if (['button', 'input', 'textarea', 'select', 'checkbox', 'radio', 'combobox', 'switch', 'spinbutton'].includes(key)) return 'HIGH';
-      if (['tab', 'menuitem', 'option', 'link'].includes(key)) return 'MEDIUM';
+      if (['tab', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'option', 'link'].includes(key)) return 'MEDIUM';
       return 'LOW';
     };
-    const getElementPath = (el) => {
+    // Stopping at `unindexedUpTo` drops the sibling indexes below it, so every
+    // copy of a repeated item - a dropdown option, a calendar day - yields one path.
+    const getElementPath = (el, unindexedUpTo = null) => {
       const segments = [];
       let current = el;
+      let indexed = !unindexedUpTo;
       while (current && current.nodeType === 1 && current !== document.body) {
+        if (current === unindexedUpTo) indexed = true;
         let selector = current.tagName.toLowerCase();
         const parent = current.parentElement;
-        if (parent) {
+        if (parent && indexed) {
           const sameTagSiblings = Array.from(parent.children).filter((sibling) => sibling.tagName === current.tagName);
           if (sameTagSiblings.length > 1) {
             selector += `:nth-of-type(${sameTagSiblings.indexOf(current) + 1})`;
@@ -268,13 +272,21 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     const results = [];
     const selectors = [
       'button', 'a', 'input', 'textarea', 'select', 'summary', 'option',
-      '[role="button"]', '[role="tab"]', '[role="option"]', '[role="menuitem"]',
+      '[role="button"]', '[role="tab"]', '[role="option"]', '[role="menuitem"]', '[role="menuitemcheckbox"]', '[role="menuitemradio"]',
       '[role="combobox"]', '[role="checkbox"]', '[role="radio"]', '[role="switch"]',
       '[role="link"]', '[role="spinbutton"]', '[role="textbox"]', '[role="searchbox"]'
     ];
 
     const root = scopeSelectorValue ? document.querySelector(scopeSelectorValue) : document;
     const elements = root ? Array.from(root.querySelectorAll(selectors.join(','))) : [];
+    // A result row that selects on click is a control even though it carries no
+    // role - on Products it is the only way to reach the row toolbar.
+    if (root) {
+      for (const row of root.querySelectorAll('tbody > tr')) {
+        if (window.getComputedStyle(row).cursor === 'pointer') elements.push(row);
+      }
+    }
+    const REPEAT_CONTAINER = '[role="listbox"], [role="grid"], tbody';
     for (const el of elements) {
       if (!(el instanceof Element)) continue;
       if (el.closest('svg, path, g, defs')) continue;
@@ -291,15 +303,37 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
 
       const role = (el.getAttribute('role') || '').trim().toLowerCase();
       const tagName = el.tagName.toLowerCase();
-      if (['div', 'span', 'section', 'main', 'article', 'header', 'footer', 'nav', 'ul', 'ol', 'li', 'p', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'label', 'fieldset', 'legend'].includes(tagName) && !role && !el.getAttribute('aria-label')) continue;
+      const clickableRow = tagName === 'tr';
+      if (!clickableRow && ['div', 'span', 'section', 'main', 'article', 'header', 'footer', 'nav', 'ul', 'ol', 'li', 'p', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'label', 'fieldset', 'legend'].includes(tagName) && !role && !el.getAttribute('aria-label')) continue;
 
       const interactiveByTag = ['button', 'a', 'input', 'textarea', 'select', 'option', 'summary', 'details', 'checkbox', 'radio'].includes(tagName) || (tagName === 'input' && ['button', 'checkbox', 'radio', 'search', 'text', 'date', 'number', 'email', 'password', 'tel', 'url', 'submit', 'reset'].includes((el.getAttribute('type') || '').toLowerCase()));
-      const interactiveByRole = !!role && ['button', 'tab', 'tablist', 'option', 'combobox', 'menuitem', 'menu', 'checkbox', 'radio', 'switch', 'link', 'textbox', 'searchbox', 'spinbutton'].includes(role);
-      const text = cleanText(el.innerText || el.textContent || '');
+      const interactiveByRole = !!role && ['button', 'tab', 'tablist', 'option', 'combobox', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'menu', 'checkbox', 'radio', 'switch', 'link', 'textbox', 'searchbox', 'spinbutton'].includes(role);
+      const text = clickableRow
+        ? cleanText(el.innerText || '').slice(0, 80)
+        : cleanText(el.innerText || el.textContent || '');
       const ariaLabel = cleanText(el.getAttribute('aria-label') || '');
       const placeholder = cleanText(el.getAttribute('placeholder') || '');
       const name = cleanText(el.getAttribute('name') || '');
-      if (!interactiveByTag && !interactiveByRole && !text && !ariaLabel && !placeholder && !name) continue;
+      if (!clickableRow && !interactiveByTag && !interactiveByRole && !text && !ariaLabel && !placeholder && !name) continue;
+
+      // A control with no name of its own - a split button's caret, a bare
+      // checkbox - is named by the nearest text around it, so the app team can
+      // find it and so the same control matches across offices.
+      let nearText = '';
+      if (!text && !ariaLabel && !placeholder && !name) {
+        let around = el.parentElement;
+        for (let depth = 0; around && depth < 3 && !nearText; depth += 1, around = around.parentElement) {
+          // A search box's clear button sits beside an input, which has no text
+          // of its own - its placeholder is what the user reads there.
+          const besideInput = around.querySelector('input[placeholder]');
+          nearText = cleanText(around.innerText || (besideInput && besideInput.getAttribute('placeholder')) || '').slice(0, 40);
+        }
+      }
+
+      const repeatContainer = el.tagName === 'OPTION' ? el.closest('select') : el.closest(REPEAT_CONTAINER);
+      const templateKey = repeatContainer
+        ? [tagName, role, getElementPath(el, repeatContainer)].join('|')
+        : '';
 
       const suggested = buildSuggestedTestId({
         moduleName: moduleNameValue,
@@ -314,12 +348,15 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
         moduleName: moduleNameValue,
         pageUrl: window.location.href,
         tagName: el.tagName.toUpperCase(),
-        role,
+        role: clickableRow ? 'row' : role,
         text,
         ariaLabel,
+        placeholder,
+        nearText,
         name,
         id: el.getAttribute('id') || '',
         classes: Array.from(el.classList).slice(0, 5),
+        templateKey,
         path: locator,
         status: 'missing-testid',
         currentLocator: locator,
@@ -336,10 +373,117 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
       });
     }
 
-    return dedupe(results);
+    // Copies of one repeated item are one finding: the app team fixes them with a
+    // single testid on the template, and 15,000 Location options as separate rows
+    // would bury the real gaps. The count and a few sample labels are kept.
+    const collapsed = [];
+    const groups = new Map();
+    for (const item of results) {
+      if (!item.templateKey) { collapsed.push(item); continue; }
+      const group = groups.get(item.templateKey);
+      if (!group) {
+        item.instances = 1;
+        item.instanceSamples = [item.text || item.ariaLabel].filter(Boolean);
+        groups.set(item.templateKey, item);
+        collapsed.push(item);
+        continue;
+      }
+      group.instances += 1;
+      const sample = item.text || item.ariaLabel;
+      if (sample && group.instanceSamples.length < 3) group.instanceSamples.push(sample);
+    }
+
+    return dedupe(collapsed);
   }, { moduleNameValue: moduleName, scopeSelectorValue: scopeSelector });
 
   return dedupeResults(findings);
+}
+
+/**
+ * Waits for the page to stop changing before a scan. This app streams content
+ * in after domcontentloaded and shows skeleton placeholders while a grid or
+ * dialog loads; without the wait one screen showed 2 gaps where 9 existed. A
+ * readySelector is still the reliable signal - this is the floor.
+ */
+async function settlePage(page) {
+  await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
+  await page.waitForFunction(() => !document.querySelector('[data-slot="skeleton"]'), null, { timeout: 60000 }).catch(() => {});
+  await page.waitForTimeout(1500);
+}
+
+/**
+ * Photographs each finding as the user sees it: a crop of the live page around
+ * the element, with the element outlined. It has to happen while the state is
+ * still open - a dropdown option or a dialog field is gone a step later - so the
+ * PNGs go to a scratch folder and are moved beside the DOM screenshots once the
+ * run has succeeded.
+ */
+async function captureUiScreenshots(page, items, scratchDir) {
+  fs.mkdirSync(scratchDir, { recursive: true });
+  const viewport = page.viewportSize() || { width: 1600, height: 1000 };
+  const pad = 72;
+  for (const item of items) {
+    try {
+      const el = page.locator(item.path).first();
+      if (!(await el.count())) continue;
+      await el.scrollIntoViewIfNeeded({ timeout: 2000 }).catch(() => {});
+      const box = await el.boundingBox();
+      if (!box || box.width < 1 || box.height < 1) continue;
+      const x = Math.max(0, Math.floor(box.x - pad));
+      const y = Math.max(0, Math.floor(box.y - pad));
+      const clip = {
+        x,
+        y,
+        width: Math.max(1, Math.min(viewport.width - x, Math.ceil(box.width + pad * 2))),
+        height: Math.max(1, Math.min(viewport.height - y, Math.ceil(box.height + pad * 2), 420)),
+      };
+      // The highlight is an overlay on top of the page rather than a style on the
+      // element: a parent with overflow:hidden clips an element's own outline.
+      await page.evaluate(({ left, top, width, height }) => {
+        const ring = document.createElement('div');
+        ring.id = '__testid_audit_ring__';
+        Object.assign(ring.style, {
+          position: 'fixed', left: (left - 4) + 'px', top: (top - 4) + 'px',
+          width: (width + 8) + 'px', height: (height + 8) + 'px',
+          border: '3px solid #e5257d', borderRadius: '6px', boxSizing: 'border-box',
+          pointerEvents: 'none', zIndex: '2147483647',
+        });
+        document.body.appendChild(ring);
+      }, { left: box.x, top: box.y, width: box.width, height: box.height });
+      const file = path.join(scratchDir, 'ui-' + (captureUiScreenshots.counter = (captureUiScreenshots.counter || 0) + 1) + '.png');
+      await page.screenshot({ path: file, clip });
+      await page.evaluate(() => document.getElementById('__testid_audit_ring__')?.remove());
+      item.uiScratch = file;
+    } catch (error) {
+      // A missing UI shot never fails the audit; the DOM screenshot still stands.
+    }
+  }
+}
+
+/**
+ * Folds findings from several states of one screen into one list. A control
+ * that stays on screen across states - a toolbar button, a dialog's Close - is
+ * reported once, under the first state it appeared in, with the rest listed.
+ */
+function mergeStates(findings) {
+  const byElement = new Map();
+  const merged = [];
+  for (const item of findings) {
+    // Popovers reuse one portal, so two different dropdowns share a path; the
+    // first sample label is what tells the Location list from the Region list.
+    const key = item.templateKey
+      ? item.templateKey + '|' + ((item.instanceSamples || [])[0] || '')
+      : [item.tagName, item.role, item.text, item.ariaLabel, item.path].join('|');
+    const first = byElement.get(key);
+    if (!first) {
+      item.alsoIn = [];
+      byElement.set(key, item);
+      merged.push(item);
+    } else if (item.state !== first.state && !first.alsoIn.includes(item.state)) {
+      first.alsoIn.push(item.state);
+    }
+  }
+  return merged;
 }
 
 function analyzeStaticSourceFiles(moduleConfig, moduleName) {
@@ -468,19 +612,31 @@ function inferStrategy(item) {
   return 'Fallback selector';
 }
 
+/**
+ * The element's id, unless the framework generated it. Radix ids such as
+ * "radix-_r_k5_" change on every page load, so they name nothing a reader can
+ * find again.
+ */
+function stableId(item) {
+  const id = String(item?.id || '');
+  return /^radix-|^:r[0-9a-z]+:$|^_r_/i.test(id) ? '' : id;
+}
+
 function buildDomSnippet(item) {
   const tag = String(item?.tagName || 'element').toLowerCase();
   const role = item?.role ? ` role="${item.role}"` : '';
   const id = item?.id ? ` id="${item.id}"` : '';
   const classes = Array.isArray(item?.classes) && item.classes.length ? ` class="${item.classes.slice(0, 3).join(' ')}"` : '';
-  const label = item?.text || item?.ariaLabel || item?.name || item?.id || 'element';
+  const label = item?.text || item?.ariaLabel || item?.name || stableId(item) || item?.nearText || 'element';
   return `<${tag}${role}${id}${classes}>${label}</${tag}>`;
 }
 
 function humanReadableElementName(item = {}) {
   const tag = String(item.tagName || '').toLowerCase();
-  const text = item.text || item.ariaLabel || item.name || item.id || '';
+  const text = item.text || item.ariaLabel || item.placeholder || item.name || stableId(item) || '';
 
+  // A row's text is its whole record; the samples carry that instead.
+  if (tag === 'tr') return 'Clickable result row';
   if (text) {
     const label = String(text).trim();
     if (tag === 'button' || item.role === 'button') return `${label} button`;
@@ -489,7 +645,9 @@ function humanReadableElementName(item = {}) {
     return label;
   }
 
-  if (item.role) return `${String(item.role).replace(/-/g, ' ')} control`;
+  const kind = item.role ? String(item.role).replace(/-/g, ' ') : (tag || 'element');
+  if (item.nearText) return `Unlabeled ${kind} beside "${item.nearText}"`;
+  if (item.role) return `${kind} control`;
   if (tag) return `${tag} element`;
   return 'element';
 }
@@ -500,8 +658,30 @@ function humanizeSubmodule(value) {
   return raw
     .split(/[-_\s]+/)
     .filter(Boolean)
-    .map((word) => (/^(usa|uk|us|emea|apac)$/i.test(word) ? word.toUpperCase() : word.charAt(0).toUpperCase() + word.slice(1)))
+    .map((word) => (/^(usa|uk|us|emea|apac|nm)$/i.test(word) ? word.toUpperCase() : word.charAt(0).toUpperCase() + word.slice(1)))
     .join(' ');
+}
+
+/** The element's name plus, for a repeated item, how many copies it stands for. */
+function describeElement(item) {
+  const samples = item.instanceSamples || [];
+  const repeated = item.instances > 1
+    ? ` (one template, ${item.instances} instances${samples.length ? ', e.g. ' + samples.map((sample) => `"${String(sample).slice(0, 40)}"`).join(', ') : ''})`
+    : '';
+  return humanReadableElementName(item) + repeated;
+}
+
+/**
+ * The "Steps to locate the element" text. `where` is what to open: a screen name,
+ * or the full URL in a report that is handed over.
+ */
+function buildLocateSteps(item, where) {
+  const open = item.state ? `${where} - in the state "${item.state}"` : where;
+  return [
+    `1. Open ${open}.`,
+    `2. Locate the ${describeElement(item)}.`,
+    `3. Press F12, open Elements, press Ctrl+F and paste the selector from the "Current selector" column.`
+  ].concat(item.alsoIn && item.alsoIn.length ? [`Also present in: ${item.alsoIn.join('; ')}.`] : []).join('\n');
 }
 
 function createWorkbook(findings, moduleName, outputDir, submoduleName = '') {
@@ -517,22 +697,22 @@ function createWorkbook(findings, moduleName, outputDir, submoduleName = '') {
     'Current selector',
     'Steps to locate the element',
     'DOM snippet',
-    'Screenshot'
+    'Screenshot',
+    'UI screenshot'
   ];
 
   const rows = findings.map((item) => {
     const submodule = humanizeSubmodule(submoduleName) || moduleLabel;
-    const element = humanReadableElementName(item);
-    const currentSelector = item.currentLocator || item.path || '';
-    const steps = [
-      `1. Open ${submodule}.`,
-      `2. Locate the ${element}.`,
-      `3. Press F12, open Elements, press Ctrl+F and paste the selector from the "Current selector" column.`
-    ].join('\n');
-    const domSnippet = buildDomSnippet(item);
-    const screenshotValue = item.screenshot || 'screenshot:not-available';
-
-    return [moduleLabel, submodule, element, currentSelector, steps, domSnippet, screenshotValue];
+    return [
+      moduleLabel,
+      submodule,
+      describeElement(item),
+      item.currentLocator || item.path || '',
+      buildLocateSteps(item, submodule),
+      buildDomSnippet(item),
+      item.screenshot || 'screenshot:not-available',
+      item.uiScreenshot || 'screenshot:not-available'
+    ];
   });
 
   const sheet = XLSX.utils.aoa_to_sheet([header, ...rows]);
@@ -543,6 +723,7 @@ function createWorkbook(findings, moduleName, outputDir, submoduleName = '') {
     { wch: 52 },
     { wch: 84 },
     { wch: 48 },
+    { wch: 26 },
     { wch: 26 }
   ];
 
@@ -590,8 +771,9 @@ const USAGE = [
   '  --config <file>            Alternate config file.',
   '  --help, -h                 Show this message.',
   '',
-  'Note: each run deletes the previous report for the same module+submodule,',
-  'so the output folder only ever holds the latest record for that ticket.',
+  'Note: each successful run replaces the previous report for the same',
+  'module+submodule, so the output folder only ever holds the latest record',
+  'for that ticket. A run that fails partway leaves the previous report as it was.',
   ''
 ].join(String.fromCharCode(10));
 
@@ -703,7 +885,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
 
   const baseSubmodule = args.submodule || (stepsPlan && stepsPlan.submodule) || (target && target.submodule) || targetName || '';
   const submoduleName = office
-    ? [baseSubmodule, normalizeModuleFileName(officeLabel(config, office)), office].filter(Boolean).join('-')
+    ? [baseSubmodule, (config.offices || {})[office] && normalizeModuleFileName(config.offices[office]), office].filter(Boolean).join('-')
     : baseSubmodule;
   const outputDir = path.resolve(ROOT, args.output || (stepsPlan && stepsPlan.output) || (target && target.output) || config.outputDir || 'reports/testid-audit');
 
@@ -716,10 +898,18 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
     path.join(outputDir, reportBase + '.json'),
     path.join(outputDir, reportBase + '.xlsx')
   ]);
-  const purged = purgePreviousRecords(outputDir, reportBase, screenshotDirName);
-  if (purged.length) {
-    console.log('Removed ' + purged.length + ' file(s) from the previous run of this ticket.');
-  }
+  // The previous report is removed only once this run has something to replace
+  // it with. Purging up front meant a run that died mid-walk - a dropped
+  // network, an expired login - left the ticket with no report at all.
+  let previousCleared = false;
+  const clearPreviousRun = () => {
+    if (previousCleared) return;
+    previousCleared = true;
+    const purged = purgePreviousRecords(outputDir, reportBase, screenshotDirName);
+    if (purged.length) {
+      console.log('Removed ' + purged.length + ' file(s) from the previous run of this ticket.');
+    }
+  };
 
   let findings = [];
   if (args.html) {
@@ -732,18 +922,42 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
       const browser = await chromium.launch({ headless: true });
       const storageStatePath = path.join(ROOT, '.auth', 'encore-state.json');
       const contextOptions = fs.existsSync(storageStatePath) ? { storageState: storageStatePath } : {};
+      // Screens hide controls at narrow widths - Products drops View Availability
+      // below desktop width - so the audit renders at the size the app is used at.
+      contextOptions.viewport = moduleConfig.viewport || config.viewport || { width: 1600, height: 1000 };
       const context = await browser.newContext(contextOptions);
+      const uiScratchDir = path.join(require('os').tmpdir(), 'testid-audit-ui-' + process.pid + '-' + Date.now());
       const page = await context.newPage();
       const startingUrl = (baseUrl && pageConfig ? new URL(pageConfig.replace(/^\//, ''), baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`).toString() : pageConfig || baseUrl || 'about:blank');
       try {
         let scopeSelector = args.scope || (target && target.scopeSelector) || moduleConfig.scopeSelector || '';
+        // A steps file with several audits surveys each state where it stands;
+        // otherwise the single scan below runs once the walk is done.
+        const checkpoints = stepsPlan ? stepsPlan.steps.filter((step) => step.verb === 'audit') : [];
+        const auditAtEachStep = checkpoints.length > 1 || checkpoints.some((step) => step.label);
+        const checkpointFindings = [];
 
         if (stepsPlan) {
           console.log('Walking the steps:');
           const officeSteps = stepsPlan.steps.map((step) => (
             step.target ? Object.assign({}, step, { target: substituteOffice(step.target, office) }) : step
           ));
-          const stepScope = await executeSteps(page, officeSteps, { baseUrl });
+          const onAudit = auditAtEachStep
+            ? async (stepScope, label) => {
+              await settlePage(page);
+              const found = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url(), scopeSelector: stepScope });
+              if (!found.length) {
+                // Every state in a file is there because it holds controls; an
+                // empty one means the click before it did not land.
+                throw new Error('The audit "' + (label || stepScope) + '" found no elements - the state probably did not open.');
+              }
+              for (const item of found) item.state = label || stepScope || 'page';
+              await captureUiScreenshots(page, found, uiScratchDir);
+              console.log('    ' + found.length + ' finding(s) in "' + (label || stepScope || 'page') + '"');
+              checkpointFindings.push(...found);
+            }
+            : null;
+          const stepScope = await executeSteps(page, officeSteps, { baseUrl, onAudit });
           if (!args.scope && stepScope) scopeSelector = stepScope;
         } else {
           if (startingUrl && startingUrl !== 'about:blank') {
@@ -755,35 +969,44 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
           }
         }
 
-        // This app streams content in after domcontentloaded. Without a settle
-        // the scan reads a half-rendered page and under-reports - one screen
-        // showed 2 gaps where 9 existed. A readySelector is still the reliable
-        // signal; this is the floor for targets that have not named one.
-        await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
-        await page.waitForTimeout(1500);
-
-        if (scopeSelector) {
-          await page.locator(scopeSelector).first().waitFor({ state: 'attached', timeout: 30000 });
+        if (auditAtEachStep) {
+          findings = mergeStates(checkpointFindings);
+        } else {
+          await settlePage(page);
+          if (scopeSelector) {
+            await page.locator(scopeSelector).first().waitFor({ state: 'attached', timeout: 30000 });
+          }
+          findings = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url() || startingUrl || 'about:blank', scopeSelector });
+          await captureUiScreenshots(page, findings, uiScratchDir);
         }
-        const runtimeFindings = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url() || startingUrl || 'about:blank', scopeSelector });
-        findings = runtimeFindings;
+        // Screenshots go into the folder the previous run used, so it is cleared
+        // here - after a successful scan, before anything new is written. An
+        // empty scan leaves it alone and fails below.
+        if (findings.length) clearPreviousRun();
         const renderPage = await context.newPage();
         await renderPage.setViewportSize({ width: 660, height: 420 });
         ensureOutputDir(screenshotDir);
         for (let index = 0; index < findings.length; index += 1) {
           const item = findings[index];
-          const label = String(item.text || item.ariaLabel || item.name || item.id || item.role || item.tagName || 'element')
+          const label = String(item.text || item.ariaLabel || item.name || stableId(item) || item.nearText || item.role || item.tagName || 'element')
             .toLowerCase().replace(/[^a-z0-9]+/g, '-');
           const fileBase = String(index + 1).padStart(2, '0') + '-' + (normalizeModuleFileName(label) || 'element');
           const written = await captureDomScreenshot(renderPage, item, screenshotDir, fileBase);
           item.screenshot = written === 'screenshot:not-available'
             ? written
             : path.relative(outputDir, written).split(String.fromCharCode(92)).join('/');
+          if (item.uiScratch && fs.existsSync(item.uiScratch)) {
+            const uiFile = path.join(screenshotDir, fileBase + '-ui.png');
+            fs.copyFileSync(item.uiScratch, uiFile);
+            item.uiScreenshot = path.relative(outputDir, uiFile).split(String.fromCharCode(92)).join('/');
+          }
+          delete item.uiScratch;
         }
         await renderPage.close();
       } finally {
         await context.close();
         await browser.close();
+        fs.rmSync(uiScratchDir, { recursive: true, force: true });
       }
     }
 
@@ -823,6 +1046,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
     }
   }
 
+  clearPreviousRun();
   const uniqueFindings = dedupeResults(findings);
   const moduleFileName = normalizeModuleFileName(submoduleName ? `${moduleName}-${submoduleName}` : moduleName);
   const jsonPath = path.join(outputDir, `${moduleFileName}.json`);
@@ -861,6 +1085,10 @@ module.exports = {
   collectRuntimeFindings,
   analyzeStaticSourceFiles,
   createWorkbook,
+  describeElement,
+  buildLocateSteps,
+  buildDomSnippet,
+  normalizeModuleFileName,
   dedupeResults,
   purgePreviousRecords,
   assertWritable,

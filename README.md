@@ -266,9 +266,43 @@ screen genuinely differs: Local Office Settings has 19 untagged controls in USA,
 `Module` and `Submodule` become the first two columns of the workbook, so the report is labelled
 by whatever you call it. Step numbers, trailing periods, `#` comments and curly quotes are all
 tolerated. The verbs are `Go to`, `Click`, `Type "x" into "y"`, `Select "x" from "y"`, `Wait for`,
-`Audit here` and `Audit inside "<selector>"`. A line it cannot parse fails the run — a silently
-skipped navigation step would produce a confident report about whichever page it happened to
-land on.
+`Press "<key>"`, `Audit here` and `Audit inside "<selector>"`. A line it cannot parse fails the run
+— a silently skipped navigation step would produce a confident report about whichever page it
+happened to land on.
+
+`Click`, `Wait for` and `Type` find a control by its name, placeholder, label or text. For a
+control with no name of its own — a split button's caret — give a selector instead: anything
+starting with `.`, `#` or `[`, or prefixed `css=`, `xpath=` or `text=`, is used as one
+(`Click "xpath=//table//tbody/tr[normalize-space(td[1]) != '']"`).
+
+**Several states in one file.** Most of a ticket's controls appear only after a click: a dropdown's
+options, a dialog, a tab inside it. Name each audit and the file surveys every state in one walk,
+writing one workbook:
+
+```
+Audit inside "main" as "Product Groups - Add form"
+Click "css=main button[role=combobox]:has-text('Service Type')"
+Audit inside "[data-radix-popper-content-wrapper]" as "Service Type dropdown open"
+Press "Escape"
+```
+
+The state goes into each row's *Steps to locate*, and a control that stays on screen across states
+is reported once, listing the other states it appears in. A named audit that finds nothing fails
+the run, since it almost always means the click before it did not open anything. Popovers, menus
+and dialogs render outside `main`, so scope those to `[role=dialog]`, `[role=menu]` or
+`[data-radix-popper-content-wrapper]`. The scope is applied with `querySelector`, so it must be
+plain CSS — `:has-text()` and `>> nth=` work in a `Click`, not in an `Audit inside`.
+
+**Repeated items are one finding.** Copies of one template — dropdown options, calendar days,
+result rows — are reported once with an instance count and a few sample labels, because the app
+team fixes them with one testid on the template. Location's 5,116 options are one row, not 5,116.
+Result rows that select on click are reported even though they carry no role, since on some
+screens they are the only way to reach a toolbar. A control with no name is described by the
+text beside it — *Unlabeled button beside "View Product Code"*.
+
+The browser renders at 1600×1000 (`viewport` in the config). Below desktop width some screens drop
+controls — Products hides View Availability at 1280px — and an audit cannot report what was never
+rendered.
 
 **Keep steps files read-only against the app.** `Type` and `Select` exist for screens you can only
 reach by filling something in first, but a file that ends in `Click "Save"` creates a record on
@@ -282,27 +316,68 @@ Each run writes three things into the output directory, named after the module a
 
 | Output | What it is for |
 | --- | --- |
-| `.xlsx` | The workbook for the application team — Module, Submodule, Element, Current selector, Steps to locate the element, DOM snippet, Screenshot |
+| `.xlsx` | The per-run workbook — Module, Submodule, Element, Current selector, Steps to locate the element, DOM snippet, Screenshot, UI screenshot |
 | `.json` | The same findings machine-readable, with risk, confidence and the suggested testid |
-| `<submodule>/` | One PNG per finding: a DevTools Elements view of that element, highlighted in its parent markup |
+| `<submodule>/` | Two PNGs per finding: `NN-name.png`, a DevTools Elements view of the element highlighted in its parent markup, and `NN-name-ui.png`, the element as it looks on screen |
 
-The Screenshot column holds a path relative to the workbook, so the report survives being zipped
-or moved as long as the folder travels with it. Screenshots are rendered from each element's real
-`outerHTML` — Chrome's own DevTools panel is browser UI and cannot be captured by Playwright.
+The DOM screenshot is rendered from the element's real `outerHTML` — Chrome's own DevTools panel
+is browser UI and cannot be captured by Playwright. The UI screenshot is a crop of the live page
+around the element, ringed in pink, taken while its state is still open: a dropdown option or a
+dialog field is gone a step later. The ring is drawn over the page rather than on the element,
+because a parent with `overflow: hidden` clips an element's own outline. The screenshot columns
+hold paths relative to the workbook, so the report survives being zipped or moved as long as the
+folder travels with it.
 
 **Each run deletes the previous report for the same module and submodule**, so a folder only ever
 holds the latest record for that screen. It matches on the report's own name, so another ticket in
-the same folder is left alone. If the workbook is open in Excel the run stops before deleting
-anything and tells you to close it.
+the same folder is left alone. The old report is removed only after the new scan has succeeded, so
+a run that fails partway — a dropped network, an expired login, a step that never lands — leaves
+the previous report exactly as it was. If the workbook is open in Excel the run stops before
+deleting anything and tells you to close it.
 
 `--mode` selects what is scanned: `runtime` (default, the live page), `source` (POM and spec files
 only, no browser) or `combined` (both merged). A `runtime` run that finds nothing fails loudly
 rather than writing an empty-looking report — that almost always means the saved login in
 `.auth/encore-state.json` has expired, the URL is wrong, or `--scope` matched nothing.
 
-One run audits one screen. It does not crawl: it will not follow links or discover other pages, so
-a module with eight screens needs eight steps files. It writes no specs, page objects or TestRail
-cases — it is a survey, not test automation.
+One steps file audits one ticket's screen and the states you list. It does not crawl: it will not
+follow links, open menus or discover other pages on its own, so every state has to be written down.
+A module with several tickets usually needs several files, and some states exist in only one
+country. A file for such a state should say in its header which office to run it on and why,
+because run on any other office it fails at its first step by design. It writes no specs, page
+objects or TestRail cases — it is a survey, not test automation.
+
+#### The hand-over report for a module
+
+The per-run workbooks are working records, one per steps file and office. What goes to the
+application team is one report per module, built from them:
+
+```bash
+node scripts/testid-report.js --plan <plan.json>
+```
+
+It writes one workbook and one page into the plan's output folder:
+
+| Output | What it is for |
+| --- | --- |
+| `.xlsx` | *Missing testids*: one row per element — S.No, Module, Submodule, Element, Current selector, Steps to locate the element, DOM snippet, Screenshot (DOM), Screenshot (UI) — with both screenshots embedded in the row. *Summary*: the count per submodule |
+| `.html` | Every element with both screenshots, grouped by submodule, for reading in a browser |
+| `screenshots/<ticket>/` | The PNGs, numbered to match S.No |
+
+S.No restarts at 1 for each submodule. The steps start from the element's full URL. An element that
+several tickets' screens show — a toolbar button, the pagination — is listed once, under the most
+specific ticket, so the counts add up to the real number of gaps.
+
+The plan is a small JSON file kept with the steps files it reports on. It sets the title, the module,
+the one office the report is for, and the submodules in display order: each gets a ticket, a name
+and the Submodule values of its steps files. `ownership` lists the tickets most specific first, and
+decides who gets an element several of them show. `assign` moves one element to another ticket — for
+a button scanned on one ticket's screen that opens another ticket's page. The comment at the top of
+`scripts/testid-report.js` shows a complete plan.
+
+Run the audits for the plan's office first; a missing report stops the build and names the steps
+file to run. Like the audit, it refuses to start while the workbook is open in Excel, and it replaces
+the previous report only once everything it needs has been read.
 
 #### Auditing a new screen, step by step
 
