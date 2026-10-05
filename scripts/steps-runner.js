@@ -13,6 +13,14 @@
  *   3. Wait for "Enter Product Group Name"
  *   4. Audit inside "main"
  *
+ * A file may hold several labelled audits, one per state of the screen, so a
+ * ticket whose controls only appear after clicks is surveyed in one walk:
+ *
+ *   5. Audit inside "main" as "Product Groups - Add form"
+ *   6. Click "Service Type"
+ *   7. Audit inside "[role=listbox]" as "Service Type dropdown open"
+ *   8. Press "Escape"
+ *
  * Blank lines and lines starting with # are ignored. Step numbers are optional.
  */
 
@@ -37,7 +45,10 @@ const STEP_PATTERNS = [
   { re: /^select\s+(.+?)\s+from\s+(.+)$/i, build: (m) => ({ verb: 'select', value: unquote(m[1]), target: unquote(m[2]) }) },
   { re: /^wait\s+for\s+(.+)$/i, build: (m) => ({ verb: 'wait', target: unquote(m[1]) }) },
   { re: /^click\s+(?:on\s+)?(.+)$/i, build: (m) => ({ verb: 'click', target: unquote(m[1]) }) },
+  { re: /^press\s+(.+)$/i, build: (m) => ({ verb: 'press', target: unquote(m[1]) }) },
+  { re: /^audit\s+(?:inside|in|within)\s+(.+?)\s+as\s+(["'“‘].+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]), label: unquote(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]) }) },
+  { re: /^audit\s+here\s+as\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: '', label: unquote(m[1]) }) },
   { re: /^audit\s+here$/i, build: () => ({ verb: 'audit', scope: '' }) },
   { re: /^audit$/i, build: () => ({ verb: 'audit', scope: '' }) }
 ];
@@ -76,7 +87,8 @@ function parseSteps(text) {
       throw new Error(
         'Line ' + (index + 1) + ' of the steps file is not a step I understand: "' + line + '".'
         + ' Supported: Go to <url>, Click "<label>", Type "<value>" into "<label>",'
-        + ' Select "<option>" from "<label>", Wait for "<label>", Audit here, Audit inside "<selector>".'
+        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Audit here,'
+        + ' Audit inside "<selector>" [as "<state>"].'
       );
     }
     steps.push(step);
@@ -92,9 +104,16 @@ function parseStepsFile(filePath) {
   return parseSteps(fs.readFileSync(filePath, 'utf8'));
 }
 
-/** Looks a control up the way a tester would: by role, then label, then text. */
+/**
+ * Looks a control up the way a tester would: by role, then label, then text.
+ * A label that is plainly a selector - starting with . # [ or a container tag,
+ * or carrying an engine prefix such as css= or text= - is used as one, for
+ * controls with no name of their own like a split button's caret.
+ */
 function resolveLocator(page, label) {
-  const looksLikeSelector = /^[.#\[]/.test(label) || /^(main|form|section|dialog|table)\b/i.test(label);
+  const looksLikeSelector = /^[.#\[]/.test(label)
+    || /^(main|form|section|dialog|table)\b/i.test(label)
+    || /^(css|xpath|text|role)=/i.test(label);
   if (looksLikeSelector) return page.locator(label).first();
 
   return page
@@ -108,15 +127,18 @@ function resolveLocator(page, label) {
 
 /**
  * Walks the steps against a live page. Returns the scope selector named by the
- * audit step, which the caller uses to bound the scan.
+ * last audit step, which the caller uses to bound the scan. Given onAudit, each
+ * audit step instead calls it in place - (scope, label) - so one walk can
+ * survey several states of the screen.
  */
 async function executeSteps(page, steps, options = {}) {
-  const { baseUrl = '', timeout = 30000, log = console.log } = options;
+  const { baseUrl = '', timeout = 30000, log = console.log, onAudit = null } = options;
   let scope = '';
 
   for (let index = 0; index < steps.length; index += 1) {
     const step = steps[index];
-    const label = 'Step ' + (index + 1) + ': ' + step.verb + (step.target ? ' "' + step.target + '"' : '');
+    const label = 'Step ' + (index + 1) + ': ' + step.verb + (step.target ? ' "' + step.target + '"' : '')
+      + (step.label ? ' as "' + step.label + '"' : '');
 
     try {
       if (step.verb === 'goto') {
@@ -140,11 +162,16 @@ async function executeSteps(page, steps, options = {}) {
         await page.getByRole('option', { name: step.value, exact: false }).first().click({ timeout });
       } else if (step.verb === 'wait') {
         await resolveLocator(page, step.target).waitFor({ state: 'visible', timeout });
+      } else if (step.verb === 'press') {
+        await page.keyboard.press(step.target);
+        // Let a closing dialog or popover finish animating out before the next click.
+        await page.waitForTimeout(800);
       } else if (step.verb === 'audit') {
         scope = step.scope || '';
         if (scope) {
           await page.locator(scope).first().waitFor({ state: 'attached', timeout });
         }
+        if (onAudit) await onAudit(scope, step.label || '');
       }
       log('  ' + label + ' - ok');
     } catch (error) {
