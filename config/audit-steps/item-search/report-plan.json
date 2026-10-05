@@ -1,0 +1,23 @@
+{
+  "title": "Missing data-testid - Item Search (NM-4084)",
+  "module": "Item Search",
+  "office": "1101",
+  "officeLabel": "1101 - Corporate Office Encore USA SGA",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-item-search",
+  "output": "reports/testid-audit-item-search/NM-4084-item-search-1101",
+  "fileName": "NM-4084-item-search-missing-testids-1101",
+  "submodules": [
+    { "ticket": "NM-3650", "name": "Product Search", "reports": ["product-search-nm-3650"] },
+    { "ticket": "NM-2254", "name": "Product Search Filters", "reports": ["product-search-filters-nm-2254", "product-organization-nm-2254"] },
+    { "ticket": "NM-2255", "name": "View Product Code", "reports": ["view-product-code-nm-2255"] },
+    { "ticket": "NM-2256", "name": "Check Availability Calendar Button", "reports": ["check-availability-calendar-nm-2256", "view-availability-nm-2256"] },
+    { "ticket": "NM-2257", "name": "Add Product Code", "reports": ["add-product-code-nm-2257"] },
+    { "ticket": "NM-2258", "name": "Search For Product Groups", "reports": ["search-product-groups-nm-2258"] },
+    { "ticket": "NM-2259", "name": "Create New Product Groups", "reports": ["create-product-groups-nm-2259"] }
+  ],
+  "ownership": ["NM-2259", "NM-2258", "NM-2257", "NM-2255", "NM-2256", "NM-2254", "NM-3650"],
+  "assign": [
+    { "element": "Product Group button", "page": "/products", "to": "NM-2258" }
+  ]
+}

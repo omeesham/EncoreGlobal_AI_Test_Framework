@@ -1,0 +1,25 @@
+# NM-2256 - Product > Check Availability Calendar Button: the View Availability
+# button (parent NM-2253, audit ticket NM-4084). The ticket is still To Do and
+# the button does nothing when clicked yet.
+#
+# USA offices only. View Availability is rendered for 1606 and 1101 but not for
+# Canada 2359 or Mexico 7147, so a run there fails at the Wait step by design.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/item-search/nm-2256-view-availability-usa.txt --office 1606,1101
+#
+# The default "Quantity Greater Than Zero" filter is unticked and the search runs
+# with no term, as in the other product flows. The first row with a Category is
+# selected; some records have none and their dialogs do not open. Nothing is saved.
+
+Module: Item Search
+Submodule: view-availability-nm-2256
+Output: reports/testid-audit-item-search
+
+1. Go to /navigator/locations/{office}/products
+2. Wait for "[data-testid=e2e-search-input]"
+3. Click "[data-testid=e2e-search-form] [data-testid=e2e-checkbox] >> nth=0"
+4. Click "[data-testid=e2e-search-button]"
+5. Wait for "text=/[1-9][0-9,]* products found/"
+6. Wait for "css=main:not(:has([data-slot=skeleton]))"
+7. Click "xpath=//table//tbody/tr[normalize-space(td[1]) != '']"
+8. Wait for "View Availability"
+9. Audit inside "main div:has(> div > button + button[aria-haspopup=menu])" as "View Availability button (row selected)"

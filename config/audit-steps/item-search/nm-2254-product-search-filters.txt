@@ -1,0 +1,19 @@
+# NM-2254 - Product > Product Search Filters (parent NM-2253, audit ticket NM-4084).
+# The FILTERS panel (red bracket on the ticket) and both of its dropdowns.
+# PREP / RETURN DATE TIME is audited under NM-2256, which owns the calendar.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/item-search/nm-2254-product-search-filters.txt
+
+Module: Item Search
+Submodule: product-search-filters-nm-2254
+Output: reports/testid-audit-item-search
+
+1. Go to /navigator/locations/{office}/products
+2. Wait for "[data-testid=e2e-search-input]"
+# FILTERS has no data-testid of its own, so it is reached by its position in the form.
+3. Audit inside "[data-testid=e2e-search-form] > div:first-child > div:nth-child(2)" as "FILTERS panel"
+4. Click "css=[data-testid=e2e-search-form] > div:first-child > div:nth-child(2) button[role=combobox] >> nth=0"
+5. Audit inside "[data-radix-popper-content-wrapper]" as "Location dropdown open"
+6. Press "Escape"
+7. Click "css=[data-testid=e2e-search-form] > div:first-child > div:nth-child(2) button[role=combobox] >> nth=1"
+8. Audit inside "[data-radix-popper-content-wrapper]" as "Region dropdown open"
+9. Press "Escape"

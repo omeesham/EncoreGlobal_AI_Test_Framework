@@ -1,0 +1,20 @@
+# NM-2259 - Product Groups > Create new Product Groups (parent NM-2253, audit ticket NM-4084).
+# The Add Product Group form, its sort and Service Type dropdowns.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/item-search/nm-2259-create-product-groups.txt
+# Read-only: never clicks Save.
+
+Module: Item Search
+Submodule: create-product-groups-nm-2259
+Output: reports/testid-audit-item-search
+
+1. Go to /navigator/locations/{office}/products/product-groups
+2. Wait for "Search Product Groups"
+3. Click "css=main button:text-is('Add')"
+4. Wait for "Enter Product Group Name"
+5. Audit inside "main" as "Add Product Group form"
+6. Click "css=main button[role=combobox]:has-text('Service Type')"
+7. Audit inside "[data-radix-popper-content-wrapper]" as "Service Type dropdown open"
+8. Press "Escape"
+9. Click "[data-testid=select-currency]"
+10. Audit inside "[data-radix-popper-content-wrapper]" as "Sort dropdown open"
+11. Press "Escape"

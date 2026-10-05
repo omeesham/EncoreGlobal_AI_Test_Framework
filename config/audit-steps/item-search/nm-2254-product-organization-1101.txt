@@ -1,0 +1,17 @@
+# NM-2254 - Product > Product Search Filters: the Product Organization filter
+# (parent NM-2253, audit ticket NM-4084).
+#
+# 1101 only. Corporate Office 1101 shows a fourth filter, Product Organization
+# (Select All, None, Canada, Mexico, United States), that 1606, 2359 and 7147 do
+# not render, so a run there fails at the Click step by design.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/item-search/nm-2254-product-organization-1101.txt --office 1101
+
+Module: Item Search
+Submodule: product-organization-nm-2254
+Output: reports/testid-audit-item-search
+
+1. Go to /navigator/locations/{office}/products
+2. Wait for "[data-testid=e2e-search-input]"
+3. Click "css=[data-testid=e2e-search-form] > div:first-child > div:nth-child(2) button[role=combobox] >> nth=2"
+4. Audit inside "[data-radix-popper-content-wrapper]" as "Product Organization dropdown open"
+5. Press "Escape"

@@ -1,0 +1,41 @@
+# NM-2258 - Product Groups > Search For Product Groups (parent NM-2253, audit ticket NM-4084).
+# The Product Groups list, before and after a search, with its grid menus,
+# and the Edit Product Group page a result row opens. Read-only: never clicks Save.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/item-search/nm-2258-search-product-groups.txt
+
+Module: Item Search
+Submodule: search-product-groups-nm-2258
+Output: reports/testid-audit-item-search
+
+1. Go to /navigator/locations/{office}/products/product-groups
+2. Wait for "Search Product Groups"
+3. Audit inside "main" as "Product Groups list on load"
+4. Type "mic" into "Search Product Groups"
+5. Click "main button[type=submit]"
+6. Audit inside "main" as "Results for 'mic'"
+7. Click "css=main thead th button >> nth=0"
+8. Audit inside "[role=menu]" as "Name column header menu open"
+9. Press "Escape"
+10. Click "Grid Options"
+11. Audit inside "[role=menu]" as "Grid Options menu open"
+12. Press "Escape"
+13. Click "css=main button[role=combobox] >> nth=-1"
+14. Audit inside "[role=listbox]" as "Rows per page list open"
+15. Press "Escape"
+16. Type "" into "Search Product Groups"
+17. Click "main button[type=submit]"
+18. Wait for "text=/[1-9][0-9,]* product groups found/"
+19. Wait for "css=main tbody tr"
+20. Audit inside "main" as "All product groups listed"
+21. Click "css=main tbody tr >> nth=0"
+22. Wait for "css=main button:has-text('Cancel')"
+23. Audit inside "main" as "Edit Product Group page"
+24. Click "css=main button[role=combobox] >> nth=0"
+25. Audit inside "[data-radix-popper-content-wrapper]" as "Edit - sort dropdown open"
+26. Press "Escape"
+27. Click "css=main button[role=combobox] >> nth=1"
+28. Audit inside "[data-radix-popper-content-wrapper]" as "Edit - Service Type dropdown open"
+29. Press "Escape"
+30. Click "main button[aria-label='Click to show translations popup']"
+31. Audit inside "[data-radix-popper-content-wrapper], [role=dialog]" as "Edit - translations popup"
+32. Press "Escape"
