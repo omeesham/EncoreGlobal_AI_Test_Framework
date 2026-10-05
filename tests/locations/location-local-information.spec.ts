@@ -1,6 +1,6 @@
 import { test, expect } from '../../src/fixtures/pages.fixture';
 import { LocationLocalInfoPage } from '../../src/pages/locations/location-local-info.page';
-import { OFFICE_NO, SAVE_CHANGES_DIALOG, UNSAVED_CHANGES_DIALOG } from '../../src/data/common';
+import { SAVE_CHANGES_DIALOG, UNSAVED_CHANGES_DIALOG } from '../../src/data/common';
 import { about, phase, verify, attachNote } from '../../src/fixtures/report-steps';
 import {
   CHECKED_DEFAULTS,
@@ -13,6 +13,9 @@ import {
   TEXT_FIELD_CONSTRAINTS,
   LOCAL_INFO_TEST_VALUES,
   CHECKBOX_LABEL_CASES,
+  LOCAL_INFO_OFFICE,
+  PRODUCT_ORG,
+  SET_STRIKE_BOUNDARY_VALUES,
 } from '../../src/data/locations/location-local-info';
 // Country baseline/alternate live with the left-panel data — TC-LOC-LI-045/046 drive the Country
 // cascade from this tab, using the same values the sibling left-panel suite uses.
@@ -20,18 +23,21 @@ import { LP_DEFAULTS, LP_TEST_VALUES } from '../../src/data/locations/location-l
 
 // Local Information sub-tab of Location Settings (NM-1708, building on the NM-958 validation work
 // and the NM-1129 Save-button defect). The page object, selectors and data file already existed;
-// this spec is the missing piece. Baseline re-verified live against office 1604 on 2026-09-14 —
-// see the "Live baseline verification" section of specs/location-local-information.plan.md.
+// this spec is the missing piece. Baselines are keyed by office in the data file (OFFICE_BASELINES)
+// because two offices legitimately differ on the same checkbox — 1606 runs ETS on / Service Charge
+// off, 1604 the reverse. Re-verified live: 1604 on 2026-09-14, 1606 on 2026-09-21. See the
+// "Live baseline verification" section of specs/location-local-information.plan.md.
 
 /** The tab lives under settings/location — NOT settings/local-office, which is a different module. */
-const SETTINGS_PATH = `locations/${OFFICE_NO}/settings`;
+const SETTINGS_PATH = `locations/${LOCAL_INFO_OFFICE}/settings`;
 
 /** Second office used only for read-only cross-office contrast (NM-1129 references it). */
 const CONTRAST_OFFICE = '1101';
 
-// spinCCPercentage, spinETSPercentage, spinResortTaxPercentage and spinThreshold all load DISABLED
-// for 1604 because their gate checkboxes are unchecked, so only spinLDWPercentage can carry the
-// boundary work; the gated ones are opened and restored individually in TC-035/036/037.
+// spinCCPercentage, spinResortTaxPercentage and spinThreshold load DISABLED on both offices because
+// their gate checkboxes are unchecked, so spinLDWPercentage carries the boundary work; the gated ones
+// are opened and restored individually in TC-035/036/037. (spinETSPercentage loads ENABLED on 1606,
+// where Allow ETS is on — TC-035 reads the gate live rather than assuming a direction.)
 const validBoundaries = LDW_BOUNDARIES.filter(b => b.valid);
 const invalidBoundaries = LDW_BOUNDARIES.filter(b => !b.valid);
 
@@ -41,14 +47,25 @@ test.describe('Location Local Information @locations @local-information', () => 
   // form's ~30 checkbox render.
   test.beforeEach(async ({ locationLocalInfoPage }) => {
     test.setTimeout(90_000);
-    if (await locationLocalInfoPage.isOnLocalInfoTab()) return;
+    if (await locationLocalInfoPage.isOnLocalInfoTab()) {
+      // Never inherit a dirty form. Several cases here tick a checkbox and rely on their finally
+      // block to throw the edit away by reloading; if that reload is skipped (a timeout, an early
+      // failure) the tick is still sitting on the form when the next test starts. Saving is a
+      // whole-form PUT to /api/location/update-properties, so the next test that saves anything
+      // would flush every inherited tick into the shared office at once. Save being enabled means
+      // edits are pending, so reload them away before handing the form over.
+      if (await locationLocalInfoPage.isSaveEnabled()) {
+        await locationLocalInfoPage.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
+      }
+      return;
+    }
     // navigateToSubTab waits a hard-coded 30s for the tab to appear, which the very first test of
     // a cold worker can miss while the SSO handoff and app bundle are still settling. One retry
     // costs nothing on a warm session and removes that first-test flake.
     try {
-      await locationLocalInfoPage.navigateToLocalInfoTab(OFFICE_NO);
+      await locationLocalInfoPage.navigateToLocalInfoTab(LOCAL_INFO_OFFICE);
     } catch {
-      await locationLocalInfoPage.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await locationLocalInfoPage.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -75,7 +92,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     });
   });
 
-  test('TC-LOC-LI-002: Left-panel baseline values match the shared Location Settings header for office 1604', { tag: '@C105513' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+  test('TC-LOC-LI-002: Left-panel baseline values match the shared Location Settings header for the office under test', { tag: '@C105513' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-LI-001']);
     await about('The location details panel on the left shows the right office and its shared settings, the same on this tab as on every other one.');
 
@@ -159,7 +176,7 @@ test.describe('Location Local Information @locations @local-information', () => 
       billingWay: await pg.getBillingWay(),
     }));
 
-    await phase('Refresh the browser and open the tab again', () => pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+    await phase('Refresh the browser and open the tab again', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
 
     await verify('Check the same values come back and Save is switched off again', async () => {
       expect((await pg.getSpinState('spinLDWPercentage')).value).toBe(before.ldw);
@@ -176,7 +193,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     dependencyGate(['TC-LOC-LI-001']);
     await about('Save cannot be pressed until something is actually changed, so nobody can save an unchanged form by accident.');
 
-    await phase('Open the tab from a clean refresh', () => pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+    await phase('Open the tab from a clean refresh', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
     await verify('Check Save is switched off', async () => {
       expect(await pg.isSaveEnabled()).toBe(false);
     });
@@ -189,7 +206,7 @@ test.describe('Location Local Information @locations @local-information', () => 
 
     const target = validBoundaries[0]!;
     const result = await phase(`Change LDW to ${target.value} and save it`, () =>
-      pg.testBoundaryValue('spinLDWPercentage', target.value, true, undefined, target.restoreValue, OFFICE_NO));
+      pg.testBoundaryValue('spinLDWPercentage', target.value, true, undefined, target.restoreValue, LOCAL_INFO_OFFICE));
 
     await verify('Check the change saved and survived the refresh', async () => {
       expect(result.passed, result.detail).toBe(true);
@@ -215,7 +232,7 @@ test.describe('Location Local Information @locations @local-information', () => 
 
       await phase('Back out of the confirmation box', () => pg.clickWithRetry('btnSaveChangesCancel'));
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -238,12 +255,12 @@ test.describe('Location Local Information @locations @local-information', () => 
         expect(await pg.isSaveEnabled()).toBe(true);
       });
 
-      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
       await verify('Check the original value came back, proving nothing was stored', async () => {
         expect(await pg.getTextValue('txtOracleProduct')).toBe(original);
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -290,7 +307,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         + 'can discard the work. Raise against NM-1708 section 8.',
       );
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -306,7 +323,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         await pg.clickWithRetry('tabLegal');
       });
 
-      await phase('Come back to Local Information', () => pg.navigateToLocalInfoTab(OFFICE_NO));
+      await phase('Come back to Local Information', () => pg.navigateToLocalInfoTab(LOCAL_INFO_OFFICE));
 
       await verify('Check the edit is still there and still waiting to be saved', async () => {
         expect(await pg.getTextValue('txtOracleProduct'),
@@ -314,14 +331,14 @@ test.describe('Location Local Information @locations @local-information', () => 
         expect(await pg.isSaveEnabled()).toBe(true);
       });
 
-      await phase('Now refresh the browser', () => pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+      await phase('Now refresh the browser', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
 
       await verify('Check the refresh is what discards the edit, with no warning beforehand', async () => {
         expect(await pg.getTextValue('txtOracleProduct')).toBe(original);
         expect(await pg.isSaveEnabled()).toBe(false);
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -335,7 +352,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     await attachNote('Effective date state on this run', `disabled=${disabled}`);
 
     await verify('Check the date control is locked, matching the confirmed baseline for this office', async () => {
-      expect(disabled, 'office 1604 cannot currently change its billing method, so the date must be locked').toBe(true);
+      expect(disabled, `office ${LOCAL_INFO_OFFICE} cannot currently change its billing method, so the date must be locked`).toBe(true);
     });
   });
 
@@ -350,7 +367,7 @@ test.describe('Location Local Information @locations @local-information', () => 
 
     await attachNote(
       'Coverage limitation',
-      'Office 1604 cannot change its billing method, so the effective-date picker is permanently locked and the '
+      `Office ${LOCAL_INFO_OFFICE} cannot change its billing method, so the effective-date picker is permanently locked and the `
       + 'past-date rule cannot be exercised through the UI here. Exercising it needs an office whose billing method '
       + 'is still changeable; see TC-LOC-LI-028.',
     );
@@ -370,7 +387,7 @@ test.describe('Location Local Information @locations @local-information', () => 
 
     // Entry path matters here (see the DEFECT note below), so force the freshly-loaded path rather
     // than inheriting whatever route the previous test left behind.
-    await phase('Load the tab fresh so the starting state is well defined', () => pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+    await phase('Load the tab fresh so the starting state is well defined', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
 
     await verify('Check the organisation is read-only on a freshly loaded page', async () => {
       expect(await pg.isFieldDisabled('drpOracleOrganization'),
@@ -385,7 +402,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     await phase('Leave to another sub-tab and come straight back', async () => {
       await pg.clickWithRetry('tabLegal');
       await pg.page.waitForTimeout(1500);
-      await pg.navigateToLocalInfoTab(OFFICE_NO);
+      await pg.navigateToLocalInfoTab(LOCAL_INFO_OFFICE);
     });
 
     await verify('Check the read-only state is lost after returning - the defect being recorded', async () => {
@@ -400,7 +417,7 @@ test.describe('Location Local Information @locations @local-information', () => 
       + 'editable through ordinary in-app navigation. Raise against NM-1708 section 5.',
     );
 
-    await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+    await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
   });
 
   test('TC-LOC-LI-016: Oracle Product Code and Oracle Department Code are populated while Skip Billing is unchecked (baseline)', { tag: '@C105527' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
@@ -432,7 +449,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         expect(deptDisabled).toBe(false);
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -482,7 +499,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         expect(await pg.getTextValue('txtOracleProduct')).toContain('script');
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -503,7 +520,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     });
   });
 
-  test('TC-LOC-LI-022: Billing Cycle is disabled once local billing has run - cross-office contrast between 1604 and 1101', { tag: '@C105533' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+  test('TC-LOC-LI-022: Billing Cycle is disabled once local billing has run - cross-office contrast against 1101', { tag: '@C105533' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-LI-021']);
     test.setTimeout(180_000);
     await about('Comparing two offices side by side shows the rule: the billing cycle locks once that office has been billed. Nothing is changed on either office.');
@@ -517,7 +534,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     } catch (e) {
       await attachNote('Cross-office read failed', (e as Error).message);
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
 
     await attachNote('Billing Cycle by office', `1604: ${JSON.stringify(home)}\n${CONTRAST_OFFICE}: ${JSON.stringify(other)}`);
@@ -557,7 +574,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     const failures: string[] = [];
     for (const b of validBoundaries) {
       await phase(`Set LDW to its ${b.label} and save`, async () => {
-        const r = await pg.testBoundaryValue('spinLDWPercentage', b.value, true, undefined, b.restoreValue, OFFICE_NO);
+        const r = await pg.testBoundaryValue('spinLDWPercentage', b.value, true, undefined, b.restoreValue, LOCAL_INFO_OFFICE);
         if (!r.passed) failures.push(`${b.label}: ${r.detail}`);
       });
     }
@@ -575,7 +592,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     const failures: string[] = [];
     for (const b of invalidBoundaries) {
       await phase(`Try LDW at its ${b.label}`, async () => {
-        const r = await pg.testBoundaryValue('spinLDWPercentage', b.value, false, b.errorContains, b.restoreValue, OFFICE_NO);
+        const r = await pg.testBoundaryValue('spinLDWPercentage', b.value, false, b.errorContains, b.restoreValue, LOCAL_INFO_OFFICE);
         if (!r.passed) failures.push(`${b.label}: ${r.detail}`);
       });
     }
@@ -602,7 +619,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         await pg.waitForSaveToast();
       });
 
-      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
       await verify(`Check billing type came back as ${other}`, async () => {
         expect(await pg.getBillingType()).toBe(other);
       });
@@ -613,7 +630,7 @@ test.describe('Location Local Information @locations @local-information', () => 
           await pg.clickSave();
           await pg.waitForSaveToast().catch(() => {});
         }
-        await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
       });
     }
   });
@@ -642,11 +659,11 @@ test.describe('Location Local Information @locations @local-information', () => 
       });
     } finally {
       await phase('Leave the billing method as it was found', async () => {
-        await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
         if ((await pg.getBillingWay()) !== original) {
           await pg.selectBillingWay(original);
           await pg.clickSave().catch(() => ({ success: false }));
-          await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+          await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
         }
       });
     }
@@ -675,11 +692,11 @@ test.describe('Location Local Information @locations @local-information', () => 
       });
     } finally {
       await phase('Leave the billing method as it was found', async () => {
-        await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
         if ((await pg.getBillingWay()) !== original) {
           await pg.selectBillingWay(original);
           await pg.clickSave().catch(() => ({ success: false }));
-          await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+          await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
         }
       });
     }
@@ -712,14 +729,14 @@ test.describe('Location Local Information @locations @local-information', () => 
     try {
       await phase('Attempt a change and then refresh without saving', async () => {
         await pg.selectBillingWay(original === 'Event' ? 'Daily' : 'Event');
-        await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
       });
 
       await verify('Check the stored billing method is unchanged', async () => {
         expect(await pg.getBillingWay()).toBe(original);
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -731,14 +748,14 @@ test.describe('Location Local Information @locations @local-information', () => 
     const original = await pg.getBillingType();
     try {
       await phase('Switch the type but do not save', () => pg.selectBillingType(original === 'Master' ? 'Direct' : 'Master'));
-      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
 
       await verify('Check the original type is back and Save is switched off', async () => {
         expect(await pg.getBillingType()).toBe(original);
         expect(await pg.isSaveEnabled()).toBe(false);
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -751,7 +768,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     try {
       await phase('Start editing several billing settings, then walk away', async () => {
         await pg.selectBillingType(before.type === 'Master' ? 'Direct' : 'Master');
-        await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
       });
 
       await verify('Check all three billing settings are unchanged', async () => {
@@ -760,7 +777,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         expect(await pg.getBillingCycleValue()).toBe(before.cycle);
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -800,25 +817,36 @@ test.describe('Location Local Information @locations @local-information', () => 
   test('TC-LOC-LI-035: Allow ETS gates ETS Percentage, including its documented union/non-union default', { tag: '@C105546' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-LI-004']);
     test.setTimeout(180_000);
-    await about('The ETS percentage only becomes editable once ETS is switched on, and it starts from the value the office is set up with. The switch is put back afterwards.');
+    await about('The ETS percentage is editable only while ETS is switched on. Whichever way round the office starts, switching the gate must move the percentage with it. The switch is put back afterwards.');
 
     try {
-      await verify('Check the percentage starts locked while ETS is switched off', async () => {
-        expect((await pg.getCheckboxState('chkAllowETS')).checked).toBe(false);
-        expect(await pg.isFieldDisabled('spinETSPercentage')).toBe(true);
+      // Offices differ on which way ETS starts (1604 off, 1606 on), so the gate direction is read
+      // live rather than assumed — the rule under test is "gate and percentage move together",
+      // which holds in both directions.
+      const startsOn = (await pg.getCheckboxState('chkAllowETS')).checked;
+      await attachNote('ETS gate as found', `office=${LOCAL_INFO_OFFICE} AllowETS=${startsOn}`);
+
+      await verify('Check the percentage matches the gate as the office loads it', async () => {
+        expect(
+          await pg.isFieldDisabled('spinETSPercentage'),
+          'the percentage must be locked exactly when the gate is off',
+        ).toBe(!startsOn);
       });
 
-      await phase('Switch ETS on', () => pg.checkCheckbox('chkAllowETS'));
+      await phase(`Switch ETS ${startsOn ? 'off' : 'on'}`, () =>
+        startsOn ? pg.uncheckCheckbox('chkAllowETS') : pg.checkCheckbox('chkAllowETS'));
 
       const st = await pg.getSpinState('spinETSPercentage');
-      await attachNote('ETS percentage once enabled', `value=${JSON.stringify(st.value)} disabled=${st.disabled}`);
+      await attachNote('ETS percentage after toggling the gate', `value=${JSON.stringify(st.value)} disabled=${st.disabled}`);
 
-      await verify('Check the percentage becomes editable and offers a starting figure', async () => {
-        expect(st.disabled, 'switching ETS on must unlock its percentage').toBe(false);
-        expect(st.value.length).toBeGreaterThan(0);
+      await verify('Check the percentage follows the gate to its new position', async () => {
+        expect(st.disabled, 'the percentage must follow the gate').toBe(startsOn);
+        if (!startsOn) {
+          expect(st.value.length, 'switching ETS on must offer a starting figure').toBeGreaterThan(0);
+        }
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -841,7 +869,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         expect(parseFloat(st.value || '0')).toBe(0);
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -871,7 +899,7 @@ test.describe('Location Local Information @locations @local-information', () => 
           'documented discrepancy vs NM-1708: this gate only applies after a save and reload, like Skip Billing').toBe(true);
       });
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
   });
 
@@ -964,7 +992,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     test.setTimeout(180_000);
     await about('Changing the office country to Canada offers the second remit-tax setting and changes the discount-reason setting. Nothing is saved — the change is thrown away by refreshing, so the office is left exactly as it was.');
 
- // Safe on the shared office 1604 because Save is never pressed: the cascade lives only in the
+ // Safe on the shared office because Save is never pressed: the cascade lives only in the
  // unsaved form and the finally-block reload discards it. Same discard pattern the sibling
  // TC-LOC-LP-022 already uses against this very field.
     try {
@@ -991,7 +1019,7 @@ test.describe('Location Local Information @locations @local-information', () => 
       });
     } finally {
       await phase('Throw the country change away by refreshing', () =>
-        pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+        pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
     }
 
     await verify('Check the office is back on its United States baseline', async () => {
@@ -1008,7 +1036,7 @@ test.describe('Location Local Information @locations @local-information', () => 
 
  // The plan predicted these fields would stay stranded on their Canadian values (modelled on the
  // sibling TC-LOC-LP-020 finding for Tax Mode/Region) but flagged the exact post-state as
- // UNVERIFIED and asked for whatever the live app shows. Measured against office 1604: the round
+ // UNVERIFIED and asked for whatever the live app shows. Measured against office 1604; the round
  // trip restores Check Discount and Job Costing cleanly and never touches the percentages, so
  // this asserts the observed restore rather than the predicted stranding.
  //
@@ -1051,7 +1079,7 @@ test.describe('Location Local Information @locations @local-information', () => 
       });
     } finally {
       await phase('Throw the whole round trip away by refreshing', () =>
-        pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+        pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
     }
 
     await verify('Check every setting is back on its pre-test baseline', async () => {
@@ -1095,12 +1123,12 @@ test.describe('Location Local Information @locations @local-information', () => 
       });
     } finally {
       await phase('Put the Oracle product code back', async () => {
-        await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
         if ((await pg.getTextValue('txtOracleProduct')) !== original) {
           await pg.fillText('txtOracleProduct', original);
           await pg.clickSave().catch(() => ({ success: false }));
           await pg.waitForSaveToast().catch(() => {});
-          await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+          await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
         }
       });
     }
@@ -1119,7 +1147,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         await pg.waitForSaveToast();
       });
 
-      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
       await verify('Check the new code is still there', async () => {
         expect(await pg.getTextValue('txtOracleProduct')).toBe(LOCAL_INFO_TEST_VALUES.oracleProductTest);
       });
@@ -1128,7 +1156,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         await pg.fillText('txtOracleProduct', original);
         await pg.clickSave().catch(() => ({ success: false }));
         await pg.waitForSaveToast().catch(() => {});
-        await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
         expect(await pg.getTextValue('txtOracleProduct')).toBe(original);
       });
     }
@@ -1152,7 +1180,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         await pg.waitForSaveToast();
       });
 
-      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(OFFICE_NO));
+      await phase('Refresh the browser', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
       await verify('Check both new values came back together', async () => {
         expect(await pg.getTextValue('txtOracleProduct')).toBe(LOCAL_INFO_TEST_VALUES.oracleProductTest);
         expect(await pg.getTextValue('txtOracleDepartment')).toBe(LOCAL_INFO_TEST_VALUES.oracleDeptTest);
@@ -1163,7 +1191,7 @@ test.describe('Location Local Information @locations @local-information', () => 
         await pg.fillText('txtOracleDepartment', before.dept);
         await pg.clickSave().catch(() => ({ success: false }));
         await pg.waitForSaveToast().catch(() => {});
-        await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
       });
     }
   });
@@ -1199,7 +1227,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     } finally {
       await phase('Stop refusing saves and put the office back', async () => {
         await pg.page.unroute(savePattern).catch(() => {});
-        await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
         expect(await pg.getTextValue('txtOracleProduct')).toBe(original);
       });
     }
@@ -1228,7 +1256,7 @@ test.describe('Location Local Information @locations @local-information', () => 
     });
   });
 
-  test('TC-LOC-LI-052: Cross-office audit finds no read-only/permission gating differs between 1604 and 1101 for this test account', { tag: '@C105563' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+  test('TC-LOC-LI-052: Cross-office audit finds no read-only/permission gating differs from 1101 for this test account', { tag: '@C105563' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
     dependencyGate(['TC-LOC-LI-005']);
     test.setTimeout(240_000);
     await about('Opening the same screen for a second office confirms the rules behave the same way from a different starting point. Nothing is changed on either office.');
@@ -1239,7 +1267,7 @@ test.describe('Location Local Information @locations @local-information', () => 
       return out;
     };
 
-    const home = await phase(`Read which settings are locked on office ${OFFICE_NO}`, readGating);
+    const home = await phase(`Read which settings are locked on office ${LOCAL_INFO_OFFICE}`, readGating);
 
     let other: Record<string, boolean> | null = null;
     try {
@@ -1248,14 +1276,210 @@ test.describe('Location Local Information @locations @local-information', () => 
     } catch (e) {
       await attachNote('Cross-office read failed', (e as Error).message);
     } finally {
-      await pg.reloadAndNavigateToLocalInfo(OFFICE_NO);
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
     }
 
-    await attachNote('Locked settings by office', `${OFFICE_NO}: ${JSON.stringify(home, null, 2)}\n${CONTRAST_OFFICE}: ${JSON.stringify(other, null, 2)}`);
+    await attachNote('Locked settings by office', `${LOCAL_INFO_OFFICE}: ${JSON.stringify(home, null, 2)}\n${CONTRAST_OFFICE}: ${JSON.stringify(other, null, 2)}`);
 
     await verify('Check the second office was readable and reports the permanently-locked settings the same way', async () => {
       expect(other, `office ${CONTRAST_OFFICE} could not be read`).not.toBeNull();
       expect(other!['chkSuppressDayRateDiscount'], 'this setting is locked for every office, by design').toBe(true);
     });
+  });
+  // --------------------------------------------- 9. Controls that previously had no coverage
+  // Added 2026-09-21. A live walk of office 1606 found four controls on this panel carrying no
+  // test of any kind. Product Organization had no selector either; Set/Strike Goal was named in
+  // the plan but never implemented; the two calc-on-net checkboxes were absent from every list.
+
+  test('TC-LOC-LI-053: Product Organization offers its documented options, and a change saves, persists and restores', { tag: '@C106129' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+    dependencyGate(['TC-LOC-LI-007']);
+    test.setTimeout(300_000);
+    await about('The Product Organization list can be changed to another country, and the new choice is still there after a refresh. The original is put back afterwards.');
+
+    const original = await phase('Read the current Product Organization', () => pg.getProductOrganization());
+    await attachNote('Product Organization as found', `office ${LOCAL_INFO_OFFICE}: ${JSON.stringify(original)}`);
+
+    try {
+      await verify('Check the list offers every documented choice', async () => {
+        const options = await pg.listProductOrganizationOptions();
+        await attachNote('Product Organization options', options.join(' | '));
+        for (const expected of PRODUCT_ORG.expectedOptions) {
+          expect(options, `"${expected}" must be offered`).toContain(expected);
+        }
+      });
+
+      // Pick a target that differs from whatever the office currently holds -- reverting to the
+      // original value leaves Save disabled by design (LR-009), which would make this vacuous.
+      const target = original === PRODUCT_ORG.alternate ? 'Mexico' : PRODUCT_ORG.alternate;
+
+      await phase(`Switch Product Organization to ${target}`, () => pg.selectProductOrganization(target));
+
+      await verify('Check the change is accepted and offers to be saved', async () => {
+        expect(await pg.getProductOrganization()).toBe(target);
+        expect(await pg.isSaveEnabled(), 'changing this field must enable Save').toBe(true);
+      });
+
+      await phase('Save the change', async () => {
+        await pg.clickSave();
+        await pg.waitForSaveToast().catch(() => { /* toast may already have cleared */ });
+      });
+
+      await phase('Refresh and reopen the tab', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
+
+      await verify('Check the new choice survived the refresh', async () => {
+        expect(await pg.getProductOrganization(), 'the saved choice must persist').toBe(target);
+      });
+    } finally {
+      // Always hand the shared office back exactly as it was found.
+      await phase(`Put Product Organization back to ${original}`, async () => {
+        if ((await pg.getProductOrganization()) !== original) {
+          await pg.selectProductOrganization(original);
+          if (await pg.isSaveEnabled()) {
+            await pg.clickSave();
+            await pg.waitForSaveToast().catch(() => { /* toast may already have cleared */ });
+          }
+        }
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
+      });
+      await verify('Check the office was restored', async () => {
+        expect(await pg.getProductOrganization(), 'the office must be left as found').toBe(original);
+      });
+    }
+  });
+
+  test('TC-LOC-LI-054: Set/Strike/Support Labor Billing Goal refuses out-of-range figures and reverts non-numeric text', { tag: '@C106130' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+    dependencyGate(['TC-LOC-LI-001']);
+    test.setTimeout(300_000);
+    await about('The Set/Strike labour billing goal refuses figures above its maximum or below zero, and typing letters into it simply puts the previous figure back. Nothing is saved by this check.');
+
+    const startState = await pg.getSpinState('spinSetStrikeLaborBillingGoal');
+    await attachNote('Set/Strike goal as found', `value=${JSON.stringify(startState.value)} disabled=${startState.disabled}`);
+
+    await verify('Check the field is available to edit', async () => {
+      expect(startState.disabled, 'this office must have the goal field editable for the rest of the case to mean anything').toBe(false);
+    });
+
+    // Out-of-range figures: the app must mark them invalid AND must not offer to save them.
+    for (const [label, value] of [
+      ['above its maximum', SET_STRIKE_BOUNDARY_VALUES.invalidAboveMax],
+      ['below zero', SET_STRIKE_BOUNDARY_VALUES.invalidNegative],
+    ] as const) {
+      await phase(`Enter a figure ${label} (${value})`, async () => {
+        await pg.setSpinValue('spinSetStrikeLaborBillingGoal', value);
+        await pg.blurFieldWithTab('spinSetStrikeLaborBillingGoal');
+      });
+
+      await verify(`Check the figure ${label} is refused and cannot be saved`, async () => {
+        // Cross-field validation settles asynchronously (LR-010), so poll rather than read once.
+        await expect
+          .poll(() => pg.getAttribute('spinSetStrikeLaborBillingGoal', 'aria-invalid'), { timeout: 10_000 })
+          .toBe('true');
+        expect(await pg.isSaveEnabled(), 'an out-of-range goal must not be offered for saving').toBe(false);
+      });
+
+      // Non-numeric input corrupts the Angular model, so reload rather than typing over it (LR-011).
+      await phase('Refresh to clear the rejected figure', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
+    }
+
+    await phase(`Type letters into the field (${SET_STRIKE_BOUNDARY_VALUES.nonNumeric})`, async () => {
+      await pg.setSpinValue('spinSetStrikeLaborBillingGoal', SET_STRIKE_BOUNDARY_VALUES.nonNumeric);
+      await pg.blurFieldWithTab('spinSetStrikeLaborBillingGoal');
+    });
+
+    await verify('Check letters are discarded and the previous figure comes back', async () => {
+      const after = await pg.getSpinState('spinSetStrikeLaborBillingGoal');
+      expect(after.value, 'letters must not survive in a figure field').toBe(startState.value);
+      expect(await pg.isSaveEnabled(), 'discarding the letters leaves nothing to save').toBe(false);
+    });
+
+    await phase('Refresh so no rejected input is left behind', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
+
+    await verify('Check the office still holds its original figure', async () => {
+      expect((await pg.getSpinState('spinSetStrikeLaborBillingGoal')).value).toBe(startState.value);
+    });
+  });
+
+  test('TC-LOC-LI-055: Calculate LDW on Net Amount switches, saves, persists and restores', { tag: '@C106131' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+    dependencyGate(['TC-LOC-LI-003']);
+    test.setTimeout(300_000);
+    await about('The "calculate LDW on net amount" switch can be turned on, saved, and is still on after a refresh. It is switched back afterwards.');
+
+    const original = (await pg.getCheckboxState('chkCalculateLDWonNetAmount')).checked;
+    // The case is only meaningful while the parent feature is on; whether the switch should be
+    // locked when the parent is OFF is a separate question tracked by BUG-LOC-LI-002, deliberately
+    // not asserted here so this case does not encode that open behaviour either way.
+    const parentOn = (await pg.getCheckboxState('chkApplyLDW')).checked;
+    await attachNote('Starting state', `ApplyLDW=${parentOn} CalculateLDWonNetAmount=${original}`);
+
+    try {
+      await phase(`Switch it ${original ? 'off' : 'on'}`, () =>
+        original ? pg.uncheckCheckbox('chkCalculateLDWonNetAmount') : pg.checkCheckbox('chkCalculateLDWonNetAmount'));
+
+      await verify('Check the switch moved and offers to be saved', async () => {
+        expect((await pg.getCheckboxState('chkCalculateLDWonNetAmount')).checked).toBe(!original);
+        expect(await pg.isSaveEnabled(), 'moving this switch must enable Save').toBe(true);
+      });
+
+      await phase('Save the change', async () => {
+        await pg.clickSave();
+        await pg.waitForSaveToast().catch(() => { /* toast may already have cleared */ });
+      });
+
+      await phase('Refresh and reopen the tab', () => pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE));
+
+      await verify('Check the new position survived the refresh', async () => {
+        expect((await pg.getCheckboxState('chkCalculateLDWonNetAmount')).checked).toBe(!original);
+      });
+    } finally {
+      await phase('Put the switch back as it was', async () => {
+        if ((await pg.getCheckboxState('chkCalculateLDWonNetAmount')).checked !== original) {
+          if (original) await pg.checkCheckbox('chkCalculateLDWonNetAmount');
+          else await pg.uncheckCheckbox('chkCalculateLDWonNetAmount');
+          if (await pg.isSaveEnabled()) {
+            await pg.clickSave();
+            await pg.waitForSaveToast().catch(() => { /* toast may already have cleared */ });
+          }
+        }
+        await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
+      });
+      await verify('Check the office was restored', async () => {
+        expect((await pg.getCheckboxState('chkCalculateLDWonNetAmount')).checked, 'the office must be left as found').toBe(original);
+      });
+    }
+  });
+
+  test('TC-LOC-LI-056: Calculate C&C on Net Amount is editable, marks the form dirty, and returns Save to off when put back', { tag: '@C106132' }, async ({ locationLocalInfoPage: pg, dependencyGate }) => {
+    dependencyGate(['TC-LOC-LI-004']);
+    test.setTimeout(180_000);
+    await about('The "calculate C&C on net amount" switch can be moved, which offers the form for saving, and moving it back withdraws that offer again. Nothing is saved by this check.');
+
+    const original = (await pg.getCheckboxState('chkCalculateCConNetAmount')).checked;
+    await attachNote('Calculate C&C on Net Amount as found', `checked=${original}`);
+
+    try {
+      await verify('Check the switch is available to use', async () => {
+        expect((await pg.getCheckboxState('chkCalculateCConNetAmount')).disabled, 'the switch must be usable for the rest of the case to mean anything').toBe(false);
+        expect(await pg.isSaveEnabled(), 'nothing has been touched yet').toBe(false);
+      });
+
+      await phase(`Switch it ${original ? 'off' : 'on'}`, () =>
+        original ? pg.uncheckCheckbox('chkCalculateCConNetAmount') : pg.checkCheckbox('chkCalculateCConNetAmount'));
+
+      await verify('Check moving it offers the form for saving', async () => {
+        expect((await pg.getCheckboxState('chkCalculateCConNetAmount')).checked).toBe(!original);
+        expect(await pg.isSaveEnabled(), 'moving this switch must enable Save').toBe(true);
+      });
+
+      await phase('Move it back to where it started', () =>
+        original ? pg.checkCheckbox('chkCalculateCConNetAmount') : pg.uncheckCheckbox('chkCalculateCConNetAmount'));
+
+      await verify('Check putting it back withdraws the offer to save', async () => {
+        expect((await pg.getCheckboxState('chkCalculateCConNetAmount')).checked).toBe(original);
+        // Net-zero change: Angular reports the form as unchanged again (LR-009).
+        await expect.poll(() => pg.isSaveEnabled(), { timeout: 10_000 }).toBe(false);
+      });
+    } finally {
+      await pg.reloadAndNavigateToLocalInfo(LOCAL_INFO_OFFICE);
+    }
   });
 });

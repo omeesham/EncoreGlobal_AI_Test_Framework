@@ -30,6 +30,8 @@ CLAUDE.md
 docs/
 specs_planning/
 specs/
+# scripts/* rather than scripts/: git never looks inside an ignored directory, so
+# with a bare scripts/ none of the exceptions below would take effect.
 scripts/*
 # Exception: TestRail test-run lifecycle script (npm run testrail:run:*) ships
 !scripts/testrail-run.ts
@@ -66,5 +68,5 @@ blob-report-*/
 # Claude Code hook runtime state (bug kit gates write here)
 .claude/state/
 
-# Shared-TestRail-run session record (which run this machine is pushing into)
+# TestRail shared-run session state (scripts/testrail-run.ts) - local runtime, never commit
 .testrail/
