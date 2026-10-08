@@ -1,0 +1,33 @@
+# NM-4258 - Setup > Discount Matrix > Location Activation tab (parent NM-3936).
+# Every element, not only controls: the location search (its clear button
+# shows once text is typed), the location table (headers and every column)
+# with its date fields and calendar, the activation checkbox a row's Yes/No
+# cell turns into when clicked, the "Invalid date" message, and the message
+# for a search that matches nothing.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/discount-matrix/nm-4258-location-activation.txt --office 1606
+# Read-only: the Yes/No click and the typed date are never saved (Save is never clicked).
+
+Module: Discount Matrix
+Submodule: location-activation-nm-4258
+Output: reports/testid-audit-discount-matrix
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/discount-matrix
+2. Wait for "css=main tbody tr button[title='Edit']"
+3. Click "css=main [role=tab]:has-text('Location Activation')"
+4. Wait for "css=main [role=tabpanel][data-state=active] tbody tr button[aria-label='Open calendar']"
+5. Audit inside "main" as "Location Activation tab"
+6. Type "1606" into "css=main [role=tabpanel][data-state=active] input[placeholder^='Search']"
+7. Audit inside "main" as "Location Activation search entered"
+8. Click "css=main [role=tabpanel][data-state=active] tbody tr button[aria-label='Open calendar'] >> nth=0"
+9. Audit inside "[data-radix-popper-content-wrapper]" as "Activation date calendar open"
+10. Press "Escape"
+11. Click "css=main [role=tabpanel][data-state=active] tbody tr >> nth=0 >> css=button >> nth=-1"
+12. Audit inside "main" as "Activation checkbox shown"
+13. Type "99/99/9999" into "css=main [role=tabpanel][data-state=active] tbody tr >> nth=0 >> css=input[aria-label='Select date']"
+14. Press "Tab"
+15. Wait for "css=main [role=tabpanel][data-state=active] [role=alert]"
+16. Audit inside "main" as "Invalid date message"
+17. Type "zzqqxx" into "css=main [role=tabpanel][data-state=active] input[placeholder^='Search']"
+18. Wait for "text=No matching locations found."
+19. Audit inside "main" as "Search with no match"

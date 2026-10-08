@@ -1,0 +1,48 @@
+# NM-4258 - Setup > Discount Matrix: what only appears after saving or importing (parent NM-3936).
+# The Import Failed dialog, a success message and an error message (toasts).
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/discount-matrix/nm-4258-save-messages.txt --office 1606
+#
+# CHANGES DATA, then puts it back. Discount Matrix data is shared by every office,
+# so everything here is done on Bahamas / USD / Standard, which has no tiers:
+# - Import Failed: a file that is not Excel is imported; nothing is saved.
+# - Success message: a test tier "0 - 1000" is added, then deleted again.
+#   If a run stops between the two, delete that tier on Bahamas by hand.
+# - Error message: a GAV threshold of 0 is saved, which the server refuses, so
+#   nothing changes. This needs the Bahamas GAV to be set (it is 0.1%); it runs
+#   last because the unsaved change would hold the page.
+# Each message is hovered while it is audited, so it does not close on its timer.
+
+Module: Discount Matrix
+Submodule: save-messages-nm-4258
+Output: reports/testid-audit-discount-matrix
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/discount-matrix
+2. Wait for "css=main tbody tr button[title='Edit']"
+3. Select "Bahamas" from "css=main button[role=combobox] >> nth=0"
+4. Wait for "text=No data found for selected search criteria"
+5. Upload "fixtures/not-an-excel-file.xlsx" via "css=main button:has-text('Import') >> nth=0"
+6. Wait for "css=[role=dialog]:has-text('Import Failed')"
+7. Audit inside "[role=dialog]" as "Import Failed dialog"
+8. Press "Escape"
+9. Click "css=main button:has-text('Add Tier')"
+10. Type "1000" into "#discount-matrix-tier-end"
+11. Click "css=[role=dialog] button:has-text('Add Tier')"
+12. Wait for "css=[data-sonner-toast][data-type=success]"
+13. Hover "css=[data-sonner-toast][data-type=success]"
+14. Audit inside "section[aria-label^='Notifications']" as "Success message (toast)"
+# Put Bahamas back: delete the test tier.
+15. Click "css=main tbody tr button[title='Delete'] >> nth=0"
+16. Click "css=[role=alertdialog] button:text-is('Yes')"
+17. Wait for "text=No data found for selected search criteria"
+# A fresh load clears the earlier messages, so the error message is seen on its own.
+18. Go to /navigator/locations/{office}/settings/discount-matrix
+19. Wait for "css=main tbody tr button[title='Edit']"
+20. Select "Bahamas" from "css=main button[role=combobox] >> nth=0"
+21. Wait for "text=No data found for selected search criteria"
+22. Type "0" into "css=main input[name=gavDiscountThreshold]"
+23. Press "Tab"
+24. Click "css=main button:has-text('Save') >> nth=0"
+25. Wait for "css=[data-sonner-toast][data-type=error]"
+26. Hover "css=[data-sonner-toast][data-type=error]"
+27. Audit inside "section[aria-label^='Notifications']" as "Error message (toast)"

@@ -1,0 +1,18 @@
+{
+  "title": "Missing data-testid - Discount Matrix (NM-4258)",
+  "module": "Discount Matrix",
+  "office": "1606",
+  "officeLabel": "1606 - Embassy Suites by Hilton Washington DC Convention Center",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-discount-matrix",
+  "output": "reports/testid-audit-discount-matrix/NM-4258-discount-matrix-1606",
+  "fileName": "NM-4258-discount-matrix-missing-testids-1606",
+  "submodules": [
+    { "ticket": "NM-4258-CM", "name": "Company Matrix", "reports": ["company-matrix-nm-4258"] },
+    { "ticket": "NM-4258-RWP", "name": "Region Weekly Peaks", "reports": ["region-weekly-peaks-nm-4258"] },
+    { "ticket": "NM-4258-LA", "name": "Location Activation", "reports": ["location-activation-nm-4258"] },
+    { "ticket": "NM-4258-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4258"] },
+    { "ticket": "NM-4258-MSG", "name": "Save and Import Messages", "reports": ["save-messages-nm-4258"] }
+  ],
+  "ownership": ["NM-4258-CM", "NM-4258-RWP", "NM-4258-LA", "NM-4258-NAV", "NM-4258-MSG"]
+}

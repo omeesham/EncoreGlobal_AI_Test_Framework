@@ -1,0 +1,45 @@
+# NM-4258 - Setup > Discount Matrix > Company Matrix tab (parent NM-3936).
+# Every element, not only controls: the page header and its info tooltip, the
+# Country / Currency / Business Tier filters (shown above every tab), the tier
+# table (headers and every column), the row Edit and Delete buttons, every
+# dialog and dropdown they open, and the table for a country with no tiers.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/discount-matrix/nm-4258-company-matrix.txt --office 1606
+# Read-only: dialogs are closed with Escape; never clicks Save, Yes, Update or the Add Tier submit,
+# and the GAV Discount Threshold is never typed into (it saves on change).
+
+Module: Discount Matrix
+Submodule: company-matrix-nm-4258
+Output: reports/testid-audit-discount-matrix
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/discount-matrix
+2. Wait for "css=main tbody tr button[title='Edit']"
+3. Audit inside "main" as "Company Matrix tab"
+4. Hover "css=main button[aria-label='More information']"
+5. Audit inside "[data-radix-popper-content-wrapper]" as "More information tooltip"
+6. Press "Escape"
+7. Click "css=main button[role=combobox] >> nth=0"
+8. Audit inside "[role=listbox]" as "Country dropdown open"
+9. Press "Escape"
+10. Click "css=main button[role=combobox] >> nth=1"
+11. Audit inside "[role=listbox]" as "Currency dropdown open"
+12. Press "Escape"
+13. Click "css=main button[role=combobox] >> nth=2"
+14. Audit inside "[role=listbox]" as "Business Tier dropdown open"
+15. Press "Escape"
+16. Click "css=main button:has-text('Add Tier')"
+# The dialog is audited once an End Tier is entered: that opens the tier's 21
+# booking-window fields, and holds everything the empty dialog shows.
+17. Type "999999" into "#discount-matrix-tier-end"
+18. Wait for "css=[role=dialog] h3:has-text('Peak Booking Windows Days')"
+19. Audit inside "[role=dialog]" as "Add Tier dialog - End Tier entered"
+20. Press "Escape"
+21. Click "css=main tbody tr button[title='Delete'] >> nth=0"
+22. Audit inside "[role=alertdialog]" as "Delete tier confirmation"
+23. Press "Escape"
+24. Click "css=main tbody tr button[title='Edit'] >> nth=0"
+25. Audit inside "[role=dialog]" as "Edit tier dialog"
+26. Press "Escape"
+27. Select "Bahamas" from "css=main button[role=combobox] >> nth=0"
+28. Wait for "css=main button[role=combobox]:has-text('Bahamas')"
+29. Audit inside "main" as "Company Matrix - country with no tiers (Bahamas)"

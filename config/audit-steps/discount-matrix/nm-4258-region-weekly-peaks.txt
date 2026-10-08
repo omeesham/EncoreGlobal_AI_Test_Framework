@@ -1,0 +1,32 @@
+# NM-4258 - Setup > Discount Matrix > Region Weekly Peaks tab (parent NM-3936).
+# Every element, not only controls: the Year and Region filters, the 52-week
+# peak table (headers and every column), and the Create Year dialog opened by
+# Add Year, with its Year dropdown and Week 1 Start Date calendar.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/discount-matrix/nm-4258-region-weekly-peaks.txt --office 1606
+# Read-only: no checkbox is ticked; never clicks Save or Create Year.
+
+Module: Discount Matrix
+Submodule: region-weekly-peaks-nm-4258
+Output: reports/testid-audit-discount-matrix
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/discount-matrix
+2. Wait for "css=main tbody tr button[title='Edit']"
+3. Click "css=main [role=tab]:has-text('Region Weekly Peaks')"
+4. Wait for "css=main [role=tabpanel][data-state=active] tbody tr button[role=checkbox]"
+5. Audit inside "main" as "Region Weekly Peaks tab"
+6. Click "css=main [role=tabpanel][data-state=active] button[role=combobox] >> nth=0"
+7. Audit inside "[role=listbox]" as "Year dropdown open"
+8. Press "Escape"
+9. Click "css=main [role=tabpanel][data-state=active] button[role=combobox] >> nth=1"
+10. Audit inside "[role=listbox]" as "Region dropdown open"
+11. Press "Escape"
+12. Click "css=main [role=tabpanel][data-state=active] button:has-text('Add Year')"
+13. Wait for "css=[role=dialog] button[aria-label='Open calendar']:not([disabled])"
+14. Audit inside "[role=dialog]" as "Create Year dialog"
+15. Click "css=[role=dialog] button[role=combobox]"
+16. Audit inside "[role=listbox]" as "Create Year - Year dropdown open"
+17. Press "Escape"
+18. Click "css=[role=dialog] button[aria-label='Open calendar']"
+19. Audit inside "[data-radix-popper-content-wrapper]" as "Create Year - Week 1 Start Date calendar open"
+20. Press "Escape"
