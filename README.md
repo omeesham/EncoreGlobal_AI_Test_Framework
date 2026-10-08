@@ -266,7 +266,8 @@ screen genuinely differs: Local Office Settings has 19 untagged controls in USA,
 `Module` and `Submodule` become the first two columns of the workbook, so the report is labelled
 by whatever you call it. Step numbers, trailing periods, `#` comments and curly quotes are all
 tolerated. The verbs are `Go to`, `Click`, `Type "x" into "y"`, `Select "x" from "y"`, `Wait for`,
-`Press "<key>"`, `Audit here` and `Audit inside "<selector>"`. A line it cannot parse fails the run
+`Wait up to N seconds for`, `Press "<key>"`, `Hover`, `Upload "<file>" via "<label>"`, `Audit here` and
+`Audit inside "<selector>"`. A line it cannot parse fails the run
 — a silently skipped navigation step would produce a confident report about whichever page it
 happened to land on.
 
@@ -274,6 +275,16 @@ happened to land on.
 control with no name of its own — a split button's caret — give a selector instead: anything
 starting with `.`, `#` or `[`, or prefixed `css=`, `xpath=` or `text=`, is used as one
 (`Click "xpath=//table//tbody/tr[normalize-space(td[1]) != '']"`).
+
+Three steps cover what a click cannot reach:
+
+| Step | Use when |
+| --- | --- |
+| `Hover "<label>"` | a tooltip or submenu opens on hover; it waits a second for it to appear |
+| `Upload "<file>" via "<label>"` | a control opens the file picker (an Import button); the path is relative to the steps file |
+| `Wait up to N seconds for "<label>"` | something takes longer than the usual 30 seconds, such as a generated answer |
+
+Hover and Upload find their control the same way `Click` does.
 
 **Several states in one file.** Most of a ticket's controls appear only after a click: a dropdown's
 options, a dialog, a tab inside it. Name each audit and the file surveys every state in one walk,
@@ -299,6 +310,27 @@ team fixes them with one testid on the template. Location's 5,116 options are on
 Result rows that select on click are reported even though they carry no role, since on some
 screens they are the only way to reach a toolbar. A control with no name is described by the
 text beside it — *Unlabeled button beside "View Product Code"*.
+
+Copies are grouped per table column and per title, so a row's Edit and Delete buttons, or three
+checkbox columns, stay separate findings. A control is named the way a reader finds it on screen:
+a form field by the label beside it rather than its current value ("Country", not "United
+States"), an element in a table by its column, and text by the section it sits under.
+
+**Every element, not only controls.** By default the audit reports what a user can operate:
+buttons, links, fields, options. Add `Elements: all` beside `Module` to report everything a test
+might need to find — text, containers (dialogs, menus, tables, forms, the audited area itself),
+images, and elements that are in the page but not shown, marked *(hidden in the DOM)*:
+
+```
+Module: Pricing
+Submodule: price-list
+Elements: all
+```
+
+Layout-only wrappers and the inside of SVG icons are left out; the icon itself is reported. Across
+states an element is matched by what it is — a field by its label, text by its place on the page,
+an icon by what sits beside it — so a value or count that changes between states does not make a
+second row.
 
 The browser renders at 1600×1000 (`viewport` in the config). Below desktop width some screens drop
 controls — Products hides View Availability at 1280px — and an audit cannot report what was never
