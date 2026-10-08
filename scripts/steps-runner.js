@@ -21,10 +21,23 @@
  *   7. Audit inside "[role=listbox]" as "Service Type dropdown open"
  *   8. Press "Escape"
  *
+ * Hover "<label>" points at a control without clicking it - for a tooltip or a
+ * submenu that opens on hover.
+ *
+ * Wait up to <N> seconds for "<label>" waits longer than the usual 30 seconds.
+ *
+ * Upload "<file>" via "<label>" clicks a control that opens the file picker
+ * (an Import button) and chooses the file. The path is relative to the steps
+ * file.
+ *
+ * "Elements: all" beside Module asks for every element, not only controls:
+ * text, containers, images, and elements in the DOM that are not shown.
+ *
  * Blank lines and lines starting with # are ignored. Step numbers are optional.
  */
 
 const fs = require('fs');
+const path = require('path');
 
 /** Strips one matching pair of straight or curly quotes. */
 function unquote(value) {
@@ -43,9 +56,12 @@ const STEP_PATTERNS = [
   { re: /^open\s+(.+)$/i, build: (m) => ({ verb: 'goto', target: unquote(m[1]) }) },
   { re: /^type\s+(.+?)\s+into\s+(.+)$/i, build: (m) => ({ verb: 'type', value: unquote(m[1]), target: unquote(m[2]) }) },
   { re: /^select\s+(.+?)\s+from\s+(.+)$/i, build: (m) => ({ verb: 'select', value: unquote(m[1]), target: unquote(m[2]) }) },
+  { re: /^wait\s+up\s+to\s+(\d+)\s*s(?:ec(?:ond)?s?)?\s+for\s+(.+)$/i, build: (m) => ({ verb: 'wait', target: unquote(m[2]), waitMs: Number(m[1]) * 1000 }) },
   { re: /^wait\s+for\s+(.+)$/i, build: (m) => ({ verb: 'wait', target: unquote(m[1]) }) },
   { re: /^click\s+(?:on\s+)?(.+)$/i, build: (m) => ({ verb: 'click', target: unquote(m[1]) }) },
   { re: /^press\s+(.+)$/i, build: (m) => ({ verb: 'press', target: unquote(m[1]) }) },
+  { re: /^hover\s+(?:over\s+)?(.+)$/i, build: (m) => ({ verb: 'hover', target: unquote(m[1]) }) },
+  { re: /^upload\s+(.+?)\s+(?:via|with|through)\s+(.+)$/i, build: (m) => ({ verb: 'upload', value: unquote(m[1]), target: unquote(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+?)\s+as\s+(["'“‘].+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]), label: unquote(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]) }) },
   { re: /^audit\s+here\s+as\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: '', label: unquote(m[1]) }) },
@@ -67,7 +83,7 @@ function parseStep(text) {
  * skipped navigation step would produce a confident report about the wrong page.
  */
 function parseSteps(text) {
-  const meta = { module: '', submodule: '', output: '' };
+  const meta = { module: '', submodule: '', output: '', elements: '' };
   const steps = [];
 
   const lines = String(text || '').split(/\r?\n/);
@@ -75,7 +91,7 @@ function parseSteps(text) {
     const line = lines[index].trim();
     if (!line || line.startsWith('#') || line.startsWith('//')) continue;
 
-    const metaMatch = /^(module|submodule|output)\s*:\s*(.+)$/i.exec(line);
+    const metaMatch = /^(module|submodule|output|elements)\s*:\s*(.+)$/i.exec(line);
     if (metaMatch) {
       meta[metaMatch[1].toLowerCase()] = metaMatch[2].trim();
       continue;
@@ -87,7 +103,7 @@ function parseSteps(text) {
       throw new Error(
         'Line ' + (index + 1) + ' of the steps file is not a step I understand: "' + line + '".'
         + ' Supported: Go to <url>, Click "<label>", Type "<value>" into "<label>",'
-        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Audit here,'
+        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Audit here,'
         + ' Audit inside "<selector>" [as "<state>"].'
       );
     }
@@ -101,7 +117,12 @@ function parseSteps(text) {
 }
 
 function parseStepsFile(filePath) {
-  return parseSteps(fs.readFileSync(filePath, 'utf8'));
+  const plan = parseSteps(fs.readFileSync(filePath, 'utf8'));
+  // An uploaded file is named relative to the steps file, wherever the run starts from.
+  for (const step of plan.steps) {
+    if (step.verb === 'upload') step.value = path.resolve(path.dirname(filePath), step.value);
+  }
+  return plan;
 }
 
 /**
@@ -161,7 +182,16 @@ async function executeSteps(page, steps, options = {}) {
         await resolveLocator(page, step.target).click({ timeout });
         await page.getByRole('option', { name: step.value, exact: false }).first().click({ timeout });
       } else if (step.verb === 'wait') {
-        await resolveLocator(page, step.target).waitFor({ state: 'visible', timeout });
+        // "Wait up to N seconds for" covers what takes longer than a click - an AI reply.
+        await resolveLocator(page, step.target).waitFor({ state: 'visible', timeout: step.waitMs || timeout });
+      } else if (step.verb === 'upload') {
+        const chooser = page.waitForEvent('filechooser', { timeout });
+        await resolveLocator(page, step.target).click({ timeout });
+        await (await chooser).setFiles(step.value);
+      } else if (step.verb === 'hover') {
+        await resolveLocator(page, step.target).hover({ timeout });
+        // Tooltips and submenus open after a short delay.
+        await page.waitForTimeout(1000);
       } else if (step.verb === 'press') {
         await page.keyboard.press(step.target);
         // Let a closing dialog or popover finish animating out before the next click.

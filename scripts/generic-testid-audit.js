@@ -188,12 +188,17 @@ function findMissingTestIdsInDom(html, { moduleName = 'generic', pageUrl = 'abou
   return dedupeResults(results);
 }
 
-async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = page.url(), scopeSelector = '' }) {
+/**
+ * everything: report every element, not only controls - text, containers such
+ * as dialogs and menus, images, and elements that are in the DOM but not shown
+ * (a hidden file input). A steps file asks for it with "Elements: all".
+ */
+async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = page.url(), scopeSelector = '', everything = false }) {
   if (!page) {
     return [];
   }
 
-  const findings = await page.evaluate(({ moduleNameValue, scopeSelectorValue }) => {
+  const findings = await page.evaluate(({ moduleNameValue, scopeSelectorValue, everythingValue }) => {
     const dedupe = (items) => {
       const seen = new Set();
       const results = [];
@@ -269,6 +274,114 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     };
     const closeTagOf = (node) => (node ? '</' + node.tagName.toLowerCase() + '>' : '');
 
+    // A form field is named by the label the user reads beside it, not by its
+    // value or placeholder: "Country", not "United States"; "GAV Discount
+    // Threshold", not "0%". That is its <label for>, its aria-labelledby, or a
+    // <label> just before it in its group. A heading above the group is added,
+    // so the same row label in two sections ("0-15" under Non-Peak and under
+    // Peak) stays two different fields.
+    const fieldLabelOf = (el) => {
+      const tidy = (value) => cleanText(value || '').replace(/:$/, '');
+      if (el.labels && el.labels.length) return tidy(el.labels[0].innerText);
+      const labelledBy = (el.getAttribute('aria-labelledby') || '').split(/\s+/)
+        .map((id) => id && document.getElementById(id)).filter(Boolean).map((node) => node.innerText).join(' ');
+      if (tidy(labelledBy)) return tidy(labelledBy);
+      let branch = el;
+      for (let depth = 0; depth < 6 && branch.parentElement; depth += 1, branch = branch.parentElement) {
+        for (let sibling = branch.previousElementSibling; sibling; sibling = sibling.previousElementSibling) {
+          if (sibling.tagName === 'LABEL' || sibling.getAttribute('data-slot') === 'label') {
+            const own = tidy(sibling.innerText);
+            if (!own) return '';
+            let heading = '';
+            for (let above = branch.parentElement && branch.parentElement.previousElementSibling; above && !heading; above = above.previousElementSibling) {
+              if (/^H[1-6]$/.test(above.tagName)) heading = tidy(above.innerText);
+            }
+            return heading ? heading + ' > ' + own : own;
+          }
+          // Another control in between means the label belongs to that one.
+          if (sibling.matches('input, button, select, textarea') || sibling.querySelector('input, button, select, textarea')) return '';
+        }
+      }
+      return '';
+    };
+
+    // The tab whose panel holds a control. Two tabs can lay out the same
+    // toolbar, so their Save buttons differ only by the panel they are in.
+    const panelOf = (el) => {
+      const panel = el.closest('[role="tabpanel"]');
+      const tab = panel && document.getElementById(panel.getAttribute('aria-labelledby') || '');
+      return tab ? cleanText(tab.innerText) : '';
+    };
+
+    // The header of the data-table column a control sits in ("Non-Peak",
+    // "Active"). Each column's control is its own template - three checkboxes
+    // in a row are three testids, not one. A date picker's day grid
+    // (role="grid") is not a data table: its days stay one template.
+    // A table header laid out as a grid, spans resolved: grid[row][column] is
+    // the header cell covering that slot.
+    const headGrid = (thead) => {
+      const grid = [];
+      Array.from(thead.rows).forEach((row, r) => {
+        grid[r] = grid[r] || [];
+        let c = 0;
+        for (const cell of row.cells) {
+          while (grid[r][c]) c += 1;
+          for (let dr = 0; dr < (cell.rowSpan || 1); dr += 1) {
+            grid[r + dr] = grid[r + dr] || [];
+            for (let dc = 0; dc < (cell.colSpan || 1); dc += 1) grid[r + dr][c + dc] = cell;
+          }
+          c += cell.colSpan || 1;
+        }
+      });
+      return grid;
+    };
+    const headText = (cell) => cleanText(cell ? cell.innerText : '').replace(/:$/, '');
+    // A column under a group header ("0-15" under "Peak Booking Windows Days")
+    // is named with its group, so the three "0-15" columns read apart.
+    const columnName = (grid, c) => {
+      const leaf = grid[grid.length - 1] && grid[grid.length - 1][c];
+      const group = grid.length > 1 && grid[0][c] !== leaf ? headText(grid[0][c]) : '';
+      return group && headText(leaf) ? group + ' > ' + headText(leaf) : headText(leaf);
+    };
+    const dataTableOf = (el) => {
+      const table = el.closest('table');
+      return table && table.getAttribute('role') !== 'grid' && table.tHead && table.tHead.rows.length ? table : null;
+    };
+
+    const columnOf = (el) => {
+      // A control in a header cell - a column's resize handle - belongs to that header.
+      const head = el.closest('th');
+      if (head && dataTableOf(head) && head.closest('thead')) return headText(head);
+      const cell = el.closest('td');
+      const table = cell && dataTableOf(cell);
+      if (!table) return '';
+      let position = 0;
+      for (const sibling of cell.parentElement.cells) {
+        if (sibling === cell) break;
+        position += sibling.colSpan || 1;
+      }
+      return columnName(headGrid(table.tHead), position);
+    };
+
+    // The section a piece of text sits under: a header cell's group header,
+    // or the heading just above a label's group - so the 21 "0-15"-style
+    // labels and headers of the tier matrix each say which section they are in.
+    const sectionOf = (el) => {
+      if (el.tagName === 'TH' && dataTableOf(el) && el.closest('thead')) {
+        const grid = headGrid(el.closest('thead'));
+        const r = grid.findIndex((row) => row && row.includes(el));
+        const c = r > 0 ? grid[r].indexOf(el) : -1;
+        return c > -1 && grid[r - 1][c] !== el ? headText(grid[r - 1][c]) : '';
+      }
+      if (el.tagName === 'LABEL' || el.getAttribute('data-slot') === 'label') {
+        const group = el.parentElement;
+        for (let above = group && group.previousElementSibling; above; above = above.previousElementSibling) {
+          if (/^H[1-6]$/.test(above.tagName)) return cleanText(above.innerText);
+        }
+      }
+      return '';
+    };
+
     const results = [];
     const selectors = [
       'button', 'a', 'input', 'textarea', 'select', 'summary', 'option',
@@ -286,41 +399,108 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
         if (window.getComputedStyle(row).cursor === 'pointer') elements.push(row);
       }
     }
+    // Beyond the controls, "everything" adds what a test reads or scopes to:
+    // each element holding text of its own (a heading, a label, a table cell, a
+    // message) unless it is a control's own label, each container a test waits
+    // on (dialog, menu, tab panel, table, tooltip, alert), and images and icons.
+    const kinds = new Map();
+    if (everythingValue && root) {
+      const base = root === document ? document.body : root;
+      const CONTROL = selectors.join(',');
+      // The audited container itself - the dialog, the menu, the panel - is
+      // what a test waits on, so it is an element too.
+      if (root !== document && !root.matches(CONTROL)) {
+        kinds.set(root, /^(img|svg)$/i.test(root.tagName) ? 'image' : 'container');
+        elements.push(root);
+      }
+      const walker = document.createTreeWalker(base, NodeFilter.SHOW_TEXT);
+      for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        const owner = node.parentElement;
+        if (!owner || kinds.has(owner) || !cleanText(node.textContent)) continue;
+        if (owner.closest('script, style, noscript, template, svg') || owner.closest(CONTROL)) continue;
+        if (owner.id === '__testid_audit_ring__') continue;
+        kinds.set(owner, 'text');
+        elements.push(owner);
+      }
+      const STRUCTURAL = ['none', 'presentation', 'separator', 'row', 'rowgroup', 'cell', 'gridcell', 'columnheader', 'rowheader', 'generic'];
+      // A focusable element is something the user can reach - a toast message is
+      // a focusable list item with no role. The UI library's invisible focus
+      // guards are aria-hidden and left out.
+      for (const el of base.querySelectorAll('[role], table, form, nav, aside, header, footer, img, svg, [tabindex]:not([aria-hidden="true"])')) {
+        if (kinds.has(el) || el.matches(CONTROL) || el.closest(CONTROL)) continue;
+        if (el.tagName.toLowerCase() === 'svg' ? el.parentElement.closest('svg') : el.closest('svg')) continue;
+        if (STRUCTURAL.includes((el.getAttribute('role') || '').toLowerCase())) continue;
+        kinds.set(el, /^(img|svg)$/i.test(el.tagName) || el.getAttribute('role') === 'img' ? 'image' : 'container');
+        elements.push(el);
+      }
+    }
+
+    // The path of an element inside its table cell, with positions kept: a
+    // location's number and name sit in one cell and are two elements.
+    const pathInCell = (el) => {
+      const cell = el.closest('td, th');
+      if (!cell || el === cell) return '';
+      const segments = [];
+      for (let current = el; current && current !== cell; current = current.parentElement) {
+        const same = Array.from(current.parentElement.children).filter((sibling) => sibling.tagName === current.tagName);
+        segments.unshift(current.tagName.toLowerCase() + (same.length > 1 ? `:nth-of-type(${same.indexOf(current) + 1})` : ''));
+      }
+      return segments.join(' > ');
+    };
+
     const REPEAT_CONTAINER = '[role="listbox"], [role="grid"], tbody';
     for (const el of elements) {
       if (!(el instanceof Element)) continue;
-      if (el.closest('svg, path, g, defs')) continue;
+      const kind = kinds.get(el) || 'control';
+      if (kind === 'control' && el.closest('svg, path, g, defs')) continue;
       if (el.hasAttribute('data-testid')) continue;
       const style = window.getComputedStyle(el);
-      if (style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0') continue;
-      if (el.getAttribute('hidden') !== null || el.getAttribute('aria-hidden') === 'true') continue;
-      if (el.closest('[aria-hidden="true"], [hidden]')) continue;
-
       // An <option> has no box of its own, so judge it by its select.
       const host = el.tagName === 'OPTION' ? (el.closest('select') || el) : el;
       const box = host.getBoundingClientRect();
-      if (box.width <= 1 || box.height <= 1) continue;
+      const notShown = style.display === 'none' || style.visibility === 'hidden' || style.opacity === '0'
+        || el.getAttribute('hidden') !== null || !!el.closest('[hidden]') || box.width <= 1 || box.height <= 1;
+      // An open dialog or menu marks the rest of the page aria-hidden, so in
+      // "everything" mode only what is really not drawn counts as hidden.
+      if (!everythingValue && (notShown || el.getAttribute('aria-hidden') === 'true' || el.closest('[aria-hidden="true"]'))) continue;
+      const hidden = everythingValue && notShown;
 
       const role = (el.getAttribute('role') || '').trim().toLowerCase();
       const tagName = el.tagName.toLowerCase();
-      const clickableRow = tagName === 'tr';
-      if (!clickableRow && ['div', 'span', 'section', 'main', 'article', 'header', 'footer', 'nav', 'ul', 'ol', 'li', 'p', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'label', 'fieldset', 'legend'].includes(tagName) && !role && !el.getAttribute('aria-label')) continue;
+      const clickableRow = tagName === 'tr' && kind === 'control';
+      if (kind === 'control' && !clickableRow && ['div', 'span', 'section', 'main', 'article', 'header', 'footer', 'nav', 'ul', 'ol', 'li', 'p', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'label', 'fieldset', 'legend'].includes(tagName) && !role && !el.getAttribute('aria-label')) continue;
 
       const interactiveByTag = ['button', 'a', 'input', 'textarea', 'select', 'option', 'summary', 'details', 'checkbox', 'radio'].includes(tagName) || (tagName === 'input' && ['button', 'checkbox', 'radio', 'search', 'text', 'date', 'number', 'email', 'password', 'tel', 'url', 'submit', 'reset'].includes((el.getAttribute('type') || '').toLowerCase()));
       const interactiveByRole = !!role && ['button', 'tab', 'tablist', 'option', 'combobox', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'menu', 'checkbox', 'radio', 'switch', 'link', 'textbox', 'searchbox', 'spinbutton'].includes(role);
-      const text = clickableRow
+      const ownText = () => cleanText(Array.from(el.childNodes).filter((node) => node.nodeType === 3).map((node) => node.textContent).join(' '));
+      const accessibleName = () => cleanText(el.getAttribute('aria-label')
+        || (el.getAttribute('aria-labelledby') || '').split(/\s+/).map((id) => id && document.getElementById(id)).filter(Boolean).map((node) => node.textContent).join(' ')
+        || el.getAttribute('alt') || el.getAttribute('title') || '');
+      let text;
+      if (kind === 'text') text = ownText();
+      else if (kind !== 'control') text = accessibleName();
+      else text = clickableRow
         ? cleanText(el.innerText || '').slice(0, 80)
         : cleanText(el.innerText || el.textContent || '');
-      const ariaLabel = cleanText(el.getAttribute('aria-label') || '');
+      // An icon button's tooltip title is its accessible name when it has no aria-label.
+      const ariaLabel = cleanText(el.getAttribute('aria-label') || el.getAttribute('title') || '');
       const placeholder = cleanText(el.getAttribute('placeholder') || '');
       const name = cleanText(el.getAttribute('name') || '');
-      if (!clickableRow && !interactiveByTag && !interactiveByRole && !text && !ariaLabel && !placeholder && !name) continue;
+      const isField = ['input', 'textarea', 'select'].includes(tagName)
+        || ['combobox', 'textbox', 'searchbox', 'spinbutton', 'checkbox', 'radio', 'switch'].includes(role);
+      const column = columnOf(el);
+      // A field in a table row is named by its column when nothing labels it.
+      const label = isField ? (fieldLabelOf(el) || column) : '';
+      if (kind === 'control' && !clickableRow && !interactiveByTag && !interactiveByRole && !text && !ariaLabel && !placeholder && !name) continue;
 
       // A control with no name of its own - a split button's caret, a bare
       // checkbox - is named by the nearest text around it, so the app team can
-      // find it and so the same control matches across offices.
+      // find it and so the same control matches across offices. A container with
+      // no name is known by what it holds.
       let nearText = '';
-      if (!text && !ariaLabel && !placeholder && !name) {
+      if (kind === 'container' && !text) {
+        nearText = cleanText(el.innerText || '').slice(0, 40);
+      } else if (!text && !ariaLabel && !label && !placeholder && !name) {
         let around = el.parentElement;
         for (let depth = 0; around && depth < 3 && !nearText; depth += 1, around = around.parentElement) {
           // A search box's clear button sits beside an input, which has no text
@@ -330,14 +510,18 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
         }
       }
 
-      const repeatContainer = el.tagName === 'OPTION' ? el.closest('select') : el.closest(REPEAT_CONTAINER);
+      // A list or table is not a copy of itself - only what repeats inside it is.
+      const repeatContainer = el.tagName === 'OPTION' ? el.closest('select')
+        : kind === 'control' ? el.closest(REPEAT_CONTAINER)
+          : el.parentElement && el.parentElement.closest(REPEAT_CONTAINER);
+      // The title keeps two icon buttons in one cell apart - a row's Edit and Delete.
       const templateKey = repeatContainer
-        ? [tagName, role, getElementPath(el, repeatContainer)].join('|')
+        ? [tagName, role, getElementPath(el, repeatContainer), el.getAttribute('title') || '', column, kind === 'control' ? '' : pathInCell(el), kind].join('|')
         : '';
 
       const suggested = buildSuggestedTestId({
         moduleName: moduleNameValue,
-        text: text || ariaLabel || placeholder || name || el.getAttribute('id') || tagName,
+        text: label || text || ariaLabel || placeholder || name || el.getAttribute('id') || tagName,
         tagName,
         role,
         name
@@ -351,17 +535,23 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
         role: clickableRow ? 'row' : role,
         text,
         ariaLabel,
+        label,
+        column,
+        panel: panelOf(el),
         placeholder,
         nearText,
         name,
         id: el.getAttribute('id') || '',
         classes: Array.from(el.classList).slice(0, 5),
         templateKey,
+        kind,
+        hidden,
+        section: kind === 'text' ? sectionOf(el) : '',
         path: locator,
         status: 'missing-testid',
         currentLocator: locator,
         suggestedTestId: suggested,
-        risk: riskForElement(tagName, role),
+        risk: kind === 'control' ? riskForElement(tagName, role) : 'LOW',
         confidence: 'medium',
         domContext: {
           grandparentOpenTag: openTagOf(el.parentElement && el.parentElement.parentElement),
@@ -394,7 +584,7 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     }
 
     return dedupe(collapsed);
-  }, { moduleNameValue: moduleName, scopeSelectorValue: scopeSelector });
+  }, { moduleNameValue: moduleName, scopeSelectorValue: scopeSelector, everythingValue: everything });
 
   return dedupeResults(findings);
 }
@@ -465,19 +655,36 @@ async function captureUiScreenshots(page, items, scratchDir) {
  * that stays on screen across states - a toolbar button, a dialog's Close - is
  * reported once, under the first state it appeared in, with the rest listed.
  */
+/**
+ * What makes one element the same element in two states of a screen.
+ * Popovers reuse one portal, so two different dropdowns share a path; the
+ * first sample label is what tells the Location list from the Region list. On
+ * the page itself a template is one element whatever rows it shows. A field
+ * keeps its label while its value changes (Country showing United States, then
+ * Bahamas), and text on the page keeps its place while its words change (a
+ * result count going from 1 to 0).
+ */
+function stateKey(item) {
+  const inPage = / > main\b/.test(item.path || '');
+  if (item.templateKey) return item.templateKey + (inPage ? '' : '|' + ((item.instanceSamples || [])[0] || ''));
+  const content = item.kind && item.kind !== 'control';
+  const text = item.label || (content && inPage) ? '' : item.text;
+  // An icon has no words of its own and moves when a neighbour appears (a
+  // search box's clear button); it is the icon beside the same thing.
+  if (item.kind === 'image' && inPage) return ['image', item.tagName, item.nearText, item.column, item.path.replace(/:nth-of-type\(\d+\)/g, '')].join('|');
+  // Every dropdown list opens in the same portal; an unnamed one is known by what it holds.
+  const holds = item.kind === 'container' && !inPage ? item.nearText : '';
+  return [item.tagName, item.role, text, item.ariaLabel, item.label, holds, item.path].join('|');
+}
+
 function mergeStates(findings) {
   const byElement = new Map();
   const merged = [];
   for (const item of findings) {
-    // Popovers reuse one portal, so two different dropdowns share a path; the
-    // first sample label is what tells the Location list from the Region list.
-    const key = item.templateKey
-      ? item.templateKey + '|' + ((item.instanceSamples || [])[0] || '')
-      : [item.tagName, item.role, item.text, item.ariaLabel, item.path].join('|');
-    const first = byElement.get(key);
+    const first = byElement.get(stateKey(item));
     if (!first) {
       item.alsoIn = [];
-      byElement.set(key, item);
+      byElement.set(stateKey(item), item);
       merged.push(item);
     } else if (item.state !== first.state && !first.alsoIn.includes(item.state)) {
       first.alsoIn.push(item.state);
@@ -633,16 +840,57 @@ function buildDomSnippet(item) {
 
 function humanReadableElementName(item = {}) {
   const tag = String(item.tagName || '').toLowerCase();
-  const text = item.text || item.ariaLabel || item.placeholder || item.name || stableId(item) || '';
+  const text = item.label || item.text || item.ariaLabel || item.placeholder || item.name || stableId(item) || '';
 
+  // A control in a table row that has its own name ("Yes", "Delete") also says
+  // which column it is in; a field already named by its column does not.
+  const inColumn = item.column && item.column !== item.label && item.column !== item.text ? ` in the "${item.column}" column` : '';
+  const hidden = item.hidden ? ' (hidden in the DOM)' : '';
+  if (item.kind === 'text') {
+    // Text inside a header cell is that column's header, whatever wraps it.
+    const inHeader = tag === 'th' || (/ > thead > tr > th(:nth-of-type\(\d+\))? > /.test(item.path || '') && item.column === item.text);
+    const kindName = /^h[1-6]$/.test(tag) ? 'heading'
+      : tag === 'label' ? 'label'
+        : inHeader ? 'column header'
+          : item.role === 'alert' ? 'message'
+            : 'text';
+    const under = item.section ? ` under "${item.section}"` : '';
+    return `"${String(item.text).slice(0, 60)}" ${kindName}${under}${inColumn}${hidden}`;
+  }
+  if (item.kind === 'image') {
+    const what = tag === 'svg' ? 'icon' : 'image';
+    return (item.text ? `${item.text} ${what}` : item.nearText ? `${what} beside "${item.nearText}"` : `${what}`) + inColumn + hidden;
+  }
+  if (item.kind === 'container') {
+    const what = String(item.role || tag).replace(/-/g, ' ');
+    return (item.text ? `${item.text} ${what}` : item.nearText ? `${what} containing "${item.nearText}"` : what) + hidden;
+  }
+  return controlName(item, tag, text, inColumn) + hidden;
+}
+
+function controlName(item, tag, text, inColumn) {
   // A row's text is its whole record; the samples carry that instead.
   if (tag === 'tr') return 'Clickable result row';
+  const inputType = String((item.domContext && /<input[^>]*\btype="([^"]+)"/.exec(item.domContext.outerHTML || '') || [])[1] || '');
   if (text) {
     const label = String(text).trim();
-    if (tag === 'button' || item.role === 'button') return `${label} button`;
-    if (tag === 'input' || item.role === 'textbox' || item.role === 'combobox') return `${label} input`;
-    if (item.role === 'checkbox' || item.role === 'radio') return `${label} checkbox`;
-    return label;
+    if (item.role === 'checkbox' || item.role === 'radio' || item.role === 'switch') return `${label} ${item.role}${inColumn}`;
+    if (item.role === 'tab') return `${label} tab`;
+    // A menu entry often wraps a link: both are elements, and they read apart.
+    const roleWord = { option: 'option', menuitem: 'menu item', menuitemradio: 'menu option', menuitemcheckbox: 'menu option', link: 'link' }[item.role];
+    if (roleWord) return `${label} ${roleWord}${inColumn}`;
+    if (tag === 'a') return `${label} link${inColumn}`;
+    if (tag === 'select') return `${label} dropdown${inColumn}`;
+    if (tag === 'option') return `${label} option${inColumn}`;
+    if (tag === 'textarea') return `${label} text box${inColumn}`;
+    if (tag === 'button' && item.role === 'combobox') return `${label} dropdown${inColumn}`;
+    if (tag === 'button' || item.role === 'button') return `${label} button${inColumn}`;
+    if (tag === 'input' || item.role === 'textbox' || item.role === 'combobox') return `${label} input${inColumn}`;
+    return label + inColumn;
+  }
+  if (tag === 'input' && inputType) {
+    const kindOfInput = inputType === 'file' ? 'file upload input' : inputType + ' input';
+    return item.nearText ? `${kindOfInput} beside "${item.nearText}"` : kindOfInput;
   }
 
   const kind = item.role ? String(item.role).replace(/-/g, ' ') : (tag || 'element');
@@ -945,7 +1193,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
           const onAudit = auditAtEachStep
             ? async (stepScope, label) => {
               await settlePage(page);
-              const found = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url(), scopeSelector: stepScope });
+              const found = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url(), scopeSelector: stepScope, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())) });
               if (!found.length) {
                 // Every state in a file is there because it holds controls; an
                 // empty one means the click before it did not land.
@@ -976,7 +1224,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
           if (scopeSelector) {
             await page.locator(scopeSelector).first().waitFor({ state: 'attached', timeout: 30000 });
           }
-          findings = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url() || startingUrl || 'about:blank', scopeSelector });
+          findings = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url() || startingUrl || 'about:blank', scopeSelector, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())) });
           await captureUiScreenshots(page, findings, uiScratchDir);
         }
         // Screenshots go into the folder the previous run used, so it is cleared
@@ -988,9 +1236,10 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
         ensureOutputDir(screenshotDir);
         for (let index = 0; index < findings.length; index += 1) {
           const item = findings[index];
-          const label = String(item.text || item.ariaLabel || item.name || stableId(item) || item.nearText || item.role || item.tagName || 'element')
+          const label = String(item.label || item.text || item.ariaLabel || item.name || stableId(item) || item.nearText || item.role || item.tagName || 'element')
             .toLowerCase().replace(/[^a-z0-9]+/g, '-');
-          const fileBase = String(index + 1).padStart(2, '0') + '-' + (normalizeModuleFileName(label) || 'element');
+          // A paragraph's text would make a file name past Windows' 260-character path limit.
+          const fileBase = String(index + 1).padStart(2, '0') + '-' + ((normalizeModuleFileName(label) || 'element').slice(0, 60).replace(/-+$/, '') || 'element');
           const written = await captureDomScreenshot(renderPage, item, screenshotDir, fileBase);
           item.screenshot = written === 'screenshot:not-available'
             ? written

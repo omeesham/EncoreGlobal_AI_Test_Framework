@@ -81,9 +81,18 @@ function elementKey(item) {
     return pageOf(item) + '|' + item.templateKey
       + (inPage(item) ? '' : '|' + ((item.instanceSamples || [])[0] || '') + '|' + item.state);
   }
+  // A field is known by its label, not its current value; text, containers and
+  // images on the page by their place, not their words. Only a control's
+  // position shifts with a growing toolbar - three "0-15" headers in one row
+  // are three elements.
+  const content = item.kind && item.kind !== 'control';
+  const text = item.label || (content && inPage(item)) ? '' : item.text;
+  // An icon moves when a neighbour appears; it is the icon beside the same thing.
+  if (item.kind === 'image' && inPage(item)) return pageOf(item) + '|image|' + [item.tagName, item.nearText, item.column, unindexed(item.path)].join('|');
   return pageOf(item) + '|' + [
-    item.tagName, item.role, item.text, item.ariaLabel, item.placeholder, item.nearText,
-    inPage(item) ? unindexed(item.path) : item.path
+    item.tagName, item.role, text, item.ariaLabel, item.label, item.column, item.panel, item.placeholder,
+    content && (inPage(item) || item.kind !== 'container') ? '' : item.nearText,
+    inPage(item) && !content ? unindexed(item.path) : item.path
   ].join('|') + (inPage(item) ? '' : '|' + item.state);
 }
 
