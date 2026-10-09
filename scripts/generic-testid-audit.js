@@ -192,13 +192,17 @@ function findMissingTestIdsInDom(html, { moduleName = 'generic', pageUrl = 'abou
  * everything: report every element, not only controls - text, containers such
  * as dialogs and menus, images, and elements that are in the DOM but not shown
  * (a hidden file input). A steps file asks for it with "Elements: all".
+ *
+ * ignoreInside: a CSS selector whose matches are audited but whose contents are
+ * not - text a user typed and saved, such as a rich-text cell's paragraphs, is
+ * data rather than part of the screen. A steps file sets it with "Ignore inside:".
  */
-async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = page.url(), scopeSelector = '', everything = false }) {
+async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = page.url(), scopeSelector = '', everything = false, ignoreInside = '' }) {
   if (!page) {
     return [];
   }
 
-  const findings = await page.evaluate(({ moduleNameValue, scopeSelectorValue, everythingValue }) => {
+  const findings = await page.evaluate(({ moduleNameValue, scopeSelectorValue, everythingValue, ignoreInsideValue }) => {
     const dedupe = (items) => {
       const seen = new Set();
       const results = [];
@@ -451,6 +455,7 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     const REPEAT_CONTAINER = '[role="listbox"], [role="grid"], tbody';
     for (const el of elements) {
       if (!(el instanceof Element)) continue;
+      if (ignoreInsideValue && el.parentElement && el.parentElement.closest(ignoreInsideValue)) continue;
       const kind = kinds.get(el) || 'control';
       if (kind === 'control' && el.closest('svg, path, g, defs')) continue;
       if (el.hasAttribute('data-testid')) continue;
@@ -511,7 +516,9 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
       }
 
       // A list or table is not a copy of itself - only what repeats inside it is.
-      const repeatContainer = el.tagName === 'OPTION' ? el.closest('select')
+      // A select repeated in every table row repeats its options there too.
+      const ownSelect = el.tagName === 'OPTION' ? el.closest('select') : null;
+      const repeatContainer = ownSelect ? (ownSelect.closest(REPEAT_CONTAINER) || ownSelect)
         : kind === 'control' ? el.closest(REPEAT_CONTAINER)
           : el.parentElement && el.parentElement.closest(REPEAT_CONTAINER);
       // The title keeps two icon buttons in one cell apart - a row's Edit and Delete.
@@ -584,7 +591,7 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     }
 
     return dedupe(collapsed);
-  }, { moduleNameValue: moduleName, scopeSelectorValue: scopeSelector, everythingValue: everything });
+  }, { moduleNameValue: moduleName, scopeSelectorValue: scopeSelector, everythingValue: everything, ignoreInsideValue: ignoreInside });
 
   return dedupeResults(findings);
 }
@@ -1193,7 +1200,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
           const onAudit = auditAtEachStep
             ? async (stepScope, label) => {
               await settlePage(page);
-              const found = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url(), scopeSelector: stepScope, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())) });
+              const found = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url(), scopeSelector: stepScope, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())), ignoreInside: (stepsPlan && stepsPlan.ignore) || '' });
               if (!found.length) {
                 // Every state in a file is there because it holds controls; an
                 // empty one means the click before it did not land.
@@ -1224,7 +1231,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
           if (scopeSelector) {
             await page.locator(scopeSelector).first().waitFor({ state: 'attached', timeout: 30000 });
           }
-          findings = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url() || startingUrl || 'about:blank', scopeSelector, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())) });
+          findings = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url() || startingUrl || 'about:blank', scopeSelector, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())), ignoreInside: (stepsPlan && stepsPlan.ignore) || '' });
           await captureUiScreenshots(page, findings, uiScratchDir);
         }
         // Screenshots go into the folder the previous run used, so it is cleared

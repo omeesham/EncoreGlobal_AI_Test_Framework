@@ -327,6 +327,16 @@ Submodule: price-list
 Elements: all
 ```
 
+Content that users type and save is data, not part of the screen: a rich-text cell holding stored
+legal text can contain thousands of paragraphs and bold runs that no testid could ever be added to.
+`Ignore inside: <selector>` audits the matching elements but not what they hold, and several lines
+add up:
+
+```
+Ignore inside: [data-testid^="terms-conditions-html-cell-"]
+Ignore inside: [data-testid="rte-content"]
+```
+
 Layout-only wrappers and the inside of SVG icons are left out; the icon itself is reported. Across
 states an element is matched by what it is — a field by its label, text by its place on the page,
 an icon by what sits beside it — so a value or count that changes between states does not make a

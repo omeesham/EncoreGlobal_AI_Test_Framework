@@ -33,6 +33,10 @@
  * "Elements: all" beside Module asks for every element, not only controls:
  * text, containers, images, and elements in the DOM that are not shown.
  *
+ * "Ignore inside: <css>" audits the matching elements but not what they hold -
+ * for content users typed and saved, such as a rich-text cell's paragraphs.
+ * Several lines add up.
+ *
  * Blank lines and lines starting with # are ignored. Step numbers are optional.
  */
 
@@ -83,7 +87,7 @@ function parseStep(text) {
  * skipped navigation step would produce a confident report about the wrong page.
  */
 function parseSteps(text) {
-  const meta = { module: '', submodule: '', output: '', elements: '' };
+  const meta = { module: '', submodule: '', output: '', elements: '', ignore: '' };
   const steps = [];
 
   const lines = String(text || '').split(/\r?\n/);
@@ -91,9 +95,11 @@ function parseSteps(text) {
     const line = lines[index].trim();
     if (!line || line.startsWith('#') || line.startsWith('//')) continue;
 
-    const metaMatch = /^(module|submodule|output|elements)\s*:\s*(.+)$/i.exec(line);
+    const metaMatch = /^(module|submodule|output|elements|ignore(?:\s+inside)?)\s*:\s*(.+)$/i.exec(line);
     if (metaMatch) {
-      meta[metaMatch[1].toLowerCase()] = metaMatch[2].trim();
+      const key = metaMatch[1].toLowerCase().replace(/\s+inside$/, '');
+      const value = metaMatch[2].trim();
+      meta[key] = key === 'ignore' && meta.ignore ? meta.ignore + ', ' + value : value;
       continue;
     }
 
