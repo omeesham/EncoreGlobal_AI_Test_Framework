@@ -1,0 +1,16 @@
+{
+  "title": "Missing data-testid - Terms and Conditions (NM-4257)",
+  "module": "Terms and Conditions",
+  "office": "1606",
+  "officeLabel": "1606 - Embassy Suites by Hilton Washington DC Convention Center",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-terms-conditions",
+  "output": "reports/testid-audit-terms-conditions/NM-4257-terms-conditions-1606",
+  "fileName": "NM-4257-terms-conditions-missing-testids-1606",
+  "submodules": [
+    { "ticket": "NM-4257-TC", "name": "Terms and Conditions", "reports": ["terms-conditions-nm-4257"] },
+    { "ticket": "NM-4257-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4257"] },
+    { "ticket": "NM-4257-MSG", "name": "Save Message", "reports": ["save-message-nm-4257"] }
+  ],
+  "ownership": ["NM-4257-TC", "NM-4257-NAV", "NM-4257-MSG"]
+}

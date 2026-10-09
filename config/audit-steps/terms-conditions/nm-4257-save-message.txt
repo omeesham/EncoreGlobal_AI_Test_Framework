@@ -1,0 +1,38 @@
+# NM-4257 - Setup > Terms & Conditions: the message shown after Save (parent NM-3936).
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/terms-conditions/nm-4257-save-message.txt --office 1606
+#
+# CHANGES DATA, then puts it back. Terms and conditions are shared by every
+# office, and Save sends every row of the selected language at once. Only the
+# test row AUTOMATION-TEST-ROW-TNC-WALKX is edited: " x" is added to its Left
+# Column and saved, then removed and saved again. If a run stops between the
+# two saves, remove the " x" from that row by hand.
+# The message is hovered while it is audited, so it does not close on its timer.
+
+Module: Terms and Conditions
+Submodule: save-message-nm-4257
+Output: reports/testid-audit-terms-conditions
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/terms-conditions
+2. Wait for "css=main [data-testid=terms-conditions-table] tbody tr"
+3. Click "css=main tr:has(input[value='AUTOMATION-TEST-ROW-TNC-WALKX']) [data-testid$='-text']"
+4. Wait for "[data-testid=rte-toolbar]"
+5. Click "[data-testid=rte-content]"
+6. Press "Control+End"
+7. Press "Space"
+8. Press "x"
+9. Click "[data-testid=terms-conditions-save]"
+10. Wait up to 60 seconds for "css=[data-sonner-toast]"
+11. Hover "css=[data-sonner-toast]"
+12. Audit inside "section[aria-label^='Notifications']" as "Save message (toast)"
+# Put the test row back: remove the " x" and save again. The first message is
+# closed so the wait below sees the second save's own message.
+13. Click "css=[data-sonner-toast] button[aria-label='Close toast']"
+14. Click "css=main tr:has(input[value='AUTOMATION-TEST-ROW-TNC-WALKX']) [data-testid$='-text']"
+15. Wait for "[data-testid=rte-toolbar]"
+16. Click "[data-testid=rte-content]"
+17. Press "Control+End"
+18. Press "Backspace"
+19. Press "Backspace"
+20. Click "[data-testid=terms-conditions-save]"
+21. Wait up to 60 seconds for "css=[data-sonner-toast]"

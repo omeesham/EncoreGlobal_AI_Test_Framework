@@ -1,0 +1,55 @@
+# NM-4257 - Setup > Terms & Conditions (parent NM-3936).
+# The page and every state reachable from it without saving: the info tooltip,
+# the page and row language dropdowns, a column's sort menu, the HTML editor
+# with its font menu, a new row's missing-name warning and its tooltip, the
+# unsaved-changes dialog, and the grid showing all languages.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/terms-conditions/nm-4257-terms-conditions.txt --office 1606
+# Changes no data: Save is never clicked, and the added row is discarded.
+#
+# The text inside the Left, Right and Bottom Column cells, and inside the
+# editor, is the stored terms and conditions content. The cells and the editor
+# are audited; the paragraphs saved inside them are not part of the page.
+
+Module: Terms and Conditions
+Submodule: terms-conditions-nm-4257
+Output: reports/testid-audit-terms-conditions
+Elements: all
+Ignore inside: [data-testid^="terms-conditions-html-cell-"]
+Ignore inside: [data-testid="rte-content"]
+
+1. Go to /navigator/locations/{office}/settings/terms-conditions
+2. Wait for "css=main [data-testid=terms-conditions-table] tbody tr"
+3. Audit inside "main" as "Terms and Conditions page"
+4. Hover "css=main button[aria-label='More information']"
+5. Audit inside "[data-radix-popper-content-wrapper]" as "Info tooltip"
+6. Click "[data-testid=terms-conditions-language-filter-trigger]"
+7. Audit inside "[role=listbox]" as "Language filter open"
+8. Press "Escape"
+9. Click "[data-testid=terms-conditions-language-trigger-0]"
+10. Audit inside "[role=listbox]" as "Row language dropdown open"
+11. Press "Escape"
+12. Click "css=main [data-testid=terms-conditions-table] thead button:has-text('Terms & Conditions Name')"
+13. Audit inside "[role=menu]" as "Column sort menu open"
+14. Press "Escape"
+15. Click "[data-testid=terms-conditions-html-cell-0-text]"
+16. Wait for "[data-testid=rte-toolbar]"
+17. Audit inside "main" as "HTML editor open"
+18. Click "[data-testid=rte-font-family-dropdown]"
+19. Audit inside "[role=menu]" as "Editor font menu open"
+20. Press "Escape"
+# A new row left without a name shows a warning icon with a tooltip. The new
+# row also makes the page unsaved, so changing the language filter asks first.
+21. Click "[data-testid=terms-conditions-add-row]"
+22. Click "css=main [data-testid^=terms-conditions-name-] >> nth=-1"
+23. Press "Tab"
+24. Wait for "css=main svg.lucide-circle-alert"
+25. Audit inside "main" as "New row - name missing"
+26. Hover "css=main [data-slot=tooltip-trigger]:has(svg.lucide-circle-alert)"
+27. Audit inside "[data-radix-popper-content-wrapper]" as "Name warning tooltip"
+28. Click "[data-testid=terms-conditions-language-filter-trigger]"
+29. Click "css=[role=listbox] [role=option]:has-text('All')"
+30. Wait for "[data-testid=location-settings-modal-unsaved-changes]"
+31. Audit inside "[role=alertdialog]" as "Unsaved changes dialog"
+32. Click "css=[role=alertdialog] button:text-is('Discard')"
+33. Wait for "css=main [data-testid=terms-conditions-table] tbody tr"
+34. Audit inside "main" as "All languages"
