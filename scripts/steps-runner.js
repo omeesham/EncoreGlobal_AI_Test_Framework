@@ -30,6 +30,13 @@
  * (an Import button) and chooses the file. The path is relative to the steps
  * file.
  *
+ * Drag "<label>" to "<label>" drags one control onto another - for a list
+ * whose rows are added to a grid by dropping them on it.
+ *
+ * Hold "<url part>" keeps every request whose address contains the text waiting
+ * until Release "<url part>", so what the screen shows while it loads - the
+ * grey placeholder rows - stays there long enough to be audited.
+ *
  * "Elements: all" beside Module asks for every element, not only controls:
  * text, containers, images, and elements in the DOM that are not shown.
  *
@@ -66,6 +73,9 @@ const STEP_PATTERNS = [
   { re: /^press\s+(.+)$/i, build: (m) => ({ verb: 'press', target: unquote(m[1]) }) },
   { re: /^hover\s+(?:over\s+)?(.+)$/i, build: (m) => ({ verb: 'hover', target: unquote(m[1]) }) },
   { re: /^upload\s+(.+?)\s+(?:via|with|through)\s+(.+)$/i, build: (m) => ({ verb: 'upload', value: unquote(m[1]), target: unquote(m[2]) }) },
+  { re: /^drag\s+(.+?)\s+(?:to|onto|into)\s+(.+)$/i, build: (m) => ({ verb: 'drag', value: unquote(m[1]), target: unquote(m[2]) }) },
+  { re: /^hold\s+(.+)$/i, build: (m) => ({ verb: 'hold', target: unquote(m[1]) }) },
+  { re: /^release\s+(.+)$/i, build: (m) => ({ verb: 'release', target: unquote(m[1]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+?)\s+as\s+(["'“‘].+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]), label: unquote(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]) }) },
   { re: /^audit\s+here\s+as\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: '', label: unquote(m[1]) }) },
@@ -109,7 +119,7 @@ function parseSteps(text) {
       throw new Error(
         'Line ' + (index + 1) + ' of the steps file is not a step I understand: "' + line + '".'
         + ' Supported: Go to <url>, Click "<label>", Type "<value>" into "<label>",'
-        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Audit here,'
+        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Drag "<label>" to "<label>", Hold "<url part>", Release "<url part>", Audit here,'
         + ' Audit inside "<selector>" [as "<state>"].'
       );
     }
@@ -150,6 +160,33 @@ function resolveLocator(page, label) {
     .or(page.getByRole('link', { name: label, exact: false }))
     .or(page.getByText(label, { exact: false }))
     .first();
+}
+
+// Requests a Hold step keeps waiting, per page: url part -> { handler, routes }.
+const holds = new WeakMap();
+
+/** True while a Hold step keeps a request of this page waiting. */
+function isHolding(page) {
+  const pageHolds = holds.get(page);
+  return !!pageHolds && pageHolds.size > 0;
+}
+
+async function holdRequests(page, part) {
+  const pageHolds = holds.get(page) || new Map();
+  holds.set(page, pageHolds);
+  const held = { routes: [] };
+  held.handler = (route) => (route.request().url().includes(part) ? held.routes.push(route) : route.fallback());
+  await page.route('**/*', held.handler);
+  pageHolds.set(part, held);
+}
+
+async function releaseRequests(page, part) {
+  const pageHolds = holds.get(page);
+  const held = pageHolds && pageHolds.get(part);
+  if (!held) throw new Error('no Hold step is keeping "' + part + '" waiting');
+  pageHolds.delete(part);
+  await page.unroute('**/*', held.handler);
+  for (const route of held.routes) await route.fallback().catch(() => {});
 }
 
 /**
@@ -194,6 +231,21 @@ async function executeSteps(page, steps, options = {}) {
         const chooser = page.waitForEvent('filechooser', { timeout });
         await resolveLocator(page, step.target).click({ timeout });
         await (await chooser).setFiles(step.value);
+      } else if (step.verb === 'hold') {
+        await holdRequests(page, step.target);
+      } else if (step.verb === 'release') {
+        await releaseRequests(page, step.target);
+      } else if (step.verb === 'drag') {
+        const source = resolveLocator(page, step.value);
+        const target = resolveLocator(page, step.target);
+        // A drop the page missed leaves the target as it was, so it is tried again.
+        const before = await target.evaluate((el) => el.innerHTML.length, null, { timeout });
+        for (let attempt = 1; attempt <= 3; attempt += 1) {
+          await source.dragTo(target, { timeout });
+          // The drop handler adds the row after the mouse is released.
+          await page.waitForTimeout(800);
+          if (await target.evaluate((el) => el.innerHTML.length) !== before) break;
+        }
       } else if (step.verb === 'hover') {
         await resolveLocator(page, step.target).hover({ timeout });
         // Tooltips and submenus open after a short delay.
@@ -218,4 +270,4 @@ async function executeSteps(page, steps, options = {}) {
   return scope;
 }
 
-module.exports = { parseSteps, parseStepsFile, parseStep, executeSteps, resolveLocator, unquote };
+module.exports = { parseSteps, parseStepsFile, parseStep, executeSteps, resolveLocator, unquote, isHolding };

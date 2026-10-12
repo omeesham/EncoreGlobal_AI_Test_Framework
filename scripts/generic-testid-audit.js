@@ -5,7 +5,7 @@ const path = require('path');
 const { chromium } = require('@playwright/test');
 const XLSX = require('xlsx');
 const { captureDomScreenshot } = require('./dom-screenshot.js');
-const { parseStepsFile, executeSteps } = require('./steps-runner.js');
+const { parseStepsFile, executeSteps, isHolding } = require('./steps-runner.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const DEFAULT_CONFIG_PATH = path.join(ROOT, 'config', 'testid-audit.config.js');
@@ -437,6 +437,13 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
         kinds.set(el, /^(img|svg)$/i.test(el.tagName) || el.getAttribute('role') === 'img' ? 'image' : 'container');
         elements.push(el);
       }
+      // What the screen shows while it loads - grey placeholder bars, a busy
+      // region - holds no text or role, yet a test waits for it to go.
+      for (const el of base.querySelectorAll('[data-slot="skeleton"], [aria-busy="true"]')) {
+        if (kinds.has(el) || el.closest(CONTROL)) continue;
+        kinds.set(el, 'loading');
+        elements.push(el);
+      }
     }
 
     // The path of an element inside its table cell, with positions kept: a
@@ -522,9 +529,14 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
         : kind === 'control' ? el.closest(REPEAT_CONTAINER)
           : el.parentElement && el.parentElement.closest(REPEAT_CONTAINER);
       // The title keeps two icon buttons in one cell apart - a row's Edit and Delete.
-      const templateKey = repeatContainer
-        ? [tagName, role, getElementPath(el, repeatContainer), el.getAttribute('title') || '', column, kind === 'control' ? '' : pathInCell(el), kind].join('|')
-        : '';
+      // On text it is only the cell's own value repeated, which differs in every row.
+      // Placeholder bars stand in for rows and cells, often drawn without a table:
+      // every bar in one place, whatever its row or column number, is one template.
+      const templateKey = kind === 'loading'
+        ? ['loading', tagName, getElementPath(el).replace(/:nth-of-type\(\d+\)/g, '')].join('|')
+        : repeatContainer
+          ? [tagName, role, getElementPath(el, repeatContainer), kind === 'control' ? el.getAttribute('title') || '' : '', column, kind === 'control' ? '' : pathInCell(el), kind].join('|')
+          : '';
 
       const suggested = buildSuggestedTestId({
         moduleName: moduleNameValue,
@@ -603,6 +615,11 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
  * readySelector is still the reliable signal - this is the floor.
  */
 async function settlePage(page) {
+  // A held request never finishes, and the placeholders it leaves are what is audited.
+  if (isHolding(page)) {
+    await page.waitForTimeout(1000);
+    return;
+  }
   await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
   await page.waitForFunction(() => !document.querySelector('[data-slot="skeleton"]'), null, { timeout: 60000 }).catch(() => {});
   await page.waitForTimeout(1500);
@@ -868,6 +885,7 @@ function humanReadableElementName(item = {}) {
     const what = tag === 'svg' ? 'icon' : 'image';
     return (item.text ? `${item.text} ${what}` : item.nearText ? `${what} beside "${item.nearText}"` : `${what}`) + inColumn + hidden;
   }
+  if (item.kind === 'loading') return 'loading placeholder' + inColumn + hidden;
   if (item.kind === 'container') {
     const what = String(item.role || tag).replace(/-/g, ' ');
     return (item.text ? `${item.text} ${what}` : item.nearText ? `${what} containing "${item.nearText}"` : what) + hidden;
@@ -1203,8 +1221,16 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
               const found = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url(), scopeSelector: stepScope, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())), ignoreInside: (stepsPlan && stepsPlan.ignore) || '' });
               if (!found.length) {
                 // Every state in a file is there because it holds controls; an
-                // empty one means the click before it did not land.
-                throw new Error('The audit "' + (label || stepScope) + '" found no elements - the state probably did not open.');
+                // empty one means the click before it did not land - unless what
+                // it holds already carries data-testids, as a fully tagged dialog does.
+                const tagged = await page.locator(stepScope || 'body').first()
+                  .evaluate((el) => el.matches('[data-testid]') || !!el.querySelector('[data-testid]'))
+                  .catch(() => false);
+                if (!tagged) {
+                  throw new Error('The audit "' + (label || stepScope) + '" found no elements - the state probably did not open.');
+                }
+                console.log('    every element in "' + (label || stepScope || 'page') + '" already has a data-testid');
+                return;
               }
               for (const item of found) item.state = label || stepScope || 'page';
               await captureUiScreenshots(page, found, uiScratchDir);

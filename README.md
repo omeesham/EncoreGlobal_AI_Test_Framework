@@ -266,8 +266,8 @@ screen genuinely differs: Local Office Settings has 19 untagged controls in USA,
 `Module` and `Submodule` become the first two columns of the workbook, so the report is labelled
 by whatever you call it. Step numbers, trailing periods, `#` comments and curly quotes are all
 tolerated. The verbs are `Go to`, `Click`, `Type "x" into "y"`, `Select "x" from "y"`, `Wait for`,
-`Wait up to N seconds for`, `Press "<key>"`, `Hover`, `Upload "<file>" via "<label>"`, `Audit here` and
-`Audit inside "<selector>"`. A line it cannot parse fails the run
+`Wait up to N seconds for`, `Press "<key>"`, `Hover`, `Upload "<file>" via "<label>"`, `Drag "<label>" to "<label>"`,
+`Hold "<url part>"`, `Release "<url part>"`, `Audit here` and `Audit inside "<selector>"`. A line it cannot parse fails the run
 — a silently skipped navigation step would produce a confident report about whichever page it
 happened to land on.
 
@@ -276,15 +276,26 @@ control with no name of its own — a split button's caret — give a selector i
 starting with `.`, `#` or `[`, or prefixed `css=`, `xpath=` or `text=`, is used as one
 (`Click "xpath=//table//tbody/tr[normalize-space(td[1]) != '']"`).
 
-Three steps cover what a click cannot reach:
+These steps cover what a click cannot reach:
 
 | Step | Use when |
 | --- | --- |
 | `Hover "<label>"` | a tooltip or submenu opens on hover; it waits a second for it to appear |
 | `Upload "<file>" via "<label>"` | a control opens the file picker (an Import button); the path is relative to the steps file |
+| `Drag "<label>" to "<label>"` | rows are added to a grid by dropping them on it, from a list beside it; a drop the page misses is tried again |
+| `Hold "<url part>"` … `Release "<url part>"` | the screen shows placeholders while it loads: requests whose address contains the text wait until released, so the loading state can be audited in between |
 | `Wait up to N seconds for "<label>"` | something takes longer than the usual 30 seconds, such as a generated answer |
 
-Hover and Upload find their control the same way `Click` does.
+Hover, Upload and Drag find their controls the same way `Click` does. Put `Hold` before the click
+that sends the request:
+
+```
+Hold "corporate-price-pg-override?localOfficeId"
+Click "Select"
+Wait for "[data-slot=skeleton]"
+Audit inside "main" as "Grid - loading"
+Release "corporate-price-pg-override?localOfficeId"
+```
 
 **Several states in one file.** Most of a ticket's controls appear only after a click: a dropdown's
 options, a dialog, a tab inside it. Name each audit and the file surveys every state in one walk,
@@ -455,6 +466,20 @@ A quick way to get the number, with the screen open in DevTools:
              && el.getBoundingClientRect().width > 1
              && !el.hasAttribute('data-testid')).length
 ```
+
+**Then find what the steps file missed.** A steps file audits the states someone thought of.
+The explorer walks to each audited state, tries every control there — hovers it, clicks it,
+types into it — and lists what each one brought onto the page:
+
+```bash
+node scripts/testid-explore.js --steps <file> --office <n> [--only "<state>"]
+```
+
+Each line names the control, the action and what appeared: a tooltip, a menu, a message, a
+clear button, a control that turned on. Anything listed that the steps file does not open is a
+state to add before the report goes out. It changes no data: a request the walk itself did not
+make is blocked unless it is a GET, and listed. Links that leave the page are not followed. The
+full list is written to `reports/testid-explore/`.
 
 **5. Compare the three countries, and explain any gap.** Differing counts are normal —
 Local Office Settings genuinely has 19 untagged controls in USA, 3 in Canada and 13 in
