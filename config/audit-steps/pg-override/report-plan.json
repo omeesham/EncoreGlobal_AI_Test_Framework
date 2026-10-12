@@ -1,0 +1,17 @@
+{
+  "title": "Missing data-testid - Corporate PG Pricing Override (NM-4321)",
+  "module": "Corporate PG Pricing Override",
+  "office": "7147",
+  "officeLabel": "7147 - Barcelo Monterrey Valle",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-pg-override",
+  "output": "reports/testid-audit-pg-override/NM-4321-pg-override-7147",
+  "fileName": "NM-4321-pg-override-missing-testids-7147",
+  "submodules": [
+    { "ticket": "NM-4321-EQ", "name": "Equipment", "reports": ["pg-override-nm-4321"] },
+    { "ticket": "NM-4321-LAB", "name": "Labor", "reports": ["labor-nm-4321"] },
+    { "ticket": "NM-4321-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4321"] },
+    { "ticket": "NM-4321-MSG", "name": "Save and Import Messages", "reports": ["save-message-nm-4321", "import-message-nm-4321"] }
+  ],
+  "ownership": ["NM-4321-EQ", "NM-4321-LAB", "NM-4321-NAV", "NM-4321-MSG"]
+}

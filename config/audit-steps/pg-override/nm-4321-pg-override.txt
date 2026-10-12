@@ -1,0 +1,171 @@
+# NM-4321 - Setup > Corporate PG Pricing Override (parent NM-3936).
+# The page and every state reachable from it without saving: the info tooltip,
+# the Change Local Office dialog (search, no match, a location ticked), the
+# Equipment grid with its cell tooltip, column menu, Grid Options (and its
+# tooltip), Currency and Rows per page dropdowns, Active only, the filter with
+# no match, the Override Price and Max Discount % editors (a discount over 100
+# and a negative price refused, with the message each shows on hover), an
+# edited grid with its Save Changes and Unsaved changes dialogs, the search
+# panel's Hide and Show tooltips and its collapsed state, Export, the Import
+# dialog (a wrong file type, a
+# file chosen, a file it refuses) and the product group list a currency
+# opens, with a product group dragged onto the grid. The grey placeholders the
+# location list, the grid and the product group list show while they load are
+# audited too: their requests are held until the placeholders are surveyed.
+# The Labor tab is audited in nm-4321-labor.txt.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4321/config/audit-steps/pg-override/nm-4321-pg-override.txt --office 7147
+#
+# Changes no data. Save is never confirmed: the Save Changes dialog is
+# cancelled and the Unsaved changes dialog answered Stay. The Active box that
+# is ticked to edit the grid is ticked back. The rejected import files fail
+# in the browser, before anything is sent. The dragged product group is only
+# added on screen and is gone when the page closes.
+#
+# Office 7147 holds no overrides, so the grid is shown for location 1606,
+# picked in the Change Local Office dialog.
+
+Module: Corporate PG Pricing Override
+Submodule: pg-override-nm-4321
+Output: reports/testid-audit-pg-override
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/corporate-pricing/pg-override
+2. Wait for "text=Select a location"
+3. Audit inside "main" as "No location selected"
+4. Hover "css=main button[aria-label='More information']"
+5. Audit inside "[data-radix-popper-content-wrapper]" as "Info tooltip"
+# Change Local Office dialog.
+6. Hold "location-lookup"
+7. Click "text=Change Local Office"
+8. Wait for "css=[role=dialog] [data-slot=skeleton]"
+9. Audit inside "[role=dialog]" as "Change Local Office - loading"
+10. Release "location-lookup"
+11. Wait for "css=[role=dialog] :text('All Locations')"
+12. Audit inside "[role=dialog]" as "Change Local Office dialog"
+13. Type "zzqqxx" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+14. Wait for "css=[role=dialog] tbody:not(:has([role=checkbox]))"
+15. Audit inside "[role=dialog]" as "Change Local Office - no match"
+16. Type "1606" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+17. Wait for "css=[role=dialog] tbody tr:has-text('Embassy Suites')"
+18. Click "css=[role=dialog] tbody tr:has-text('Embassy Suites') [role=checkbox]"
+19. Audit inside "[role=dialog]" as "Change Local Office - location ticked"
+20. Hold "corporate-price-pg-override?localOfficeId"
+21. Click "[data-testid=location-settings-modal-change-local-office-btn-select]"
+22. Wait for "css=main [data-slot=skeleton]"
+23. Audit inside "main" as "Equipment grid - loading"
+24. Release "corporate-price-pg-override?localOfficeId"
+25. Wait for "css=main [role=tabpanel] tbody tr [role=checkbox]"
+# Equipment grid and its menus.
+26. Audit inside "main" as "Equipment grid"
+27. Hover "css=main [role=tabpanel] tbody tr:first-child td:nth-child(3) [data-slot=tooltip-trigger]"
+28. Audit inside "[data-radix-popper-content-wrapper]" as "Grid cell tooltip"
+29. Click "css=main [role=tabpanel] th button[data-slot=dropdown-menu-trigger] >> nth=0"
+30. Audit inside "[role=menu]" as "Column menu open"
+31. Press "Escape"
+32. Hover "css=main button[aria-label='Grid Options']"
+33. Audit inside "[data-radix-popper-content-wrapper]" as "Grid Options tooltip"
+34. Click "css=main button[aria-label='Grid Options']"
+35. Audit inside "[role=menu]" as "Grid Options menu open"
+36. Press "Escape"
+37. Click "css=main button[role=combobox]:has-text('ALL')"
+38. Audit inside "[role=listbox]" as "Currency dropdown open"
+39. Press "Escape"
+40. Click "css=main button[role=combobox]:has-text('20')"
+41. Audit inside "[role=listbox]" as "Rows per page dropdown open"
+42. Press "Escape"
+43. Click "css=main div:has(> label:text-is('Active only')) [role=checkbox]"
+44. Audit inside "main" as "Active only ticked"
+45. Click "css=main div:has(> label:text-is('Active only')) [role=checkbox]"
+46. Type "zzqqxx" into "Filter Product Groups Override..."
+47. Wait for "css=main :text('No results.')"
+48. Audit inside "main" as "Filter - no match"
+49. Type "" into "Filter Product Groups Override..."
+50. Wait for "css=main [role=tabpanel] tbody tr [role=checkbox]"
+# Cell editors. A Max Discount % over 100 is refused and the editor stays
+# open; it is then emptied, which is what the cell held.
+51. Click "css=main [role=tabpanel] tbody tr:first-child td:nth-child(6) [role=button]"
+52. Wait for "css=main [role=tabpanel] tbody tr:first-child input"
+53. Audit inside "main" as "Override Price editor open"
+54. Press "Escape"
+55. Click "css=main [role=tabpanel] tbody tr:first-child td:nth-child(7) [role=button]"
+56. Type "150" into "css=main [role=tabpanel] tbody tr:first-child input"
+57. Press "Enter"
+58. Audit inside "main" as "Max Discount % over 100 refused"
+59. Hover "css=main [role=tabpanel] tbody tr:first-child td:nth-child(7) [data-slot=tooltip-trigger]"
+60. Audit inside "[data-radix-popper-content-wrapper]" as "Max Discount % validation message"
+61. Type "" into "css=main [role=tabpanel] tbody tr:first-child input"
+62. Press "Enter"
+# A negative Override Price is refused with its own message; 170, what the
+# cell held, is then typed back.
+63. Click "css=main [role=tabpanel] tbody tr:first-child td:nth-child(6) [role=button]"
+64. Type "-5" into "css=main [role=tabpanel] tbody tr:first-child input"
+65. Press "Enter"
+66. Audit inside "main" as "Override Price - negative value refused"
+67. Hover "css=main [role=tabpanel] tbody tr:first-child td:nth-child(6) [data-slot=tooltip-trigger]"
+68. Audit inside "[data-radix-popper-content-wrapper]" as "Override Price validation message"
+69. Type "170" into "css=main [role=tabpanel] tbody tr:first-child input"
+70. Press "Enter"
+71. Wait for "css=main [role=tabpanel] tbody tr:first-child td:nth-child(6) [role=button]:text-is('170.00')"
+# An edit enables Save; Save asks first, and leaving asks too.
+72. Click "css=main [role=tabpanel] tbody tr:first-child td:nth-child(8) [role=checkbox]"
+73. Audit inside "main" as "Grid edited, not saved"
+74. Click "css=main button:text-is('Save')"
+75. Wait for "[role=alertdialog]"
+76. Audit inside "[role=alertdialog]" as "Save Changes dialog"
+77. Click "css=[role=alertdialog] button:text-is('Cancel')"
+78. Click "css=[data-slot=sidebar] a:has-text('Home')"
+79. Wait for "[data-testid=location-settings-modal-unsaved-changes-title]"
+80. Audit inside "[role=alertdialog]" as "Unsaved changes dialog"
+81. Click "[data-testid=location-settings-modal-unsaved-changes-btn-cancel]"
+82. Click "css=main [role=tabpanel] tbody tr:first-child td:nth-child(8) [role=checkbox]"
+83. Hover "css=main button[aria-label='Collapse search panel']"
+84. Audit inside "[data-radix-popper-content-wrapper]" as "Collapse search panel tooltip"
+85. Click "css=main button[aria-label='Collapse search panel']"
+86. Audit inside "main" as "Search panel collapsed"
+87. Hover "css=main button[aria-label='Expand search panel']"
+88. Audit inside "[data-radix-popper-content-wrapper]" as "Expand search panel tooltip"
+89. Click "css=main button[aria-label='Expand search panel']"
+# Export downloads a file; the dialog shown while it is prepared is audited.
+90. Click "css=main button:text-is('Export')"
+91. Audit inside "[role=dialog]" as "Export - preparing the file"
+92. Wait for "css=main button:text-is('Import')"
+# Import. A .txt file is refused as soon as it is chosen; a CSV holding only
+# the header row is refused when Upload is clicked. Both messages show in the
+# dialog, and neither file is sent.
+93. Click "css=main button:text-is('Import')"
+94. Wait for "[data-testid=pg-override-upload-dialog-browse]"
+95. Audit inside "[role=dialog]" as "Import dialog"
+96. Upload "wrong-format.txt" via "[data-testid=pg-override-upload-dialog-browse]"
+97. Wait for "[data-testid=pg-override-upload-dialog-error]"
+98. Audit inside "[role=dialog]" as "Import - wrong file type"
+99. Upload "override-header-only.csv" via "[data-testid=pg-override-upload-dialog-browse]"
+100. Audit inside "[role=dialog]" as "Import - file chosen"
+101. Click "[data-testid=pg-override-upload-dialog-upload]"
+102. Wait for "css=[data-testid=pg-override-upload-dialog-error]:has-text('upload file format')"
+103. Audit inside "[role=dialog]" as "Import - file refused"
+104. Click "[data-testid=pg-override-upload-dialog-cancel]"
+105. Wait for "css=main button:text-is('Import')"
+# A currency opens the product group list beside the grid; a row dragged onto
+# the grid adds it there, unsaved.
+# While the product group list and the grid load, both show grey placeholder
+# rows; the requests are held so that state can be audited.
+106. Hold "corporate-price-pg-override/product-group"
+107. Hold "corporate-price-pg-override?localOfficeId"
+108. Select "USD" from "css=main button[role=combobox]:has-text('ALL')"
+109. Wait for "css=main [data-slot=skeleton]"
+110. Audit inside "main" as "Product group list - loading"
+111. Release "corporate-price-pg-override/product-group"
+112. Release "corporate-price-pg-override?localOfficeId"
+113. Wait for "css=tr[draggable=true]"
+114. Audit inside "main" as "Product group list (Currency USD)"
+115. Click "css=main table:has(tr[draggable=true]) th button[data-slot=dropdown-menu-trigger] >> nth=0"
+116. Audit inside "[role=menu]" as "Product group list - column menu open"
+117. Press "Escape"
+118. Type "zzqqxx" into "Search product groups..."
+119. Wait for "css=body:not(:has(tr[draggable=true]))"
+120. Audit inside "main" as "Product group list - no match"
+121. Type "" into "Search product groups..."
+122. Wait for "css=tr[draggable=true]"
+123. Drag "css=tr[draggable=true] >> nth=0" to "css=main [role=tabpanel]"
+124. Wait for "css=main [role=tabpanel] tbody tr >> nth=7"
+125. Audit inside "main" as "Product group added to the grid, not saved"

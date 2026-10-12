@@ -1,0 +1,23 @@
+# NM-4321 - Setup > Corporate PG Pricing Override: the message shown after a real Import (parent NM-3936).
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4321/config/audit-steps/pg-override/nm-4321-import-message.txt --office 7147
+#
+# WRITES DATA, with the values it already holds. override-1606-4298-unchanged.csv
+# is one row taken from the Export: location 1606, product group 4298 (Project
+# Manager (Pre/Post) - Hourly), Override Price 204.00, no Max Discount, Active.
+# Importing it sends that row unchanged, so only its Mod Date and Updated By
+# move. Check the Export first if that override has been changed since.
+
+Module: Corporate PG Pricing Override
+Submodule: import-message-nm-4321
+Output: reports/testid-audit-pg-override
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/corporate-pricing/pg-override
+2. Wait for "text=Select a location"
+3. Click "css=main button:text-is('Import')"
+4. Wait for "[data-testid=pg-override-upload-dialog-browse]"
+5. Upload "override-1606-4298-unchanged.csv" via "[data-testid=pg-override-upload-dialog-browse]"
+6. Click "[data-testid=pg-override-upload-dialog-upload]"
+7. Wait up to 60 seconds for "css=[data-sonner-toast]"
+8. Hover "css=[data-sonner-toast]"
+9. Audit inside "section[aria-label^='Notifications']" as "Import message (toast)"

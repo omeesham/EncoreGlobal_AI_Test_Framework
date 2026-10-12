@@ -1,0 +1,42 @@
+# NM-4321 - Setup > Corporate PG Pricing Override: the message shown after Save (parent NM-3936).
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4321/config/audit-steps/pg-override/nm-4321-save-message.txt --office 7147
+#
+# CHANGES DATA, then puts it back. Only one override is edited: location 1606,
+# product group 2606 (House Video Monitor LED 40"-49"), whose Override Price
+# 170.00 is saved as 171.00, then set back to 170.00 and saved again. Save
+# sends only that row. Its Mod Date and Updated By show the second save. If a
+# run stops between the two saves, set that Override Price back to 170.00.
+# The message is hovered while it is audited, so it does not close on its timer.
+
+Module: Corporate PG Pricing Override
+Submodule: save-message-nm-4321
+Output: reports/testid-audit-pg-override
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/corporate-pricing/pg-override
+2. Wait for "text=Select a location"
+3. Click "text=Change Local Office"
+4. Wait for "css=[role=dialog] :text('All Locations')"
+5. Type "1606" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+6. Wait for "css=[role=dialog] tbody tr:has-text('Embassy Suites') [role=checkbox]"
+7. Click "css=[role=dialog] tbody tr:has-text('Embassy Suites') [role=checkbox]"
+8. Click "[data-testid=location-settings-modal-change-local-office-btn-select]"
+9. Wait for "css=main [role=tabpanel] tbody tr:has-text('Monitor LED 40') td:nth-child(6) [role=button]:text-is('170.00')"
+10. Click "css=main [role=tabpanel] tbody tr:has-text('Monitor LED 40') td:nth-child(6) [role=button]"
+11. Type "171" into "css=main [role=tabpanel] tbody tr:has-text('Monitor LED 40') input"
+12. Press "Enter"
+13. Click "css=main button:text-is('Save')"
+14. Click "[data-testid=location-settings-modal-save-changes-btn-confirm]"
+15. Wait up to 60 seconds for "css=[data-sonner-toast]"
+16. Hover "css=[data-sonner-toast]"
+17. Audit inside "section[aria-label^='Notifications']" as "Save message (toast)"
+# Put the override back: 170.00, saved again. The first message is closed so
+# the wait below sees the second save's own message.
+18. Click "css=[data-sonner-toast] button[aria-label='Close toast']"
+19. Click "css=main [role=tabpanel] tbody tr:has-text('Monitor LED 40') td:nth-child(6) [role=button]"
+20. Type "170" into "css=main [role=tabpanel] tbody tr:has-text('Monitor LED 40') input"
+21. Press "Enter"
+22. Click "css=main button:text-is('Save')"
+23. Click "[data-testid=location-settings-modal-save-changes-btn-confirm]"
+24. Wait up to 60 seconds for "css=[data-sonner-toast]"
+25. Wait for "css=main [role=tabpanel] tbody tr:has-text('Monitor LED 40') td:nth-child(6) [role=button]:text-is('170.00')"

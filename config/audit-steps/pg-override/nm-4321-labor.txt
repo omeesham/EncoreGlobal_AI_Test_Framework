@@ -1,0 +1,51 @@
+# NM-4321 - Setup > Corporate PG Pricing Override, Labor tab (parent NM-3936).
+# The Labor grid with rows, the Override Price and Max
+# Discount % editors, an edited row, and the labor product group list a
+# currency opens, with a product group dragged onto the Labor grid.
+# What the Labor tab shares with Equipment (the search panel, the toolbar, the
+# dialogs) is audited in nm-4321-pg-override.txt.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4321/config/audit-steps/pg-override/nm-4321-labor.txt --office 7147
+#
+# Changes no data. Save is never clicked: the Active box ticked to edit the
+# grid is ticked back, and the dragged product group is only added on screen.
+#
+# Location 1606 holds no Labor overrides, so the grid is shown for location
+# 1105, picked in the Change Local Office dialog.
+
+Module: Corporate PG Pricing Override
+Submodule: labor-nm-4321
+Output: reports/testid-audit-pg-override
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/corporate-pricing/pg-override
+2. Wait for "text=Select a location"
+3. Click "text=Change Local Office"
+4. Wait for "css=[role=dialog] :text('All Locations')"
+5. Type "1105" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+6. Wait for "css=[role=dialog] tbody tr:has-text('1105') [role=checkbox]"
+7. Click "css=[role=dialog] tbody tr:has-text('1105') [role=checkbox]"
+8. Click "[data-testid=location-settings-modal-change-local-office-btn-select]"
+9. Wait for "css=main [role=tabpanel] tbody tr [role=checkbox]"
+10. Click "css=main [role=tab]:has-text('Labor')"
+11. Wait for "css=main [role=tab][aria-selected=true]:has-text('Labor')"
+12. Wait for "css=main [role=tabpanel] tbody tr [role=checkbox]"
+13. Audit inside "main" as "Labor grid"
+14. Click "css=main [role=tabpanel] tbody tr:first-child td:nth-child(6) [role=button]"
+15. Wait for "css=main [role=tabpanel] tbody tr:first-child input"
+16. Audit inside "main" as "Labor - Override Price editor open"
+17. Press "Escape"
+18. Click "css=main [role=tabpanel] tbody tr:first-child td:nth-child(7) [role=button]"
+19. Wait for "css=main [role=tabpanel] tbody tr:first-child input"
+20. Audit inside "main" as "Labor - Max Discount % editor open"
+21. Press "Escape"
+22. Click "css=main [role=tabpanel] tbody tr:first-child td:nth-child(8) [role=checkbox]"
+23. Audit inside "main" as "Labor - grid edited, not saved"
+24. Click "css=main [role=tabpanel] tbody tr:first-child td:nth-child(8) [role=checkbox]"
+# A currency opens the labor product group list; a row dragged onto the grid
+# adds it there, unsaved.
+25. Select "USD" from "css=main button[role=combobox]:has-text('ALL')"
+26. Wait for "css=tr[draggable=true]"
+27. Audit inside "main" as "Labor - product group list (Currency USD)"
+28. Drag "css=tr[draggable=true] >> nth=0" to "css=main [role=tabpanel][data-state=active]"
+29. Wait for "css=main [role=tabpanel][data-state=active] tbody tr >> nth=2"
+30. Audit inside "main" as "Labor - product group added to the grid, not saved"
