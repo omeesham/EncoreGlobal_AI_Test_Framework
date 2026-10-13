@@ -3,8 +3,8 @@
 # switcher (with search results and no-match), each sidebar menu and submenu,
 # the user menu with its Language submenu, Theme options and Command Menu, and
 # the Ask Encore panel with what it opens - the Projects sheet (active and
-# archived), the New project form and its Knowledge Base picker, Chat settings
-# (both tabs and the New prompt form), the model menu and the prompt library.
+# archived), the New project form, Chat settings (both tabs and the New
+# prompt form), the model menu and the prompt library.
 # Run: node scripts/generic-testid-audit.js --steps ../NM-4321/config/audit-steps/pg-override/nm-4321-app-shell.txt --office 7147
 # Changes no data: menus are only opened and closed - no link is
 # followed, no language or theme is chosen, no form is submitted (Create, Add
@@ -80,25 +80,22 @@ Elements: all
 61. Audit inside "[data-slot=sheet-content]" as "Ask Encore - Projects sheet, archived view"
 # New project is opened to see its form; Create is never clicked.
 62. Click "css=[data-slot=sheet-content] button:text-is('New')"
-63. Wait for "css=[data-slot=sheet-content] button:has-text('Add from Knowledge Base')"
+63. Wait for "css=[data-slot=sheet-content] label:has-text('Custom instructions')"
 64. Audit inside "[data-slot=sheet-content]" as "Ask Encore - New project form"
-65. Click "css=[data-slot=sheet-content] button:has-text('Add from Knowledge Base')"
-66. Audit inside "[data-slot=dialog-content]" as "Ask Encore - Add from Knowledge Base dialog"
-67. Press "Escape"
-68. Press "Escape"
-69. Click "css=main#skip + div button[aria-label='Chat settings']"
-70. Wait for "css=[role=dialog] button:text-is('Preview')"
-71. Audit inside "[role=dialog]" as "Ask Encore - Chat settings, Custom instructions tab"
-72. Click "css=[role=dialog] [role=tab]:has-text('Prompt library')"
-73. Audit inside "[role=dialog]" as "Ask Encore - Chat settings, Prompt library tab"
+65. Press "Escape"
+66. Click "css=main#skip + div button[aria-label='Chat settings']"
+67. Wait for "css=[role=dialog] button:text-is('Preview')"
+68. Audit inside "[role=dialog]" as "Ask Encore - Chat settings, Custom instructions tab"
+69. Click "css=[role=dialog] [role=tab]:has-text('Prompt library')"
+70. Audit inside "[role=dialog]" as "Ask Encore - Chat settings, Prompt library tab"
 # New prompt is opened to see its form; Create is never clicked.
-74. Click "css=[role=dialog] button:has-text('New prompt')"
-75. Wait for "css=[role=dialog] label:has-text('Share at location')"
-76. Audit inside "[role=dialog]" as "Ask Encore - New prompt form"
+71. Click "css=[role=dialog] button:has-text('New prompt')"
+72. Wait for "css=[role=dialog] label:has-text('Share at location')"
+73. Audit inside "[role=dialog]" as "Ask Encore - New prompt form"
+74. Press "Escape"
+75. Click "css=main#skip + div button:has-text('Default Chat')"
+76. Audit inside "[role=menu]" as "Ask Encore - model menu open"
 77. Press "Escape"
-78. Click "css=main#skip + div button:has-text('Default Chat')"
-79. Audit inside "[role=menu]" as "Ask Encore - model menu open"
+78. Click "css=main#skip + div button[aria-label='Prompt library']"
+79. Audit inside "[data-slot=popover-content]" as "Ask Encore - Prompt library popover"
 80. Press "Escape"
-81. Click "css=main#skip + div button[aria-label='Prompt library']"
-82. Audit inside "[data-slot=popover-content]" as "Ask Encore - Prompt library popover"
-83. Press "Escape"
