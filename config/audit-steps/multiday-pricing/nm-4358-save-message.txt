@@ -1,0 +1,32 @@
+# NM-4358 - Setup > Multiday Pricing Rules: the message shown after Save (parent NM-3936).
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4358/config/audit-steps/multiday-pricing/nm-4358-save-message.txt --office 1101
+#
+# CHANGES DATA, then puts it back. Save sends the changes at once, without
+# asking. Only one rule is edited: Lighting Subrental, whose 2 Days value 2 is
+# saved as 1, then set back to 2 and saved again. Save sends only that row. If
+# a run stops between the two saves, set Lighting Subrental's 2 Days back to 2.
+# The message is hovered while it is audited, so it does not close on its timer.
+
+Module: Multiday Pricing Rules
+Submodule: save-message-nm-4358
+Output: reports/testid-audit-multiday-pricing
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/multiday-pricing-rules
+2. Wait for "css=main tbody tr:has-text('Lighting Subrental') button[aria-label=Delete]"
+3. Wait for "css=main tbody tr:has-text('Lighting Subrental') input[value='2'] >> nth=0"
+4. Type "1" into "css=main tbody tr:has-text('Lighting Subrental') input >> nth=1"
+5. Press "Tab"
+6. Click "css=main button:text-is('Save')"
+7. Wait up to 60 seconds for "css=[data-sonner-toast]"
+8. Hover "css=[data-sonner-toast]"
+9. Audit inside "section[aria-label^='Notifications']" as "Save message (toast)"
+# Put the rule back: 2, saved again. The first message is closed so the wait
+# below sees the second save's own message.
+10. Click "css=[data-sonner-toast] button[aria-label='Close toast']"
+11. Type "2" into "css=main tbody tr:has-text('Lighting Subrental') input >> nth=1"
+12. Press "Tab"
+13. Click "css=main button:text-is('Save')"
+14. Wait up to 60 seconds for "css=[data-sonner-toast]"
+15. Go to /navigator/locations/{office}/settings/multiday-pricing-rules
+16. Wait for "css=main tbody tr:has-text('Lighting Subrental') button[aria-label=Delete]"

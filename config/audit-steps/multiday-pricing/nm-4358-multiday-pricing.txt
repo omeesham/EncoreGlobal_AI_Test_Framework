@@ -1,0 +1,110 @@
+# NM-4358 - Setup > Multiday Pricing Rules (parent NM-3936).
+# The page while its grid loads and once loaded, the info tooltip, Grid
+# Options (its tooltip and menu), the column menu, the grid sorted, a day cell
+# refused (the messages it shows on hover), the grid edited with the Unsaved
+# changes dialog, the Delete confirmation (No, then Yes with the message it
+# shows and the row marked for deletion), and a service type added from the
+# empty row at the bottom: the service type list, a type chosen and the row
+# added; and the message a failed save shows.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4358/config/audit-steps/multiday-pricing/nm-4358-multiday-pricing.txt --office 1101
+#
+# Changes no data. Save sends the changes at once, without asking, so it is
+# clicked only once, at the end, after every request the page posts is made to
+# fail. Every edit, deletion and added row stays on screen only and is dropped
+# when the page is opened again. The Unsaved changes dialog is answered Stay.
+# Computer Rental is the service type added; it must still be missing from the
+# grid.
+
+Module: Multiday Pricing Rules
+Submodule: multiday-pricing-nm-4358
+Output: reports/testid-audit-multiday-pricing
+Elements: all
+
+# The page loads its rules by posting to its own address, in the one request
+# that sends the culture; it is held so the grey placeholder rows can be audited.
+1. Hold "POST culture"
+2. Go to /navigator/locations/{office}/settings/multiday-pricing-rules
+3. Wait for "css=main [data-slot=skeleton]"
+4. Audit inside "main" as "Multiday Pricing - loading"
+5. Release "POST culture"
+6. Wait for "css=main tbody tr button[aria-label=Delete]"
+7. Audit inside "main" as "Multiday Pricing"
+8. Hover "css=main button[aria-label='More information']"
+9. Audit inside "[data-radix-popper-content-wrapper]" as "Info tooltip"
+# Grid Options and the column menu.
+10. Hover "css=main button[aria-label='Grid Options']"
+11. Audit inside "[data-radix-popper-content-wrapper]" as "Grid Options tooltip"
+12. Click "css=main button[aria-label='Grid Options']"
+13. Audit inside "[role=menu]" as "Grid Options menu open"
+14. Press "Escape"
+15. Click "css=main thead th button[data-slot=dropdown-menu-trigger] >> nth=0"
+16. Audit inside "[role=menu]" as "Column menu open"
+17. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+18. Audit inside "main" as "Grid sorted (Service Type Name, descending)"
+# The menu closes before it is opened again, or the click only closes it.
+19. Wait for "css=body:not(:has([role=menu]))"
+20. Click "css=main thead th button[data-slot=dropdown-menu-trigger] >> nth=0"
+21. Click "css=[role=menu] [role=menuitem]:has-text('Sort ascending')"
+# A day cell refused. 2 Days emptied is lower than 1 Day; 3 Days set to 99999
+# is over 3 days and higher than 4 Days. Each refused cell shows a warning
+# icon whose tooltip gives the reason.
+22. Type "" into "css=main tbody tr:first-child input >> nth=1"
+23. Press "Tab"
+24. Wait for "css=main tbody tr:first-child input[aria-invalid=true]"
+25. Audit inside "main" as "Day cell refused"
+26. Hover "css=main tbody tr:first-child td:has(input[aria-invalid=true]) [data-slot=tooltip-trigger] >> nth=0"
+27. Audit inside "[data-radix-popper-content-wrapper]" as "Day cell refused - message"
+28. Type "99999" into "css=main tbody tr:first-child input >> nth=2"
+29. Press "Tab"
+30. Hover "css=main tbody tr:first-child td:has(input[aria-invalid=true]) [data-slot=tooltip-trigger] >> nth=1"
+31. Audit inside "[data-radix-popper-content-wrapper]" as "Day cell refused - more than one reason"
+# A valid edit (2 Days lowered to 1) enables Save; leaving the page then asks
+# first.
+32. Go to /navigator/locations/{office}/settings/multiday-pricing-rules
+33. Wait for "css=main tbody tr button[aria-label=Delete]"
+34. Type "1" into "css=main tbody tr:first-child input >> nth=1"
+35. Press "Tab"
+36. Audit inside "main" as "Grid edited, not saved"
+37. Click "css=[data-slot=sidebar] a:has-text('Home')"
+38. Wait for "[data-testid=location-settings-modal-unsaved-changes-title]"
+39. Audit inside "[role=alertdialog]" as "Unsaved changes dialog"
+40. Click "[data-testid=location-settings-modal-unsaved-changes-btn-cancel]"
+# Delete asks first. No keeps the row; Yes marks it for deletion, to be
+# removed on Save, and says so in a message.
+41. Go to /navigator/locations/{office}/settings/multiday-pricing-rules
+42. Wait for "css=main tbody tr button[aria-label=Delete]"
+43. Click "css=main tbody tr:first-child button[aria-label=Delete]"
+44. Wait for "[role=alertdialog]"
+45. Audit inside "[role=alertdialog]" as "Delete confirmation"
+46. Click "css=[role=alertdialog] button:text-is('No')"
+47. Click "css=main tbody tr:first-child button[aria-label=Delete]"
+48. Click "css=[role=alertdialog] button:text-is('Yes')"
+49. Wait for "css=[data-sonner-toast]"
+50. Hover "css=[data-sonner-toast]"
+51. Audit inside "section[aria-label^='Notifications']" as "Row marked for deletion - message"
+52. Audit inside "main" as "Row marked for deletion, not saved"
+# A service type added from the empty row at the bottom. Its day cells stay
+# read-only until a type is chosen; clicking one of them then adds the row,
+# with 1 to 14 days filled in.
+53. Go to /navigator/locations/{office}/settings/multiday-pricing-rules
+54. Wait for "css=main tbody tr button[aria-label=Delete]"
+55. Click "css=main tbody tr:has([role=combobox]) button[role=combobox]"
+56. Audit inside "[role=listbox]" as "Service type list open"
+57. Click "css=[role=listbox] [role=option]:has-text('Computer Rental')"
+58. Audit inside "main" as "Service type chosen"
+59. Click "css=main tbody tr:has([role=combobox]:has-text('Computer Rental')) input >> nth=0"
+60. Wait for "css=main tbody tr:has-text('Computer Rental') button[aria-label=Delete]"
+61. Audit inside "main" as "Service type added, not saved"
+# A save that fails shows its own message. Every request the page posts from
+# here on is made to fail, as a lost connection would, so Save is clicked but
+# nothing reaches the server. This stays last: the page cannot load again
+# while its requests fail.
+62. Go to /navigator/locations/{office}/settings/multiday-pricing-rules
+63. Wait for "css=main tbody tr button[aria-label=Delete]"
+64. Type "1" into "css=main tbody tr:first-child input >> nth=1"
+65. Press "Tab"
+66. Fail "POST multiday-pricing-rules"
+67. Click "css=main button:text-is('Save')"
+68. Wait up to 30 seconds for "css=[data-sonner-toast][data-type=error]"
+69. Hover "css=[data-sonner-toast]"
+70. Audit inside "section[aria-label^='Notifications']" as "Save failed - message"

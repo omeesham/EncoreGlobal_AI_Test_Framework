@@ -1,0 +1,20 @@
+# NM-4358 - Setup > Multiday Pricing Rules on a local office (parent NM-3936).
+# The rules are kept on the corporate office, 1101, which can edit them. A local
+# office shows the same rules read-only: no Save, no Delete column, no row to
+# add a service type, and each day as plain text instead of a box. This file
+# audits that view on 1606; its tooltips, menus and headers are the ones
+# nm-4358-multiday-pricing.txt audits on 1101, so only what it adds is new.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4358/config/audit-steps/multiday-pricing/nm-4358-local-office.txt --office 1101
+# (--office 1101 files the result with the rest of the 1101 report; the page
+# opened is 1606's.)
+#
+# Changes no data: nothing on this view can be edited.
+
+Module: Multiday Pricing Rules
+Submodule: local-office-nm-4358
+Output: reports/testid-audit-multiday-pricing
+Elements: all
+
+1. Go to /navigator/locations/1606/settings/multiday-pricing-rules
+2. Wait for "css=main tbody tr td span"
+3. Audit inside "main" as "Multiday Pricing - read-only (local office 1606)"

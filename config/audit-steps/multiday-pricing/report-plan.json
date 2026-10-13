@@ -1,0 +1,17 @@
+{
+  "title": "Missing data-testid - Multiday Pricing Rules (NM-4358)",
+  "module": "Multiday Pricing Rules",
+  "office": "1101",
+  "officeLabel": "1101 - Corporate Office Encore USA SGA",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-multiday-pricing",
+  "output": "reports/testid-audit-multiday-pricing/NM-4358-multiday-pricing-1101",
+  "fileName": "NM-4358-multiday-pricing-missing-testids-1101",
+  "submodules": [
+    { "ticket": "NM-4358-MDP", "name": "Multiday Pricing Rules", "reports": ["multiday-pricing-nm-4358"] },
+    { "ticket": "NM-4358-RO", "name": "Read-only view (local office)", "reports": ["local-office-nm-4358"] },
+    { "ticket": "NM-4358-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4358"] },
+    { "ticket": "NM-4358-MSG", "name": "Save Message", "reports": ["save-message-nm-4358"] }
+  ],
+  "ownership": ["NM-4358-MDP", "NM-4358-RO", "NM-4358-NAV", "NM-4358-MSG"]
+}
