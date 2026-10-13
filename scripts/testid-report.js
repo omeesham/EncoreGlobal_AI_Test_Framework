@@ -68,18 +68,46 @@ function parseArgs(argv) {
 const inPage = (item) => / > main\b/.test(item.path || '');
 const unindexed = (value) => String(value || '').replace(/:nth-of-type\(\d+\)/g, '');
 const pageOf = (item) => new URL(item.pageUrl).pathname;
+// A page is the same page on every office: a view only another office shows
+// (a read-only one, say) lists only what it adds.
+const pageKey = (item) => pageOf(item).replace(/\/locations\/\d+\//, '/locations/*/');
+
+// The body child that holds the application - its sidebar, its main and any
+// panel beside them - as opposed to the portals popovers and dialogs open in.
+let layoutRoot = '';
+const findLayoutRoot = (items) => {
+  const counts = {};
+  for (const item of items) {
+    if (inPage(item)) {
+      const root = item.path.split(' > ').slice(0, 2).join(' > ');
+      counts[root] = (counts[root] || 0) + 1;
+    }
+  }
+  return Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0] || '';
+};
+const inLayout = (item) => !inPage(item) && !!layoutRoot && String(item.path || '').startsWith(layoutRoot + ' > ');
+// Stays where it is from state to state: the page, or the sidebar beside it.
+const fixed = (item) => inPage(item) || inLayout(item);
 
 /**
  * Identifies an element across the reports of one office. Per page, so a sidebar
  * control on two pages is two rows. A control on the page itself is matched
  * without sibling positions, which shift as a toolbar grows when a row is
- * selected. Popover and dialog content shares one portal path, so it also keys on
- * its state - two dropdowns' option lists are different elements.
+ * selected; so is the sidebar beside it, whose positions shift when it
+ * collapses. Popover and dialog content shares one portal path, so it also keys
+ * on its state - two dropdowns' option lists are different elements.
  */
 function elementKey(item) {
+  // The notifications region is one place on every screen: its list, its
+  // Close button and its icon are the same elements whichever message shows;
+  // only each message's text is its own.
+  if (/^body > section\b/.test(item.path || '')) {
+    return pageKey(item) + '|toast|' + [item.tagName, item.role, item.kind, item.kind === 'text' ? item.text : '', unindexed(item.path)].join('|');
+  }
+  const ariaLabel = item.ariaLabel;
   if (item.templateKey) {
-    return pageOf(item) + '|' + item.templateKey
-      + (inPage(item) ? '' : '|' + ((item.instanceSamples || [])[0] || '') + '|' + item.state);
+    return pageKey(item) + '|' + item.templateKey
+      + (fixed(item) ? '' : '|' + ((item.instanceSamples || [])[0] || '') + '|' + item.state);
   }
   // A field is known by its label, not its current value; text, containers and
   // images on the page by their place, not their words. Only a control's
@@ -87,13 +115,35 @@ function elementKey(item) {
   // are three elements.
   const content = item.kind && item.kind !== 'control';
   const text = item.label || (content && inPage(item)) ? '' : item.text;
-  // An icon moves when a neighbour appears; it is the icon beside the same thing.
-  if (item.kind === 'image' && inPage(item)) return pageOf(item) + '|image|' + [item.tagName, item.nearText, item.column, unindexed(item.path)].join('|');
-  return pageOf(item) + '|' + [
-    item.tagName, item.role, text, item.ariaLabel, item.label, item.column, item.panel, item.placeholder,
-    content && (inPage(item) || item.kind !== 'container') ? '' : item.nearText,
-    inPage(item) && !content ? unindexed(item.path) : item.path
-  ].join('|') + (inPage(item) ? '' : '|' + item.state);
+  // An icon moves when a neighbour appears; it is the icon beside the same
+  // thing, whatever count that thing shows ("17 items found", "16 items found").
+  const near = String(item.nearText || '').replace(/\d+/g, '#');
+  if (item.kind === 'image' && fixed(item)) return pageKey(item) + '|image|' + [item.tagName, near, item.column, unindexed(item.path)].join('|');
+  return pageKey(item) + '|' + [
+    item.tagName, item.role, text, ariaLabel, item.label, item.column, item.panel, item.placeholder,
+    content && (inPage(item) || item.kind !== 'container') ? '' : near,
+    (inPage(item) && !content) || inLayout(item) ? unindexed(item.path) : item.path
+  ].join('|') + (fixed(item) ? '' : '|' + item.state);
+}
+
+/**
+ * The name each row shows. Where two rows would read the same - a grid's
+ * repeated cell and the one cell of the row for adding a new line - the
+ * single one says which table row it is in.
+ */
+function nameEntries(groups) {
+  const entries = groups.flatMap((group) => group.entries);
+  const counts = {};
+  for (const entry of entries) {
+    entry.name = describeElement(entry.item);
+    const base = entry.name.replace(/ \(one template.*$/, '');
+    counts[base] = (counts[base] || 0) + 1;
+  }
+  for (const entry of entries) {
+    const base = entry.name.replace(/ \(one template.*$/, '');
+    const row = String(entry.item.path || '').match(/tbody > tr:nth-of-type\((\d+)\)/);
+    if (counts[base] > 1 && (entry.item.instances || 1) <= 1 && row) entry.name = base + ' (row ' + row[1] + ' of the table)';
+  }
 }
 
 function pngSize(file) {
@@ -127,17 +177,38 @@ function collect(plan, reportsDir) {
   const order = plan.ownership && plan.ownership.length ? plan.ownership : plan.submodules.map((s) => s.ticket);
   const byTicket = Object.fromEntries(plan.submodules.map((s) => [s.ticket, s]));
   const owned = new Map();
+  const loaded = [];
 
   for (const ticket of order) {
     const submodule = byTicket[ticket];
     if (!submodule) throw new Error('ownership names ' + ticket + ', which is not in submodules.');
     for (const reportName of submodule.reports) {
       const file = findReport(reportsDir, moduleSlug, reportName, plan.office);
-      const { findings } = JSON.parse(fs.readFileSync(file, 'utf8'));
-      for (const item of findings) {
-        const key = elementKey(item);
-        if (!owned.has(key)) owned.set(key, { ticket, item });
-      }
+      const { findings, tagged } = JSON.parse(fs.readFileSync(file, 'utf8'));
+      loaded.push({ ticket, findings, tagged: tagged || [] });
+    }
+  }
+  layoutRoot = findLayoutRoot(loaded.flatMap((report) => report.findings));
+  // Elements that already carry a data-testid: one per page, under the first
+  // ticket that saw them, so found = with + without adds up per ticket.
+  const ownedTagged = new Map();
+  for (const { ticket, tagged } of loaded) {
+    for (const item of tagged) {
+      const key = pageKey(item) + '|' + item.testId + '|' + item.tagName;
+      if (!ownedTagged.has(key)) ownedTagged.set(key, { ticket, item });
+    }
+  }
+  // A labelled control at the very same place on the page is the same control,
+  // even when its aria-label changes with the state ("Fix invalid values
+  // before changing Service Type" while a day is refused).
+  const byPlace = new Map();
+  for (const { ticket, findings } of loaded) {
+    for (const item of findings) {
+      const place = inPage(item) && item.kind === 'control' && item.label
+        ? [pageKey(item), item.tagName, item.role, item.label, item.path].join('|') : '';
+      const key = (place && byPlace.get(place)) || elementKey(item);
+      if (place && !byPlace.has(place)) byPlace.set(place, key);
+      if (!owned.has(key)) owned.set(key, { ticket, item });
     }
   }
 
@@ -152,6 +223,7 @@ function collect(plan, reportsDir) {
   return plan.submodules.map((submodule) => ({
     submodule,
     entries: [...owned.values()].filter((entry) => entry.ticket === submodule.ticket),
+    tagged: [...ownedTagged.values()].filter((entry) => entry.ticket === submodule.ticket),
   }));
 }
 
@@ -207,9 +279,9 @@ async function writeWorkbook(plan, groups, outputDir, file) {
         entry.serial,
         plan.module,
         submodule.name,
-        describeElement(entry.item),
+        entry.name,
         entry.item.currentLocator || entry.item.path || '',
-        buildLocateSteps(entry.item, plan.appUrl + pageOf(entry.item)),
+        buildLocateSteps(entry.item, plan.appUrl + pageOf(entry.item)).split(describeElement(entry.item)).join(entry.name),
         buildDomSnippet(entry.item),
         '',
         '',
@@ -234,19 +306,24 @@ async function writeWorkbook(plan, groups, outputDir, file) {
   }
 
   const total = groups.reduce((sum, group) => sum + group.entries.length, 0);
+  // Elements that already have a data-testid are only counted, in the table
+  // below; the rows above list just the ones without.
+  const totalTagged = groups.reduce((sum, group) => sum + group.tagged.length, 0);
   const summary = workbook.addWorksheet('Summary');
-  summary.columns = [{ width: 38 }, { width: 14 }, { width: 100 }];
+  summary.columns = [{ width: 38 }, { width: 14 }, { width: 16 }, { width: 14 }];
   summary.addRow([plan.title]).font = { bold: true, size: 14 };
   summary.addRow([]);
   summary.addRow(['Office', plan.officeLabel || plan.office]);
   summary.addRow(['Generated', new Date().toISOString().slice(0, 10)]);
-  summary.addRow(['Counting', 'An element shown on several tickets\' screens is listed once, under the most specific ticket. '
+  summary.addRow(['Counting', 'Elements found = with data-testid + without. An element shown on several tickets\' screens is listed once, under the most specific ticket. '
     + 'Repeated items (dropdown options, calendar days, result rows) are one row each, with the instance count in the Element column.']);
   summary.addRow([]);
-  summary.addRow(['Submodule', 'Ticket', 'Elements without data-testid']).eachCell((cell) => { cell.font = headFont; cell.fill = headFill; });
-  for (const { submodule, entries } of groups) summary.addRow([submodule.name, submodule.ticket, entries.length]);
-  summary.addRow(['Total', '', total]).font = { bold: true };
-  summary.getColumn(3).alignment = { wrapText: true, vertical: 'top' };
+  summary.addRow(['Section', 'Found', 'With testid', 'Without']).eachCell((cell) => { cell.font = headFont; cell.fill = headFill; });
+  for (const { submodule, entries, tagged } of groups) summary.addRow([submodule.name, entries.length + tagged.length, tagged.length, entries.length]);
+  summary.addRow(['Total', total + totalTagged, totalTagged, total]).font = { bold: true };
+  // The notes above the table span its width.
+  for (let row = 3; row <= 5; row += 1) { summary.mergeCells(row, 2, row, 4); summary.getCell(row, 2).alignment = { wrapText: true, vertical: 'top' }; }
+  summary.getRow(5).height = 48;
 
   await workbook.xlsx.writeFile(file);
   return total;
@@ -255,12 +332,13 @@ async function writeWorkbook(plan, groups, outputDir, file) {
 function writePage(plan, groups, file) {
   const esc = (value) => String(value).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const total = groups.reduce((sum, group) => sum + group.entries.length, 0);
+  const totalTagged = groups.reduce((sum, group) => sum + group.tagged.length, 0);
   const sections = groups.map(({ submodule, entries }) => `
   <section id="${esc(submodule.ticket)}">
     <h2>${esc(submodule.name)} <small>${esc(submodule.ticket)}</small> <span class="n">${entries.length}</span></h2>
     <div class="grid">${entries.map((entry) => `
       <figure>
-        <figcaption><b>${entry.serial}.</b> ${esc(describeElement(entry.item))}<small>${esc(entry.item.state || '')}</small></figcaption>
+        <figcaption><b>${entry.serial}.</b> ${esc(entry.name)}<small>${esc(entry.item.state || '')}</small></figcaption>
         ${entry.ui ? `<a href="${esc(entry.ui)}" target="_blank"><img loading="lazy" src="${esc(entry.ui)}" alt="On screen"></a>` : ''}
         ${entry.dom ? `<a href="${esc(entry.dom)}" target="_blank"><img loading="lazy" src="${esc(entry.dom)}" alt="DOM"></a>` : '<p class="na">No screenshot</p>'}
       </figure>`).join('')}
@@ -283,7 +361,7 @@ figcaption{margin-bottom:8px;word-break:break-word}figcaption small{display:bloc
 img{width:100%;margin-top:6px;border:1px solid var(--line);border-radius:4px;background:#fff}.na{color:var(--mute)}
 </style></head><body>
 <header><h1>${esc(plan.title)}</h1>
-<div class="meta">Office ${esc(plan.officeLabel || plan.office)} · <b>${total}</b> elements without a data-testid · generated ${new Date().toISOString().slice(0, 10)}</div>
+<div class="meta">Office ${esc(plan.officeLabel || plan.office)} · <b>${total + totalTagged}</b> elements found · <b>${totalTagged}</b> with a data-testid · <b>${total}</b> without · generated ${new Date().toISOString().slice(0, 10)}</div>
 <nav>${groups.map(({ submodule, entries }) => `<a href="#${esc(submodule.ticket)}">${esc(submodule.name)} <b>${entries.length}</b></a>`).join('')}</nav></header>
 <main>${sections}</main></body></html>`;
   fs.writeFileSync(file, html);
@@ -301,6 +379,7 @@ async function buildReport(planPath) {
   // Everything is read and checked before the previous report is replaced.
   assertWritable(workbookFile);
   const groups = collect(plan, reportsDir);
+  nameEntries(groups);
 
   fs.rmSync(outputDir, { recursive: true, force: true });
   fs.mkdirSync(outputDir, { recursive: true });
@@ -308,7 +387,7 @@ async function buildReport(planPath) {
   const total = await writeWorkbook(plan, groups, outputDir, workbookFile);
   writePage(plan, groups, path.join(outputDir, plan.fileName + '.html'));
 
-  for (const { submodule, entries } of groups) console.log(submodule.ticket + ' ' + submodule.name + ': ' + entries.length);
+  for (const { submodule, entries, tagged } of groups) console.log(submodule.ticket + ' ' + submodule.name + ': ' + entries.length + ' without, ' + tagged.length + ' with data-testid');
   console.log('Total: ' + total);
   console.log('Workbook: ' + workbookFile);
   console.log('Page:     ' + path.join(outputDir, plan.fileName + '.html'));

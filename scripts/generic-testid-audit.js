@@ -460,12 +460,25 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     };
 
     const REPEAT_CONTAINER = '[role="listbox"], [role="grid"], tbody';
+    // What already carries a data-testid is kept aside, so the report can say
+    // how many elements were found in all, not only how many lack one.
+    const tagged = [];
+    window.__testidAuditTagged = tagged;
     for (const el of elements) {
       if (!(el instanceof Element)) continue;
       if (ignoreInsideValue && el.parentElement && el.parentElement.closest(ignoreInsideValue)) continue;
       const kind = kinds.get(el) || 'control';
       if (kind === 'control' && el.closest('svg, path, g, defs')) continue;
-      if (el.hasAttribute('data-testid')) continue;
+      if (el.hasAttribute('data-testid')) {
+        tagged.push({
+          testId: el.getAttribute('data-testid'),
+          tagName: el.tagName,
+          role: el.getAttribute('role') || '',
+          kind,
+          text: cleanText(el.getAttribute('aria-label') || el.innerText || el.getAttribute('placeholder') || '').slice(0, 80),
+        });
+        continue;
+      }
       const style = window.getComputedStyle(el);
       // An <option> has no box of its own, so judge it by its select.
       const host = el.tagName === 'OPTION' ? (el.closest('select') || el) : el;
@@ -605,7 +618,10 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     return dedupe(collapsed);
   }, { moduleNameValue: moduleName, scopeSelectorValue: scopeSelector, everythingValue: everything, ignoreInsideValue: ignoreInside });
 
-  return dedupeResults(findings);
+  const results = dedupeResults(findings);
+  const tagged = await page.evaluate(() => window.__testidAuditTagged || []).catch(() => []);
+  results.tagged = tagged.map((item) => Object.assign(item, { pageUrl }));
+  return results;
 }
 
 /**
@@ -1185,6 +1201,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
   };
 
   let findings = [];
+  let tagged = [];
   if (args.html) {
     const html = fs.readFileSync(path.resolve(ROOT, args.html), 'utf8');
     findings = findMissingTestIdsInDom(html, { moduleName, pageUrl: args.page || 'file://' + path.resolve(ROOT, args.html) });
@@ -1209,6 +1226,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
         const checkpoints = stepsPlan ? stepsPlan.steps.filter((step) => step.verb === 'audit') : [];
         const auditAtEachStep = checkpoints.length > 1 || checkpoints.some((step) => step.label);
         const checkpointFindings = [];
+        const checkpointTagged = [];
 
         if (stepsPlan) {
           console.log('Walking the steps:');
@@ -1219,6 +1237,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
             ? async (stepScope, label) => {
               await settlePage(page);
               const found = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url(), scopeSelector: stepScope, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())), ignoreInside: (stepsPlan && stepsPlan.ignore) || '' });
+              for (const item of found.tagged || []) checkpointTagged.push(Object.assign(item, { state: label || stepScope || 'page' }));
               if (!found.length) {
                 // Every state in a file is there because it holds controls; an
                 // empty one means the click before it did not land - unless what
@@ -1252,6 +1271,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
 
         if (auditAtEachStep) {
           findings = mergeStates(checkpointFindings);
+          tagged = checkpointTagged;
         } else {
           await settlePage(page);
           if (scopeSelector) {
@@ -1259,6 +1279,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
           }
           findings = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url() || startingUrl || 'about:blank', scopeSelector, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())), ignoreInside: (stepsPlan && stepsPlan.ignore) || '' });
           await captureUiScreenshots(page, findings, uiScratchDir);
+          tagged = (findings.tagged || []).map((item) => Object.assign(item, { state: 'page' }));
         }
         // Screenshots go into the folder the previous run used, so it is cleared
         // here - after a successful scan, before anything new is written. An
@@ -1332,7 +1353,15 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
   const uniqueFindings = dedupeResults(findings);
   const moduleFileName = normalizeModuleFileName(submoduleName ? `${moduleName}-${submoduleName}` : moduleName);
   const jsonPath = path.join(outputDir, `${moduleFileName}.json`);
-  fs.writeFileSync(jsonPath, JSON.stringify({ moduleName, submoduleName, generatedAt: new Date().toISOString(), findings: uniqueFindings }, null, 2));
+  // Each element that already has a data-testid, once per state it was seen in.
+  const seenTagged = new Set();
+  const uniqueTagged = tagged.filter((item) => {
+    const key = [item.testId, item.tagName, item.state].join('|');
+    if (seenTagged.has(key)) return false;
+    seenTagged.add(key);
+    return true;
+  });
+  fs.writeFileSync(jsonPath, JSON.stringify({ moduleName, submoduleName, generatedAt: new Date().toISOString(), findings: uniqueFindings, tagged: uniqueTagged }, null, 2));
 
   const xlsxPath = createWorkbook(uniqueFindings, moduleName, outputDir, submoduleName);
   const summary = {
@@ -1346,6 +1375,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
 
   console.log(`Audit complete for module: ${moduleName}`);
   console.log(`Missing data-testid findings: ${uniqueFindings.length}`);
+  console.log(`Elements that already have a data-testid: ${new Set(uniqueTagged.map((item) => item.testId + '|' + item.tagName)).size}`);
   console.log(`JSON report: ${jsonPath}`);
   console.log(`Excel report: ${xlsxPath}`);
   console.log(JSON.stringify(summary, null, 2));

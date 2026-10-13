@@ -33,9 +33,14 @@
  * Drag "<label>" to "<label>" drags one control onto another - for a list
  * whose rows are added to a grid by dropping them on it.
  *
- * Hold "<url part>" keeps every request whose address contains the text waiting
- * until Release "<url part>", so what the screen shows while it loads - the
- * grey placeholder rows - stays there long enough to be audited.
+ * Hold "<url part>" keeps every request whose address (or body) contains the
+ * text waiting until Release "<url part>", so what the screen shows while it
+ * loads - the grey placeholder rows - stays there long enough to be audited. A
+ * method in front, as in Hold "POST <text>", keeps only requests sent with it.
+ *
+ * Fail "<url part>" makes every matching request fail from then on, as a lost
+ * connection would, so the message a failed save shows can be audited without
+ * anything being saved.
  *
  * "Elements: all" beside Module asks for every element, not only controls:
  * text, containers, images, and elements in the DOM that are not shown.
@@ -76,6 +81,7 @@ const STEP_PATTERNS = [
   { re: /^drag\s+(.+?)\s+(?:to|onto|into)\s+(.+)$/i, build: (m) => ({ verb: 'drag', value: unquote(m[1]), target: unquote(m[2]) }) },
   { re: /^hold\s+(.+)$/i, build: (m) => ({ verb: 'hold', target: unquote(m[1]) }) },
   { re: /^release\s+(.+)$/i, build: (m) => ({ verb: 'release', target: unquote(m[1]) }) },
+  { re: /^fail\s+(.+)$/i, build: (m) => ({ verb: 'fail', target: unquote(m[1]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+?)\s+as\s+(["'“‘].+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]), label: unquote(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]) }) },
   { re: /^audit\s+here\s+as\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: '', label: unquote(m[1]) }) },
@@ -119,7 +125,7 @@ function parseSteps(text) {
       throw new Error(
         'Line ' + (index + 1) + ' of the steps file is not a step I understand: "' + line + '".'
         + ' Supported: Go to <url>, Click "<label>", Type "<value>" into "<label>",'
-        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Drag "<label>" to "<label>", Hold "<url part>", Release "<url part>", Audit here,'
+        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Drag "<label>" to "<label>", Hold "<url part>", Release "<url part>", Fail "<url part>", Audit here,'
         + ' Audit inside "<selector>" [as "<state>"].'
       );
     }
@@ -171,11 +177,33 @@ function isHolding(page) {
   return !!pageHolds && pageHolds.size > 0;
 }
 
+/**
+ * Matches "<text>" or "<METHOD> <text>" against a request. The text is looked
+ * for in the address and in the body sent; a method in front keeps only
+ * requests sent with it - for a page that loads its data by posting to its own
+ * address, told apart by what each one sends.
+ */
+function requestMatcher(part) {
+  const [, method, text] = part.match(/^(?:(GET|POST|PUT|PATCH|DELETE)\s+)?(.+)$/i);
+  return (request) => (!method || request.method() === method.toUpperCase())
+    && (request.url().includes(text) || (request.postData() || '').includes(text));
+}
+
+/**
+ * Makes every matching request fail from here on, as a dropped connection
+ * would - to audit the message a failed save shows without saving anything.
+ */
+async function failRequests(page, part) {
+  const matches = requestMatcher(part);
+  await page.route('**/*', (route) => (matches(route.request()) ? route.abort('failed') : route.fallback()));
+}
+
 async function holdRequests(page, part) {
   const pageHolds = holds.get(page) || new Map();
   holds.set(page, pageHolds);
+  const matches = requestMatcher(part);
   const held = { routes: [] };
-  held.handler = (route) => (route.request().url().includes(part) ? held.routes.push(route) : route.fallback());
+  held.handler = (route) => (matches(route.request()) ? held.routes.push(route) : route.fallback());
   await page.route('**/*', held.handler);
   pageHolds.set(part, held);
 }
@@ -235,6 +263,8 @@ async function executeSteps(page, steps, options = {}) {
         await holdRequests(page, step.target);
       } else if (step.verb === 'release') {
         await releaseRequests(page, step.target);
+      } else if (step.verb === 'fail') {
+        await failRequests(page, step.target);
       } else if (step.verb === 'drag') {
         const source = resolveLocator(page, step.value);
         const target = resolveLocator(page, step.target);
