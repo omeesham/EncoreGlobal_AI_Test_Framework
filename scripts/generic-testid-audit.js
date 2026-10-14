@@ -449,7 +449,7 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     // The path of an element inside its table cell, with positions kept: a
     // location's number and name sit in one cell and are two elements.
     const pathInCell = (el) => {
-      const cell = el.closest('td, th');
+      const cell = el.closest('td, th') || recordRow(el);
       if (!cell || el === cell) return '';
       const segments = [];
       for (let current = el; current && current !== cell; current = current.parentElement) {
@@ -470,6 +470,22 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
       const copies = Array.from(parent.children).filter((sibling) => sibling.tagName === el.tagName && sibling.className === el.className);
       return copies.length >= 5 ? parent : null;
     };
+    // A clickable record drawn as plain boxes - a search dialog's result row,
+    // a name above a description - repeats its texts row after row. Only rows
+    // that take a click and sit in a scrolling list count, so a form's fields,
+    // which neither repeat a pointer nor scroll as a list, stay apart.
+    function recordRow(el) {
+      for (let item = el, depth = 0; item && item.parentElement && depth < 4; item = item.parentElement, depth += 1) {
+        if (item.hasAttribute('role') || item.closest(REPEAT_CONTAINER)) return null;
+        const copies = Array.from(item.parentElement.children).filter((sibling) => sibling.tagName === item.tagName && sibling.className === item.className);
+        if (copies.length >= 5 && getComputedStyle(item).cursor === 'pointer') {
+          let scroller = item.parentElement;
+          for (let up = 0; scroller && up < 4 && !/auto|scroll/.test(getComputedStyle(scroller).overflowY); up += 1) scroller = scroller.parentElement;
+          return scroller && /auto|scroll/.test(getComputedStyle(scroller).overflowY) ? item : null;
+        }
+      }
+      return null;
+    }
     // What already carries a data-testid is kept aside, so the report can say
     // how many elements were found in all, not only how many lack one.
     const tagged = [];
@@ -550,7 +566,7 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
       const ownSelect = el.tagName === 'OPTION' ? el.closest('select') : null;
       const repeatContainer = ownSelect ? (ownSelect.closest(REPEAT_CONTAINER) || ownSelect)
         : kind === 'control' ? el.closest(REPEAT_CONTAINER) || scrollingList(el)
-          : el.parentElement && el.parentElement.closest(REPEAT_CONTAINER);
+          : el.parentElement && (el.parentElement.closest(REPEAT_CONTAINER) || (recordRow(el) || {}).parentElement || null);
       // The title keeps two icon buttons in one cell apart - a row's Edit and Delete.
       // On text it is only the cell's own value repeated, which differs in every row.
       // Placeholder bars stand in for rows and cells, often drawn without a table:
@@ -716,22 +732,34 @@ async function captureUiScreenshots(page, items, scratchDir) {
  */
 function stateKey(item) {
   const inPage = / > main\b/.test(item.path || '');
-  if (item.templateKey) return item.templateKey + (inPage ? '' : '|' + ((item.instanceSamples || [])[0] || ''));
+  // A table's rows are one template on every page of results; only a list in
+  // the shared portal needs its first option to tell it from another list.
+  const tableRow = /^(row|cell|gridcell)$/.test(item.role || '') || Boolean(item.column) || /^(TR|TD)$/.test(item.tagName);
+  if (item.templateKey) return item.templateKey + (inPage || tableRow ? '' : '|' + ((item.instanceSamples || [])[0] || ''));
   const content = item.kind && item.kind !== 'control';
-  const text = item.label || (content && inPage) ? '' : item.text;
+  // A combobox shows its value (All Categories, then "Audio, Video"; 20, then
+  // 50 rows), and a count its number (16 pages, then 7): the same element.
+  const value = item.role === 'combobox' || /^\d[\d,.\s/]*$/.test(item.text || '');
+  const text = item.label || value || (content && inPage) ? '' : item.text;
   // An icon has no words of its own and moves when a neighbour appears (a
   // search box's clear button); it is the icon beside the same thing.
   if (item.kind === 'image' && inPage) return ['image', item.tagName, item.nearText, item.column, item.path.replace(/:nth-of-type\(\d+\)/g, '')].join('|');
   // Every dropdown list opens in the same portal; an unnamed one is known by what it holds.
   const holds = item.kind === 'container' && !inPage ? item.nearText : '';
-  return [item.tagName, item.role, text, item.ariaLabel, item.label, holds, item.path].join('|');
+  // The first of several is the same place as the only one: a dialog that
+  // gains a sibling (its results, a clear button) keeps its elements.
+  return [item.tagName, item.role, text, item.ariaLabel, item.label, holds, String(item.path || '').replace(/:nth-of-type\(1\)/g, '')].join('|');
 }
 
 function mergeStates(findings) {
   const byElement = new Map();
   const merged = [];
+  // A list narrowed by its own search box starts with a later option; it is
+  // the list already seen if that option was among its samples.
+  const sameList = (item) => item.templateKey && merged.find((seen) => seen.templateKey === item.templateKey
+    && (seen.instanceSamples || []).includes((item.instanceSamples || [])[0]));
   for (const item of findings) {
-    const first = byElement.get(stateKey(item));
+    const first = byElement.get(stateKey(item)) || sameList(item);
     if (!first) {
       item.alsoIn = [];
       byElement.set(stateKey(item), item);
