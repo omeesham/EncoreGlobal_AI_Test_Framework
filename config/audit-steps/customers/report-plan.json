@@ -1,0 +1,17 @@
+{
+  "title": "Missing data-testid - Customer Search (NM-4387)",
+  "module": "Customers",
+  "office": "1101",
+  "officeLabel": "1101 - Corporate Office Encore USA SGA",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-customers",
+  "output": "reports/testid-audit-customers/NM-4387-customer-search-1101",
+  "fileName": "NM-4387-customer-search-missing-testids-1101",
+  "submodules": [
+    { "ticket": "NM-4387-CS", "name": "Customer Search", "reports": ["customer-search-nm-4387"] },
+    { "ticket": "NM-4387-CC", "name": "Create Customer", "reports": ["create-customer-nm-4387", "create-customer-save-nm-4387"] },
+    { "ticket": "NM-4387-CD", "name": "Customer Details", "reports": ["customer-details-nm-4387"] },
+    { "ticket": "NM-4387-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4387"] }
+  ],
+  "ownership": ["NM-4387-CS", "NM-4387-CC", "NM-4387-CD", "NM-4387-NAV"]
+}

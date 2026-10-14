@@ -1,0 +1,24 @@
+# NM-4387 - Customer Search: Create Customer saved (parent NM-3936).
+# The message Create Customer shows once the customer is created, and the page
+# after it. The sheet while it saves is in nm-4387-create-customer.txt.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4387/config/audit-steps/customers/nm-4387-create-customer-save.txt --office 1101
+#
+# CREATES ONE CUSTOMER ("ZZ Testid Audit 2", Active) at the office it runs on.
+# Customers cannot be deleted from these pages, so it stays; run it once only.
+
+Module: Customers
+Submodule: create-customer-save-nm-4387
+Output: reports/testid-audit-customers
+Elements: all
+
+1. Go to /navigator/locations/{office}/customers
+2. Wait for "css=main thead button:has-text('Customer Name')"
+3. Click "css=main button:text-is('Create Customer')"
+4. Wait for "css=[role=dialog] input[name='customerName']"
+5. Type "ZZ Testid Audit 2" into "css=[role=dialog] input[name='customerName']"
+6. Type "4165551234" into "css=[role=dialog] input[name='phone']"
+7. Click "css=[role=dialog] button:text-is('Save')"
+8. Wait up to 20 seconds for "css=[data-sonner-toast][data-type=success]"
+9. Audit inside "body > section" as "Customer created - message"
+10. Wait for "css=body:not(:has([role=dialog]))"
+11. Audit inside "main" as "Customer created"

@@ -1,0 +1,94 @@
+# NM-4387 - Customer Search (Search > Customer Search) (parent NM-3936).
+# The page before any search, the info tooltip, a search while it loads and
+# its results, the Smart Search box with text and its clear
+# button, a search with one result and one with none, the Locations list
+# (open, searched, a second location ticked), a column's sort menu and the
+# grid sorted, the rows-per-page list and a page size chosen, the next page,
+# the last page and a typed page number, Reset, and All Locations ticked. Every column opens the
+# same two-item sort menu. A row opens Customer Details (nm-4387-customer-details.txt).
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4387/config/audit-steps/customers/nm-4387-customer-search.txt --office 1101
+#
+# Changes no data: only searches are run. 1101 is used because it is the
+# office with customers in this environment (2359, 1606 and 7147 have none).
+# Search sends the text of the search before it, so each search is sent twice,
+# the second once the first is done.
+
+Module: Customers
+Submodule: customer-search-nm-4387
+Output: reports/testid-audit-customers
+Elements: all
+
+1. Go to /navigator/locations/{office}/customers
+2. Wait for "css=main thead button:has-text('Customer Name')"
+3. Audit inside "main" as "Customers"
+4. Hover "css=main button[aria-label='More information']"
+5. Audit inside "[data-radix-popper-content-wrapper]" as "Info tooltip"
+# A search while its answer is held, then answered.
+6. Hold "POST searchQuery"
+7. Click "css=main button:text-is('Search')"
+8. Audit inside "main" as "Searching"
+9. Release "POST searchQuery"
+10. Wait for "css=main tbody tr:nth-child(2)"
+11. Audit inside "main" as "Search results"
+# Smart Search: a clear button shows once it holds text.
+12. Type "EAST" into "css=main input[aria-label='smart search']"
+13. Audit inside "main" as "Smart Search with text"
+14. Click "css=main button:text-is('Search')"
+15. Wait 3 seconds
+16. Click "css=main button:text-is('Search')"
+17. Wait for "css=main tbody:not(:has(tr:nth-child(2))) tr:has-text('EAST')"
+18. Audit inside "main" as "Search results - one customer"
+19. Type "zzqqxx" into "css=main input[aria-label='smart search']"
+20. Click "css=main button:text-is('Search')"
+21. Wait 3 seconds
+22. Click "css=main button:text-is('Search')"
+23. Wait for "css=main tbody tr:has-text('No results')"
+24. Audit inside "main" as "Search - no match"
+25. Click "css=main input[aria-label='smart search'] + span button"
+26. Audit inside "main" as "Smart Search cleared"
+# Locations: a searchable list of every location; more than one can be ticked.
+27. Click "css=main button[role=combobox] >> nth=0"
+28. Wait for "css=[data-slot=popover-content] [role=option]"
+29. Audit inside "[data-slot=popover-content]" as "Locations list open"
+30. Type "Toronto" into "css=[data-slot=popover-content] input"
+31. Wait for "css=[data-slot=popover-content] [role=option]:has-text('[2359]')"
+32. Audit inside "[data-slot=popover-content]" as "Locations list - searched"
+33. Click "css=[data-slot=popover-content] [role=option]:has-text('[2359]')"
+34. Audit inside "[data-slot=popover-content]" as "Locations list - second location ticked"
+35. Press "Escape"
+36. Audit inside "main" as "Two locations chosen"
+# Sorting, rows per page and paging.
+37. Click "css=main button:text-is('Search')"
+38. Wait for "css=main tbody tr:nth-child(2)"
+39. Click "css=main thead button:has-text('Phone')"
+40. Audit inside "[role=menu]" as "Column sort menu open"
+41. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+42. Wait for "css=body:not(:has([role=menu]))"
+43. Wait for "css=main tbody tr:nth-child(2)"
+44. Audit inside "main" as "Grid sorted (Phone, descending)"
+45. Click "css=main button[role=combobox]:has-text('50')"
+46. Audit inside "[role=listbox]" as "Rows per page list open"
+47. Click "css=[role=listbox] [role=option]:has-text('10')"
+48. Wait for "css=main button[role=combobox]:has-text('10')"
+49. Audit inside "main" as "10 rows per page"
+50. Click "css=main button[aria-label='Go to next page']"
+51. Wait for "css=main input[aria-label='Current page number'][value='2']"
+52. Audit inside "main" as "Page 2"
+53. Click "css=main button[aria-label='Go to last page']"
+54. Wait for "css=main button[aria-label='Go to next page'][disabled]"
+55. Audit inside "main" as "Last page"
+56. Type "3" into "css=main input[aria-label='Current page number']"
+57. Press "Enter"
+58. Wait for "css=main input[aria-label='Current page number'][value='3']"
+59. Audit inside "main" as "Page number typed"
+# Reset puts the search and the locations back.
+60. Click "css=main button:text-is('Reset')"
+61. Wait for "css=main button[role=combobox]:not(:has-text('2 Selected')) >> nth=0"
+62. Audit inside "main" as "Filters reset"
+# All Locations ticked: every location searched at once.
+63. Click "css=main button[role=combobox] >> nth=0"
+64. Wait for "css=[data-slot=popover-content] [role=option]"
+65. Click "css=[data-slot=popover-content] [role=option]:text-is('All Locations')"
+66. Audit inside "[data-slot=popover-content]" as "Locations list - All Locations ticked"
+67. Press "Escape"
+68. Audit inside "main" as "All Locations chosen"

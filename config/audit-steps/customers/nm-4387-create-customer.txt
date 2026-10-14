@@ -1,0 +1,43 @@
+# NM-4387 - Customer Search: Create Customer (parent NM-3936).
+# The Customer Details sheet, Save with nothing filled, an invalid phone
+# number, every checkbox changed, and the sheet while Save is sent.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4387/config/audit-steps/customers/nm-4387-create-customer.txt --office 1101
+#
+# Changes no data: Save is clicked while the form is invalid, and once with the
+# form valid while its request is held; that request is set to fail first, so
+# letting it go aborts it and nothing is created. (The one customer created for this ticket, "ZZ Testid
+# Audit", is the one nm-4387-customer-details.txt opens.)
+
+Module: Customers
+Submodule: create-customer-nm-4387
+Output: reports/testid-audit-customers
+Elements: all
+
+1. Go to /navigator/locations/{office}/customers
+2. Wait for "css=main thead button:has-text('Customer Name')"
+3. Click "css=main button:text-is('Create Customer')"
+4. Wait for "css=[role=dialog] input[name='customerName']"
+5. Audit inside "[role=dialog]" as "Customer Details"
+6. Click "css=[role=dialog] button:text-is('Save')"
+7. Wait for "css=[role=dialog] [data-slot=form-message]"
+8. Audit inside "[role=dialog]" as "Customer Details - Save with nothing filled"
+9. Type "abc" into "css=[role=dialog] input[name='phone']"
+10. Click "css=[role=dialog] button:text-is('Save')"
+11. Wait for "css=[role=dialog] [data-slot=form-message]:text-is('Invalid phone number')"
+12. Audit inside "[role=dialog]" as "Customer Details - invalid phone number"
+# Active starts ticked; the other three start clear.
+13. Click "css=[role=dialog] button[role=checkbox] >> nth=0"
+14. Click "css=[role=dialog] button[role=checkbox] >> nth=1"
+15. Click "css=[role=dialog] button[role=checkbox] >> nth=2"
+16. Click "css=[role=dialog] button[role=checkbox] >> nth=3"
+17. Audit inside "[role=dialog]" as "Customer Details - every checkbox changed"
+# Valid, with Save sent and held: the form while it is saving.
+18. Type "ZZ Not Saved" into "css=[role=dialog] input[name='customerName']"
+19. Type "4165551234" into "css=[role=dialog] input[name='phone']"
+20. Fail "POST poRequired"
+21. Hold "POST poRequired"
+22. Click "css=[role=dialog] button:text-is('Save')"
+23. Wait for "css=[role=dialog] button[role=checkbox]:disabled"
+24. Audit inside "[role=dialog]" as "Customer Details - saving"
+25. Release "POST poRequired"
+26. Wait for "css=[role=dialog] button[role=checkbox]:enabled"
