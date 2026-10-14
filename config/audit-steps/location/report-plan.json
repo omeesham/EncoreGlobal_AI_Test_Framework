@@ -1,0 +1,18 @@
+{
+  "title": "Missing data-testid - Location (NM-1559)",
+  "module": "Location",
+  "office": "2359",
+  "officeLabel": "2359 - Toronto Hilton",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-location",
+  "output": "reports/testid-audit-location/NM-1559-location-2359",
+  "fileName": "NM-1559-location-missing-testids-2359",
+  "submodules": [
+    { "ticket": "NM-1559-BI", "name": "Basic Information", "reports": ["basic-information-nm-1559"] },
+    { "ticket": "NM-1559-HIS", "name": "Location Management History", "reports": ["history-nm-1559"] },
+    { "ticket": "NM-1559-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-1559"] },
+    { "ticket": "NM-1559-MSG", "name": "Save Message", "reports": ["save-message-nm-1559"] },
+    { "ticket": "NM-1559-OTH", "name": "Other offices (USA 1606, Mexico 7147)", "reports": ["other-offices-nm-1559"] }
+  ],
+  "ownership": ["NM-1559-BI", "NM-1559-HIS", "NM-1559-NAV", "NM-1559-MSG", "NM-1559-OTH"]
+}

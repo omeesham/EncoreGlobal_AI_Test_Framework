@@ -1,0 +1,45 @@
+# NM-1559 - Setup > Location: the message shown after Save (parent NM-3489).
+# Run: node scripts/generic-testid-audit.js --steps ../NM-1559/config/audit-steps/location/nm-1559-save-message.txt --office 2359
+#
+# CHANGES DATA, then puts it back. Save sends the whole location, and each
+# save adds a row to Location Management History. Only Contact Phone 2 is
+# edited: empty, saved as 4165550100, then emptied and saved again. If a run
+# stops between the two saves, empty Contact Phone 2 and save.
+#
+# The page writes the Live Date and the Billing Way effective date in the
+# browser's time zone, which moves one of them by a day.
+# nm-1559-stored-values.json holds the two dates the server stores for office
+# 2359, and every save is sent with them. Read them again before a run if the
+# location has changed. Each save also gives the location's note a new id; its
+# text and date stay the same.
+# The message is hovered while it is audited, so it does not close on its timer.
+
+Module: Location
+Submodule: save-message-nm-1559
+Output: reports/testid-audit-location
+Elements: all
+
+1. Go to /navigator/locations/{office}/settings/location
+2. Wait for "css=[data-testid=location-settings-input-location-name]:not([value=''])"
+3. Send "PUT update-properties" with "nm-1559-stored-values.json"
+4. Click "[data-testid=location-settings-sub-tab-account-and-address]"
+5. Wait for "css=[data-testid=location-settings-input-contact-phone-2][value='']"
+6. Type "4165550100" into "[data-testid=location-settings-input-contact-phone-2]"
+7. Press "Tab"
+8. Wait for "css=[data-testid=location-settings-btn-save]:not([disabled])"
+9. Click "[data-testid=location-settings-btn-save]"
+10. Click "css=:is([role=alertdialog], [role=dialog]) button:text-is('Ok')"
+11. Wait up to 60 seconds for "css=[data-sonner-toast][data-type=success]"
+12. Hover "css=[data-sonner-toast][data-type=success]"
+13. Audit inside "section[aria-label^='Notifications']" as "Save message (toast)"
+# Put it back: Contact Phone 2 emptied and saved again. The first message is
+# closed so the wait below sees the second save's own message.
+14. Click "css=[data-sonner-toast][data-type=success] button[aria-label='Close toast']"
+15. Type "" into "[data-testid=location-settings-input-contact-phone-2]"
+16. Press "Tab"
+17. Wait for "css=[data-testid=location-settings-btn-save]:not([disabled])"
+18. Click "[data-testid=location-settings-btn-save]"
+19. Click "css=:is([role=alertdialog], [role=dialog]) button:text-is('Ok')"
+20. Wait up to 60 seconds for "css=[data-sonner-toast][data-type=success]"
+21. Go to /navigator/locations/{office}/settings/location
+22. Wait for "css=[data-testid=location-settings-input-location-name]:not([value=''])"

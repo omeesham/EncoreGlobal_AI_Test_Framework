@@ -1,0 +1,43 @@
+# NM-1559 - Setup > Location, Location Management History tab (parent NM-3489).
+# The history while it loads and once loaded, the view list, a column's sort
+# menu and the grid sorted, the rows-per-page list, the next page, and the
+# Location Management Legacy History view.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-1559/config/audit-steps/location/nm-1559-history.txt --office 2359
+#
+# Changes no data: the history is only read.
+
+Module: Location
+Submodule: history-nm-1559
+Output: reports/testid-audit-location
+Elements: all
+
+# The history is read with one request; it is held so the tab can be audited
+# while it loads.
+1. Go to /navigator/locations/{office}/settings/location
+2. Wait for "css=[data-testid=location-settings-input-location-name]:not([value=''])"
+3. Hold "POST get-location-setting-history"
+4. Click "[data-testid=location-settings-tab-management-history]"
+5. Wait for "[data-testid=location-settings-select-history-type]"
+6. Audit inside "main" as "Location Management History - loading"
+7. Release "POST get-location-setting-history"
+8. Wait for "css=main tbody tr >> nth=1"
+9. Audit inside "main" as "Location Management History"
+10. Click "[data-testid=location-settings-select-history-type]"
+11. Audit inside "[role=listbox]" as "History view list open"
+12. Press "Escape"
+13. Click "css=main thead button:has-text('Live Date')"
+14. Audit inside "[role=menu]" as "Column sort menu open"
+15. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+16. Wait for "css=body:not(:has([role=menu]))"
+17. Audit inside "main" as "History sorted (Live Date, descending)"
+18. Click "css=main button[role=combobox]:not([data-testid])"
+19. Audit inside "[role=listbox]" as "Rows per page list open"
+20. Press "Escape"
+21. Click "css=main button[aria-label='Go to next page']"
+22. Wait for "css=main button[aria-label='Go to previous page']:not([disabled])"
+23. Audit inside "main" as "History - page 2"
+# The legacy history.
+24. Click "[data-testid=location-settings-select-history-type]"
+25. Click "css=[role=listbox] [role=option]:has-text('Legacy')"
+26. Wait up to 60 seconds for "css=main tbody tr"
+27. Audit inside "main" as "Location Management Legacy History"

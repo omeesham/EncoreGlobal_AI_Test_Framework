@@ -1,0 +1,224 @@
+# NM-1559 - Setup > Location, Basic Information tab (parent NM-3489).
+# The page while it loads and once loaded, the info tooltip, the left panel
+# (Live Date calendar, the Tax Mode, Country, Region and Servicing Branch
+# Office lists, the office name refused) and every sub-tab:
+# - Local Information: the Billing Cycle, Oracle Organization and Product
+#   Organization lists, and a percentage refused with its message;
+# - Currency: the merchant lists;
+# - Pricing: the currency list, a primary pricing list (and no match), Grid
+#   Options (tooltip and menu), a row's effective dates turned on with the
+#   date calendar, and the settings panel collapsed;
+# - Account and Address: the Account List search (results, a row chosen, the
+#   State and Country lists, no match) and both Select Customer Address
+#   dialogs (a row chosen, no match);
+# - Legal: the service charge and terms lists;
+# - Notes: a note added;
+# - Shared Setup Locations: the Change Local Office dialog (search results, a
+#   row chosen, no match);
+# - Auto Add-On and Business Types;
+# then the Unsaved changes dialog, the Save Changes confirmation, and the
+# message a failed save shows.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-1559/config/audit-steps/location/nm-1559-basic-information.txt --office 2359
+#
+# Changes no data. Every edit stays on screen and is dropped when the page is
+# opened again. Dialogs are closed with Cancel or Escape, never Select or Ok,
+# and Save Changes is answered Cancel. Only the last Save is answered Ok,
+# after the save request is made to fail, so nothing reaches the server.
+
+Module: Location
+Submodule: basic-information-nm-1559
+Output: reports/testid-audit-location
+Elements: all
+
+# The page reads the location in one request; it is held so the page can be
+# audited while it loads.
+1. Hold "GET /api/location/{office}"
+2. Go to /navigator/locations/{office}/settings/location
+3. Wait for "css=main [data-slot=skeleton]"
+4. Audit inside "main" as "Location - loading"
+5. Release "GET /api/location/{office}"
+6. Wait for "css=[data-testid=location-settings-input-location-name]:not([value=''])"
+7. Audit inside "main" as "Location - Basic Information, Local Information"
+8. Hover "css=main button[aria-label='More information']"
+9. Audit inside "[data-radix-popper-content-wrapper]" as "Info tooltip"
+# The left panel.
+10. Click "css=main [data-slot=form-item]:has(label:text-is('Live Date')) button"
+11. Audit inside "[data-radix-popper-content-wrapper]" as "Live Date calendar open"
+12. Press "Escape"
+13. Click "css=main [data-slot=form-item]:has(label:text-is('Tax Mode')) button[role=combobox]"
+14. Audit inside "[role=listbox]" as "Tax Mode list open"
+15. Press "Escape"
+16. Click "[data-testid=location-settings-select-country]"
+17. Audit inside "[role=listbox]" as "Country list open"
+18. Press "Escape"
+19. Click "[data-testid=location-settings-select-region]"
+20. Audit inside "[role=listbox]" as "Region list open"
+21. Press "Escape"
+22. Click "[data-testid=location-settings-select-servicing-branch]"
+23. Audit inside "[role=listbox]" as "Servicing Branch Office list open"
+24. Press "Escape"
+# Local Information lists.
+25. Click "[data-testid=location-settings-select-billing-cycle]"
+26. Audit inside "[role=listbox]" as "Billing Cycle list open"
+27. Press "Escape"
+28. Click "[data-testid=location-settings-select-oracle-org]"
+29. Audit inside "[role=listbox]" as "Oracle Organization list open"
+30. Press "Escape"
+31. Click "[data-testid=location-settings-select-product-org]"
+32. Audit inside "[role=listbox]" as "Product Organization list open"
+33. Press "Escape"
+# A refused value: C&C Percentage, enabled by Apply Cables and Consumables Fee,
+# set to 999. The field shows a warning icon whose tooltip gives the reason,
+# and Save is disabled. The office name emptied is refused too.
+34. Click "[data-testid=location-settings-checkbox-apply-cables-consumables]"
+35. Type "999" into "[data-testid=location-settings-input-cables-consumables-percentage]"
+36. Press "Tab"
+37. Wait for "css=[data-testid=location-settings-input-cables-consumables-percentage][aria-invalid=true]"
+38. Audit inside "main" as "Local Information - value refused"
+39. Hover "css=main dd:has([data-testid=location-settings-input-cables-consumables-percentage]) [data-slot=tooltip-trigger]"
+40. Audit inside "[data-radix-popper-content-wrapper]" as "Value refused - message"
+41. Type "" into "[data-testid=location-settings-input-location-name]"
+42. Press "Tab"
+43. Wait for "css=[data-testid=location-settings-input-location-name][aria-invalid=true]"
+44. Audit inside "main [data-slot=card-content]:has([data-testid=location-settings-input-location-name])" as "Local Office Name refused"
+# Leaving the tab with changes asks first; Stay keeps them.
+45. Click "[data-testid=location-settings-tab-management-history]"
+46. Wait for "[data-testid=location-settings-modal-unsaved-changes-title]"
+47. Audit inside "[role=alertdialog]" as "Unsaved changes dialog"
+48. Click "[data-testid=location-settings-modal-unsaved-changes-btn-cancel]"
+# Currency.
+49. Go to /navigator/locations/{office}/settings/location
+50. Wait for "css=[data-testid=location-settings-input-location-name]:not([value=''])"
+51. Click "[data-testid=location-settings-sub-tab-currency]"
+52. Wait for "[data-testid=location-settings-select-currency-CAD-merchant]"
+53. Audit inside "main" as "Currency"
+54. Click "[data-testid=location-settings-select-currency-CAD-merchant]"
+55. Audit inside "[role=listbox]" as "Currency - merchant list open"
+56. Press "Escape"
+57. Click "[data-testid=location-settings-select-currency-USD-merchant]"
+58. Audit inside "[role=listbox]" as "Currency - merchant list open (USD)"
+59. Press "Escape"
+# Pricing.
+60. Click "[data-testid=location-settings-sub-tab-pricing]"
+61. Wait for "css=main tbody tr button[role=checkbox]"
+62. Audit inside "main" as "Pricing"
+63. Click "[data-testid=location-settings-select-pricing-currency]"
+64. Audit inside "[role=listbox]" as "Pricing - currency list open"
+65. Press "Escape"
+66. Click "css=[data-testid^=location-settings-select-primary-labor-pricing-] >> nth=0"
+67. Wait for "css=[data-slot=popover-content] input"
+68. Audit inside "[data-slot=popover-content]" as "Pricing - pricing strategy list open"
+69. Type "zzqqxx" into "css=[data-slot=popover-content] input"
+70. Audit inside "[data-slot=popover-content]" as "Pricing - pricing strategy, no match"
+71. Press "Escape"
+72. Hover "css=main button[aria-label='Grid Options']"
+73. Audit inside "[data-radix-popper-content-wrapper]" as "Pricing - Grid Options tooltip"
+74. Click "css=main button[aria-label='Grid Options']"
+75. Audit inside "[role=menu]" as "Pricing - Grid Options menu open"
+76. Press "Escape"
+# A row's Is Alternate and Use Effective Dates ticked turn on its dates.
+77. Click "css=main tbody tr >> nth=0 >> button[role=checkbox] >> nth=0"
+78. Click "css=main tbody tr >> nth=0 >> button[role=checkbox] >> nth=1"
+79. Audit inside "main" as "Pricing - effective dates turned on"
+80. Click "css=main tbody tr >> nth=0 >> button[aria-label='Open calendar'] >> nth=0"
+81. Audit inside "[data-radix-popper-content-wrapper]" as "Pricing - start date calendar open"
+82. Press "Escape"
+83. Click "[data-testid=location-settings-btn-toggle-settings-panel]"
+84. Audit inside "main" as "Pricing - settings panel collapsed"
+# Account and Address: the Account List behind Name.
+85. Click "[data-testid=location-settings-sub-tab-account-and-address]"
+86. Wait for "[data-testid=location-settings-btn-lookup-venue]"
+87. Audit inside "main" as "Account and Address"
+88. Click "[data-testid=location-settings-btn-lookup-venue]"
+89. Wait for "[data-testid=location-settings-input-account-name]"
+90. Audit inside "[role=dialog]" as "Account List"
+91. Click "[data-testid=location-settings-select-account-state]"
+92. Audit inside "[role=listbox]" as "Account List - State list open"
+93. Press "Escape"
+94. Click "[data-testid=location-settings-select-account-country]"
+95. Audit inside "[role=listbox]" as "Account List - Country list open"
+96. Press "Escape"
+97. Type "Hilton Toronto" into "[data-testid=location-settings-input-account-name]"
+98. Click "[data-testid=location-settings-btn-search-account]"
+99. Wait for "css=[role=dialog] tbody tr button[role=checkbox]"
+100. Audit inside "[role=dialog]" as "Account List - search results"
+101. Click "css=[role=dialog] tbody tr button[role=checkbox] >> nth=0"
+102. Audit inside "[role=dialog]" as "Account List - account chosen"
+103. Type "zzqqxx" into "[data-testid=location-settings-input-account-name]"
+104. Click "[data-testid=location-settings-btn-search-account]"
+105. Wait for "css=[role=dialog]:not(:has(tbody tr button[role=checkbox]))"
+106. Audit inside "[role=dialog]" as "Account List - no match"
+107. Click "[data-testid=location-settings-btn-cancel-account-search]"
+# The two Address buttons open the customer's addresses.
+108. Click "[data-testid=location-settings-btn-venue-address]"
+109. Wait for "css=[role=dialog] tbody tr button[role=checkbox]"
+110. Audit inside "[role=dialog]" as "Select Customer Address (venue)"
+111. Click "css=[role=dialog] tbody tr button[role=checkbox] >> nth=0"
+112. Audit inside "[role=dialog]" as "Select Customer Address - address chosen"
+113. Type "zzqqxx" into "css=[role=dialog] input[placeholder='Search...']"
+114. Audit inside "[role=dialog]" as "Select Customer Address - no match"
+115. Click "css=[role=dialog] button:text-is('Cancel')"
+116. Click "[data-testid=location-settings-btn-master-address]"
+117. Wait for "css=[role=dialog] tbody tr button[role=checkbox]"
+118. Audit inside "[role=dialog]" as "Select Customer Address (master)"
+119. Click "css=[role=dialog] button:text-is('Cancel')"
+# Legal.
+120. Click "[data-testid=location-settings-sub-tab-legal]"
+121. Wait for "[data-testid=location-settings-select-legal-0-terms]"
+122. Audit inside "main" as "Legal"
+123. Click "css=[data-testid^=location-settings-select-legal-][data-testid$=-service-charge] >> nth=-1"
+124. Audit inside "[role=listbox]" as "Legal - service charge list open"
+125. Press "Escape"
+126. Click "[data-testid=location-settings-select-legal-0-terms]"
+127. Audit inside "[role=listbox]" as "Legal - terms list open"
+128. Press "Escape"
+# Notes: Add puts an empty note under the others.
+129. Click "[data-testid=location-settings-sub-tab-notes]"
+130. Wait for "[data-testid=location-settings-btn-add-note]"
+131. Audit inside "main" as "Notes"
+132. Click "[data-testid=location-settings-btn-add-note]"
+133. Type "Note" into "css=main textarea[placeholder='Type notes here...']"
+134. Audit inside "main" as "Notes - note added, not saved"
+# Shared Setup Locations: Add opens Change Local Office.
+135. Click "[data-testid=location-settings-sub-tab-shared-setup-locations]"
+136. Wait for "[data-testid=location-settings-btn-add-shared-location-1]"
+137. Audit inside "main" as "Shared Setup Locations"
+138. Click "[data-testid=location-settings-btn-add-shared-location-1]"
+139. Wait for "[data-testid=location-settings-modal-change-local-office-input-search]"
+140. Audit inside "[role=dialog]" as "Change Local Office"
+141. Type "1606" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+142. Wait for "css=[role=dialog] tbody tr:has-text('1606')"
+143. Audit inside "[role=dialog]" as "Change Local Office - search results"
+144. Click "css=[role=dialog] tbody tr button[role=checkbox] >> nth=0"
+145. Audit inside "[role=dialog]" as "Change Local Office - office chosen"
+146. Type "zzqqxx" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+147. Wait for "css=[role=dialog]:not(:has(tbody tr button[role=checkbox]))"
+148. Audit inside "[role=dialog]" as "Change Local Office - no match"
+149. Click "[data-testid=location-settings-modal-change-local-office-btn-cancel]"
+# Auto Add-On and Business Types.
+150. Click "[data-testid=location-settings-sub-tab-auto-add-on]"
+151. Wait for "css=main [role=tabpanel] [role=tabpanel] button[role=checkbox]"
+152. Audit inside "main" as "Auto Add-On"
+153. Click "[data-testid=location-settings-sub-tab-business-types]"
+154. Wait for "css=[data-testid^=location-settings-checkbox-business-type-]"
+155. Audit inside "main" as "Business Types"
+# Save asks first; Cancel keeps the page as it is.
+156. Go to /navigator/locations/{office}/settings/location
+157. Wait for "css=[data-testid=location-settings-input-location-name]:not([value=''])"
+158. Click "[data-testid=location-settings-sub-tab-account-and-address]"
+159. Type "4165550100" into "[data-testid=location-settings-input-contact-phone-2]"
+160. Press "Tab"
+161. Wait for "css=[data-testid=location-settings-btn-save]:not([disabled])"
+162. Click "[data-testid=location-settings-btn-save]"
+163. Wait for "text=Save Changes"
+164. Audit inside "[role=alertdialog], [role=dialog]" as "Save Changes confirmation"
+165. Click "css=:is([role=alertdialog], [role=dialog]) button:text-is('Cancel')"
+# A save that fails shows its own message. The save request is made to fail,
+# as a lost connection would, so Ok is clicked but nothing reaches the server.
+# This stays last.
+166. Fail "PUT update-properties"
+167. Click "[data-testid=location-settings-btn-save]"
+168. Click "css=:is([role=alertdialog], [role=dialog]) button:text-is('Ok')"
+169. Wait up to 30 seconds for "css=[data-sonner-toast]:has-text('Network Error')"
+170. Hover "css=[data-sonner-toast]:has-text('Network Error')"
+171. Audit inside "section[aria-label^='Notifications']" as "Save failed - message"

@@ -1,0 +1,75 @@
+# NM-1559 - Setup > Location on the other canonical offices (parent NM-3489).
+# Every Basic Information sub-tab on USA 1606 and Mexico 7147, and 1606's
+# pricing strategy list, which lists strategies where 2359 has none. The report
+# keeps only what these offices show that 2359 does not, such as Mexico's Tax
+# ID and Legal Business Name and 1606's empty Notes.
+# Run with --office 2359, so its findings are compared with 2359's:
+# node scripts/generic-testid-audit.js --steps ../NM-1559/config/audit-steps/location/nm-1559-other-offices.txt --office 2359
+#
+# Changes no data: only tabs and one list are opened.
+
+Module: Location
+Submodule: other-offices-nm-1559
+Output: reports/testid-audit-location
+Elements: all
+
+# USA 1606.
+1. Go to /navigator/locations/1606/settings/location
+2. Wait for "css=[data-testid=location-settings-input-location-name]:not([value=''])"
+3. Audit inside "main" as "USA 1606 - Local Information"
+4. Click "[data-testid=location-settings-sub-tab-currency]"
+5. Wait for "css=[data-testid^=location-settings-select-currency-]"
+6. Audit inside "main" as "USA 1606 - Currency"
+7. Click "[data-testid=location-settings-sub-tab-pricing]"
+8. Wait for "css=main tbody tr button[role=checkbox]"
+9. Audit inside "main" as "USA 1606 - Pricing"
+10. Click "css=[data-testid^=location-settings-select-primary-labor-pricing-] >> nth=0"
+11. Wait for "css=[data-slot=popover-content] button"
+12. Audit inside "[data-slot=popover-content]" as "USA 1606 - pricing strategy list open"
+13. Press "Escape"
+14. Click "[data-testid=location-settings-sub-tab-account-and-address]"
+15. Wait for "[data-testid=location-settings-btn-lookup-venue]"
+16. Audit inside "main" as "USA 1606 - Account and Address"
+17. Click "[data-testid=location-settings-sub-tab-legal]"
+18. Wait for "[data-testid=location-settings-select-legal-0-terms]"
+19. Audit inside "main" as "USA 1606 - Legal"
+20. Click "[data-testid=location-settings-sub-tab-notes]"
+21. Wait for "[data-testid=location-settings-btn-add-note]"
+22. Audit inside "main" as "USA 1606 - Notes"
+23. Click "[data-testid=location-settings-sub-tab-shared-setup-locations]"
+24. Wait for "css=[data-testid^=location-settings-btn-add-shared-location-]"
+25. Audit inside "main" as "USA 1606 - Shared Setup Locations"
+26. Click "[data-testid=location-settings-sub-tab-auto-add-on]"
+27. Wait for "css=main [role=tabpanel] [role=tabpanel] button[role=checkbox]"
+28. Audit inside "main" as "USA 1606 - Auto Add-On"
+29. Click "[data-testid=location-settings-sub-tab-business-types]"
+30. Wait for "css=[data-testid^=location-settings-checkbox-business-type-]"
+31. Audit inside "main" as "USA 1606 - Business Types"
+# Mexico 7147. Its Business Types list is empty.
+32. Go to /navigator/locations/7147/settings/location
+33. Wait for "css=[data-testid=location-settings-input-location-name]:not([value=''])"
+34. Audit inside "main" as "Mexico 7147 - Local Information"
+35. Click "[data-testid=location-settings-sub-tab-currency]"
+36. Wait for "css=[data-testid^=location-settings-select-currency-]"
+37. Audit inside "main" as "Mexico 7147 - Currency"
+38. Click "[data-testid=location-settings-sub-tab-pricing]"
+39. Wait for "css=main tbody tr button[role=checkbox]"
+40. Audit inside "main" as "Mexico 7147 - Pricing"
+41. Click "[data-testid=location-settings-sub-tab-account-and-address]"
+42. Wait for "[data-testid=location-settings-btn-lookup-venue]"
+43. Audit inside "main" as "Mexico 7147 - Account and Address"
+44. Click "[data-testid=location-settings-sub-tab-legal]"
+45. Wait for "[data-testid=location-settings-select-legal-0-terms]"
+46. Audit inside "main" as "Mexico 7147 - Legal"
+47. Click "[data-testid=location-settings-sub-tab-notes]"
+48. Wait for "[data-testid=location-settings-btn-add-note]"
+49. Audit inside "main" as "Mexico 7147 - Notes"
+50. Click "[data-testid=location-settings-sub-tab-shared-setup-locations]"
+51. Wait for "css=[data-testid^=location-settings-btn-add-shared-location-]"
+52. Audit inside "main" as "Mexico 7147 - Shared Setup Locations"
+53. Click "[data-testid=location-settings-sub-tab-auto-add-on]"
+54. Wait for "css=main [role=tabpanel] [role=tabpanel] button[role=checkbox]"
+55. Audit inside "main" as "Mexico 7147 - Auto Add-On"
+56. Click "[data-testid=location-settings-sub-tab-business-types]"
+57. Wait for "[data-testid=location-settings-form-business-types]"
+58. Audit inside "main" as "Mexico 7147 - Business Types"
