@@ -189,7 +189,8 @@ function collect(plan, reportsDir) {
     if (!submodule) throw new Error('ownership names ' + ticket + ', which is not in submodules.');
     for (const reportName of submodule.reports) {
       const file = findReport(reportsDir, moduleSlug, reportName, plan.office);
-      const { findings, tagged } = JSON.parse(fs.readFileSync(file, 'utf8'));
+      const { findings, tagged, stoppedAt } = JSON.parse(fs.readFileSync(file, 'utf8'));
+      if (stoppedAt) console.warn('Warning: ' + path.basename(file) + ' is incomplete - its walk ' + stoppedAt.replace(/^Step/, 'stopped at step'));
       loaded.push({ ticket, findings, tagged: tagged || [] });
     }
   }

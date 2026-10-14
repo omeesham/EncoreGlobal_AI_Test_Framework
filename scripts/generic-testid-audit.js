@@ -1240,6 +1240,8 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
 
   let findings = [];
   let tagged = [];
+  // The step that stopped the walk, when states were already audited before it.
+  let stoppedAt = '';
   if (args.html) {
     const html = fs.readFileSync(path.resolve(ROOT, args.html), 'utf8');
     findings = findMissingTestIdsInDom(html, { moduleName, pageUrl: args.page || 'file://' + path.resolve(ROOT, args.html) });
@@ -1295,8 +1297,18 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
               checkpointFindings.push(...found);
             }
             : null;
-          const stepScope = await executeSteps(page, officeSteps, { baseUrl, onAudit });
-          if (!args.scope && stepScope) scopeSelector = stepScope;
+          try {
+            const stepScope = await executeSteps(page, officeSteps, { baseUrl, onAudit });
+            if (!args.scope && stepScope) scopeSelector = stepScope;
+          } catch (error) {
+            // A walk that saves cannot simply be run again once the save is
+            // made, so the states audited before the failed step are kept;
+            // the run still ends as failed.
+            if (!auditAtEachStep || !checkpointFindings.length) throw error;
+            stoppedAt = error.message.split('\n')[0];
+            console.log('  Stopped at ' + stoppedAt);
+            console.log('  Keeping the states audited before it.');
+          }
         } else {
           if (startingUrl && startingUrl !== 'about:blank') {
             await page.goto(startingUrl, { waitUntil: 'domcontentloaded', timeout: 15000 }).catch(() => {});
@@ -1399,7 +1411,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
     seenTagged.add(key);
     return true;
   });
-  fs.writeFileSync(jsonPath, JSON.stringify({ moduleName, submoduleName, generatedAt: new Date().toISOString(), findings: uniqueFindings, tagged: uniqueTagged }, null, 2));
+  fs.writeFileSync(jsonPath, JSON.stringify(Object.assign({ moduleName, submoduleName, generatedAt: new Date().toISOString() }, stoppedAt ? { stoppedAt } : {}, { findings: uniqueFindings, tagged: uniqueTagged }), null, 2));
 
   const xlsxPath = createWorkbook(uniqueFindings, moduleName, outputDir, submoduleName);
   const summary = {
@@ -1417,6 +1429,10 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
   console.log(`JSON report: ${jsonPath}`);
   console.log(`Excel report: ${xlsxPath}`);
   console.log(JSON.stringify(summary, null, 2));
+  if (stoppedAt) {
+    console.error('Incomplete: ' + stoppedAt);
+    process.exitCode = 1;
+  }
 
   return { moduleName, findings: uniqueFindings, jsonPath, xlsxPath };
 }

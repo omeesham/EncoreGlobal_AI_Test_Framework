@@ -26,6 +26,9 @@
  *
  * Wait up to <N> seconds for "<label>" waits longer than the usual 30 seconds.
  *
+ * Wait <N> seconds pauses, for a page that shows no sign of a request in
+ * flight - a search that sends the text of the search before it.
+ *
  * Upload "<file>" via "<label>" clicks a control that opens the file picker
  * (an Import button) and chooses the file. The path is relative to the steps
  * file.
@@ -79,6 +82,7 @@ const STEP_PATTERNS = [
   { re: /^type\s+(.+?)\s+into\s+(.+)$/i, build: (m) => ({ verb: 'type', value: unquote(m[1]), target: unquote(m[2]) }) },
   { re: /^select\s+(.+?)\s+from\s+(.+)$/i, build: (m) => ({ verb: 'select', value: unquote(m[1]), target: unquote(m[2]) }) },
   { re: /^wait\s+up\s+to\s+(\d+)\s*s(?:ec(?:ond)?s?)?\s+for\s+(.+)$/i, build: (m) => ({ verb: 'wait', target: unquote(m[2]), waitMs: Number(m[1]) * 1000 }) },
+  { re: /^wait\s+(\d+)\s*s(?:ec(?:ond)?s?)?$/i, build: (m) => ({ verb: 'pause', waitMs: Number(m[1]) * 1000 }) },
   { re: /^wait\s+for\s+(.+)$/i, build: (m) => ({ verb: 'wait', target: unquote(m[1]) }) },
   { re: /^click\s+(?:on\s+)?(.+)$/i, build: (m) => ({ verb: 'click', target: unquote(m[1]) }) },
   { re: /^press\s+(.+)$/i, build: (m) => ({ verb: 'press', target: unquote(m[1]) }) },
@@ -132,7 +136,7 @@ function parseSteps(text) {
       throw new Error(
         'Line ' + (index + 1) + ' of the steps file is not a step I understand: "' + line + '".'
         + ' Supported: Go to <url>, Click "<label>", Type "<value>" into "<label>",'
-        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Drag "<label>" to "<label>", Hold "<url part>", Release "<url part>", Fail "<url part>", Send "<url part>" with "<file>", Audit here,'
+        + ' Select "<option>" from "<label>", Wait for "<label>", Wait <N> seconds, Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Drag "<label>" to "<label>", Hold "<url part>", Release "<url part>", Fail "<url part>", Send "<url part>" with "<file>", Audit here,'
         + ' Audit inside "<selector>" [as "<state>"].'
       );
     }
@@ -288,6 +292,10 @@ async function executeSteps(page, steps, options = {}) {
       } else if (step.verb === 'wait') {
         // "Wait up to N seconds for" covers what takes longer than a click - an AI reply.
         await resolveLocator(page, step.target).waitFor({ state: 'visible', timeout: step.waitMs || timeout });
+      } else if (step.verb === 'pause') {
+        // For a page that keeps no sign of a request in flight - a search box
+        // that sends the text of the search before it, until that one is done.
+        await page.waitForTimeout(step.waitMs);
       } else if (step.verb === 'upload') {
         const chooser = page.waitForEvent('filechooser', { timeout });
         await resolveLocator(page, step.target).click({ timeout });
