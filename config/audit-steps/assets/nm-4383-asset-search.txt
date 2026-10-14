@@ -1,0 +1,67 @@
+# NM-4383 - Asset Search (Equipment > Assets) (parent NM-3936).
+# The page, the info tooltip, the search box with text and its clear button,
+# the Category list (open, searched, no match, one and then two categories
+# ticked), the Inventory Owners list, a search while it loads and its result,
+# a column's sort menu and the grid sorted, the rows-per-page list and a page
+# size chosen, and Reset Filters. A failed search shows no message of its own,
+# only "No results." Every sortable column opens the same two-item sort menu.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4383/config/audit-steps/assets/nm-4383-asset-search.txt --office 2359
+#
+# Changes no data: only searches are run. No office has assets in this
+# environment, so every search ends in "No results."
+
+Module: Assets
+Submodule: asset-search-nm-4383
+Output: reports/testid-audit-assets
+Elements: all
+
+1. Go to /navigator/locations/{office}/assets
+2. Wait for "css=main thead button:has-text('Asset Id')"
+3. Audit inside "main" as "Assets"
+4. Hover "css=main button[aria-label='More information']"
+5. Audit inside "[data-radix-popper-content-wrapper]" as "Info tooltip"
+# The search box shows a clear button once it holds text.
+6. Type "LCD" into "css=main input[placeholder^='Product, Name']"
+7. Audit inside "main" as "Search box with text"
+# Category: a list of categories to tick, with its own search box; ticking one runs the search.
+8. Click "css=main button[role=combobox] >> nth=0"
+9. Wait for "css=[data-slot=popover-content] [role=option]"
+10. Audit inside "[data-slot=popover-content]" as "Category list open"
+11. Type "aud" into "css=[data-slot=popover-content] input"
+12. Audit inside "[data-slot=popover-content]" as "Category list - searched"
+13. Type "zzqq" into "css=[data-slot=popover-content] input"
+14. Wait for "css=[data-slot=popover-content] :text('No item found.')"
+15. Audit inside "[data-slot=popover-content]" as "Category list - no match"
+16. Type "" into "css=[data-slot=popover-content] input"
+17. Click "css=[data-slot=popover-content] [role=option]:text-is('Audio')"
+18. Audit inside "[data-slot=popover-content]" as "Category list - Audio ticked"
+19. Click "css=[data-slot=popover-content] [role=option]:text-is('Video')"
+20. Audit inside "[data-slot=popover-content]" as "Category list - Audio and Video ticked"
+21. Press "Escape"
+22. Audit inside "main" as "Categories chosen (Audio, Video), searched"
+23. Click "css=main button[role=combobox] >> nth=1"
+24. Wait for "css=[role=option]:has-text('All Inventory Owners')"
+25. Audit inside "[data-radix-popper-content-wrapper]" as "Inventory Owners list open"
+26. Press "Escape"
+# A search while its answer is held, then answered.
+27. Hold "POST productCategoryIds"
+28. Click "css=main button:text-is('Search')"
+29. Audit inside "main" as "Searching"
+30. Release "POST productCategoryIds"
+31. Wait for "css=main tbody tr:has-text('No results')"
+32. Audit inside "main" as "Search done - no results"
+# Sorting and rows per page.
+33. Click "css=main thead button:has-text('Asset Id')"
+34. Audit inside "[role=menu]" as "Column sort menu open"
+35. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+36. Wait for "css=body:not(:has([role=menu]))"
+37. Audit inside "main" as "Grid sorted (Asset Id, descending)"
+38. Click "css=main button[role=combobox]:has-text('50')"
+39. Audit inside "[role=listbox]" as "Rows per page list open"
+40. Click "css=[role=listbox] [role=option]:has-text('10')"
+41. Wait for "css=main button[role=combobox]:has-text('10')"
+42. Audit inside "main" as "10 rows per page"
+# Reset Filters, shown once a category is chosen, puts every filter back.
+43. Click "css=main button:text-is('Reset Filters')"
+44. Wait for "css=main:not(:has(button:text-is('Reset Filters')))"
+45. Audit inside "main" as "Filters reset"

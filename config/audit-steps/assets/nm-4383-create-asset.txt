@@ -1,0 +1,117 @@
+# NM-4383 - Asset Search: Create Asset (parent NM-3936).
+# The Asset Details sheet, Save with nothing filled (the required-field
+# messages), the Current Status and Asset Type lists, each Asset Type (Kit
+# Part adds a Kit Asset search box, Kit Asset adds an Assign Kit search box),
+# the Select a Product dialog (results, no match, a product chosen), the
+# Select a Venue dialog behind Owner Inventory (results, the column menu, the
+# next page, a column hidden, a venue chosen) and behind Current Location (no
+# match, a venue chosen, the rows-per-page list, 50 rows per page), and
+# Save with only the status missing.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4383/config/audit-steps/assets/nm-4383-create-asset.txt --office 2359
+#
+# Changes no data. Save cannot send anything: Current Status is required and
+# its list is empty in this environment, so Save stops at "Status is
+# required." The sheet is closed with Cancel. Escape closes the whole sheet,
+# so it is used only while a list is open.
+
+Module: Assets
+Submodule: create-asset-nm-4383
+Output: reports/testid-audit-assets
+Elements: all
+
+1. Go to /navigator/locations/{office}/assets
+2. Wait for "css=main thead button:has-text('Asset Id')"
+3. Click "css=main button:text-is('Create Asset')"
+4. Wait for "css=[role=dialog] input[aria-label='Asset ID']"
+5. Audit inside "[role=dialog]" as "Asset Details"
+6. Click "css=[role=dialog] button:text-is('Save')"
+7. Wait for "css=[role=dialog] [data-slot=form-message]"
+8. Audit inside "[role=dialog]" as "Asset Details - Save with nothing filled"
+9. Click "css=[role=dialog] button[role=combobox] >> nth=0"
+10. Audit inside "[role=listbox]" as "Current Status list open"
+11. Press "Escape"
+12. Click "css=[role=dialog] button[role=combobox]:has-text('Stand Alone')"
+13. Audit inside "[role=listbox]" as "Asset Type list open"
+# Each asset type: Kit Part and Kit Asset each add a search box with a clear button.
+14. Click "css=[role=listbox] [role=option]:has-text('Kit Part')"
+15. Wait for "css=[role=dialog] input[aria-label='Kit Asset']"
+16. Audit inside "[role=dialog]" as "Asset Details - Kit Part"
+17. Type "LCD" into "css=[role=dialog] input[aria-label='Kit Asset']"
+18. Audit inside "[role=dialog]" as "Asset Details - Kit Part, Kit Asset typed"
+19. Click "css=[role=dialog] button[role=combobox]:has-text('Kit Part')"
+20. Click "css=[role=listbox] [role=option]:has-text('Kit Asset')"
+21. Wait for "css=[role=dialog] input[aria-label='Kit Parts']"
+22. Audit inside "[role=dialog]" as "Asset Details - Kit Asset"
+23. Type "LCD" into "css=[role=dialog] input[aria-label='Kit Parts']"
+24. Audit inside "[role=dialog]" as "Asset Details - Kit Asset, Kit Parts typed"
+# Product: a search dialog; Enter and then Search send the text.
+25. Click "css=[role=dialog] input[aria-label='Product']"
+26. Wait for "css=[role=dialog]:has(h2:text-is('Select a Product')) input"
+27. Audit inside "[data-slot=dialog-content]" as "Select a Product"
+28. Type "zzqqxx" into "css=[role=dialog]:has(h2:text-is('Select a Product')) input"
+29. Press "Enter"
+30. Click "css=[role=dialog]:has(h2:text-is('Select a Product')) button:text-is('Search')"
+31. Audit inside "[data-slot=dialog-content]" as "Select a Product - no match"
+32. Type "LCD" into "css=[role=dialog]:has(h2:text-is('Select a Product')) input"
+33. Press "Enter"
+34. Click "css=[role=dialog]:has(h2:text-is('Select a Product')) button:text-is('Search')"
+35. Wait for "css=[role=dialog]:has(h2:text-is('Select a Product')) :text-is('Lilliput 5\" LCD Monitor')"
+36. Audit inside "[data-slot=dialog-content]" as "Select a Product - results"
+37. Click "css=[role=dialog]:has(h2:text-is('Select a Product')) :text-is('Lilliput 5\" LCD Monitor')"
+38. Wait for "css=body:not(:has([role=dialog]:has(h2:text-is('Select a Product'))))"
+# Owner Inventory: the venue search dialog.
+39. Click "css=[role=dialog] input[placeholder='Owner Inventory']"
+40. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+41. Audit inside "[data-slot=dialog-content]" as "Select a Venue"
+42. Type "Hilton" into "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+43. Press "Enter"
+44. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) button:text-is('Search')"
+45. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('Hilton')"
+46. Audit inside "[data-slot=dialog-content]" as "Select a Venue - results"
+47. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) thead button:has-text('City')"
+48. Audit inside "[role=menu]" as "Select a Venue - column menu open"
+49. Press "Escape"
+50. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) button[aria-label='Go to next page']"
+51. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) input[aria-label='Current page number'][value='2']"
+52. Audit inside "[data-slot=dialog-content]" as "Select a Venue - next page"
+53. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) thead button:has-text('City')"
+54. Click "css=[role=menu] [role=menuitem]:has-text('Hide column')"
+55. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) thead:not(:has(button:has-text('City')))"
+56. Audit inside "[data-slot=dialog-content]" as "Select a Venue - City column hidden"
+57. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('Hilton') >> nth=0"
+58. Wait for "css=body:not(:has([role=dialog]:has(h2:text-is('Select a Venue'))))"
+# Current Location: the same dialog, no match, then a venue chosen.
+59. Click "css=[role=dialog] input[aria-label='Current Location']"
+60. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+61. Type "zzqqxx" into "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+62. Press "Enter"
+63. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) button:text-is('Search')"
+64. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('No results')"
+65. Audit inside "[data-slot=dialog-content]" as "Select a Venue - no match"
+66. Type "Hilton" into "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+67. Press "Enter"
+68. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) button:text-is('Search')"
+69. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('Hilton') >> nth=0"
+70. Wait for "css=body:not(:has([role=dialog]:has(h2:text-is('Select a Venue'))))"
+# The rows-per-page list and 50 rows. With 50 rows the dialog is taller than the
+# window, so it is closed with Escape (which leaves the sheet open) and nothing is chosen.
+71. Click "css=[role=dialog] input[aria-label='Current Location']"
+72. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+73. Type "Hilton" into "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+74. Press "Enter"
+75. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) button:text-is('Search')"
+76. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('Hilton')"
+77. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) button[role=combobox]"
+78. Audit inside "[role=listbox]" as "Select a Venue - rows per page list open"
+79. Click "css=[role=listbox] [role=option]:has-text('50')"
+80. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:nth-child(21)"
+81. Audit inside "[data-slot=dialog-content]" as "Select a Venue - 50 rows per page"
+82. Press "Escape"
+83. Wait for "css=body:not(:has([role=dialog]:has(h2:text-is('Select a Venue'))))"
+84. Type "ZZTEST" into "css=[role=dialog] input[aria-label='Asset ID']"
+85. Type "SN-ZZTEST" into "css=[role=dialog] input[aria-label='Serial Number']"
+86. Type "Shelf A" into "css=[role=dialog] input[aria-label='Storage Location']"
+87. Click "css=[role=dialog] button:text-is('Save')"
+88. Wait for "css=[role=dialog] [data-slot=form-message]:text-is('Status is required.')"
+89. Audit inside "[role=dialog]" as "Asset Details - filled, status missing"
+90. Click "css=[role=dialog] button:text-is('Cancel')"

@@ -1,0 +1,16 @@
+{
+  "title": "Missing data-testid - Asset Search (NM-4383)",
+  "module": "Assets",
+  "office": "2359",
+  "officeLabel": "2359 - Toronto Hilton",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-assets",
+  "output": "reports/testid-audit-assets/NM-4383-asset-search-2359",
+  "fileName": "NM-4383-asset-search-missing-testids-2359",
+  "submodules": [
+    { "ticket": "NM-4383-AS", "name": "Asset Search", "reports": ["asset-search-nm-4383"] },
+    { "ticket": "NM-4383-CA", "name": "Create Asset", "reports": ["create-asset-nm-4383"] },
+    { "ticket": "NM-4383-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4383"] }
+  ],
+  "ownership": ["NM-4383-AS", "NM-4383-CA", "NM-4383-NAV"]
+}
