@@ -267,7 +267,7 @@ screen genuinely differs: Local Office Settings has 19 untagged controls in USA,
 by whatever you call it. Step numbers, trailing periods, `#` comments and curly quotes are all
 tolerated. The verbs are `Go to`, `Click`, `Type "x" into "y"`, `Select "x" from "y"`, `Wait for`,
 `Wait up to N seconds for`, `Press "<key>"`, `Hover`, `Upload "<file>" via "<label>"`, `Drag "<label>" to "<label>"`,
-`Hold "<url part>"`, `Release "<url part>"`, `Fail "<url part>"`, `Audit here` and `Audit inside "<selector>"`. A line it cannot parse fails the run
+`Hold "<url part>"`, `Release "<url part>"`, `Fail "<url part>"`, `Send "<url part>" with "<file>"`, `Audit here` and `Audit inside "<selector>"`. A line it cannot parse fails the run
 — a silently skipped navigation step would produce a confident report about whichever page it
 happened to land on.
 
@@ -285,6 +285,7 @@ These steps cover what a click cannot reach:
 | `Drag "<label>" to "<label>"` | rows are added to a grid by dropping them on it, from a list beside it; a drop the page misses is tried again |
 | `Hold "<url part>"` … `Release "<url part>"` | the screen shows placeholders while it loads: requests whose address or body contains the text wait until released, so the loading state can be audited in between. A method in front (`Hold "POST <text>"`) holds only requests sent with it, for a page that loads its data by posting to its own address: name the text that request alone sends |
 | `Fail "<url part>"` | the message a failed save or load shows: every matching request (same matching as `Hold`) fails from then on, as a lost connection would, so nothing reaches the server. Put it last in a file: the page cannot load again while its requests fail |
+| `Send "<url part>" with "<file>"` | a save whose request the page writes with a field changed - a date moved by the browser's time zone, say: the fields the JSON file names (path relative to the steps file) are set in the body of every matching request before it leaves; the rest stays as the page wrote it, and lists are matched item by item |
 | `Wait up to N seconds for "<label>"` | something takes longer than the usual 30 seconds, such as a generated answer |
 
 Hover, Upload and Drag find their controls the same way `Click` does. Put `Hold` before the click

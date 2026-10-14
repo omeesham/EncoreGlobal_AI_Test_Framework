@@ -67,6 +67,10 @@ function parseArgs(argv) {
 
 const inPage = (item) => / > main\b/.test(item.path || '');
 const unindexed = (value) => String(value || '').replace(/:nth-of-type\(\d+\)/g, '');
+// The first of several is the same place as the only one: a grid that gains a
+// sibling (sorted, another view) keeps its elements where they were.
+const slot = (value) => String(value || '').replace(/:nth-of-type\(1\)/g, '');
+const DATE = /^(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}(st|nd|rd|th)?, \d{4}$|^\d{1,2}\/\d{1,2}\/\d{4}$/;
 const pageOf = (item) => new URL(item.pageUrl).pathname;
 // A page is the same page on every office: a view only another office shows
 // (a read-only one, say) lists only what it adds.
@@ -106,7 +110,7 @@ function elementKey(item) {
   }
   const ariaLabel = item.ariaLabel;
   if (item.templateKey) {
-    return pageKey(item) + '|' + item.templateKey
+    return pageKey(item) + '|' + slot(item.templateKey)
       + (fixed(item) ? '' : '|' + ((item.instanceSamples || [])[0] || '') + '|' + item.state);
   }
   // A field is known by its label, not its current value; text, containers and
@@ -114,7 +118,8 @@ function elementKey(item) {
   // position shifts with a growing toolbar - three "0-15" headers in one row
   // are three elements.
   const content = item.kind && item.kind !== 'control';
-  const text = item.label || (content && inPage(item)) ? '' : item.text;
+  // A date picker's button reads its date: it is one button whatever the date.
+  const text = item.label || (content && inPage(item)) ? '' : String(item.text || '').replace(DATE, 'date');
   // An icon moves when a neighbour appears; it is the icon beside the same
   // thing, whatever count that thing shows ("17 items found", "16 items found").
   const near = String(item.nearText || '').replace(/\d+/g, '#');
@@ -122,7 +127,7 @@ function elementKey(item) {
   return pageKey(item) + '|' + [
     item.tagName, item.role, text, ariaLabel, item.label, item.column, item.panel, item.placeholder,
     content && (inPage(item) || item.kind !== 'container') ? '' : near,
-    (inPage(item) && !content) || inLayout(item) ? unindexed(item.path) : item.path
+    (inPage(item) && !content) || inLayout(item) ? unindexed(item.path) : slot(item.path)
   ].join('|') + (fixed(item) ? '' : '|' + item.state);
 }
 

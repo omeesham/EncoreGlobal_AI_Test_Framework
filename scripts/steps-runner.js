@@ -42,6 +42,12 @@
  * connection would, so the message a failed save shows can be audited without
  * anything being saved.
  *
+ * Send "<url part>" with "<file>" sets the fields the JSON file names in the
+ * body of every matching request before it leaves, keeping the rest as the
+ * page wrote it (lists are matched item by item). For a page whose save sends
+ * a field changed, such as a date moved by the browser's time zone, the file
+ * holds the stored value. The path is relative to the steps file.
+ *
  * "Elements: all" beside Module asks for every element, not only controls:
  * text, containers, images, and elements in the DOM that are not shown.
  *
@@ -82,6 +88,7 @@ const STEP_PATTERNS = [
   { re: /^hold\s+(.+)$/i, build: (m) => ({ verb: 'hold', target: unquote(m[1]) }) },
   { re: /^release\s+(.+)$/i, build: (m) => ({ verb: 'release', target: unquote(m[1]) }) },
   { re: /^fail\s+(.+)$/i, build: (m) => ({ verb: 'fail', target: unquote(m[1]) }) },
+  { re: /^send\s+(.+?)\s+with\s+(.+)$/i, build: (m) => ({ verb: 'send', target: unquote(m[1]), value: unquote(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+?)\s+as\s+(["'“‘].+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]), label: unquote(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]) }) },
   { re: /^audit\s+here\s+as\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: '', label: unquote(m[1]) }) },
@@ -125,7 +132,7 @@ function parseSteps(text) {
       throw new Error(
         'Line ' + (index + 1) + ' of the steps file is not a step I understand: "' + line + '".'
         + ' Supported: Go to <url>, Click "<label>", Type "<value>" into "<label>",'
-        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Drag "<label>" to "<label>", Hold "<url part>", Release "<url part>", Fail "<url part>", Audit here,'
+        + ' Select "<option>" from "<label>", Wait for "<label>", Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Drag "<label>" to "<label>", Hold "<url part>", Release "<url part>", Fail "<url part>", Send "<url part>" with "<file>", Audit here,'
         + ' Audit inside "<selector>" [as "<state>"].'
       );
     }
@@ -142,7 +149,7 @@ function parseStepsFile(filePath) {
   const plan = parseSteps(fs.readFileSync(filePath, 'utf8'));
   // An uploaded file is named relative to the steps file, wherever the run starts from.
   for (const step of plan.steps) {
-    if (step.verb === 'upload') step.value = path.resolve(path.dirname(filePath), step.value);
+    if (step.verb === 'upload' || step.verb === 'send') step.value = path.resolve(path.dirname(filePath), step.value);
   }
   return plan;
 }
@@ -196,6 +203,32 @@ function requestMatcher(part) {
 async function failRequests(page, part) {
   const matches = requestMatcher(part);
   await page.route('**/*', (route) => (matches(route.request()) ? route.abort('failed') : route.fallback()));
+}
+
+/** Copies the fields of `fields` into `body`; objects are merged, lists item by item. */
+function mergeFields(body, fields) {
+  if (Array.isArray(fields)) {
+    const list = Array.isArray(body) ? body.slice() : [];
+    fields.forEach((item, index) => { list[index] = mergeFields(list[index], item); });
+    return list;
+  }
+  if (fields && typeof fields === 'object') {
+    const merged = body && typeof body === 'object' && !Array.isArray(body) ? { ...body } : {};
+    for (const [key, value] of Object.entries(fields)) merged[key] = mergeFields(merged[key], value);
+    return merged;
+  }
+  return fields;
+}
+
+async function sendWithFields(page, part, file) {
+  const matches = requestMatcher(part);
+  const fields = JSON.parse(fs.readFileSync(file, 'utf8'));
+  await page.route('**/*', (route) => {
+    const request = route.request();
+    if (!matches(request)) return route.fallback();
+    const body = mergeFields(JSON.parse(request.postData() || '{}'), fields);
+    return route.fallback({ postData: JSON.stringify(body) });
+  });
 }
 
 async function holdRequests(page, part) {
@@ -265,6 +298,8 @@ async function executeSteps(page, steps, options = {}) {
         await releaseRequests(page, step.target);
       } else if (step.verb === 'fail') {
         await failRequests(page, step.target);
+      } else if (step.verb === 'send') {
+        await sendWithFields(page, step.target, step.value);
       } else if (step.verb === 'drag') {
         const source = resolveLocator(page, step.value);
         const target = resolveLocator(page, step.target);

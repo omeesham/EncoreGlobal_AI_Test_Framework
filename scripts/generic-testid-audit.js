@@ -460,6 +460,16 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     };
 
     const REPEAT_CONTAINER = '[role="listbox"], [role="grid"], tbody';
+    // A list drawn without a list role - a popover's scrolling column of
+    // identical buttons, one per record - repeats its items too. A toolbar's
+    // buttons do not scroll, and a menu's items (each its own action) carry a
+    // role, so they stay apart.
+    const scrollingList = (el) => {
+      const parent = el.parentElement;
+      if (!parent || el.hasAttribute('role') || !/auto|scroll/.test(getComputedStyle(parent).overflowY)) return null;
+      const copies = Array.from(parent.children).filter((sibling) => sibling.tagName === el.tagName && sibling.className === el.className);
+      return copies.length >= 5 ? parent : null;
+    };
     // What already carries a data-testid is kept aside, so the report can say
     // how many elements were found in all, not only how many lack one.
     const tagged = [];
@@ -539,7 +549,7 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
       // A select repeated in every table row repeats its options there too.
       const ownSelect = el.tagName === 'OPTION' ? el.closest('select') : null;
       const repeatContainer = ownSelect ? (ownSelect.closest(REPEAT_CONTAINER) || ownSelect)
-        : kind === 'control' ? el.closest(REPEAT_CONTAINER)
+        : kind === 'control' ? el.closest(REPEAT_CONTAINER) || scrollingList(el)
           : el.parentElement && el.parentElement.closest(REPEAT_CONTAINER);
       // The title keeps two icon buttons in one cell apart - a row's Edit and Delete.
       // On text it is only the cell's own value repeated, which differs in every row.
