@@ -1,0 +1,8 @@
+{
+ "data": {
+  "success": true,
+  "preferredInventorySources": [
+   { "id": "1", "preferredInventoryId": "1101", "inventory": "1101 - Corporate Office Encore USA SGA" }
+  ]
+ }
+}

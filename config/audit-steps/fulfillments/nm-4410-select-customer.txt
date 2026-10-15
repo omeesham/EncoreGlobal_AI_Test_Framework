@@ -1,0 +1,37 @@
+# NM-4410 - Job Search: Create Fulfillment, Select Customer with results (parent NM-3936).
+# The Select Customer dialog with customers listed, its column menu, no
+# match, and a customer chosen in the Fulfillment Details form.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4410/config/audit-steps/fulfillments/nm-4410-select-customer.txt --office 1101
+#
+# Runs on 1101, the only location with customers in this environment (1606,
+# 2359 and 7147 have none). Changes no data: the form is closed with Cancel.
+
+Module: Fulfillments
+Submodule: select-customer-nm-4410
+Output: reports/testid-audit-fulfillments
+Elements: all
+
+1. Go to /navigator/locations/{office}/fulfillments
+2. Wait for "css=main thead button:has-text('Order')"
+3. Click "css=main button:text-is('Create Fulfillment')"
+4. Wait for "css=[role=dialog] input[name='orderJobId']"
+5. Click "css=[role=dialog] input[placeholder='Select Customer']"
+6. Wait for "css=[role=dialog]:has(h2:text-is('Select Customer')) input"
+7. Type "zzqqxx" into "css=[role=dialog]:has(h2:text-is('Select Customer')) input"
+8. Press "Enter"
+9. Click "css=[role=dialog]:has(h2:text-is('Select Customer')) button:text-is('Search')"
+10. Wait for "css=[role=dialog]:has(h2:text-is('Select Customer')) tbody tr:has-text('No results')"
+11. Audit inside "[role=dialog]:has(input[placeholder='Search Customer'])" as "Select Customer - no match"
+12. Type "Marriott" into "css=[role=dialog]:has(h2:text-is('Select Customer')) input"
+13. Press "Enter"
+14. Click "css=[role=dialog]:has(h2:text-is('Select Customer')) button:text-is('Search')"
+15. Wait for "css=[role=dialog]:has(h2:text-is('Select Customer')) tbody tr:has-text('Marriott')"
+16. Audit inside "[role=dialog]:has(input[placeholder='Search Customer'])" as "Select Customer - results"
+17. Click "css=[role=dialog]:has(h2:text-is('Select Customer')) thead button:has-text('Customer Name')"
+18. Audit inside "[role=menu]" as "Select Customer - column menu open"
+19. Press "Escape"
+20. Click "css=[role=dialog]:has(h2:text-is('Select Customer')) tbody tr:has-text('Marriott') >> nth=0"
+21. Wait for "css=body:not(:has([role=dialog]:has(h2:text-is('Select Customer'))))"
+22. Audit inside "[role=dialog]:has(input[name='orderJobId'])" as "Fulfillment Details - customer chosen"
+23. Click "css=[role=dialog] button:text-is('Cancel')"
+24. Wait for "css=body:not(:has([role=dialog]))"

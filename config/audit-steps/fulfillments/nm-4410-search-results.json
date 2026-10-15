@@ -1,0 +1,427 @@
+{
+ "data": {
+  "fulfillments": [
+   {
+    "fulfillmentGroupId": "c6089085-0299-4cc4-0a84-18d3b7557497",
+    "orderId": 4683,
+    "jobId": 10219,
+    "orderName": "NASAA Assembly 2026",
+    "customerName": "National Assembly of State Arts Agencies",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-03-08T00:00:00.000Z",
+    "pickupDate": "$D2026-03-08T23:59:00.000Z",
+    "jobInfo": {
+     "orderName": "NASAA Assembly 2026",
+     "jobName": "NASAA Assembly 2026",
+     "jobStatus": "1",
+     "startDate": "$D2026-03-08T00:00:00.000Z",
+     "endDate": "$D2026-03-08T23:59:00.000Z",
+     "deliveryDate": "$D2026-03-08T00:00:00.000Z",
+     "pickupDate": "$D2026-03-08T23:59:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "67034e97-78a4-40a9-7a35-32bea2f56770",
+    "orderId": 4732,
+    "jobId": 10377,
+    "orderName": "IFMA Meeting",
+    "customerName": "National Fire Protection Association (NFPA)",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-03-19T00:00:00.000Z",
+    "pickupDate": "$D2026-03-19T23:59:00.000Z",
+    "jobInfo": {
+     "orderName": "IFMA Meeting",
+     "jobName": "IFMA Meeting",
+     "jobStatus": "1",
+     "startDate": "$D2026-03-19T00:00:00.000Z",
+     "endDate": "$D2026-03-19T23:59:00.000Z",
+     "deliveryDate": "$D2026-03-19T00:00:00.000Z",
+     "pickupDate": "$D2026-03-19T23:59:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "98ccfbde-1322-e6df-1651-e9a0da34be47",
+    "orderId": 4720,
+    "jobId": 10339,
+    "orderName": "ST & GalaVerse Closed-Door Business Meeting",
+    "customerName": "Galaverse LTD Corp",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-03-24T09:00:00.000Z",
+    "pickupDate": "$D2026-03-24T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "ST & GalaVerse Closed-Door Business Meeting",
+     "jobName": "Washingtonian Boardroom",
+     "jobStatus": "1",
+     "startDate": "$D2026-03-24T09:00:00.000Z",
+     "endDate": "$D2026-03-24T17:00:00.000Z",
+     "deliveryDate": "$D2026-03-24T09:00:00.000Z",
+     "pickupDate": "$D2026-03-24T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "bc49453c-a448-b63f-3fd3-4c2dcd002e70",
+    "orderId": 4720,
+    "jobId": 10340,
+    "orderName": "ST & GalaVerse Closed-Door Business Meeting",
+    "customerName": "Galaverse LTD Corp",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-03-25T09:00:00.000Z",
+    "pickupDate": "$D2026-03-25T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "ST & GalaVerse Closed-Door Business Meeting",
+     "jobName": "Washingtonian Boardroom",
+     "jobStatus": "1",
+     "startDate": "$D2026-03-25T09:00:00.000Z",
+     "endDate": "$D2026-03-25T17:00:00.000Z",
+     "deliveryDate": "$D2026-03-25T09:00:00.000Z",
+     "pickupDate": "$D2026-03-25T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "f29b9281-6266-1257-0087-d24b7184d767",
+    "orderId": 4687,
+    "jobId": 10225,
+    "orderName": "Memorial of Christ Death",
+    "customerName": "Memorial of Christ Death",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-02T00:00:00.000Z",
+    "pickupDate": "$D2026-04-02T23:59:00.000Z",
+    "jobInfo": {
+     "orderName": "Memorial of Christ Death",
+     "jobName": "Memorial of Christ Death",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-02T00:00:00.000Z",
+     "endDate": "$D2026-04-02T23:59:00.000Z",
+     "deliveryDate": "$D2026-04-02T00:00:00.000Z",
+     "pickupDate": "$D2026-04-02T23:59:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "56ba9083-7f1f-c1f8-d86c-e32bebbdee83",
+    "orderId": 4711,
+    "jobId": 10302,
+    "orderName": "Merit April Team Meeting",
+    "customerName": "Merit Medical",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-07T08:30:00.000Z",
+    "pickupDate": "$D2026-04-09T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "Merit April Team Meeting",
+     "jobName": "Capital A",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-07T08:30:00.000Z",
+     "endDate": "$D2026-04-09T17:00:00.000Z",
+     "deliveryDate": "$D2026-04-07T08:30:00.000Z",
+     "pickupDate": "$D2026-04-09T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "fd758598-65b7-e4e9-48d7-09c5ffc36a28",
+    "orderId": 4711,
+    "jobId": 10333,
+    "orderName": "Merit April Team Meeting",
+    "customerName": "Merit Medical",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-07T08:30:00.000Z",
+    "pickupDate": "$D2026-04-09T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "Merit April Team Meeting",
+     "jobName": "Capital A",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-07T08:30:00.000Z",
+     "endDate": "$D2026-04-09T17:00:00.000Z",
+     "deliveryDate": "$D2026-04-07T08:30:00.000Z",
+     "pickupDate": "$D2026-04-09T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "9a143655-d887-7f24-943a-4962fc37520a",
+    "orderId": 4709,
+    "jobId": 10288,
+    "orderName": "The Mayo Clinic Event",
+    "customerName": "Mayo Clinic",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-13T07:00:00.000Z",
+    "pickupDate": "$D2026-04-13T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "The Mayo Clinic Event",
+     "jobName": "The Mayo Clinic Event",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-13T07:00:00.000Z",
+     "endDate": "$D2026-04-13T17:00:00.000Z",
+     "deliveryDate": "$D2026-04-13T07:00:00.000Z",
+     "pickupDate": "$D2026-04-13T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "17eb7148-ef4a-21b4-351d-0b604bdbb136",
+    "orderId": 4731,
+    "jobId": 10375,
+    "orderName": "BigHand Meeting",
+    "customerName": "BigHand",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-16T08:00:00.000Z",
+    "pickupDate": "$D2026-04-16T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "BigHand Meeting",
+     "jobName": "Capital D",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-16T08:00:00.000Z",
+     "endDate": "$D2026-04-16T17:00:00.000Z",
+     "deliveryDate": "$D2026-04-16T08:00:00.000Z",
+     "pickupDate": "$D2026-04-16T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "d2fc7da8-9441-a318-24f6-8b6d0b30e504",
+    "orderId": 4734,
+    "jobId": 10389,
+    "orderName": "ECMHSP 2026 Meeting",
+    "customerName": "East Coast Migrant Head Start Project",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-23T08:00:00.000Z",
+    "pickupDate": "$D2026-04-25T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "ECMHSP 2026 Meeting",
+     "jobName": "Capital D",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-23T08:00:00.000Z",
+     "endDate": "$D2026-04-25T17:00:00.000Z",
+     "deliveryDate": "$D2026-04-23T08:00:00.000Z",
+     "pickupDate": "$D2026-04-25T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "d3001faf-1942-03ee-e223-59633eba3670",
+    "orderId": 4669,
+    "jobId": 10169,
+    "orderName": "Federal Advocacy Training 2026",
+    "customerName": "Nebraska Association of School Boards",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-27T07:00:00.000Z",
+    "pickupDate": "$D2026-04-27T14:00:00.000Z",
+    "jobInfo": {
+     "orderName": "Federal Advocacy Training 2026",
+     "jobName": "Capital A",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-27T07:00:00.000Z",
+     "endDate": "$D2026-04-27T14:00:00.000Z",
+     "deliveryDate": "$D2026-04-27T07:00:00.000Z",
+     "pickupDate": "$D2026-04-27T14:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "bbdb475c-6f1e-81e5-a018-895636753c1d",
+    "orderId": 4654,
+    "jobId": 10127,
+    "orderName": "UWUA Spring 2026 Executive Committee and Board Meeting",
+    "customerName": "Utility Workers Union Of America",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-28T08:30:00.000Z",
+    "pickupDate": "$D2026-04-28T16:00:00.000Z",
+    "jobInfo": {
+     "orderName": "UWUA Spring 2026 Executive Committee and Board Meeting",
+     "jobName": "Washingtonian Boardroom",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-28T08:30:00.000Z",
+     "endDate": "$D2026-04-28T16:00:00.000Z",
+     "deliveryDate": "$D2026-04-28T08:30:00.000Z",
+     "pickupDate": "$D2026-04-28T16:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "37763a77-8b8f-3086-6a91-b012b50d3db1",
+    "orderId": 4654,
+    "jobId": 10128,
+    "orderName": "UWUA Spring 2026 Executive Committee and Board Meeting",
+    "customerName": "Utility Workers Union Of America",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-28T08:30:00.000Z",
+    "pickupDate": "$D2026-04-28T16:00:00.000Z",
+    "jobInfo": {
+     "orderName": "UWUA Spring 2026 Executive Committee and Board Meeting",
+     "jobName": "Capital A",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-28T08:30:00.000Z",
+     "endDate": "$D2026-04-28T16:00:00.000Z",
+     "deliveryDate": "$D2026-04-28T08:30:00.000Z",
+     "pickupDate": "$D2026-04-28T16:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "7016364a-1104-f826-1cd4-672a2dbf069d",
+    "orderId": 4654,
+    "jobId": 10129,
+    "orderName": "UWUA Spring 2026 Executive Committee and Board Meeting",
+    "customerName": "Utility Workers Union Of America",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-04-29T08:30:00.000Z",
+    "pickupDate": "$D2026-04-29T15:00:00.000Z",
+    "jobInfo": {
+     "orderName": "UWUA Spring 2026 Executive Committee and Board Meeting",
+     "jobName": "Capital A",
+     "jobStatus": "1",
+     "startDate": "$D2026-04-29T08:30:00.000Z",
+     "endDate": "$D2026-04-29T15:00:00.000Z",
+     "deliveryDate": "$D2026-04-29T08:30:00.000Z",
+     "pickupDate": "$D2026-04-29T15:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "f7ea2ade-8887-bd67-d920-46116e52d17d",
+    "orderId": 4733,
+    "jobId": 10381,
+    "orderName": "Stakeholders Meeting",
+    "customerName": "Southern Company",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-05-04T16:00:00.000Z",
+    "pickupDate": "$D2026-05-04T20:00:00.000Z",
+    "jobInfo": {
+     "orderName": "Stakeholders Meeting",
+     "jobName": "Capital AB",
+     "jobStatus": "1",
+     "startDate": "$D2026-05-04T16:00:00.000Z",
+     "endDate": "$D2026-05-04T20:00:00.000Z",
+     "deliveryDate": "$D2026-05-04T16:00:00.000Z",
+     "pickupDate": "$D2026-05-04T20:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "bf2a7b5d-44a0-5b63-6743-9784ad75a2ec",
+    "orderId": 4719,
+    "jobId": 10335,
+    "orderName": "IRS Chief Counsel Executive Meeting",
+    "customerName": "IRS Office of Chief Counsel",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-05-05T08:00:00.000Z",
+    "pickupDate": "$D2026-05-05T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "IRS Chief Counsel Executive Meeting",
+     "jobName": "Capital A",
+     "jobStatus": "1",
+     "startDate": "$D2026-05-05T08:00:00.000Z",
+     "endDate": "$D2026-05-05T17:00:00.000Z",
+     "deliveryDate": "$D2026-05-05T08:00:00.000Z",
+     "pickupDate": "$D2026-05-05T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "78b977bc-77bb-1ced-025c-c5e9cb298fa8",
+    "orderId": 4733,
+    "jobId": 10382,
+    "orderName": "Stakeholders Meeting",
+    "customerName": "Southern Company",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-05-05T08:00:00.000Z",
+    "pickupDate": "$D2026-05-05T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "Stakeholders Meeting",
+     "jobName": "Capital AB",
+     "jobStatus": "1",
+     "startDate": "$D2026-05-05T08:00:00.000Z",
+     "endDate": "$D2026-05-05T17:00:00.000Z",
+     "deliveryDate": "$D2026-05-05T08:00:00.000Z",
+     "pickupDate": "$D2026-05-05T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "a22c6d62-2bbb-bf86-21c2-98e4c64c4c99",
+    "orderId": 4733,
+    "jobId": 10383,
+    "orderName": "Stakeholders Meeting",
+    "customerName": "Southern Company",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-05-05T16:00:00.000Z",
+    "pickupDate": "$D2026-05-05T20:00:00.000Z",
+    "jobInfo": {
+     "orderName": "Stakeholders Meeting",
+     "jobName": "District Room",
+     "jobStatus": "1",
+     "startDate": "$D2026-05-05T16:00:00.000Z",
+     "endDate": "$D2026-05-05T20:00:00.000Z",
+     "deliveryDate": "$D2026-05-05T16:00:00.000Z",
+     "pickupDate": "$D2026-05-05T20:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "f743c138-3086-d0cb-a265-d4cc83c06ba5",
+    "orderId": 4733,
+    "jobId": 10384,
+    "orderName": "Stakeholders Meeting",
+    "customerName": "Southern Company",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-05-06T08:00:00.000Z",
+    "pickupDate": "$D2026-05-06T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "Stakeholders Meeting",
+     "jobName": "Capital AB",
+     "jobStatus": "1",
+     "startDate": "$D2026-05-06T08:00:00.000Z",
+     "endDate": "$D2026-05-06T17:00:00.000Z",
+     "deliveryDate": "$D2026-05-06T08:00:00.000Z",
+     "pickupDate": "$D2026-05-06T17:00:00.000Z"
+    }
+   },
+   {
+    "fulfillmentGroupId": "591f329f-0b3a-6adf-76c7-bfb44bb46b7f",
+    "orderId": 4721,
+    "jobId": 10343,
+    "orderName": "USA-IT National Summit",
+    "customerName": "DCI GROUP",
+    "destinationLocationName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "deliveryInventoryName": "Embassy Suites by Hilton Washington DC Convention Center",
+    "distinctProductCount": 1,
+    "deliveryDate": "$D2026-05-11T13:00:00.000Z",
+    "pickupDate": "$D2026-05-12T17:00:00.000Z",
+    "jobInfo": {
+     "orderName": "USA-IT National Summit",
+     "jobName": "Capital A",
+     "jobStatus": "1",
+     "startDate": "$D2026-05-11T13:00:00.000Z",
+     "endDate": "$D2026-05-12T17:00:00.000Z",
+     "deliveryDate": "$D2026-05-11T13:00:00.000Z",
+     "pickupDate": "$D2026-05-12T17:00:00.000Z"
+    }
+   }
+  ],
+  "totalCount": 120
+ }
+}

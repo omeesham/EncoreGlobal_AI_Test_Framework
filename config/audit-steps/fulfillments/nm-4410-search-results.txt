@@ -1,0 +1,54 @@
+# NM-4410 - Job Search: search results (parent NM-3936).
+# The grid with results, the next page, the rows-per-page list and a page size
+# chosen with results, the grid sorted, and a result row opening the
+# fulfillment.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4410/config/audit-steps/fulfillments/nm-4410-search-results.txt --office 1606
+#
+# The search backend of this environment returns no fulfillment for any
+# location, date or ID, including fulfillments created on this page. So every
+# search is still sent, and the page is handed nm-4410-search-results.json in
+# place of the empty result: 20 rows built from real jobs of 1606 (order 4683
+# job 10219 first), 120 in all so the grid has pages. Changes no data.
+
+Module: Fulfillments
+Submodule: search-results-nm-4410
+Output: reports/testid-audit-fulfillments
+Elements: all
+
+1. Go to /navigator/locations/{office}/fulfillments
+2. Wait for "css=main thead button:has-text('Order')"
+3. Answer "POST deliveryPickup" with "nm-4410-search-results.json"
+4. Type "4683" into "css=main input[aria-label='Order ID']"
+# A search while its answer is held, then answered with results.
+5. Hold "POST deliveryPickup"
+6. Click "css=main button:text-is('Search')"
+7. Audit inside "main" as "Searching"
+8. Release "POST deliveryPickup"
+9. Wait for "css=main tbody tr:has-text('10219')"
+10. Audit inside "main" as "Search results"
+11. Hover "css=main tbody tr:has-text('10219')"
+12. Audit inside "main" as "Search results - row pointed at"
+# Paging with results.
+13. Click "css=main button[aria-label='Go to next page']"
+14. Wait for "css=main button[aria-label='Go to first page']:not(:disabled)"
+15. Wait for "css=main tbody tr:has-text('10219')"
+16. Audit inside "main" as "Search results - page 2"
+17. Click "css=main button[aria-label='Go to last page']"
+18. Wait for "css=main button[aria-label='Go to next page']:disabled"
+19. Audit inside "main" as "Search results - last page"
+20. Click "css=main button[role=combobox]:has-text('50')"
+21. Audit inside "[role=listbox]" as "Rows per page list open with results"
+22. Click "css=[role=listbox] [role=option]:has-text('10')"
+23. Wait for "css=main button[role=combobox]:has-text('10')"
+24. Wait for "css=main tbody tr:has-text('10219')"
+25. Audit inside "main" as "Search results - 10 rows per page"
+# Sorting with results.
+26. Click "css=main thead button:has-text('Customer')"
+27. Audit inside "[role=menu]" as "Column sort menu open with results"
+28. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+29. Wait for "css=body:not(:has([role=menu]))"
+30. Wait for "css=main tbody tr:has-text('10219')"
+31. Audit inside "main" as "Search results sorted (Customer, descending)"
+# A result row opens its fulfillment.
+32. Click "css=main tbody tr:has-text('10219') td >> nth=1"
+33. Wait for "css=main p:has-text('Sample Product')"

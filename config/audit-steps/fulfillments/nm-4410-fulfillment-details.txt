@@ -1,0 +1,76 @@
+# NM-4410 - Job Search: Fulfillment details (parent NM-3936).
+# The page a result row opens: Item Settings (the delivery-pickup calendar,
+# Override Transit Days, the switches), Item Search refused without an
+# inventory source, Items in Job collapsed, and the Edit Job Item panel with
+# its Select Date-range dialog and calendar, its Select Inventory Sources
+# dialog, an inventory source chosen, Save refused and Cancel.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4410/config/audit-steps/fulfillments/nm-4410-fulfillment-details.txt --office 1606
+#
+# The address is the one the first row of nm-4410-search-results.txt opens
+# (order 4683, job 10219). This environment's fulfillment backend answers every
+# fulfillment with the same sample job and item, so the page shows "Order 1",
+# "Job 1" and "Sample Product". Changes no data: nothing is saved (Save is
+# refused) and the item is not deleted.
+
+Module: Fulfillments
+Submodule: fulfillment-details-nm-4410
+Output: reports/testid-audit-fulfillments
+Elements: all
+
+1. Go to /navigator/locations/{office}/fulfillments/c6089085-0299-4cc4-0a84-18d3b7557497/4683/10219
+2. Wait for "css=main p:has-text('Sample Product')"
+3. Audit inside "main" as "Fulfillment details"
+# Item Settings.
+4. Click "css=main button[aria-label='Open popover'] >> nth=0"
+5. Wait for "css=[data-radix-popper-content-wrapper] [role=grid]"
+6. Audit inside "[data-radix-popper-content-wrapper]" as "Delivery - Pickup calendar open"
+7. Press "Escape"
+8. Click "css=main button[role=checkbox] >> nth=0"
+9. Wait for "css=main input[aria-label='Override Transit Days To']"
+10. Audit inside "main" as "Override Transit Days on"
+11. Click "css=main button[role=checkbox] >> nth=0"
+12. Click "css=main button[role=switch]"
+13. Click "css=main button[role=checkbox] >> nth=1"
+14. Click "css=main button[role=checkbox] >> nth=2"
+15. Audit inside "main" as "Item settings changed"
+# Item Search needs an inventory source, and this location has none.
+16. Type "mic" into "css=main input[placeholder^='Product']"
+17. Click "css=main button:text-is('Search')"
+18. Wait for "css=main :text('Select at least one inventory source')"
+19. Audit inside "main" as "Item Search - no inventory source"
+# Items in Job.
+20. Click "css=main button:text-is('-')"
+21. Audit inside "main" as "Items in Job - minus clicked"
+22. Click "css=main [data-slot=accordion-trigger]"
+23. Wait for "css=main [data-slot=accordion-item][data-state=closed]"
+24. Audit inside "main" as "Items in Job - collapsed"
+25. Click "css=main [data-slot=accordion-trigger]"
+26. Wait for "css=main p:has-text('Sample Product')"
+# The Edit Job Item panel.
+27. Click "css=main p:has-text('Sample Product')"
+28. Wait for "css=main h2:text-is('Edit Job Item')"
+29. Audit inside "main" as "Edit Job Item"
+30. Click "css=main button:text-is('Edit Dates')"
+31. Wait for "css=main div[class*='inset-0'] input"
+32. Audit inside "main div[class*='inset-0']" as "Select Date-range"
+33. Click "css=main div[class*='inset-0'] button[aria-label='Open popover']"
+34. Wait for "css=[data-radix-popper-content-wrapper] [role=grid]"
+35. Audit inside "[data-radix-popper-content-wrapper]" as "Select Date-range calendar open"
+36. Press "Escape"
+37. Click "css=main div[class*='inset-0'] button:text-is('Cancel')"
+38. Wait for "css=main:not(:has(div[class*='inset-0']))"
+39. Click "css=main button:text-is('Edit Inventory Sources')"
+40. Wait for "css=[role=dialog] input[type=checkbox]"
+41. Audit inside "[role=dialog]:has(input[type=checkbox])" as "Select Inventory Sources"
+42. Click "css=[role=dialog] input[type=checkbox] >> nth=1"
+43. Audit inside "[role=dialog]:has(input[type=checkbox])" as "Select Inventory Sources - On-Site Inventory chosen"
+44. Click "css=[role=dialog] button:text-is('Update')"
+45. Wait for "css=body:not(:has([role=dialog]))"
+46. Audit inside "main" as "Edit Job Item - inventory source chosen"
+47. Type "" into "css=main form input[name=quantity]"
+48. Click "css=main form button:text-is('Save')"
+49. Wait for "css=main :text('Quantity must be less than or equal to Available Count.')"
+50. Audit inside "main" as "Edit Job Item - Save refused"
+51. Click "css=main form button:text-is('Cancel')"
+52. Wait for "css=main:not(:has(h2:text-is('Edit Job Item')))"
+53. Audit inside "main" as "Edit Job Item closed"

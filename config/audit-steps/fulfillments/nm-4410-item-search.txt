@@ -1,0 +1,68 @@
+# NM-4410 - Job Search: Fulfillment details, Item Search (parent NM-3936).
+# The fulfillment details with Inventory Sources filled and its list, Item
+# Search while it loads and its results, a product opened, a quantity typed
+# and Add clicked, a Major Category chosen, the next page, the rows-per-page
+# list, and Select Inventory Sources listing the preferred inventory. Add
+# sends nothing and changes nothing on screen here.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4410/config/audit-steps/fulfillments/nm-4410-item-search.txt --office 1606
+#
+# No location in this environment has preferred inventory sources, and saving
+# them is accepted but not kept (the Location Settings tab for them is hidden).
+# So the page's lookup of them is still sent, and the page is handed
+# nm-4410-inventory-sources.json in place of the empty list: inventory 1101.
+# The lookup sends the same body as another call, so it is named by its server
+# action id (getPreferredInventorySourcesLookup); the id changes when the
+# application is rebuilt - find the new one in the page's scripts.
+
+Module: Fulfillments
+Submodule: item-search-nm-4410
+Output: reports/testid-audit-fulfillments
+Elements: all
+
+1. Answer "POST 7fdb73c4dfa5fb5a6648e283b3bef11cb25a97cdee" with "nm-4410-inventory-sources.json"
+# The fulfillment details: Inventory Sources and Item Search.
+2. Go to /navigator/locations/{office}/fulfillments/c6089085-0299-4cc4-0a84-18d3b7557497/4683/10219
+3. Wait for "css=main p:has-text('Sample Product')"
+4. Wait for "css=main button[role=combobox][data-slot=popover-trigger]:has-text('1101')"
+5. Audit inside "main" as "Fulfillment details - Inventory Sources filled"
+6. Click "css=main button[role=combobox][data-slot=popover-trigger]:has-text('1101') > svg"
+7. Wait for "css=[data-radix-popper-content-wrapper] [cmdk-list]"
+8. Audit inside "[data-radix-popper-content-wrapper]" as "Inventory Sources list open"
+9. Press "Escape"
+10. Click "css=main button[role=switch]"
+11. Type "mic" into "css=main input[placeholder^='Product']"
+12. Hold "POST searchText"
+13. Click "css=main button:text-is('Search')"
+14. Audit inside "main" as "Item Search - searching"
+15. Release "POST searchText"
+16. Wait up to 40 seconds for "css=main tr:has-text('Product 1')"
+17. Audit inside "main" as "Item Search results"
+18. Click "css=main tr:has-text('Product 1') button:text-is('▶')"
+19. Wait for "css=main tr:has-text('Product 1') button:text-is('▼')"
+20. Audit inside "main" as "Item Search - product opened"
+# Add turns on once the quantity box is left.
+21. Type "1" into "css=main tr:has-text('Product 1') input[type=number]"
+22. Press "Tab"
+23. Wait for "css=main tr:has-text('Product 1') button:text-is('Add'):not(:disabled)"
+24. Audit inside "main" as "Item Search - quantity typed"
+25. Click "css=main tr:has-text('Product 1') button:text-is('Add')"
+26. Wait 3 seconds
+27. Audit inside "main" as "Item Search - Add clicked"
+28. Click "css=main div:has(> span:has-text('Cable')) > button[role=checkbox]"
+29. Wait up to 40 seconds for "css=main div:has(> span:has-text('Cable')) > button[role=checkbox][data-state=checked]"
+30. Wait up to 40 seconds for "css=main tr:has-text('Product 1')"
+31. Audit inside "main" as "Item Search - Cable chosen"
+32. Click "css=main button[aria-label='Go to next page']"
+33. Wait up to 40 seconds for "css=main button[aria-label='Go to first page']:not(:disabled)"
+34. Audit inside "main" as "Item Search - page 2"
+35. Click "css=main button[role=combobox]:has-text('20')"
+36. Wait for "css=[role=listbox]"
+37. Audit inside "[role=listbox]" as "Item Search rows per page list open"
+38. Press "Escape"
+# Select Inventory Sources now lists the preferred inventory.
+39. Click "css=main p:has-text('Sample Product')"
+40. Wait for "css=main h2:text-is('Edit Job Item')"
+41. Click "css=main button:text-is('Edit Inventory Sources')"
+42. Wait for "css=[role=dialog] input[type=checkbox]"
+43. Audit inside "[role=dialog]:has(input[type=checkbox])" as "Select Inventory Sources - with a preferred inventory"
+44. Press "Escape"

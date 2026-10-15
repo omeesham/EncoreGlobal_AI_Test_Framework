@@ -1,0 +1,37 @@
+# NM-4410 - Job Search: Source Inventories (parent NM-3936).
+# Job Search with Source Inventories filled and its list: open, no match,
+# filtered, an inventory unselected.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4410/config/audit-steps/fulfillments/nm-4410-source-inventories.txt --office 1606
+#
+# No location in this environment has preferred inventory sources, and saving
+# them is accepted but not kept (the Location Settings tab for them is hidden).
+# So the page's lookup of them is still sent, and the page is handed
+# nm-4410-inventory-sources.json in place of the empty list: inventory 1101.
+# The lookup sends the same body as another call, so it is named by its server
+# action id (getPreferredInventorySourcesLookup); the id changes when the
+# application is rebuilt - find the new one in the page's scripts.
+
+Module: Fulfillments
+Submodule: source-inventories-nm-4410
+Output: reports/testid-audit-fulfillments
+Elements: all
+
+1. Answer "POST 7fdb73c4dfa5fb5a6648e283b3bef11cb25a97cdee" with "nm-4410-inventory-sources.json"
+# Job Search: Source Inventories.
+2. Go to /navigator/locations/{office}/fulfillments
+3. Wait for "css=main thead button:has-text('Order')"
+4. Wait for "css=main button[role=combobox][data-slot=popover-trigger]:has-text('On-Site Inventory')"
+5. Audit inside "main" as "Fulfillments - Source Inventories filled"
+6. Click "css=main button[role=combobox][data-slot=popover-trigger]:has-text('On-Site Inventory') > svg"
+7. Wait for "css=[data-radix-popper-content-wrapper] [cmdk-list]"
+8. Audit inside "[data-radix-popper-content-wrapper]" as "Source Inventories list open"
+9. Type "zzqq" into "css=[data-radix-popper-content-wrapper] input[cmdk-input]"
+10. Wait for "css=[data-radix-popper-content-wrapper]:not(:has([cmdk-item]))"
+11. Audit inside "[data-radix-popper-content-wrapper]" as "Source Inventories list - no match"
+12. Type "1101" into "css=[data-radix-popper-content-wrapper] input[cmdk-input]"
+13. Wait for "css=[data-radix-popper-content-wrapper] [cmdk-item]"
+14. Audit inside "[data-radix-popper-content-wrapper]" as "Source Inventories list - filtered"
+15. Click "css=[data-radix-popper-content-wrapper] [cmdk-item] >> nth=0"
+16. Audit inside "[data-radix-popper-content-wrapper]" as "Source Inventories list - an inventory unselected"
+17. Press "Escape"
+18. Audit inside "main" as "Fulfillments - Source Inventories changed"

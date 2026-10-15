@@ -1,0 +1,56 @@
+# NM-4410 - Job Search (Warehouses > Fulfillments) (parent NM-3936).
+# The page, the Pull Date Range calendar and a date chosen, Order ID and Job
+# ID, Source Inventories, a search while it loads and its result, a column's
+# sort menu and the grid sorted, the rows-per-page list and a page size chosen,
+# and Reset. Order, Job and Customer open the same sort menu; the other
+# columns do not sort.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4410/config/audit-steps/fulfillments/nm-4410-job-search.txt --office 1606
+#
+# Changes no data: only searches are run. No location in this environment has
+# preferred inventory sources, so Source Inventories stays an empty bar and
+# every search ends in "No results." - a fulfillment created from this page
+# is not returned either.
+
+Module: Fulfillments
+Submodule: job-search-nm-4410
+Output: reports/testid-audit-fulfillments
+Elements: all
+
+1. Go to /navigator/locations/{office}/fulfillments
+2. Wait for "css=main thead button:has-text('Order')"
+3. Audit inside "main" as "Fulfillments"
+# Pull Date Range: a two-month calendar; a click sets the start of the range.
+4. Click "css=main button#date"
+5. Wait for "css=[data-radix-popper-content-wrapper] [role=grid]"
+6. Audit inside "[data-radix-popper-content-wrapper]" as "Pull Date Range calendar open"
+7. Click "css=[data-radix-popper-content-wrapper] button[aria-label='Go to the Next Month']"
+8. Audit inside "[data-radix-popper-content-wrapper]" as "Pull Date Range calendar - next month"
+9. Click "css=[data-radix-popper-content-wrapper] td[role=gridcell] button >> nth=10"
+10. Wait for "css=body:not(:has([data-radix-popper-content-wrapper] [role=grid]))"
+11. Audit inside "main" as "Pull date chosen"
+12. Type "4683" into "css=main input[aria-label='Order ID']"
+13. Type "10219" into "css=main input[aria-label='Job ID']"
+14. Audit inside "main" as "Order ID and Job ID typed"
+# A search while its answer is held, then answered.
+15. Hold "POST deliveryPickup"
+16. Click "css=main button:text-is('Search')"
+17. Audit inside "main" as "Searching"
+18. Release "POST deliveryPickup"
+19. Wait for "css=main tbody tr:has-text('No results')"
+20. Audit inside "main" as "Search done - no results"
+# Sorting and rows per page.
+21. Click "css=main thead button:has-text('Order')"
+22. Audit inside "[role=menu]" as "Column sort menu open"
+23. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+24. Wait for "css=body:not(:has([role=menu]))"
+25. Wait for "css=main tbody tr:has-text('No results')"
+26. Audit inside "main" as "Grid sorted (Order, descending)"
+27. Click "css=main button[role=combobox]:has-text('50')"
+28. Audit inside "[role=listbox]" as "Rows per page list open"
+29. Click "css=[role=listbox] [role=option]:has-text('10')"
+30. Wait for "css=main button[role=combobox]:has-text('10')"
+31. Audit inside "main" as "10 rows per page"
+# Reset puts the dates and IDs back.
+32. Click "css=main button:text-is('Reset')"
+33. Wait for "css=main input[aria-label='Order ID'][value='']"
+34. Audit inside "main" as "Filters reset"

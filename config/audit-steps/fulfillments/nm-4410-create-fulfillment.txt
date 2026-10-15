@@ -1,0 +1,106 @@
+# NM-4410 - Job Search: Create Fulfillment (parent NM-3936).
+# The Fulfillment Details form, Save with nothing filled, the Select a Job
+# dialog (status list, Out Of Market, Use Date Range, the start-date calendar
+# with its shortcuts, no match, Reset, results, its column menu, a job
+# chosen), the Select a Venue dialog for Delivery Location (no match,
+# results, its column menu, a venue chosen) and Destination Location, the
+# Select Customer dialog, the form filled, the form while it saves, and the
+# message once the fulfillment is created.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4410/config/audit-steps/fulfillments/nm-4410-create-fulfillment.txt --office 1606
+#
+# CREATES ONE FULFILLMENT each run (job 10219, order 4683 "NASAA Assembly
+# 2026", delivery and destination 1606). Saving is allowed in this
+# environment. 1606 has no customers, so Select Customer shows "No results."
+# here; nm-4410-select-customer.txt covers it with results at 1101.
+
+Module: Fulfillments
+Submodule: create-fulfillment-nm-4410
+Output: reports/testid-audit-fulfillments
+Elements: all
+
+1. Go to /navigator/locations/{office}/fulfillments
+2. Wait for "css=main thead button:has-text('Order')"
+3. Click "css=main button:text-is('Create Fulfillment')"
+4. Wait for "css=[role=dialog] input[name='orderJobId']"
+5. Audit inside "[role=dialog]:has(input[name='orderJobId'])" as "Fulfillment Details"
+6. Click "css=[role=dialog] button:text-is('Save')"
+7. Wait for "css=[role=dialog] [data-slot=form-message]"
+8. Audit inside "[role=dialog]:has(input[name='orderJobId'])" as "Fulfillment Details - Save with nothing filled"
+# Job: the Select a Job dialog.
+9. Click "css=[role=dialog] input[name='orderJobId']"
+10. Wait for "css=[role=dialog]:has(h2:text-is('Select a Job')) input[placeholder='Job Number']"
+11. Audit inside "[role=dialog]:has(input[placeholder='Job Number'])" as "Select a Job"
+12. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) button[role=combobox]"
+13. Audit inside "[role=listbox]" as "Select a Job - status list open"
+14. Press "Escape"
+15. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) button[aria-label='Open popover'] >> nth=0"
+16. Wait for "css=[data-radix-popper-content-wrapper] [role=grid]"
+17. Audit inside "[data-radix-popper-content-wrapper]" as "Select a Job - start date calendar open"
+18. Press "Escape"
+19. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) button[role=checkbox] >> nth=0"
+20. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) button[role=checkbox] >> nth=1"
+21. Audit inside "[role=dialog]:has(input[placeholder='Job Number'])" as "Select a Job - Out Of Market on, Use Date Range off"
+22. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) button[role=checkbox] >> nth=0"
+23. Type "zzqq" into "css=[role=dialog]:has(h2:text-is('Select a Job')) input[placeholder='Job Number']"
+24. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) button:text-is('Search')"
+25. Wait up to 40 seconds for "css=[role=dialog]:has(h2:text-is('Select a Job')) tbody tr:has-text('No results')"
+26. Audit inside "[role=dialog]:has(input[placeholder='Job Number'])" as "Select a Job - no match"
+27. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) button:text-is('Reset')"
+28. Audit inside "[role=dialog]:has(input[placeholder='Job Number'])" as "Select a Job - reset"
+29. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) button[role=checkbox] >> nth=1"
+30. Type "4683" into "css=[role=dialog]:has(h2:text-is('Select a Job')) input[placeholder='Order Number']"
+31. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) button:text-is('Search')"
+32. Wait up to 40 seconds for "css=[role=dialog]:has(h2:text-is('Select a Job')) tbody tr:has-text('10219')"
+33. Audit inside "[role=dialog]:has(input[placeholder='Job Number'])" as "Select a Job - results"
+34. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) thead button:has-text('Order Name')"
+35. Audit inside "[role=menu]" as "Select a Job - column menu open"
+36. Press "Escape"
+37. Click "css=[role=dialog]:has(h2:text-is('Select a Job')) tbody tr:has-text('10219')"
+38. Wait for "css=body:not(:has([role=dialog]:has(h2:text-is('Select a Job'))))"
+# Delivery Location: the Select a Venue dialog.
+39. Click "css=[role=dialog] input[placeholder='Select Delivery Location']"
+40. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+41. Audit inside "[role=dialog]:has(input[placeholder^='Venue ID'])" as "Select a Venue"
+42. Type "zzqqxx" into "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+43. Press "Enter"
+44. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) button:text-is('Search')"
+45. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('No results')"
+46. Audit inside "[role=dialog]:has(input[placeholder^='Venue ID'])" as "Select a Venue - no match"
+47. Type "Washington" into "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+48. Press "Enter"
+49. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) button:text-is('Search')"
+50. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('1606')"
+51. Audit inside "[role=dialog]:has(input[placeholder^='Venue ID'])" as "Select a Venue - results"
+52. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) thead button:has-text('City')"
+53. Audit inside "[role=menu]" as "Select a Venue - column menu open"
+54. Press "Escape"
+55. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('1606') >> nth=0"
+56. Wait for "css=body:not(:has([role=dialog]:has(h2:text-is('Select a Venue'))))"
+# Destination Location: the same dialog.
+57. Click "css=[role=dialog] input[placeholder='Select Destination Location']"
+58. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+59. Type "1606" into "css=[role=dialog]:has(h2:text-is('Select a Venue')) input"
+60. Press "Enter"
+61. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) button:text-is('Search')"
+62. Wait for "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('1606')"
+63. Click "css=[role=dialog]:has(h2:text-is('Select a Venue')) tbody tr:has-text('1606') >> nth=0"
+64. Wait for "css=body:not(:has([role=dialog]:has(h2:text-is('Select a Venue'))))"
+# Customer: the Select Customer dialog (no customers at 1606).
+65. Click "css=[role=dialog] input[placeholder='Select Customer']"
+66. Wait for "css=[role=dialog]:has(h2:text-is('Select Customer')) input"
+67. Audit inside "[role=dialog]:has(input[placeholder='Search Customer'])" as "Select Customer"
+68. Click "css=[role=dialog]:has(h2:text-is('Select Customer')) button:text-is('Search')"
+69. Wait for "css=[role=dialog]:has(h2:text-is('Select Customer')) tbody tr:has-text('No results')"
+70. Audit inside "[role=dialog]:has(input[placeholder='Search Customer'])" as "Select Customer - no results"
+71. Press "Escape"
+72. Wait for "css=body:not(:has([role=dialog]:has(h2:text-is('Select Customer'))))"
+73. Audit inside "[role=dialog]:has(input[name='orderJobId'])" as "Fulfillment Details - filled"
+# Saved: the form while it saves, then the message.
+74. Hold "POST destinationLocation"
+75. Click "css=[role=dialog] button:text-is('Save')"
+76. Audit inside "[role=dialog]:has(input[name='orderJobId'])" as "Fulfillment Details - saving"
+77. Release "POST destinationLocation"
+78. Wait up to 20 seconds for "css=[data-sonner-toast]:has-text('Fulfillment created')"
+79. Audit inside "body > section" as "Fulfillment created - message"
+80. Wait for "css=body:not(:has([role=dialog]))"
+81. Audit inside "main" as "Fulfillment created"

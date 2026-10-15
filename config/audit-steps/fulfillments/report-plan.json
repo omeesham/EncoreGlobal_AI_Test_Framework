@@ -1,0 +1,17 @@
+{
+  "title": "Missing data-testid - Job Search (NM-4410)",
+  "module": "Fulfillments",
+  "office": "1606",
+  "officeLabel": "1606 - Embassy Suites by Hilton Washington DC Convention Center",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-fulfillments",
+  "output": "reports/testid-audit-fulfillments/NM-4410-job-search-1606",
+  "fileName": "NM-4410-job-search-missing-testids-1606",
+  "submodules": [
+    { "ticket": "NM-4410-JS", "name": "Job Search", "reports": ["job-search-nm-4410", "search-results-nm-4410", "source-inventories-nm-4410"] },
+    { "ticket": "NM-4410-CF", "name": "Create Fulfillment", "reports": ["create-fulfillment-nm-4410", "select-customer-nm-4410@1101"] },
+    { "ticket": "NM-4410-FD", "name": "Fulfillment Details", "reports": ["fulfillment-details-nm-4410", "item-search-nm-4410"] },
+    { "ticket": "NM-4410-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4410"] }
+  ],
+  "ownership": ["NM-4410-JS", "NM-4410-CF", "NM-4410-FD", "NM-4410-NAV"]
+}
