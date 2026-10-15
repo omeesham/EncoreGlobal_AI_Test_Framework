@@ -29,6 +29,8 @@
  *   }
  *
  * submodules - display order; each lists the Submodule values of its steps files.
+ *              "name@1101" reads that one report from another office, for a view
+ *              that only that office can show (its data exists nowhere else).
  * ownership  - most specific ticket first; an element seen by several goes to the first.
  * assign     - optional: move one element to another ticket, for a control that is
  *              scanned on one ticket's screen but belongs to another's (a button
@@ -188,7 +190,8 @@ function collect(plan, reportsDir) {
     const submodule = byTicket[ticket];
     if (!submodule) throw new Error('ownership names ' + ticket + ', which is not in submodules.');
     for (const reportName of submodule.reports) {
-      const file = findReport(reportsDir, moduleSlug, reportName, plan.office);
+      const [name, office] = reportName.split('@');
+      const file = findReport(reportsDir, moduleSlug, name, office || plan.office);
       const { findings, tagged, stoppedAt } = JSON.parse(fs.readFileSync(file, 'utf8'));
       if (stoppedAt) console.warn('Warning: ' + path.basename(file) + ' is incomplete - its walk ' + stoppedAt.replace(/^Step/, 'stopped at step'));
       loaded.push({ ticket, findings, tagged: tagged || [] });

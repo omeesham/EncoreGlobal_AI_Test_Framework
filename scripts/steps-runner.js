@@ -51,6 +51,12 @@
  * a field changed, such as a date moved by the browser's time zone, the file
  * holds the stored value. The path is relative to the steps file.
  *
+ * Answer "<url part>" with "<file>" lets every matching request reach the
+ * server, then hands the page the JSON file in place of the result - for a
+ * screen whose data this environment cannot hold, such as search results its
+ * backend never returns. A Next.js server action keeps its reply frame and
+ * only its result is replaced. The path is relative to the steps file.
+ *
  * "Elements: all" beside Module asks for every element, not only controls:
  * text, containers, images, and elements in the DOM that are not shown.
  *
@@ -93,6 +99,7 @@ const STEP_PATTERNS = [
   { re: /^release\s+(.+)$/i, build: (m) => ({ verb: 'release', target: unquote(m[1]) }) },
   { re: /^fail\s+(.+)$/i, build: (m) => ({ verb: 'fail', target: unquote(m[1]) }) },
   { re: /^send\s+(.+?)\s+with\s+(.+)$/i, build: (m) => ({ verb: 'send', target: unquote(m[1]), value: unquote(m[2]) }) },
+  { re: /^answer\s+(.+?)\s+with\s+(.+)$/i, build: (m) => ({ verb: 'answer', target: unquote(m[1]), value: unquote(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+?)\s+as\s+(["'“‘].+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]), label: unquote(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]) }) },
   { re: /^audit\s+here\s+as\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: '', label: unquote(m[1]) }) },
@@ -136,7 +143,7 @@ function parseSteps(text) {
       throw new Error(
         'Line ' + (index + 1) + ' of the steps file is not a step I understand: "' + line + '".'
         + ' Supported: Go to <url>, Click "<label>", Type "<value>" into "<label>",'
-        + ' Select "<option>" from "<label>", Wait for "<label>", Wait <N> seconds, Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Drag "<label>" to "<label>", Hold "<url part>", Release "<url part>", Fail "<url part>", Send "<url part>" with "<file>", Audit here,'
+        + ' Select "<option>" from "<label>", Wait for "<label>", Wait <N> seconds, Press "<key>", Hover "<label>", Upload "<file>" via "<label>", Drag "<label>" to "<label>", Hold "<url part>", Release "<url part>", Fail "<url part>", Send "<url part>" with "<file>", Answer "<url part>" with "<file>", Audit here,'
         + ' Audit inside "<selector>" [as "<state>"].'
       );
     }
@@ -153,7 +160,7 @@ function parseStepsFile(filePath) {
   const plan = parseSteps(fs.readFileSync(filePath, 'utf8'));
   // An uploaded file is named relative to the steps file, wherever the run starts from.
   for (const step of plan.steps) {
-    if (step.verb === 'upload' || step.verb === 'send') step.value = path.resolve(path.dirname(filePath), step.value);
+    if (step.verb === 'upload' || step.verb === 'send' || step.verb === 'answer') step.value = path.resolve(path.dirname(filePath), step.value);
   }
   return plan;
 }
@@ -192,12 +199,14 @@ function isHolding(page) {
  * Matches "<text>" or "<METHOD> <text>" against a request. The text is looked
  * for in the address and in the body sent; a method in front keeps only
  * requests sent with it - for a page that loads its data by posting to its own
- * address, told apart by what each one sends.
+ * address, told apart by what each one sends. The text may also be a Next.js
+ * server action id, for two actions that send the same body.
  */
 function requestMatcher(part) {
   const [, method, text] = part.match(/^(?:(GET|POST|PUT|PATCH|DELETE)\s+)?(.+)$/i);
   return (request) => (!method || request.method() === method.toUpperCase())
-    && (request.url().includes(text) || (request.postData() || '').includes(text));
+    && (request.url().includes(text) || (request.postData() || '').includes(text)
+      || request.headers()['next-action'] === text);
 }
 
 /**
@@ -232,6 +241,26 @@ async function sendWithFields(page, part, file) {
     if (!matches(request)) return route.fallback();
     const body = mergeFields(JSON.parse(request.postData() || '{}'), fields);
     return route.fallback({ postData: JSON.stringify(body) });
+  });
+}
+
+/**
+ * Answers every matching request with the result in `file`. The request still
+ * reaches the server, so the reply keeps what the page checks besides the data
+ * (a server action's frame names the build); only the result is replaced.
+ */
+async function answerRequests(page, part, file) {
+  const matches = requestMatcher(part);
+  const result = JSON.stringify(JSON.parse(fs.readFileSync(file, 'utf8')));
+  await page.route('**/*', async (route) => {
+    if (!matches(route.request())) return route.fallback();
+    const response = await route.fetch();
+    const type = response.headers()['content-type'] || '';
+    // A server action replies in lines "<id>:<value>"; line 1 is the action's result.
+    const body = type.includes('text/x-component')
+      ? (await response.text()).replace(/^1:.*$/m, () => '1:' + result)
+      : result;
+    return route.fulfill({ response, body });
   });
 }
 
@@ -308,6 +337,8 @@ async function executeSteps(page, steps, options = {}) {
         await failRequests(page, step.target);
       } else if (step.verb === 'send') {
         await sendWithFields(page, step.target, step.value);
+      } else if (step.verb === 'answer') {
+        await answerRequests(page, step.target, step.value);
       } else if (step.verb === 'drag') {
         const source = resolveLocator(page, step.value);
         const target = resolveLocator(page, step.target);
