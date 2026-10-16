@@ -9,7 +9,8 @@
     "SCT": { "name": "service-charge-text", "display": "Service Charge Text", "dir": "service-charge-text" },
     "SVC": { "name": "service-charge", "display": "Service Charge", "dir": "service-charge" },
     "DSM": { "name": "discount-matrix", "display": "Discount Matrix", "dir": "discount-matrix" },
-    "ISR": { "name": "item-search", "display": "Item Search", "dir": "item-search" }
+    "ISR": { "name": "item-search", "display": "Item Search", "dir": "item-search" },
+    "MDP": { "name": "multiday-pricing", "display": "Multiday Pricing", "dir": "multiday-pricing" }
   },
   "submodules": {
     "LOC": {
@@ -72,6 +73,9 @@
       "APC": { "name": "product_code", "display": "Add Product Code", "sheet": "item_search_add_product_code", "mdBasename": "item_search_add_product_code_test_cases", "dir": "add-product-code" },
       "PGR": { "name": "product_groups", "display": "Search For Product Groups", "sheet": "item_search_product_groups", "mdBasename": "item_search_product_groups_test_cases", "dir": "search-for-product-groups" },
       "APG": { "name": "product_groups", "display": "Create new Product Groups", "sheet": "item_search_add_product_group", "mdBasename": "item_search_add_product_group_test_cases", "dir": "create-new-product-groups" }
+    },
+    "MDP": {
+      "RUL": { "name": "rules", "display": "Multiday Pricing Rules", "sheet": "multiday_pricing_rules", "mdBasename": "multiday_pricing_rules_test_cases" }
     }
   },
   "sheetNameNotes": {
@@ -84,7 +88,6 @@
     "item_search_product_filters": "shortened from item_search_product_search_filters (34 chars) to fit the 31-char Excel sheet-name cap — the redundant second 'search' dropped; by-design, approved 2026-09-03"
   },
   "idRenames": {
-    "$comment": "Old → new TC ID map summary (full map: clients/encore/specs_planning/_internal/id-audit-2026-06-10/id-rename-map.json). Historical artifacts (plans/done, dated _internal evidence) intentionally keep old IDs.",
     "TC-LOC-CPR-001..030": "TC-CPR-SRC-001..030 (Search band 0xx)",
     "TC-LOC-CPR-101..125": "TC-CPR-STR-001..025 (Strategy band 1xx)",
     "TC-LOC-CPR-201..220": "TC-CPR-DET-001..020 (Detail band 2xx)",
@@ -99,7 +102,6 @@
     "TC-LOC-LI-SKIP-BILLING": "TC-LOC-LI-070 (restores the relocated 070 slot it physically occupies)"
   },
   "bugGrammar": {
-    "$comment": "Canonical: BUG-{MODULE}-{SUBMODULE}-{NNN} using the SAME module/submodule codes as TC IDs. LR-034 updated 2026-06-11. Live renames applied; historical references in plans/done + dated _internal artifacts keep old IDs and resolve via formerIds below.",
     "formerIds": {
       "BUG-CPR-001": "BUG-CPR-OVR-001",
       "BUG-LOC-SHR-001": "BUG-LOC-SSL-001",
@@ -115,8 +117,7 @@
     "unresolvedHistorical": {
       "$comment": "No live references, no JSON on disk, subject not verifiable without assumption — historical-only IDs. If any is resurrected, verify its subject and re-file under the canonical grammar.",
       "ids": ["BUG-LS-001", "BUG-LOC-BI-001", "BUG-HIS-CDWNA-001", "BUG-XYZ-001"]
-    },
-    "durabilityNote": "Only clients/encore/reports/bugs/BUG-CPR-OVR-001.json exists on disk (2026-06-11). JSON records for earlier bugs were lost with the gitignored root reports/ directory; their evidence lives in the dated _internal artifacts and MD/spec annotations. New filings go to clients/encore/reports/bugs/ (LR-034 path corrected 2026-06-11)."
+    }
   },
   "gapLedger": {
     "TC-LOC-LI-049": { "cause": "DELETED", "evidence": "in-file '[removed]' note" },
