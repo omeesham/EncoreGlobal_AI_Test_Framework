@@ -9,7 +9,8 @@
     "SCT": { "name": "service-charge-text", "display": "Service Charge Text", "dir": "service-charge-text" },
     "SVC": { "name": "service-charge", "display": "Service Charge", "dir": "service-charge" },
     "DSM": { "name": "discount-matrix", "display": "Discount Matrix", "dir": "discount-matrix" },
-    "ISR": { "name": "item-search", "display": "Item Search", "dir": "item-search" }
+    "ISR": { "name": "item-search", "display": "Item Search", "dir": "item-search" },
+    "MDP": { "name": "multiday-pricing", "display": "Multiday Pricing", "dir": "multiday-pricing" }
   },
   "submodules": {
     "LOC": {
@@ -72,6 +73,9 @@
       "APC": { "name": "product_code", "display": "Add Product Code", "sheet": "item_search_add_product_code", "mdBasename": "item_search_add_product_code_test_cases", "dir": "add-product-code" },
       "PGR": { "name": "product_groups", "display": "Search For Product Groups", "sheet": "item_search_product_groups", "mdBasename": "item_search_product_groups_test_cases", "dir": "search-for-product-groups" },
       "APG": { "name": "product_groups", "display": "Create new Product Groups", "sheet": "item_search_add_product_group", "mdBasename": "item_search_add_product_group_test_cases", "dir": "create-new-product-groups" }
+    },
+    "MDP": {
+      "RUL": { "name": "rules", "display": "Multiday Pricing Rules", "sheet": "multiday_pricing_rules", "mdBasename": "multiday_pricing_rules_test_cases" }
     }
   },
   "sheetNameNotes": {
