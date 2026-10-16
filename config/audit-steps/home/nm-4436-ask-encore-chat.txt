@@ -1,0 +1,81 @@
+# NM-4436 - Home Page: Ask Encore conversation (parent NM-3936).
+# The Ask Encore panel opened from the Home page: its header tooltips, Voice
+# input without a microphone, Conversation mode, a question typed, the panel
+# while it answers and the answer (a location card), the answer's tooltips, the
+# feedback message after Like, the Dislike feedback form, Read aloud, an answer
+# with a product table, a text answer from the knowledge base, and Minimize.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4436/config/audit-steps/home/nm-4436-ask-encore-chat.txt --office 1606
+#
+# SENDS THREE QUESTIONS each run, the three the panel suggests, and rates the
+# first answer up; the Dislike form is closed with Skip. The run has no
+# microphone, so Voice input and Conversation mode show their microphone
+# messages. Full Screen (the separate chat page) is not followed.
+
+Module: Home
+Submodule: ask-encore-chat-nm-4436
+Output: reports/testid-audit-home
+Elements: all
+
+1. Go to /navigator/locations/{office}/home
+2. Wait for "css=main a[href$='/inbox'] h3"
+3. Click "css=[data-slot=sidebar-menu-button]:has-text('Ask Encore')"
+4. Wait for "css=textarea[aria-label=input]"
+5. Hover "css=main#skip + div button[aria-label='Full Screen']"
+6. Audit inside "[data-radix-popper-content-wrapper]" as "Ask Encore - Full Screen tooltip"
+7. Hover "css=main#skip + div button[aria-label='Minimize']"
+8. Audit inside "[data-radix-popper-content-wrapper]" as "Ask Encore - Minimize tooltip"
+9. Hover "css=main#skip + div button[aria-label='Close']"
+10. Audit inside "[data-radix-popper-content-wrapper]" as "Ask Encore - Close tooltip"
+# Voice input and Conversation mode need a microphone.
+11. Click "css=main#skip + div button[aria-label='Voice input']"
+12. Wait for "css=main#skip + div :text('We could not start the microphone')"
+13. Audit inside "main#skip + div" as "Ask Encore - microphone unavailable"
+14. Click "css=main#skip + div button:text-is('Dismiss')"
+15. Click "css=main#skip + div button[aria-label='Start Conversation mode']"
+16. Wait up to 20 seconds for "css=main#skip + div :text('Recording failed')"
+17. Audit inside "main#skip + div" as "Ask Encore - Conversation mode"
+18. Click "css=main#skip + div button:has-text('Exit Conversation mode')"
+19. Wait for "css=main#skip + div button[aria-label='Start Conversation mode']"
+# A question and its answer.
+20. Type "Give me an overview of this location." into "css=textarea[aria-label=input]"
+21. Audit inside "main#skip + div" as "Ask Encore - question typed"
+22. Hold "POST chat/stream"
+23. Click "css=main#skip + div button[aria-label='Send message']"
+24. Audit inside "main#skip + div" as "Ask Encore - waiting for the answer"
+25. Release "POST chat/stream"
+26. Wait up to 120 seconds for "css=main#skip + div button[aria-label='Regenerate']"
+27. Audit inside "main#skip + div" as "Ask Encore - answer"
+28. Hover "css=main#skip + div button[aria-label='Copy message'] >> nth=-1"
+29. Audit inside "[data-radix-popper-content-wrapper]" as "Ask Encore - Copy tooltip"
+30. Hover "css=main#skip + div button[aria-label='Like']"
+31. Audit inside "[data-radix-popper-content-wrapper]" as "Ask Encore - Like tooltip"
+32. Hover "css=main#skip + div button[aria-label='Dislike']"
+33. Audit inside "[data-radix-popper-content-wrapper]" as "Ask Encore - Dislike tooltip"
+34. Hover "css=main#skip + div button[aria-label='Read aloud']"
+35. Audit inside "[data-radix-popper-content-wrapper]" as "Ask Encore - Read aloud tooltip"
+36. Hover "css=main#skip + div button[aria-label='Regenerate']"
+37. Audit inside "main#skip + div" as "Ask Encore - Regenerate pointed at"
+38. Click "css=main#skip + div button[aria-label='Like']"
+39. Wait for "css=[data-sonner-toast]:has-text('feedback was submitted')"
+40. Audit inside "body > section" as "Ask Encore - feedback submitted message"
+41. Click "css=main#skip + div button[aria-label='Dislike']"
+42. Wait for "css=:text('What went wrong?')"
+43. Audit here as "Ask Encore - Dislike feedback form"
+44. Click "css=button:text-is('Skip')"
+45. Click "css=main#skip + div button[aria-label='Read aloud']"
+46. Wait 3 seconds
+47. Audit inside "main#skip + div" as "Ask Encore - reading aloud"
+# The other two suggested questions: a product table, and a text answer.
+48. Type "Give me a list of products for this location." into "css=textarea[aria-label=input]"
+49. Click "css=main#skip + div button[aria-label='Send message']"
+50. Wait up to 180 seconds for "css=main#skip + div table"
+51. Wait up to 180 seconds for "css=main#skip + div:not(:has(button[aria-label='Stop generating']))"
+52. Audit inside "main#skip + div" as "Ask Encore - product list answer"
+53. Type "Summarize our return policy from the knowledge base." into "css=textarea[aria-label=input]"
+54. Click "css=main#skip + div button[aria-label='Send message']"
+55. Wait 5 seconds
+56. Wait up to 180 seconds for "css=main#skip + div:not(:has(button[aria-label='Stop generating']))"
+57. Audit inside "main#skip + div" as "Ask Encore - knowledge base answer"
+58. Click "css=main#skip + div button[aria-label='Minimize']"
+59. Wait for "css=body:not(:has(textarea[aria-label=input]))"
+60. Audit inside "[data-slot=sidebar]" as "Sidebar - Ask Encore minimized"

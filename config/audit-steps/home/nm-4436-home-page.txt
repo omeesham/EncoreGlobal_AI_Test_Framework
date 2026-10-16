@@ -1,0 +1,33 @@
+# NM-4436 - Home Page (parent NM-3936).
+# The Dashboard page: its header and information tooltip, the Navigator Cloud
+# banner, the Get Started cards (each one pointed at), and the Cloud Analytics
+# panel.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4436/config/audit-steps/home/nm-4436-home-page.txt --office 1606
+#
+# Changes no data. Each Get Started card is a link to another page; only what
+# the Home page itself shows is audited, so the cards are pointed at, not
+# followed.
+
+Module: Home
+Submodule: home-page-nm-4436
+Output: reports/testid-audit-home
+Elements: all
+
+1. Go to /navigator/locations/{office}/home
+2. Wait for "css=main a[href$='/inbox'] h3"
+3. Audit inside "main" as "Home"
+4. Hover "css=main button[aria-label='More information']"
+5. Wait for "css=[data-radix-popper-content-wrapper]"
+6. Audit inside "[data-radix-popper-content-wrapper]" as "Dashboard information tooltip"
+7. Hover "css=main a[href$='/inbox']"
+8. Audit inside "main" as "Inbox card pointed at"
+9. Hover "css=main a[href$='/customers']"
+10. Audit inside "main" as "Customers card pointed at"
+11. Hover "css=main a[href$='/products']"
+12. Audit inside "main" as "Products card pointed at"
+13. Hover "css=main a[href$='/assets']"
+14. Audit inside "main" as "Assets card pointed at"
+15. Hover "css=main a[href$='/fulfillments']"
+16. Audit inside "main" as "Warehouses card pointed at"
+17. Hover "css=main a[href$='/settings']"
+18. Audit inside "main" as "Settings card pointed at"

@@ -1,0 +1,16 @@
+{
+  "title": "Missing data-testid - Home Page (NM-4436)",
+  "module": "Home",
+  "office": "1606",
+  "officeLabel": "1606 - Embassy Suites by Hilton Washington DC Convention Center",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-home",
+  "output": "reports/testid-audit-home/NM-4436-home-page-1606",
+  "fileName": "NM-4436-home-page-missing-testids-1606",
+  "submodules": [
+    { "ticket": "NM-4436-HP", "name": "Home Page", "reports": ["home-page-nm-4436"] },
+    { "ticket": "NM-4436-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4436"] },
+    { "ticket": "NM-4436-AE", "name": "Ask Encore Conversation", "reports": ["ask-encore-chat-nm-4436"] }
+  ],
+  "ownership": ["NM-4436-HP", "NM-4436-NAV", "NM-4436-AE"]
+}
