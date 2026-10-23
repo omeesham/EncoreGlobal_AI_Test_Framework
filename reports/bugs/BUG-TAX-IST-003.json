@@ -1,0 +1,21 @@
+{
+  "id": "BUG-TAX-IST-003",
+  "title": "Country, Tax Group and Province dropdowns have no accessible name; both date inputs are named 'Select date' (axe button-name, critical)",
+  "module": "InternationalTaxSetup",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-10-22",
+  "requirementSource": "WCAG 2.1 SC 4.1.2 (Name, Role, Value) and 1.3.1 (Info and Relationships).",
+  "stepsToReproduce": [
+    "Open International Tax Setup.",
+    "Inspect the Country / Tax Group / Province triggers (#international-tax-setup-country, -tax-group, -province) with a screen reader or the accessibility tree.",
+    "Inspect the two date inputs."
+  ],
+  "expectedBehavior": "Each dropdown is announced by its caption ('Country', 'Tax Group', 'Province'); the two date inputs are distinguishable ('Search effective date' / 'Update effective date').",
+  "actualBehavior": "Captions are bare <span>s with no for/aria-labelledby, so the triggers are announced only by their value ('Mexico'). axe-core reports button-name (critical) on all three. Both date inputs have aria-label='Select date'.",
+  "affectedTests": [
+    "TC-TAX-IST-074",
+    "TC-TAX-IST-078"
+  ],
+  "suggestedFix": "Render captions as <label htmlFor={triggerId}> (or aria-labelledby) and give each date input a distinct aria-label."
+}

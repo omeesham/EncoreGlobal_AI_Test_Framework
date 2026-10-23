@@ -1,0 +1,864 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Tax menu entry opens the International Tax Setup page,,,,,Automated,Nikita Nangare,,,Heading 'International Tax Setup'; route contains international-tax-setup,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open office home</li>
+<li>2. Expand Tax in the sidebar</li>
+<li>3. Click International Tax Setup</li>
+</ol>",,,3. Heading 'International Tax Setup'; route contains international-tax-setup,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Direct route shows the search criteria, update section and results grid",,,,,Automated,Nikita Nangare,,,"Heading, Search Criteria panel, update section and grid visible",,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open the route directly</li>
+<li>2. Search Mexico / VAT / Baja California</li>
+</ol>",,,"2. Heading, Search Criteria panel, update section and grid visible",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Search Criteria panel offers Country, Tax Group, Province, Effective Date, Reset and Search",,,,,Automated,Nikita Nangare,,,"Country, Tax Group, Province, Effective Date, Reset, Search visible",,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open the page</li>
+<li>2. Inspect the Search Criteria panel</li>
+</ol>",,,"2. Country, Tax Group, Province, Effective Date, Reset, Search visible",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Update section offers Rate with a % suffix, its own Effective Date, Is Commission Taxable? and Apply",,,,,Automated,Nikita Nangare,,,"Rate with %, own Effective Date, Is Commission Taxable?, Apply; update date ≠ search date element",,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open the page</li>
+<li>2. Inspect the update section</li>
+</ol>",,,"2. Rate with %, own Effective Date, Is Commission Taxable?, Apply; update date ≠ search date element",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Results show Save, the records-found label and the documented columns in order",,,,,Automated,Nikita Nangare,,,"Columns Tax Type, Rate, Province, Effective Date, Is Commission Taxable, Apply; Save and 'records found' shown",,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search the fixture</li>
+<li>2. Read headers, Save, counter</li>
+</ol>",,,"2. Columns Tax Type, Rate, Province, Effective Date, Is Commission Taxable, Apply; Save and 'records found' shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search Effective Date defaults to business today,,,,,Automated,Nikita Nangare,,,Equals business today (IST_BUSINESS_TIMEZONE),,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open the page</li>
+<li>2. Read the search Effective Date</li>
+</ol>",,,2. Equals business today (IST_BUSINESS_TIMEZONE),,,,Master,S1620,Test Case (Steps),Regression,,,
+,Loading feedback shows while a search is pending and clears when results arrive,,,,,Automated,Nikita Nangare,,,Loading indicator or disabled Search while pending; rows after,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Hold the search response 6 s</li>
+<li>2. Click Search</li>
+</ol>",,,2. Loading indicator or disabled Search while pending; rows after,,,,Master,S1620,Test Case (Steps),Regression,,,
+,First search result is usable within the load budget,,,,,Automated,Nikita Nangare,,,Under 30 s budget,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Time open + fixture search</li>
+</ol>",,,1. Under 30 s budget,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tax Group and Province are unavailable until a Country is chosen,,,,,Automated,Nikita Nangare,,,Country pre-selected; no blank Country option — dependents never usable without a Country,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open the page</li>
+<li>2. Read Country and its options</li>
+</ol>",,,2. Country pre-selected; no blank Country option — dependents never usable without a Country,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing a Country loads that country\'s Tax Groups and Provinces,,,,,Automated,Nikita Nangare,,,Dependents enabled; VAT and Baja California offered; groups lookup carries countryId,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Select Mexico</li>
+<li>2. Read Tax Group and Province options</li>
+</ol>",,,2. Dependents enabled; VAT and Baja California offered; groups lookup carries countryId,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing Country refreshes the Tax Group and Province options,,,,,Automated,Nikita Nangare,,,Canadian options replace Mexican ones,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Select Mexico, read provinces</li>
+<li>2. Select Canada, read options</li>
+</ol>",,,2. Canadian options replace Mexican ones,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A stale previous-country Province is never submitted after a Country change,,,,,Automated,Nikita Nangare,,,Province no longer Baja California; no Mexican-province rows or ids submitted,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Select Mexico / VAT / Baja California</li>
+<li>2. Switch to Canada</li>
+<li>3. Click Search</li>
+</ol>",,,3. Province no longer Baja California; no Mexican-province rows or ids submitted,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search without Country is blocked,,,,,Automated,Nikita Nangare,,,Country still set after Reset; incomplete form sends no search (Search disabled),,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture</li>
+<li>2. Click Reset</li>
+<li>3. Try Search</li>
+</ol>",,,3. Country still set after Reset; incomplete form sends no search (Search disabled),,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search without Tax Group is blocked,,,,,Automated,Nikita Nangare,,,Tax Group auto-defaults to a valid Canadian group; no blank option,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Select Mexico</li>
+<li>2. Switch to Canada</li>
+<li>3. Read Tax Group and options</li>
+</ol>",,,3. Tax Group auto-defaults to a valid Canadian group; no blank option,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search without Province is blocked,,,,,Automated,Nikita Nangare,,,No search request; validation shown or Search disabled,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Select Country and Tax Group only</li>
+<li>2. Click Search</li>
+</ol>",,,2. No search request; validation shown or Search disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search without Effective Date is blocked,,,,,Automated,Nikita Nangare,,,No search request; validation shown or Search disabled,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Fill dropdowns</li>
+<li>2. Clear search date</li>
+<li>3. Click Search</li>
+</ol>",,,3. No search request; validation shown or Search disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,An impossible date typed into the search Effective Date never reaches a search,,,,,Automated,Nikita Nangare,,,"Blocked, or corrected to a real date that is what gets searched",,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Type 13/45/2026, 02/30/2026, abc</li>
+<li>2. Click Search after each</li>
+</ol>",,,"2. Blocked, or corrected to a real date that is what gets searched",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Results correspond to the submitted Country, Tax Group and Province",,,,,Automated,Nikita Nangare,,,All rows Baja California; none dated after the search date,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture at today</li>
+</ol>",,,1. All rows Baja California; none dated after the search date,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Search request carries the selected Country, Tax Group, Province and as-of date",,,,,Automated,Nikita Nangare,,,"CountryId, InternationalTaxGroupId, CountrySubDivisionId > 0; EffectiveDate = search date",,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture at today, capture request</li>
+</ol>",,,"1. CountryId, InternationalTaxGroupId, CountrySubDivisionId > 0; EffectiveDate = search date",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A version effective exactly on the search date is returned,,,,,Automated,Nikita Nangare,,,Response returns the version dated D; grid lists the tax type,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Find latest version D ≤ today from the search response</li>
+<li>2. Search at D</li>
+</ol>",,,2. Response returns the version dated D; grid lists the tax type,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The day before a version takes effect returns the earlier version,,,,,Automated,Nikita Nangare,,,Returned version absent or dated before D,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Find latest version D ≤ today from the search response</li>
+<li>2. Search at D-1</li>
+</ol>",,,2. Returned version absent or dated before D,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The day after a version takes effect still returns it,,,,,Automated,Nikita Nangare,,,Returned version dated D or D+1,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Find latest version D ≤ today from the search response</li>
+<li>2. Search at D+1</li>
+</ol>",,,2. Returned version dated D or D+1,,,,Master,S1620,Test Case (Steps),Regression,,,
+,No row ever shows an effective date later than the search date,,,,,Automated,Nikita Nangare,,,No row dated after its search date,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search at 2000-01-01, D-1, today, +5 years</li>
+</ol>",,,1. No row dated after its search date,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each tax type appears once — historical versions are not listed,,,,,Automated,Nikita Nangare,,,Each tax type listed once,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search at today and +5 years</li>
+</ol>",,,1. Each tax type listed once,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching dates A → B → A restores the original results,,,,,Automated,Nikita Nangare,,,Third result equals the first,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search today (A)</li>
+<li>2. Search D-1 (B)</li>
+<li>3. Search today (A)</li>
+</ol>",,,3. Third result equals the first,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The as-of date reaches the search request without an off-by-one shift,,,,,Automated,Nikita Nangare,,,Request EffectiveDate calendar date = D,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search at D, capture request</li>
+</ol>",,,1. Request EffectiveDate calendar date = D,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Exact-date versions are still returned when the browser runs in a UTC+ timezone,,,,,Automated,Nikita Nangare,,,Version dated D returned,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator
+Browser timezone: Asia/Tokyo (UTC+9)",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open in a UTC+9 browser context</li>
+<li>2. Search at D</li>
+</ol>",,,2. Version dated D returned,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rates render as percentages with a % suffix,,,,,Automated,Nikita Nangare,,,Every rate is '<number>%',,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture</li>
+<li>2. Read Rate cells</li>
+</ol>",,,2. Every rate is '<number>%',,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid values match the search response record by record,,,,,Automated,Nikita Nangare,,,"Row count = records; rate (one consistent scale), date, commission match",,,taxes,,"KNOWN DEFECT — test.fail(BUG-TAX-IST-001) until fixed
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture, capture response</li>
+<li>2. Read all rows</li>
+</ol>",,,"2. Row count = records; rate (one consistent scale), date, commission match",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Records-found count equals the number of rows,,,,,Automated,Nikita Nangare,,,Counter = row count,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture</li>
+<li>2. Read counter and rows</li>
+</ol>",,,2. Counter = row count,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid cells cannot be edited inline,,,,,Automated,Nikita Nangare,,,No inline editor; row unchanged; Save not enabled,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Double-click Rate, Effective Date, Tax Type cells and type</li>
+</ol>",,,1. No inline editor; row unchanged; Save not enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting Tax Type reorders the rows alphabetically both ways,,,,,Automated,Nikita Nangare,,,"A→Z and Z→A, same rows",,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Click Tax Type sort twice</li>
+</ol>",,,"1. A→Z and Z→A, same rows",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting Rate orders the rows numerically,,,,,Automated,Nikita Nangare,,,Numeric ascending and descending,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Click Rate sort twice</li>
+</ol>",,,1. Numeric ascending and descending,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting moves whole rows — no value changes tax type,,,,,Automated,Nikita Nangare,,,Every row keeps its own values,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Sort by Effective Date</li>
+</ol>",,,1. Every row keeps its own values,,,,Master,S1620,Test Case (Steps),Regression,,,
+,An empty search result shows an empty state without stale rows or errors,,,,,Automated,Nikita Nangare,,,No rows; counter 0/absent; no error,,,taxes,,"Search response rewritten to an empty list (read still sent)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture</li>
+<li>2. Mock empty result</li>
+<li>3. Search again</li>
+</ol>",,,3. No rows; counter 0/absent; no error,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A failed search shows an error and does not present stale rows as the new result,,,,,Automated,Nikita Nangare,,,Error shown or stale rows cleared,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation); search answered 500
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture</li>
+<li>2. Mock 500</li>
+<li>3. Search again</li>
+</ol>",,,3. Error shown or stale rows cleared,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A slow earlier search is never shown over a later one,,,,,Automated,Nikita Nangare,,,Grid equals a clean search at the last searched date (skips if Search locks),,,taxes,,"First search held 6 s
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search D-1 (held)</li>
+<li>2. Search today</li>
+<li>3. Let held answer land</li>
+</ol>",,,3. Grid equals a clean search at the last searched date (skips if Search locks),,,,Master,S1620,Test Case (Steps),Regression,,,
+,Selecting one row checks only that row,,,,,Automated,Nikita Nangare,,,Only that row selected,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Tick one row</li>
+</ol>",,,1. Only that row selected,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Apply to one selected row stages the values on that row only,,,,,Automated,Nikita Nangare,,,Row shows staged values; others unchanged,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Select one row</li>
+<li>2. Set Rate, Effective Date, commission</li>
+<li>3. Apply</li>
+</ol>",,,3. Row shows staged values; others unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Apply to several selected rows leaves the unselected row unchanged,,,,,Automated,Nikita Nangare,,,Both staged; third row untouched,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Select two rows</li>
+<li>2. Set Rate and date</li>
+<li>3. Apply</li>
+</ol>",,,3. Both staged; third row untouched,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Apply marks the pending indicator on affected rows and enables Save,,,,,Automated,Nikita Nangare,,,Pending on those two only; Save enabled,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Stage two rows with Apply</li>
+</ol>",,,1. Pending on those two only; Save enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save is not available before any change is applied,,,,,Automated,Nikita Nangare,,,No row pending; Save disabled,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture</li>
+</ol>",,,1. No row pending; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Commission taxable can be staged from true to false and back,,,,,Automated,Nikita Nangare,,,Flag follows each Apply,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Stage commission off</li>
+<li>2. Stage commission on</li>
+</ol>",,,2. Flag follows each Apply,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Apply stages changes without sending a save request,,,,,Automated,Nikita Nangare,,,No save request,,,taxes,,"Save request held at the network (aborted) — nothing written
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Stage a row with Apply</li>
+</ol>",,,1. No save request,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Selection, commission display and pending indicator are independent",,,,,Automated,Nikita Nangare,,,Commission and pending unchanged,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Tick then untick a row</li>
+</ol>",,,1. Commission and pending unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Apply with no rows selected changes nothing,,,,,Automated,Nikita Nangare,,,No row changed; Save not enabled; no request,,,taxes,,"Save request held at the network (aborted) — nothing written
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Set Rate with nothing selected</li>
+<li>2. Apply (if enabled)</li>
+</ol>",,,2. No row changed; Save not enabled; no request,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Row selection is available for both Mexico and Canada,,,,,Automated,Nikita Nangare,,,Every row has an enabled checkbox in both,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search Mexico, count checkboxes</li>
+<li>2. Search Canada, count checkboxes</li>
+</ol>",,,2. Every row has an enabled checkbox in both,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search Effective Date and update Effective Date are independent fields,,,,,Automated,Nikita Nangare,,,Each date keeps its own value,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Set update date</li>
+<li>2. Set search date</li>
+</ol>",,,2. Each date keeps its own value,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Markup typed into Rate is never executed or rendered as HTML,,,,,Automated,Nikita Nangare,,,Nothing executes; no HTML rendered; no dialog,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Type <script>/<img onerror> into Rate</li>
+<li>2. Apply (if enabled)</li>
+</ol>",,,2. Nothing executes; no HTML rendered; no dialog,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rate can be cleared with Backspace and with Delete,,,,,Automated,Nikita Nangare,,,Field empty both times,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Type 12, Ctrl+A, Backspace</li>
+<li>2. Type 12, Home, Delete ×2</li>
+</ol>",,,2. Field empty both times,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search with staged changes shows the loss-of-changes warning,,,,,Automated,Nikita Nangare,,,Exact text: 'Searching will cause you to lose unsaved changes. Continue?',,,taxes,,"One row staged with Apply; KNOWN DEFECT — test.fail(BUG-TAX-IST-002)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Click Search</li>
+<li>2. Cancel the warning</li>
+</ol>",,,2. Exact text: 'Searching will cause you to lose unsaved changes. Continue?',,,,Master,S1620,Test Case (Steps),Regression,,,
+,Confirming the warning discards staged changes and runs the search,,,,,Automated,Nikita Nangare,,,Stored values back; nothing pending; Save disabled,,,taxes,,"One row staged with Apply
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Click Search</li>
+<li>2. Confirm the warning</li>
+</ol>",,,2. Stored values back; nothing pending; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancelling the warning keeps staged changes and does not search,,,,,Automated,Nikita Nangare,,,Staged rows intact; no search request,,,taxes,,"One row staged with Apply; Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Click Search</li>
+<li>2. Cancel the warning</li>
+</ol>",,,2. Staged rows intact; no search request,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save sends only the selected configurations with the staged values,,,,,Automated,Nikita Nangare,,,Exactly two records with staged date/flag; selected tax types only,,,taxes,,"Save request held at the network (aborted) — nothing written
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Stage two rows (rate, date, commission)</li>
+<li>2. Save</li>
+</ol>",,,2. Exactly two records with staged date/flag; selected tax types only,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save payload carries the staged effective date without a shift,,,,,Automated,Nikita Nangare,,,Record date = staged date,,,taxes,,"Save request held at the network (aborted) — nothing written
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator
+Browser timezone: Asia/Tokyo (UTC+9)",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open in UTC+9 context</li>
+<li>2. Stage a row</li>
+<li>3. Save</li>
+</ol>",,,3. Record date = staged date,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A network failure on Save shows an error and never reports success,,,,,Automated,Nikita Nangare,,,Error shown; no success toast,,,taxes,,"Save request held at the network (aborted) — nothing written
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Stage a row</li>
+<li>2. Save (network fails)</li>
+</ol>",,,2. Error shown; no success toast,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A server error on Save leaves the stored values unchanged,,,,,Automated,Nikita Nangare,,,Error shown; row reads as before,,,taxes,,"Save answered 500 — nothing written
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Stage a row</li>
+<li>2. Save (500)</li>
+<li>3. Reopen and search</li>
+</ol>",,,3. Error shown; row reads as before,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A second Save click while the first is in flight sends nothing,,,,,Automated,Nikita Nangare,,,Save disabled in flight; one request,,,taxes,,"Save request held at the network (aborted) — nothing written; Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Stage a row</li>
+<li>2. Click Save twice quickly</li>
+</ol>",,,2. Save disabled in flight; one request,,,,Master,S1620,Test Case (Steps),Regression,,,
+,An effective date equal to the latest stored date is rejected,,,,,Automated,Nikita Nangare,,,"Rejected (UI before send, or server with no new version)",,,taxes,,"Save request held at the network (aborted) — nothing written (server stage only with write fixture)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search +5 years for latest stored L</li>
+<li>2. Stage date = L</li>
+<li>3. Save</li>
+</ol>",,,"3. Rejected (UI before send, or server with no new version)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An effective date earlier than the latest stored date is rejected,,,,,Automated,Nikita Nangare,,,"Rejected (UI before send, or server with no new version)",,,taxes,,"Save request held at the network (aborted) — nothing written (server stage only with write fixture)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search +5 years for latest stored L</li>
+<li>2. Stage date = L-1</li>
+<li>3. Save</li>
+</ol>",,,"3. Rejected (UI before send, or server with no new version)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Chronology is checked against a hidden future version, not the displayed row",,,,,Automated,Nikita Nangare,,,Rejected against stored history (skips if no hidden version),,,taxes,,"Save request held at the network (aborted) — nothing written; needs a future-dated version in the data
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Find row with stored version later than today's</li>
+<li>2. Stage date between them</li>
+<li>3. Save</li>
+</ol>",,,3. Rejected against stored history (skips if no hidden version),,,,Master,S1620,Test Case (Steps),Regression,,,
+,A past effective date later than the latest stored version saves with HTTP 200,,,,,Automated,Nikita Nangare,,,HTTP 200; supplied records only; no error,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101
+Search: IST_WRITE_FIXTURE (disposable)
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search +5 years</li>
+<li>2. Stage fixture rows at latest+1</li>
+<li>3. Save</li>
+</ol>",,,3. HTTP 200; supplied records only; no error,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pending indicators clear and Save is disabled after the successful Save,,,,,Automated,Nikita Nangare,,,Nothing pending; Save disabled,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101
+Search: IST_WRITE_FIXTURE (disposable)
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Read grid after the Save in 062</li>
+</ol>",,,1. Nothing pending; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saved values are returned when searching at or after the new date,,,,,Automated,Nikita Nangare,,,"Saved rate, flag and date returned",,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101
+Search: IST_WRITE_FIXTURE (disposable)
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search at new date</li>
+<li>2. Search at +5 years</li>
+</ol>",,,"2. Saved rate, flag and date returned",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching before the new date still returns the previous version,,,,,Automated,Nikita Nangare,,,Pre-save version returned,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101
+Search: IST_WRITE_FIXTURE (disposable)
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search at new date - 1</li>
+</ol>",,,1. Pre-save version returned,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Untouched configurations gain no new versions,,,,,Automated,Nikita Nangare,,,Unselected rows identical,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101
+Search: IST_WRITE_FIXTURE (disposable)
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search +5 years</li>
+<li>2. Compare unselected rows with pre-save snapshot</li>
+</ol>",,,2. Unselected rows identical,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Audit CreateUser and ModUser record the signed-in user,,,,,Automated,Nikita Nangare,,,CreateUser/ModUser = signed-in user (skips if not exposed),,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101
+Search: IST_WRITE_FIXTURE (disposable)
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search at new date, capture response</li>
+</ol>",,,1. CreateUser/ModUser = signed-in user (skips if not exposed),,,,Master,S1620,Test Case (Steps),Regression,,,
+,A read-only tax user can view configurations but cannot Apply or Save,,,,,Automated,Nikita Nangare,,,Rows visible; Apply and Save never enabled,,,taxes,,"Needs IST_READONLY_USERNAME/PASSWORD
+
+Test Data:
+User: IST_READONLY account (Tax READ only)
+Office: Office 1101
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Sign in read-only</li>
+<li>2. Search fixture</li>
+<li>3. Try to select a row</li>
+</ol>",,,3. Rows visible; Apply and Save never enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A user without tax permission sees no menu entry and is refused on the direct route,,,,,Automated,Nikita Nangare,,,No menu entry; screen never renders,,,taxes,,"Needs IST_NOACCESS_USERNAME/PASSWORD
+
+Test Data:
+User: IST_NOACCESS account (no Tax permission)
+Office: Office 1101
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Sign in without Tax permission</li>
+<li>2. Open Tax menu</li>
+<li>3. Open route directly</li>
+</ol>",,,3. No menu entry; screen never renders,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Without a session the page sends the user to sign in,,,,,Automated,Nikita Nangare,,,Redirect to /auth/sign-in with callbackUrl; no grid,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: none (empty browser context)
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open route with no session</li>
+</ol>",,,1. Redirect to /auth/sign-in with callbackUrl; no grid,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A save sent without a session is refused and writes nothing,,,,,Automated,Nikita Nangare,,,Not a plain 200; fixture unchanged,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI; payload dated = latest stored (double-safe)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101
+Search: IST_WRITE_FIXTURE (disposable)
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Capture a save (held)</li>
+<li>2. Replay it with no session</li>
+<li>3. Search +5 years</li>
+</ol>",,,3. Not a plain 200; fixture unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A save sent by a read-only user is refused and writes nothing,,,,,Automated,Nikita Nangare,,,Not a plain 200; fixture unchanged,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI; needs read-only account
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101
+Search: IST_WRITE_FIXTURE (disposable)
+Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Capture a save (held)</li>
+<li>2. Replay with read-only session</li>
+<li>3. Search +5 years</li>
+</ol>",,,3. Not a plain 200; fixture unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A save attempted after the session expires writes nothing,,,,,Automated,Nikita Nangare,,,Fixture unchanged,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI; payload dated = latest stored (double-safe)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101
+Search: IST_WRITE_FIXTURE (disposable)
+Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Stage in a second context</li>
+<li>2. Clear its cookies</li>
+<li>3. Save</li>
+<li>4. Search +5 years</li>
+</ol>",,,4. Fixture unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every search and update control has an accessible name,,,,,Automated,Nikita Nangare,,,None empty; names match their labels,,,taxes,,"KNOWN DEFECT — test.fail(BUG-TAX-IST-003)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Read accessible names of every control</li>
+</ol>",,,1. None empty; names match their labels,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Row checkboxes can be operated with the keyboard,,,,,Automated,Nikita Nangare,,,Selected then cleared,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Focus a row checkbox</li>
+<li>2. Press Space twice</li>
+</ol>",,,2. Selected then cleared,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tab order through the search panel follows the visual order,,,,,Automated,Nikita Nangare,,,Tax Group → Province → Effective Date → Reset → Search,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Low,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Focus Country</li>
+<li>2. Tab through the panel</li>
+</ol>",,,2. Tax Group → Province → Effective Date → Reset → Search,,,,Master,S1620,Test Case (Steps),Regression,,,
+,No untranslated i18n key is visible on the page,,,,,Automated,Nikita Nangare,,,No dotted i18n keys,,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Low,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture</li>
+<li>2. Scan page text</li>
+</ol>",,,2. No dotted i18n keys,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Automated WCAG 2.1 AA scan finds no serious or critical violations,,,,,Automated,Nikita Nangare,,,No serious/critical violations,,,taxes,,"Uses @axe-core/playwright 4.13.0; KNOWN DEFECT — test.fail(BUG-TAX-IST-003)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture</li>
+<li>2. Run axe WCAG 2.1 AA</li>
+</ol>",,,2. No serious/critical violations,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Page stays usable at laptop 1366×768,,,,,Automated,Nikita Nangare,,,"Search, Apply, Save reachable; no page sideways scroll",,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Low,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Viewport 1366×768</li>
+<li>2. Search fixture</li>
+</ol>",,,"2. Search, Apply, Save reachable; no page sideways scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Page stays usable at tablet 1024×768,,,,,Automated,Nikita Nangare,,,"Search, Apply, Save reachable; no page sideways scroll",,,taxes,,"Page opened fresh; no network mocks; non-mutating
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Low,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Viewport 1024×768</li>
+<li>2. Search fixture</li>
+</ol>",,,"2. Search, Apply, Save reachable; no page sideways scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset restores the approved defaults,,,,,Automated,Nikita Nangare,,,"Province cleared, date today, grid empty, no auto-search, Country/Tax Group kept; dirty Reset warns",,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Search fixture at an old date</li>
+<li>2. Click Reset</li>
+<li>3. Stage a change, click Reset</li>
+</ol>",,,"3. Province cleared, date today, grid empty, no auto-search, Country/Tax Group kept; dirty Reset warns",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Header select-all selects the approved scope,,,,,Automated,Nikita Nangare,,,All rows selected; header unticks on partial selection; all again,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Tick header select-all</li>
+<li>2. Clear one row</li>
+<li>3. Tick header again</li>
+</ol>",,,3. All rows selected; header unticks on partial selection; all again,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Apply with no selection shows the approved feedback,,,,,Automated,Nikita Nangare,,,"Apply disabled without selection, enabled with one",,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Enter a Rate with nothing selected</li>
+<li>2. Select a row</li>
+</ol>",,,"2. Apply disabled without selection, enabled with one",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Rate minimum, maximum, precision and rounding rules are enforced",,,,,Automated,Nikita Nangare,,,Only non-negative numbers kept; oversized values capped at 100,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Type abc, -5, 150, 99999999, 1.23456, 0.0001 into Rate</li>
+</ol>",,,1. Only non-negative numbers kept; oversized values capped at 100,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Blank update fields follow the approved partial-update contract,,,,,Automated,Nikita Nangare,,,Row commission flag cleared — Apply writes every field,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Untick Is Commission Taxable?</li>
+<li>2. Apply to a row that has it</li>
+</ol>",,,2. Row commission flag cleared — Apply writes every field,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Edit rights follow the approved office scope,,,,,Automated,Nikita Nangare,,,Rows listed; checkboxes usable; Apply enabled,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+
+Test Data:
+User: automation user (Tax FULL_ACCESS)
+Office: Office 1101 (Corporate)
+Search: Mexico / VAT / Baja California
+Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
+<li>1. Open from office 2359</li>
+<li>2. Search fixture</li>
+<li>3. Select a row</li>
+</ol>",,,3. Rows listed; checkboxes usable; Apply enabled,,,,Master,S1620,Test Case (Steps),Regression,,,

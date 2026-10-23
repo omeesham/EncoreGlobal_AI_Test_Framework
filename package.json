@@ -30,6 +30,7 @@
     "audit:testids:local-office": "node scripts/generic-testid-audit.js --module localOffice --target local-office-settings"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.60.0",
     "@types/node": "^20.10.0",
     "@types/proper-lockfile": "^4.1.4",

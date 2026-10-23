@@ -1,0 +1,24 @@
+{
+  "id": "BUG-TAX-IST-001",
+  "title": "International Tax Setup grid shows every Effective Date one day early for users west of UTC (UTC-midnight date rendered in browser local time)",
+  "module": "InternationalTaxSetup",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-10-22",
+  "requirementSource": "NM-4025 §4.2: 'An exact-date match must not be excluded by an off-by-one-day or timezone error.' NM-2393: grid Effective Date displays the applicable configuration version's date.",
+  "stepsToReproduce": [
+    "Use a browser whose timezone is America/New_York (any US timezone).",
+    "Open /navigator/locations/1101/taxes/international-tax-setup.",
+    "Search Mexico / VAT / Baja California at 10/22/2026.",
+    "Read the Sales row's Effective Date.",
+    "Repeat in a browser set to Asia/Kolkata."
+  ],
+  "expectedBehavior": "Sales shows 10/22/2026 in every timezone (the stored version date).",
+  "actualBehavior": "New York shows 10/21/2026; Kolkata shows 10/22/2026. Every row's date is shifted back one day for users west of UTC.",
+  "networkEvidence": "Search server action (POST to the page route, next-action header) returns \"effectiveDate\":\"2026-10-22T00:00:00.000Z\" for Sales; the same response renders 10/21/2026 in America/New_York. The search request itself carries the correct calendar date (\"effectiveDate\":\"2026-10-22\") and the server's as-of logic is correct (TC-TAX-IST-020..022 pass against the response).",
+  "riskNote": "Users act on the displayed date: chronology for a new version must be strictly later than the latest stored date, so a user reading a date one day early can pick an invalid date or misjudge which version applies. Whether the update-section date is also shifted on Save was not observed (TC-055 payload date is correct from a UTC+9 browser).",
+  "affectedTests": [
+    "TC-TAX-IST-029"
+  ],
+  "suspectedCause": "Date-only value serialised as a UTC instant and formatted with local-time date parts (e.g. new Date(iso).toLocaleDateString()). Format as a calendar date (UTC parts or a date-only string)."
+}

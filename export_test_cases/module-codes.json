@@ -10,7 +10,8 @@
     "SVC": { "name": "service-charge", "display": "Service Charge", "dir": "service-charge" },
     "DSM": { "name": "discount-matrix", "display": "Discount Matrix", "dir": "discount-matrix" },
     "ISR": { "name": "item-search", "display": "Item Search", "dir": "item-search" },
-    "MDP": { "name": "multiday-pricing", "display": "Multiday Pricing", "dir": "multiday-pricing" }
+    "MDP": { "name": "multiday-pricing", "display": "Multiday Pricing", "dir": "multiday-pricing" },
+    "TAX": { "name": "taxes", "display": "Taxes", "dir": "taxes" }
   },
   "submodules": {
     "LOC": {
@@ -76,6 +77,9 @@
     },
     "MDP": {
       "RUL": { "name": "rules", "display": "Multiday Pricing Rules", "sheet": "multiday_pricing_rules", "mdBasename": "multiday_pricing_rules_test_cases" }
+    },
+    "TAX": {
+      "IST": { "name": "international_tax_setup", "display": "International Tax Setup", "sheet": "international_tax_setup", "mdBasename": "international_tax_setup_test_cases" }
     }
   },
   "sheetNameNotes": {
