@@ -1,4 +1,4 @@
-import { Dialog, Locator, Page, Request, Response, Route } from '@playwright/test';
+import { Dialog, Locator, Page, Request, Route } from '@playwright/test';
 import { step } from '../../fixtures/step-decorator';
 import { BasePage } from '../base.page';
 import { Log } from '../../utils/logger';
@@ -192,34 +192,17 @@ export function saveRecordsOf(body: string): TaxRecord[] {
   return (findTaxRecords(parseLoose(body)) ?? []).map(normalizeTaxRecord);
 }
 
-/** A copy of a save body with every EffectiveDate set to `iso`, keeping the original wire format. */
-export function withEffectiveDate(body: string, iso: string): string {
-  const walk = (v: unknown): unknown => {
-    if (Array.isArray(v)) return v.map(walk);
-    if (typeof v === 'object' && v !== null) {
-      return Object.fromEntries(
-        Object.entries(v).map(([k, x]) => [
-          k,
-          /^effectivedate$/i.test(k) && typeof x === 'string' ? x.replace(/\d{4}-\d{2}-\d{2}/, iso) : walk(x),
-        ]),
-      );
-    }
-    return v;
-  };
-  return JSON.stringify(walk(JSON.parse(body)));
-}
-
-// Tax → International Tax Setup. One page object for every role: a read-only user gets the same
-// search and grid, and the mutation controls are hidden or disabled (either is allowed, NM-4025 §5.2).
+// Tax → International Tax Setup. Nothing here persists data: Save is only ever clicked with the save
+// request held at the network (interceptSave).
 export class InternationalTaxSetupPage extends BasePage {
-  /** Set once a search request has been seen in browser traffic — decides how searches are awaited. */
-  private searchTransportSeen = false;
+  /** The last search request and its raw response body, captured by runSearch(). */
+  private lastSearch: { request: CapturedRequest; body: string } | null = null;
+
+  /** True while mockSearch() owns the search response — runSearch() then leaves it alone. */
+  private searchMocked = false;
 
   constructor(page: Page, config?: IConfig) {
     super(page, config);
-    page.on('request', (req) => {
-      if (isSearchRequest(req)) this.searchTransportSeen = true;
-    });
     Log.info('InternationalTaxSetupPage initialized');
   }
 
@@ -317,17 +300,6 @@ export class InternationalTaxSetupPage extends BasePage {
 
   private sidebarTax(): Locator {
     return this.page.getByRole('button', { name: 'Tax', exact: true }).first();
-  }
-
-  /** Whether the Tax menu offers International Tax Setup (permission gating of the menu). */
-  @step('Check whether the Tax menu offers International Tax Setup')
-  async isMenuEntryVisible(office: string): Promise<boolean> {
-    await this.navigateTo(`${this.config?.base_url || ''}locations/${office}/home`, { timeout: 60_000 });
-    await this.page.locator('main h1').first().waitFor({ state: 'visible', timeout: 60_000 });
-    const tax = this.sidebarTax();
-    if (await tax.isVisible().catch(() => false)) await tax.click();
-    return this.page.locator(lnkInternationalTaxSetup(office)).filter({ visible: true }).first()
-      .waitFor({ state: 'visible', timeout: 5_000 }).then(() => true, () => false);
   }
 
   @step('Wait for International Tax Setup to finish loading')
@@ -484,26 +456,58 @@ export class InternationalTaxSetupPage extends BasePage {
   // ---------------------------------------------------------------- search
 
   /**
-   * Clicks Search and waits for the result. When the search call is visible in browser traffic it
-   * waits for that response; otherwise (server-side BFF) it waits for the network to settle.
-   * Returns the response when one was seen.
+   * Runs `trigger` (a click that starts a search) and waits until the GRID shows the answer — not just
+   * until the answer arrives. React draws the rows a moment after the response lands, and reading the
+   * grid in that gap gave 0 rows (TC-041 flake, 2026-10-23). The response is fetched inside a route
+   * (Chromium drops the first server-action body after a load, so Response.text() is unreliable), its
+   * record count N is read, and the wait ends when exactly N rows are drawn. Under mockSearch the mock
+   * owns the response, so the wait falls back to "rows drawn, or the empty-state text shown".
    */
-  @step('Click Search and wait for the results')
-  async clickSearchAndWait(): Promise<Response | null> {
-    if (this.searchTransportSeen) {
-      const [res] = await Promise.all([
-        this.page.waitForResponse((r) => isSearchRequest(r.request()), { timeout: 60_000 }),
-        this.searchButton().click(),
-      ]);
+  private async runSearch(trigger: () => Promise<void>, answerTimeout = 60_000): Promise<boolean> {
+    this.lastSearch = null;
+    const handler = async (route: Route): Promise<void> => {
+      const req = route.request();
+      if (!isSearchRequest(req) || this.searchMocked) return route.fallback();
+      const response = await route.fetch();
+      const body = await response.text();
+      this.lastSearch = { request: { url: req.url(), method: req.method(), headers: req.headers(), body: req.postData() ?? '', records: [] }, body };
+      return route.fulfill({ response, body });
+    };
+    await this.page.route('**/*', handler);
+    try {
+      const answered = this.page.waitForResponse((r) => isSearchRequest(r.request()), { timeout: answerTimeout }).then(() => true, () => false);
+      await trigger();
+      if (!(await answered)) return false;
       await this.waitForIdleGrid();
-      return res;
+      // Set by the route handler during trigger(); read through a typed local because TypeScript
+      // cannot see an assignment made inside a callback.
+      const cap = this.lastSearch as { request: CapturedRequest; body: string } | null;
+      const records = cap ? findTaxRecords(parseLoose(cap.body)) : null;
+      await this.waitForRenderedRows(records ? records.length : null);
+      return true;
+    } finally {
+      await this.page.unroute('**/*', handler);
     }
-    const pending = this.page.waitForResponse((r) => isSearchRequest(r.request()), { timeout: 15_000 }).catch(() => null);
-    await this.searchButton().click();
-    const res = await pending;
-    if (!res) await this.page.waitForLoadState('networkidle', { timeout: 15_000 }).catch(() => undefined);
-    await this.waitForIdleGrid();
-    return res;
+  }
+
+  /** Waits until the grid has drawn `expected` data rows; null = any rows, or the empty-state text. */
+  private async waitForRenderedRows(expected: number | null): Promise<void> {
+    await this.page.waitForFunction(
+      ({ n, empty }) => {
+        const rows = Array.from(document.querySelectorAll('main table tbody tr')).filter((tr) => tr.querySelectorAll('td').length > 1).length;
+        if (n === null) return rows > 0 || (document.querySelector('main')?.textContent ?? '').includes(empty);
+        return rows === n;
+      },
+      { n: expected, empty: IST_MESSAGES.emptyState },
+      { timeout: 30_000 },
+    );
+  }
+
+  /** Clicks Search and waits until the grid shows the result. */
+  @step('Click Search and wait for the results')
+  async clickSearchAndWait(): Promise<void> {
+    const answered = await this.runSearch(() => this.searchButton().click());
+    if (!answered) throw new Error('Search was clicked but no search request was answered within 60 s');
   }
 
   /** Clicks Search without waiting — for validation and dirty-state cases. */
@@ -526,40 +530,21 @@ export class InternationalTaxSetupPage extends BasePage {
 
   /** Fills every criterion (null → first option) and runs the search. */
   @step('Search with the given criteria')
-  async search(criteria: SearchCriteria): Promise<Response | null> {
+  async search(criteria: SearchCriteria): Promise<void> {
     if ((await this.readSelected(this.countryField())) !== criteria.country) await this.selectCountry(criteria.country);
     await this.selectTaxGroup(criteria.taxGroup);
     await this.selectProvince(criteria.province);
     if (criteria.date) await this.setSearchEffectiveDate(criteria.date);
-    return this.clickSearchAndWait();
+    await this.clickSearchAndWait();
   }
 
-  /** Runs a search and returns both the request it sent and the records it got back (if visible). */
-  /**
-   * The body is taken by fetching the response inside a route and passing it through unchanged —
-   * NOT by Response.text() afterwards: Chromium does not retain the body of the first server-action
-   * response after a page load ("No data found for resource"), which silently read as zero records.
-   */
+  /** Runs a search and returns the request it sent and the records it got back (captured by runSearch). */
   @step('Search and capture the request and the response records')
   async searchCapturing(criteria: SearchCriteria): Promise<{ request: CapturedRequest | null; records: TaxRecord[] | null }> {
-    const cap: { request?: CapturedRequest; body?: string } = {};
-    const handler = async (route: Route): Promise<void> => {
-      const req = route.request();
-      if (!isSearchRequest(req)) return route.fallback();
-      const response = await route.fetch();
-      const body = await response.text();
-      cap.request = { url: req.url(), method: req.method(), headers: req.headers(), body: req.postData() ?? '', records: [] };
-      cap.body = body;
-      return route.fulfill({ response, body });
-    };
-    await this.page.route('**/*', handler);
-    try {
-      await this.search(criteria);
-    } finally {
-      await this.page.unroute('**/*', handler);
-    }
-    if (!cap.request) return { request: null, records: null };
-    return { request: cap.request, records: (findTaxRecords(parseLoose(cap.body ?? '')) ?? []).map(normalizeTaxRecord) };
+    await this.search(criteria);
+    const cap = this.lastSearch;
+    if (!cap) return { request: null, records: null };
+    return { request: cap.request, records: (findTaxRecords(parseLoose(cap.body)) ?? []).map(normalizeTaxRecord) };
   }
 
   /** Same combination, new as-of date. */
@@ -817,29 +802,6 @@ export class InternationalTaxSetupPage extends BasePage {
     await this.saveButton().click();
   }
 
-  /** Clicks Save and lets the real write through — the only call in this page object that persists. */
-  @step('Save and wait for the server to answer')
-  async saveAndWait(): Promise<{ status: number; body: string; records: TaxRecord[] }> {
-    const [req] = await Promise.all([this.page.waitForRequest(isSaveRequest, { timeout: 30_000 }), this.clickSave()]);
-    const res = await req.response();
-    const body = (await res?.text().catch(() => '')) ?? '';
-    await this.waitForIdleGrid();
-    return { status: res?.status() ?? 0, body, records: saveRecordsOf(req.postData() ?? '') };
-  }
-
-  @step('Read the mutation controls available to this user')
-  async readMutationControls(): Promise<{ apply: 'absent' | 'disabled' | 'enabled'; save: 'absent' | 'disabled' | 'enabled'; rowCheckboxesEnabled: number }> {
-    const state = async (loc: Locator): Promise<'absent' | 'disabled' | 'enabled'> => {
-      if (!(await loc.isVisible().catch(() => false))) return 'absent';
-      return (await loc.isEnabled()) ? 'enabled' : 'disabled';
-    };
-    return {
-      apply: await state(this.applyButton()),
-      save: await state(this.saveButton()),
-      rowCheckboxesEnabled: (await this.countRowCheckboxes()).enabled,
-    };
-  }
-
   // ---------------------------------------------------------------- dirty-search warning
 
   /**
@@ -859,21 +821,29 @@ export class InternationalTaxSetupPage extends BasePage {
       resolveNative(text);
     };
     const dlg = this.page.locator(DLG_UNSAVED_CHANGES).or(this.page.locator('[role="alertdialog"]').filter({ hasText: /unsaved changes/i })).last();
-    this.page.on('dialog', handler);
-    try {
+    let text = '';
+    const clickAndAnswer = async (): Promise<void> => {
       await this.searchButton().click();
       const inApp = dlg.waitFor({ state: 'visible', timeout: 15_000 }).then(() => null);
       inApp.catch(() => undefined);
       const nativeText = await Promise.race([native, inApp]);
-      if (nativeText !== null) return nativeText;
-      const text = ((await dlg.innerText()) ?? '').replace(/\s+/g, ' ').trim();
+      if (nativeText !== null) {
+        text = nativeText;
+        return;
+      }
+      text = ((await dlg.innerText()) ?? '').replace(/\s+/g, ' ').trim();
       const button = answer === 'confirm' ? /^(discard|yes|continue|ok|confirm)$/i : /^(stay|no|cancel)$/i;
       await dlg.getByRole('button', { name: button }).first().click();
       await dlg.waitFor({ state: 'hidden' });
+    };
+    this.page.on('dialog', handler);
+    try {
+      // Confirming runs the search, so it gets the same "wait until the grid shows the answer" as Search.
+      if (answer === 'confirm') await this.runSearch(clickAndAnswer, 15_000);
+      else await clickAndAnswer();
       return text;
     } finally {
       this.page.off('dialog', handler);
-      if (answer === 'confirm') await this.waitForIdleGrid().catch(() => undefined);
     }
   }
 
@@ -936,6 +906,7 @@ export class InternationalTaxSetupPage extends BasePage {
   /** Rewrites, holds or kills the search answer. The real read still goes out except for 'abort'/'failure'. */
   @step('Control the search response')
   async mockSearch(mock: SearchMock): Promise<void> {
+    this.searchMocked = true;
     let seen = 0;
     await this.page.route('**/*', async (route: Route) => {
       const req = route.request();
@@ -968,26 +939,8 @@ export class InternationalTaxSetupPage extends BasePage {
 
   @step('Remove every network interception')
   async clearInterceptions(): Promise<void> {
+    this.searchMocked = false;
     await this.page.unrouteAll({ behavior: 'ignoreErrors' });
-  }
-
-  /**
-   * Re-sends a captured save from a brand-new context with NO session, as an anonymous caller would.
-   * Redirects are not followed, so a refusal is visible as the server's own answer.
-   */
-  @step('Replay a save request without any session')
-  async replayWithoutSession(req: CapturedRequest, body = req.body): Promise<{ status: number; body: string }> {
-    const browser = this.page.context().browser();
-    if (!browser) throw new Error('No browser available to open an anonymous context');
-    const anon = await browser.newContext({ storageState: { cookies: [], origins: [] } });
-    try {
-      const keep = ['content-type', 'accept', 'next-action', 'next-router-state-tree'];
-      const headers = Object.fromEntries(Object.entries(req.headers).filter(([k]) => keep.includes(k.toLowerCase())));
-      const res = await anon.request.post(req.url, { headers, data: body, maxRedirects: 0 });
-      return { status: res.status(), body: await res.text() };
-    } finally {
-      await anon.close();
-    }
   }
 
   // ---------------------------------------------------------------- misc page-level reads

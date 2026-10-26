@@ -1,0 +1,477 @@
+{
+  "startedAt": "2026-10-23T11:59:50.449Z",
+  "finishedAt": "2026-10-23T12:00:29.063Z",
+  "durationMs": "39s",
+  "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+  "configUsed": {
+    "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+    "allowedOrigins": [
+      "https://cloudapps-e2e.encoreglobal.com"
+    ],
+    "excludeUrlPatterns": [
+      "logout",
+      "signout",
+      "sign-out",
+      "\\/api\\/auth\\/signout",
+      "login\\.microsoftonline\\.com",
+      "b2clogin\\.com",
+      "\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)",
+      "^mailto:",
+      "^tel:",
+      "^javascript:",
+      "\\/api\\/",
+      "\\/_next\\/",
+      "\\/auth\\/signin",
+      "\\/reports\\/download"
+    ],
+    "includeUrlPatterns": [
+      "international-tax-setup"
+    ],
+    "auth": {
+      "mode": "storage-state",
+      "signedInSelector": "h1"
+    },
+    "limits": {
+      "maxPages": 25,
+      "maxActionsPerPage": 12,
+      "maxTotalActions": 200,
+      "maxDepth": 1,
+      "maxDurationMs": 600000,
+      "settleMs": 900,
+      "actionTimeoutMs": 8000,
+      "navigationTimeoutMs": 30000
+    },
+    "safety": {
+      "allowWrites": false,
+      "allowDestructive": false
+    },
+    "enabledDetectors": [
+      "page-crash",
+      "console-error",
+      "network-failure",
+      "broken-link",
+      "dead-control",
+      "unexpected-route",
+      "form-validation",
+      "input-boundary",
+      "placeholder-text",
+      "missing-label",
+      "accessibility",
+      "layout",
+      "page-title"
+    ],
+    "captureScreenshots": true,
+    "outputDir": "reports/bugs/crawler/international-tax-setup"
+  },
+  "pagesVisited": [
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "normalizedUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup",
+      "module": "International Tax Setup",
+      "depth": 0,
+      "title": "International Tax Setup | Navigator",
+      "elementCount": 54,
+      "actionsPerformed": 12,
+      "bugsFound": 5,
+      "durationMs": 30080,
+      "reachedVia": "start URL"
+    }
+  ],
+  "actionsPerformed": [
+    {
+      "description": "Open the \"Mexico\" dropdown.",
+      "kind": "select",
+      "elementName": "Mexico",
+      "selector": "#international-tax-setup-country",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::select::mexico",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Toggle the \"Is Commission Taxable?\" checkbox.",
+      "kind": "checkbox",
+      "elementName": "Is Commission Taxable?",
+      "selector": "#international-tax-setup-is-commission-taxable",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::checkbox::is commission taxable?",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"1101 Corporate Office Encore USA SGA\".",
+      "kind": "button",
+      "elementName": "1101 Corporate Office Encore USA SGA",
+      "selector": "#radix-_r_0_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::button::1101 corporate office encore usa sga",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Open the \"Mexico Canada Bahamas\" dropdown.",
+      "kind": "select",
+      "elementName": "Mexico Canada Bahamas",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(1) > div:nth-of-type(2) > select",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::select::mexico canada bahamas",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: covered by <button.cursor-pointer>"
+    },
+    {
+      "description": "Toggle the \"Select all\" checkbox.",
+      "kind": "checkbox",
+      "elementName": "Select all",
+      "selector": "div > div > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::checkbox::select all",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Actions\".",
+      "kind": "button",
+      "elementName": "Actions",
+      "selector": "#radix-_r_4_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::button::actions",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Open the \"VAT\" dropdown.",
+      "kind": "select",
+      "elementName": "VAT",
+      "selector": "#international-tax-setup-tax-group",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::select::vat",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"Select province\" dropdown.",
+      "kind": "select",
+      "elementName": "Select province",
+      "selector": "#international-tax-setup-province",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::select::select province",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Commissions\".",
+      "kind": "button",
+      "elementName": "Commissions",
+      "selector": "#radix-_r_7_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::button::commissions",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Open the \"Aguascalientes Baja California Campeche Chiapas Baja Califo…\" dropdown.",
+      "kind": "select",
+      "elementName": "Aguascalientes Baja California Campeche Chiapas Baja California Sur Chihuahua Coahuila Colima Ciudad de Mexico Guanajuat",
+      "selector": "div:nth-of-type(2) > div:nth-of-type(3) > div:nth-of-type(2) > select",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::select::aguascalientes baja california campeche chiapas baja california sur chihuahua coahuila colima ciudad de mexico guanajuat",
+      "outcome": "failed",
+      "ok": false,
+      "error": "not interactable: covered by <button.cursor-pointer>"
+    },
+    {
+      "description": "Click \"Tax\".",
+      "kind": "button",
+      "elementName": "Tax",
+      "selector": "#radix-_r_a_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::button::tax",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Setup\".",
+      "kind": "button",
+      "elementName": "Setup",
+      "selector": "#radix-_r_d_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/international-tax-setup::button::setup",
+      "outcome": "dialog-opened",
+      "ok": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Open dialog from 1101 Corporate Office Encore USA SGA",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Actions",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise select: VAT",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from Commissions",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Tax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Setup",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    }
+  ],
+  "bugs": [
+    {
+      "id": "BUG-INPUT-001",
+      "title": "Field \"Rate\" silently truncates input",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Validation",
+      "detector": "input-boundary",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+        "2. Type 300 characters into the \"Rate\" field.",
+        "3. Observe that only 1 characters are kept and nothing explains why."
+      ],
+      "expectedResult": "A field that limits length declares it (maxlength, a counter, or a validation message) so the user knows the value was cut.",
+      "actualResult": "300 characters were entered and the field kept 1, with no maxlength attribute and no message.",
+      "evidence": {
+        "screenshot": "evidence/BUG-INPUT-001.png",
+        "domSnippet": null,
+        "selector": "#international-tax-setup-rate-apply",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:05.930Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "46d6c0403c2c"
+    },
+    {
+      "id": "BUG-INPUT-002",
+      "title": "Field \"Select date\" silently truncates input",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Validation",
+      "detector": "input-boundary",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+        "2. Type 300 characters into the \"Select date\" field.",
+        "3. Observe that only 0 characters are kept and nothing explains why."
+      ],
+      "expectedResult": "A field that limits length declares it (maxlength, a counter, or a validation message) so the user knows the value was cut.",
+      "actualResult": "300 characters were entered and the field kept 0, with no maxlength attribute and no message.",
+      "evidence": {
+        "screenshot": "evidence/BUG-INPUT-002.png",
+        "domSnippet": null,
+        "selector": "div:nth-of-type(1) > div > div > input",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:05.992Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "1fb4b3a60a73"
+    },
+    {
+      "id": "BUG-LABEL-001",
+      "title": "6 form control(s) have no accessible label on International Tax Setup",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "missing-label",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+        "2. Inspect the form controls listed above and confirm none carries a label association."
+      ],
+      "expectedResult": "Every form control is named by a <label for>, aria-label or aria-labelledby, so assistive technology can announce it.",
+      "actualResult": "6 control(s) are named only by placeholder text or by nothing at all: button[type=button] (Mexico); select (Mexico Canada Bahamas); button[type=button] (VAT); select (VAT); button[type=button] (Select province)",
+      "evidence": {
+        "screenshot": "evidence/BUG-LABEL-001.png",
+        "domSnippet": null,
+        "selector": "#international-tax-setup-country",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:06.056Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "d5f272af2270"
+    },
+    {
+      "id": "BUG-LAYOUT-001",
+      "title": "Text is cut off by its container on International Tax Setup",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup"
+      ],
+      "expectedResult": "Text either fits, wraps, or is truncated deliberately with an ellipsis and a full value on hover.",
+      "actualResult": "1 element(s) hide overflowing text with no ellipsis: span: \"Grid Options\"",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:06.126Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "b50ab6ffa0c3"
+    },
+    {
+      "id": "BUG-LAYOUT-002",
+      "title": "Interactive elements overlap on International Tax Setup",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup"
+      ],
+      "expectedResult": "Controls do not sit on top of one another — an overlapped control cannot be clicked reliably.",
+      "actualResult": "2 overlapping pair(s). Worst: input \"Select date\" over button \"Open calendar\" (100% covered).",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-002.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:06.195Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "df4e61c6127b"
+    }
+  ],
+  "errors": [],
+  "notTested": [
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/home",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/inbox",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/fulfillments",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/assets",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/customers",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/products",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup :: Open the \"Mexico Canada Bahamas\" dropdown.",
+      "reason": "not interactable: covered by <button.cursor-pointer>"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup :: Open the \"Aguascalientes Baja California Campeche Chiapas Baja Califo…\" dropdown.",
+      "reason": "not interactable: covered by <button.cursor-pointer>"
+    }
+  ],
+  "stopReason": "completed — frontier exhausted",
+  "totals": {
+    "pagesVisited": 1,
+    "actionsPerformed": 12,
+    "scenariosExplored": 6,
+    "bugsFound": 5,
+    "findingsBeforeDedup": 5,
+    "errors": 0,
+    "notTested": 8,
+    "bySeverity": {
+      "Critical": 0,
+      "Major": 0,
+      "Minor": 5,
+      "Trivial": 0
+    },
+    "byCategory": {
+      "Validation": 2,
+      "Accessibility": 1,
+      "UI": 2
+    }
+  }
+}

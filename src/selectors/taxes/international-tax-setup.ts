@@ -15,7 +15,7 @@ export const BTN_MORE_INFORMATION = 'main button[aria-label="More information"]'
 export const SEARCH_PANEL = 'main form';
 
 // Radix Select triggers. Each sits next to an aria-hidden native <select> mirror — never target that.
-// The visible captions are bare <span>s, so these triggers have NO accessible name (see TC-074).
+// The visible captions are bare <span>s, so these triggers have NO accessible name (see TC-062).
 export const CMB_COUNTRY = '#international-tax-setup-country';
 export const CMB_TAX_GROUP = '#international-tax-setup-tax-group';
 export const CMB_PROVINCE = '#international-tax-setup-province';

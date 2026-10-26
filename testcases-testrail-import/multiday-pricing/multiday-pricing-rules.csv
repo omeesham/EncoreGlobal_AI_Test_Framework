@@ -1,5 +1,5 @@
 ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
-,Setup menu entry opens the Multiday Pricing Rules page,,,,,Automated,Nikita Nangare,,,Route /locations/2359/settings/multiday-pricing-rules; heading 'Multiday Pricing',,,multiday-pricing,,"Test Data:
+,Setup menu entry opens the Multiday Pricing Rules page,,,,,Automated,Omeesha Mahanta,,,Route /locations/2359/settings/multiday-pricing-rules; heading 'Multiday Pricing',,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -7,139 +7,139 @@ Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>2. Expand Setup in the sidebar</li>
 <li>3. Click Multiday Pricing Rules</li>
 </ol>",,,3. Route /locations/2359/settings/multiday-pricing-rules; heading 'Multiday Pricing',,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Direct URL loads the page with browser title, heading and grid",,,,,Automated,Nikita Nangare,,,"Title 'Multiday Pricing | Navigator', heading shown, ≥1 rule row",,,multiday-pricing,,"Test Data:
+,"Direct URL loads the page with browser title, heading and grid",,,,,Automated,Omeesha Mahanta,,,"Title 'Multiday Pricing | Navigator', heading shown, ≥1 rule row",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Open /settings/multiday-pricing-rules directly</li>
 </ol>",,,"1. Title 'Multiday Pricing | Navigator', heading shown, ≥1 rule row",,,,Master,S1620,Test Case (Steps),Regression,,,
-,More information icon shows a tooltip,,,,,Automated,Nikita Nangare,,,Tooltip with non-empty text,,,multiday-pricing,,"Test Data:
+,More information icon shows a tooltip,,,,,Automated,Omeesha Mahanta,,,Tooltip with non-empty text,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Hover the (i) icon beside the title</li>
 </ol>",,,1. Tooltip with non-empty text,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Loading skeleton shows while rules are pending and clears when they arrive,,,,,Automated,Nikita Nangare,,,Skeleton visible while pending; rows replace it after the response,,,multiday-pricing,,"Test Data:
+,Loading skeleton shows while rules are pending and clears when they arrive,,,,,Automated,Omeesha Mahanta,,,Skeleton visible while pending; rows replace it after the response,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Hold the rules response 6 s</li>
 <li>2. Open the page</li>
 </ol>",,,2. Skeleton visible while pending; rows replace it after the response,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Grid is usable within the load budget,,,,,Automated,Nikita Nangare,,,Under 30 s budget,,,multiday-pricing,,"Test Data:
+,Grid is usable within the load budget,,,,,Automated,Omeesha Mahanta,,,Under 30 s budget,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Time page open until rows render</li>
 </ol>",,,1. Under 30 s budget,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Headers read Service Type Name then 1 Day to 14 Days in order,,,,,Automated,Nikita Nangare,,,"Service Type Name, 1 Day, 2 Days … 14 Days in order",,,multiday-pricing,,"Test Data:
+,Headers read Service Type Name then 1 Day to 14 Days in order,,,,,Automated,Omeesha Mahanta,,,"Service Type Name, 1 Day, 2 Days … 14 Days in order",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Read the header row</li>
 </ol>",,,"1. Service Type Name, 1 Day, 2 Days … 14 Days in order",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Every service type row carries fourteen day values,,,,,Automated,Nikita Nangare,,,"Each row has 14 integer values, none blank",,,multiday-pricing,,"Test Data:
+,Every service type row carries fourteen day values,,,,,Automated,Omeesha Mahanta,,,"Each row has 14 integer values, none blank",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Read every row</li>
 </ol>",,,"1. Each row has 14 integer values, none blank",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Grid values match the rules returned by the server, cell by cell",,,,,Automated,Nikita Nangare,,,Every cell equals the server BillableDays for that ServiceTypeName + JobDays,,,multiday-pricing,,"Test Data:
+,"Grid values match the rules returned by the server, cell by cell",,,,,Automated,Omeesha Mahanta,,,Every cell equals the server BillableDays for that ServiceTypeName + JobDays,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Capture getMultidayPricingRules response while loading</li>
 <li>2. Read every grid cell</li>
 </ol>",,,2. Every cell equals the server BillableDays for that ServiceTypeName + JobDays,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Each service type appears in exactly one row,,,,,Automated,Nikita Nangare,,,No duplicates,,,multiday-pricing,,"Test Data:
+,Each service type appears in exactly one row,,,,,Automated,Omeesha Mahanta,,,No duplicates,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Read service type names</li>
 </ol>",,,1. No duplicates,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Server orders rules by service type then job days, and the grid keeps that order",,,,,Automated,Nikita Nangare,,,Response grouped by type with job days 1..14; grid order equals response order,,,multiday-pricing,,"Test Data:
+,"Server orders rules by service type then job days, and the grid keeps that order",,,,,Automated,Omeesha Mahanta,,,Response grouped by type with job days 1..14; grid order equals response order,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Capture rules</li>
 <li>2. Read grid order</li>
 </ol>",,,2. Response grouped by type with job days 1..14; grid order equals response order,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Loaded rules respect 0 ≤ billable ≤ job days and never decrease left to right,,,,,Automated,Nikita Nangare,,,0 ≤ value ≤ job days; non-decreasing left→right,,,multiday-pricing,,"Test Data:
+,Loaded rules respect 0 ≤ billable ≤ job days and never decrease left to right,,,,,Automated,Omeesha Mahanta,,,0 ≤ value ≤ job days; non-decreasing left→right,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Read every row</li>
 </ol>",,,1. 0 ≤ value ≤ job days; non-decreasing left→right,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Rules are global — the read-only and corporate offices show the same grid,,,,,Automated,Nikita Nangare,,,Identical names and values,,,multiday-pricing,,"Test Data:
+,Rules are global — the read-only and corporate offices show the same grid,,,,,Automated,Omeesha Mahanta,,,Identical names and values,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only) and Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Read grid at 2359</li>
 <li>2. Read grid at 1101</li>
 </ol>",,,2. Identical names and values,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Items-found count equals the number of service types (read-only office),,,,,Automated,Nikita Nangare,,,Counter equals row count,,,multiday-pricing,,"Test Data:
+,Items-found count equals the number of service types (read-only office),,,,,Automated,Omeesha Mahanta,,,Counter equals row count,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Read 'items found'</li>
 <li>2. Count rows</li>
 </ol>",,,2. Counter equals row count,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Empty rule set shows the empty state and zero items,,,,,Automated,Nikita Nangare,,,"'No multiday pricing rules found', 0 items, no error toast",,,multiday-pricing,,"Test Data:
+,Empty rule set shows the empty state and zero items,,,,,Automated,Omeesha Mahanta,,,"'No multiday pricing rules found', 0 items, no error toast",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Rewrite rules response to an empty list</li>
 <li>2. Open the page</li>
 </ol>",,,"2. 'No multiday pricing rules found', 0 items, no error toast",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Rules request failure leaves the page usable,,,,,Automated,Nikita Nangare,,,"Heading, Grid Options and grid frame still rendered",,,multiday-pricing,,"Test Data:
+,Rules request failure leaves the page usable,,,,,Automated,Omeesha Mahanta,,,"Heading, Grid Options and grid frame still rendered",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Abort the rules request</li>
 <li>2. Open the page</li>
 </ol>",,,"2. Heading, Grid Options and grid frame still rendered",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Rules request failure is reported, not shown as ""no rules"" [BUG-MDP-RUL-004]",,,,,Automated,Nikita Nangare,,,Error surfaced; empty-state copy not used. FAILS BY DESIGN — BUG-MDP-RUL-004,,,multiday-pricing,,"Test Data:
+,"Rules request failure is reported, not shown as ""no rules"" [BUG-MDP-RUL-004]",,,,,Automated,Omeesha Mahanta,,,Error surfaced; empty-state copy not used. FAILS BY DESIGN — BUG-MDP-RUL-004,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Rewrite rules response to success:false</li>
 <li>2. Open the page</li>
 </ol>",,,2. Error surfaced; empty-state copy not used. FAILS BY DESIGN — BUG-MDP-RUL-004,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Sorting Service Type Name descending then ascending reorders the rows,,,,,Automated,Nikita Nangare,,,Z→A then A→Z (locale order),,,multiday-pricing,,"Test Data:
+,Sorting Service Type Name descending then ascending reorders the rows,,,,,Automated,Omeesha Mahanta,,,Z→A then A→Z (locale order),,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Sort Service Type Name descending</li>
 <li>2. Sort ascending</li>
 </ol>",,,2. Z→A then A→Z (locale order),,,,Master,S1620,Test Case (Steps),Regression,,,
-,Sorting a day column orders rows numerically,,,,,Automated,Nikita Nangare,,,Numeric order both ways,,,multiday-pricing,,"Test Data:
+,Sorting a day column orders rows numerically,,,,,Automated,Omeesha Mahanta,,,Numeric order both ways,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Sort 14 Days ascending</li>
 <li>2. Sort descending</li>
 </ol>",,,2. Numeric order both ways,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Sorting moves whole rows — no value changes service type,,,,,Automated,Nikita Nangare,,,Every row keeps its own 14 values,,,multiday-pricing,,"Test Data:
+,Sorting moves whole rows — no value changes service type,,,,,Automated,Omeesha Mahanta,,,Every row keeps its own 14 values,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Record rows</li>
 <li>2. Sort 7 Days descending</li>
 </ol>",,,2. Every row keeps its own 14 values,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Dragging a resize handle widens the column and keeps it readable,,,,,Automated,Nikita Nangare,,,Column wider by >40 px; header and values readable,,,multiday-pricing,,"Test Data:
+,Dragging a resize handle widens the column and keeps it readable,,,,,Automated,Omeesha Mahanta,,,Column wider by >40 px; header and values readable,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Drag the 1 Day resize handle +120 px</li>
 </ol>",,,1. Column wider by >40 px; header and values readable,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Hiding a column removes it and the choice survives a reload,,,,,Automated,Nikita Nangare,,,"Column hidden, preference stored, still hidden after reload, other days still mapped",,,multiday-pricing,,"Test Data:
+,Hiding a column removes it and the choice survives a reload,,,,,Automated,Omeesha Mahanta,,,"Column hidden, preference stored, still hidden after reload, other days still mapped",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Header menu 3 Days → Hide column</li>
 <li>2. Reload</li>
 </ol>",,,"2. Column hidden, preference stored, still hidden after reload, other days still mapped",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Grid Options lists every column and Reset to Default View restores hidden ones,,,,,Automated,Nikita Nangare,,,"15 column checkboxes, 5 Days unchecked; reset restores all",,,multiday-pricing,,"Test Data:
+,Grid Options lists every column and Reset to Default View restores hidden ones,,,,,Automated,Omeesha Mahanta,,,"15 column checkboxes, 5 Days unchecked; reset restores all",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -147,59 +147,59 @@ Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol
 <li>2. Open Grid Options</li>
 <li>3. Reset to Default View</li>
 </ol>",,,"3. 15 column checkboxes, 5 Days unchecked; reset restores all",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A saved custom column order is honoured and values still map by job day,,,,,Automated,Nikita Nangare,,,Headers follow stored order; values still match server by job day,,,multiday-pricing,,"Test Data:
+,A saved custom column order is honoured and values still map by job day,,,,,Automated,Omeesha Mahanta,,,Headers follow stored order; values still match server by job day,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Store a custom column order in localStorage</li>
 <li>2. Reload</li>
 </ol>",,,2. Headers follow stored order; values still match server by job day,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Read-only office shows no Save, Delete, add-row or editable cells",,,,,Automated,Nikita Nangare,,,"No Save, no Delete, no combobox, no inputs",,,multiday-pricing,,"Test Data:
+,"Read-only office shows no Save, Delete, add-row or editable cells",,,,,Automated,Omeesha Mahanta,,,"No Save, no Delete, no combobox, no inputs",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Open the page</li>
 </ol>",,,"1. No Save, no Delete, no combobox, no inputs",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Read-only cells cannot be changed by clicking and typing,,,,,Automated,Nikita Nangare,,,Value and row unchanged,,,multiday-pricing,,"Test Data:
+,Read-only cells cannot be changed by clicking and typing,,,,,Automated,Omeesha Mahanta,,,Value and row unchanged,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Double-click a cell</li>
 <li>2. Type 9 and Delete</li>
 </ol>",,,2. Value and row unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Corporate office shows Save (disabled), Delete per row and editable cells",,,,,Automated,Nikita Nangare,,,Save present and disabled; Delete on every row; 14 inputs per row,,,multiday-pricing,,"Test Data:
+,"Corporate office shows Save (disabled), Delete per row and editable cells",,,,,Automated,Omeesha Mahanta,,,Save present and disabled; Delete on every row; 14 inputs per row,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Open the page</li>
 </ol>",,,1. Save present and disabled; Delete on every row; 14 inputs per row,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Corporate office offers a trailing add-row whose cells wait for a service type,,,,,Automated,Nikita Nangare,,,Empty Service Type dropdown; cells readonly titled 'Select a Service Type first'; no Delete,,,multiday-pricing,,"Test Data:
+,Corporate office offers a trailing add-row whose cells wait for a service type,,,,,Automated,Omeesha Mahanta,,,Empty Service Type dropdown; cells readonly titled 'Select a Service Type first'; no Delete,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Inspect the last row</li>
 </ol>",,,1. Empty Service Type dropdown; cells readonly titled 'Select a Service Type first'; no Delete,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Items-found count on the corporate office includes the add-row,,,,,Automated,Nikita Nangare,,,Counter equals configured rows + 1 (the add-row),,,multiday-pricing,,"Test Data:
+,Items-found count on the corporate office includes the add-row,,,,,Automated,Omeesha Mahanta,,,Counter equals configured rows + 1 (the add-row),,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Read 'items found'</li>
 <li>2. Count configured rows</li>
 </ol>",,,2. Counter equals configured rows + 1 (the add-row),,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Dropdown excludes Labor, Freight, Consumable, Service Charge and Damage Waiver types",,,,,Automated,Nikita Nangare,,,No type flagged Labor/Freight/Consumable/Cable&Consumable/Service Charge/Damage Waiver is offered,,,multiday-pricing,,"Test Data:
+,"Dropdown excludes Labor, Freight, Consumable, Service Charge and Damage Waiver types",,,,,Automated,Omeesha Mahanta,,,No type flagged Labor/Freight/Consumable/Cable&Consumable/Service Charge/Damage Waiver is offered,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Capture getAllServiceTypesAction</li>
 <li>2. Open the add-row dropdown</li>
 </ol>",,,2. No type flagged Labor/Freight/Consumable/Cable&Consumable/Service Charge/Damage Waiver is offered,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Dropdown excludes service types already in the grid,,,,,Automated,Nikita Nangare,,,No configured type is offered,,,multiday-pricing,,"Test Data:
+,Dropdown excludes service types already in the grid,,,,,Automated,Omeesha Mahanta,,,No configured type is offered,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Open the add-row dropdown</li>
 </ol>",,,1. No configured type is offered,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Dropdown offers exactly the eligible, unconfigured service types in alphabetical order",,,,,Automated,Nikita Nangare,,,"Options equal the computed list, A→Z",,,multiday-pricing,,"Test Data:
+,"Dropdown offers exactly the eligible, unconfigured service types in alphabetical order",,,,,Automated,Omeesha Mahanta,,,"Options equal the computed list, A→Z",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -207,54 +207,54 @@ Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>2. Compute eligible − configured</li>
 <li>3. Open dropdown</li>
 </ol>",,,"3. Options equal the computed list, A→Z",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Picking a service type alone leaves the cells blank and Save disabled,,,,,Automated,Nikita Nangare,,,Cells blank; Save disabled,,,multiday-pricing,,"Test Data:
+,Picking a service type alone leaves the cells blank and Save disabled,,,,,Automated,Omeesha Mahanta,,,Cells blank; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Pick a type on the add-row</li>
 <li>2. Leave</li>
 </ol>",,,2. Cells blank; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Entering the new row fills defaults 1–14, adds a fresh add-row and enables Save",,,,,Automated,Nikita Nangare,,,Values 1..14; new add-row appended; count +1; Save enabled,,,multiday-pricing,,"Test Data:
+,"Entering the new row fills defaults 1–14, adds a fresh add-row and enables Save",,,,,Automated,Omeesha Mahanta,,,Values 1..14; new add-row appended; count +1; Save enabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Pick a type</li>
 <li>2. Click its 1 Day cell</li>
 </ol>",,,2. Values 1..14; new add-row appended; count +1; Save enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A committed new row locks its service type and offers Delete,,,,,Automated,Nikita Nangare,,,Name locked (no dropdown); Delete available,,,multiday-pricing,,"Test Data:
+,A committed new row locks its service type and offers Delete,,,,,Automated,Omeesha Mahanta,,,Name locked (no dropdown); Delete available,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Add a type</li>
 </ol>",,,1. Name locked (no dropdown); Delete available,,,,Master,S1620,Test Case (Steps),Regression,,,
-,The next add-row no longer offers the type just added (duplicate prevention before Save),,,,,Automated,Nikita Nangare,,,Added type absent; other options unchanged,,,multiday-pricing,,"Test Data:
+,The next add-row no longer offers the type just added (duplicate prevention before Save),,,,,Automated,Omeesha Mahanta,,,Added type absent; other options unchanged,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Add a type (unsaved)</li>
 <li>2. Open next add-row dropdown</li>
 </ol>",,,2. Added type absent; other options unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,An existing service type name cannot be edited,,,,,Automated,Nikita Nangare,,,No dropdown/listbox; name unchanged,,,multiday-pricing,,"Test Data:
+,An existing service type name cannot be edited,,,,,Automated,Omeesha Mahanta,,,No dropdown/listbox; name unchanged,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Click an existing service type name</li>
 </ol>",,,1. No dropdown/listbox; name unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Deleting an unsaved new row removes it and clears the dirty state,,,,,Automated,Nikita Nangare,,,Row gone; Save disabled; type offered again,,,multiday-pricing,,"Test Data:
+,Deleting an unsaved new row removes it and clears the dirty state,,,,,Automated,Omeesha Mahanta,,,Row gone; Save disabled; type offered again,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Add a type</li>
 <li>2. Delete it (Yes)</li>
 </ol>",,,2. Row gone; Save disabled; type offered again,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Default values on a new row are validated like any other row,,,,,Automated,Nikita Nangare,,,Exceed message; Save disabled,,,multiday-pricing,,"Test Data:
+,Default values on a new row are validated like any other row,,,,,Automated,Omeesha Mahanta,,,Exceed message; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Add a type</li>
 <li>2. Type 5 in 3 Days</li>
 </ol>",,,2. Exceed message; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,New service type save payload holds 14 inserts with billable = job days,,,,,Automated,Nikita Nangare,,,"One request: 14 × {id 0, serviceTypeNameId, jobDays d, billableDays d, isDeleted false}",,,multiday-pricing,,"Test Data:
+,New service type save payload holds 14 inserts with billable = job days,,,,,Automated,Omeesha Mahanta,,,"One request: 14 × {id 0, serviceTypeNameId, jobDays d, billableDays d, isDeleted false}",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -262,168 +262,168 @@ Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<
 <li>2. Add a type</li>
 <li>3. Save</li>
 </ol>",,,"3. One request: 14 × {id 0, serviceTypeNameId, jobDays d, billableDays d, isDeleted false}",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A valid edit enables Save; restoring the original value disables it again,,,,,Automated,Nikita Nangare,,,"Save enabled, then disabled",,,multiday-pricing,,"Test Data:
+,A valid edit enables Save; restoring the original value disables it again,,,,,Automated,Omeesha Mahanta,,,"Save enabled, then disabled",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Commit a valid different value</li>
 <li>2. Commit the original back</li>
 </ol>",,,"2. Save enabled, then disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A value above the column's job days is rejected,,,,,Automated,Nikita Nangare,,,'Billable days cannot exceed 5 days'; Save disabled,,,multiday-pricing,,"Test Data:
+,A value above the column's job days is rejected,,,,,Automated,Omeesha Mahanta,,,'Billable days cannot exceed 5 days'; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type 6 in 5 Days</li>
 </ol>",,,1. 'Billable days cannot exceed 5 days'; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Boundary — billable equal to job days is accepted, one more is rejected",,,,,Automated,Nikita Nangare,,,15 rejected; 14 accepted,,,multiday-pricing,,"Test Data:
+,"Boundary — billable equal to job days is accepted, one more is rejected",,,,,Automated,Omeesha Mahanta,,,15 rejected; 14 accepted,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type 15 in 14 Days</li>
 <li>2. Type 14</li>
 </ol>",,,2. 15 rejected; 14 accepted,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"A value above 1 under ""1 Day"" is rejected with the exceed message",,,,,Automated,Nikita Nangare,,,'Billable days cannot exceed 1 days'; Save disabled,,,multiday-pricing,,"Test Data:
+,"A value above 1 under ""1 Day"" is rejected with the exceed message",,,,,Automated,Omeesha Mahanta,,,'Billable days cannot exceed 1 days'; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type 2 in 1 Day</li>
 </ol>",,,1. 'Billable days cannot exceed 1 days'; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"A value lower than the previous day is rejected, citing the previous value",,,,,Automated,Nikita Nangare,,,'…greater than or equal to the previous day (N days)'; Save disabled,,,multiday-pricing,,"Test Data:
+,"A value lower than the previous day is rejected, citing the previous value",,,,,Automated,Omeesha Mahanta,,,'…greater than or equal to the previous day (N days)'; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type previous−1 in a cell</li>
 </ol>",,,1. '…greater than or equal to the previous day (N days)'; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A value higher than the next day is rejected,,,,,Automated,Nikita Nangare,,,'…less than or equal to the next day'; Save disabled,,,multiday-pricing,,"Test Data:
+,A value higher than the next day is rejected,,,,,Automated,Omeesha Mahanta,,,'…less than or equal to the next day'; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type next+1 (≤ job days) in a cell</li>
 </ol>",,,1. '…less than or equal to the next day'; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"When a value breaks both the maximum and the next-day rule, the maximum message wins",,,,,Automated,Nikita Nangare,,,Exceed message wins,,,multiday-pricing,,"Test Data:
+,"When a value breaks both the maximum and the next-day rule, the maximum message wins",,,,,Automated,Omeesha Mahanta,,,Exceed message wins,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type a value above both job days and next day</li>
 </ol>",,,1. Exceed message wins,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Minus sign, decimal point, letters and symbols never enter a cell",,,,,Automated,Nikita Nangare,,,Cell stays empty for each,,,multiday-pricing,,"Test Data:
+,"Minus sign, decimal point, letters and symbols never enter a cell",,,,,Automated,Omeesha Mahanta,,,Cell stays empty for each,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type -, ., a, +, e, space, comma, <script></li>
 </ol>",,,1. Cell stays empty for each,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Typing ""2.5"" cannot produce a fractional value",,,,,Automated,Nikita Nangare,,,Becomes 25 → exceed message,,,multiday-pricing,,"Test Data:
+,"Typing ""2.5"" cannot produce a fractional value",,,,,Automated,Omeesha Mahanta,,,Becomes 25 → exceed message,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type 2.5 in 4 Days</li>
 </ol>",,,1. Becomes 25 → exceed message,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Leading zeros are stripped,,,,,Automated,Nikita Nangare,,,Padding dropped; 0 kept,,,multiday-pricing,,"Test Data:
+,Leading zeros are stripped,,,,,Automated,Omeesha Mahanta,,,Padding dropped; 0 kept,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type 00<current> in 14 Days</li>
 <li>2. Type 0 in 1 Day</li>
 </ol>",,,2. Padding dropped; 0 kept,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"A huge number is reported as above the maximum, without breaking the page",,,,,Automated,Nikita Nangare,,,Exceed message; page still works,,,multiday-pricing,,"Test Data:
+,"A huge number is reported as above the maximum, without breaking the page",,,,,Automated,Omeesha Mahanta,,,Exceed message; page still works,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type a 20-digit number in 14 Days</li>
 </ol>",,,1. Exceed message; page still works,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Clearing a cell commits zero rather than a blank,,,,,Automated,Nikita Nangare,,,"Cell shows 0, valid",,,multiday-pricing,,"Test Data:
+,Clearing a cell commits zero rather than a blank,,,,,Automated,Omeesha Mahanta,,,"Cell shows 0, valid",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Clear 1 Day</li>
 <li>2. Leave</li>
 </ol>",,,"2. Cell shows 0, valid",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"An invalid cell keeps focus, and Delete is unavailable while a cell is being edited",,,,,Automated,Nikita Nangare,,,Focus returns to the cell; Delete buttons disabled,,,multiday-pricing,,"Test Data:
+,"An invalid cell keeps focus, and Delete is unavailable while a cell is being edited",,,,,Automated,Omeesha Mahanta,,,Focus returns to the cell; Delete buttons disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type 9 in 5 Days</li>
 <li>2. Tab away</li>
 </ol>",,,2. Focus returns to the cell; Delete buttons disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Correcting an invalid value clears the error,,,,,Automated,Nikita Nangare,,,Error cleared; Save disabled,,,multiday-pricing,,"Test Data:
+,Correcting an invalid value clears the error,,,,,Automated,Omeesha Mahanta,,,Error cleared; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type invalid</li>
 <li>2. Type original back</li>
 </ol>",,,2. Error cleared; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Raising a flat run of equal values works right-to-left only,,,,,Automated,Nikita Nangare,,,Left-first refused; right-then-left accepted,,,multiday-pricing,,"Test Data:
+,Raising a flat run of equal values works right-to-left only,,,,,Automated,Omeesha Mahanta,,,Left-first refused; right-then-left accepted,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Raise left of an equal pair</li>
 <li>2. Revert; raise right then left</li>
 </ol>",,,2. Left-first refused; right-then-left accepted,,,,Master,S1620,Test Case (Steps),Regression,,,
-,The validation message is exposed to assistive technology,,,,,Automated,Nikita Nangare,,,"aria-invalid=true, inputmode numeric, described-by message",,,multiday-pricing,,"Test Data:
+,The validation message is exposed to assistive technology,,,,,Automated,Omeesha Mahanta,,,"aria-invalid=true, inputmode numeric, described-by message",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Type 3 in 2 Days</li>
 </ol>",,,"1. aria-invalid=true, inputmode numeric, described-by message",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Pasting non-numeric text is refused,,,,,Automated,Nikita Nangare,,,Cell unchanged,,,multiday-pricing,,"Test Data:
+,Pasting non-numeric text is refused,,,,,Automated,Omeesha Mahanta,,,Cell unchanged,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Paste 'abc'</li>
 <li>2. Paste '1,5'</li>
 </ol>",,,2. Cell unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Tab moves from one day cell to the next,,,,,Automated,Nikita Nangare,,,Focus on 2 Days,,,multiday-pricing,,"Test Data:
+,Tab moves from one day cell to the next,,,,,Automated,Omeesha Mahanta,,,Focus on 2 Days,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Focus 1 Day</li>
 <li>2. Press Tab</li>
 </ol>",,,2. Focus on 2 Days,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Delete asks for confirmation naming the service type,,,,,Automated,Nikita Nangare,,,'Confirmation Notice' / 'Are you sure you want to delete <type> ?' with No/Yes,,,multiday-pricing,,"Test Data:
+,Delete asks for confirmation naming the service type,,,,,Automated,Omeesha Mahanta,,,'Confirmation Notice' / 'Are you sure you want to delete <type> ?' with No/Yes,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Click Delete on a row</li>
 </ol>",,,1. 'Confirmation Notice' / 'Are you sure you want to delete <type> ?' with No/Yes,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Dismissing the delete confirmation with No keeps the row,,,,,Automated,Nikita Nangare,,,Row kept; count same; Save disabled,,,multiday-pricing,,"Test Data:
+,Dismissing the delete confirmation with No keeps the row,,,,,Automated,Omeesha Mahanta,,,Row kept; count same; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Delete → No</li>
 </ol>",,,1. Row kept; count same; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Dismissing the delete confirmation with Close keeps the row,,,,,Automated,Nikita Nangare,,,Row kept; count same; Save disabled,,,multiday-pricing,,"Test Data:
+,Dismissing the delete confirmation with Close keeps the row,,,,,Automated,Omeesha Mahanta,,,Row kept; count same; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Delete → Close (X)</li>
 </ol>",,,1. Row kept; count same; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Dismissing the delete confirmation with Escape keeps the row,,,,,Automated,Nikita Nangare,,,Row kept; count same; Save disabled,,,multiday-pricing,,"Test Data:
+,Dismissing the delete confirmation with Escape keeps the row,,,,,Automated,Omeesha Mahanta,,,Row kept; count same; Save disabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Delete → Escape</li>
 </ol>",,,1. Row kept; count same; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Confirming Yes hides the row, says it will go on Save, and enables Save",,,,,Automated,Nikita Nangare,,,Row hidden; toast 'Row marked for deletion…'; Save enabled,,,multiday-pricing,,"Test Data:
+,"Confirming Yes hides the row, says it will go on Save, and enables Save",,,,,Automated,Omeesha Mahanta,,,Row hidden; toast 'Row marked for deletion…'; Save enabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Delete → Yes</li>
 </ol>",,,1. Row hidden; toast 'Row marked for deletion…'; Save enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A staged deletion hides the row but the count only changes on Save,,,,,Automated,Nikita Nangare,,,Row hidden; count unchanged until Save; Save enabled,,,multiday-pricing,,"Test Data:
+,A staged deletion hides the row but the count only changes on Save,,,,,Automated,Omeesha Mahanta,,,Row hidden; count unchanged until Save; Save enabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Stage a delete (Yes)</li>
 <li>2. Read count</li>
 </ol>",,,2. Row hidden; count unchanged until Save; Save enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A staged delete is not persisted — leaving without Save keeps the rules,,,,,Automated,Nikita Nangare,,,Row back; no save request,,,multiday-pricing,,"Test Data:
+,A staged delete is not persisted — leaving without Save keeps the rules,,,,,Automated,Omeesha Mahanta,,,Row back; no save request,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Stage a delete</li>
 <li>2. Reload without Save</li>
 </ol>",,,2. Row back; no save request,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Delete payload marks all 14 rules of the service type with their ids,,,,,Automated,Nikita Nangare,,,"14 × {rule id, serviceTypeNameId, jobDays, billableDays, isDeleted true}",,,multiday-pricing,,"Test Data:
+,Delete payload marks all 14 rules of the service type with their ids,,,,,Automated,Omeesha Mahanta,,,"14 × {rule id, serviceTypeNameId, jobDays, billableDays, isDeleted true}",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -432,21 +432,21 @@ Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<
 <li>3. Stage delete</li>
 <li>4. Save</li>
 </ol>",,,"4. 14 × {rule id, serviceTypeNameId, jobDays, billableDays, isDeleted true}",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Pressing the Delete key in a cell edits the cell, it does not delete the row",,,,,Automated,Nikita Nangare,,,Row present; no dialog,,,multiday-pricing,,"Test Data:
+,"Pressing the Delete key in a cell edits the cell, it does not delete the row",,,,,Automated,Omeesha Mahanta,,,Row present; no dialog,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Focus 14 Days</li>
 <li>2. Home, Delete</li>
 </ol>",,,2. Row present; no dialog,,,,Master,S1620,Test Case (Steps),Regression,,,
-,With nothing changed Save is disabled and no write is sent,,,,,Automated,Nikita Nangare,,,Disabled; no request; no toast,,,multiday-pricing,,"Test Data:
+,With nothing changed Save is disabled and no write is sent,,,,,Automated,Omeesha Mahanta,,,Disabled; no request; no toast,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Edit and revert</li>
 <li>2. Force-click Save</li>
 </ol>",,,2. Disabled; no request; no toast,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Saving one changed cell sends only that rule with its id and job day,,,,,Automated,Nikita Nangare,,,"Exactly [{id, serviceTypeNameId, jobDays, billableDays, isDeleted false}]",,,multiday-pricing,,"Test Data:
+,Saving one changed cell sends only that rule with its id and job day,,,,,Automated,Omeesha Mahanta,,,"Exactly [{id, serviceTypeNameId, jobDays, billableDays, isDeleted false}]",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -455,7 +455,7 @@ Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<
 <li>3. Change one cell</li>
 <li>4. Save</li>
 </ol>",,,"4. Exactly [{id, serviceTypeNameId, jobDays, billableDays, isDeleted false}]",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Changes in two rows are sent together, untouched rows are excluded",,,,,Automated,Nikita Nangare,,,One request with exactly two updates,,,multiday-pricing,,"Test Data:
+,"Changes in two rows are sent together, untouched rows are excluded",,,,,Automated,Omeesha Mahanta,,,One request with exactly two updates,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -463,7 +463,7 @@ Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<
 <li>2. Change one cell in two rows</li>
 <li>3. Save</li>
 </ol>",,,3. One request with exactly two updates,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A value still being typed is included when Save is clicked,,,,,Automated,Nikita Nangare,,,Both values in payload,,,multiday-pricing,,"Test Data:
+,A value still being typed is included when Save is clicked,,,,,Automated,Omeesha Mahanta,,,Both values in payload,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -472,7 +472,7 @@ Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>3. Type in another without leaving</li>
 <li>4. Click Save at human speed</li>
 </ol>",,,4. Both values in payload,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A network failure on Save shows an error and keeps the edit,,,,,Automated,Nikita Nangare,,,'Failed to save multiday pricing rules'; edit kept; Save enabled,,,multiday-pricing,,"Test Data:
+,A network failure on Save shows an error and keeps the edit,,,,,Automated,Omeesha Mahanta,,,'Failed to save multiday pricing rules'; edit kept; Save enabled,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -480,7 +480,7 @@ Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>2. Change a cell</li>
 <li>3. Save</li>
 </ol>",,,3. 'Failed to save multiday pricing rules'; edit kept; Save enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A server error on Save shows an error and nothing is marked saved,,,,,Automated,Nikita Nangare,,,Error toast; still dirty; reload shows original,,,multiday-pricing,,"Test Data:
+,A server error on Save shows an error and nothing is marked saved,,,,,Automated,Omeesha Mahanta,,,Error toast; still dirty; reload shows original,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -489,7 +489,7 @@ Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>3. Save</li>
 <li>4. Reload</li>
 </ol>",,,4. Error toast; still dirty; reload shows original,,,,Master,S1620,Test Case (Steps),Regression,,,
-,While a save is in flight Save is disabled and a second click sends nothing,,,,,Automated,Nikita Nangare,,,Disabled in flight; one request,,,multiday-pricing,,"Test Data:
+,While a save is in flight Save is disabled and a second click sends nothing,,,,,Automated,Omeesha Mahanta,,,Disabled in flight; one request,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -497,7 +497,7 @@ Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol
 <li>2. Save</li>
 <li>3. Click Save again</li>
 </ol>",,,3. Disabled in flight; one request,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Leaving through the sidebar with unsaved changes asks Stay or Discard,,,,,Automated,Nikita Nangare,,,Dialog copy; Stay keeps edit; Discard navigates,,,multiday-pricing,,"Test Data:
+,Leaving through the sidebar with unsaved changes asks Stay or Discard,,,,,Automated,Omeesha Mahanta,,,Dialog copy; Stay keeps edit; Discard navigates,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -505,7 +505,7 @@ Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>2. Click Home → Stay</li>
 <li>3. Click Home → Discard</li>
 </ol>",,,3. Dialog copy; Stay keeps edit; Discard navigates,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Sorting with unsaved changes asks first; Discard reverts the edit and sorts,,,,,Automated,Nikita Nangare,,,Stay: order+edit kept; Discard: reverted and sorted,,,multiday-pricing,,"Test Data:
+,Sorting with unsaved changes asks first; Discard reverts the edit and sorts,,,,,Automated,Omeesha Mahanta,,,Stay: order+edit kept; Discard: reverted and sorted,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -513,20 +513,20 @@ Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol
 <li>2. Sort → Stay</li>
 <li>3. Sort → Discard</li>
 </ol>",,,3. Stay: order+edit kept; Discard: reverted and sorted,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Reloading the browser with unsaved changes raises the leave-page prompt,,,,,Automated,Nikita Nangare,,,beforeunload prompt; edit kept on dismiss,,,multiday-pricing,,"Test Data:
+,Reloading the browser with unsaved changes raises the leave-page prompt,,,,,Automated,Omeesha Mahanta,,,beforeunload prompt; edit kept on dismiss,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Edit</li>
 <li>2. Reload browser</li>
 </ol>",,,2. beforeunload prompt; edit kept on dismiss,,,,Master,S1620,Test Case (Steps),Regression,,,
-,With no changes the page can be left without any prompt,,,,,Automated,Nikita Nangare,,,Navigates; no dialog,,,multiday-pricing,,"Test Data:
+,With no changes the page can be left without any prompt,,,,,Automated,Omeesha Mahanta,,,Navigates; no dialog,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Click Home on a clean page</li>
 </ol>",,,1. Navigates; no dialog,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"A saved cell persists, only that rule's audit fields move, and nothing else changes",,,,,Automated,Nikita Nangare,,,Success toast; single-rule payload; persisted; ModDate moved; CreateUser/Date untouched; all other rules unchanged,,,"multiday-pricing,mutating",,"Test Data:
+,"A saved cell persists, only that rule's audit fields move, and nothing else changes",,,,,Automated,Omeesha Mahanta,,,Success toast; single-rule payload; persisted; ModDate moved; CreateUser/Date untouched; all other rules unchanged,,,"multiday-pricing,mutating",,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -535,7 +535,7 @@ Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<
 <li>3. Reload</li>
 <li>4. Restore in finally</li>
 </ol>",,,4. Success toast; single-rule payload; persisted; ModDate moved; CreateUser/Date untouched; all other rules unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"A new service type persists with defaults and server audit, then its deletion persists",,,,,Automated,Nikita Nangare,,,14 rules with defaults + server audit; delete payload has the 14 ids; type gone and offered again,,,"multiday-pricing,mutating",,"Test Data:
+,"A new service type persists with defaults and server audit, then its deletion persists",,,,,Automated,Omeesha Mahanta,,,14 rules with defaults + server audit; delete payload has the 14 ids; type gone and offered again,,,"multiday-pricing,mutating",,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -545,14 +545,14 @@ Application: Navigator",Critical,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<
 <li>4. Reload</li>
 <li>5. Cleanup in finally</li>
 </ol>",,,5. 14 rules with defaults + server audit; delete payload has the 14 ids; type gone and offered again,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Client-supplied audit values are ignored by the server,,,,,Automated,Nikita Nangare,,,Audit fields not spoofed; value unchanged,,,"multiday-pricing,mutating",,"Test Data:
+,Client-supplied audit values are ignored by the server,,,,,Automated,Omeesha Mahanta,,,Audit fields not spoofed; value unchanged,,,"multiday-pricing,mutating",,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Call save action with spoofed CreatedBy/UpdatedBy (same value)</li>
 <li>2. Reload</li>
 </ol>",,,2. Audit fields not spoofed; value unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,The save action refuses a request that has no session,,,,,Automated,Nikita Nangare,,,Refused (redirect to sign-in); rule and its audit fields unchanged,,,multiday-pricing,,"Test Data:
+,The save action refuses a request that has no session,,,,,Automated,Omeesha Mahanta,,,Refused (redirect to sign-in); rule and its audit fields unchanged,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 2359 (read-only), no session
 Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -560,13 +560,13 @@ Application: Navigator",High,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>2. Send the save action from a context with no cookies, re-sending that value</li>
 <li>3. Read the rule again</li>
 </ol>",,,3. Refused (redirect to sign-in); rule and its audit fields unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Without a session the page sends the user to sign in,,,,,Automated,Nikita Nangare,,,Redirected to sign-in with this page as callbackUrl; no grid,,,multiday-pricing,,"Test Data:
+,Without a session the page sends the user to sign in,,,,,Automated,Omeesha Mahanta,,,Redirected to sign-in with this page as callbackUrl; no grid,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: No session
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Open the page in a fresh browser context</li>
 </ol>",,,1. Redirected to sign-in with this page as callbackUrl; no grid,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A save attempted after the session expires does not change data,,,,,Automated,Nikita Nangare,,,Stored rule unchanged,,,multiday-pricing,,"Test Data:
+,A save attempted after the session expires does not change data,,,,,Automated,Omeesha Mahanta,,,Stored rule unchanged,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
@@ -574,27 +574,27 @@ Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol
 <li>2. Clear its cookies</li>
 <li>3. Save</li>
 </ol>",,,3. Stored rule unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,No untranslated i18n key is visible on the page,,,,,Automated,Nikita Nangare,,,No raw i18n keys,,,multiday-pricing,,"Test Data:
+,No untranslated i18n key is visible on the page,,,,,Automated,Omeesha Mahanta,,,No raw i18n keys,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Trigger a validation message</li>
 <li>2. Scan page text</li>
 </ol>",,,2. No raw i18n keys,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Every page control has an accessible name,,,,,Automated,Nikita Nangare,,,"None empty; Save, Grid Options, Delete, headers, resize handles named",,,multiday-pricing,,"Test Data:
+,Every page control has an accessible name,,,,,Automated,Omeesha Mahanta,,,"None empty; Save, Grid Options, Delete, headers, resize handles named",,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Medium,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. List button accessible names</li>
 </ol>",,,"1. None empty; Save, Grid Options, Delete, headers, resize handles named",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Page stays usable at laptop 1366×768,,,,,Automated,Nikita Nangare,,,Heading and Save visible; grid scrolls; page does not,,,multiday-pricing,,"Test Data:
+,Page stays usable at laptop 1366×768,,,,,Automated,Omeesha Mahanta,,,Heading and Save visible; grid scrolls; page does not,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>
 <li>1. Viewport 1366×768</li>
 <li>2. Open page</li>
 </ol>",,,2. Heading and Save visible; grid scrolls; page does not,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Page stays usable at tablet 1024×768,,,,,Automated,Nikita Nangare,,,Heading and Save visible; grid scrolls; page does not,,,multiday-pricing,,"Test Data:
+,Page stays usable at tablet 1024×768,,,,,Automated,Omeesha Mahanta,,,Heading and Save visible; grid scrolls; page does not,,,multiday-pricing,,"Test Data:
 User: automation user (NavRevenueMgmt)
 Office: Office 1101 (corporate, edit)
 Application: Navigator",Low,NM-4129,Multiday_Pricing,0,,Multiday_Pricing,"<ol>

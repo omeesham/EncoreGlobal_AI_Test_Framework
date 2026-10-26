@@ -1,0 +1,252 @@
+{
+  "generatedAt": "2026-10-23T12:00:29.078Z",
+  "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+  "stopReason": "completed — frontier exhausted",
+  "totals": {
+    "pagesVisited": 1,
+    "actionsPerformed": 12,
+    "scenariosExplored": 6,
+    "bugsFound": 5,
+    "findingsBeforeDedup": 5,
+    "errors": 0,
+    "notTested": 8,
+    "bySeverity": {
+      "Critical": 0,
+      "Major": 0,
+      "Minor": 5,
+      "Trivial": 0
+    },
+    "byCategory": {
+      "Validation": 2,
+      "Accessibility": 1,
+      "UI": 2
+    }
+  },
+  "configUsed": {
+    "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+    "allowedOrigins": [
+      "https://cloudapps-e2e.encoreglobal.com"
+    ],
+    "excludeUrlPatterns": [
+      "logout",
+      "signout",
+      "sign-out",
+      "\\/api\\/auth\\/signout",
+      "login\\.microsoftonline\\.com",
+      "b2clogin\\.com",
+      "\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)",
+      "^mailto:",
+      "^tel:",
+      "^javascript:",
+      "\\/api\\/",
+      "\\/_next\\/",
+      "\\/auth\\/signin",
+      "\\/reports\\/download"
+    ],
+    "includeUrlPatterns": [
+      "international-tax-setup"
+    ],
+    "auth": {
+      "mode": "storage-state",
+      "signedInSelector": "h1"
+    },
+    "limits": {
+      "maxPages": 25,
+      "maxActionsPerPage": 12,
+      "maxTotalActions": 200,
+      "maxDepth": 1,
+      "maxDurationMs": 600000,
+      "settleMs": 900,
+      "actionTimeoutMs": 8000,
+      "navigationTimeoutMs": 30000
+    },
+    "safety": {
+      "allowWrites": false,
+      "allowDestructive": false
+    },
+    "enabledDetectors": [
+      "page-crash",
+      "console-error",
+      "network-failure",
+      "broken-link",
+      "dead-control",
+      "unexpected-route",
+      "form-validation",
+      "input-boundary",
+      "placeholder-text",
+      "missing-label",
+      "accessibility",
+      "layout",
+      "page-title"
+    ],
+    "captureScreenshots": true,
+    "outputDir": "reports/bugs/crawler/international-tax-setup"
+  },
+  "bugs": [
+    {
+      "id": "BUG-INPUT-001",
+      "title": "Field \"Rate\" silently truncates input",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Validation",
+      "detector": "input-boundary",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+        "2. Type 300 characters into the \"Rate\" field.",
+        "3. Observe that only 1 characters are kept and nothing explains why."
+      ],
+      "expectedResult": "A field that limits length declares it (maxlength, a counter, or a validation message) so the user knows the value was cut.",
+      "actualResult": "300 characters were entered and the field kept 1, with no maxlength attribute and no message.",
+      "evidence": {
+        "screenshot": "evidence/BUG-INPUT-001.png",
+        "domSnippet": null,
+        "selector": "#international-tax-setup-rate-apply",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:05.930Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "46d6c0403c2c"
+    },
+    {
+      "id": "BUG-INPUT-002",
+      "title": "Field \"Select date\" silently truncates input",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Validation",
+      "detector": "input-boundary",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+        "2. Type 300 characters into the \"Select date\" field.",
+        "3. Observe that only 0 characters are kept and nothing explains why."
+      ],
+      "expectedResult": "A field that limits length declares it (maxlength, a counter, or a validation message) so the user knows the value was cut.",
+      "actualResult": "300 characters were entered and the field kept 0, with no maxlength attribute and no message.",
+      "evidence": {
+        "screenshot": "evidence/BUG-INPUT-002.png",
+        "domSnippet": null,
+        "selector": "div:nth-of-type(1) > div > div > input",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:05.992Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "1fb4b3a60a73"
+    },
+    {
+      "id": "BUG-LABEL-001",
+      "title": "6 form control(s) have no accessible label on International Tax Setup",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "missing-label",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+        "2. Inspect the form controls listed above and confirm none carries a label association."
+      ],
+      "expectedResult": "Every form control is named by a <label for>, aria-label or aria-labelledby, so assistive technology can announce it.",
+      "actualResult": "6 control(s) are named only by placeholder text or by nothing at all: button[type=button] (Mexico); select (Mexico Canada Bahamas); button[type=button] (VAT); select (VAT); button[type=button] (Select province)",
+      "evidence": {
+        "screenshot": "evidence/BUG-LABEL-001.png",
+        "domSnippet": null,
+        "selector": "#international-tax-setup-country",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:06.056Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "d5f272af2270"
+    },
+    {
+      "id": "BUG-LAYOUT-001",
+      "title": "Text is cut off by its container on International Tax Setup",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup"
+      ],
+      "expectedResult": "Text either fits, wraps, or is truncated deliberately with an ellipsis and a full value on hover.",
+      "actualResult": "1 element(s) hide overflowing text with no ellipsis: span: \"Grid Options\"",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:06.126Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "b50ab6ffa0c3"
+    },
+    {
+      "id": "BUG-LAYOUT-002",
+      "title": "Interactive elements overlap on International Tax Setup",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "International Tax Setup",
+      "page": "International Tax Setup",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Screen under test: International Tax Setup."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup"
+      ],
+      "expectedResult": "Controls do not sit on top of one another — an overlapped control cannot be clicked reliably.",
+      "actualResult": "2 overlapping pair(s). Worst: input \"Select date\" over button \"Open calendar\" (100% covered).",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-002.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/international-tax-setup",
+      "firstSeenAt": "2026-10-23T12:00:06.195Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "df4e61c6127b"
+    }
+  ]
+}

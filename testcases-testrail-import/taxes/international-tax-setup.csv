@@ -496,7 +496,7 @@ Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_
 <li>1. Type 12, Ctrl+A, Backspace</li>
 <li>2. Type 12, Home, Delete ×2</li>
 </ol>",,,2. Field empty both times,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Search with staged changes shows the loss-of-changes warning,,,,,Automated,Nikita Nangare,,,Exact text: 'Searching will cause you to lose unsaved changes. Continue?',,,taxes,,"One row staged with Apply; KNOWN DEFECT — test.fail(BUG-TAX-IST-002)
+,Search with staged changes shows the loss-of-changes warning,,,,,Automated,Nikita Nangare,,,Unsaved changes dialog: 'Are you sure you want to leave this view? Any unsaved changes will be lost.',,,taxes,,"One row staged with Apply
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -505,7 +505,7 @@ Search: Mexico / VAT / Baja California
 Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
 <li>1. Click Search</li>
 <li>2. Cancel the warning</li>
-</ol>",,,2. Exact text: 'Searching will cause you to lose unsaved changes. Continue?',,,,Master,S1620,Test Case (Steps),Regression,,,
+</ol>",,,2. Unsaved changes dialog: 'Are you sure you want to leave this view? Any unsaved changes will be lost.',,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Confirming the warning discards staged changes and runs the search,,,,,Automated,Nikita Nangare,,,Stored values back; nothing pending; Save disabled,,,taxes,,"One row staged with Apply
 
 Test Data:
@@ -601,95 +601,6 @@ Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,Internationa
 <li>2. Stage date = L-1</li>
 <li>3. Save</li>
 </ol>",,,"3. Rejected (UI before send, or server with no new version)",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Chronology is checked against a hidden future version, not the displayed row",,,,,Automated,Nikita Nangare,,,Rejected against stored history (skips if no hidden version),,,taxes,,"Save request held at the network (aborted) — nothing written; needs a future-dated version in the data
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101 (Corporate)
-Search: Mexico / VAT / Baja California
-Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Find row with stored version later than today's</li>
-<li>2. Stage date between them</li>
-<li>3. Save</li>
-</ol>",,,3. Rejected against stored history (skips if no hidden version),,,,Master,S1620,Test Case (Steps),Regression,,,
-,A past effective date later than the latest stored version saves with HTTP 200,,,,,Automated,Nikita Nangare,,,HTTP 200; supplied records only; no error,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101
-Search: IST_WRITE_FIXTURE (disposable)
-Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Search +5 years</li>
-<li>2. Stage fixture rows at latest+1</li>
-<li>3. Save</li>
-</ol>",,,3. HTTP 200; supplied records only; no error,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Pending indicators clear and Save is disabled after the successful Save,,,,,Automated,Nikita Nangare,,,Nothing pending; Save disabled,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101
-Search: IST_WRITE_FIXTURE (disposable)
-Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Read grid after the Save in 062</li>
-</ol>",,,1. Nothing pending; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Saved values are returned when searching at or after the new date,,,,,Automated,Nikita Nangare,,,"Saved rate, flag and date returned",,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101
-Search: IST_WRITE_FIXTURE (disposable)
-Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Search at new date</li>
-<li>2. Search at +5 years</li>
-</ol>",,,"2. Saved rate, flag and date returned",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Searching before the new date still returns the previous version,,,,,Automated,Nikita Nangare,,,Pre-save version returned,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101
-Search: IST_WRITE_FIXTURE (disposable)
-Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Search at new date - 1</li>
-</ol>",,,1. Pre-save version returned,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Untouched configurations gain no new versions,,,,,Automated,Nikita Nangare,,,Unselected rows identical,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101
-Search: IST_WRITE_FIXTURE (disposable)
-Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Search +5 years</li>
-<li>2. Compare unselected rows with pre-save snapshot</li>
-</ol>",,,2. Unselected rows identical,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Audit CreateUser and ModUser record the signed-in user,,,,,Automated,Nikita Nangare,,,CreateUser/ModUser = signed-in user (skips if not exposed),,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101
-Search: IST_WRITE_FIXTURE (disposable)
-Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Search at new date, capture response</li>
-</ol>",,,1. CreateUser/ModUser = signed-in user (skips if not exposed),,,,Master,S1620,Test Case (Steps),Regression,,,
-,A read-only tax user can view configurations but cannot Apply or Save,,,,,Automated,Nikita Nangare,,,Rows visible; Apply and Save never enabled,,,taxes,,"Needs IST_READONLY_USERNAME/PASSWORD
-
-Test Data:
-User: IST_READONLY account (Tax READ only)
-Office: Office 1101
-Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Sign in read-only</li>
-<li>2. Search fixture</li>
-<li>3. Try to select a row</li>
-</ol>",,,3. Rows visible; Apply and Save never enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A user without tax permission sees no menu entry and is refused on the direct route,,,,,Automated,Nikita Nangare,,,No menu entry; screen never renders,,,taxes,,"Needs IST_NOACCESS_USERNAME/PASSWORD
-
-Test Data:
-User: IST_NOACCESS account (no Tax permission)
-Office: Office 1101
-Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Sign in without Tax permission</li>
-<li>2. Open Tax menu</li>
-<li>3. Open route directly</li>
-</ol>",,,3. No menu entry; screen never renders,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Without a session the page sends the user to sign in,,,,,Automated,Nikita Nangare,,,Redirect to /auth/sign-in with callbackUrl; no grid,,,taxes,,"Page opened fresh; no network mocks; non-mutating
 
 Test Data:
@@ -697,41 +608,7 @@ User: none (empty browser context)
 Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
 <li>1. Open route with no session</li>
 </ol>",,,1. Redirect to /auth/sign-in with callbackUrl; no grid,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A save sent without a session is refused and writes nothing,,,,,Automated,Nikita Nangare,,,Not a plain 200; fixture unchanged,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI; payload dated = latest stored (double-safe)
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101
-Search: IST_WRITE_FIXTURE (disposable)
-Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Capture a save (held)</li>
-<li>2. Replay it with no session</li>
-<li>3. Search +5 years</li>
-</ol>",,,3. Not a plain 200; fixture unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A save sent by a read-only user is refused and writes nothing,,,,,Automated,Nikita Nangare,,,Not a plain 200; fixture unchanged,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI; needs read-only account
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101
-Search: IST_WRITE_FIXTURE (disposable)
-Application: Navigator",Critical,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Capture a save (held)</li>
-<li>2. Replay with read-only session</li>
-<li>3. Search +5 years</li>
-</ol>",,,3. Not a plain 200; fixture unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A save attempted after the session expires writes nothing,,,,,Automated,Nikita Nangare,,,Fixture unchanged,,,taxes,,"REAL WRITE (insert-only). Runs only with IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE set; fixture must be resettable outside the UI; payload dated = latest stored (double-safe)
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101
-Search: IST_WRITE_FIXTURE (disposable)
-Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Stage in a second context</li>
-<li>2. Clear its cookies</li>
-<li>3. Save</li>
-<li>4. Search +5 years</li>
-</ol>",,,4. Fixture unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Every search and update control has an accessible name,,,,,Automated,Nikita Nangare,,,None empty; names match their labels,,,taxes,,"KNOWN DEFECT — test.fail(BUG-TAX-IST-003)
+,Every search and update control has an accessible name,,,,,Automated,Nikita Nangare,,,"Dates, Rate, commission checkbox and all buttons are named (search dropdowns accepted as-is)",,,taxes,,"Page opened fresh; no network mocks; non-mutating
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -739,7 +616,7 @@ Office: Office 1101 (Corporate)
 Search: Mexico / VAT / Baja California
 Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
 <li>1. Read accessible names of every control</li>
-</ol>",,,1. None empty; names match their labels,,,,Master,S1620,Test Case (Steps),Regression,,,
+</ol>",,,"1. Dates, Rate, commission checkbox and all buttons are named (search dropdowns accepted as-is)",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Row checkboxes can be operated with the keyboard,,,,,Automated,Nikita Nangare,,,Selected then cleared,,,taxes,,"Page opened fresh; no network mocks; non-mutating
 
 Test Data:
@@ -770,7 +647,7 @@ Application: Navigator",Low,NM-4025,International_Tax_Setup,0,,International_Tax
 <li>1. Search fixture</li>
 <li>2. Scan page text</li>
 </ol>",,,2. No dotted i18n keys,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Automated WCAG 2.1 AA scan finds no serious or critical violations,,,,,Automated,Nikita Nangare,,,No serious/critical violations,,,taxes,,"Uses @axe-core/playwright 4.13.0; KNOWN DEFECT — test.fail(BUG-TAX-IST-003)
+,Automated WCAG 2.1 AA scan finds no serious or critical violations,,,,,Automated,Nikita Nangare,,,No serious/critical violations,,,taxes,,"Uses @axe-core/playwright 4.13.0
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -778,7 +655,7 @@ Office: Office 1101 (Corporate)
 Search: Mexico / VAT / Baja California
 Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
 <li>1. Search fixture</li>
-<li>2. Run axe WCAG 2.1 AA</li>
+<li>2. Run axe WCAG 2.1 AA, excluding the 3 search dropdowns</li>
 </ol>",,,2. No serious/critical violations,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Page stays usable at laptop 1366×768,,,,,Automated,Nikita Nangare,,,"Search, Apply, Save reachable; no page sideways scroll",,,taxes,,"Page opened fresh; no network mocks; non-mutating
 

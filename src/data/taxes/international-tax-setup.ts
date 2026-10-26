@@ -1,9 +1,8 @@
 // Test data for Tax → International Tax Setup (NM-4025, feature epic NM-889).
 //
 // The configuration history is effective-dated and insert-only: Save adds a new version, it never
-// updates one, and nothing in the UI can remove a version again. So the read-side cases derive their
-// boundaries from whatever history the environment holds, and the write-side cases only run against
-// a disposable fixture someone has explicitly named (IST_WRITE_FIXTURE + IST_ALLOW_WRITES=true).
+// updates one, and nothing in the UI can remove a version again. So the suite never lets a save through,
+// and the as-of cases derive their boundaries from whatever history the environment holds.
 // Values from the reference screenshot (40 records, 55 %, 22 %, 0.16 %) are examples, never asserted.
 
 // ---------------------------------------------------------------- route & office
@@ -52,52 +51,17 @@ export const IST_CANADA: SearchCriteria = {
   province: process.env.IST_CANADA_PROVINCE ?? null,
 };
 
-/**
- * Disposable configuration the @mutating cases may write to, as JSON:
- *   {"country":"Mexico","taxGroup":"VAT","province":"…","taxTypes":["…","…"],"untouched":"…"}
- * `taxTypes` are the rows written; `untouched` is a row in the same search that must never change.
- * Unset → every write case skips. Saving the old value again is NOT cleanup (it adds a version), so
- * the fixture must be resettable outside the UI.
- */
-export interface WriteFixture extends SearchCriteria {
-  taxTypes: string[];
-  untouched: string;
-}
-
-export const IST_WRITE_FIXTURE: WriteFixture | null = process.env.IST_WRITE_FIXTURE
-  ? (JSON.parse(process.env.IST_WRITE_FIXTURE) as WriteFixture)
-  : null;
-
-export const IST_WRITES_ALLOWED = process.env.IST_ALLOW_WRITES === 'true' && IST_WRITE_FIXTURE !== null;
-
-export const IST_WRITES_SKIP_REASON =
-  'Live writes are insert-only and cannot be undone from the UI — set IST_ALLOW_WRITES=true and IST_WRITE_FIXTURE to a disposable configuration to run this case.';
-
-// ---------------------------------------------------------------- role accounts (permission cases)
-
-export interface RoleAccount {
-  username: string;
-  password: string;
-}
-
-function account(prefix: string): RoleAccount | null {
-  const username = process.env[`${prefix}_USERNAME`];
-  const password = process.env[`${prefix}_PASSWORD`];
-  return username && password ? { username, password } : null;
-}
-
-/** NavigatorCloud.Taxes.ManageTaxes.Read without FullAccess. */
-export const IST_READONLY_ACCOUNT = account('IST_READONLY');
-
-/** Signed in, but no Taxes permission at all. */
-export const IST_NOACCESS_ACCOUNT = account('IST_NOACCESS');
-
 // ---------------------------------------------------------------- copy
 
-/** Only copy NM-2395 fixes verbatim. Everything else is "confirmation required" and not asserted. */
+/** Copy asserted by the spec, as the app renders it (en-US). */
 export const IST_MESSAGES = {
-  unsavedSearchWarning: 'Searching will cause you to lose unsaved changes. Continue?',
+  // The shared location-settings dialog — accepted in place of NM-2395's "Searching will cause you to
+  // lose unsaved changes. Continue?" (BUG-TAX-IST-002 dropped 2026-10-26).
+  unsavedChangesTitle: 'Unsaved changes',
+  unsavedChangesText: 'Are you sure you want to leave this view? Any unsaved changes will be lost.',
   recordsFound: /(\d+)\s+records? found/i,
+  /** Start of the grid's empty-state text ("No tax setups found. Select a country and province to load data."). */
+  emptyState: 'No tax setups found',
 } as const;
 
 // ---------------------------------------------------------------- dates
