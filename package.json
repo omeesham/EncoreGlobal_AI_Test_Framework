@@ -26,6 +26,8 @@
     "setup:browsers": "npx playwright install chromium firefox webkit",
     "clean": "rimraf --glob reports/allure-results reports/allure-report reports/diagnostics reports/walkthrough reports/html-report reports/test-results reports/test-results.json reports/failure-summary.json reports/junit-results.xml reports/share-for-debugging-*.zip logs/test-execution.log",
     "typecheck": "tsc --noEmit",
+    "pre-pr": "node scripts/pre-pr-check.js",
+    "pre-pr:fast": "node scripts/pre-pr-check.js --fast",
     "audit:testids:location-settings": "node scripts/generic-testid-audit.js --module locations --target location-settings",
     "audit:testids:local-office": "node scripts/generic-testid-audit.js --module localOffice --target local-office-settings"
   },

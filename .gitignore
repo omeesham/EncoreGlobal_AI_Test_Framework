@@ -33,6 +33,8 @@ specs/
 scripts/*
 # Exception: TestRail test-run lifecycle script (npm run testrail:run:*) ships
 !scripts/testrail-run.ts
+# Exception: pre-PR review gate (npm run pre-pr) ships
+!scripts/pre-pr-check.js
 .auth/
 
 # Local scratch for audit fixtures and one-off probes

@@ -740,6 +740,18 @@ Allure's **Categories** panel groups failures into the same buckets visually.
 
 ---
 
+## Before you raise a PR
+
+```bash
+npm run pre-pr          # full gate: static checks + tsc + playwright --list (~20 s)
+npm run pre-pr:fast     # static checks only
+npm run pre-pr -- --base origin/main --strict   # other base branch; warnings also fail
+```
+
+`scripts/pre-pr-check.js` compares your branch with `origin/develop` and catches what the PR review bots flagged on NM-4129. Those are npm scripts or docs pointing at missing or gitignored files, Playwright projects with no specs, mutation projects not pinned to one worker, dependency downgrades, vulnerable `xlsx`, deleted files still referenced, selectors that lost their `data-testid`, fixed sleeps, cleanup that only runs when a save succeeded, TestRail case-map duplicates, and type or collection errors. Every finding names the review comment it prevents. It exits non-zero on errors and ends with a short manual checklist for what it can't check automatically.
+
+---
+
 ## Updating
 
 Receive the latest version from the QA automation team.
