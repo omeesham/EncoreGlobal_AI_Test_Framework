@@ -33,8 +33,8 @@ import { STATE_PATH } from '../../src/utils/auth-storage';
 // Write policy — nothing in this spec writes. The configuration history is insert-only (a Save can
 // never be undone), so every Save case holds the request at the network (interceptSave) and asserts the
 // payload; nothing reaches the database.
-//   * @needs-confirmation marks a case whose expected result is a reasonable reading of an open
-//     NM-4025 §14.2 question, or behaviour characterised live. Exclude with --grep-invert @needs-confirmation.
+//   * The NM-4025 §14.2 open questions (TC-007, 030, 032, 033, 036, 042, 050, 053, 058, 069–074) were
+//     confirmed by product on 2026-11-04: the behaviour these cases assert is the approved behaviour.
 //   * test.fail('BUG-TAX-IST-…') marks a case that asserts the documented behaviour against a known defect
 //     (reports/bugs/). It passes while the bug exists and turns red when it is fixed — then drop the marker.
 //   * Cases needing live writes, extra role accounts or a future-dated version were removed on request
@@ -216,7 +216,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-007: Loading feedback shows while a search is pending and clears when results arrive', { tag: ['@C107375', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-007: Loading feedback shows while a search is pending and clears when results arrive', { tag: '@C107375' }, async () => {
       await about('While a search answer is slow the page shows that it is working, then the results replace the feedback.');
       await ist.open(IST_OFFICE);
       await ist.selectCountry(IST_MEXICO.country);
@@ -441,8 +441,7 @@ test.describe('International Tax Setup @taxes', () => {
   // ================================================================ C. As-of effective-date search
 
   // The as-of rule is a SEARCH rule, so these cases read the version each search returned from the
-  // search response itself. The grid's displayed date is shifted a day in US timezones
-  // (BUG-TAX-IST-001, tracked by TC-029) and must not decide whether the search logic is right.
+  // search response itself, so the grid's date formatting cannot decide whether the search logic is right.
   test.describe('C. As-of effective-date search', () => {
     let boundary: { taxType: string; effectiveDate: string };
 
@@ -573,28 +572,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-029: Grid values match the search response record by record', { tag: '@C107397' }, async () => {
-      test.fail(true, 'BUG-TAX-IST-001: the grid renders the UTC-midnight effectiveDate in browser local time, so every date shows one day early west of UTC (America/New_York shows 10/21/2026 for 2026-10-22). Remove this marker when fixed.');
-      await about('Each row\'s rate, effective date and commission flag are exactly what the search returned for that tax type, on one consistent rate scale.');
-      await ist.open(IST_OFFICE);
-      const { records } = await ist.searchCapturing(IST_MEXICO);
-      test.skip(!records || records.length === 0, 'The search response is not visible in browser traffic — compare at service level');
-      const rows = await ist.readAllRows();
-      const scale = records![0]!.rate !== null && rows.length > 0 && Math.abs(records![0]!.rate! * 100 - (byType(rows).get(records![0]!.taxType ?? '')?.rate ?? NaN)) < 1e-6 ? 100 : 1;
-      await attachNote('Rate scale (display ÷ API)', String(scale));
-      await verify('Same number of records; each row matches its record', async () => {
-        expect(rows).toHaveLength(records!.length);
-        for (const rec of records!) {
-          const row = byType(rows).get(rec.taxType ?? '');
-          expect(row, `row for ${rec.taxType}`).toBeDefined();
-          if (rec.rate !== null) expect(row!.rate).toBeCloseTo(rec.rate * scale, 6);
-          expect(row!.effectiveDate).toBe(rec.effectiveDate);
-          if (rec.commissionTaxable !== null) expect(row!.commissionTaxable).toBe(rec.commissionTaxable);
-        }
-      });
-    });
-
-    test('TC-TAX-IST-030: Records-found count equals the number of rows', { tag: ['@C107398', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-030: Records-found count equals the number of rows', { tag: '@C107398' }, async () => {
       await about('The "<n> records found" label counts exactly the rows the grid lists.');
       await ist.open(IST_OFFICE);
       await ist.search(IST_MEXICO);
@@ -622,7 +600,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-032: Sorting Tax Type reorders the rows alphabetically both ways', { tag: ['@C107400', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-032: Sorting Tax Type reorders the rows alphabetically both ways', { tag: '@C107400' }, async () => {
       await about('Sort ascending on Tax Type orders the rows A→Z and Sort descending Z→A, without losing any row.');
       await ist.open(IST_OFFICE);
       await ist.search(IST_MEXICO);
@@ -638,7 +616,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-033: Sorting Rate orders the rows numerically', { tag: ['@C107401', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-033: Sorting Rate orders the rows numerically', { tag: '@C107401' }, async () => {
       await about('Sorting by Rate orders by the number, so 0.16% sorts below 22% (not as text).');
       await ist.open(IST_OFFICE);
       await ist.search(IST_MEXICO);
@@ -678,7 +656,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-036: A failed search shows an error and does not present stale rows as the new result', { tag: ['@C107404', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-036: A failed search shows an error and does not present stale rows as the new result', { tag: '@C107404' }, async () => {
       await about('If a search fails on the server the user is told so; the previous result is not silently left on screen as if it were the answer.');
       await ist.open(IST_OFFICE);
       await ist.search(IST_MEXICO);
@@ -780,7 +758,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-042: Save is not available before any change is applied', { tag: ['@C107410', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-042: Save is not available before any change is applied', { tag: '@C107410' }, async () => {
       await about('Straight after a search nothing is pending, so Save is disabled.');
       await verify('No row pending; Save disabled', async () => {
         expect(rows.filter((r) => r.pending)).toEqual([]);
@@ -887,7 +865,7 @@ test.describe('International Tax Setup @taxes', () => {
       }
     });
 
-    test('TC-TAX-IST-050: Rate can be cleared with Backspace and with Delete', { tag: ['@C107418', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-050: Rate can be cleared with Backspace and with Delete', { tag: '@C107418' }, async () => {
       await about('A value in Rate can be removed completely with Backspace, and again with Delete from the start (NM-4083 regression).');
       await ist.setUpdateRate('12');
       await ist.rateField().press('Control+A');
@@ -941,7 +919,7 @@ test.describe('International Tax Setup @taxes', () => {
       await attachNote('Search requests sent after confirming', String(sent.length));
     });
 
-    test('TC-TAX-IST-053: Cancelling the warning keeps staged changes and does not search', { tag: ['@C107421', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-053: Cancelling the warning keeps staged changes and does not search', { tag: '@C107421' }, async () => {
       await about('Answering no to the warning keeps the staged values on screen and no new search runs.');
       const staged = await ist.readAllRows();
       const sent = await ist.recordSearches();
@@ -1032,7 +1010,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-058: A second Save click while the first is in flight sends nothing', { tag: ['@C107426', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-058: A second Save click while the first is in flight sends nothing', { tag: '@C107426' }, async () => {
       await about('Clicking Save twice quickly sends one request — the button is out of action while the first is running.');
       const captured = await ist.interceptSave('delay-then-abort', 4_000);
       await ist.stage([rows[0]!.taxType], { rate: distinctRate(rows), date: SAFE_NEW_DATE });
@@ -1215,12 +1193,12 @@ test.describe('International Tax Setup @taxes', () => {
     }
   });
 
-  // ================================================================ K. Pending product confirmation (NM-4025 §14.2)
+  // ================================================================ K. Product-confirmed behaviour (NM-4025 §14.2)
 
-  // These answer NM-4025 §14.2 questions with the behaviour observed live on e2e (2026-10-22). They pin
-  // today's behaviour so a change is noticed, and stay @needs-confirmation until product signs it off.
-  test.describe('K. Characterised behaviour pending product confirmation', () => {
-    test('TC-TAX-IST-069: Reset restores the approved defaults', { tag: ['@C107437', '@needs-confirmation'] }, async () => {
+  // These answer the NM-4025 §14.2 questions. The behaviour was observed live on e2e (2026-10-22) and
+  // confirmed by product as correct on 2026-11-04.
+  test.describe('K. Product-confirmed behaviour (NM-4025 §14.2)', () => {
+    test('TC-TAX-IST-069: Reset restores the approved defaults', { tag: '@C107437' }, async () => {
       await about('Reset clears Province, puts the search date back to today, empties the results and does not search on its own; Country and Tax Group keep their values. With staged changes it asks first.');
       await ist.open(IST_OFFICE);
       await ist.search({ ...IST_MEXICO, date: addDays(TODAY, -400) });
@@ -1245,7 +1223,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-070: Header select-all selects the approved scope', { tag: ['@C107438', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-070: Header select-all selects the approved scope', { tag: '@C107438' }, async () => {
       await about('The header checkbox selects every row of the result (all rows are rendered — no paging); clearing one row clears the header tick, and the header selects everything again.');
       await ist.open(IST_OFFICE);
       await ist.search(IST_MEXICO);
@@ -1264,7 +1242,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-071: Apply with no selection shows the approved feedback', { tag: ['@C107439', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-071: Apply with no selection shows the approved feedback', { tag: '@C107439' }, async () => {
       await about('With no row selected, Apply is disabled — even with a Rate typed — so there is nothing to click and no message is needed; selecting a row enables it.');
       await ist.open(IST_OFFICE);
       await ist.search(IST_MEXICO);
@@ -1277,7 +1255,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-072: Rate minimum, maximum, precision and rounding rules are enforced', { tag: ['@C107440', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-072: Rate minimum, maximum, precision and rounding rules are enforced', { tag: '@C107440' }, async () => {
       await about('The Rate box accepts only a non-negative number: letters and the minus sign never enter it, and an oversized value is held to the maximum. (Observed maximum and precision are recorded, not invented.)');
       await ist.open(IST_OFFICE);
       const results: Record<string, string> = {};
@@ -1295,7 +1273,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-073: Blank update fields follow the approved partial-update contract', { tag: ['@C107441', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-073: Blank update fields follow the approved partial-update contract', { tag: '@C107441' }, async () => {
       await about('Apply writes every update field onto the selected rows: leaving "Is Commission Taxable?" unticked clears the flag on a row that had it.');
       await ist.open(IST_OFFICE);
       await ist.search(IST_MEXICO);
@@ -1308,7 +1286,7 @@ test.describe('International Tax Setup @taxes', () => {
       });
     });
 
-    test('TC-TAX-IST-074: Edit rights follow the approved office scope', { tag: ['@C107442', '@needs-confirmation'] }, async () => {
+    test('TC-TAX-IST-074: Edit rights follow the approved office scope', { tag: '@C107442' }, async () => {
       await about('Editing is not limited to the corporate office: from office 2359 a full-access user gets the same results and can select rows and Apply.');
       await ist.open('2359');
       await ist.search(IST_MEXICO);

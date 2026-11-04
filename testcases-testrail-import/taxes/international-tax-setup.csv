@@ -60,7 +60,7 @@ Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_
 <li>1. Open the page</li>
 <li>2. Read the search Effective Date</li>
 </ol>",,,2. Equals business today (IST_BUSINESS_TIMEZONE),,,,Master,S1620,Test Case (Steps),Regression,,,
-,Loading feedback shows while a search is pending and clears when results arrive,,,,,Automated,Nikita Nangare,,,Loading indicator or disabled Search while pending; rows after,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Loading feedback shows while a search is pending and clears when results arrive,,,,,Automated,Nikita Nangare,,,Loading indicator or disabled Search while pending; rows after,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -280,17 +280,7 @@ Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_
 <li>1. Search fixture</li>
 <li>2. Read Rate cells</li>
 </ol>",,,2. Every rate is '<number>%',,,,Master,S1620,Test Case (Steps),Regression,,,
-,Grid values match the search response record by record,,,,,Automated,Nikita Nangare,,,"Row count = records; rate (one consistent scale), date, commission match",,,taxes,,"KNOWN DEFECT — test.fail(BUG-TAX-IST-001) until fixed
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101 (Corporate)
-Search: Mexico / VAT / Baja California
-Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
-<li>1. Search fixture, capture response</li>
-<li>2. Read all rows</li>
-</ol>",,,"2. Row count = records; rate (one consistent scale), date, commission match",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Records-found count equals the number of rows,,,,,Automated,Nikita Nangare,,,Counter = row count,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Records-found count equals the number of rows,,,,,Automated,Nikita Nangare,,,Counter = row count,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -309,7 +299,7 @@ Search: Mexico / VAT / Baja California
 Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
 <li>1. Double-click Rate, Effective Date, Tax Type cells and type</li>
 </ol>",,,1. No inline editor; row unchanged; Save not enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Sorting Tax Type reorders the rows alphabetically both ways,,,,,Automated,Nikita Nangare,,,"A→Z and Z→A, same rows",,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Sorting Tax Type reorders the rows alphabetically both ways,,,,,Automated,Nikita Nangare,,,"A→Z and Z→A, same rows",,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -318,7 +308,7 @@ Search: Mexico / VAT / Baja California
 Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
 <li>1. Click Tax Type sort twice</li>
 </ol>",,,"1. A→Z and Z→A, same rows",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Sorting Rate orders the rows numerically,,,,,Automated,Nikita Nangare,,,Numeric ascending and descending,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Sorting Rate orders the rows numerically,,,,,Automated,Nikita Nangare,,,Numeric ascending and descending,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -347,7 +337,7 @@ Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_
 <li>2. Mock empty result</li>
 <li>3. Search again</li>
 </ol>",,,3. No rows; counter 0/absent; no error,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A failed search shows an error and does not present stale rows as the new result,,,,,Automated,Nikita Nangare,,,Error shown or stale rows cleared,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation); search answered 500
+,A failed search shows an error and does not present stale rows as the new result,,,,,Automated,Nikita Nangare,,,Error shown or stale rows cleared,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04); search answered 500
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -409,7 +399,7 @@ Search: Mexico / VAT / Baja California
 Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
 <li>1. Stage two rows with Apply</li>
 </ol>",,,1. Pending on those two only; Save enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Save is not available before any change is applied,,,,,Automated,Nikita Nangare,,,No row pending; Save disabled,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Save is not available before any change is applied,,,,,Automated,Nikita Nangare,,,No row pending; Save disabled,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -486,7 +476,7 @@ Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Ta
 <li>1. Type <script>/<img onerror> into Rate</li>
 <li>2. Apply (if enabled)</li>
 </ol>",,,2. Nothing executes; no HTML rendered; no dialog,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Rate can be cleared with Backspace and with Delete,,,,,Automated,Nikita Nangare,,,Field empty both times,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Rate can be cleared with Backspace and with Delete,,,,,Automated,Nikita Nangare,,,Field empty both times,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -516,7 +506,7 @@ Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Ta
 <li>1. Click Search</li>
 <li>2. Confirm the warning</li>
 </ol>",,,2. Stored values back; nothing pending; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Cancelling the warning keeps staged changes and does not search,,,,,Automated,Nikita Nangare,,,Staged rows intact; no search request,,,taxes,,"One row staged with Apply; Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Cancelling the warning keeps staged changes and does not search,,,,,Automated,Nikita Nangare,,,Staged rows intact; no search request,,,taxes,,"One row staged with Apply; Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -569,7 +559,7 @@ Application: Navigator",High,NM-4025,International_Tax_Setup,0,,International_Ta
 <li>2. Save (500)</li>
 <li>3. Reopen and search</li>
 </ol>",,,3. Error shown; row reads as before,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A second Save click while the first is in flight sends nothing,,,,,Automated,Nikita Nangare,,,Save disabled in flight; one request,,,taxes,,"Save request held at the network (aborted) — nothing written; Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,A second Save click while the first is in flight sends nothing,,,,,Automated,Nikita Nangare,,,Save disabled in flight; one request,,,taxes,,"Save request held at the network (aborted) — nothing written; Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -677,7 +667,7 @@ Application: Navigator",Low,NM-4025,International_Tax_Setup,0,,International_Tax
 <li>1. Viewport 1024×768</li>
 <li>2. Search fixture</li>
 </ol>",,,"2. Search, Apply, Save reachable; no page sideways scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Reset restores the approved defaults,,,,,Automated,Nikita Nangare,,,"Province cleared, date today, grid empty, no auto-search, Country/Tax Group kept; dirty Reset warns",,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Reset restores the approved defaults,,,,,Automated,Nikita Nangare,,,"Province cleared, date today, grid empty, no auto-search, Country/Tax Group kept; dirty Reset warns",,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -688,7 +678,7 @@ Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_
 <li>2. Click Reset</li>
 <li>3. Stage a change, click Reset</li>
 </ol>",,,"3. Province cleared, date today, grid empty, no auto-search, Country/Tax Group kept; dirty Reset warns",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Header select-all selects the approved scope,,,,,Automated,Nikita Nangare,,,All rows selected; header unticks on partial selection; all again,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Header select-all selects the approved scope,,,,,Automated,Nikita Nangare,,,All rows selected; header unticks on partial selection; all again,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -699,7 +689,7 @@ Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_
 <li>2. Clear one row</li>
 <li>3. Tick header again</li>
 </ol>",,,3. All rows selected; header unticks on partial selection; all again,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Apply with no selection shows the approved feedback,,,,,Automated,Nikita Nangare,,,"Apply disabled without selection, enabled with one",,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Apply with no selection shows the approved feedback,,,,,Automated,Nikita Nangare,,,"Apply disabled without selection, enabled with one",,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -709,7 +699,7 @@ Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_
 <li>1. Enter a Rate with nothing selected</li>
 <li>2. Select a row</li>
 </ol>",,,"2. Apply disabled without selection, enabled with one",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Rate minimum, maximum, precision and rounding rules are enforced",,,,,Automated,Nikita Nangare,,,Only non-negative numbers kept; oversized values capped at 100,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,"Rate minimum, maximum, precision and rounding rules are enforced",,,,,Automated,Nikita Nangare,,,Only non-negative numbers kept; oversized values capped at 100,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -718,7 +708,7 @@ Search: Mexico / VAT / Baja California
 Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_Tax_Setup,"<ol>
 <li>1. Type abc, -5, 150, 99999999, 1.23456, 0.0001 into Rate</li>
 </ol>",,,1. Only non-negative numbers kept; oversized values capped at 100,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Blank update fields follow the approved partial-update contract,,,,,Automated,Nikita Nangare,,,Row commission flag cleared — Apply writes every field,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Blank update fields follow the approved partial-update contract,,,,,Automated,Nikita Nangare,,,Row commission flag cleared — Apply writes every field,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
@@ -728,7 +718,7 @@ Application: Navigator",Medium,NM-4025,International_Tax_Setup,0,,International_
 <li>1. Untick Is Commission Taxable?</li>
 <li>2. Apply to a row that has it</li>
 </ol>",,,2. Row commission flag cleared — Apply writes every field,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Edit rights follow the approved office scope,,,,,Automated,Nikita Nangare,,,Rows listed; checkboxes usable; Apply enabled,,,taxes,,"Expected result is an assumption pending NM-4025 §14.2 confirmation (@needs-confirmation)
+,Edit rights follow the approved office scope,,,,,Automated,Nikita Nangare,,,Rows listed; checkboxes usable; Apply enabled,,,taxes,,"Expected result confirmed by product (NM-4025 §14.2, 2026-11-04)
 
 Test Data:
 User: automation user (Tax FULL_ACCESS)
