@@ -10,6 +10,13 @@
  *
  * Run: node scripts/testid-explore.js --steps <file> --office <n> [--only "<state>"]... [--output <file.json>]
  *
+ * With --actions it tries no control. It walks to each audited state and lists
+ * the page's Next.js server actions by name: those the walk called, and those
+ * the page's code holds but nothing called yet - where data and screens a
+ * steps file has not reached are found (a lookup an Answer step can fill, a
+ * dialog no button on the way opens). An action's name is what Hold, Fail,
+ * Send and Answer take as "action:<name>".
+ *
  * It changes no data. A request that is not a GET is blocked and listed unless
  * the walk to the state sent the very same one, so a Save, an Import or a stored
  * preference never reaches the server. Links that
@@ -18,7 +25,7 @@
 const fs = require('fs');
 const path = require('path');
 const { chromium } = require('@playwright/test');
-const { parseStepsFile, executeSteps } = require('./steps-runner.js');
+const { parseStepsFile, executeSteps, scopeForQuery, watchActions } = require('./steps-runner.js');
 const { substituteOffice } = require('./generic-testid-audit.js');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -32,6 +39,8 @@ const USAGE = [
   '  node scripts/testid-explore.js --steps <file> --office <n> [--only "<state>"]... [--output <file.json>]',
   '',
   '--only limits the run to the named audited states (repeat it for several).',
+  '--actions lists the page\'s server actions by name at each state, called or not,',
+  '          instead of trying its controls.',
   ''
 ].join('\n');
 
@@ -43,7 +52,7 @@ const INTERACTIVE = [
 ].join(',');
 
 function parseArgs(argv) {
-  const args = { steps: undefined, office: undefined, only: [], output: undefined, config: DEFAULT_CONFIG_PATH, help: false };
+  const args = { steps: undefined, office: undefined, only: [], output: undefined, config: DEFAULT_CONFIG_PATH, actions: false, help: false };
   for (let index = 0; index < argv.length; index += 1) {
     const current = argv[index];
     if (current === '--steps') args.steps = argv[index + 1];
@@ -51,6 +60,7 @@ function parseArgs(argv) {
     if (current === '--only') args.only.push(argv[index + 1]);
     if (current === '--output') args.output = argv[index + 1];
     if (current === '--config') args.config = argv[index + 1];
+    if (current === '--actions') args.actions = true;
     if (current === '--help' || current === '-h') args.help = true;
   }
   return args;
@@ -207,6 +217,11 @@ async function main() {
         return route.abort();
       });
 
+      // The actions the page's scripts hold, by name, and the ids it sent.
+      const actionIds = args.actions ? await watchActions(page) : null;
+      const sent = new Set();
+      if (actionIds) page.on('request', (request) => { const id = request.headers()['next-action']; if (id) sent.add(id); });
+
       const walkTo = async () => {
         learning = true;
         const upTo = steps.slice(0, index).filter((s) => s.verb !== 'audit');
@@ -226,7 +241,17 @@ async function main() {
         await context.close();
         continue;
       }
-      const list = await candidates(page, checkpoint.scope);
+      if (actionIds) {
+        const byId = new Map([...actionIds].map(([name, id]) => [id, name]));
+        const called = [...sent].map((id) => byId.get(id) || id + ' (name not in the scripts)').sort();
+        const notCalled = [...actionIds.keys()].filter((name) => !sent.has(actionIds.get(name))).sort();
+        console.log('  called: ' + (called.join(', ') || 'none'));
+        console.log('  in the page but not called: ' + (notCalled.join(', ') || 'none'));
+        report.states.push({ state: label, scope: checkpoint.scope, actionsCalled: called, actionsNotCalled: notCalled });
+        await context.close();
+        continue;
+      }
+      const list = await candidates(page, checkpoint.scope ? await scopeForQuery(page, checkpoint.scope, { all: true }) : '');
       const found = [];
       let dirty = false;
 

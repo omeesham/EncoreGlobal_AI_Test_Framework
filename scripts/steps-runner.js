@@ -29,6 +29,22 @@
  * Wait <N> seconds pauses, for a page that shows no sign of a request in
  * flight - a search that sends the text of the search before it.
  *
+ * Wait until the page settles waits until no request has been in flight for
+ * half a second and no loading placeholder is left, in place of a guessed pause.
+ *
+ * Type "<text>" into "<label>" and leave types, then presses Tab, for a form
+ * that checks a field only once it loses focus.
+ *
+ * Audit message [as "<state>"] waits for the app's message (toast) to appear,
+ * points at it so it stays open, and audits the message area. Audit message
+ * "<text>" waits for the message holding that text.
+ *
+ * Audit inside takes the same selectors as Click, so one of two open dialogs
+ * can be named by its text: Audit inside "[role=dialog]:has-text('Edit')".
+ *
+ * A state name followed by ", content varies" marks a state generated afresh
+ * each run - an AI answer - so the report notes that its items may differ.
+ *
  * Upload "<file>" via "<label>" clicks a control that opens the file picker
  * (an Import button) and chooses the file. The path is relative to the steps
  * file.
@@ -82,10 +98,26 @@ function unquote(value) {
   return text;
 }
 
+// Where the app shows its messages (toasts), and one message in it.
+const MESSAGE_AREA = "section[aria-label^='Notifications']";
+const MESSAGE = '[data-sonner-toast]';
+
+/**
+ * An audit's state name, and whether what it shows changes from run to run:
+ * as "Answer - table", content varies - a generated answer picks its own
+ * columns and rows, so a reader following the steps may see others.
+ */
+function stateName(raw) {
+  const varies = /[,\s(]+content\s+varies\)?\s*$/i;
+  return { label: unquote(String(raw).replace(varies, '')), varies: varies.test(raw) };
+}
+
 const STEP_PATTERNS = [
   { re: /^go\s+to\s+(.+)$/i, build: (m) => ({ verb: 'goto', target: unquote(m[1]) }) },
   { re: /^open\s+(.+)$/i, build: (m) => ({ verb: 'goto', target: unquote(m[1]) }) },
+  { re: /^type\s+(.+?)\s+into\s+(.+?)\s+and\s+(?:leave|tab\s+out)(?:\s+it)?$/i, build: (m) => ({ verb: 'type', value: unquote(m[1]), target: unquote(m[2]), leave: true }) },
   { re: /^type\s+(.+?)\s+into\s+(.+)$/i, build: (m) => ({ verb: 'type', value: unquote(m[1]), target: unquote(m[2]) }) },
+  { re: /^wait\s+(?:until\s+the\s+page\s+settles|for\s+the\s+page\s+to\s+settle)$/i, build: () => ({ verb: 'settle' }) },
   { re: /^select\s+(.+?)\s+from\s+(.+)$/i, build: (m) => ({ verb: 'select', value: unquote(m[1]), target: unquote(m[2]) }) },
   { re: /^wait\s+up\s+to\s+(\d+)\s*s(?:ec(?:ond)?s?)?\s+for\s+(.+)$/i, build: (m) => ({ verb: 'wait', target: unquote(m[2]), waitMs: Number(m[1]) * 1000 }) },
   { re: /^wait\s+(\d+)\s*s(?:ec(?:ond)?s?)?$/i, build: (m) => ({ verb: 'pause', waitMs: Number(m[1]) * 1000 }) },
@@ -100,9 +132,10 @@ const STEP_PATTERNS = [
   { re: /^fail\s+(.+)$/i, build: (m) => ({ verb: 'fail', target: unquote(m[1]) }) },
   { re: /^send\s+(.+?)\s+with\s+(.+)$/i, build: (m) => ({ verb: 'send', target: unquote(m[1]), value: unquote(m[2]) }) },
   { re: /^answer\s+(.+?)\s+with\s+(.+)$/i, build: (m) => ({ verb: 'answer', target: unquote(m[1]), value: unquote(m[2]) }) },
-  { re: /^audit\s+(?:inside|in|within)\s+(.+?)\s+as\s+(["'“‘].+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]), label: unquote(m[2]) }) },
+  { re: /^audit\s+message(?:\s+(["'“‘].+?["'”’]))?(?:\s+as\s+(["'“‘].+))?$/i, build: (m) => ({ verb: 'audit', scope: MESSAGE_AREA, toast: true, message: m[1] ? unquote(m[1]) : '', ...stateName(m[2] || '') }) },
+  { re: /^audit\s+(?:inside|in|within)\s+(.+?)\s+as\s+(["'“‘].+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]), ...stateName(m[2]) }) },
   { re: /^audit\s+(?:inside|in|within)\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: unquote(m[1]) }) },
-  { re: /^audit\s+here\s+as\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: '', label: unquote(m[1]) }) },
+  { re: /^audit\s+here\s+as\s+(.+)$/i, build: (m) => ({ verb: 'audit', scope: '', ...stateName(m[1]) }) },
   { re: /^audit\s+here$/i, build: () => ({ verb: 'audit', scope: '' }) },
   { re: /^audit$/i, build: () => ({ verb: 'audit', scope: '' }) }
 ];
@@ -186,6 +219,27 @@ function resolveLocator(page, label) {
     .first();
 }
 
+// Marks the area an "Audit inside" names when its selector is not plain CSS.
+const SCOPE_MARK = 'data-audit-scope';
+
+/**
+ * The scan finds its area with querySelector, which reads plain CSS only. Any
+ * other selector - :has-text(), >> nth=, text=, xpath= - is resolved here, the
+ * way Click resolves it, and the element it names (each one, given all) is
+ * marked; the CSS returned finds the mark. The scan takes the mark off before
+ * it reads anything, so it never shows in a DOM snippet.
+ */
+async function scopeForQuery(page, scope, { all = false } = {}) {
+  const plainCss = await page.evaluate((selector) => {
+    try { document.querySelector(selector); return true; } catch (error) { return false; }
+  }, scope);
+  if (plainCss) return scope;
+  await page.evaluate((mark) => document.querySelectorAll('[' + mark + ']').forEach((el) => el.removeAttribute(mark)), SCOPE_MARK);
+  const located = page.locator(scope);
+  await (all ? located : located.first()).evaluateAll((els, mark) => els.forEach((el) => el.setAttribute(mark, '')), SCOPE_MARK);
+  return '[' + SCOPE_MARK + ']';
+}
+
 // Requests a Hold step keeps waiting, per page: url part -> { handler, routes }.
 const holds = new WeakMap();
 
@@ -200,13 +254,52 @@ function isHolding(page) {
  * for in the address and in the body sent; a method in front keeps only
  * requests sent with it - for a page that loads its data by posting to its own
  * address, told apart by what each one sends. The text may also be a Next.js
- * server action id, for two actions that send the same body.
+ * server action id, for two actions that send the same body - or, better,
+ * "action:<name>", the name the app's code gives the action: its id changes
+ * with every build of the app, its name does not.
  */
-function requestMatcher(part) {
+async function requestMatcher(part, page) {
   const [, method, text] = part.match(/^(?:(GET|POST|PUT|PATCH|DELETE)\s+)?(.+)$/i);
+  const action = /^action:\s*(.+)$/i.exec(text);
+  if (action) {
+    const ids = await watchActions(page);
+    if (!ids.has(action[1])) console.log('    (action ' + action[1] + ' is not in the scripts loaded so far; it is matched once its script loads)');
+    return (request) => (!method || request.method() === method.toUpperCase())
+      && !!ids.get(action[1]) && request.headers()['next-action'] === ids.get(action[1]);
+  }
   return (request) => (!method || request.method() === method.toUpperCase())
     && (request.url().includes(text) || (request.postData() || '').includes(text)
       || request.headers()['next-action'] === text);
+}
+
+// Server action names to ids, per page, read from the app's own scripts.
+const actionIds = new WeakMap();
+// Next.js writes each action as createServerReference("<id>", ..., "<name>").
+const SERVER_REFERENCE = /createServerReference\)?\(\s*"([0-9a-f]{40,42})"[^"]*?"([A-Za-z_$][\w$]*)"\s*\)/g;
+
+function readActions(code, ids) {
+  for (const [, id, name] of String(code).matchAll(SERVER_REFERENCE)) ids.set(name, id);
+}
+
+/**
+ * The ids of the page's server actions by name: from the scripts loaded so
+ * far, and from each script loaded later - a page splits its code, and an
+ * action's script often loads only when its screen opens.
+ */
+async function watchActions(page) {
+  if (actionIds.has(page)) return actionIds.get(page);
+  const ids = new Map();
+  actionIds.set(page, ids);
+  page.on('response', (response) => {
+    if (response.request().resourceType() !== 'script') return;
+    response.text().then((code) => readActions(code, ids)).catch(() => {});
+  });
+  const loaded = await page.evaluate(async () => {
+    const urls = performance.getEntriesByType('resource').map((entry) => entry.name).filter((url) => /\.js(\?|$)/.test(url));
+    return Promise.all(urls.map((url) => fetch(url).then((reply) => reply.text()).catch(() => '')));
+  }).catch(() => []);
+  for (const code of loaded) readActions(code, ids);
+  return ids;
 }
 
 /**
@@ -214,7 +307,7 @@ function requestMatcher(part) {
  * would - to audit the message a failed save shows without saving anything.
  */
 async function failRequests(page, part) {
-  const matches = requestMatcher(part);
+  const matches = await requestMatcher(part, page);
   await page.route('**/*', (route) => (matches(route.request()) ? route.abort('failed') : route.fallback()));
 }
 
@@ -234,7 +327,7 @@ function mergeFields(body, fields) {
 }
 
 async function sendWithFields(page, part, file) {
-  const matches = requestMatcher(part);
+  const matches = await requestMatcher(part, page);
   const fields = JSON.parse(fs.readFileSync(file, 'utf8'));
   await page.route('**/*', (route) => {
     const request = route.request();
@@ -244,13 +337,23 @@ async function sendWithFields(page, part, file) {
   });
 }
 
+// Pages an Answer step has handed prepared data to: what they show from then
+// on may hold records the environment does not have.
+const answered = new WeakSet();
+
+/** True once an Answer step has handed this page prepared data. */
+function isAnswering(page) {
+  return answered.has(page);
+}
+
 /**
  * Answers every matching request with the result in `file`. The request still
  * reaches the server, so the reply keeps what the page checks besides the data
  * (a server action's frame names the build); only the result is replaced.
  */
 async function answerRequests(page, part, file) {
-  const matches = requestMatcher(part);
+  const matches = await requestMatcher(part, page);
+  answered.add(page);
   const result = JSON.stringify(JSON.parse(fs.readFileSync(file, 'utf8')));
   await page.route('**/*', async (route) => {
     if (!matches(route.request())) return route.fallback();
@@ -267,7 +370,7 @@ async function answerRequests(page, part, file) {
 async function holdRequests(page, part) {
   const pageHolds = holds.get(page) || new Map();
   holds.set(page, pageHolds);
-  const matches = requestMatcher(part);
+  const matches = await requestMatcher(part, page);
   const held = { routes: [] };
   held.handler = (route) => (matches(route.request()) ? held.routes.push(route) : route.fallback());
   await page.route('**/*', held.handler);
@@ -286,7 +389,7 @@ async function releaseRequests(page, part) {
 /**
  * Walks the steps against a live page. Returns the scope selector named by the
  * last audit step, which the caller uses to bound the scan. Given onAudit, each
- * audit step instead calls it in place - (scope, label) - so one walk can
+ * audit step instead calls it in place - (scope, label, scope as written) - so one walk can
  * survey several states of the screen.
  */
 async function executeSteps(page, steps, options = {}) {
@@ -315,6 +418,14 @@ async function executeSteps(page, steps, options = {}) {
         await field.click({ timeout });
         await field.fill('');
         await field.pressSequentially(step.value, { delay: 20 });
+        // Some forms check a field only once it loses focus - Add stays
+        // disabled until then.
+        if (step.leave) await field.press('Tab');
+      } else if (step.verb === 'settle') {
+        // Until no request has been in flight for half a second and no loading
+        // placeholder is left - not while a Hold keeps one waiting on purpose.
+        if (!isHolding(page)) await page.waitForLoadState('networkidle', { timeout });
+        await page.waitForFunction(() => !document.querySelector('[data-slot="skeleton"], [aria-busy="true"]'), null, { timeout });
       } else if (step.verb === 'select') {
         await resolveLocator(page, step.target).click({ timeout });
         await page.getByRole('option', { name: step.value, exact: false }).first().click({ timeout });
@@ -360,10 +471,20 @@ async function executeSteps(page, steps, options = {}) {
         await page.waitForTimeout(800);
       } else if (step.verb === 'audit') {
         scope = step.scope || '';
+        if (step.toast) {
+          // A message comes after the save or load that sends it, and closes by
+          // itself a few seconds later; pointing at it keeps it open.
+          const message = step.message ? page.locator(MESSAGE).filter({ hasText: step.message }).first() : page.locator(MESSAGE).first();
+          await message.waitFor({ state: 'visible', timeout: Math.max(timeout, 60000) });
+          await message.hover({ timeout });
+          await page.waitForTimeout(500);
+        }
         if (scope) {
           await page.locator(scope).first().waitFor({ state: 'attached', timeout });
+          scope = await scopeForQuery(page, scope);
         }
-        if (onAudit) await onAudit(scope, step.label || '');
+        const named = step.label || (step.toast ? 'Message' + (step.message ? ' "' + step.message + '"' : '') : '');
+        if (onAudit) await onAudit(scope, named, step.scope || '', { varies: !!step.varies });
       }
       log('  ' + label + ' - ok');
     } catch (error) {
@@ -374,4 +495,4 @@ async function executeSteps(page, steps, options = {}) {
   return scope;
 }
 
-module.exports = { parseSteps, parseStepsFile, parseStep, executeSteps, resolveLocator, unquote, isHolding };
+module.exports = { parseSteps, parseStepsFile, parseStep, executeSteps, resolveLocator, unquote, isHolding, isAnswering, scopeForQuery, watchActions, SCOPE_MARK };

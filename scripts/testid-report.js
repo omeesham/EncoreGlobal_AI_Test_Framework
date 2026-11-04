@@ -31,6 +31,17 @@
  * submodules - display order; each lists the Submodule values of its steps files.
  *              "name@1101" reads that one report from another office, for a view
  *              that only that office can show (its data exists nowhere else).
+ *              Optional "page" and "states" take only part of the reports, for a
+ *              steps file that walks two pages shown as two sections:
+ *              { "ticket": "NM-4410-FD", "name": "Fulfillment Details",
+ *                "reports": ["fulfillments-nm-4410"], "page": "/fulfillments/*" }
+ *              "page" is the address after the office, * standing for one part of
+ *              it; "states" lists state names, * standing for any text. A finding
+ *              no section takes is counted in a warning.
+ *              Optional "from" reads the section's reports from another module's
+ *              folder, to reuse an audit made for another ticket - the application
+ *              shell, which is the same on every page:
+ *              "from": { "reportsDir": "reports/testid-audit-home", "module": "Home" }
  * ownership  - most specific ticket first; an element seen by several goes to the first.
  * assign     - optional: move one element to another ticket, for a control that is
  *              scanned on one ticket's screen but belongs to another's (a button
@@ -39,12 +50,18 @@
 
 const fs = require('fs');
 const path = require('path');
+const zlib = require('zlib');
 const ExcelJS = require('exceljs');
-const { describeElement, buildLocateSteps, buildDomSnippet, normalizeModuleFileName } = require('./generic-testid-audit.js');
+const { describeElement, buildLocateSteps, buildDomSnippet, normalizeModuleFileName, DATE_TEXT: DATE } = require('./generic-testid-audit.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const SHOT_WIDTH = 420;
 const SHOT_MAX_HEIGHT = 260;
+// Rows seen only on screens an Answer step filled: a developer following the
+// steps in E2E finds the screen empty.
+// Rows seen only in states marked "content varies" - a generated answer.
+const VARIES_NOTE = 'Content varies between runs: this screen is generated each time, so its items and their number may differ when the steps are followed.';
+const PREPARED_NOTE = 'Seen only with prepared data: this environment holds no such records, so the screen shows them only when its data is supplied.';
 
 const USAGE = [
   '',
@@ -72,7 +89,6 @@ const unindexed = (value) => String(value || '').replace(/:nth-of-type\(\d+\)/g,
 // The first of several is the same place as the only one: a grid that gains a
 // sibling (sorted, another view) keeps its elements where they were.
 const slot = (value) => String(value || '').replace(/:nth-of-type\(1\)/g, '');
-const DATE = /^(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}(st|nd|rd|th)?, \d{4}$|^\d{1,2}\/\d{1,2}\/\d{4}$/;
 const pageOf = (item) => new URL(item.pageUrl).pathname;
 // A page is the same page on every office: a view only another office shows
 // (a read-only one, say) lists only what it adds.
@@ -153,6 +169,14 @@ function nameEntries(groups) {
   }
 }
 
+/** The share of usable elements recorded across screens, or "" when unknown. */
+function coveragePercent(coverage) {
+  if (!coverage) return '';
+  const counted = coverage.reduce((sum, state) => sum + state.counted, 0);
+  const recorded = coverage.reduce((sum, state) => sum + state.recorded, 0);
+  return counted ? (Math.floor((recorded / counted) * 1000) / 10).toFixed(1) + '%' : '100.0%';
+}
+
 function pngSize(file) {
   const bytes = fs.readFileSync(file);
   return { width: bytes.readUInt32BE(16), height: bytes.readUInt32BE(20) };
@@ -179,6 +203,23 @@ function findReport(reportsDir, moduleSlug, submodule, office) {
   return path.join(reportsDir, match);
 }
 
+/**
+ * Which of a report's findings a section takes. One steps file can walk two
+ * pages - a search and the record it opens - that the plan shows as two
+ * sections. "page" keeps the findings whose address, after the office, matches
+ * ("/fulfillments" is the search; "/fulfillments/*" with a * for each part
+ * of the address a record opens); "states" keeps those of the named states
+ * ("Details*" is every state whose name starts so).
+ */
+function partOf(submodule) {
+  const pattern = (glob, any) => new RegExp('^' + glob.split('*').map((text) => text.replace(/[.+?^${}()|[\]\\]/g, '\\$&')).join(any) + '$');
+  const page = submodule.page && pattern(submodule.page.replace(/\/+$/, ''), '[^/]+');
+  const states = (submodule.states || []).map((state) => pattern(state, '.*'));
+  const afterOffice = (item) => pageOf(item).replace(/^.*?\/locations\/[^/]+/, '').replace(/\/+$/, '');
+  return (item) => (!page || page.test(afterOffice(item)))
+    && (!states.length || states.some((state) => state.test(item.state || '')));
+}
+
 function collect(plan, reportsDir) {
   const moduleSlug = normalizeModuleFileName(plan.module);
   const order = plan.ownership && plan.ownership.length ? plan.ownership : plan.submodules.map((s) => s.ticket);
@@ -186,16 +227,37 @@ function collect(plan, reportsDir) {
   const owned = new Map();
   const loaded = [];
 
+  // What each report's sections took, so a finding no section takes is reported, not lost.
+  const taken = new Map();
   for (const ticket of order) {
     const submodule = byTicket[ticket];
     if (!submodule) throw new Error('ownership names ' + ticket + ', which is not in submodules.');
+    const part = partOf(submodule);
+    // A section may reuse another module's audit - the application shell,
+    // the same on every page - from that module's folder.
+    const from = submodule.from || {};
+    const dir = from.reportsDir ? path.resolve(ROOT, from.reportsDir) : reportsDir;
+    const slug = from.module ? normalizeModuleFileName(from.module) : moduleSlug;
     for (const reportName of submodule.reports) {
       const [name, office] = reportName.split('@');
-      const file = findReport(reportsDir, moduleSlug, name, office || plan.office);
-      const { findings, tagged, stoppedAt } = JSON.parse(fs.readFileSync(file, 'utf8'));
-      if (stoppedAt) console.warn('Warning: ' + path.basename(file) + ' is incomplete - its walk ' + stoppedAt.replace(/^Step/, 'stopped at step'));
-      loaded.push({ ticket, findings, tagged: tagged || [] });
+      const file = findReport(dir, slug, name, office || plan.office);
+      const { findings, tagged, stoppedAt, coverage, generatedAt } = JSON.parse(fs.readFileSync(file, 'utf8'));
+      for (const item of findings) item.sourceDir = dir;
+      if (!taken.has(file)) {
+        const days = generatedAt ? Math.floor((Date.now() - Date.parse(generatedAt)) / 86400000) : 0;
+        if (from.reportsDir && days > REUSE_DAYS) console.warn('Warning: ' + path.basename(file) + ' is reused from ' + days + ' days ago - the screens may have changed since; run its steps file again.');
+        if (stoppedAt) console.warn('Warning: ' + path.basename(file) + ' is incomplete - its walk ' + stoppedAt.replace(/^Step/, 'stopped at step'));
+        if (!coverage) console.warn('Warning: ' + path.basename(file) + ' has no deep check - run its steps file again to show its coverage.');
+        taken.set(file, { findings, keys: new Set() });
+      }
+      const mine = findings.filter(part);
+      mine.forEach((item) => taken.get(file).keys.add(findings.indexOf(item)));
+      loaded.push({ ticket, findings: mine, tagged: (tagged || []).filter(part), coverage: coverage && coverage.filter(part) });
     }
+  }
+  for (const [file, { findings, keys }] of taken) {
+    const left = findings.length - keys.size;
+    if (left) console.warn('Warning: ' + left + ' finding(s) of ' + path.basename(file) + ' are in no section - its "page" and "states" filters leave them out.');
   }
   layoutRoot = findLayoutRoot(loaded.flatMap((report) => report.findings));
   // Elements that already carry a data-testid: one per page, under the first
@@ -218,6 +280,11 @@ function collect(plan, reportsDir) {
       const key = (place && byPlace.get(place)) || elementKey(item);
       if (place && !byPlace.has(place)) byPlace.set(place, key);
       if (!owned.has(key)) owned.set(key, { ticket, item });
+      // Seen anywhere with the environment's own data, it is not only prepared.
+      else {
+        if (!item.prepared) owned.get(key).item.prepared = false;
+        if (!item.varies) owned.get(key).item.varies = false;
+      }
     }
   }
 
@@ -229,11 +296,138 @@ function collect(plan, reportsDir) {
     }
   }
 
+  // The deep check of every screen a section's audits walked; null when one
+  // of its audits predates the check, so no partial figure is shown as whole.
+  const coverageOf = (ticket) => {
+    const reports = loaded.filter((report) => report.ticket === ticket);
+    return reports.every((report) => report.coverage) ? reports.flatMap((report) => report.coverage) : null;
+  };
   return plan.submodules.map((submodule) => ({
     submodule,
     entries: [...owned.values()].filter((entry) => entry.ticket === submodule.ticket),
     tagged: [...ownedTagged.values()].filter((entry) => entry.ticket === submodule.ticket),
+    coverage: coverageOf(submodule.ticket),
   }));
+}
+
+/*
+ * Screenshots go into the workbook at half the size: a page of markup or a
+ * crop of the app draws with a few hundred colours, most of them the soft
+ * edges of letters, so the 256 it uses most - each other one drawn with the
+ * closest of those - look the same and store in half the bytes. An image that
+ * would change more than PALETTE_LIMIT of its pixels (a photograph) is kept.
+ */
+const PALETTE_LIMIT = 0.12;
+// A reused audit older than this is flagged: the screens may have changed.
+const REUSE_DAYS = 7;
+const PNG_SIGNATURE = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
+const CRC_TABLE = Array.from({ length: 256 }, (_, n) => {
+  let c = n;
+  for (let k = 0; k < 8; k += 1) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+  return c >>> 0;
+});
+
+function pngChunk(type, data) {
+  const head = Buffer.from(type, 'ascii');
+  let crc = 0xffffffff;
+  for (const byte of Buffer.concat([head, data])) crc = CRC_TABLE[(crc ^ byte) & 255] ^ (crc >>> 8);
+  const length = Buffer.alloc(4);
+  length.writeUInt32BE(data.length);
+  const check = Buffer.alloc(4);
+  check.writeUInt32BE((crc ^ 0xffffffff) >>> 0);
+  return Buffer.concat([length, head, data, check]);
+}
+
+/** The pixels of an 8-bit RGB or RGBA PNG, or null for any other kind. */
+function readPng(bytes) {
+  let header = null;
+  const data = [];
+  for (let at = 8; at < bytes.length;) {
+    const length = bytes.readUInt32BE(at);
+    const type = bytes.toString('ascii', at + 4, at + 8);
+    const body = bytes.subarray(at + 8, at + 8 + length);
+    if (type === 'IHDR') header = { width: body.readUInt32BE(0), height: body.readUInt32BE(4), depth: body[8], colour: body[9], interlace: body[12] };
+    if (type === 'IDAT') data.push(body);
+    at += 12 + length;
+  }
+  if (!header || header.depth !== 8 || header.interlace || ![2, 6].includes(header.colour)) return null;
+  const channels = header.colour === 6 ? 4 : 3;
+  const stride = header.width * channels;
+  const packed = zlib.inflateSync(Buffer.concat(data));
+  const pixels = Buffer.alloc(stride * header.height);
+  for (let y = 0; y < header.height; y += 1) {
+    const filter = packed[y * (stride + 1)];
+    const line = packed.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1));
+    for (let x = 0; x < stride; x += 1) {
+      const left = x >= channels ? pixels[y * stride + x - channels] : 0;
+      const up = y ? pixels[(y - 1) * stride + x] : 0;
+      const corner = y && x >= channels ? pixels[(y - 1) * stride + x - channels] : 0;
+      let base = 0;
+      if (filter === 1) base = left;
+      else if (filter === 2) base = up;
+      else if (filter === 3) base = (left + up) >> 1;
+      else if (filter === 4) {
+        const guess = left + up - corner;
+        const toLeft = Math.abs(guess - left);
+        const toUp = Math.abs(guess - up);
+        const toCorner = Math.abs(guess - corner);
+        base = toLeft <= toUp && toLeft <= toCorner ? left : toUp <= toCorner ? up : corner;
+      }
+      pixels[y * stride + x] = (line[x] + base) & 255;
+    }
+  }
+  return { ...header, channels, pixels };
+}
+
+/** The PNG drawn with its 256 most used colours, or the original bytes. */
+function shrinkPng(bytes) {
+  const image = readPng(bytes);
+  if (!image) return bytes;
+  const { width, height, channels, pixels } = image;
+  // A see-through pixel would lose its transparency in a palette.
+  if (channels === 4) for (let at = 3; at < pixels.length; at += 4) if (pixels[at] !== 255) return bytes;
+  const colourAt = (at) => (pixels[at] << 16) | (pixels[at + 1] << 8) | pixels[at + 2];
+  const uses = new Map();
+  for (let at = 0; at < pixels.length; at += channels) uses.set(colourAt(at), (uses.get(colourAt(at)) || 0) + 1);
+  const palette = [...uses.entries()].sort((a, b) => b[1] - a[1]).slice(0, 256).map(([colour]) => colour);
+  const kept = palette.reduce((sum, colour) => sum + uses.get(colour), 0);
+  if (1 - kept / (width * height) > PALETTE_LIMIT) return bytes;
+  const slot = new Map(palette.map((colour, index) => [colour, index]));
+  const closest = (colour) => {
+    let best = 0;
+    let bestDistance = Infinity;
+    palette.forEach((candidate, index) => {
+      const red = (colour >> 16) - (candidate >> 16);
+      const green = ((colour >> 8) & 255) - ((candidate >> 8) & 255);
+      const blue = (colour & 255) - (candidate & 255);
+      // Weighted as the eye sees it: green most, blue least.
+      const distance = red * red * 3 + green * green * 4 + blue * blue * 2;
+      if (distance < bestDistance) { bestDistance = distance; best = index; }
+    });
+    slot.set(colour, best);
+    return best;
+  };
+  const lines = Buffer.alloc((width + 1) * height);
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const colour = colourAt((y * width + x) * channels);
+      lines[y * (width + 1) + 1 + x] = slot.has(colour) ? slot.get(colour) : closest(colour);
+    }
+  }
+  const header = Buffer.alloc(13);
+  header.writeUInt32BE(width, 0);
+  header.writeUInt32BE(height, 4);
+  header[8] = 8;
+  header[9] = 3;
+  const colours = Buffer.alloc(palette.length * 3);
+  palette.forEach((colour, index) => { colours[index * 3] = colour >> 16; colours[index * 3 + 1] = (colour >> 8) & 255; colours[index * 3 + 2] = colour & 255; });
+  const shrunk = Buffer.concat([PNG_SIGNATURE, pngChunk('IHDR', header), pngChunk('PLTE', colours),
+    pngChunk('IDAT', zlib.deflateSync(lines, { level: 9 })), pngChunk('IEND', Buffer.alloc(0))]);
+  return shrunk.length < bytes.length ? shrunk : bytes;
+}
+
+function copyShrunk(from, to) {
+  fs.writeFileSync(to, shrinkPng(fs.readFileSync(from)));
 }
 
 /** Copies each element's DOM and UI screenshots, numbered within its submodule. */
@@ -243,17 +437,18 @@ function copyScreenshots(groups, reportsDir, outputDir) {
     fs.mkdirSync(dir, { recursive: true });
     entries.forEach((entry, index) => {
       entry.serial = index + 1;
-      const dom = entry.item.screenshot && path.join(reportsDir, entry.item.screenshot);
+      const sourceDir = entry.item.sourceDir || reportsDir;
+      const dom = entry.item.screenshot && path.join(sourceDir, entry.item.screenshot);
       entry.dom = '';
       entry.ui = '';
       if (dom && fs.existsSync(dom)) {
         const name = String(index + 1).padStart(3, '0') + '-' + path.basename(dom).replace(/^\d+-/, '');
-        fs.copyFileSync(dom, path.join(dir, name));
+        copyShrunk(dom, path.join(dir, name));
         entry.dom = 'screenshots/' + submodule.ticket + '/' + name;
-        const ui = entry.item.uiScreenshot && path.join(reportsDir, entry.item.uiScreenshot);
+        const ui = entry.item.uiScreenshot && path.join(sourceDir, entry.item.uiScreenshot);
         if (ui && fs.existsSync(ui)) {
           entry.ui = entry.dom.replace(/\.png$/, '-ui.png');
-          fs.copyFileSync(ui, path.join(outputDir, entry.ui));
+          copyShrunk(ui, path.join(outputDir, entry.ui));
         }
       }
     });
@@ -276,9 +471,10 @@ async function writeWorkbook(plan, groups, outputDir, file) {
     { header: 'DOM snippet', width: 46 },
     { header: 'Screenshot (DOM)', width: 62 },
     { header: 'Screenshot (UI)', width: 62 },
+    { header: 'Note', width: 40 },
   ];
   sheet.getRow(1).eachCell((cell) => { cell.font = headFont; cell.fill = headFill; cell.alignment = { vertical: 'middle' }; });
-  sheet.autoFilter = 'A1:I1';
+  sheet.autoFilter = 'A1:J1';
 
   let rowNumber = 2;
   for (const { submodule, entries } of groups) {
@@ -294,6 +490,7 @@ async function writeWorkbook(plan, groups, outputDir, file) {
         buildDomSnippet(entry.item),
         '',
         '',
+        [entry.item.prepared ? PREPARED_NOTE : '', entry.item.varies ? VARIES_NOTE : ''].filter(Boolean).join('\n'),
       ];
       row.alignment = { vertical: 'top', wrapText: true };
       let height = 60;
@@ -318,21 +515,59 @@ async function writeWorkbook(plan, groups, outputDir, file) {
   // Elements that already have a data-testid are only counted, in the table
   // below; the rows above list just the ones without.
   const totalTagged = groups.reduce((sum, group) => sum + group.tagged.length, 0);
+  const allCoverage = groups.every((group) => group.coverage) ? groups.flatMap((group) => group.coverage) : null;
   const summary = workbook.addWorksheet('Summary');
-  summary.columns = [{ width: 38 }, { width: 14 }, { width: 16 }, { width: 14 }];
+  summary.columns = [{ width: 38 }, { width: 14 }, { width: 16 }, { width: 14 }, { width: 16 }, { width: 16 }];
   summary.addRow([plan.title]).font = { bold: true, size: 14 };
   summary.addRow([]);
   summary.addRow(['Office', plan.officeLabel || plan.office]);
   summary.addRow(['Generated', new Date().toISOString().slice(0, 10)]);
   summary.addRow(['Counting', 'Elements found = with data-testid + without. An element shown on several tickets\' screens is listed once, under the most specific ticket. '
     + 'Repeated items (dropdown options, calendar days, result rows) are one row each, with the instance count in the Element column.']);
+  summary.addRow(['Coverage', 'Every screen audited is also checked element by element: DOM coverage is the share of its usable elements '
+    + '(controls, click targets, text, icons, containers) that the audit recorded. The Coverage sheet lists each screen.']);
   summary.addRow([]);
-  summary.addRow(['Section', 'Found', 'With testid', 'Without']).eachCell((cell) => { cell.font = headFont; cell.fill = headFill; });
-  for (const { submodule, entries, tagged } of groups) summary.addRow([submodule.name, entries.length + tagged.length, tagged.length, entries.length]);
-  summary.addRow(['Total', total + totalTagged, totalTagged, total]).font = { bold: true };
+  summary.addRow(['Section', 'Found', 'With testid', 'Without', 'Screens audited', 'DOM coverage']).eachCell((cell) => { cell.font = headFont; cell.fill = headFill; });
+  const screens = (coverage) => (coverage ? coverage.length : '');
+  for (const { submodule, entries, tagged, coverage } of groups) {
+    summary.addRow([submodule.name, entries.length + tagged.length, tagged.length, entries.length, screens(coverage), coveragePercent(coverage)]);
+  }
+  summary.addRow(['Total', total + totalTagged, totalTagged, total, screens(allCoverage), coveragePercent(allCoverage)]).font = { bold: true };
   // The notes above the table span its width.
-  for (let row = 3; row <= 5; row += 1) { summary.mergeCells(row, 2, row, 4); summary.getCell(row, 2).alignment = { wrapText: true, vertical: 'top' }; }
-  summary.getRow(5).height = 48;
+  for (let row = 3; row <= 6; row += 1) { summary.mergeCells(row, 2, row, 6); summary.getCell(row, 2).alignment = { wrapText: true, vertical: 'top' }; }
+  summary.getRow(5).height = 36;
+  summary.getRow(6).height = 36;
+
+  // One row per screen audited, with what its deep check passed over, if anything.
+  const sheet2 = workbook.addWorksheet('Coverage', { views: [{ state: 'frozen', ySplit: 1 }] });
+  sheet2.columns = [
+    { header: 'Section', width: 30 },
+    { header: 'Screen', width: 44 },
+    { header: 'Usable elements', width: 16 },
+    { header: 'Recorded', width: 12 },
+    { header: 'DOM coverage', width: 14 },
+    { header: 'Not recorded', width: 60 },
+    { header: 'Open outside the audited area', width: 50 },
+  ];
+  sheet2.getRow(1).eachCell((cell) => { cell.font = headFont; cell.fill = headFill; });
+  for (const { submodule, coverage } of groups) {
+    if (!coverage) {
+      sheet2.addRow([submodule.name, 'No deep check - audited before it existed']);
+      continue;
+    }
+    for (const state of coverage) {
+      const row = sheet2.addRow([
+        submodule.name,
+        state.state,
+        state.counted,
+        state.recorded,
+        coveragePercent([state]),
+        state.missed.map((item) => item.category + ' ' + item.tagName.toLowerCase() + (item.text ? ' "' + item.text + '"' : '')).join('\n'),
+        state.outside.map((layer) => layer.role + (layer.text ? ' "' + layer.text + '"' : '')).join('\n'),
+      ]);
+      row.alignment = { vertical: 'top', wrapText: true };
+    }
+  }
 
   await workbook.xlsx.writeFile(file);
   return total;
@@ -342,6 +577,7 @@ function writePage(plan, groups, file) {
   const esc = (value) => String(value).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const total = groups.reduce((sum, group) => sum + group.entries.length, 0);
   const totalTagged = groups.reduce((sum, group) => sum + group.tagged.length, 0);
+  const allCoverage = groups.every((group) => group.coverage) ? groups.flatMap((group) => group.coverage) : null;
   const sections = groups.map(({ submodule, entries }) => `
   <section id="${esc(submodule.ticket)}">
     <h2>${esc(submodule.name)} <small>${esc(submodule.ticket)}</small> <span class="n">${entries.length}</span></h2>
@@ -370,7 +606,7 @@ figcaption{margin-bottom:8px;word-break:break-word}figcaption small{display:bloc
 img{width:100%;margin-top:6px;border:1px solid var(--line);border-radius:4px;background:#fff}.na{color:var(--mute)}
 </style></head><body>
 <header><h1>${esc(plan.title)}</h1>
-<div class="meta">Office ${esc(plan.officeLabel || plan.office)} · <b>${total + totalTagged}</b> elements found · <b>${totalTagged}</b> with a data-testid · <b>${total}</b> without · generated ${new Date().toISOString().slice(0, 10)}</div>
+<div class="meta">Office ${esc(plan.officeLabel || plan.office)} · <b>${total + totalTagged}</b> elements found · <b>${totalTagged}</b> with a data-testid · <b>${total}</b> without${allCoverage ? ` · <b>${allCoverage.length}</b> screens audited · DOM coverage <b>${coveragePercent(allCoverage)}</b>` : ''} · generated ${new Date().toISOString().slice(0, 10)}</div>
 <nav>${groups.map(({ submodule, entries }) => `<a href="#${esc(submodule.ticket)}">${esc(submodule.name)} <b>${entries.length}</b></a>`).join('')}</nav></header>
 <main>${sections}</main></body></html>`;
   fs.writeFileSync(file, html);
@@ -396,7 +632,10 @@ async function buildReport(planPath) {
   const total = await writeWorkbook(plan, groups, outputDir, workbookFile);
   writePage(plan, groups, path.join(outputDir, plan.fileName + '.html'));
 
-  for (const { submodule, entries, tagged } of groups) console.log(submodule.ticket + ' ' + submodule.name + ': ' + entries.length + ' without, ' + tagged.length + ' with data-testid');
+  for (const { submodule, entries, tagged, coverage } of groups) {
+    console.log(submodule.ticket + ' ' + submodule.name + ': ' + entries.length + ' without, ' + tagged.length + ' with data-testid'
+      + (coverage ? ', ' + coverage.length + ' screens, DOM coverage ' + coveragePercent(coverage) : ', no deep check'));
+  }
   console.log('Total: ' + total);
   console.log('Workbook: ' + workbookFile);
   console.log('Page:     ' + path.join(outputDir, plan.fileName + '.html'));

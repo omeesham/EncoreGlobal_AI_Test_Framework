@@ -5,7 +5,7 @@ const path = require('path');
 const { chromium } = require('@playwright/test');
 const XLSX = require('xlsx');
 const { captureDomScreenshot } = require('./dom-screenshot.js');
-const { parseStepsFile, executeSteps, isHolding } = require('./steps-runner.js');
+const { parseStepsFile, executeSteps, isHolding, isAnswering } = require('./steps-runner.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const DEFAULT_CONFIG_PATH = path.join(ROOT, 'config', 'testid-audit.config.js');
@@ -395,12 +395,25 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     ];
 
     const root = scopeSelectorValue ? document.querySelector(scopeSelectorValue) : document;
+    // A selector the steps runner resolved marks its area; the mark comes off
+    // before anything is read, so no snippet shows it.
+    if (root && root !== document) root.removeAttribute('data-audit-scope');
     const elements = root ? Array.from(root.querySelectorAll(selectors.join(','))) : [];
     // A result row that selects on click is a control even though it carries no
-    // role - on Products it is the only way to reach the row toolbar.
+    // role - on Products it is the only way to reach the row toolbar. So is any
+    // box that shows the hand cursor without a control inside it - a card, a
+    // tile: the outermost element with that cursor is the one taking the click.
+    const clickableBoxes = new Set();
     if (root) {
-      for (const row of root.querySelectorAll('tbody > tr')) {
-        if (window.getComputedStyle(row).cursor === 'pointer') elements.push(row);
+      const CONTROL_TAGS = selectors.join(',');
+      const pointer = (el) => !!el && el.nodeType === 1 && window.getComputedStyle(el).cursor === 'pointer';
+      for (const el of root.querySelectorAll('*')) {
+        if (!pointer(el) || el.tagName === 'LABEL' || el.matches(CONTROL_TAGS)) continue;
+        const isRow = el.matches('tbody > tr');
+        if (!isRow && (pointer(el.parentElement) || el.querySelector(CONTROL_TAGS))) continue;
+        if (el.closest(CONTROL_TAGS) || el.closest('svg')) continue;
+        clickableBoxes.add(el);
+        elements.push(el);
       }
     }
     // Beyond the controls, "everything" adds what a test reads or scopes to:
@@ -408,6 +421,7 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     // message) unless it is a control's own label, each container a test waits
     // on (dialog, menu, tab panel, table, tooltip, alert), and images and icons.
     const kinds = new Map();
+    for (const box of clickableBoxes) kinds.set(box, 'control');
     if (everythingValue && root) {
       const base = root === document ? document.body : root;
       const CONTROL = selectors.join(',');
@@ -490,12 +504,17 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
     // how many elements were found in all, not only how many lack one.
     const tagged = [];
     window.__testidAuditTagged = tagged;
+    window.__testidAuditCoverage = null;
+    // Every element the scan accounts for, with or without a testid, so the
+    // deep check below can list what it passed over.
+    const recorded = new Set();
     for (const el of elements) {
       if (!(el instanceof Element)) continue;
       if (ignoreInsideValue && el.parentElement && el.parentElement.closest(ignoreInsideValue)) continue;
       const kind = kinds.get(el) || 'control';
       if (kind === 'control' && el.closest('svg, path, g, defs')) continue;
       if (el.hasAttribute('data-testid')) {
+        recorded.add(el);
         tagged.push({
           testId: el.getAttribute('data-testid'),
           tagName: el.tagName,
@@ -518,8 +537,10 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
 
       const role = (el.getAttribute('role') || '').trim().toLowerCase();
       const tagName = el.tagName.toLowerCase();
-      const clickableRow = tagName === 'tr' && kind === 'control';
-      if (kind === 'control' && !clickableRow && ['div', 'span', 'section', 'main', 'article', 'header', 'footer', 'nav', 'ul', 'ol', 'li', 'p', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'label', 'fieldset', 'legend'].includes(tagName) && !role && !el.getAttribute('aria-label')) continue;
+      // A box taken from the hand cursor (a row, a card) reads as its whole text.
+      const clickableBox = clickableBoxes.has(el);
+      const clickableRow = clickableBox && tagName === 'tr';
+      if (kind === 'control' && !clickableBox && ['div', 'span', 'section', 'main', 'article', 'header', 'footer', 'nav', 'ul', 'ol', 'li', 'p', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'label', 'fieldset', 'legend'].includes(tagName) && !role && !el.getAttribute('aria-label')) continue;
 
       const interactiveByTag = ['button', 'a', 'input', 'textarea', 'select', 'option', 'summary', 'details', 'checkbox', 'radio'].includes(tagName) || (tagName === 'input' && ['button', 'checkbox', 'radio', 'search', 'text', 'date', 'number', 'email', 'password', 'tel', 'url', 'submit', 'reset'].includes((el.getAttribute('type') || '').toLowerCase()));
       const interactiveByRole = !!role && ['button', 'tab', 'tablist', 'option', 'combobox', 'menuitem', 'menuitemcheckbox', 'menuitemradio', 'menu', 'checkbox', 'radio', 'switch', 'link', 'textbox', 'searchbox', 'spinbutton'].includes(role);
@@ -530,7 +551,7 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
       let text;
       if (kind === 'text') text = ownText();
       else if (kind !== 'control') text = accessibleName();
-      else text = clickableRow
+      else text = clickableBox
         ? cleanText(el.innerText || '').slice(0, 80)
         : cleanText(el.innerText || el.textContent || '');
       // An icon button's tooltip title is its accessible name when it has no aria-label.
@@ -542,7 +563,7 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
       const column = columnOf(el);
       // A field in a table row is named by its column when nothing labels it.
       const label = isField ? (fieldLabelOf(el) || column) : '';
-      if (kind === 'control' && !clickableRow && !interactiveByTag && !interactiveByRole && !text && !ariaLabel && !placeholder && !name) continue;
+      if (kind === 'control' && !clickableBox && !interactiveByTag && !interactiveByRole && !text && !ariaLabel && !placeholder && !name) continue;
 
       // A control with no name of its own - a split button's caret, a bare
       // checkbox - is named by the nearest text around it, so the app team can
@@ -586,11 +607,13 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
       });
 
       const locator = getElementPath(el);
+      recorded.add(el);
       results.push({
         moduleName: moduleNameValue,
         pageUrl: window.location.href,
         tagName: el.tagName.toUpperCase(),
         role: clickableRow ? 'row' : role,
+        clickable: clickableBox && !clickableRow,
         text,
         ariaLabel,
         label,
@@ -621,6 +644,89 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
       });
     }
 
+    // Deep check: every element in the audited area is sorted into what a test
+    // can use - a control, something that takes a click without a control's
+    // tag or role, text, an icon, a container - or what it cannot (layout
+    // wrappers, icon internals, a control's own inner parts). Each usable one
+    // the scan did not record is listed, so a rule that misses a kind of
+    // element shows up on the first run instead of in a manual recheck.
+    if (root) {
+      const base = root === document ? document.body : root;
+      const CONTROL = selectors.join(',');
+      const STRUCTURAL_ROLES = ['none', 'presentation', 'separator', 'row', 'rowgroup', 'cell', 'gridcell', 'columnheader', 'rowheader', 'generic'];
+      const COUNTED = everythingValue ? ['control', 'clickable', 'text', 'image', 'container', 'loading'] : ['control', 'clickable'];
+      const pointer = (el) => !!el && el.nodeType === 1 && getComputedStyle(el).cursor === 'pointer';
+      const categoryOf = (el) => {
+        const tag = el.tagName.toLowerCase();
+        if (/^(script|style|link|meta|noscript|template|next-route-announcer)$/.test(tag) || el.id === '__testid_audit_ring__') return 'non-visual';
+        if (tag === 'svg' ? el.parentElement && el.parentElement.closest('svg') : el.closest('svg')) return 'inside-icon';
+        if (el.matches(CONTROL)) return 'control';
+        if (el.parentElement && el.parentElement.closest(CONTROL)) return 'inside-control';
+        // Something that takes a click without being a button: the outermost
+        // element showing the hand cursor, holding no control of its own.
+        if (pointer(el) && !pointer(el.parentElement) && !el.querySelector(CONTROL) && tag !== 'label') return 'clickable';
+        if (tag === 'svg' || tag === 'img' || el.getAttribute('role') === 'img') return 'image';
+        if (Array.from(el.childNodes).some((node) => node.nodeType === 3 && cleanText(node.textContent))) return 'text';
+        if (el.matches('[data-slot="skeleton"], [aria-busy="true"]')) return 'loading';
+        const role = (el.getAttribute('role') || '').toLowerCase();
+        if (role && !STRUCTURAL_ROLES.includes(role)) return 'container';
+        if (/^(table|form|nav|aside|header|footer)$/.test(tag) || (el.hasAttribute('tabindex') && el.getAttribute('aria-hidden') !== 'true')) return 'container';
+        return 'wrapper';
+      };
+      const shown = (el) => {
+        const style = getComputedStyle(el);
+        const box = el.getBoundingClientRect();
+        return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0'
+          && !el.closest('[hidden], [aria-hidden="true"]') && box.width > 1 && box.height > 1;
+      };
+      let counted = 0;
+      let found = 0;
+      const missed = [];
+      const missedSeen = new Set();
+      for (const el of [base, ...base.querySelectorAll('*')]) {
+        if (ignoreInsideValue && el.parentElement && el.parentElement.closest(ignoreInsideValue)) continue;
+        const category = categoryOf(el);
+        if (!COUNTED.includes(category)) continue;
+        // Only what is drawn counts when the scan looks at controls alone.
+        if (!everythingValue && !shown(el)) continue;
+        // The page itself is the container of everything, not an element of its own.
+        if (el === document.body) continue;
+        counted += 1;
+        if (recorded.has(el)) { found += 1; continue; }
+        const text = cleanText(el.getAttribute('aria-label') || el.getAttribute('title')
+          || (category === 'text' ? Array.from(el.childNodes).filter((node) => node.nodeType === 3).map((node) => node.textContent).join(' ') : el.innerText || '')).slice(0, 80);
+        const where = getElementPath(el).replace(/:nth-of-type\(\d+\)/g, '');
+        const key = [category, el.tagName, text, where].join('|');
+        if (missedSeen.has(key)) continue;
+        missedSeen.add(key);
+        missed.push({ category, tagName: el.tagName, role: el.getAttribute('role') || '', text, path: getElementPath(el), visible: shown(el) });
+      }
+      // A layer open outside the audited area - a toast, a menu, a tooltip - is
+      // on screen in this state but in no report, unless another audit covers it.
+      const outside = [];
+      if (root !== document) {
+        const LAYERS = '[role="dialog"], [role="alertdialog"], [role="menu"], [role="listbox"], [role="tooltip"], [data-radix-popper-content-wrapper], [data-sonner-toast]';
+        const layers = Array.from(document.querySelectorAll(LAYERS));
+        // A pop-up drawn without a dialog role - a full-screen layer holding a
+        // date-range picker - is a fixed box over most of the window with
+        // something in it; the sidebar is too narrow, a dimmed backdrop is empty.
+        const windowArea = window.innerWidth * window.innerHeight;
+        for (const el of document.body.querySelectorAll('*')) {
+          if (getComputedStyle(el).position !== 'fixed' || !cleanText(el.innerText || '')) continue;
+          const box = el.getBoundingClientRect();
+          if (box.width * box.height < windowArea / 2) continue;
+          if (layers.some((layer) => layer.contains(el) || el.contains(layer))) continue;
+          layers.push(el);
+        }
+        for (const layer of layers) {
+          if (root.contains(layer) || layer.contains(root) || !shown(layer)) continue;
+          if (layers.some((other) => other !== layer && other.contains(layer))) continue;
+          outside.push({ role: layer.getAttribute('role') || layer.tagName.toLowerCase(), text: cleanText(layer.innerText || '').slice(0, 80), path: getElementPath(layer) });
+        }
+      }
+      window.__testidAuditCoverage = { counted, recorded: found, missed, outside };
+    }
+
     // Copies of one repeated item are one finding: the app team fixes them with a
     // single testid on the template, and 15,000 Location options as separate rows
     // would bury the real gaps. The count and a few sample labels are kept.
@@ -647,7 +753,29 @@ async function collectRuntimeFindings({ page, moduleName = 'generic', pageUrl = 
   const results = dedupeResults(findings);
   const tagged = await page.evaluate(() => window.__testidAuditTagged || []).catch(() => []);
   results.tagged = tagged.map((item) => Object.assign(item, { pageUrl }));
+  results.coverage = await page.evaluate(() => window.__testidAuditCoverage || null).catch(() => null);
   return results;
+}
+
+function percentOf(part, whole) {
+  return whole ? (Math.floor((part / whole) * 1000) / 10).toFixed(1) + '%' : '100.0%';
+}
+
+/**
+ * One state's deep check, as it goes into the JSON, printed as the walk runs:
+ * what the scan passed over and any layer left open outside the audited area.
+ */
+function reportCoverage(state, pageUrl, result) {
+  const entry = { state, pageUrl, counted: result.counted, recorded: result.recorded, missed: result.missed, outside: result.outside };
+  console.log('    deep check: ' + result.recorded + ' of ' + result.counted + ' recorded (' + percentOf(result.recorded, result.counted) + ')');
+  for (const item of result.missed.slice(0, 10)) {
+    console.log('      passed over: ' + item.category + ' ' + item.tagName.toLowerCase() + (item.text ? ' "' + item.text + '"' : '') + (item.visible ? '' : ' (hidden)'));
+  }
+  if (result.missed.length > 10) console.log('      ... and ' + (result.missed.length - 10) + ' more in the JSON');
+  for (const layer of result.outside) {
+    console.log('      open outside the audited area: ' + layer.role + (layer.text ? ' "' + layer.text.slice(0, 50) + '"' : ''));
+  }
+  return entry;
 }
 
 /**
@@ -716,6 +844,11 @@ async function captureUiScreenshots(page, items, scratchDir) {
   }
 }
 
+// One date, or a range of two ("October 12, 2026 - October 19, 2026"): a
+// date-range button reads the dates it is set to, and stays one button.
+const ONE_DATE = '(?:(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}(?:st|nd|rd|th)?, \\d{4}|\\d{1,2}/\\d{1,2}/\\d{4})';
+const DATE_TEXT = new RegExp('^' + ONE_DATE + '(?: ?[-–] ?' + ONE_DATE + ')?$');
+
 /**
  * Folds findings from several states of one screen into one list. A control
  * that stays on screen across states - a toolbar button, a dialog's Close - is
@@ -740,7 +873,8 @@ function stateKey(item) {
   // A combobox shows its value (All Categories, then "Audio, Video"; 20, then
   // 50 rows), and a count its number (16 pages, then 7): the same element.
   const value = item.role === 'combobox' || /^\d[\d,.\s/]*$/.test(item.text || '');
-  const text = item.label || value || (content && inPage) ? '' : item.text;
+  // A date-range button reads the dates it is set to: it is one button whatever they are.
+  const text = item.label || value || (content && inPage) ? '' : String(item.text || '').replace(DATE_TEXT, 'date');
   // An icon has no words of its own and moves when a neighbour appears (a
   // search box's clear button); it is the icon beside the same thing.
   if (item.kind === 'image' && inPage) return ['image', item.tagName, item.nearText, item.column, item.path.replace(/:nth-of-type\(\d+\)/g, '')].join('|');
@@ -764,8 +898,12 @@ function mergeStates(findings) {
       item.alsoIn = [];
       byElement.set(stateKey(item), item);
       merged.push(item);
-    } else if (item.state !== first.state && !first.alsoIn.includes(item.state)) {
-      first.alsoIn.push(item.state);
+    } else {
+      if (item.state !== first.state && !first.alsoIn.includes(item.state)) first.alsoIn.push(item.state);
+      // Seen on a screen with the environment's own data, it is not only prepared.
+      if (!item.prepared) first.prepared = false;
+      // Seen in a state that shows the same each run, it does not vary.
+      if (!item.varies) first.varies = false;
     }
   }
   return merged;
@@ -965,6 +1103,8 @@ function controlName(item, tag, text, inColumn) {
     if (tag === 'button' && item.role === 'combobox') return `${label} dropdown${inColumn}`;
     if (tag === 'button' || item.role === 'button') return `${label} button${inColumn}`;
     if (tag === 'input' || item.role === 'textbox' || item.role === 'combobox') return `${label} input${inColumn}`;
+    // A box taking the click with no control's tag or role - a card, a tile.
+    if (item.clickable) return `${label} clickable area${inColumn}`;
     return label + inColumn;
   }
   if (tag === 'input' && inputType) {
@@ -973,6 +1113,7 @@ function controlName(item, tag, text, inColumn) {
   }
 
   const kind = item.role ? String(item.role).replace(/-/g, ' ') : (tag || 'element');
+  if (item.clickable) return item.nearText ? `Clickable area beside "${item.nearText}"` : 'Clickable area';
   if (item.nearText) return `Unlabeled ${kind} beside "${item.nearText}"`;
   if (item.role) return `${kind} control`;
   if (tag) return `${tag} element`;
@@ -1240,6 +1381,9 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
 
   let findings = [];
   let tagged = [];
+  // The deep check of each audited state: how many usable elements it held,
+  // how many the scan recorded, and which it passed over.
+  const coverage = [];
   // The step that stopped the walk, when states were already audited before it.
   let stoppedAt = '';
   if (args.html) {
@@ -1274,26 +1418,31 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
             step.target ? Object.assign({}, step, { target: substituteOffice(step.target, office) }) : step
           ));
           const onAudit = auditAtEachStep
-            ? async (stepScope, label) => {
+            ? async (stepScope, label, written = stepScope, { varies = false } = {}) => {
+              // The state is named by the selector as written: a resolved one is only a mark.
+              const state = label || written || 'page';
               await settlePage(page);
               const found = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url(), scopeSelector: stepScope, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())), ignoreInside: (stepsPlan && stepsPlan.ignore) || '' });
-              for (const item of found.tagged || []) checkpointTagged.push(Object.assign(item, { state: label || stepScope || 'page' }));
+              for (const item of found.tagged || []) checkpointTagged.push(Object.assign(item, { state }));
+              if (found.coverage) coverage.push(reportCoverage(state, page.url(), found.coverage));
               if (!found.length) {
                 // Every state in a file is there because it holds controls; an
                 // empty one means the click before it did not land - unless what
                 // it holds already carries data-testids, as a fully tagged dialog does.
-                const tagged = await page.locator(stepScope || 'body').first()
+                const tagged = await page.locator(written || 'body').first()
                   .evaluate((el) => el.matches('[data-testid]') || !!el.querySelector('[data-testid]'))
                   .catch(() => false);
                 if (!tagged) {
-                  throw new Error('The audit "' + (label || stepScope) + '" found no elements - the state probably did not open.');
+                  throw new Error('The audit "' + state + '" found no elements - the state probably did not open.');
                 }
-                console.log('    every element in "' + (label || stepScope || 'page') + '" already has a data-testid');
+                console.log('    every element in "' + state + '" already has a data-testid');
                 return;
               }
-              for (const item of found) item.state = label || stepScope || 'page';
+              // A screen drawn after an Answer step may show records E2E does not hold.
+              const prepared = isAnswering(page);
+              for (const item of found) Object.assign(item, { state, prepared, varies });
               await captureUiScreenshots(page, found, uiScratchDir);
-              console.log('    ' + found.length + ' finding(s) in "' + (label || stepScope || 'page') + '"');
+              console.log('    ' + found.length + ' finding(s) in "' + state + '"');
               checkpointFindings.push(...found);
             }
             : null;
@@ -1328,6 +1477,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
             await page.locator(scopeSelector).first().waitFor({ state: 'attached', timeout: 30000 });
           }
           findings = await collectRuntimeFindings({ page, moduleName, pageUrl: page.url() || startingUrl || 'about:blank', scopeSelector, everything: !!(stepsPlan && /^all$/i.test(String(stepsPlan.elements || '').trim())), ignoreInside: (stepsPlan && stepsPlan.ignore) || '' });
+          if (findings.coverage) coverage.push(reportCoverage('page', page.url(), findings.coverage));
           await captureUiScreenshots(page, findings, uiScratchDir);
           tagged = (findings.tagged || []).map((item) => Object.assign(item, { state: 'page' }));
         }
@@ -1411,7 +1561,7 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
     seenTagged.add(key);
     return true;
   });
-  fs.writeFileSync(jsonPath, JSON.stringify(Object.assign({ moduleName, submoduleName, generatedAt: new Date().toISOString() }, stoppedAt ? { stoppedAt } : {}, { findings: uniqueFindings, tagged: uniqueTagged }), null, 2));
+  fs.writeFileSync(jsonPath, JSON.stringify(Object.assign({ moduleName, submoduleName, generatedAt: new Date().toISOString() }, stoppedAt ? { stoppedAt } : {}, { findings: uniqueFindings, tagged: uniqueTagged, coverage }), null, 2));
 
   const xlsxPath = createWorkbook(uniqueFindings, moduleName, outputDir, submoduleName);
   const summary = {
@@ -1426,6 +1576,13 @@ async function runAuditForOffice(args, config, mode, stepsPlan, office) {
   console.log(`Audit complete for module: ${moduleName}`);
   console.log(`Missing data-testid findings: ${uniqueFindings.length}`);
   console.log(`Elements that already have a data-testid: ${new Set(uniqueTagged.map((item) => item.testId + '|' + item.tagName)).size}`);
+  if (coverage.length) {
+    const counted = coverage.reduce((sum, state) => sum + state.counted, 0);
+    const recorded = coverage.reduce((sum, state) => sum + state.recorded, 0);
+    const missed = coverage.reduce((sum, state) => sum + state.missed.length, 0);
+    console.log(`Deep check: ${coverage.length} state(s), ${recorded} of ${counted} elements recorded (${percentOf(recorded, counted)})`
+      + (missed ? `, ${missed} passed over - listed under "coverage" in the JSON` : ''));
+  }
   console.log(`JSON report: ${jsonPath}`);
   console.log(`Excel report: ${xlsxPath}`);
   console.log(JSON.stringify(summary, null, 2));
@@ -1445,6 +1602,7 @@ if (require.main === module) {
 }
 
 module.exports = {
+  DATE_TEXT,
   cleanText,
   buildSuggestedTestId,
   findMissingTestIdsInDom,

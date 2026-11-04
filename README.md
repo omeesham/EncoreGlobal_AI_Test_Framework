@@ -265,9 +265,9 @@ screen genuinely differs: Local Office Settings has 19 untagged controls in USA,
 
 `Module` and `Submodule` become the first two columns of the workbook, so the report is labelled
 by whatever you call it. Step numbers, trailing periods, `#` comments and curly quotes are all
-tolerated. The verbs are `Go to`, `Click`, `Type "x" into "y"`, `Select "x" from "y"`, `Wait for`,
-`Wait up to N seconds for`, `Wait N seconds`, `Press "<key>"`, `Hover`, `Upload "<file>" via "<label>"`, `Drag "<label>" to "<label>"`,
-`Hold "<url part>"`, `Release "<url part>"`, `Fail "<url part>"`, `Send "<url part>" with "<file>"`, `Answer "<url part>" with "<file>"`, `Audit here` and `Audit inside "<selector>"`. A line it cannot parse fails the run
+tolerated. The verbs are `Go to`, `Click`, `Type "x" into "y"` (add `and leave` to press Tab after it), `Select "x" from "y"`, `Wait for`,
+`Wait up to N seconds for`, `Wait N seconds`, `Wait until the page settles`, `Press "<key>"`, `Hover`, `Upload "<file>" via "<label>"`, `Drag "<label>" to "<label>"`,
+`Hold "<url part>"`, `Release "<url part>"`, `Fail "<url part>"`, `Send "<url part>" with "<file>"`, `Answer "<url part>" with "<file>"`, `Audit here`, `Audit inside "<selector>"` and `Audit message`. A line it cannot parse fails the run
 — a silently skipped navigation step would produce a confident report about whichever page it
 happened to land on. A step that fails partway through a walk keeps the states audited before
 it: the JSON records `stoppedAt`, the run still exits as failed, and the report builder warns
@@ -285,12 +285,15 @@ These steps cover what a click cannot reach:
 | `Hover "<label>"` | a tooltip or submenu opens on hover; it waits a second for it to appear |
 | `Upload "<file>" via "<label>"` | a control opens the file picker (an Import button); the path is relative to the steps file |
 | `Drag "<label>" to "<label>"` | rows are added to a grid by dropping them on it, from a list beside it; a drop the page misses is tried again |
-| `Hold "<url part>"` … `Release "<url part>"` | the screen shows placeholders while it loads: requests whose address or body contains the text wait until released, so the loading state can be audited in between. A method in front (`Hold "POST <text>"`) holds only requests sent with it, for a page that loads its data by posting to its own address: name the text that request alone sends, or, when two Next.js server actions send the same body, the action's id (its `next-action` header) |
+| `Hold "<url part>"` … `Release "<url part>"` | the screen shows placeholders while it loads: requests whose address or body contains the text wait until released, so the loading state can be audited in between. A method in front (`Hold "POST <text>"`) holds only requests sent with it, for a page that loads its data by posting to its own address: name the text that request alone sends, or, when two Next.js server actions send the same body, the action by its name: `Hold "POST action:getPreferredInventorySourcesLookup"`. The name is the one the app's code gives the action, and its id (the `next-action` header) is looked up in the page's scripts on every run, since the id changes with each build of the app while the name does not. A raw id still works, until the next build |
 | `Fail "<url part>"` | the message a failed save or load shows: every matching request (same matching as `Hold`) fails from then on, as a lost connection would, so nothing reaches the server. Put it last in a file: the page cannot load again while its requests fail |
 | `Send "<url part>" with "<file>"` | a save whose request the page writes with a field changed - a date moved by the browser's time zone, say: the fields the JSON file names (path relative to the steps file) are set in the body of every matching request before it leaves; the rest stays as the page wrote it, and lists are matched item by item |
 | `Answer "<url part>" with "<file>"` | a screen whose data the environment cannot hold - search results its backend never returns, say: every matching request (same matching as `Hold`) still reaches the server, and the page is handed the JSON file (path relative to the steps file) in place of the result; a Next.js server action keeps its reply frame and only its result (line `1:`) is replaced |
 | `Wait up to N seconds for "<label>"` | something takes longer than the usual 30 seconds, such as a generated answer |
 | `Wait N seconds` | the page shows no sign of a request in flight - a search box that sends the text of the search before it until that one is done |
+| `Wait until the page settles` | a screen loads in several rounds: it waits until no request has been in flight for half a second and no loading placeholder is left, rather than for a guessed number of seconds |
+| `Type "x" into "y" and leave` | a form checks a field only once it loses focus - Add stays disabled until then: it presses Tab after typing |
+| `Audit message` | the message (toast) a save or load shows: it waits up to 60 seconds for it, points at it so it does not close, and audits the message area. `Audit message "Saved"` waits for the one holding that text; `as "<state>"` names the state as usual |
 
 Hover, Upload and Drag find their controls the same way `Click` does. Put `Hold` before the click
 that sends the request:
@@ -314,19 +317,28 @@ Audit inside "[data-radix-popper-content-wrapper]" as "Service Type dropdown ope
 Press "Escape"
 ```
 
+A state whose content is generated afresh each run — an Ask Encore answer picks its own kind, columns
+and rows — is marked by adding `, content varies` after its name:
+`Audit inside "main#skip + div" as "Answer - product table", content varies`. Elements seen only in
+such states get a note in the report saying a reader may see other items. Audit each kind of answer
+as its own state rather than relying on one run's text.
+
 The state goes into each row's *Steps to locate*, and a control that stays on screen across states
 is reported once, listing the other states it appears in. A named audit that finds nothing fails
 the run, since it almost always means the click before it did not open anything. Popovers, menus
 and dialogs render outside `main`, so scope those to `[role=dialog]`, `[role=menu]` or
-`[data-radix-popper-content-wrapper]`. The scope is applied with `querySelector`, so it must be
-plain CSS — `:has-text()` and `>> nth=` work in a `Click`, not in an `Audit inside`.
+`[data-radix-popper-content-wrapper]`. The scope takes the same selectors as a `Click`, so one
+of two open dialogs can be named by its text — `Audit inside "[role=dialog]:has-text('Edit Row')"`
+— or by its place, `css=[role=dialog] >> nth=1`; the first element it matches is audited.
 
 **Repeated items are one finding.** Copies of one template — dropdown options, calendar days,
 result rows — are reported once with an instance count and a few sample labels, because the app
 team fixes them with one testid on the template. Location's 5,116 options are one row, not 5,116.
-Result rows that select on click are reported even though they carry no role, since on some
-screens they are the only way to reach a toolbar. A control with no name is described by the
-text beside it — *Unlabeled button beside "View Product Code"*.
+Anything that shows the hand cursor is reported as a control even though it carries no role: a
+result row that selects on click (on some screens the only way to reach a toolbar) or a card or
+tile that opens something, named *… clickable area*. The outermost element showing the cursor is
+the one reported, and a box that only wraps a real button is left to the button. A control with
+no name is described by the text beside it — *Unlabeled button beside "View Product Code"*.
 
 Copies are grouped per table column and per title, so a row's Edit and Delete buttons, or three
 checkbox columns, stay separate findings. A control is named the way a reader finds it on screen:
@@ -419,7 +431,7 @@ It writes one workbook and one page into the plan's output folder:
 
 | Output | What it is for |
 | --- | --- |
-| `.xlsx` | *Missing testids*: one row per element — S.No, Module, Submodule, Element, Current selector, Steps to locate the element, DOM snippet, Screenshot (DOM), Screenshot (UI) — with both screenshots embedded in the row. *Summary*: the count per submodule |
+| `.xlsx` | *Missing testids*: one row per element — S.No, Module, Submodule, Element, Current selector, Steps to locate the element, DOM snippet, Screenshot (DOM), Screenshot (UI), Note — with both screenshots embedded in the row. The Note marks an element seen only on screens an `Answer` step filled, which a developer following the steps in this environment finds empty, or only in states marked `content varies`. *Summary*: per submodule, the elements found, with and without a testid, the screens audited and the DOM coverage. *Coverage*: each screen's deep check, with anything it did not record |
 | `.html` | Every element with both screenshots, grouped by submodule, for reading in a browser |
 | `screenshots/<ticket>/` | The PNGs, numbered to match S.No |
 
@@ -434,8 +446,27 @@ decides who gets an element several of them show. `assign` moves one element to 
 a button scanned on one ticket's screen that opens another ticket's page. The comment at the top of
 `scripts/testid-report.js` shows a complete plan.
 
+One steps file can walk two pages — a search and the record a result opens — that belong in two
+sections. A section takes only part of a file with `"page"`, the address after the office with `*`
+for one part of it (`"/fulfillments"` for the search, `"/fulfillments/*/*/*"` for a record), or with
+`"states"`, a list of state names where `*` stands for any text (`["Edit Job Item*"]`). Findings that
+no section takes are counted in a warning, so a filter cannot quietly drop them.
+
+The application shell — the sidebar, its menus, Ask Encore — is the same around every page, so one
+audit of it can serve several modules' reports. A section with `"from"` reads its reports from
+another module's folder, screenshots included:
+
+```json
+{ "ticket": "NM-4410-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4436"],
+  "from": { "reportsDir": "reports/testid-audit-home", "module": "Home" } }
+```
+
+Its steps to locate start from the page it was audited on. A reused audit more than 7 days old is
+flagged in a warning, since the shell changes with the app; run its steps file again then.
+
 Run the audits for the plan's office first; a missing report stops the build and names the steps
-file to run. Like the audit, it refuses to start while the workbook is open in Excel, and it replaces
+file to run. An audit made before the deep check existed is still read, with a warning, and its
+section shows no coverage figure rather than a partial one. Like the audit, it refuses to start while the workbook is open in Excel, and it replaces
 the previous report only once everything it needs has been read.
 
 #### Auditing a new screen, step by step
@@ -457,21 +488,26 @@ Name a `readySelector` too: a control whose presence proves the form has finishe
 rendering. Without one the scan falls back to a timing heuristic, which is a floor, not a
 guarantee.
 
-**4. Cross-check the count against the page.** This is not optional. Open the screen,
-count the interactive elements without a `data-testid` yourself, and compare. A report
-built from a half-rendered page looks exactly like a correct one — on Locations the tool
-reported 2 gaps where 9 existed, and nothing about the workbook looked wrong. Do this
-once per screen; after that the steps file is proven and re-runnable by anyone.
+**4. Read the deep check.** Every audit also checks its state element by element, with no
+extra flag. It sorts each element in the audited area into what a test can use — a control,
+anything showing the hand cursor, and with `Elements: all` also text, icons and containers — or
+what it cannot (layout wrappers, the inside of an icon, a control's own inner parts), and
+compares that list with what the scan recorded. Each state prints a line as the walk runs:
 
-A quick way to get the number, with the screen open in DevTools:
-
-```js
-[...document.querySelector('main').querySelectorAll(
-  'button,a,input,textarea,select,[role="button"],[role="combobox"],[role="tab"],[role="checkbox"],[role="switch"]'
-)].filter(el => !el.closest('[aria-hidden="true"]')
-             && el.getBoundingClientRect().width > 1
-             && !el.hasAttribute('data-testid')).length
 ```
+    35 finding(s) in "Search done - no results"
+    deep check: 35 of 35 recorded (100.0%)
+```
+
+Anything below 100% is listed beneath it as *passed over*, with its kind and text, and goes
+into the JSON under `coverage`. So does a dialog, menu, tooltip or toast that is open
+**outside** the audited area — on screen in that state, but in no report unless another audit
+covers it. Both mean the steps file or a rule needs a look before the report goes out.
+
+The deep check proves the scan read the whole state it was given. It cannot tell whether the
+state was fully rendered: a report built from a half-rendered page looks exactly like a correct
+one — on Locations the tool once reported 2 gaps where 9 existed. Look at the UI screenshots
+once per screen; after that the steps file is proven and re-runnable by anyone.
 
 **Then find what the steps file missed.** A steps file audits the states someone thought of.
 The explorer walks to each audited state, tries every control there — hovers it, clicks it,
@@ -486,6 +522,12 @@ clear button, a control that turned on. Anything listed that the steps file does
 state to add before the report goes out. It changes no data: a request the walk itself did not
 make is blocked unless it is a GET, and listed. Links that leave the page are not followed. The
 full list is written to `reports/testid-explore/`.
+
+Add `--actions` to list, at each audited state, the page's server actions by name instead of
+trying its controls: those the walk called, and those the page's code holds that nothing called
+yet. The second list is where screens and data a steps file has not reached show up — a lookup an
+environment leaves empty (fill it with `Answer "POST action:<name>"`), or a dialog no button on the
+way opens. It takes a minute rather than an hour.
 
 **5. Compare the three countries, and explain any gap.** Differing counts are normal —
 Local Office Settings genuinely has 19 untagged controls in USA, 3 in Canada and 13 in
