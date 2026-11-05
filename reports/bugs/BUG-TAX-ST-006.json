@@ -1,0 +1,25 @@
+{
+  "id": "BUG-TAX-ST-006",
+  "title": "Sales Tax — Zip Code accepts letters and more than 5 characters",
+  "module": "taxes",
+  "severity": "low",
+  "status": "open",
+  "discoveredDate": "2026-11-04",
+  "requirementSource": "NM-4021 §6.1 — Zip Code is a text input, max 5 digits",
+  "stepsToReproduce": [
+    "Navigate to Tax → Sales Tax for office 1101 (/navigator/locations/1101/taxes/sales-tax) on e2e as the automation user.",
+    "Type 'ab902105' into Zip Code."
+  ],
+  "expectedBehavior": "Only digits are kept, at most 5.",
+  "actualBehavior": "The field holds 'ab902105' (no maxlength, no digit filter) and a search sends it as zipCode.",
+  "affectedTests": [
+    "TC-TAX-ST-014"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-04",
+      "verdict": "CONFIRMED",
+      "finding": "Reproduced live on e2e (office 1101) during NM-4021 automation; the affected test asserts the documented behaviour under test.fail."
+    }
+  ]
+}

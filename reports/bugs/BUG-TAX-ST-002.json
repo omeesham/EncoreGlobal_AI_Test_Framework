@@ -1,0 +1,33 @@
+{
+  "id": "BUG-TAX-ST-002",
+  "title": "Sales Tax — changing State keeps the previous City and sends the old County/City ids",
+  "module": "taxes",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-11-04",
+  "requirementSource": "NM-4021 §12 TC-ST-12 — changing State after County/City are chosen resets both and reloads County for the new State",
+  "stepsToReproduce": [
+    "Navigate to Tax → Sales Tax for office 1101 (/navigator/locations/1101/taxes/sales-tax) on e2e as the automation user.",
+    "Choose State AK, County MATANUSKA-SUSITNA, City WASILLA.",
+    "Change State to CA.",
+    "Click Search and inspect the search request."
+  ],
+  "expectedBehavior": "County and City return to All; the search sends stateId=49 (CA) only.",
+  "actualBehavior": "County shows blank and City still shows WASILLA. The search sends stateId=49 (CA) with countyId=1962 (MATANUSKA-SUSITNA, AK) and cityId=23984 (WASILLA, AK) and returns 0 records.",
+  "affectedTests": [
+    "TC-TAX-ST-018",
+    "TC-TAX-ST-057"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-04",
+      "verdict": "CONFIRMED",
+      "finding": "Reproduced live on e2e (office 1101) during NM-4021 automation; the affected test asserts the documented behaviour under test.fail."
+    },
+    {
+      "date": "2026-11-05",
+      "verdict": "CONFIRMED",
+      "finding": "Also reproduced on the Sales Tax History tab (TC-TAX-ST-057)."
+    }
+  ]
+}

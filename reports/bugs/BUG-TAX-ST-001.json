@@ -1,0 +1,32 @@
+{
+  "id": "BUG-TAX-ST-001",
+  "title": "Sales Tax — Effective Date is shown one day early (UTC midnight rendered in browser local time)",
+  "module": "taxes",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-11-04",
+  "requirementSource": "NM-4021 §4.1/§4.2 — Effective Date shows the effective date of the version (MM/DD/YYYY); same root cause as BUG-TAX-IST-001",
+  "stepsToReproduce": [
+    "Navigate to Tax → Sales Tax for office 1101 (/navigator/locations/1101/taxes/sales-tax) on e2e as the automation user.",
+    "Type Zip Code 90210 and click Search.",
+    "Compare the Effective Date cell with the effectiveDate in the search response (DevTools → Network)."
+  ],
+  "expectedBehavior": "The grid shows 04/01/2025 — the calendar date the version is stored with.",
+  "actualBehavior": "The server sends effectiveDate '2025-04-01T00:00:00.000Z'; the grid shows 03/31/2025 in a browser running America/New_York. The History tab shows the same shift. The cell formats the UTC instant with the browser's local timezone, so every user west of UTC sees each date one day early.",
+  "affectedTests": [
+    "TC-TAX-ST-032",
+    "TC-TAX-ST-064"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-04",
+      "verdict": "CONFIRMED",
+      "finding": "Reproduced live on e2e (office 1101) during NM-4021 automation; the affected test asserts the documented behaviour under test.fail."
+    },
+    {
+      "date": "2026-11-05",
+      "verdict": "CONFIRMED",
+      "finding": "Also reproduced on the Sales Tax History tab (TC-TAX-ST-064)."
+    }
+  ]
+}
