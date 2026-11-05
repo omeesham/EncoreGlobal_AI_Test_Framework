@@ -9,7 +9,7 @@
 | Page object | [`src/pages/taxes/sales-tax.page.ts`](../../src/pages/taxes/sales-tax.page.ts) |
 | Selectors / data | [`src/selectors/taxes/sales-tax.ts`](../../src/selectors/taxes/sales-tax.ts), [`src/data/taxes/sales-tax.ts`](../../src/data/taxes/sales-tax.ts) |
 | Test cases | [`sales-tax.xlsx`](sales-tax.xlsx) → [`testcases-testrail-import/taxes/sales-tax.csv`](../../testcases-testrail-import/taxes/sales-tax.csv) |
-| Bugs | `reports/bugs/BUG-TAX-ST-001`, `002`, `003`, `006`; exploratory crawl in `reports/bugs/crawler/sales-tax/` |
+| Bugs | `reports/bugs/BUG-TAX-ST-002`, `003`, `006` (001 dropped 2026-11-05); exploratory crawl in `reports/bugs/crawler/sales-tax/` |
 | Live audit | 2026-11-04 |
 
 ## 1. Scope and approach
@@ -112,7 +112,7 @@ Priority: C = Critical, H = High, M = Medium, L = Low. "Bug" = runs under `test.
 |---|---|---|---|
 | 030 | Every cell equals its API field; rates 6 decimals | H | §4.3 |
 | 031 | Combined Tax = sum of five tiers (510 AK rows, page 1) | H | §4.1 |
-| 032 | Effective Date = stored calendar date — **Bug ST-001** | H | §4.1 |
+| 032 | Effective Date = stored calendar date (UTC browser) | H | §4.1 |
 | 033 | Columns in documented order | H | TC-ST-19 |
 | 034 | Grid read-only, no checkboxes | H | TC-ST-20 |
 | 035 | Geo Code sorts both ways | M | TC-ST-21, NM-3959 |
@@ -163,7 +163,7 @@ Priority: C = Critical, H = High, M = Medium, L = Low. "Bug" = runs under `test.
 | 061 | Empty History result → "No sales tax history records found" | M | empty state |
 | 062 | History search 500 → error, tab recovers, retry works | H | TC-ST-34 |
 | 063 | History cells equal the answer; Modified On in business time zone | H | §4.2, §4.3 |
-| 064 | History Effective Date = stored calendar date — **Bug ST-001** | H | §4.2 |
+| 064 | History Effective Date = stored calendar date (UTC browser) | H | §4.2 |
 | 065 | History server-side sort kept across pages | M | sort / paging |
 | 066 | History grid read-only | H | §4.2 |
 
@@ -190,7 +190,6 @@ Priority: C = Critical, H = High, M = Medium, L = Low. "Bug" = runs under `test.
 
 | Bug | Severity | Summary | Test |
 |---|---|---|---|
-| BUG-TAX-ST-001 | High | Effective Date shown one day early (UTC midnight in local time) — e.g. 2025-04-01 shows 03/31/2025 | 032, 064 |
 | BUG-TAX-ST-002 | High | Changing State keeps the old City; search sends CA with AK county/city ids → 0 rows | 018, 057 |
 | BUG-TAX-ST-003 | High | Second zip search sends hidden stateId=59 (AK) → 0 rows | 013, 059 |
 | BUG-TAX-ST-006 | Low | Zip accepts letters and > 5 characters | 014 |
@@ -221,6 +220,7 @@ so cascading State/County/City was not explored by it; those rules are covered b
 
 | Bug | Why dropped |
 |---|---|
+| BUG-TAX-ST-001 Effective Date shown one day early | Time-zone dependent (only west of UTC); time-zone defects dropped on review 2026-11-05 — 032 and 064 now run in a UTC browser |
 | BUG-TAX-ST-004 No Export button (NM-3989) | By design — no Export on Sales Tax; TC-ST-31…33 not applicable |
 | BUG-TAX-ST-005 No Import column in History (NM-3984) | By design — Modified By / Modified On are the audit columns |
 | BUG-TAX-ST-007 Tab aria-controls to an unrendered panel | Shared tabs component; excluded from the axe scan like the select triggers |
@@ -234,10 +234,9 @@ npx playwright test tests/taxes/sales-tax.spec.ts --project=chromium -g "TC-TAX-
 npm run report                                                                   # HTML report with numbered steps
 ```
 
-TestRail: import `testcases-testrail-import/taxes/sales-tax.csv` (section `Sales_Tax`, suite S1620). Then add
-the returned ids to `config/testrail/case-map.json` (`"TC-TAX-ST-001": <id>`, …) and the `@C<id>` tag to
-each test (and to the loop-built 053/054), as for International Tax Setup. Until then the reporter
-matches by title.
+TestRail: imported 2026-11-05 with `npm run testrail:sync:execute -- --only taxes/sales-tax` into section `Sales_Tax`
+(suite S1620) — C107443 … C107512, recorded in `config/testrail/case-map.json`. Every test carries its `@C<id>`
+tag (053/054 through `LOOP_CASE_TAGS`). Push results with `TESTRAIL_ENABLED=true`.
 
 ## 7. Execution results (e2e, Chromium, retries off)
 

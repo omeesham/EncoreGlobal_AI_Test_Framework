@@ -1,5 +1,8 @@
 import { createRequire } from 'module';
+import { Browser } from '@playwright/test';
 import { test, expect } from '../../src/fixtures/pages.fixture';
+import { IConfig } from '../../src/types';
+import { STATE_PATH } from '../../src/utils/auth-storage';
 import { about, attachNote, phase, verify } from '../../src/fixtures/report-steps';
 import { SalesTaxPage, ApiTaxRecord, GridRow, SearchCapture } from '../../src/pages/taxes/sales-tax.page';
 import {
@@ -49,6 +52,15 @@ import {
 //   * Not automated (see the test plan): the Read-only persona (no such account), and the import rules that
 //     need a real write — all-or-nothing with a valid row, chronology, audit user, newest import on top.
 
+// ---------------------------------------------------------------- TestRail mapping
+
+// TestRail case tags for tests whose titles are built in a loop. Literal titles carry their tag
+// inline; both come from config/testrail/case-map.json.
+const LOOP_CASE_TAGS: Record<string, string> = {
+  'TC-TAX-ST-053': '@C107495',
+  'TC-TAX-ST-054': '@C107496',
+};
+
 // ---------------------------------------------------------------- spec-local helpers
 
 const TODAY = todayIso();
@@ -91,6 +103,23 @@ function isSorted(values: string[], direction: 'ascending' | 'descending'): bool
 test.describe('Sales Tax @taxes', () => {
   let st: SalesTaxPage;
 
+  /**
+   * Runs `body` with the page object on a UTC browser, where a date-only value renders as stored. The date cases
+   * use it because the one-day shift west of UTC was accepted (BUG-TAX-ST-001 dropped 2026-11-05) — they keep checking
+   * the date logic itself, independent of the machine's time zone.
+   */
+  async function inUtc(browser: Browser, config: IConfig, body: () => Promise<void>): Promise<void> {
+    const ctx = await browser.newContext({ storageState: STATE_PATH, timezoneId: 'UTC' });
+    const original = st;
+    try {
+      st = new SalesTaxPage(await ctx.newPage(), config);
+      await body();
+    } finally {
+      st = original;
+      await ctx.close();
+    }
+  }
+
   test.beforeEach(async ({ authenticatedSession, config }) => {
     // Several searches plus County → City lookups of up to ~35 s; cases that do more raise it again.
     test.setTimeout(240_000);
@@ -123,7 +152,7 @@ test.describe('Sales Tax @taxes', () => {
   // ================================================================ A. Navigation and page layout
 
   test.describe('A. Navigation and page layout', () => {
-    test('TC-TAX-ST-001: Tax menu entry opens the Sales Tax page', async () => {
+    test('TC-TAX-ST-001: Tax menu entry opens the Sales Tax page', { tag: '@C107443' }, async () => {
       await about('A user opens Tax in the sidebar and picks Sales Tax; the page opens with its title on the sales-tax route.');
       await st.openFromTaxMenu(ST_OFFICE);
       await attachNote('Route reached from the menu', st.page.url());
@@ -133,7 +162,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-002: Basic Information is the active tab and Sales Tax History is offered', async () => {
+    test('TC-TAX-ST-002: Basic Information is the active tab and Sales Tax History is offered', { tag: '@C107444' }, async () => {
       await about('Opening the page lands on Basic Information; the Sales Tax History tab sits beside it.');
       await st.open(ST_OFFICE);
       await verify('Basic Information is selected and History is available', async () => {
@@ -143,7 +172,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-003: Search panel offers Zip Code, State, County, City, Effective Date, Reset and Search', async () => {
+    test('TC-TAX-ST-003: Search panel offers Zip Code, State, County, City, Effective Date, Reset and Search', { tag: '@C107445' }, async () => {
       await about('The Basic Information search panel carries the four location criteria, the as-of date and its two buttons.');
       await st.open(ST_OFFICE);
       await verify('All seven controls are visible in the search panel', async () => {
@@ -153,7 +182,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-004: Effective Date defaults to business today', async () => {
+    test('TC-TAX-ST-004: Effective Date defaults to business today', { tag: '@C107446' }, async () => {
       await about(`On a fresh load the as-of Effective Date already holds today's date in the business timezone (${TODAY}).`);
       await st.open(ST_OFFICE);
       await verify('The as-of date equals business today', async () => {
@@ -161,7 +190,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-005: Before any search the grid shows its columns, 0 records and a prompt to search', async () => {
+    test('TC-TAX-ST-005: Before any search the grid shows its columns, 0 records and a prompt to search', { tag: '@C107447' }, async () => {
       await about('Nothing is listed until the user searches: the grid header is drawn, the counter reads 0 and the grid asks for criteria.');
       await st.open(ST_OFFICE);
       await verify('Header present, no rows, counter 0, prompt shown', async () => {
@@ -172,7 +201,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-006: Loading feedback shows while a search is pending and clears when results arrive', async () => {
+    test('TC-TAX-ST-006: Loading feedback shows while a search is pending and clears when results arrive', { tag: '@C107448' }, async () => {
       await about('While a search answer is slow the grid shows that it is working, then the results replace the feedback.');
       await st.open(ST_OFFICE);
       await st.typeZip(ST_ZIP);
@@ -187,7 +216,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-007: First search result is usable within the load budget', async () => {
+    test('TC-TAX-ST-007: First search result is usable within the load budget', { tag: '@C107449' }, async () => {
       await about(`Opening the page and running a zip search shows results within ${ST_LOAD_BUDGET_MS / 1000} seconds.`);
       const started = Date.now();
       await st.open(ST_OFFICE);
@@ -199,7 +228,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-008: Switching tabs keeps the searched criteria and results', async () => {
+    test('TC-TAX-ST-008: Switching tabs keeps the searched criteria and results', { tag: '@C107450' }, async () => {
       // Live (e2e 2026-11-04): criteria are kept once searched (saved per tab in sessionStorage); a Zip Code typed
       // but never searched is dropped by the round trip.
       await about('NM-4021 §3: after a Zip Code search on Basic Information, visiting Sales Tax History and coming back shows the same criteria and rows.');
@@ -218,7 +247,7 @@ test.describe('Sales Tax @taxes', () => {
   // ================================================================ B. Zip Code override rule
 
   test.describe('B. Zip Code override rule', () => {
-    test('TC-TAX-ST-009: Typing a Zip Code clears and disables State, County and City', async () => {
+    test('TC-TAX-ST-009: Typing a Zip Code clears and disables State, County and City', { tag: '@C107451' }, async () => {
       await about('NM-4021 §6.2 step 2: once a Zip Code is typed the location dropdowns are cleared and locked; Effective Date stays usable.');
       await st.open(ST_OFFICE);
       await st.typeZip(ST_ZIP);
@@ -233,7 +262,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-010: Clearing the Zip Code re-enables State and County; City waits for a County', async () => {
+    test('TC-TAX-ST-010: Clearing the Zip Code re-enables State and County; City waits for a County', { tag: '@C107452' }, async () => {
       await about('NM-4021 §6.2 step 3: deleting the Zip Code gives the location dropdowns back in their dependent state.');
       await st.open(ST_OFFICE);
       await st.typeZip(ST_ZIP);
@@ -244,7 +273,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-011: Typing a Zip Code after choosing State, County and City clears and disables them', async () => {
+    test('TC-TAX-ST-011: Typing a Zip Code after choosing State, County and City clears and disables them', { tag: '@C107453' }, async () => {
       await about('NM-4021 §6.2 step 4: Zip Code stays editable after a location is chosen, and typing into it wipes and locks that location.');
       await st.open(ST_OFFICE);
       await st.selectState(ST_MULTI_CITY.state);
@@ -261,7 +290,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-012: A Zip Code search sends only the zip and the as-of date', async () => {
+    test('TC-TAX-ST-012: A Zip Code search sends only the zip and the as-of date', { tag: '@C107454' }, async () => {
       await about('With a Zip Code the search ignores the location dropdowns: the request carries the zip and the date, no State, County or City.');
       await st.open(ST_OFFICE);
       const { payload } = await st.searchByZip(ST_ZIP);
@@ -273,7 +302,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-013: Repeating a Zip Code search returns the same record', async () => {
+    test('TC-TAX-ST-013: Repeating a Zip Code search returns the same record', { tag: '@C107455' }, async () => {
       test.fail(true, 'BUG-TAX-ST-003: after the first zip search State silently reverts to AK and every later search sends stateId=59, so it finds nothing');
       await about('Clicking Search again with the same Zip Code must give the same answer — the locked State must never join the request.');
       await st.open(ST_OFFICE);
@@ -286,7 +315,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-014: Zip Code accepts at most 5 digits', async () => {
+    test('TC-TAX-ST-014: Zip Code accepts at most 5 digits', { tag: '@C107456' }, async () => {
       test.fail(true, 'BUG-TAX-ST-006: the Zip Code box accepts letters and any length');
       await about(`NM-4021 §6.1: Zip Code is a 5-digit field — typing "${ST_BAD_ZIP_INPUT}" keeps only digits, at most five.`);
       await st.open(ST_OFFICE);
@@ -302,7 +331,7 @@ test.describe('Sales Tax @taxes', () => {
   // ================================================================ C. Cascading dropdowns and validation
 
   test.describe('C. Cascading dropdowns and validation', () => {
-    test('TC-TAX-ST-015: On load State is chosen and enabled, County offers All and City waits for a County', async () => {
+    test('TC-TAX-ST-015: On load State is chosen and enabled, County offers All and City waits for a County', { tag: '@C107457' }, async () => {
       // Live design (e2e 2026-11-04): State is pre-selected (first state, AK) and has no blank choice, so the
       // documented "County disabled until a State is chosen" state never exists — County is usable at once.
       await about('A State is always chosen on load, so County is usable straight away with "All"; City stays locked until a County is picked.');
@@ -318,7 +347,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-016: Choosing a State loads exactly that State\'s counties', async () => {
+    test('TC-TAX-ST-016: Choosing a State loads exactly that State\'s counties', { tag: '@C107458' }, async () => {
       await about('Picking a State calls the county lookup for that State and the County dropdown offers "All" plus every county it returned.');
       await st.open(ST_OFFICE);
       const lookup = await st.selectState(ST_OTHER_STATE);
@@ -331,7 +360,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-017: Choosing a County loads all of its cities, not just All', async () => {
+    test('TC-TAX-ST-017: Choosing a County loads all of its cities, not just All', { tag: '@C107459' }, async () => {
       await about(`NM-3996: ${ST_MULTI_CITY.state} / ${ST_MULTI_CITY.county} offers every city the city lookup returns.`);
       await st.open(ST_OFFICE);
       await st.selectState(ST_MULTI_CITY.state);
@@ -346,7 +375,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-018: Changing State after County and City are chosen resets both', async () => {
+    test('TC-TAX-ST-018: Changing State after County and City are chosen resets both', { tag: '@C107460' }, async () => {
       test.fail(true, 'BUG-TAX-ST-002: City keeps the previous state\'s city and County goes blank; the search then sends the old county and city ids');
       await about('A new State must clear the old County and City, so a search can never mix one state with another state\'s county or city.');
       await st.open(ST_OFFICE);
@@ -364,7 +393,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-019: Search without an Effective Date is blocked', async () => {
+    test('TC-TAX-ST-019: Search without an Effective Date is blocked', { tag: '@C107461' }, async () => {
       await about('Effective Date is mandatory: with the date cleared nothing is searched and the form says so (Search disabled or a message).');
       await st.open(ST_OFFICE);
       await st.typeZip(ST_ZIP);
@@ -379,7 +408,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-020: An impossible date typed into Effective Date never reaches a search', async () => {
+    test('TC-TAX-ST-020: An impossible date typed into Effective Date never reaches a search', { tag: '@C107462' }, async () => {
       await about(`Typing ${ST_INVALID_DATES.join(', ')} into Effective Date never sends a search.`);
       await st.open(ST_OFFICE);
       await st.typeZip(ST_ZIP);
@@ -396,7 +425,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-021: Reset clears the criteria, restores the defaults and empties the grid', async () => {
+    test('TC-TAX-ST-021: Reset clears the criteria, restores the defaults and empties the grid', { tag: '@C107463' }, async () => {
       await about('After a search, Reset puts back the first-load state: empty Zip Code, default State, County All, City locked, today\'s date and no rows.');
       await st.open(ST_OFFICE);
       const defaults = await st.getLocation();
@@ -416,7 +445,7 @@ test.describe('Sales Tax @taxes', () => {
   // ================================================================ D. Search results and as-of logic
 
   test.describe('D. Search results and as-of logic', () => {
-    test('TC-TAX-ST-022: A Zip Code search shows that zip\'s jurisdiction', async () => {
+    test('TC-TAX-ST-022: A Zip Code search shows that zip\'s jurisdiction', { tag: '@C107464' }, async () => {
       await about(`Searching zip ${ST_ZIP} shows exactly the record(s) the search returned, all for that zip.`);
       await st.open(ST_OFFICE);
       const { records } = await st.searchByZip(ST_ZIP);
@@ -428,7 +457,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-023: A State + County + City search returns only that location', async () => {
+    test('TC-TAX-ST-023: A State + County + City search returns only that location', { tag: '@C107465' }, async () => {
       await about(`Searching ${ST_MULTI_CITY.state} / ${ST_MULTI_CITY.county} / ${ST_MULTI_CITY.city} sends their ids and every row belongs to that location.`);
       await st.open(ST_OFFICE);
       await st.selectState(ST_MULTI_CITY.state);
@@ -445,7 +474,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-024: Records-found equals the server total and paging moves to the next page', async () => {
+    test('TC-TAX-ST-024: Records-found equals the server total and paging moves to the next page', { tag: '@C107466' }, async () => {
       await about(`A whole-state search (${ST_MULTI_CITY.state}, all counties) reports the server's total, shows one page of rows and Next loads different rows.`);
       await st.open(ST_OFFICE);
       const first = await st.clickSearchAndWait();
@@ -465,7 +494,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-025: The day before the latest version takes effect returns the earlier version', async () => {
+    test('TC-TAX-ST-025: The day before the latest version takes effect returns the earlier version', { tag: '@C107467' }, async () => {
       await about(`NM-4013: zip ${ST_ZIP} searched one day before its current version starts shows the version that was in force then.`);
       await st.open(ST_OFFICE);
       const v = await zipVersions(ST_ZIP);
@@ -476,7 +505,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-026: A version effective exactly on the search date is returned', async () => {
+    test('TC-TAX-ST-026: A version effective exactly on the search date is returned', { tag: '@C107468' }, async () => {
       await about(`EffectiveDate <= search date: zip ${ST_ZIP} searched on the very day its current version starts shows that version.`);
       await st.open(ST_OFFICE);
       const v = await zipVersions(ST_ZIP);
@@ -487,7 +516,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-027: Searching dates A → B → A restores the original results', async () => {
+    test('TC-TAX-ST-027: Searching dates A → B → A restores the original results', { tag: '@C107469' }, async () => {
       await about('NM-4013: moving the as-of date later and back again never loses or replaces the earlier valid records.');
       await st.open(ST_OFFICE);
       const v = await zipVersions(ST_ZIP);
@@ -503,7 +532,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-028: A zip that matches nothing shows a clean empty state', async () => {
+    test('TC-TAX-ST-028: A zip that matches nothing shows a clean empty state', { tag: '@C107470' }, async () => {
       await about(`Searching zip ${ST_EMPTY_ZIP} shows 0 records and the "no records" message, with no error.`);
       await st.open(ST_OFFICE);
       const { records } = await st.searchByZip(ST_EMPTY_ZIP);
@@ -516,7 +545,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-029: A failed search shows an error and the page recovers', async () => {
+    test('TC-TAX-ST-029: A failed search shows an error and the page recovers', { tag: '@C107471' }, async () => {
       await about('When the search service answers 500 the user is told, the page stays usable, and the next search works.');
       await st.open(ST_OFFICE);
       await st.mockSearch({ kind: 'failure' });
@@ -538,7 +567,7 @@ test.describe('Sales Tax @taxes', () => {
   // ================================================================ E. Grid display and sorting
 
   test.describe('E. Grid display and sorting', () => {
-    test('TC-TAX-ST-030: Grid values match the search answer field by field', async () => {
+    test('TC-TAX-ST-030: Grid values match the search answer field by field', { tag: '@C107472' }, async () => {
       await about('NM-4021 §4.3: every shown value — zip, geo code, state, county, city and the six rates — is the value the search returned.');
       await st.open(ST_OFFICE);
       const { records } = await st.searchByLocation({ state: ST_MULTI_CITY.state, county: ST_MULTI_CITY.county });
@@ -549,7 +578,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-031: Combined Tax equals the sum of the five tiers on every row', async () => {
+    test('TC-TAX-ST-031: Combined Tax equals the sum of the five tiers on every row', { tag: '@C107473' }, async () => {
       await about('Combined Tax is State + County + County Local + City + City Local for every jurisdiction on the page.');
       await st.open(ST_OFFICE);
       await st.clickSearchAndWait();
@@ -562,8 +591,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-032: Effective Date shows the stored calendar date', async () => {
-      test.fail(true, 'BUG-TAX-ST-001: the grid renders the UTC-midnight effectiveDate in browser local time, so west of UTC every date shows one day early');
+    test('TC-TAX-ST-032: Effective Date shows the stored calendar date', { tag: '@C107474' }, async ({ browser, config }) => inUtc(browser, config, async () => {
       await about('The Effective Date column shows the date the record is stored with (MM/DD/YYYY), not the day before.');
       await st.open(ST_OFFICE);
       const { records } = await st.searchByZip(ST_ZIP);
@@ -572,9 +600,9 @@ test.describe('Sales Tax @taxes', () => {
       await verify('Shown date = stored calendar date', async () => {
         expect(rows.map((r) => fromUiDate(r['Effective Date'] ?? ''))).toEqual(records.map((r) => wireDate(r.effectiveDate)));
       });
-    });
+    }));
 
-    test('TC-TAX-ST-033: Grid columns follow the documented order', async () => {
+    test('TC-TAX-ST-033: Grid columns follow the documented order', { tag: '@C107475' }, async () => {
       await about('After a search the Basic Information grid shows Zip Code, Geo Code, State, County, City, the five tiers, Combined Tax and Effective Date.');
       await st.open(ST_OFFICE);
       await st.searchByZip(ST_ZIP);
@@ -583,7 +611,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-034: Grid cells cannot be edited and rows have no checkboxes', async () => {
+    test('TC-TAX-ST-034: Grid cells cannot be edited and rows have no checkboxes', { tag: '@C107476' }, async () => {
       await about('The results grid is read-only: double-clicking a rate opens no editor, typing changes nothing and there is no row selection.');
       await st.open(ST_OFFICE);
       await st.searchByZip(ST_ZIP);
@@ -596,7 +624,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-035: Geo Code sorts ascending and descending', async () => {
+    test('TC-TAX-ST-035: Geo Code sorts ascending and descending', { tag: '@C107477' }, async () => {
       await about('NM-3959: sorting Geo Code from its header menu orders the rows both ways.');
       await st.open(ST_OFFICE);
       await st.clickSearchAndWait();
@@ -617,7 +645,7 @@ test.describe('Sales Tax @taxes', () => {
   // ================================================================ F. Sales Tax History
 
   test.describe('F. Sales Tax History', () => {
-    test('TC-TAX-ST-036: History search criteria offer the location fields and a date range defaulting to today', async () => {
+    test('TC-TAX-ST-036: History search criteria offer the location fields and a date range defaulting to today', { tag: '@C107478' }, async () => {
       await about('The History tab has Zip Code, State, County, City, a Date Range (today – today on load), Reset and Search.');
       await st.open(ST_OFFICE);
       await st.switchTab('history');
@@ -630,7 +658,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-037: History grid shows the standard columns and who changed each version', async () => {
+    test('TC-TAX-ST-037: History grid shows the standard columns and who changed each version', { tag: '@C107479' }, async () => {
       await about('The History grid carries every Basic Information column plus Modified By and Modified On.');
       await st.open(ST_OFFICE);
       await st.switchTab('history');
@@ -641,7 +669,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-038: A date-range search returns only versions effective inside the range, ends included', async () => {
+    test('TC-TAX-ST-038: A date-range search returns only versions effective inside the range, ends included', { tag: '@C107480' }, async () => {
       test.setTimeout(360_000);
       await about(`Zip ${ST_ZIP} searched from the previous version's start to the day before the current one returns only the previous version.`);
       await st.open(ST_OFFICE);
@@ -663,7 +691,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-039: History lists the most recently modified version first by default', async () => {
+    test('TC-TAX-ST-039: History lists the most recently modified version first by default', { tag: '@C107481' }, async () => {
       test.setTimeout(360_000);
       await about('NM-4011: without choosing a sort, the newest change sits at the top of the History grid (range covers both versions, ends included).');
       await st.open(ST_OFFICE);
@@ -681,7 +709,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-040: The Zip Code override rule also applies on the History tab', async () => {
+    test('TC-TAX-ST-040: The Zip Code override rule also applies on the History tab', { tag: '@C107482' }, async () => {
       await about('On History, typing a Zip Code locks State, County and City and clearing it gives them back.');
       await st.open(ST_OFFICE);
       await st.switchTab('history');
@@ -701,7 +729,7 @@ test.describe('Sales Tax @taxes', () => {
   test.describe('G. Flat file import', () => {
     const validFile = { name: 'sales-tax-import.txt', mimeType: 'text/plain', buffer: flatFile([ST_VALID_IMPORT_ROW]) };
 
-    test('TC-TAX-ST-041: Import is offered to a full-access user and opens a .txt file picker', async () => {
+    test('TC-TAX-ST-041: Import is offered to a full-access user and opens a .txt file picker', { tag: '@C107483' }, async () => {
       await about('The automation user (ManageTaxes.FullAccess) sees Import; clicking it opens a single-file picker limited to .txt.');
       await st.open(ST_OFFICE);
       await expect(st.importButton()).toBeVisible();
@@ -712,7 +740,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-042: Files that are not .txt are refused before upload', async () => {
+    test('TC-TAX-ST-042: Files that are not .txt are refused before upload', { tag: '@C107484' }, async () => {
       await about(`${ST_NON_TXT_FILES.map((f) => f.name).join(', ')} are refused with "${ST_MESSAGES.invalidFileType}" and never sent.`);
       await st.open(ST_OFFICE);
       const sent = await st.interceptImport('abort');
@@ -727,7 +755,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-043: While a file uploads Import is locked, so a second upload cannot start', async () => {
+    test('TC-TAX-ST-043: While a file uploads Import is locked, so a second upload cannot start', { tag: '@C107485' }, async () => {
       await about('NM-4254: during an upload the Import button shows it is busy and cannot be used; it comes back when the upload ends.');
       await st.open(ST_OFFICE);
       const sent = await st.interceptImport('delay-then-error');
@@ -741,7 +769,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-044: A server error on import is reported and never shown as success', async () => {
+    test('TC-TAX-ST-044: A server error on import is reported and never shown as success', { tag: '@C107486' }, async () => {
       await about(`When the import service answers 500 the user sees "${ST_MESSAGES.importFailed}" and no success message.`);
       await st.open(ST_OFFICE);
       await st.interceptImport('server-error');
@@ -754,7 +782,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-045: A successful import sends the fixed-width file and confirms success', async () => {
+    test('TC-TAX-ST-045: A successful import sends the fixed-width file and confirms success', { tag: '@C107487' }, async () => {
       await about('A conforming 181-character fixed-width .txt is uploaded as chosen, and a successful answer is confirmed to the user (answer mocked — nothing is stored).');
       await st.open(ST_OFFICE);
       await st.searchByZip(ST_ZIP);
@@ -771,7 +799,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-046: A file with bad rows is rejected whole, naming the row and the bad value', async () => {
+    test('TC-TAX-ST-046: A file with bad rows is rejected whole, naming the row and the bad value', { tag: '@C107488' }, async () => {
       await about('NM-2328 / NM-3972: the server refuses a file with bad rate values, the message names the row and the value, and nothing is stored.');
       await st.open(ST_OFFICE);
       const answer = await st.importAndReadAnswer({ name: 'sales-tax-bad-rows.txt', mimeType: 'text/plain', buffer: flatFile(ST_INVALID_IMPORT_ROWS) });
@@ -795,7 +823,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-047: The import endpoint refuses a request without a session', async () => {
+    test('TC-TAX-ST-047: The import endpoint refuses a request without a session', { tag: '@C107489' }, async () => {
       await about('NM-4021 §5.2: hiding Import is not enough — the import call itself is refused when it carries no signed-in session.');
       await st.open(ST_OFFICE);
       const held = await st.interceptImport('abort');
@@ -815,7 +843,7 @@ test.describe('Sales Tax @taxes', () => {
   // ================================================================ H. Session and input safety
 
   test.describe('H. Session and input safety', () => {
-    test('TC-TAX-ST-048: Without a session the page sends the user to sign in', async ({ browser, config }) => {
+    test('TC-TAX-ST-048: Without a session the page sends the user to sign in', { tag: '@C107490' }, async ({ browser, config }) => {
       await about('A missing or expired session never shows tax data; the user is sent to sign in and brought back afterwards.');
       // Explicitly empty: inside a test, newContext() inherits the project's storageState (signed in).
       const ctx = await browser.newContext({ storageState: { cookies: [], origins: [] } });
@@ -832,7 +860,7 @@ test.describe('Sales Tax @taxes', () => {
       }
     });
 
-    test('TC-TAX-ST-049: Markup typed into Zip Code is never executed or rendered as HTML', async () => {
+    test('TC-TAX-ST-049: Markup typed into Zip Code is never executed or rendered as HTML', { tag: '@C107491' }, async () => {
       await about('Script or image markup typed into Zip Code and searched is treated as text: nothing runs and no element is injected.');
       await st.open(ST_OFFICE);
       for (const input of ST_HOSTILE_ZIP_INPUTS) {
@@ -850,7 +878,7 @@ test.describe('Sales Tax @taxes', () => {
   // ================================================================ I. Accessibility and layout
 
   test.describe('I. Accessibility and layout', () => {
-    test('TC-TAX-ST-050: Every search control has an accessible name', async () => {
+    test('TC-TAX-ST-050: Every search control has an accessible name', { tag: '@C107492' }, async () => {
       // The State / County / City triggers carry no label association — the shared select component accepted
       // as designed on International Tax Setup (BUG-TAX-IST-003 dropped 2026-10-26), so they are not asserted.
       await about('Screen-reader users get a name for Zip Code, Effective Date and every button.');
@@ -865,7 +893,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-051: Tab order through the search panel follows the visual order', async () => {
+    test('TC-TAX-ST-051: Tab order through the search panel follows the visual order', { tag: '@C107493' }, async () => {
       await about('Tabbing from Zip Code visits State, County, Effective Date, Reset and Search in that order (City is skipped while locked).');
       await st.open(ST_OFFICE);
       const targets = [
@@ -889,7 +917,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-052: Automated WCAG 2.1 AA scan finds no serious or critical violations', async () => {
+    test('TC-TAX-ST-052: Automated WCAG 2.1 AA scan finds no serious or critical violations', { tag: '@C107494' }, async () => {
       // Excluded as accepted shared components: the select triggers' missing label (BUG-TAX-IST-003 dropped 2026-10-26)
       // and the tab strip's aria-controls to an unrendered panel (BUG-TAX-ST-007 dropped 2026-11-04). Everything else
       // is still scanned.
@@ -914,7 +942,7 @@ test.describe('Sales Tax @taxes', () => {
 
     for (const [i, vp] of ST_VIEWPORTS.entries()) {
       const id = `TC-TAX-ST-${String(53 + i).padStart(3, '0')}`;
-      test(`${id}: Page stays usable at ${vp.label}`, async () => {
+      test(`${id}: Page stays usable at ${vp.label}`, { tag: LOOP_CASE_TAGS[id] }, async () => {
         await about(`At ${vp.label} the search panel, Import and the results stay reachable and the page does not scroll sideways.`);
         const original = st.page.viewportSize();
         try {
@@ -935,7 +963,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     }
 
-    test('TC-TAX-ST-055: No untranslated i18n key is visible on the page', async () => {
+    test('TC-TAX-ST-055: No untranslated i18n key is visible on the page', { tag: '@C107497' }, async () => {
       await about('Every label, header and message is real text, never a raw key like "taxes.salesTax.…".');
       await st.open(ST_OFFICE);
       await st.searchByZip(ST_ZIP);
@@ -970,7 +998,7 @@ test.describe('Sales Tax @taxes', () => {
       return st.clickSearchAndWait();
     }
 
-    test('TC-TAX-ST-056: State → County → City lookups work on the History tab', async () => {
+    test('TC-TAX-ST-056: State → County → City lookups work on the History tab', { tag: '@C107498' }, async () => {
       await about(`On History, ${ST_MULTI_CITY.state} loads its counties and ${ST_MULTI_CITY.county} loads all of its cities, exactly as on Basic Information.`);
       await st.open(ST_OFFICE);
       await st.switchTab('history');
@@ -989,7 +1017,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-057: Changing State on History resets County and City', async () => {
+    test('TC-TAX-ST-057: Changing State on History resets County and City', { tag: '@C107499' }, async () => {
       test.fail(true, 'BUG-TAX-ST-002: on History too, City keeps the previous state\'s city and County goes blank');
       await about('On History, a new State clears the old County and City so a search never mixes two states.');
       await st.open(ST_OFFICE);
@@ -1005,7 +1033,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-058: A State + County search over a date range returns only that location', async () => {
+    test('TC-TAX-ST-058: A State + County search over a date range returns only that location', { tag: '@C107500' }, async () => {
       await about(`History for ${ST_MULTI_CITY.state} / ${ST_MULTI_CITY.county} from ${ST_HISTORY_FROM} to today sends the ids and the range, and every row is in that county.`);
       await st.open(ST_OFFICE);
       await st.switchTab('history');
@@ -1023,7 +1051,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-059: Repeating a Zip Code search on History returns the same versions', async () => {
+    test('TC-TAX-ST-059: Repeating a Zip Code search on History returns the same versions', { tag: '@C107501' }, async () => {
       test.fail(true, 'BUG-TAX-ST-003: on History too, the second zip search sends stateId=59 (AK) and finds nothing');
       await about('Clicking Search again on History with the same Zip Code and range gives the same versions — the locked State never joins the request.');
       await st.open(ST_OFFICE);
@@ -1036,7 +1064,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-060: Reset on History clears the criteria, restores today – today and empties the grid', async () => {
+    test('TC-TAX-ST-060: Reset on History clears the criteria, restores today – today and empties the grid', { tag: '@C107502' }, async () => {
       await about('After a History search, Reset brings back the first-load state: empty Zip Code, default State, a today – today range and no rows.');
       await st.open(ST_OFFICE);
       await st.switchTab('history');
@@ -1052,7 +1080,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-061: A History search that matches nothing shows a clean empty state', async () => {
+    test('TC-TAX-ST-061: A History search that matches nothing shows a clean empty state', { tag: '@C107503' }, async () => {
       await about(`History for zip ${ST_EMPTY_ZIP} shows 0 records and "${ST_MESSAGES.emptyHistory}", with no error.`);
       await st.open(ST_OFFICE);
       await st.switchTab('history');
@@ -1066,7 +1094,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-062: A failed History search shows an error and the tab recovers', async () => {
+    test('TC-TAX-ST-062: A failed History search shows an error and the tab recovers', { tag: '@C107504' }, async () => {
       await about('When the History search answers 500 the user is told, the tab stays usable, and the next search works.');
       await st.open(ST_OFFICE);
       await st.switchTab('history');
@@ -1085,7 +1113,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-063: History grid values, Modified By and Modified On match the search answer', async () => {
+    test('TC-TAX-ST-063: History grid values, Modified By and Modified On match the search answer', { tag: '@C107505' }, async () => {
       await about('Every History cell is the value the search returned; Modified On is the update time shown in the business timezone (MM/DD/YYYY hh:mm:ss AM).');
       await st.open(ST_OFFICE);
       const { records } = await historyZipSearch();
@@ -1096,8 +1124,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-064: History Effective Date shows the stored calendar date', async () => {
-      test.fail(true, 'BUG-TAX-ST-001: History renders the UTC-midnight effectiveDate in browser local time, one day early west of UTC');
+    test('TC-TAX-ST-064: History Effective Date shows the stored calendar date', { tag: '@C107506' }, async ({ browser, config }) => inUtc(browser, config, async () => {
       await about('On History, the Effective Date column shows the date each version is stored with, not the day before.');
       await st.open(ST_OFFICE);
       const { records } = await historyZipSearch();
@@ -1106,9 +1133,9 @@ test.describe('Sales Tax @taxes', () => {
       await verify('Shown date = stored calendar date', async () => {
         expect(rows.map((r) => fromUiDate(r['Effective Date'] ?? ''))).toEqual(records.map((r) => wireDate(r.effectiveDate)));
       });
-    });
+    }));
 
-    test('TC-TAX-ST-065: History sorts on the server and keeps the sort when paging', async () => {
+    test('TC-TAX-ST-065: History sorts on the server and keeps the sort when paging', { tag: '@C107507' }, async () => {
       await about(`History for ${ST_MULTI_CITY.state} since ${ST_HISTORY_FROM} sorted by Geo Code descending is ordered, and Next page asks for page 2 with the same sort.`);
       await st.open(ST_OFFICE);
       await st.switchTab('history');
@@ -1128,7 +1155,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-066: History grid cells cannot be edited', async () => {
+    test('TC-TAX-ST-066: History grid cells cannot be edited', { tag: '@C107508' }, async () => {
       await about('The History grid is read-only: double-clicking a rate opens no editor and typing changes nothing.');
       await st.open(ST_OFFICE);
       await historyZipSearch();
@@ -1145,7 +1172,7 @@ test.describe('Sales Tax @taxes', () => {
   // ================================================================ K. Basic Information — grid controls
 
   test.describe('K. Basic Information — grid controls', () => {
-    test('TC-TAX-ST-067: An Effective Date picked from the calendar is used by the search', async () => {
+    test('TC-TAX-ST-067: An Effective Date picked from the calendar is used by the search', { tag: '@C107509' }, async () => {
       const day = addDays(TODAY, -3);
       await about(`Choosing ${day} in the Effective Date calendar fills the field and the next search is run as of that date.`);
       await st.open(ST_OFFICE);
@@ -1158,7 +1185,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-068: Rows per page changes how many rows one page shows', async () => {
+    test('TC-TAX-ST-068: Rows per page changes how many rows one page shows', { tag: '@C107510' }, async () => {
       await about(`For ${ST_MULTI_CITY.state} (all counties), choosing 10 rows per page asks the server for 10 and shows exactly 10, the counter unchanged.`);
       await st.open(ST_OFFICE);
       const first = await st.clickSearchAndWait();
@@ -1171,7 +1198,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-069: Grid Options hides a column and Reset to Default View brings it back', async () => {
+    test('TC-TAX-ST-069: Grid Options hides a column and Reset to Default View brings it back', { tag: '@C107511' }, async () => {
       await about('Unticking Geo Code in Grid Options removes that column; Reset to Default View restores every column in the documented order.');
       await st.open(ST_OFFICE);
       await st.searchByZip(ST_ZIP);
@@ -1185,7 +1212,7 @@ test.describe('Sales Tax @taxes', () => {
       });
     });
 
-    test('TC-TAX-ST-070: Sorting Combined Tax orders the rows numerically on the server', async () => {
+    test('TC-TAX-ST-070: Sorting Combined Tax orders the rows numerically on the server', { tag: '@C107512' }, async () => {
       await about(`For ${ST_MULTI_CITY.state} (all counties), sorting Combined Tax descending asks the server for that sort and shows the highest rates first.`);
       await st.open(ST_OFFICE);
       await st.clickSearchAndWait();

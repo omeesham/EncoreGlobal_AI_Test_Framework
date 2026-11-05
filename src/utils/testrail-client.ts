@@ -4,6 +4,7 @@
 export interface TestRailCase {
   id: number;
   title: string;
+  section_id?: number;
 }
 
 export interface TestRailResult {

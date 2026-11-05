@@ -1,0 +1,803 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Tax menu entry opens the State Tax page,,,,,Automated,Nikita Nangare,,,Heading 'State Tax'; route ends /taxes/state-tax,,,taxes,,"Page opened from office home
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open office home</li>
+<li>2. Expand Tax in the sidebar</li>
+<li>3. Click State Tax</li>
+</ol>",,,3. Heading 'State Tax'; route ends /taxes/state-tax,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Basic Information is the active tab and State Tax History is offered,,,,,Automated,Nikita Nangare,,,Basic Information selected; State Tax History offered,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+</ol>",,,1. Basic Information selected; State Tax History offered,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Search panel offers State, Tax Type, Flat Rate/Taxable Percentage and Effective Date with their defaults",,,,,Automated,Nikita Nangare,,,"State, Tax Type, rate filter = All; Effective Date = business today; Reset and Search visible",,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+</ol>",,,"1. State, Tax Type, rate filter = All; Effective Date = business today; Reset and Search visible",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Before any search the grid shows its columns, 0 records, a prompt and a disabled Save",,,,,Automated,Nikita Nangare,,,9 columns in order; 0 records found; prompt text; Save disabled,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+</ol>",,,1. 9 columns in order; 0 records found; prompt text; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Loading feedback shows while a search is pending and clears when results arrive,,,,,Automated,Nikita Nangare,,,Loading feedback while pending; rows once answered,,,taxes,,"Search answer delayed 6 s at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Choose State IN</li>
+<li>3. Click Search</li>
+</ol>",,,3. Loading feedback while pending; rows once answered,,,,Master,S1620,Test Case (Steps),Regression,,,
+,An unfiltered search is usable within the load budget,,,,,Automated,Nikita Nangare,,,Open + search within 30 s,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Click Search (all filters All)</li>
+</ol>",,,2. Open + search within 30 s,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Neither tab offers an Export,,,,,Automated,Nikita Nangare,,,No Export button on either tab,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search IN</li>
+<li>3. Switch to State Tax History</li>
+</ol>",,,3. No Export button on either tab,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"State offers All first, then unique non-blank options",,,,,Automated,Nikita Nangare,,,All first; no blank; no duplicates,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Open State</li>
+</ol>",,,2. All first; no blank; no duplicates,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Tax Type offers All first, then unique non-blank options",,,,,Automated,Nikita Nangare,,,All first; no blank; no duplicates,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Open Tax Type</li>
+</ol>",,,2. All first; no blank; no duplicates,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Flat Rate/Taxable Percentage offers All, Flat Rate and Taxable Percentage",,,,,Automated,Nikita Nangare,,,"Exactly All, Flat Rate, Taxable Percentage",,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Open Flat Rate/Taxable Percentage</li>
+</ol>",,,"2. Exactly All, Flat Rate, Taxable Percentage",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Flat Rate/Taxable Percentage shows no blank option and defaults to All,,,,,Automated,Nikita Nangare,,,No blank option; All selected,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Open Flat Rate/Taxable Percentage</li>
+</ol>",,,2. No blank option; All selected,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Search request carries the selected State, Tax Type, rate filter and as-of date",,,,,Automated,Nikita Nangare,,,"Ids, rate value and date sent unshifted",,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search unfiltered</li>
+<li>3. Search IN / Rental / Flat Rate as of today-10</li>
+</ol>",,,"3. Ids, rate value and date sent unshifted",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A blank Effective Date blocks the search,,,,,Automated,Nikita Nangare,,,Search blocked; nothing sent,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Clear Effective Date</li>
+<li>3. Click Search</li>
+</ol>",,,3. Search blocked; nothing sent,,,,Master,S1620,Test Case (Steps),Regression,,,
+,An impossible date typed into Effective Date never reaches a search,,,,,Automated,Nikita Nangare,,,No invalid date ever sent,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Type 13/45/2026, 02/30/2026, abc in turn and Search</li>
+</ol>",,,2. No invalid date ever sent,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset restores the defaults and clears the grid,,,,,Automated,Nikita Nangare,,,Defaults back; grid empty; prompt,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search IN / Rental / Flat Rate / today-3</li>
+<li>3. Click Reset</li>
+</ol>",,,3. Defaults back; grid empty; prompt,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Re-selecting the same Effective Date from the calendar searches again,,,,,Automated,Nikita Nangare,,,Second search sent and grid refreshed,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Pick yesterday in the calendar, Search</li>
+<li>3. Pick the same day again, Search</li>
+</ol>",,,3. Second search sent and grid refreshed,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A State filter returns only that state, one row per tax type",,,,,Automated,Nikita Nangare,,,Only IN; each tax type once; counter = answer,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search State IN</li>
+</ol>",,,2. Only IN; each tax type once; counter = answer,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A Tax Type filter returns only that tax type, one row per state",,,,,Automated,Nikita Nangare,,,Only Rental; each state once,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search Tax Type Rental</li>
+</ol>",,,2. Only Rental; each state once,,,,Master,S1620,Test Case (Steps),Regression,,,
+,State and Tax Type together return exactly that configuration,,,,,Automated,Nikita Nangare,,,Exactly IN / Rental,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search IN + Rental</li>
+</ol>",,,2. Exactly IN / Rental,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Flat Rate filter returns only configurations with a Flat Rate above zero,,,,,Automated,Nikita Nangare,,,Every row Flat Rate > 0,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search rate filter Flat Rate</li>
+</ol>",,,2. Every row Flat Rate > 0,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Taxable Percentage filter returns only configurations with a Taxable Percentage above zero,,,,,Automated,Nikita Nangare,,,Every row Taxable % > 0; TX / App Remote Access present,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search rate filter Taxable Percentage</li>
+</ol>",,,2. Every row Taxable % > 0; TX / App Remote Access present,,,,Master,S1620,Test Case (Steps),Regression,,,
+,An unfiltered search lists every configuration once and the counter matches,,,,,Automated,Nikita Nangare,,,Each configuration once; counter = total,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search with all filters All</li>
+</ol>",,,2. Each configuration once; counter = total,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The day before a version takes effect returns the earlier version,,,,,Automated,Nikita Nangare,,,Earlier version returned,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search CT / App Quality Assurance today</li>
+<li>3. Search the day before its current version</li>
+</ol>",,,3. Earlier version returned,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A version effective exactly on the search date is returned,,,,,Automated,Nikita Nangare,,,That version returned,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search CT / App Quality Assurance today</li>
+<li>3. Search on its effective date</li>
+</ol>",,,3. That version returned,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A date before every stored version returns nothing,,,,,Automated,Nikita Nangare,,,No rows; 0 records; no error,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search IN as of 06/01/1999</li>
+</ol>",,,2. No rows; 0 records; no error,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A failed search shows an error, and the next search works",,,,,Automated,Nikita Nangare,,,Error shown; retry returns rows,,,taxes,,"Search answered 500 at the network once
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search IN (500)</li>
+<li>3. Search again</li>
+</ol>",,,3. Error shown; retry returns rows,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Basic Information grid shows the documented columns in order,,,,,Automated,Nikita Nangare,,,Columns in documented order,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search IN</li>
+</ol>",,,2. Columns in documented order,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"State, Tax Type, Modified By and Modified On cannot be edited",,,,,Automated,Nikita Nangare,,,"State, Tax Type, Modified By, Modified On have no editor",,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+</ol>",,,"2. State, Tax Type, Modified By, Modified On have no editor",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Flat Rate, Taxable Percentage, Effective Date and Notes are editable in the grid",,,,,Automated,Nikita Nangare,,,"Flat Rate, Taxable %, Effective Date, Notes editable",,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+</ol>",,,"2. Flat Rate, Taxable %, Effective Date, Notes editable",,,,Master,S1620,Test Case (Steps),Regression,,,
+,End Date is editable in Basic Information,,,,,Automated,Nikita Nangare,,,End Date offers an editor,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+</ol>",,,2. End Date offers an editor,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every rendered cell shows the value of the record behind it,,,,,Automated,Nikita Nangare,,,"Each cell equals its record (6-decimal rates, audit fields)",,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search CT</li>
+</ol>",,,"2. Each cell equals its record (6-decimal rates, audit fields)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Effective Date shows the calendar date the version is stored with,,,,,Automated,Nikita Nangare,,,Effective Date = stored calendar date,,,taxes,,"Runs in a UTC browser (the one-day shift west of UTC is accepted); page opened fresh; every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search CT</li>
+</ol>",,,2. Effective Date = stored calendar date,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting Tax Type orders the rows both ways,,,,,Automated,Nikita Nangare,,,Rows ordered both ways,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Sort Tax Type descending, then ascending</li>
+</ol>",,,3. Rows ordered both ways,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering a Flat Rate sets Taxable Percentage to zero and locks it,,,,,Automated,Nikita Nangare,,,Taxable % 0.000000 and locked,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type 0.05 into Flat Rate of row 1</li>
+</ol>",,,3. Taxable % 0.000000 and locked,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Entering a Taxable Percentage sets Flat Rate to zero and locks it,,,,,Automated,Nikita Nangare,,,Flat Rate 0.000000 and locked,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type 0.05 into Taxable % of row 1</li>
+</ol>",,,3. Flat Rate 0.000000 and locked,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Setting Flat Rate back to zero makes Taxable Percentage editable again,,,,,Automated,Nikita Nangare,,,Taxable % editable again,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Flat Rate 0.05, then 0</li>
+</ol>",,,3. Taxable % editable again,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rate input boundary — negative Flat Rate is not accepted,,,,,Automated,Nikita Nangare,,,Shows 0.000000,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type -1 into Flat Rate</li>
+</ol>",,,3. Shows 0.000000,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rate input boundary — negative Taxable Percentage is not accepted,,,,,Automated,Nikita Nangare,,,Shows 0.000000,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type -1 into Taxable %</li>
+</ol>",,,3. Shows 0.000000,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rate input boundary — Taxable Percentage above 100% is capped,,,,,Automated,Nikita Nangare,,,Shows 1.000000 (100%),,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type 101 into Taxable %</li>
+</ol>",,,3. Shows 1.000000 (100%),,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rate input boundary — letters are not accepted,,,,,Automated,Nikita Nangare,,,Shows 0.000000,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type abc into Flat Rate</li>
+</ol>",,,3. Shows 0.000000,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rate input boundary — more than 6 decimals are rounded,,,,,Automated,Nikita Nangare,,,Shows 0.123457,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type 0.123456789 into Flat Rate</li>
+</ol>",,,3. Shows 0.123457,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Rates of 1 and above are read as percentages, rates below 1 as fractions",,,,,Automated,Nikita Nangare,,,"Shown 0.005000, 0.990000, 0.010000, 0.990000, 1.000000",,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type 0.005, 0.99, 1, 99, 100 into Flat Rate in turn</li>
+</ol>",,,"3. Shown 0.005000, 0.990000, 0.010000, 0.990000, 1.000000",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Notes accept at most 500 characters,,,,,Automated,Nikita Nangare,,,Exactly 500 characters kept,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type 550 characters into Notes</li>
+</ol>",,,3. Exactly 500 characters kept,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Markup typed into Notes is never executed or rendered as HTML,,,,,Automated,Nikita Nangare,,,Nothing executes; text kept,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type script / img-onerror markup into Notes</li>
+</ol>",,,3. Nothing executes; text kept,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Focusing an Effective Date and leaving it untouched keeps the date,,,,,Automated,Nikita Nangare,,,Date unchanged,,,taxes,,"Runs in a UTC browser (the one-day shift west of UTC is accepted); page opened fresh; every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Click into Effective Date of row 1 and away, twice</li>
+</ol>",,,3. Date unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A typed Effective Date is kept as typed,,,,,Automated,Nikita Nangare,,,Cell shows the typed date,,,taxes,,"Runs in a UTC browser (the one-day shift west of UTC is accepted); page opened fresh; every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Type a date a year ahead into Effective Date</li>
+</ol>",,,3. Cell shows the typed date,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Notes and Effective Date edits enable Save; a rate edit also needs a later Effective Date,,,,,Automated,Nikita Nangare,,,Notes and Effective Date enable Save; Flat Rate only with a later date,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit Notes / Effective Date / Flat Rate (fresh search each)</li>
+<li>4. For Flat Rate, also enter a later Effective Date</li>
+</ol>",,,4. Notes and Effective Date enable Save; Flat Rate only with a later date,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching with unsaved edits asks before losing them,,,,,Automated,Nikita Nangare,,,Unsaved-changes warning; no search sent,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit a note</li>
+<li>4. Click Search</li>
+</ol>",,,4. Unsaved-changes warning; no search sent,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing Stay keeps the edits and does not search,,,,,Automated,Nikita Nangare,,,Edit kept; Save on; no search,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit a note</li>
+<li>4. Search → Stay</li>
+</ol>",,,4. Edit kept; Save on; no search,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing Discard drops the edits and runs the search,,,,,Automated,Nikita Nangare,,,Search runs; stored value back; Save off,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit a note</li>
+<li>4. Search → Discard</li>
+</ol>",,,4. Search runs; stored value back; Save off,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset with unsaved edits asks before losing them,,,,,Automated,Nikita Nangare,,,Warning shown; edit kept,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit a note</li>
+<li>4. Click Reset → Stay</li>
+</ol>",,,4. Warning shown; edit kept,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching to State Tax History with unsaved edits asks before losing them,,,,,Automated,Nikita Nangare,,,Warning shown; still on Basic Information with the edit,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit a note</li>
+<li>4. Click State Tax History → Stay</li>
+</ol>",,,4. Warning shown; still on Basic Information with the edit,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save sends only the edited rows with their edited values,,,,,Automated,Nikita Nangare,,,Exactly two records with the edited values,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Flat Rate 0.05 on row 1, note on row 3</li>
+<li>4. Save (held)</li>
+</ol>",,,4. Exactly two records with the edited values,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save sends the Effective Date the user typed,,,,,Automated,Nikita Nangare,,,Record carries the typed date,,,taxes,,"Runs in a UTC browser (the one-day shift west of UTC is accepted); page opened fresh; every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Effective Date a year ahead on row 1</li>
+<li>4. Save (held)</li>
+</ol>",,,4. Record carries the typed date,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Editing only a note saves the row with its stored Effective Date,,,,,Automated,Nikita Nangare,,,One record with the stored Effective Date and the new note,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit only a note</li>
+<li>4. Save (held)</li>
+</ol>",,,4. One record with the stored Effective Date and the new note,,,,Master,S1620,Test Case (Steps),Regression,,,
+,An Effective Date earlier than the latest stored date is never saved,,,,,Automated,Nikita Nangare,,,Nothing sent dated on/before latest,,,taxes,,"Every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search CT / App Quality Assurance</li>
+<li>3. Effective Date = latest - 1 day, note</li>
+<li>4. Save if offered</li>
+</ol>",,,4. Nothing sent dated on/before latest,,,,Master,S1620,Test Case (Steps),Regression,,,
+,An Effective Date equal to the latest stored date is never saved,,,,,Automated,Nikita Nangare,,,Nothing sent dated on/before latest,,,taxes,,"Every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Search CT / App Quality Assurance</li>
+<li>3. Effective Date = latest, note</li>
+<li>4. Save if offered</li>
+</ol>",,,4. Nothing sent dated on/before latest,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A network failure on Save shows an error, never success, and keeps the edits",,,,,Automated,Nikita Nangare,,,Error 'Failed to save state tax'; no success; edit kept,,,taxes,,"Save aborted at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit a note</li>
+<li>4. Save</li>
+</ol>",,,4. Error 'Failed to save state tax'; no success; edit kept,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A server error on Save leaves the stored values unchanged,,,,,Automated,Nikita Nangare,,,Error; stored record unchanged,,,taxes,,"Save answered 500 at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Flat Rate 0.05</li>
+<li>4. Save</li>
+<li>5. Reopen and search IN</li>
+</ol>",,,5. Error; stored record unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A second Save click while the first is in flight sends nothing,,,,,Automated,Nikita Nangare,,,Save disabled in flight; one request,,,taxes,,"Save held 4 s then aborted
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit a note</li>
+<li>4. Click Save twice</li>
+</ol>",,,4. Save disabled in flight; one request,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A successful save confirms and turns Save off,,,,,Automated,Nikita Nangare,,,Success toast; Save disabled,,,taxes,,"Save answered success at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Edit a note</li>
+<li>4. Save</li>
+</ol>",,,4. Success toast; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"History offers its criteria with a today–today range, a prompt and no Save",,,,,Automated,Nikita Nangare,,,Filters All; range today – today; prompt; no Save,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+</ol>",,,2. Filters All; range today – today; prompt; no Save,,,,Master,S1620,Test Case (Steps),Regression,,,
+,History grid shows the documented columns and every cell is read-only,,,,,Automated,Nikita Nangare,,,9 columns in order; no editors,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search CT 11/01/2018 – 03/31/2019</li>
+</ol>",,,3. 9 columns in order; no editors,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A range search returns only versions effective inside the range,,,,,Automated,Nikita Nangare,,,Range sent unshifted; every version CT and inside the range,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search CT 11/01/2018 – 03/31/2019</li>
+</ol>",,,3. Range sent unshifted; every version CT and inside the range,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Versions effective on either end of the range are included,,,,,Automated,Nikita Nangare,,,Versions on that day returned,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search the wide range</li>
+<li>4. Search one version date as start and end</li>
+</ol>",,,4. Versions on that day returned,,,,Master,S1620,Test Case (Steps),Regression,,,
+,History lists the most recently modified records first by default,,,,,Automated,Nikita Nangare,,,Modified On newest first,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search 11/01/2018 – 03/31/2019</li>
+</ol>",,,3. Modified On newest first,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Re-applying or changing the range gives consistent results,,,,,Automated,Nikita Nangare,,,Identical answers for R,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search range R twice</li>
+<li>4. Search another range, then R again</li>
+</ol>",,,4. Identical answers for R,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"State, Tax Type and rate filters narrow the History results",,,,,Automated,Nikita Nangare,,,Each answer matches its filter,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search the range by TX, then App Remote Access, then Flat Rate</li>
+</ol>",,,3. Each answer matches its filter,,,,Master,S1620,Test Case (Steps),Regression,,,
+,An empty History result shows a clean empty state,,,,,Automated,Nikita Nangare,,,No rows; 0; 'No state tax history records found',,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search IN today – today</li>
+</ol>",,,3. No rows; 0; 'No state tax history records found',,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A failed History search shows an empty result, and the next search works",,,,,Automated,Nikita Nangare,,,Empty result on failure; retry returns rows,,,taxes,,"History search answered 500 once
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search (500)</li>
+<li>4. Search again</li>
+</ol>",,,4. Empty result on failure; retry returns rows,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every History cell shows the value of the record behind it,,,,,Automated,Nikita Nangare,,,Row i equals record i,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search CT range</li>
+</ol>",,,3. Row i equals record i,,,,Master,S1620,Test Case (Steps),Regression,,,
+,History Effective Date shows the calendar date the version is stored with,,,,,Automated,Nikita Nangare,,,Effective Date = stored calendar date,,,taxes,,"Runs in a UTC browser (the one-day shift west of UTC is accepted); page opened fresh; every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search CT range</li>
+</ol>",,,3. Effective Date = stored calendar date,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rows per page and Next page request the right page,,,,,Automated,Nikita Nangare,,,pageSize 10; same total; page 2 differs,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search the range</li>
+<li>4. 10 rows per page</li>
+<li>5. Next page</li>
+</ol>",,,5. pageSize 10; same total; page 2 differs,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset on History restores the defaults and clears the grid,,,,,Automated,Nikita Nangare,,,Defaults; range today – today; no rows,,,taxes,,"Page opened fresh; State Tax History tab selected; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Switch to State Tax History</li>
+<li>3. Search CT / Flat Rate range</li>
+<li>4. Reset</li>
+</ol>",,,4. Defaults; range today – today; no rows,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Without a session the page sends the user to sign in,,,,,Automated,Nikita Nangare,,,Redirect to sign-in with callbackUrl; no grid,,,taxes,,"Browser context with no cookies
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route without a session</li>
+</ol>",,,1. Redirect to sign-in with callbackUrl; no grid,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search controls and grid editors have accessible names,,,,,Automated,Nikita Nangare,,,"Effective Date, buttons and row editors have accessible names",,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+</ol>",,,"2. Effective Date, buttons and row editors have accessible names",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tab order through the search panel follows the visual order,,,,,Automated,Nikita Nangare,,,"Tax Type, rate, Effective Date, Reset, Search in order",,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open the State Tax route</li>
+<li>2. Tab from State</li>
+</ol>",,,"2. Tax Type, rate, Effective Date, Reset, Search in order",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Automated WCAG 2.1 AA scan finds no serious or critical violations,,,,,Automated,Nikita Nangare,,,No serious/critical violations (shared select/tab strip excluded),,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. axe scan</li>
+<li>4. History range search</li>
+<li>5. axe scan</li>
+</ol>",,,5. No serious/critical violations (shared select/tab strip excluded),,,,Master,S1620,Test Case (Steps),Regression,,,
+,Page stays usable at laptop 1366×768,,,,,Automated,Nikita Nangare,,,"Search, Save, grid reachable; no sideways scroll",,,taxes,,"Viewport 1366×768
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+</ol>",,,"2. Search, Save, grid reachable; no sideways scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Page stays usable at tablet 1024×768,,,,,Automated,Nikita Nangare,,,"Search, Save, grid reachable; no sideways scroll",,,taxes,,"Viewport 1024×768
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+</ol>",,,"2. Search, Save, grid reachable; no sideways scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
+,No untranslated i18n key is visible on either tab,,,,,Automated,Nikita Nangare,,,No raw i18n keys,,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
+
+Test Data:
+User: automation user (ManageTaxes.FullAccess)
+Office: Office 1101 (Corporate)
+Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+<li>1. Open State Tax</li>
+<li>2. Search State IN</li>
+<li>3. Switch to History and search</li>
+</ol>",,,3. No raw i18n keys,,,,Master,S1620,Test Case (Steps),Regression,,,

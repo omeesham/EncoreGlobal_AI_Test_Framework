@@ -79,7 +79,8 @@
       "RUL": { "name": "rules", "display": "Multiday Pricing Rules", "sheet": "multiday_pricing_rules", "mdBasename": "multiday_pricing_rules_test_cases" }
     },
     "TAX": {
-      "IST": { "name": "international_tax_setup", "display": "International Tax Setup", "sheet": "international_tax_setup", "mdBasename": "international_tax_setup_test_cases" }
+      "IST": { "name": "international_tax_setup", "display": "International Tax Setup", "sheet": "international_tax_setup", "mdBasename": "international_tax_setup_test_cases" },
+      "STX": { "name": "state_tax", "display": "State Tax", "sheet": "state_tax", "mdBasename": "state_tax_test_cases", "$comment": "STX, not ST: TC-TAX-ST-* is already taken by Sales Tax (NM-4021)." }
     }
   },
   "sheetNameNotes": {
