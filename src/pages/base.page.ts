@@ -407,6 +407,38 @@ export class BasePage {
     Log.info(`[OK] Tab active: ${tabKey}`);
   }
 
+  @step('Read the language the app is showing')
+  async getCurrentLanguage(): Promise<string> {
+    return this.page.evaluate(() => document.documentElement.lang);
+  }
+
+ // Account menu -> Language (a hover-revealed submenu) -> locale. The choice is saved against the
+ // account, not the browser, so every caller that switches away from English must restore it in a
+ // finally block — a leaked locale translates every other suite sharing the automation user.
+  @step('Switch the app language')
+  async switchAppLanguage(code: string): Promise<void> {
+    if ((await this.getCurrentLanguage()) === code) return;
+    const menu = this.page.locator('[role="menu"]').first();
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        await this.getElement('btnUserMenu').click();
+        await menu.waitFor({ state: 'visible', timeout: 5_000 });
+        await this.getElement('mnuLanguage').hover();
+        const option = this.page.locator('[role="menu"] [role="menuitem"]').filter({ hasText: code }).last();
+        await option.waitFor({ state: 'visible', timeout: 5_000 });
+        await option.click();
+        break;
+      } catch (err) {
+        if (attempt === 3) throw err;
+        Log.warn(`[RETRY ${attempt}/3] Language menu did not open — Escape and retry`);
+        await this.page.keyboard.press('Escape').catch(() => {});
+        await this.page.keyboard.press('Escape').catch(() => {});
+      }
+    }
+    await this.page.waitForFunction((c) => document.documentElement.lang === c, code, { timeout: 30_000 });
+    await this.waitForAngularStable();
+  }
+
   protected async dismissAlertDialogIfVisible(): Promise<boolean> {
     const dialog = this.page.locator('[role="alertdialog"]');
     if (await dialog.isVisible().catch(() => false)) {

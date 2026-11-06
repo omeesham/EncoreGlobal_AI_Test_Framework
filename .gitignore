@@ -64,5 +64,5 @@ blob-report-*/
 # Claude Code hook runtime state (bug kit gates write here)
 .claude/state/
 
-# Shared-TestRail-run session record (which run this machine is pushing into)
+# TestRail shared-run session state (scripts/testrail-run.ts) - local runtime, never commit
 .testrail/

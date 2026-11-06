@@ -4,7 +4,7 @@ ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created 
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open office home</li>
 <li>2. Expand Tax in the sidebar</li>
 <li>3. Click Sales Tax</li>
@@ -14,7 +14,7 @@ Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open the Sales Tax route</li>
 </ol>",,,1. Basic Information tab selected; Sales Tax History tab offered,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,"Search panel offers Zip Code, State, County, City, Effective Date, Reset and Search",,,,,Automated,Nikita Nangare,,,"Zip Code, State, County, City, Effective Date, Reset and Search visible",,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -22,7 +22,7 @@ Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open the Sales Tax route</li>
 </ol>",,,"1. Zip Code, State, County, City, Effective Date, Reset and Search visible",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Effective Date defaults to business today,,,,,Automated,Nikita Nangare,,,Effective Date = today in America/New_York,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -30,7 +30,7 @@ Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open the Sales Tax route</li>
 <li>2. Read the Effective Date</li>
 </ol>",,,2. Effective Date = today in America/New_York,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -39,7 +39,7 @@ Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open the Sales Tax route without searching</li>
 </ol>",,,"1. Documented headers, no rows, '0 records found', prompt to search",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Loading feedback shows while a search is pending and clears when results arrive,,,,,Automated,Nikita Nangare,,,Loading indicator or disabled Search while pending; rows after,,,taxes,,"Page opened fresh; response held or rewritten at the network; non-mutating
@@ -48,7 +48,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Hold the search response 6 s</li>
 <li>2. Type zip 90210</li>
 <li>3. Click Search</li>
@@ -59,7 +59,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open the route</li>
 <li>2. Search zip 90210</li>
 </ol>",,,2. Open + search finishes within 30 s,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -69,7 +69,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210 on Basic Information</li>
 <li>2. Open Sales Tax History</li>
 <li>3. Return to Basic Information</li>
@@ -80,7 +80,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Critical,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Type zip 90210</li>
 </ol>",,,1. State/County/City cleared and disabled; Effective Date enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Clearing the Zip Code re-enables State and County; City waits for a County,,,,,Automated,Nikita Nangare,,,State and County enabled again; City disabled until a County is chosen,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -89,7 +89,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Type zip 90210</li>
 <li>2. Clear the zip</li>
 </ol>",,,2. State and County enabled again; City disabled until a County is chosen,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -99,7 +99,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK / MATANUSKA-SUSITNA / WASILLA
-Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Critical,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Choose AK / MATANUSKA-SUSITNA / WASILLA</li>
 <li>2. Type zip 30301</li>
 </ol>",,,2. Previous location cleared; State/County/City disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -109,7 +109,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 </ol>",,,1. Request carries zipCode and effectiveDate only,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Repeating a Zip Code search returns the same record,,,,,Automated,Nikita Nangare,,,Second search sends no stateId and returns the same record,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -118,7 +118,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 <li>2. Click Search again</li>
 </ol>",,,2. Second search sends no stateId and returns the same record,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -127,7 +127,7 @@ Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Type 'ab902105' into Zip Code</li>
 </ol>",,,"1. Field keeps digits only, at most 5",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,"On load State is chosen and enabled, County offers All and City waits for a County",,,,,Automated,Nikita Nangare,,,State chosen and enabled; County All and enabled; City All and disabled,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -135,7 +135,7 @@ Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open the route</li>
 <li>2. Read State, County, City</li>
 </ol>",,,2. State chosen and enabled; County All and enabled; City All and disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -144,7 +144,7 @@ Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Choose State CA</li>
 <li>2. Open County</li>
 </ol>",,,2. County lookup sent for CA; options = All + every returned county,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -154,7 +154,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK / MATANUSKA-SUSITNA / WASILLA
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Choose AK</li>
 <li>2. Choose MATANUSKA-SUSITNA</li>
 <li>3. Open City</li>
@@ -165,7 +165,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK / MATANUSKA-SUSITNA / WASILLA
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Choose AK / MATANUSKA-SUSITNA / WASILLA</li>
 <li>2. Change State to CA</li>
 <li>3. Click Search</li>
@@ -176,7 +176,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Type zip 90210</li>
 <li>2. Clear Effective Date</li>
 <li>3. Try Search</li>
@@ -187,7 +187,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Type zip 90210</li>
 <li>2. Type 13/45/2026, 02/30/2026, 'abc' into Effective Date</li>
 <li>3. Try Search after each</li>
@@ -198,7 +198,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK / MATANUSKA-SUSITNA / WASILLA
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search AK / MATANUSKA-SUSITNA as of yesterday</li>
 <li>2. Click Reset</li>
 </ol>",,,"2. Zip empty, State/County/City defaults, date today, grid empty",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -208,7 +208,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 </ol>",,,1. Grid rows equal the search answer; every row is 90210,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,A State + County + City search returns only that location,,,,,Automated,Nikita Nangare,,,countyId and cityId sent; every row is AK / MATANUSKA-SUSITNA / WASILLA,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -217,7 +217,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK / MATANUSKA-SUSITNA / WASILLA
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Choose AK / MATANUSKA-SUSITNA / WASILLA</li>
 <li>2. Click Search</li>
 </ol>",,,2. countyId and cityId sent; every row is AK / MATANUSKA-SUSITNA / WASILLA,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -227,7 +227,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK, all counties (510 records on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search AK, all counties</li>
 <li>2. Click Go to next page</li>
 </ol>",,,2. Counter = server total; page 1 full; page 2 requested with different rows,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -237,7 +237,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Critical,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search 90210 today to find the current version date D</li>
 <li>2. Reset, search 90210 as of D-1</li>
 </ol>",,,2. An earlier version with its own rates is returned,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -247,7 +247,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Critical,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Find the current version date D</li>
 <li>2. Reset, search 90210 as of D</li>
 </ol>",,,2. The current version is returned on its own start date,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -257,7 +257,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search 90210 as of D-1 (A)</li>
 <li>2. Search as of today (B)</li>
 <li>3. Search as of A again</li>
@@ -268,7 +268,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 00000 (matches nothing)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 00000</li>
 </ol>",,,"1. 0 records, empty grid, 'No sales tax records found', no error",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,A failed search shows an error and the page recovers,,,,,Automated,Nikita Nangare,,,Error shown; page usable; retry returns rows,,,taxes,,"Page opened fresh; response held or rewritten at the network; non-mutating
@@ -277,7 +277,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Answer search with 500</li>
 <li>2. Search zip 90210</li>
 <li>3. Remove the mock, Reset, search again</li>
@@ -288,7 +288,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK / MATANUSKA-SUSITNA / WASILLA
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search AK / MATANUSKA-SUSITNA</li>
 </ol>",,,1. Every row equals its API record; rates shown with six decimals,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Combined Tax equals the sum of the five tiers on every row,,,,,Automated,Nikita Nangare,,,Combined Tax = sum of the five tiers on every row,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -297,7 +297,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK, all counties (510 records on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search AK, all counties</li>
 </ol>",,,1. Combined Tax = sum of the five tiers on every row,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Effective Date shows the stored calendar date,,,,,Automated,Nikita Nangare,,,Shown date = stored calendar date,,,taxes,,"Runs in a UTC browser (the one-day shift west of UTC is accepted); page opened fresh; non-mutating
@@ -306,7 +306,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 <li>2. Compare Effective Date with the stored date</li>
 </ol>",,,2. Shown date = stored calendar date,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -316,7 +316,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 </ol>",,,1. Headers in documented order,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Grid cells cannot be edited and rows have no checkboxes,,,,,Automated,Nikita Nangare,,,No editor; values unchanged; no checkboxes,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -325,7 +325,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 <li>2. Double-click State Tax and type 9.99</li>
 </ol>",,,2. No editor; values unchanged; no checkboxes,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -335,7 +335,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK, all counties (510 records on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search AK, all counties</li>
 <li>2. Sort Geo Code ascending</li>
 <li>3. Sort Geo Code descending</li>
@@ -345,7 +345,7 @@ Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open Sales Tax History</li>
 </ol>",,,"1. Location fields, Date Range (today - today), Reset and Search visible",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,History grid shows the standard columns and who changed each version,,,,,Automated,Nikita Nangare,,,All Basic Information columns plus Modified By and Modified On,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -353,7 +353,7 @@ Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open Sales Tax History</li>
 </ol>",,,1. All Basic Information columns plus Modified By and Modified On,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,"A date-range search returns only versions effective inside the range, ends included",,,,,Automated,Nikita Nangare,,,Range sent as chosen; only the previous version is returned,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -362,7 +362,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Find the two latest versions of 90210</li>
 <li>2. History: zip 90210, range previous-version date to D-1</li>
 <li>3. Click Search</li>
@@ -373,7 +373,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: zip 90210, range previous-version date to current-version date</li>
 <li>2. Click Search</li>
 </ol>",,,2. Newest modification first,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -383,7 +383,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open History</li>
 <li>2. Type zip 90210</li>
 <li>3. Clear the zip</li>
@@ -393,7 +393,7 @@ Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Click Import</li>
 </ol>",,,1. Single-file picker restricted to .txt opens,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Files that are not .txt are refused before upload,,,,,Automated,Nikita Nangare,,,'Invalid file type. Only .txt files are supported.' each time; nothing sent,,,taxes,,"Page opened fresh; import request held at the network - nothing reaches the server
@@ -401,7 +401,7 @@ Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Choose rates.csv</li>
 <li>2. Choose rates.xlsx</li>
 <li>3. Choose rates.pdf</li>
@@ -411,7 +411,7 @@ Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Hold the import 5 s then fail it</li>
 <li>2. Choose a valid .txt</li>
 </ol>",,,2. Import disabled while uploading; enabled after; one upload sent,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -420,7 +420,7 @@ Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Answer import with 500</li>
 <li>2. Choose a valid .txt</li>
 </ol>",,,2. 'Unable to import data.'; no success toast; Import usable,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -430,7 +430,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Critical,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 <li>2. Answer import with a mocked success</li>
 <li>3. Choose the 181-char fixed-width .txt</li>
@@ -441,7 +441,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 00000 (matches nothing)
-Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Critical,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Import a .txt: header, row with CountyTax XYZ12345, row with StateTax ABCDEFGH</li>
 <li>2. Read the Import Failed panel</li>
 <li>3. Search 00000 as of 12/31/2099</li>
@@ -451,7 +451,7 @@ Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Critical,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Capture the import request</li>
 <li>2. Replay it without a session</li>
 </ol>",,,2. Action refused with NEXT_REDIRECT to /auth/sign-in; file never validated,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -459,7 +459,7 @@ Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 
 Test Data:
 User: none (empty browser context)
-Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Critical,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open the route with no session</li>
 </ol>",,,1. Redirect to /auth/sign-in with callbackUrl; no grid,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Markup typed into Zip Code is never executed or rendered as HTML,,,,,Automated,Nikita Nangare,,,Nothing executed; no element injected,,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -467,7 +467,7 @@ Application: Navigator",Critical,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Type script / img-onerror markup into Zip Code</li>
 <li>2. Search</li>
 </ol>",,,2. Nothing executed; no element injected,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -476,7 +476,7 @@ Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Read accessible names of the search controls</li>
 </ol>",,,"1. Zip Code, Effective Date and buttons named (select triggers excluded per BUG-TAX-IST-003 decision)",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Tab order through the search panel follows the visual order,,,,,Automated,Nikita Nangare,,,"State, County, Effective Date, Reset, Search in order",,,taxes,,"Page opened fresh; no network mocks; non-mutating
@@ -484,7 +484,7 @@ Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Focus Zip Code</li>
 <li>2. Press Tab repeatedly</li>
 </ol>",,,"2. State, County, Effective Date, Reset, Search in order",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -494,7 +494,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 <li>2. Run axe on Basic Information</li>
 <li>3. Run axe on History</li>
@@ -505,7 +505,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Low,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Low,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Set viewport 1366x768</li>
 <li>2. Search zip 90210</li>
 </ol>",,,"2. Search, Import and grid reachable; no horizontal page scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -515,7 +515,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Low,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Low,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Set viewport 1024x768</li>
 <li>2. Search zip 90210</li>
 </ol>",,,"2. Search, Import and grid reachable; no horizontal page scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -525,7 +525,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Low,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Low,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 <li>2. Scan both tabs for dotted keys</li>
 </ol>",,,2. No raw i18n keys visible,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -535,7 +535,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK / MATANUSKA-SUSITNA / WASILLA
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open Sales Tax History</li>
 <li>2. Choose AK</li>
 <li>3. Choose MATANUSKA-SUSITNA</li>
@@ -547,7 +547,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK / MATANUSKA-SUSITNA / WASILLA
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: choose AK / MATANUSKA-SUSITNA / WASILLA</li>
 <li>2. Change State to CA</li>
 </ol>",,,2. County and City reset to All,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -557,7 +557,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK / MATANUSKA-SUSITNA / WASILLA
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: choose AK / MATANUSKA-SUSITNA</li>
 <li>2. Range 01/01/2017 - today</li>
 <li>3. Click Search</li>
@@ -568,7 +568,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: zip 90210, range 01/01/2017 - today, Search</li>
 <li>2. Click Search again</li>
 </ol>",,,2. Second search sends no stateId and returns the same versions,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -578,7 +578,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: search zip 90210 over a wide range</li>
 <li>2. Click Reset</li>
 </ol>",,,"2. Zip empty, location defaults, range today - today, grid empty",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -588,7 +588,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 00000 (matches nothing)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: search zip 00000</li>
 </ol>",,,"1. 0 records, 'No sales tax history records found', no error",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,A failed History search shows an error and the tab recovers,,,,,Automated,Nikita Nangare,,,Error shown; tab usable; retry returns versions,,,taxes,,"Page opened fresh; response held or rewritten at the network; non-mutating
@@ -597,7 +597,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: answer search with 500</li>
 <li>2. Search zip 90210</li>
 <li>3. Remove the mock, Reset, search again</li>
@@ -608,7 +608,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: zip 90210, range 01/01/2017 - today, Search</li>
 </ol>",,,1. Every cell equals its record; Modified On = update time in America/New_York,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,History Effective Date shows the stored calendar date,,,,,Automated,Nikita Nangare,,,Shown date = stored calendar date,,,taxes,,"Runs in a UTC browser (the one-day shift west of UTC is accepted); page opened fresh; non-mutating
@@ -617,7 +617,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: zip 90210, range 01/01/2017 - today, Search</li>
 <li>2. Compare Effective Date with the stored date</li>
 </ol>",,,2. Shown date = stored calendar date,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -627,7 +627,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK, all counties (510 records on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: AK, range 01/01/2017 - today, Search</li>
 <li>2. Sort Geo Code descending</li>
 <li>3. Go to next page</li>
@@ -638,7 +638,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",High,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",High,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. History: search zip 90210</li>
 <li>2. Double-click State Tax and type 9.99</li>
 </ol>",,,2. No editor; values unchanged; no checkboxes,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -648,7 +648,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Medium,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Medium,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Open the Effective Date calendar</li>
 <li>2. Pick a day 3 days back</li>
 <li>3. Search zip 90210</li>
@@ -659,7 +659,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK, all counties (510 records on e2e)
-Application: Navigator",Low,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Low,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search AK, all counties</li>
 <li>2. Choose 10 rows per page</li>
 </ol>",,,2. pageSize 10 requested; 10 rows shown; total unchanged,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -669,7 +669,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Zip: 90210 (versions 2017-10-01 and 2025-04-01 on e2e)
-Application: Navigator",Low,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Low,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search zip 90210</li>
 <li>2. Grid Options: untick Geo Code</li>
 <li>3. Grid Options: Reset to Default View</li>
@@ -680,7 +680,7 @@ Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
 Location: AK, all counties (510 records on e2e)
-Application: Navigator",Low,NM-4021,Sales_Tax,0,,Sales_Tax,"<ol>
+Application: Navigator",Low,NM-4021,Sales_Tax,1,,Taxes > Sales_Tax,"<ol>
 <li>1. Search AK, all counties</li>
 <li>2. Sort Combined Tax descending</li>
 </ol>",,,2. sortBy combinedTax sent; rates never increase down the page,,,,Master,S1620,Test Case (Steps),Regression,,,

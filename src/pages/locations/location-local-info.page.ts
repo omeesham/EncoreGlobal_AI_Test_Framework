@@ -121,6 +121,35 @@ export class LocationLocalInfoPage extends LocationFormHelpers {
     return await this.getElement('btnEffectiveDate').isDisabled().catch(() => true);
   }
 
+  /** Natural Tab blur on a field, so validation fires the way it does for a real user (§2.1). */
+  @step('Blur field with Tab')
+  async blurFieldWithTab(selectorKey: keyof typeof LocationSettingsSelectors): Promise<void> {
+    await this.getElement(selectorKey).press('Tab');
+  }
+
+  @step('Get product organization')
+  async getProductOrganization(): Promise<string> {
+    return this.getFieldDisplayValue('drpProductOrganization');
+  }
+
+  @step('Select product organization')
+  async selectProductOrganization(text: string): Promise<void> {
+    await this.selectComboboxOption('drpProductOrganization', text, { exact: true });
+    Log.info(`Selected Product Organization: ${text}`);
+    await this.page.waitForTimeout(1_000);
+  }
+
+  /** Opens the Product Organization listbox, reads every option label, then closes it again. */
+  @step('List product organization options')
+  async listProductOrganizationOptions(): Promise<string[]> {
+    const listbox = await this.openComboboxListbox('drpProductOrganization');
+    const options = (await listbox.getByRole('option').allTextContents()).map((t) => t.trim());
+    await this.page.keyboard.press('Escape').catch(() => {});
+    await this.page.locator('[role="listbox"]').waitFor({ state: 'hidden', timeout: 2_000 }).catch(() => {});
+    Log.info(`Product Organization options: ${options.join(' | ')}`);
+    return options;
+  }
+
   @step('Is billing cycle disabled')
   async isBillingCycleDisabled(): Promise<boolean> {
     return await this.getElement('drpBillingCycle').isDisabled().catch(() => true);

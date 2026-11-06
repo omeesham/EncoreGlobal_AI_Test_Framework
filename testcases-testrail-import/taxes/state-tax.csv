@@ -4,7 +4,7 @@ ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created 
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open office home</li>
 <li>2. Expand Tax in the sidebar</li>
 <li>3. Click State Tax</li>
@@ -14,7 +14,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 </ol>",,,1. Basic Information selected; State Tax History offered,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,"Search panel offers State, Tax Type, Flat Rate/Taxable Percentage and Effective Date with their defaults",,,,,Automated,Nikita Nangare,,,"State, Tax Type, rate filter = All; Effective Date = business today; Reset and Search visible",,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
@@ -22,7 +22,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 </ol>",,,"1. State, Tax Type, rate filter = All; Effective Date = business today; Reset and Search visible",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,"Before any search the grid shows its columns, 0 records, a prompt and a disabled Save",,,,,Automated,Nikita Nangare,,,9 columns in order; 0 records found; prompt text; Save disabled,,,taxes,,"Page opened fresh (saved criteria cleared); no network mocks; non-mutating
@@ -30,7 +30,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 </ol>",,,1. 9 columns in order; 0 records found; prompt text; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Loading feedback shows while a search is pending and clears when results arrive,,,,,Automated,Nikita Nangare,,,Loading feedback while pending; rows once answered,,,taxes,,"Search answer delayed 6 s at the network
@@ -38,7 +38,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Choose State IN</li>
 <li>3. Click Search</li>
@@ -48,7 +48,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Click Search (all filters All)</li>
 </ol>",,,2. Open + search within 30 s,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -57,7 +57,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search IN</li>
 <li>3. Switch to State Tax History</li>
@@ -67,7 +67,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Open State</li>
 </ol>",,,2. All first; no blank; no duplicates,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -76,7 +76,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Open Tax Type</li>
 </ol>",,,2. All first; no blank; no duplicates,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -85,7 +85,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Open Flat Rate/Taxable Percentage</li>
 </ol>",,,"2. Exactly All, Flat Rate, Taxable Percentage",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -94,7 +94,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Open Flat Rate/Taxable Percentage</li>
 </ol>",,,2. No blank option; All selected,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -103,7 +103,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search unfiltered</li>
 <li>3. Search IN / Rental / Flat Rate as of today-10</li>
@@ -113,7 +113,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Clear Effective Date</li>
 <li>3. Click Search</li>
@@ -123,7 +123,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Type 13/45/2026, 02/30/2026, abc in turn and Search</li>
 </ol>",,,2. No invalid date ever sent,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -132,7 +132,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search IN / Rental / Flat Rate / today-3</li>
 <li>3. Click Reset</li>
@@ -142,7 +142,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Pick yesterday in the calendar, Search</li>
 <li>3. Pick the same day again, Search</li>
@@ -152,7 +152,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search State IN</li>
 </ol>",,,2. Only IN; each tax type once; counter = answer,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -161,7 +161,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search Tax Type Rental</li>
 </ol>",,,2. Only Rental; each state once,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -170,7 +170,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search IN + Rental</li>
 </ol>",,,2. Exactly IN / Rental,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -179,7 +179,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search rate filter Flat Rate</li>
 </ol>",,,2. Every row Flat Rate > 0,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -188,7 +188,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search rate filter Taxable Percentage</li>
 </ol>",,,2. Every row Taxable % > 0; TX / App Remote Access present,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -197,7 +197,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search with all filters All</li>
 </ol>",,,2. Each configuration once; counter = total,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -206,7 +206,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search CT / App Quality Assurance today</li>
 <li>3. Search the day before its current version</li>
@@ -216,7 +216,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search CT / App Quality Assurance today</li>
 <li>3. Search on its effective date</li>
@@ -226,7 +226,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search IN as of 06/01/1999</li>
 </ol>",,,2. No rows; 0 records; no error,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -235,7 +235,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search IN (500)</li>
 <li>3. Search again</li>
@@ -245,7 +245,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search IN</li>
 </ol>",,,2. Columns in documented order,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -254,7 +254,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 </ol>",,,"2. State, Tax Type, Modified By, Modified On have no editor",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -263,7 +263,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 </ol>",,,"2. Flat Rate, Taxable %, Effective Date, Notes editable",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -272,7 +272,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 </ol>",,,2. End Date offers an editor,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -281,7 +281,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search CT</li>
 </ol>",,,"2. Each cell equals its record (6-decimal rates, audit fields)",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -290,7 +290,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search CT</li>
 </ol>",,,2. Effective Date = stored calendar date,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -299,7 +299,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Low,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Sort Tax Type descending, then ascending</li>
@@ -309,7 +309,7 @@ Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type 0.05 into Flat Rate of row 1</li>
@@ -319,7 +319,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type 0.05 into Taxable % of row 1</li>
@@ -329,7 +329,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Flat Rate 0.05, then 0</li>
@@ -339,7 +339,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type -1 into Flat Rate</li>
@@ -349,7 +349,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type -1 into Taxable %</li>
@@ -359,7 +359,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type 101 into Taxable %</li>
@@ -369,7 +369,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type abc into Flat Rate</li>
@@ -379,7 +379,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type 0.123456789 into Flat Rate</li>
@@ -389,7 +389,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type 0.005, 0.99, 1, 99, 100 into Flat Rate in turn</li>
@@ -399,7 +399,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type 550 characters into Notes</li>
@@ -409,7 +409,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type script / img-onerror markup into Notes</li>
@@ -419,7 +419,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Click into Effective Date of row 1 and away, twice</li>
@@ -429,7 +429,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Type a date a year ahead into Effective Date</li>
@@ -439,7 +439,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit Notes / Effective Date / Flat Rate (fresh search each)</li>
@@ -450,7 +450,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit a note</li>
@@ -461,7 +461,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit a note</li>
@@ -472,7 +472,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit a note</li>
@@ -483,7 +483,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit a note</li>
@@ -494,7 +494,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit a note</li>
@@ -505,7 +505,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Flat Rate 0.05 on row 1, note on row 3</li>
@@ -516,7 +516,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Effective Date a year ahead on row 1</li>
@@ -527,7 +527,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit only a note</li>
@@ -538,7 +538,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search CT / App Quality Assurance</li>
 <li>3. Effective Date = latest - 1 day, note</li>
@@ -549,7 +549,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Search CT / App Quality Assurance</li>
 <li>3. Effective Date = latest, note</li>
@@ -560,7 +560,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit a note</li>
@@ -571,7 +571,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Flat Rate 0.05</li>
@@ -583,7 +583,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit a note</li>
@@ -594,7 +594,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Edit a note</li>
@@ -605,7 +605,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 </ol>",,,2. Filters All; range today – today; prompt; no Save,,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -614,7 +614,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search CT 11/01/2018 – 03/31/2019</li>
@@ -624,7 +624,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search CT 11/01/2018 – 03/31/2019</li>
@@ -634,7 +634,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search the wide range</li>
@@ -645,7 +645,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search 11/01/2018 – 03/31/2019</li>
@@ -655,7 +655,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search range R twice</li>
@@ -666,7 +666,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search the range by TX, then App Remote Access, then Flat Rate</li>
@@ -676,7 +676,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search IN today – today</li>
@@ -686,7 +686,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search (500)</li>
@@ -697,7 +697,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search CT range</li>
@@ -707,7 +707,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",High,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search CT range</li>
@@ -717,7 +717,7 @@ Application: Navigator",High,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Low,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search the range</li>
@@ -729,7 +729,7 @@ Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Switch to State Tax History</li>
 <li>3. Search CT / Flat Rate range</li>
@@ -740,7 +740,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Critical,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route without a session</li>
 </ol>",,,1. Redirect to sign-in with callbackUrl; no grid,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Search controls and grid editors have accessible names,,,,,Automated,Nikita Nangare,,,"Effective Date, buttons and row editors have accessible names",,,taxes,,"Page opened fresh; State IN searched (40 baseline rows, zero rates); every Save held at the network
@@ -748,7 +748,7 @@ Application: Navigator",Critical,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 </ol>",,,"2. Effective Date, buttons and row editors have accessible names",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -757,7 +757,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open the State Tax route</li>
 <li>2. Tab from State</li>
 </ol>",,,"2. Tax Type, rate, Effective Date, Reset, Search in order",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -766,7 +766,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Medium,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. axe scan</li>
@@ -778,7 +778,7 @@ Application: Navigator",Medium,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Low,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 </ol>",,,"2. Search, Save, grid reachable; no sideways scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -787,7 +787,7 @@ Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Low,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 </ol>",,,"2. Search, Save, grid reachable; no sideways scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -796,7 +796,7 @@ Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
 Test Data:
 User: automation user (ManageTaxes.FullAccess)
 Office: Office 1101 (Corporate)
-Application: Navigator",Low,NM-4023,State_Tax,0,,State_Tax,"<ol>
+Application: Navigator",Low,NM-4023,State_Tax,1,,Taxes > State_Tax,"<ol>
 <li>1. Open State Tax</li>
 <li>2. Search State IN</li>
 <li>3. Switch to History and search</li>

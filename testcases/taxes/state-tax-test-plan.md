@@ -222,7 +222,7 @@ npx playwright test tests/taxes/state-tax.spec.ts --project=chromium -g "TC-TAX-
 npm run report                                                                   # HTML report with numbered steps
 ```
 
-TestRail: imported 2026-11-05 with `npm run testrail:sync:execute -- --only taxes/state-tax` into section `State_Tax`
+TestRail: imported 2026-11-05 with `npm run testrail:sync:execute -- --only taxes/state-tax` into section `Taxes > State_Tax` (moved under the `Taxes` parent 2026-11-06)
 (suite S1620) — C107513 … C107593, recorded in `config/testrail/case-map.json`. Every test carries its `@C<id>`
 tag (loop-built titles through `LOOP_CASE_TAGS`). Push results with `TESTRAIL_ENABLED=true`.
 

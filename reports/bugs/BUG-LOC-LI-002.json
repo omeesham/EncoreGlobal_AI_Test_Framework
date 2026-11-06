@@ -1,0 +1,48 @@
+{
+  "id": "BUG-LOC-LI-002",
+  "title": "Local Information: parent feature checkboxes gate their percentage input but NOT their 'calculate on net amount' / 'show as administrative fee' modifier siblings — an orphaned modifier can be ticked and saved while its parent feature is off, and the inconsistent state persists",
+  "module": "LocationLocalInformation",
+  "severity": "low",
+  "status": "open",
+  "discoveredDate": "2026-09-21",
+  "requirementSource": "Location Settings -> Local Information sub-tab (/navigator/locations/<office>/settings/location). The parent-enables-children pattern is the established contract on this form and the app already implements half of it correctly: unchecking Apply LDW disables AND zeroes the LDW Percentage input. Archetype ARCH-005 'parent-checkbox-doesnt-disable-children' in specs_planning/_internal/bug-archetypes.md defines the sibling-modifier subtype as a file-on-reproduction defect, and names these exact three groups as the systemic instance first recorded as BUG-LI-002 (Service Charge group, 2026-04-27) and BUG-LI-003 (LDW + C&C groups, 2026-04-28).",
+  "stepsToReproduce": [
+    "Navigate to https://cloudapps-e2e.encoreglobal.com/navigator/locations/1606/settings/location and click the 'Local Information' sub-tab.",
+    "Observe the Service Charge group at rest: 'Service Charge' (location-settings-checkbox-allow-service-charge) is UNCHECKED, yet both 'Show Service Charge As Administrative Fee' (location-settings-checkbox-is-administrative-fee) and 'Calculate Service Charge On Net Amount' (location-settings-checkbox-calc-service-charge-on-net) are ENABLED and freely clickable.",
+    "Observe the Cables & Consumables group at rest: 'Apply Cables and Consumables Fee' (location-settings-checkbox-apply-cables-consumables) is UNCHECKED; its 'C&C Percentage' input is correctly DISABLED, but the sibling 'Calculate C&C on Net Amount' (location-settings-checkbox-calc-cac-on-net-amount) is ENABLED.",
+    "Now demonstrate the persisted-inconsistency on the LDW group. Confirm 'Apply LDW' (location-settings-checkbox-apply-ldw) is CHECKED and 'Calculate LDW on Net Amount' (location-settings-checkbox-calc-ldw-on-net-amount) is unchecked.",
+    "Click 'Apply LDW' to switch it OFF. Observe the LDW Percentage input correctly disables and resets to 0.00% — the percentage child IS gated.",
+    "Observe that 'Calculate LDW on Net Amount' remains ENABLED even though its parent feature is now off.",
+    "Click 'Calculate LDW on Net Amount' to tick it ON. It accepts the click and reads aria-checked=true, and the Save button enables.",
+    "Click Save and confirm the 'Save Changes' dialog with Ok. The save succeeds (PUT /navigator/api/location/update-properties).",
+    "Reload the page and reopen the Local Information sub-tab.",
+    "Observe the persisted inconsistent state: Apply LDW = false while Calculate LDW on Net Amount = true — a modifier for a feature that is switched off has been stored against the location."
+  ],
+  "expectedBehavior": "A parent feature checkbox should gate every control in its group, not just the percentage input. When Apply LDW / Apply Cables and Consumables Fee / Service Charge is unchecked, its modifier siblings ('Calculate ... on Net Amount', 'Show Service Charge As Administrative Fee') should be disabled — and, consistent with how the percentage inputs already behave, reset — so that the form cannot express or persist a modifier for a disabled feature.",
+  "actualBehavior": "Only the percentage input is gated. The modifier sibling checkboxes stay enabled and interactive with their parent off, across all three groups (LDW, Cables & Consumables, Service Charge). On the LDW group this was driven end to end: with Apply LDW switched off, Calculate LDW on Net Amount was ticked, the Save button enabled, the save was accepted by the server, and after a full page reload the location still reads Apply LDW = false with Calculate LDW on Net Amount = true. The application therefore both allows and durably stores a logically inconsistent configuration.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-21",
+    "findings": "Live authenticated Playwright walk (headless, .auth/encore-state.json) against office 1606. At-rest read of all three groups: allow-service-charge {checked:false, disabled:false} with is-administrative-fee {checked:false, disabled:false} and calc-service-charge-on-net {checked:false, disabled:false}; apply-cables-consumables {checked:false, disabled:false} with cables-consumables-percentage input {value:'0.00%', disabled:TRUE} but calc-cac-on-net-amount {checked:false, disabled:FALSE}; apply-ldw {checked:true} with default-ldw-percentage {value:'4.00%', disabled:false}. After clicking apply-ldw off: default-ldw-percentage became {value:'0.00%', disabled:TRUE} (correct gating) while calc-ldw-on-net-amount stayed {disabled:FALSE}; a click on that orphaned sibling succeeded with no error and flipped it to aria-checked=true, and the Save button became enabled. Save was confirmed through the 'Save Changes / Are you sure you want to save the changes? / Cancel / Ok' dialog and fired PUT /navigator/api/location/update-properties. After a full reload the state read back as apply-ldw {checked:false} + calc-ldw-on-net-amount {checked:true} — the probe recorded INCONSISTENT_STATE_PERSISTED=true. The office was then restored in the same run and re-verified by reload: apply-ldw checked=true, calc-ldw-on-net-amount checked=false, LDW Percentage '4.00%' — office 1606 is back at its documented baseline with no residue.",
+    "tool": "playwright-script"
+  },
+  "baselineComparison": "intentional-UX-change",
+  "baselineEvidence": "BASELINE WALKED 2026-09-21 — RESULT: NOT A REGRESSION. The legacy Navigator site (navigator2.training.psav.com) was authenticated via shared SSO and office 1604 opened at #/setup/locationdetail/1604 (the legacy baseline entity per LR-ENC-001; office 1606 does not exist there). Observation-only: form controls were toggled to read gating state and Save was NEVER clicked. Legacy at rest: ldwid(Apply LDW)=checked/enabled, CAL_LDW_ID(Calculate LDW on Net Amount)=unchecked/ENABLED, SC_ID(Service Charge)=checked/enabled, AdminFeeId=unchecked/ENABLED, SCOnNetAmtId=unchecked/ENABLED. Toggling ldwid OFF left CAL_LDW_ID at disabled=false. Toggling SC_ID OFF left BOTH AdminFeeId and SCOnNetAmtId at disabled=false. The legacy site therefore exhibits the IDENTICAL non-gating behaviour as cloudapps-e2e: modifier siblings stay live when their parent feature is off, on both sites. This is long-standing pre-existing behaviour, NOT something the new site introduced. Classified intentional-UX-change as the closest LR-034 enum value meaning 'divergence is not a regression' — strictly there is NO divergence at all, the two sites match. TRIAGE NOTE: the defect stands on its own merits as a data-integrity concern (the new site was proven to persist Apply LDW=false + Calculate LDW on Net Amount=true across a reload), but the client may reasonably triage it as by-design given it has behaved this way on both generations of the product. What was NOT tested on legacy: whether legacy also PERSISTS the inconsistent combination, since saving on the shared legacy office was out of bounds.",
+  "affectedTests": [
+    "TC-LOC-LI-033"
+  ],
+  "networkEvidence": "The orphaned-modifier save was accepted by the server, not blocked on the client: the Save click fired PUT https://cloudapps-e2e.encoreglobal.com/navigator/api/location/update-properties and the value survived a subsequent full page load, proving server-side persistence rather than a client-only UI artefact. The restore save fired the same endpoint and likewise round-tripped. This contrasts with BUG-LOC-LI-001 on the same screen, where an invalid form produced zero requests — here the inconsistent state is not merely accepted by the UI, it reaches and is stored by the backend.",
+  "verificationLog": [
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) — baseline walk, legacy office 1604",
+      "verifiedDate": "2026-09-21",
+      "verdict": "CONFIRMED on e2e, but RECLASSIFIED not-checked -> intentional-UX-change",
+      "evidence": "Legacy navigator2 office 1604 shows the same ungated modifier siblings for both the LDW and Service Charge groups, so the symptom is pre-existing rather than a new-site regression. The e2e reproduction and the persisted inconsistent state are unchanged and still stand."
+    },
+    {
+      "verifierAgent": "Automated QA (Claude Opus 5) — severity review after challenge",
+      "verifiedDate": "2026-09-22",
+      "verdict": "CONFIRMED as observed behaviour; severity medium -> low",
+      "evidence": "The observation itself (parent off + modifier on saves and survives a reload) is reproducible and unchanged. But the legacy site behaves identically, so nothing regressed, and no downstream mis-pricing has been demonstrated — only inferred. Severity lowered to low pending a product decision on whether the orphaned flag is honoured anywhere. Close as by-design if it is not."
+    }
+  ]
+}

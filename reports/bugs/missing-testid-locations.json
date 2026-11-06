@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-17T14:40:52.172Z",
+  "generatedAt": "2026-09-28T10:16:12.790Z",
   "scope": "locations",
   "sources": [
     "src/selectors/locations",
@@ -9,19 +9,19 @@
   ],
   "stats": {
     "files": 25,
-    "callSitesAudited": 396,
-    "distinctElementsTargeted": 292,
-    "coveredByTestid": 187,
-    "missingTestid": 105,
-    "excluded": 49,
-    "fallbackCallSites": 124,
-    "coveragePercent": 64
+    "callSitesAudited": 458,
+    "distinctElementsTargeted": 299,
+    "coveredByTestid": 188,
+    "missingTestid": 111,
+    "excluded": 77,
+    "fallbackCallSites": 137,
+    "coveragePercent": 62.9
   },
   "priorities": {
     "CRITICAL": 17,
     "HIGH": 58,
-    "MEDIUM": 15,
-    "LOW": 15
+    "MEDIUM": 19,
+    "LOW": 17
   },
   "items": [
     {
@@ -973,7 +973,59 @@
     },
     {
       "module": "Location Management History tab",
-      "id": "HIS-006",
+      "id": "HIS-014",
+      "kind": "definition",
+      "key": "tblAnyMgmtHistory",
+      "type": "table",
+      "element": "Any Mgmt History table",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-tab-content-management-history\" already has a data-testid; add one to the element inside it.",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table[data-slot=\"table\"]",
+      "step": "",
+      "strategy": "semantic attribute + bare tag + inside data-testid container",
+      "strategies": [
+        "semantic-attr",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-table-any-mgmt-history",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
+      "css": "[data-testid=\"location-settings-tab-content-management-history\"] table[data-slot=\"table\"]",
+      "textHints": [],
+      "ancestorTestid": "location-settings-tab-content-management-history",
+      "note": "The Legacy history type renders a bare table with NO data-testid of its own (the tagged wrapper above leaves the DOM entirely), so both grids are reachable only through the panel's one table.",
+      "file": "src/selectors/locations/history.ts",
+      "line": 10,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/selectors/locations/history.ts",
+          "line": 10,
+          "method": "tblAnyMgmtHistory"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-007",
       "kind": "definition",
       "key": "drpMgmtHistoryRowsPerPage",
       "type": "combobox",
@@ -1005,7 +1057,7 @@
       "ancestorTestid": "location-settings-tab-content-management-history",
       "note": "",
       "file": "src/selectors/locations/history.ts",
-      "line": 8,
+      "line": 12,
       "sites": [
         {
           "module": {
@@ -1016,7 +1068,7 @@
             "slug": "management-history"
           },
           "file": "src/selectors/locations/history.ts",
-          "line": 8,
+          "line": 12,
           "method": "drpMgmtHistoryRowsPerPage"
         }
       ],
@@ -1025,7 +1077,59 @@
     },
     {
       "module": "Location Management History tab",
-      "id": "HIS-007",
+      "id": "HIS-008",
+      "kind": "definition",
+      "key": "txtMgmtHistoryCurrentPage",
+      "type": "input",
+      "element": "Mgmt History Current Page input field",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-tab-content-management-history\" already has a data-testid; add one to the element inside it.",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] input[aria-label=\"Current page number\"]",
+      "step": "",
+      "strategy": "aria-label + bare tag + inside data-testid container",
+      "strategies": [
+        "aria-label",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-input-mgmt-history-current-page",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
+      "css": "[data-testid=\"location-settings-tab-content-management-history\"] input[aria-label=\"Current page number\"]",
+      "textHints": [],
+      "ancestorTestid": "location-settings-tab-content-management-history",
+      "note": "",
+      "file": "src/selectors/locations/history.ts",
+      "line": 13,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/selectors/locations/history.ts",
+          "line": 13,
+          "method": "txtMgmtHistoryCurrentPage"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-009",
       "kind": "definition",
       "key": "btnMgmtHistoryFirstPage",
       "type": "button",
@@ -1056,7 +1160,7 @@
       "ancestorTestid": "",
       "note": "",
       "file": "src/selectors/locations/history.ts",
-      "line": 9,
+      "line": 14,
       "sites": [
         {
           "module": {
@@ -1067,7 +1171,7 @@
             "slug": "management-history"
           },
           "file": "src/selectors/locations/history.ts",
-          "line": 9,
+          "line": 14,
           "method": "btnMgmtHistoryFirstPage"
         }
       ],
@@ -1076,7 +1180,7 @@
     },
     {
       "module": "Location Management History tab",
-      "id": "HIS-008",
+      "id": "HIS-010",
       "kind": "definition",
       "key": "btnMgmtHistoryPrevPage",
       "type": "button",
@@ -1107,7 +1211,7 @@
       "ancestorTestid": "",
       "note": "",
       "file": "src/selectors/locations/history.ts",
-      "line": 10,
+      "line": 15,
       "sites": [
         {
           "module": {
@@ -1118,7 +1222,7 @@
             "slug": "management-history"
           },
           "file": "src/selectors/locations/history.ts",
-          "line": 10,
+          "line": 15,
           "method": "btnMgmtHistoryPrevPage"
         }
       ],
@@ -1127,7 +1231,7 @@
     },
     {
       "module": "Location Management History tab",
-      "id": "HIS-009",
+      "id": "HIS-011",
       "kind": "definition",
       "key": "btnMgmtHistoryNextPage",
       "type": "button",
@@ -1158,7 +1262,7 @@
       "ancestorTestid": "",
       "note": "",
       "file": "src/selectors/locations/history.ts",
-      "line": 11,
+      "line": 16,
       "sites": [
         {
           "module": {
@@ -1169,7 +1273,7 @@
             "slug": "management-history"
           },
           "file": "src/selectors/locations/history.ts",
-          "line": 11,
+          "line": 16,
           "method": "btnMgmtHistoryNextPage"
         }
       ],
@@ -1178,7 +1282,7 @@
     },
     {
       "module": "Location Management History tab",
-      "id": "HIS-010",
+      "id": "HIS-012",
       "kind": "definition",
       "key": "btnMgmtHistoryLastPage",
       "type": "button",
@@ -1209,7 +1313,7 @@
       "ancestorTestid": "",
       "note": "",
       "file": "src/selectors/locations/history.ts",
-      "line": 12,
+      "line": 17,
       "sites": [
         {
           "module": {
@@ -1220,7 +1324,7 @@
             "slug": "management-history"
           },
           "file": "src/selectors/locations/history.ts",
-          "line": 12,
+          "line": 17,
           "method": "btnMgmtHistoryLastPage"
         }
       ],
@@ -2140,7 +2244,7 @@
       "ancestorTestid": "",
       "note": "",
       "file": "src/selectors/locations/local-info.ts",
-      "line": 69,
+      "line": 70,
       "sites": [
         {
           "module": {
@@ -2151,7 +2255,7 @@
             "slug": "local-info"
           },
           "file": "src/selectors/locations/local-info.ts",
-          "line": 69,
+          "line": 70,
           "method": "chkHRIRemitTax2"
         }
       ],
@@ -2917,7 +3021,7 @@
     },
     {
       "module": "Shared dialogs (all Location Settings tabs)",
-      "id": "DLG-007",
+      "id": "DLG-009",
       "kind": "definition",
       "key": "btnUnsavedChangesOk",
       "type": "button",
@@ -2973,7 +3077,7 @@
     },
     {
       "module": "Shared dialogs (all Location Settings tabs)",
-      "id": "DLG-008",
+      "id": "DLG-010",
       "kind": "definition",
       "key": "btnUnsavedChangesCancel",
       "type": "button",
@@ -3022,6 +3126,110 @@
           "file": "src/selectors/locations/shared.ts",
           "line": 19,
           "method": "btnUnsavedChangesCancel"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-007",
+      "kind": "definition",
+      "key": "btnUserMenu",
+      "type": "button",
+      "element": "User Menu button",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
+      "selector": "[data-sidebar=\"footer\"] button[data-slot=\"dropdown-menu-trigger\"]",
+      "step": "",
+      "strategy": "semantic attribute + bare tag",
+      "strategies": [
+        "semantic-attr",
+        "tag"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-btn-user-menu",
+      "uiPath": "Setup > Location Settings > any tab",
+      "uiSteps": [
+        "Setup > Location Settings > any tab"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
+      "css": "[data-sidebar=\"footer\"] button[data-slot=\"dropdown-menu-trigger\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "Account menu in the sidebar footer. No testids; the trigger's label is the signed-in user's name, so it is matched by structure. The Language item is matched by its submenu role, not its text, because its label is itself translated (\"Langue\", \"Idioma\") once another locale is active.",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 24,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 24,
+          "method": "btnUserMenu"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "shared"
+    },
+    {
+      "module": "Shared dialogs (all Location Settings tabs)",
+      "id": "DLG-008",
+      "kind": "definition",
+      "key": "mnuLanguage",
+      "type": "element",
+      "element": "mnu Language element",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
+      "selector": "[role=\"menu\"] [role=\"menuitem\"][aria-haspopup=\"menu\"]",
+      "step": "",
+      "strategy": "role attribute + semantic attribute",
+      "strategies": [
+        "role",
+        "semantic-attr"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-mnu-language",
+      "uiPath": "Setup > Location Settings > any tab > open the column menu",
+      "uiSteps": [
+        "Setup > Location Settings > any tab",
+        "open the column menu"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open any tab — this surface is shared by all of them.",
+        "Click a column header, then open its menu.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
+      "css": "[role=\"menu\"] [role=\"menuitem\"][aria-haspopup=\"menu\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/selectors/locations/shared.ts",
+      "line": 25,
+      "sites": [
+        {
+          "module": {
+            "key": "shared",
+            "name": "Shared dialogs (all Location Settings tabs)",
+            "submodule": "Shared dialogs (all tabs)",
+            "code": "DLG",
+            "slug": "shared"
+          },
+          "file": "src/selectors/locations/shared.ts",
+          "line": 25,
+          "method": "mnuLanguage"
         }
       ],
       "alsoIn": [],
@@ -4134,6 +4342,18 @@
         },
         {
           "module": {
+            "key": "local-info",
+            "name": "Local Information tab",
+            "submodule": "Local Information",
+            "code": "LI",
+            "slug": "local-info"
+          },
+          "file": "src/pages/locations/location-local-info.page.ts",
+          "line": 148,
+          "method": "listProductOrganizationOptions"
+        },
+        {
+          "module": {
             "key": "history",
             "name": "Location Management History tab",
             "submodule": "Location Management History",
@@ -4141,11 +4361,24 @@
             "slug": "management-history"
           },
           "file": "src/pages/locations/location-management-history.page.ts",
-          "line": 273,
-          "method": "setRowsPerPage"
+          "line": 1044,
+          "method": "getSettingOptions"
+        },
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 1075,
+          "method": "writeSetting"
         }
       ],
       "alsoIn": [
+        "Local Information tab",
         "Location Management History tab"
       ],
       "moduleKey": "currency"
@@ -4556,7 +4789,7 @@
       "ancestorTestid": "",
       "note": "",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 201,
+      "line": 247,
       "sites": [
         {
           "module": {
@@ -4567,8 +4800,68 @@
             "slug": "management-history"
           },
           "file": "src/pages/locations/location-management-history.page.ts",
-          "line": 201,
+          "line": 247,
           "method": "clickSortColumn"
+        },
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 689,
+          "method": "openSortMenuByKeyboard"
+        },
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 703,
+          "method": "getSortMenuItemLabels"
+        },
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 711,
+          "method": "applySortMenuItemByKeyboard"
+        },
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 721,
+          "method": "closeSortMenuWithEscape"
+        },
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 778,
+          "method": "rightClickRow"
         }
       ],
       "alsoIn": [],
@@ -4609,7 +4902,7 @@
       "ancestorTestid": "",
       "note": "",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 207,
+      "line": 253,
       "sites": [
         {
           "module": {
@@ -4620,7 +4913,7 @@
             "slug": "management-history"
           },
           "file": "src/pages/locations/location-management-history.page.ts",
-          "line": 207,
+          "line": 253,
           "method": "clickSortColumn"
         }
       ],
@@ -4630,56 +4923,6 @@
     {
       "module": "Location Management History tab",
       "id": "HIS-003",
-      "kind": "inline",
-      "key": "setRowsPerPage",
-      "type": "inline locator",
-      "element": "set Rows Per Page dropdown option",
-      "missingAt": "Parent and child",
-      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
-      "selector": "[role=\"option\"]",
-      "step": "[role=\"option\"]",
-      "strategy": "role attribute",
-      "strategies": [
-        "role"
-      ],
-      "priority": "MEDIUM",
-      "suggested": "location-settings-option-management-history",
-      "uiPath": "Setup > Location Settings > Location Management History",
-      "uiSteps": [
-        "Setup > Location Settings > Location Management History"
-      ],
-      "steps": [
-        "Sign in to Navigator Cloud.",
-        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
-        "Open the **Location Management History** tab.",
-        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
-      ],
-      "css": "[role=\"option\"]",
-      "textHints": [],
-      "ancestorTestid": "",
-      "note": "",
-      "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 275,
-      "sites": [
-        {
-          "module": {
-            "key": "history",
-            "name": "Location Management History tab",
-            "submodule": "Location Management History",
-            "code": "HIS",
-            "slug": "management-history"
-          },
-          "file": "src/pages/locations/location-management-history.page.ts",
-          "line": 275,
-          "method": "setRowsPerPage"
-        }
-      ],
-      "alsoIn": [],
-      "moduleKey": "history"
-    },
-    {
-      "module": "Location Management History tab",
-      "id": "HIS-004",
       "kind": "inline",
       "key": "getPaginationText",
       "type": "inline locator",
@@ -4711,7 +4954,7 @@
       "ancestorTestid": "location-settings-tab-content-management-history",
       "note": "",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 282,
+      "line": 326,
       "sites": [
         {
           "module": {
@@ -4722,7 +4965,7 @@
             "slug": "management-history"
           },
           "file": "src/pages/locations/location-management-history.page.ts",
-          "line": 282,
+          "line": 326,
           "method": "getPaginationText"
         }
       ],
@@ -4731,7 +4974,7 @@
     },
     {
       "module": "Location Management History tab",
-      "id": "HIS-005",
+      "id": "HIS-004",
       "kind": "inline",
       "key": "isReadOnly",
       "type": "inline locator",
@@ -4761,7 +5004,7 @@
       "ancestorTestid": "",
       "note": "",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 314,
+      "line": 359,
       "sites": [
         {
           "module": {
@@ -4772,8 +5015,162 @@
             "slug": "management-history"
           },
           "file": "src/pages/locations/location-management-history.page.ts",
-          "line": 314,
+          "line": 359,
           "method": "isReadOnly"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-005",
+      "kind": "inline",
+      "key": "openSettingsTab",
+      "type": "inline locator",
+      "element": "open Settings Tab tab",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
+      "selector": "[role=\"tab\"]",
+      "step": "[role=\"tab\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-sub-tab-management-history",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
+      "css": "[role=\"tab\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 1000,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 1000,
+          "method": "openSettingsTab"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-006",
+      "kind": "inline",
+      "key": "writeSetting",
+      "type": "inline locator",
+      "element": "write Setting dropdown option",
+      "missingAt": "Parent and child",
+      "missingAtDetail": "Nothing in the path has a data-testid — the element needs one AND so does the container it sits in (the dialog, table or section), or the element stays reachable only by text or position.",
+      "selector": "[role=\"option\"]",
+      "step": "[role=\"option\"]",
+      "strategy": "role attribute",
+      "strategies": [
+        "role"
+      ],
+      "priority": "MEDIUM",
+      "suggested": "location-settings-option-management-history",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
+      "css": "[role=\"option\"]",
+      "textHints": [],
+      "ancestorTestid": "",
+      "note": "",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 1082,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 1082,
+          "method": "writeSetting"
+        }
+      ],
+      "alsoIn": [],
+      "moduleKey": "history"
+    },
+    {
+      "module": "Location Management History tab",
+      "id": "HIS-013",
+      "kind": "inline",
+      "key": "deleteNewestNote",
+      "type": "inline locator",
+      "element": "Delete button",
+      "missingAt": "Child",
+      "missingAtDetail": "Child element only — the container \"location-settings-section-notes\" already has a data-testid; add one to the element inside it.",
+      "selector": "[data-testid=\"location-settings-section-notes\"] button:has-text(\"Delete\")",
+      "step": "[data-testid=\"location-settings-section-notes\"] button:has-text(\"Delete\")",
+      "strategy": "text match + bare tag + inside data-testid container",
+      "strategies": [
+        "text",
+        "tag",
+        "testid-scope"
+      ],
+      "priority": "LOW",
+      "suggested": "location-settings-btn-delete",
+      "uiPath": "Setup > Location Settings > Location Management History",
+      "uiSteps": [
+        "Setup > Location Settings > Location Management History"
+      ],
+      "steps": [
+        "Sign in to Navigator Cloud.",
+        "Go to **Setup > Location Settings** and open office **1604** — the office the suite runs against.",
+        "Open the **Location Management History** tab.",
+        "Press **F12**, open **Elements**, press **Ctrl+F** and paste the selector from the \"Current selector\" column."
+      ],
+      "css": "[data-testid=\"location-settings-section-notes\"] button",
+      "textHints": [
+        "Delete"
+      ],
+      "ancestorTestid": "location-settings-section-notes",
+      "note": "",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 1104,
+      "sites": [
+        {
+          "module": {
+            "key": "history",
+            "name": "Location Management History tab",
+            "submodule": "Location Management History",
+            "code": "HIS",
+            "slug": "management-history"
+          },
+          "file": "src/pages/locations/location-management-history.page.ts",
+          "line": 1104,
+          "method": "deleteNewestNote"
         }
       ],
       "alsoIn": [],
@@ -6226,11 +6623,19 @@
     },
     {
       "module": "Local Information tab",
+      "key": "listProductOrganizationOptions",
+      "selector": "[role=\"option\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-local-info.page.ts",
+      "line": 146
+    },
+    {
+      "module": "Local Information tab",
       "key": "isRemitPstTaxVisible",
       "selector": "dt:has-text(\"Remit PST Tax\")",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-local-info.page.ts",
-      "line": 179
+      "line": 208
     },
     {
       "module": "Location Management History tab",
@@ -6238,7 +6643,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 27
+      "line": 73
     },
     {
       "module": "Location Management History tab",
@@ -6246,7 +6651,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 54
+      "line": 100
     },
     {
       "module": "Location Management History tab",
@@ -6254,7 +6659,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 68
+      "line": 114
     },
     {
       "module": "Location Management History tab",
@@ -6262,7 +6667,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 69
+      "line": 115
     },
     {
       "module": "Location Management History tab",
@@ -6270,7 +6675,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 75
+      "line": 121
     },
     {
       "module": "Location Management History tab",
@@ -6278,7 +6683,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 80
+      "line": 126
     },
     {
       "module": "Location Management History tab",
@@ -6286,7 +6691,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 105
+      "line": 151
     },
     {
       "module": "Location Management History tab",
@@ -6294,7 +6699,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 105
+      "line": 151
     },
     {
       "module": "Location Management History tab",
@@ -6302,7 +6707,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 173
+      "line": 219
     },
     {
       "module": "Location Management History tab",
@@ -6310,7 +6715,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 175
+      "line": 221
     },
     {
       "module": "Location Management History tab",
@@ -6318,7 +6723,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 176
+      "line": 222
     },
     {
       "module": "Location Management History tab",
@@ -6326,7 +6731,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 183
+      "line": 229
     },
     {
       "module": "Location Management History tab",
@@ -6334,7 +6739,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 196
+      "line": 242
     },
     {
       "module": "Location Management History tab",
@@ -6342,7 +6747,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th button",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 197
+      "line": 243
     },
     {
       "module": "Location Management History tab",
@@ -6350,7 +6755,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 224
+      "line": 270
     },
     {
       "module": "Location Management History tab",
@@ -6358,7 +6763,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th button",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 225
+      "line": 271
     },
     {
       "module": "Location Management History tab",
@@ -6366,7 +6771,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 230
+      "line": 276
     },
     {
       "module": "Location Management History tab",
@@ -6374,7 +6779,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] th button",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 231
+      "line": 277
     },
     {
       "module": "Location Management History tab",
@@ -6382,7 +6787,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 249
+      "line": 295
     },
     {
       "module": "Location Management History tab",
@@ -6390,7 +6795,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 251
+      "line": 297
     },
     {
       "module": "Location Management History tab",
@@ -6398,7 +6803,7 @@
       "selector": "[data-testid=\"location-settings-tab-content-management-history\"] span",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 283
+      "line": 327
     },
     {
       "module": "Location Management History tab",
@@ -6406,7 +6811,7 @@
       "selector": "[role=\"tabpanel\"] button:has-text(\"Add\")",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 315
+      "line": 360
     },
     {
       "module": "Location Management History tab",
@@ -6414,7 +6819,7 @@
       "selector": "[role=\"tabpanel\"] button:has-text(\"Edit\")",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 316
+      "line": 361
     },
     {
       "module": "Location Management History tab",
@@ -6422,7 +6827,7 @@
       "selector": "[role=\"tabpanel\"] button:has-text(\"Delete\")",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 317
+      "line": 362
     },
     {
       "module": "Location Management History tab",
@@ -6430,7 +6835,7 @@
       "selector": "[role=\"tabpanel\"] button:has-text(\"Save\")",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 318
+      "line": 363
     },
     {
       "module": "Location Management History tab",
@@ -6438,7 +6843,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] table",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 321
+      "line": 366
     },
     {
       "module": "Location Management History tab",
@@ -6446,7 +6851,7 @@
       "selector": "input:not([type=\"hidden\"]), textarea",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 322
+      "line": 367
     },
     {
       "module": "Location Management History tab",
@@ -6454,7 +6859,7 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr:first-child td:first-child",
       "reason": "structural query — row, header or cell enumeration, not element identity",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 328
+      "line": 373
     },
     {
       "module": "Location Management History tab",
@@ -6462,7 +6867,359 @@
       "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr:first-child td:first-child :is(input, textarea, [contenteditable=\"true\"])",
       "reason": "counting probe — measures how many, not which one",
       "file": "src/pages/locations/location-management-history.page.ts",
-      "line": 331
+      "line": 376
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getTabStripLabels",
+      "selector": "[role=\"tablist\"]",
+      "reason": "opted out -- structural: enumerates the tablist that owns the History tab's own testid",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 444
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getTabStripLabels",
+      "selector": "[role=\"tablist\"] [role=\"tab\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 445
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getVisibleBasicInfoSubTabs",
+      "selector": "[role=\"tab\"]",
+      "reason": "opted out -- structural: visibility sweep over a caller-supplied list of sub-tab labels",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 454
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "waitForHistoryGridLoaded",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 479
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "waitForHistoryGridLoaded",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 480
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getHistoryTableCount",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 502
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getRowCellCounts",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] table tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 544
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getCellMatrix",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] table tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 552
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getColumnHeaderRoleCount",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] [role=\"columnheader\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 585
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getSortableColumns",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 592
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getSortControlNames",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th button",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 599
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "sortIndicators",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 610
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getAriaSortValues",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 641
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "openSortMenuByKeyboard",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 687
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "openSortMenuByKeyboard",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] th button",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 687
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getSortMenuItemLabels",
+      "selector": "[role=\"menu\"] [role=\"menuitem\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 705
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPanelControlCensus",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 736
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPanelControlCensus",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] button",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 738
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPanelControlCensus",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table input[type=\"checkbox\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 743
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPanelControlCensus",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table input[type=\"radio\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 744
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPanelControlCensus",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table [role=\"checkbox\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 745
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPanelControlCensus",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table input:not([type=\"hidden\"])",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 746
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPanelControlCensus",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table textarea",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 747
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPanelControlCensus",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table select",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 748
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPanelControlCensus",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table [contenteditable=\"true\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 749
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "attemptEditCell",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 755
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "attemptEditCell",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 755
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "attemptEditCell",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr td :is(input, textarea, [contenteditable=\"true\"])",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 761
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "isRowSelected",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 769
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "rightClickRow",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] tbody tr",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 777
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getLocalOfficeSettingsLinkCount",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] a[href*=\"settings/local-office\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 790
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPendingState",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] :is([role=\"progressbar\"], .animate-spin, [data-testid*=\"spinner\"], [data-testid*=\"loader\"])",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 801
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPendingState",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] :is([data-testid*=\"skeleton\"], .animate-pulse, [class*=\"skeleton\"])",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 802
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getOverflow",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 817
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getPaginationButtonCount",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] button[aria-label*=\"page\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 836
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "waitForEitherHistoryGrid",
+      "selector": "[data-testid=\"location-settings-tab-content-management-history\"] table[data-slot=\"table\"] tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 879
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getActiveGridHeaders",
+      "selector": "th",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 895
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getActiveGridSortableColumns",
+      "selector": "th",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 900
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getActiveGridRowCount",
+      "selector": "tbody tr",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 906
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getActiveGridEditorCount",
+      "selector": "input:not([type=\"hidden\"]), textarea, select, [contenteditable=\"true\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 912
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "readSetting",
+      "selector": "[role=\"radio\"][data-state=\"checked\"]",
+      "reason": "opted out -- state query: the checked radio inside the caller's testid-scoped radiogroup",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 1033
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "getSettingOptions",
+      "selector": "[role=\"listbox\"] [role=\"option\"]",
+      "reason": "counting probe — measures how many, not which one",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 1052
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "writeSetting",
+      "selector": "[role=\"radio\"][value=\"${value === 'Master' ? 'true' : 'false'}\"]",
+      "reason": "opted out -- role + semantic value inside the caller's testid-scoped radiogroup",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 1071
+    },
+    {
+      "module": "Location Management History tab",
+      "key": "readTopHistoryRows",
+      "selector": "[data-testid=\"location-settings-table-management-history\"] table",
+      "reason": "structural query — row, header or cell enumeration, not element identity",
+      "file": "src/pages/locations/location-management-history.page.ts",
+      "line": 1137
     },
     {
       "module": "Pricing tab",

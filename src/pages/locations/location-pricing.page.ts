@@ -3,6 +3,8 @@ import { BasePage } from '../base.page';
 import { Log } from '../../utils/logger';
 import { IConfig } from '../../types';
 import { DynamicSelectors } from '../../selectors';
+import { SetupPricingSelectors } from '../../selectors/locations/pricing';
+import { GRID_PREF_STORAGE_KEY, PRICING_MESSAGES, SAVE_API_ROUTES } from '../../data/locations/location-pricing';
 import { CheckboxState } from '../components/location-form-helpers.component';
 import { step } from '../../fixtures/step-decorator';
 
@@ -14,7 +16,19 @@ export class LocationPricingPage extends BasePage {
 
   @step('Navigate to pricing tab')
   async navigateToPricingTab(officeNo: string = '1604'): Promise<void> {
-    await this.navigateToSubTab('tabPricing', 'chkCorporatePricing', officeNo);
+ // navigateToSubTab waits 30s for the Pricing form to become visible. On e2e that limit is
+ // genuinely exceeded now and then — the base page's own note records contention pushing
+ // form-visible past 15s — and when it is, the whole case fails on a slow render rather than on
+ // anything it set out to test. One reload-and-retry absorbs that without hiding a real break:
+ // a form that never appears still fails, just on the second attempt.
+    try {
+      await this.navigateToSubTab('tabPricing', 'chkCorporatePricing', officeNo);
+    } catch (error) {
+      Log.warn(`Pricing form did not render in time (${(error as Error).message.split('\n')[0]}) — reloading and retrying once`);
+      const base = this.config?.base_url || '';
+      await this.safeNavigateTo(`${base}locations/${officeNo}/settings/location`, { waitUntil: 'domcontentloaded' });
+      await this.navigateToSubTab('tabPricing', 'chkCorporatePricing', officeNo);
+    }
  // Wait for pricing API to populate persisted checkbox states (default render is unchecked).
     await this.waitForPricingDataLoaded();
   }
@@ -77,6 +91,25 @@ export class LocationPricingPage extends BasePage {
   @step('Uncheck checkbox')
   async uncheckCheckbox(selectorKey: string): Promise<void> {
     await this.setRadixCheckbox(selectorKey, false);
+  }
+
+ // Presence, NOT enabled-ness. isDropdownEnabled() reports false for a missing element as well as
+ // for a disabled one, so it cannot tell "this currency group is not rendered for this office"
+ // from "it is rendered but greyed out". Offices differ in which currency groups exist at all
+ // (1604 USD-only, 7147 USD+MXN, 1605 USD+CAD+MXN), so that distinction matters.
+  @step('Is dropdown present')
+  async isDropdownPresent(selectorKey: string): Promise<boolean> {
+    return (await this.getElement(selectorKey).count()) > 0;
+  }
+
+ /** Count of the given dropdown keys that are actually rendered on the current office. */
+  @step('Count present dropdowns')
+  async countPresentDropdowns(keys: readonly string[]): Promise<number> {
+    let present = 0;
+    for (const key of keys) {
+      if (await this.isDropdownPresent(key)) present++;
+    }
+    return present;
   }
 
   @step('Is dropdown enabled')
@@ -339,7 +372,7 @@ export class LocationPricingPage extends BasePage {
   async openStartDatePopover(priceBookName: string): Promise<void> {
     const row = this.page.locator(DynamicSelectors.rowPriceBook(priceBookName));
     const cell = row.locator('td:nth-child(6)');
-    await cell.getByRole('button', { name: 'Open popover' }).click();
+    await cell.getByRole('button', { name: 'Open calendar' }).click();
     const dialog = this.page.getByRole('dialog', { name: 'Popover Content' });
     await dialog.waitFor({ state: 'visible', timeout: 5_000 });
     Log.info(`Opened Start Date popover for ${priceBookName}`);
@@ -349,7 +382,7 @@ export class LocationPricingPage extends BasePage {
   async openEndDatePopover(priceBookName: string): Promise<void> {
     const row = this.page.locator(DynamicSelectors.rowPriceBook(priceBookName));
     const cell = row.locator('td:nth-child(7)');
-    await cell.getByRole('button', { name: 'Open popover' }).click();
+    await cell.getByRole('button', { name: 'Open calendar' }).click();
     const dialog = this.page.getByRole('dialog', { name: 'Popover Content' });
     await dialog.waitFor({ state: 'visible', timeout: 5_000 });
     Log.info(`Opened End Date popover for ${priceBookName}`);
@@ -390,53 +423,78 @@ export class LocationPricingPage extends BasePage {
     const targetLabel = `${targetMonthName} ${yearNum}`;
 
     const row = this.page.locator(DynamicSelectors.rowPriceBook(priceBookName));
- // Scroll grid row to center of viewport before opening popover — prevents popover rendering off-screen
-    await row.scrollIntoViewIfNeeded();
     const cell = row.locator(`td:nth-child(${colIndex})`);
- // After enableFullCascade, Angular needs a render cycle to drop aria-disabled and
- // pointer-events:none, so wait for the trigger to be interactive first.
-    const trigger = cell.locator('[role="button"][aria-label="Open popover"]:not([aria-disabled="true"])');
-    await trigger.waitFor({ state: 'visible', timeout: 10_000 });
-    await trigger.click();
-
+ // The trigger is a native <button aria-label="Open calendar"> gated by the disabled property
+ // (not aria-disabled), and after enableFullCascade Angular needs a render cycle to drop it —
+ // so wait for the enabled trigger rather than reading it once.
+    const trigger = cell.locator('button[aria-label="Open calendar"]:not([disabled])');
     const dialog = this.page.getByRole('dialog', { name: 'Popover Content' });
-    await dialog.waitFor({ state: 'visible', timeout: 5_000 });
+
+ // The popover is anchored to a row inside a VIRTUALIZED grid. When Angular re-renders the row
+ // model the anchor unmounts and Radix tears the popover down mid-navigation — intermittently,
+ // which is why a single-pass version passes for several runs and then fails twice in a row.
+ // Each attempt therefore re-opens from scratch; nothing is carried over from a torn-down popover.
+    const attempts = 3;
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+      try {
+ // Scroll the row into view BEFORE opening — scrolling with the popover open closes it.
+        await row.scrollIntoViewIfNeeded();
+        await trigger.waitFor({ state: 'visible', timeout: 10_000 });
+        await trigger.click();
+        await dialog.waitFor({ state: 'visible', timeout: 5_000 });
+
+ // Short timeout: if the popover has been torn down, fail this attempt fast and re-open,
+ // rather than burning the default 10s on every poll iteration.
+        const readLabel = async (): Promise<string> =>
+          ((await dialog.getByRole('status').textContent({ timeout: 2_000 })) || '').trim();
 
  // Poll the status label rather than sleeping — Radix re-renders the month header async.
-    let currentLabel = (await dialog.getByRole('status').textContent() || '').trim();
-    let safety = 0;
-    while (currentLabel !== targetLabel && safety < 24) {
-      const labelParts = currentLabel.split(' ');
-      const curMonthName = labelParts[0] || '';
-      const curYearStr = labelParts[1] || '0';
-      const curMonthIdx = LocationPricingPage.MONTH_NAMES.indexOf(curMonthName);
-      const curYear = parseInt(curYearStr);
-      const diff = (yearNum - curYear) * 12 + ((monthNum - 1) - curMonthIdx);
-      if (diff === 0) break;
-      const navBtn = diff > 0
-        ? dialog.getByRole('button', { name: 'Go to the Next Month' })
-        : dialog.getByRole('button', { name: 'Go to the Previous Month' });
+        let currentLabel = await readLabel();
+        let safety = 0;
+        while (currentLabel !== targetLabel && safety < 24) {
+          const labelParts = currentLabel.split(' ');
+          const curMonthName = labelParts[0] || '';
+          const curYearStr = labelParts[1] || '0';
+          const curMonthIdx = LocationPricingPage.MONTH_NAMES.indexOf(curMonthName);
+          const curYear = parseInt(curYearStr);
+          const diff = (yearNum - curYear) * 12 + ((monthNum - 1) - curMonthIdx);
+          if (diff === 0) break;
+          const navBtn = diff > 0
+            ? dialog.getByRole('button', { name: 'Go to the Next Month' })
+            : dialog.getByRole('button', { name: 'Go to the Previous Month' });
  // Playwright clicks fail "outside viewport" for rows near the grid bottom; HTMLElement.click
  // skips the viewport check and still fires an event React's synthetic system handles.
-      await navBtn.evaluate((el) => (el as HTMLElement).click());
+          await navBtn.evaluate((el) => (el as HTMLElement).click());
  // Poll until the status label changes (React re-render is async)
-      const oldLabel = currentLabel;
-      for (let i = 0; i < 20; i++) {
-        await this.page.waitForTimeout(50);
-        currentLabel = (await dialog.getByRole('status').textContent() || '').trim();
-        if (currentLabel !== oldLabel) break;
-      }
-      safety++;
-    }
+          const oldLabel = currentLabel;
+          for (let i = 0; i < 20; i++) {
+            await this.page.waitForTimeout(50);
+            currentLabel = await readLabel();
+            if (currentLabel !== oldLabel) break;
+          }
+          safety++;
+        }
+        if (currentLabel !== targetLabel) {
+          throw new Error(`Calendar stopped on "${currentLabel}", expected "${targetLabel}"`);
+        }
 
  // Day cells sit inside the visible dialog, so a regular click works here and drives the
  // Radix handlers that update Angular's model.
-    const suffix = this.getOrdinalSuffix(dayNum);
-    const dayPattern = `${targetMonthName} ${dayNum}${suffix}, ${yearNum}`;
-    await dialog
-      .getByRole('gridcell', { name: new RegExp(dayPattern) })
-      .getByRole('button')
-      .click();
+        const suffix = this.getOrdinalSuffix(dayNum);
+        const dayPattern = `${targetMonthName} ${dayNum}${suffix}, ${yearNum}`;
+        await dialog
+          .getByRole('gridcell', { name: new RegExp(dayPattern) })
+          .getByRole('button')
+          .click();
+        return;
+      } catch (error) {
+        if (attempt === attempts) throw error;
+        Log.warn(`Calendar attempt ${attempt}/${attempts} for ${priceBookName} failed (${(error as Error).message.split('\n')[0]}) — reopening`);
+ // Leave no half-open popover behind for the next attempt.
+        await this.page.keyboard.press('Escape').catch(() => {});
+        await dialog.waitFor({ state: 'hidden', timeout: 3_000 }).catch(() => {});
+      }
+    }
   }
 
   @step('Enable full cascade')
@@ -477,6 +535,206 @@ export class LocationPricingPage extends BasePage {
     Log.info(`Row reset (in-grid only, not persisted): ${priceBookName}`);
   }
 
+ // ── Grid view-state (sort + column visibility) ──────────────────────────────
+ // The grid writes these to localStorage and they SURVIVE A FULL RELOAD, so without this reset a
+ // test that sorts silently changes row order for every test after it.
+
+ /** Safe to call before the first navigation: on about:blank (or any non-app origin) the evaluate
+  * itself throws, which is not a failure — there is no stored preference to clear yet. */
+  @step('Clear grid preferences')
+  async clearGridPreferences(): Promise<void> {
+    const cleared = await this.page.evaluate((key) => {
+      try { window.localStorage.removeItem(key); return true; } catch { return false; }
+    }, GRID_PREF_STORAGE_KEY).catch(() => false);
+    Log.info(`Clear pricing grid view preferences: ${cleared ? 'cleared' : 'no accessible storage (pre-navigation or blocked)'}`);
+  }
+
+  @step('Read grid preferences')
+  async readGridPreferences(): Promise<{ sorting: Array<{ id: string; desc: boolean }>; columnVisibility: Record<string, boolean> } | null> {
+    return this.page.evaluate((key) => {
+      try {
+        const raw = window.localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
+    }, GRID_PREF_STORAGE_KEY);
+  }
+
+ // Sort indicator is a text glyph in the header's trailing span — there is no aria-sort.
+  @step('Sort by column')
+  async sortByColumn(columnKey: string): Promise<void> {
+    await this.getElement(columnKey).click();
+    await this.waitForAngularStable();
+    Log.info(`Sorted by ${columnKey}`);
+  }
+
+  @step('Get sort indicator')
+  async getSortIndicator(columnKey: string): Promise<'asc' | 'desc' | 'none'> {
+    const glyph = (await this.getElement(columnKey).locator('span').last().textContent().catch(() => '') ?? '').trim();
+    if (glyph.includes('↑')) return 'asc';
+    if (glyph.includes('↓')) return 'desc';
+    return 'none';
+  }
+
+ // Content anchor for sort assertions — never assert by row index (the grid is virtualized).
+  @step('Get first row strategy')
+  async getFirstRowStrategy(): Promise<string> {
+    const cell = this.page.locator(`${SetupPricingSelectors.pnlPricingContent} tbody tr td:nth-child(1)`).first();
+    return (await cell.textContent().catch(() => '') ?? '').trim();
+  }
+
+  @step('Get rendered row strategies')
+  async getRenderedRowStrategies(): Promise<string[]> {
+    const cells = this.page.locator(`${SetupPricingSelectors.pnlPricingContent} tbody tr td:nth-child(1)`);
+    return (await cells.allTextContents()).map((t) => t.trim()).filter(Boolean);
+  }
+
+  @step('Open grid options')
+  async openGridOptions(): Promise<void> {
+    await this.getElement('btnPricingGridOptions').click();
+    await this.page.locator('[role="menu"]').waitFor({ state: 'visible', timeout: 5_000 });
+  }
+
+  @step('Get grid options columns')
+  async getGridOptionsColumns(): Promise<Array<{ name: string; checked: boolean }>> {
+    const items = this.page.locator('[role="menu"] [role="menuitemcheckbox"]');
+    const count = await items.count();
+    const out: Array<{ name: string; checked: boolean }> = [];
+    for (let i = 0; i < count; i++) {
+      const item = items.nth(i);
+      out.push({
+        name: ((await item.textContent()) ?? '').trim(),
+        checked: (await item.getAttribute('aria-checked')) === 'true',
+      });
+    }
+    return out;
+  }
+
+ /** Opens the menu, toggles one column, and waits for it to close — the menu dismisses per toggle,
+  * so callers toggling several columns must call this once per column. */
+  @step('Toggle grid column')
+  async toggleGridColumn(columnName: string): Promise<void> {
+    await this.openGridOptions();
+    await this.page.locator(DynamicSelectors.mnuColumnToggle(columnName)).click();
+    await this.page.locator('[role="menu"]').waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => {});
+    Log.info(`Toggled grid column: ${columnName}`);
+  }
+
+ // Reads the headers actually rendered, which is what column-visibility cases assert against.
+ // getColumnHeaders() reads the seven by fixed key and cannot see a hidden column.
+  @step('Get visible column headers')
+  async getVisibleColumnHeaders(): Promise<string[]> {
+    const headers = this.page.locator(`${SetupPricingSelectors.pnlPricingContent} thead th`);
+    return (await headers.allTextContents()).map((t) => t.trim());
+  }
+
+  @step('Get first row cell count')
+  async getFirstRowCellCount(): Promise<number> {
+    return this.page.locator(`${SetupPricingSelectors.pnlPricingContent} tbody tr`).first().locator('td').count();
+  }
+
+ // ── Settings panel collapse ─────────────────────────────────────────────────
+
+  @step('Toggle settings panel')
+  async toggleSettingsPanel(): Promise<void> {
+    await this.getElement('btnToggleSettingsPanel').click();
+    await this.waitForAngularStable();
+  }
+
+  @step('Is settings panel expanded')
+  async isSettingsPanelExpanded(): Promise<boolean> {
+ // The button advertises the action it WILL perform, so "Collapse ..." means currently expanded.
+    const label = await this.getElement('btnToggleSettingsPanel').getAttribute('aria-label').catch(() => null);
+    return (label ?? '').startsWith('Collapse');
+  }
+
+ // ── Dropdown popover introspection ──────────────────────────────────────────
+
+  @step('Get dropdown option count')
+  async getDropdownOptionCount(selectorKey: string): Promise<number> {
+    await this.getElement(selectorKey).click();
+    const dialog = this.page.getByRole('dialog', { name: 'Popover Content' });
+    await dialog.waitFor({ state: 'visible', timeout: 5_000 });
+    const count = await dialog.getByRole('button').count();
+    await this.page.keyboard.press('Escape').catch(() => {});
+    await dialog.waitFor({ state: 'hidden', timeout: 3_000 }).catch(() => {});
+    return count;
+  }
+
+ /** Returns the option labels left after typing `term`, or [] when the list renders its
+  * "No pricing strategy found." empty state. Always closes the popover. */
+  @step('Search dropdown options')
+  async searchDropdownOptions(selectorKey: string, term: string): Promise<{ options: string[]; emptyMessage: string | null }> {
+    await this.getElement(selectorKey).click();
+    const dialog = this.page.getByRole('dialog', { name: 'Popover Content' });
+    await dialog.waitFor({ state: 'visible', timeout: 5_000 });
+    try {
+      await dialog.getByRole('textbox', { name: 'Search pricing strategies...' }).fill(term);
+      await this.waitForAngularStable(3_000);
+      const options = (await dialog.getByRole('button').allTextContents()).map((t) => t.trim()).filter(Boolean);
+      const text = ((await dialog.textContent()) ?? '').trim();
+      return {
+        options,
+        emptyMessage: options.length === 0 && text.includes(PRICING_MESSAGES.noPricingStrategyFound)
+          ? PRICING_MESSAGES.noPricingStrategyFound
+          : null,
+      };
+    } finally {
+      await this.page.keyboard.press('Escape').catch(() => {});
+      await dialog.waitFor({ state: 'hidden', timeout: 3_000 }).catch(() => {});
+    }
+  }
+
+ // ── Date-cell validation affordances (§2.1 announce + escape oracle) ────────
+
+ /** True when the cell renders its invalid treatment. Start Date uses a red border, End Date a red
+  * ring + tint, so both class families are matched. Async (LR-010) — poll this, never read once. */
+  @step('Is date cell invalid')
+  async isDateCellInvalid(priceBookName: string, which: 'start' | 'end'): Promise<boolean> {
+    const col = which === 'start' ? 6 : 7;
+    const cell = this.page.locator(DynamicSelectors.rowPriceBook(priceBookName)).first().locator(`td:nth-child(${col})`);
+    const html = (await cell.innerHTML().catch(() => '')) ?? '';
+    return /border-red-500|ring-red-500/.test(html);
+  }
+
+ /** The rejection message, or null when the invalid cell offers none. Start Date wraps its input in
+  * a tooltip trigger that reveals the message on hover; End Date has no trigger (BUG-LOC-PRI-002). */
+  @step('Get date validation message')
+  async getDateValidationMessage(priceBookName: string, which: 'start' | 'end'): Promise<string | null> {
+    const col = which === 'start' ? 6 : 7;
+    const cell = this.page.locator(DynamicSelectors.rowPriceBook(priceBookName)).first().locator(`td:nth-child(${col})`);
+
+ // The two date cells announce themselves DIFFERENTLY, so both have to be read:
+ //  - Start Date uses a Radix tooltip ([data-slot="tooltip-trigger"] + [role="tooltip"]).
+ //  - End Date uses a NATIVE title attribute (title="Invalid date"), which the browser renders
+ //    as chrome — it never appears in the DOM, so a [role="tooltip"] query cannot see it.
+ // Reading only the Radix form made this method return null for a field that IS announced, which
+ // is what produced the false BUG-LOC-PRI-002 report (withdrawn 2026-09-23).
+    const titled = cell.locator('[title]:not([title=""])').first();
+    if (await titled.count() > 0) {
+      const title = (await titled.getAttribute('title')) ?? '';
+      if (title.trim()) return title.trim();
+    }
+
+    if (await cell.locator('[data-slot="tooltip-trigger"]').count() === 0) return null;
+    await cell.locator('input').hover();
+    const tip = this.page.locator('[role="tooltip"], [data-slot="tooltip-content"]').first();
+    if (!(await tip.waitFor({ state: 'visible', timeout: 3_000 }).then(() => true).catch(() => false))) return null;
+    return ((await tip.textContent()) ?? '').trim();
+  }
+
+ // Types straight into the cell — the inputs are not readonly, so this avoids driving the calendar
+ // popover when a test only needs a value present.
+  @step('Type date directly')
+  async typeDateDirectly(priceBookName: string, which: 'start' | 'end', value: string): Promise<void> {
+    const col = which === 'start' ? 6 : 7;
+    const input = this.page.locator(DynamicSelectors.rowPriceBook(priceBookName)).first().locator(`td:nth-child(${col}) input`);
+    await input.click();
+    await input.fill('');
+    await input.pressSequentially(value, { delay: 20 });
+    await this.page.keyboard.press('Tab');
+    Log.info(`Typed ${which} date "${value}" for ${priceBookName}`);
+  }
+
   @step('Is save enabled')
   async isSaveEnabled(): Promise<boolean> {
     const el = this.getElement('btnSavePricing');
@@ -507,7 +765,7 @@ export class LocationPricingPage extends BasePage {
  // post-reload re-read proves the reset persisted.
   @step('Ensure default state')
   async ensureDefaultState(
-    defaults: { corporatePricing: boolean; priceGuideInclusive: boolean; gridRows: readonly string[] },
+    defaults: { corporatePricing: boolean; priceGuideInclusive: boolean; enablePriceEscalator?: boolean; gridRows: readonly string[] },
     officeNo: string = '1604',
   ): Promise<void> {
     const maxAttempts = 3;
@@ -519,6 +777,11 @@ export class LocationPricingPage extends BasePage {
       }
       if ((await this.getCheckboxState('chkPriceGuideInclusive')).checked !== defaults.priceGuideInclusive) {
         await this.setRadixCheckbox('chkPriceGuideInclusive', defaults.priceGuideInclusive);
+        dirty = true;
+      }
+      if (defaults.enablePriceEscalator !== undefined
+        && (await this.getCheckboxState('chkEnablePriceEscalator')).checked !== defaults.enablePriceEscalator) {
+        await this.setRadixCheckbox('chkEnablePriceEscalator', defaults.enablePriceEscalator);
         dirty = true;
       }
       for (const row of defaults.gridRows) {
@@ -534,11 +797,13 @@ export class LocationPricingPage extends BasePage {
 
       const corpOk = (await this.getCheckboxState('chkCorporatePricing')).checked === defaults.corporatePricing;
       const guideOk = (await this.getCheckboxState('chkPriceGuideInclusive')).checked === defaults.priceGuideInclusive;
+      const escalatorOk = defaults.enablePriceEscalator === undefined
+        || (await this.getCheckboxState('chkEnablePriceEscalator')).checked === defaults.enablePriceEscalator;
       let rowsOk = true;
       for (const row of defaults.gridRows) {
         if ((await this.getIsAlternativeState(row)).checked) { rowsOk = false; break; }
       }
-      if (corpOk && guideOk && rowsOk) return;
+      if (corpOk && guideOk && escalatorOk && rowsOk) return;
     }
     throw new Error(`ensureDefaultState: Pricing not at defaults after ${maxAttempts} attempts`);
   }
@@ -592,5 +857,65 @@ export class LocationPricingPage extends BasePage {
     await dlg.locator('button:has-text("Stay")').click();
     await dlg.waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => {});
     Log.info('Clicked Stay on Unsaved Changes dialog');
+  }
+
+  @step('Click unsaved discard')
+  async clickUnsavedDiscard(): Promise<void> {
+    const dlg = this.page.locator('[data-testid="location-settings-modal-unsaved-changes"]');
+    await dlg.locator('button:has-text("Discard")').click();
+    await dlg.waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => {});
+    // The dialog hides before the route change lands. Without waiting for the URL to leave the
+    // settings path, navigateToSubTab sees the old URL, skips navigation entirely, and the dirty
+    // in-memory form survives the Discard.
+    await this.page.waitForURL((u) => !u.toString().includes('/settings/'), { timeout: 15_000 });
+    Log.info(`Clicked Discard on Unsaved Changes dialog -> ${this.page.url()}`);
+  }
+
+  @step('Get unsaved dialog content')
+  async getUnsavedDialogContent(): Promise<{ text: string; buttons: string[] }> {
+    const dlg = this.page.locator('[data-testid="location-settings-modal-unsaved-changes"]');
+    return {
+      text: ((await dlg.textContent()) ?? '').trim(),
+      buttons: (await dlg.locator('button').allTextContents()).map((t) => t.trim()).filter(Boolean),
+    };
+  }
+
+ // The confirm dialog carries NO data-testid on itself or any of its three buttons, so it is read
+ // by role. Buttons in DOM order: the icon-only Close (empty label), then Cancel, then Ok.
+  @step('Get save dialog content')
+  async getSaveDialogContent(): Promise<{ text: string; buttons: string[] }> {
+    const dlg = this.page.getByRole('alertdialog');
+    return {
+      text: ((await dlg.textContent()) ?? '').trim(),
+      buttons: (await dlg.locator('button').allTextContents()).map((t) => t.trim()).filter(Boolean),
+    };
+  }
+
+  @step('Dismiss save dialog')
+  async dismissSaveDialog(via: 'Cancel' | 'Close'): Promise<void> {
+    const dlg = this.page.getByRole('alertdialog');
+    if (via === 'Cancel') await dlg.getByRole('button', { name: 'Cancel' }).click();
+    else await dlg.getByRole('button', { name: 'Close' }).click();
+    await dlg.waitFor({ state: 'hidden', timeout: 5_000 }).catch(() => {});
+    Log.info(`Dismissed Save Changes dialog via ${via}`);
+  }
+
+ // Counts save-path calls fired while `action` runs — Tier-2 save verification, and the oracle for
+ // "Cancel must not reach the server".
+  @step('Count save calls during')
+  async countSaveCallsDuring(action: () => Promise<void>): Promise<number> {
+    let calls = 0;
+    const onRequest = (req: { url: () => string }) => {
+      const u = req.url();
+      if (u.includes(SAVE_API_ROUTES.updateProperties) || u.includes(SAVE_API_ROUTES.upsertPricebook)) calls++;
+    };
+    this.page.on('request', onRequest);
+    try {
+      await action();
+      await this.page.waitForTimeout(2_000); // let any in-flight save call be observed
+    } finally {
+      this.page.off('request', onRequest);
+    }
+    return calls;
   }
 }

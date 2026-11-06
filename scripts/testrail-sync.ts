@@ -77,8 +77,19 @@ async function main(): Promise<void> {
     const col = (name: string, nth = 0): number => head.reduce<number[]>((acc, h, i) => (h === name ? [...acc, i] : acc), [])[nth]!;
     const data = rows.slice(1).filter((r) => r[col('Title')]);
     const ids = specIds(path.join(ROOT, 'tests', `${only}.spec.ts`), data.map((r) => r[col('Title')]!));
-    const sectionName = data[0]![col('Section')]!;
-    const section = sections.find((s) => s.name === sectionName && !s.parent_id);
+    // "Taxes > State_Tax": walk the path from the root, so a module lands under its parent, not beside it.
+    const sectionName = data[0]![col('Section Hierarchy')]!;
+    const findPath = (parts: string[]): typeof sections[number] | undefined => {
+      let node: typeof sections[number] | undefined;
+      for (const name of parts) {
+        const parentId = node?.id ?? null;
+        node = sections.find((s) => s.name === name && (s.parent_id ?? null) === parentId);
+        if (!node) return undefined;
+      }
+      return node;
+    };
+    const parts = sectionName.split('>').map((p) => p.trim());
+    const section = findPath(parts);
     const byTitle = new Map<string, number[]>();
     for (const c of existing.filter((x) => section && x.section_id === section.id)) byTitle.set(norm(c.title), [...(byTitle.get(norm(c.title)) ?? []), c.id]);
     const plan = { mapped: [] as string[], matched: [] as string[], ambiguous: [] as string[], create: [] as string[][] };
@@ -97,7 +108,13 @@ async function main(): Promise<void> {
     console.log(`   to create: ${plan.create.length}`);
     if (!EXECUTE || !plan.create.length) continue;
 
-    const sectionId = section?.id ?? (await tr.addSection(projectId, { name: sectionName, suite_id: suiteId })).id;
+    // Create whichever levels of the path are missing, each under the one before it.
+    let node = section;
+    for (let i = 0; !section && i < parts.length; i++) {
+      node = findPath(parts.slice(0, i + 1)) ?? (await tr.addSection(projectId, { name: parts[i]!, suite_id: suiteId, parent_id: node?.id ?? null }));
+      if (!sections.includes(node)) sections.push(node);
+    }
+    const sectionId = node!.id;
     for (const r of plan.create) {
       const tc = ids.get(r[col('Title')]!)!;
       const steps = [...(r[col('Steps')] ?? '').matchAll(/<li>(?:\d+\.\s*)?(.*?)<\/li>/g)].map((m) => ({ content: m[1]! }));

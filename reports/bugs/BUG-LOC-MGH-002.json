@@ -1,0 +1,57 @@
+{
+  "id": "BUG-LOC-MGH-002",
+  "title": "fr-CA: 'Enable Set/Strike Labor Minutes' and 'Apply Set/Strike Labor Minutes' share one translated label — in History and on the Local Information form — so a French user cannot tell the two apart",
+  "module": "locations",
+  "submodule": "management_history",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-09-23",
+  "requirementSource": "NM-3937 AC9 'French (Canada) and Spanish (Mexico) labels are translated according to the application's localization resources' and scenario NM3937-18 ('History tab and representative headers are translated'). Two distinct settings must remain distinguishable after translation — es-MX translates them distinctly ('Habilitar Min Mano Obra Montaje/Desm' / 'Aplicar Min de Mano de Obra Montaje/Desm').",
+  "stepsToReproduce": [
+    "Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/location.",
+    "Open the account menu (sidebar footer, 'prd click auto'), hover 'Language', click 'French (Canada) fr-CA'.",
+    "Open the Location Management History tab and read the headers of columns 41 and 42 (English: 'Enable Set/Strike Labor Minutes', 'Apply Set/Strike Labor Minutes').",
+    "Open Basic Information > Local Information and read the labels of the same two checkboxes.",
+    "Switch the language back to English (US)."
+  ],
+  "expectedBehavior": "The two settings carry two different French labels (as they do in English and Spanish), in both the History headers and the form.",
+  "actualBehavior": "History columns 41 and 42 are both 'Activer le temps de main-d’œuvre pour montage/démontage'; the two Local Information checkboxes are both 'Activer les Temps de travail de montage/démontage'. A French user cannot tell which checkbox enables and which applies set/strike labor minutes, nor which history column recorded which change. (The form and the History also use two different French wordings for the same setting.)",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-23",
+    "tool": "playwright-test MCP",
+    "findings": "document.documentElement.lang = 'fr-CA'. History header duplicate map: 'Devise' at [5, 63] (by-design Currency pair) and 'Activer le temps de main-d’œuvre pour montage/démontage' at [40, 41]. Local Information <dt> labels matching /montage/: ['Définir l'objectif de facturation pour montage/démontage/support', 'Activer les Temps de travail de montage/démontage', 'Activer les Temps de travail de montage/démontage']. es-MX control: distinct labels. Language restored to en-US afterwards. Also reproduced by TC-LOC-MGH-054 in the automated run."
+  },
+  "baselineComparison": "not-checked",
+  "baselineEvidence": null,
+  "affectedTests": [
+    "TC-LOC-MGH-054"
+  ],
+  "verificationLog": [
+    {
+      "verifierAgent": "WATCHDOG (/find-bugs LR-044 pass, headless Playwright script)",
+      "verifiedDate": "2026-09-23",
+      "verdict": "CONFIRMED",
+      "minimalRepro": "no gain — filed steps are already minimal",
+      "finding": "fr-CA: History col 41 = col 42 = 'Activer le temps de main-d’œuvre pour montage/démontage'; Local Information labels [\"Définir l'objectif de facturation pour montage/démontage/support\", 'Activer les Temps de travail de montage/démontage', 'Activer les Temps de travail de montage/démontage']; language restored to en-US.",
+      "evidence": "reports/walk-coverage/probes/mgh-bug-verify.2026-09-23.json"
+    },
+    {
+      "verifierAgent": "OWNER (Nikita Nangare, via chat)",
+      "verifiedDate": "2026-09-23",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-23 (Nikita Nangare): the shared fr-CA label for 'Enable' and 'Apply Set/Strike Labor Minutes' is working as expected, not a defect. The observed facts stand; only the classification changes. TC-LOC-MGH-054 keeps the label in LOCALE_KNOWN_DUPLICATE_HEADERS as accepted behaviour.",
+      "minimalRepro": "n/a — behaviour accepted as designed by the owner; see the CONFIRMED entry above for the reproduction itself.",
+      "evidence": []
+    },
+    {
+      "verifierAgent": "OWNER (Nikita Nangare, via chat)",
+      "verifiedDate": "2026-09-24",
+      "verdict": "REOPENED-POTENTIAL-BUG",
+      "detail": "Owner ruling in chat, 2026-09-24 (Nikita Nangare): reclassified as a POTENTIAL bug — reopened for triage. Supersedes the 2026-09-23 WITHDRAWN-ACCEPTED-BEHAVIOR entry. The confirmed reproduction (identical fr-CA label for two settings, in History and on the form) stands unchanged.",
+      "evidence": [
+        "reports/walk-coverage/probes/mgh-bug-verify.2026-09-23.json"
+      ]
+    }
+  ],
+  "triageStatus": "potential — awaiting product confirmation"
+}

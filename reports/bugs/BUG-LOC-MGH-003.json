@@ -1,0 +1,47 @@
+{
+  "id": "BUG-LOC-MGH-003",
+  "title": "Location Management History paginator — a decimal page number ('2.5') is silently coerced to a different page (25) instead of being rejected",
+  "module": "locations",
+  "submodule": "management_history",
+  "severity": "low",
+  "status": "withdrawn",
+  "discoveredDate": "2026-09-23",
+  "requirementSource": "specs_planning/_internal/field-case-generation.md §2.1 — a rejected value must be announced and escapable, and a silent coercion to a different value is a defect. NM3937-13 'Next/previous navigation loads the correct result segment'. The same input already rejects '0', '-1', 'abc' and one-past-the-end by reverting to the current page, so '2.5' should be handled the same way (or truncated to 2).",
+  "stepsToReproduce": [
+    "Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/location and click the Location Management History tab.",
+    "Click the page-number box (aria-label 'Current page number'), press Ctrl+A then Backspace so it is empty.",
+    "Type '2.5' key by key and press Enter."
+  ],
+  "expectedBehavior": "The value is rejected (the box reverts to the current page, as for '0', '-1' and 'abc') or truncated to page 2.",
+  "actualBehavior": "The '.' is stripped and the digits concatenated: the grid silently jumps to page 25, with no message. The user lands 23 pages away from the page they asked for.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-23",
+    "tool": "playwright-test MCP",
+    "findings": "Box emptied (value ''), '2.5' typed + Enter. Box then reads '25'; the only history request issued was POST /navigator/api/location/get-location-setting-history {\"locationNo\":\"1604\",\"isCorporate\":true,\"page\":25,\"pageSize\":20,\"sortBy\":\"ModDate\",\"sortDescending\":true}. Pinned as a known defect in TC-LOC-MGH-042."
+  },
+  "networkEvidence": "Request page=25 for typed input '2.5' — the coercion happens client-side before the request.",
+  "baselineComparison": "not-checked",
+  "baselineEvidence": null,
+  "relatedObservation": "The shared paginator shows the same behaviour on Local Office Settings History (pinned in TC-LOE-HIST-039); fixing the component should fix both.",
+  "affectedTests": [
+    "TC-LOC-MGH-042"
+  ],
+  "verificationLog": [
+    {
+      "verifierAgent": "WATCHDOG (/find-bugs LR-044 pass, headless Playwright script)",
+      "verifiedDate": "2026-09-23",
+      "verdict": "CONFIRMED",
+      "minimalRepro": "no gain — filed steps are already minimal",
+      "finding": "Empty box, typed '2.5' + Enter: box shows '25', request page = 25.",
+      "evidence": "reports/walk-coverage/probes/mgh-bug-verify.2026-09-23.json"
+    },
+    {
+      "verifierAgent": "OWNER (Nikita Nangare, via chat)",
+      "verifiedDate": "2026-09-23",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-23 (Nikita Nangare): the page box turning '2.5' into page 25 is working as expected, not a defect. The observed facts stand; only the classification changes. TC-LOC-MGH-042 keeps pinning the behaviour as the accepted contract.",
+      "minimalRepro": "n/a — behaviour accepted as designed by the owner; see the CONFIRMED entry above for the reproduction itself.",
+      "evidence": []
+    }
+  ]
+}

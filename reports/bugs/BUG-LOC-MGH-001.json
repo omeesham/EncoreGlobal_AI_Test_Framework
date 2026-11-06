@@ -1,0 +1,57 @@
+{
+  "id": "BUG-LOC-MGH-001",
+  "title": "Location Management History — the five price-book columns record no price-book name ('USD: ; CAD: ; MXN:'), so the audit trail cannot show which price book was set",
+  "module": "locations",
+  "submodule": "management_history",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-09-23",
+  "requirementSource": "NM-3937 'Representative Location Management History fields' — Pricing: Labor Corporate Price Book History, Non-Labor Corporate Price Book History, Labor Production Price Book History, Price Book Name; AC4 'Required representative headers and values render correctly'. NM-820 defines the Location Management History columns.",
+  "stepsToReproduce": [
+    "Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1604/settings/location, open the Pricing sub-tab, and note the USD price books (Primary Labor Pricing '2026-Zone 3 D', Primary Equipment Pricing '2026-Tier 2 Resort B', Internal Equipment '2023-Internal2', Production Labor '2026-NP LB3', Production Equipment '2026-NP Tier 2').",
+    "Click the Location Management History tab and wait for the grid.",
+    "Scroll to the columns Labor Pricing, Equip. Pricing, Internal Equip. Pricing, Production Labor Pricing, Production Equip. Pricing and read any row."
+  ],
+  "expectedBehavior": "Each price-book column shows the price book in effect per currency, e.g. 'USD: 2026-Zone 3 D' — as the old site's Location Management History does for the same office.",
+  "actualBehavior": "Every row shows 'USD: ; CAD: ; MXN:' with no price-book name. The history API returns the price-book IDs (defaultLaborCorporatePriceBookId etc. populated) but every *Name field empty: 0 of the 200 most recent history records for office 1604 carry any price-book name. A price-book change is therefore invisible in the audit trail.",
+  "mcpEvidence": {
+    "sessionDate": "2026-09-23",
+    "tool": "playwright-test MCP",
+    "findings": "Grid top 3 rows: Labor Pricing = Equip. Pricing = 'USD: ; CAD: ; MXN:'. POST /navigator/api/location/get-location-setting-history (pageSize 200): pricing.corporatePricingSettings[USD] = { defaultLaborCorporatePriceBookId: 'fb39fe02-…', defaultNonLaborCorporatePriceBookId: '65e9b37f-…', defaultProductionLaborPbId: '87db1715-…', … , defaultLaborCorporatePriceBookName: '', defaultNonLaborCorporatePriceBookName: '', defaultLaborInternalPriceBookName: '', defaultNonLaborInternalPriceBookName: '', defaultProductionLaborPbName: '', defaultProductionNonLaborPbName: '' }; rowsWithAnyName = 0 of 200. Pricing sub-tab at the same time: location-settings-select-primary-labor-pricing-usd = '2026-Zone 3 D', -equipment- = '2026-Tier 2 Resort B', -internal-equipment- = '2023-Internal2', -production-labor- = '2026-NP LB3', -production-equipment- = '2026-NP Tier 2'."
+  },
+  "networkEvidence": "History response carries price-book IDs with empty name fields — the names are never resolved, so the grid has nothing to render.",
+  "baselineComparison": "regression-from-baseline",
+  "baselineEvidence": "specs_planning/_internal/old-site-baseline/OSB-ACCESS-VERIFY-2026-04-24.md § Appendix 'Sample row 0 cells (LM History)' — old-site office 1604: idx 16 (Labor Pricing) 'USD: 2026-Zone 3 D', idx 17 (Equip. Pricing) 'USD: 2026-Tier 2 Resort B'. New site renders 'USD: ; CAD: ; MXN:' for the same columns.",
+  "affectedTests": [
+    "TC-LOC-MGH-014",
+    "TC-LOC-MGH-022"
+  ],
+  "verificationLog": [
+    {
+      "verifierAgent": "WATCHDOG (/find-bugs LR-044 pass, headless Playwright script)",
+      "verifiedDate": "2026-09-23",
+      "verdict": "CONFIRMED",
+      "minimalRepro": "no gain — filed steps are already minimal",
+      "finding": "Fresh page: Pricing tab ['location-settings-select-primary-labor-pricing-usd = 2026-Zone 3 D', 'location-settings-select-primary-equipment-pricing-usd = 2026-Tier 2 Resort B', 'location-settings-select-primary-internal-equipment-pricing-usd = 2023-Internal2', 'location-settings-select-primary-production-labor-pricing-usd = 2026-NP LB3', 'location-settings-select-primary-production-equipment-pricing-usd = 2026-NP Tier 2']; History top row ['Labor Pricing = \"USD: ; CAD: ; MXN:\"', 'Equip. Pricing = \"USD: ; CAD: ; MXN:\"', 'Internal Equip. Pricing = \"USD: ; CAD: ; MXN:\"', 'Production Labor Pricing = \"USD: ; CAD: ; MXN:\"', 'Production Equip. Pricing = \"USD: ; CAD: ; MXN:\"']; history records with any price-book name: 0 of 200.",
+      "evidence": "reports/walk-coverage/probes/mgh-bug-verify.2026-09-23.json"
+    },
+    {
+      "verifierAgent": "OWNER (Nikita Nangare, via chat)",
+      "verifiedDate": "2026-09-23",
+      "verdict": "WITHDRAWN-ACCEPTED-BEHAVIOR",
+      "detail": "Owner ruling in chat, 2026-09-23 (Nikita Nangare): the price-book columns rendering 'USD: ; CAD: ; MXN:' without price-book names is working as expected, not a defect. The observed facts stand; only the classification changes. TC-LOC-MGH-014/022 keep asserting the per-currency composite shape only, never a name.",
+      "minimalRepro": "n/a — behaviour accepted as designed by the owner; see the CONFIRMED entry above for the reproduction itself.",
+      "evidence": []
+    },
+    {
+      "verifierAgent": "OWNER (Nikita Nangare, via chat)",
+      "verifiedDate": "2026-09-24",
+      "verdict": "REOPENED-POTENTIAL-BUG",
+      "detail": "Owner ruling in chat, 2026-09-24 (Nikita Nangare): reclassified as a POTENTIAL bug — reopened for triage. Supersedes the 2026-09-23 WITHDRAWN-ACCEPTED-BEHAVIOR entry. The confirmed reproduction and the old-site baseline evidence (names shown on navigator2) stand unchanged.",
+      "evidence": [
+        "reports/walk-coverage/probes/mgh-bug-verify.2026-09-23.json"
+      ]
+    }
+  ],
+  "triageStatus": "potential — awaiting product confirmation"
+}

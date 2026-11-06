@@ -17,4 +17,10 @@ export const SetupSharedSelectors = {
  // Button text is "Stay", NOT "Cancel". Key name kept for usage stability;
  // semantically this is the "stay / cancel-the-leave" button.
   btnUnsavedChangesCancel: '[data-testid="location-settings-modal-unsaved-changes"] button:has-text("Stay")',
+
+ // Account menu in the sidebar footer. No testids; the trigger's label is the signed-in user's name,
+ // so it is matched by structure. The Language item is matched by its submenu role, not its text,
+ // because its label is itself translated ("Langue", "Idioma") once another locale is active.
+  btnUserMenu: '[data-sidebar="footer"] button[data-slot="dropdown-menu-trigger"]',
+  mnuLanguage: '[role="menu"] [role="menuitem"][aria-haspopup="menu"]',
 } as const;
