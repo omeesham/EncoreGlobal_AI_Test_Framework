@@ -147,6 +147,7 @@ SECTION_BY_BASENAME: dict[str, str] = {
     "service-charge-basic-information": "Basic_Information",
     "service-charge-history": "History",
     "service-charge-text-core": "Core",
+    "special-rate": "Special_Rate",
     "terms-conditions-core": "Core",
 }
 
