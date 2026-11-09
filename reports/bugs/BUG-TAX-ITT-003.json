@@ -1,0 +1,26 @@
+{
+  "id": "BUG-TAX-ITT-003",
+  "title": "International Tax Type Setup — a GOV tax type without a GOV Reg. Number is not flagged",
+  "module": "taxes",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-11-09",
+  "requirementSource": "NM-4026 — TestRail C107663: flagged \"GOV Tax Reg Number is required\", as a Provincial type is; Save disabled",
+  "stepsToReproduce": [
+    "Open Tax → International Tax Type Setup for office 1606 (/navigator/locations/1606/taxes/international-tax-type-setup) on e2e.",
+    "Search Mexico as of 12/31/2099.",
+    "On a province with no record pick GOV type IVA, leave GOV Reg. Number empty and type Effective Date 01/15/2030."
+  ],
+  "expectedBehavior": "The row shows \"GOV Tax Reg Number is required\" and Save is disabled (as for a Provincial type, TC-TAX-ITT-028).",
+  "actualBehavior": "No message is shown on the row.",
+  "affectedTests": [
+    "TC-TAX-ITT-029"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-09",
+      "verdict": "CONFIRMED",
+      "finding": "Failed in the full run and the isolated rerun; the Provincial equivalent (TC-TAX-ITT-028) passes."
+    }
+  ]
+}

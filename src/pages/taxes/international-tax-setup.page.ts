@@ -468,7 +468,9 @@ export class InternationalTaxSetupPage extends BasePage {
     const handler = async (route: Route): Promise<void> => {
       const req = route.request();
       if (!isSearchRequest(req) || this.searchMocked) return route.fallback();
-      const response = await route.fetch();
+      // route.fetch defaults to the 10s action timeout; under a parallel run the search answer can take
+      // longer than that (TC-073 flake, 2026-11-09), so it gets the same budget as the answer wait.
+      const response = await route.fetch({ timeout: answerTimeout });
       const body = await response.text();
       this.lastSearch = { request: { url: req.url(), method: req.method(), headers: req.headers(), body: req.postData() ?? '', records: [] }, body };
       return route.fulfill({ response, body });

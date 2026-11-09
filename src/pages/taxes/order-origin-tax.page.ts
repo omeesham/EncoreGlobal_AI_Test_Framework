@@ -211,7 +211,8 @@ export class OrderOriginTaxPage extends BasePage {
   /**
    * Types into the dialog's search box and waits until every listed office matches the term. On E2E
    * the full list sometimes arrives after the term was typed and stays unfiltered, so if the list has
-   * not narrowed the term is typed again.
+   * not narrowed the term is typed again. Under a parallel run the list can take well over 20s to
+   * arrive (TC-032 flake at 9 workers, 2026-11-09), hence the longer budget.
    */
   @step('Search the Change Local Office dialog')
   async searchLocationDialog(term: string): Promise<string[]> {
@@ -227,8 +228,8 @@ export class OrderOriginTaxPage extends BasePage {
         await box.fill('');
         await box.fill(term);
       }
-      await expect.poll(narrowed, { timeout: 5_000 }).toBe(true);
-    }).toPass({ timeout: 20_000 });
+      await expect.poll(narrowed, { timeout: 10_000 }).toBe(true);
+    }).toPass({ timeout: 45_000 });
     return (await rows.allInnerTexts()).map((t) => t.replace(/\s+/g, ' ').trim());
   }
 

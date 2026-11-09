@@ -175,6 +175,7 @@ test.describe('Special Rate @taxes', () => {
     });
 
     test('TC-TAX-SPR-007: County and City start on All, with no blank choice', { tag: '@C107687' }, async () => {
+      test.fail(true, 'BUG-TAX-SPR-001: County and City start blank and their lists include an empty choice before All');
       await about('Once a State is chosen County shows "All", and its list starts with All and has no empty choice; the same for City.');
       await sr.open(EDIT_OFFICE);
       await sr.choose('state', PLACE.state);
@@ -440,6 +441,7 @@ test.describe('Special Rate @taxes', () => {
     });
 
     test('TC-TAX-SPR-024: A row never saved shows no modification time', { tag: '@C107704' }, async () => {
+      test.fail(true, 'BUG-TAX-SPR-002: a row with no saved record shows a time in Modified On instead of "-"');
       await about(
         `Rows with no saved record yet show Modified By "-"; their Modified On should be empty too, not a time. ${PW.state} Audio ` +
           'Conferencing has no saved record.',
@@ -665,6 +667,7 @@ test.describe('Special Rate @taxes', () => {
     });
 
     test('TC-TAX-SPR-038: A rate below 1 percent is read in percent too', { tag: '@C107718' }, async () => {
+      test.fail(true, 'BUG-TAX-SPR-003: a rate below 1 is not read as percent (0.5 becomes 0.500000 = 50%, not 0.005000)');
       await about('Typing 0.5 means half a percent like any other typed rate, so the box should show 0.005000 — not 0.500000, which is 50%.');
       const row = await editRow();
       await sr.toggle(row, 'Special');

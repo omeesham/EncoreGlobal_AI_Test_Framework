@@ -302,6 +302,7 @@ test.describe('International Tax Type Setup @taxes', () => {
 
     // Dates are read as stored, so this runs on a UTC page (see the search date case below).
     test('TC-TAX-ITT-017: Sorting by Effective Date orders the rows by date', { tag: '@C107651' }, async ({ utcPage, config }) => {
+      test.fail(true, 'BUG-TAX-ITT-002: Sort ascending/descending on Effective Date leaves the rows in Province order');
       await about('Effective Date ascending lists the oldest record first and descending the newest first.');
       const its = new InternationalTaxTypeSetupPage(utcPage, config);
       await its.open(EDIT_OFFICE);
@@ -505,6 +506,7 @@ test.describe('International Tax Type Setup @taxes', () => {
     });
 
     test('TC-TAX-ITT-029: A GOV tax type needs its Reg. Number', { tag: '@C107663' }, async () => {
+      test.fail(true, 'BUG-TAX-ITT-003: a GOV tax type with no GOV Reg. Number is not flagged and can be saved');
       await about('Like a Provincial type, a GOV type picked on an empty state with a valid date but no GOV Reg. Number is flagged and cannot be saved.');
       const row = await its.findEmptyRow('Mexico', LATEST_AS_OF);
       await its.pickType(row, 'gov', 'IVA');
@@ -860,6 +862,7 @@ test.describe('International Tax Type Setup @taxes', () => {
     });
 
     test('TC-TAX-ITT-043: In a US time zone a stored Effective Date shows as stored', { tag: '@C107677' }, async () => {
+      test.fail(true, 'BUG-TAX-ITT-001: in a US time zone Effective Dates shift a day or more earlier (stored 01/01/2000 shows 12/31/1999; typed 01/15/2030 becomes 01/13/2030; a save sends the day before)');
       await about(`Quebec's record is stored from ${QUEBEC_RECORD.since}; a US user sees that same date in the row.`);
       const row = await its.readRow(await its.findRow('Canada', 'Quebec', QUEBEC_RECORD.since));
       await verify(`The row shows ${QUEBEC_RECORD.since}`, async () => {
@@ -868,6 +871,7 @@ test.describe('International Tax Type Setup @taxes', () => {
     });
 
     test('TC-TAX-ITT-044: In a US time zone a typed Effective Date is kept as typed', { tag: '@C107678' }, async () => {
+      test.fail(true, 'BUG-TAX-ITT-001: in a US time zone Effective Dates shift a day or more earlier (stored 01/01/2000 shows 12/31/1999; typed 01/15/2030 becomes 01/13/2030; a save sends the day before)');
       await about(`A US user who types ${TYPED} in a row's Effective Date still sees ${TYPED} after leaving the field.`);
       const row = await its.findEmptyRow('Mexico', LATEST_AS_OF);
       await its.pickType(row, 'gov', 'IVA');
@@ -878,6 +882,7 @@ test.describe('International Tax Type Setup @taxes', () => {
     });
 
     test('TC-TAX-ITT-045: In a US time zone a save sends the Effective Date as entered', { tag: '@C107679' }, async () => {
+      test.fail(true, 'BUG-TAX-ITT-001: in a US time zone Effective Dates shift a day or more earlier (stored 01/01/2000 shows 12/31/1999; typed 01/15/2030 becomes 01/13/2030; a save sends the day before)');
       await about(
         `A US user who saves a new record from ${TYPED} sends that date. A GOV type cannot be removed once saved, so the ` +
           'server reply is given in the browser and nothing is stored.',
@@ -899,6 +904,7 @@ test.describe('International Tax Type Setup @taxes', () => {
     });
 
     test('TC-TAX-ITT-046: In a US time zone a day picked in the calendar is the day shown', { tag: '@C107680' }, async () => {
+      test.fail(true, 'BUG-TAX-ITT-001: in a US time zone Effective Dates shift a day or more earlier (stored 01/01/2000 shows 12/31/1999; typed 01/15/2030 becomes 01/13/2030; a save sends the day before)');
       await about('A US user who picks the 20th in a row calendar sees the 20th of that month in the cell.');
       const row = await its.findEmptyRow('Mexico', LATEST_AS_OF);
       await its.pickType(row, 'gov', 'IVA');

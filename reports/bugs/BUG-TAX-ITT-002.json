@@ -1,0 +1,26 @@
+{
+  "id": "BUG-TAX-ITT-002",
+  "title": "International Tax Type Setup — sorting by Effective Date does not reorder the rows",
+  "module": "taxes",
+  "severity": "low",
+  "status": "open",
+  "discoveredDate": "2026-11-09",
+  "requirementSource": "NM-4026 — TestRail C107651: Effective Date sorts oldest first ascending, newest first descending",
+  "stepsToReproduce": [
+    "Open Tax → International Tax Type Setup for office 1606 (/navigator/locations/1606/taxes/international-tax-type-setup) on e2e (UTC browser).",
+    "Search Canada.",
+    "Open the Effective Date header menu and choose Sort ascending, then Sort descending."
+  ],
+  "expectedBehavior": "Rows are ordered by Effective Date.",
+  "actualBehavior": "Rows stay in Province order (Alberta … Yukon) for both directions; sorting by GOV Tax Type Name through the same menu works.",
+  "affectedTests": [
+    "TC-TAX-ITT-017"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-09",
+      "verdict": "CONFIRMED",
+      "finding": "Failed in the full run and the isolated rerun; the failure snapshot shows the grid still in Province order after the sort."
+    }
+  ]
+}

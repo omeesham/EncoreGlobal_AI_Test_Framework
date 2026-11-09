@@ -43,6 +43,7 @@ type WorkerFixtures = {
 
 type TestFixtures = {
   diagnosticsHandler: void;
+  utcPage: Page;
   locationCurrencyPage: LocationCurrencyPage;
   locationLocalInfoPage: LocationLocalInfoPage;
   locationPricingPage: LocationPricingPage;
@@ -206,6 +207,45 @@ export const test = dependencyGateExt.extend<TestFixtures, WorkerFixtures>({
       }
     }
   }, { auto: true }],
+
+  /**
+   * A signed-in page in its own browser context pinned to UTC, for checks that must see dates as
+   * stored. playwright.config.ts sets America/New_York for every context, and the shared session
+   * above is built once per worker, so its zone cannot be changed per test.
+   *
+   * The context lives for one test. Playwright's own recorder already traces it and screenshots it
+   * on failure (starting tracing here would throw); video is not covered by that, so it is
+   * recorded here and kept by the same ENABLE_VIDEO rule as the session video.
+   */
+  utcPage: async ({ browser, authenticatedSession }, use, testInfo) => {
+    // The shared session keeps STATE_PATH signed in; depending on it guarantees a fresh file.
+    void authenticatedSession;
+    const mode = videoMode();
+    const context = await browser.newContext({
+      storageState: STATE_PATH,
+      timezoneId: 'UTC',
+      recordVideo: mode === 'off' ? undefined : { dir: testInfo.outputPath('utc-video') },
+    });
+    const page = await context.newPage();
+    page.on('dialog', async (dialog) => {
+      if (dialog.type() === 'beforeunload') await dialog.accept();
+    });
+    attachDiagnostics(page);
+
+    await use(page);
+
+    const failed = testInfo.status !== testInfo.expectedStatus;
+    const video = page.video();
+    await context.close();
+    if (!video) return;
+    if (failed || mode === 'on') {
+      try {
+        await testInfo.attach('video (UTC page)', { path: await video.path(), contentType: 'video/webm' });
+      } catch { /* a missing video never fails the test */ }
+    } else {
+      await video.delete().catch(() => {});
+    }
+  },
 
   config: [async ({}, use) => {
     const config = CommonMethods.initProp();

@@ -1,0 +1,26 @@
+{
+  "id": "BUG-TAX-SPR-003",
+  "title": "Special Rate — a typed rate below 1 is stored as a fraction, not a percent (0.5 → 50%)",
+  "module": "taxes",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-11-09",
+  "requirementSource": "NM-4022 — TestRail C107718: 0.5 is read as half a percent (0.005000), like every other typed rate (C107717: 2 → 0.020000)",
+  "stepsToReproduce": [
+    "Open Tax → Special Rate for office 1606 (/navigator/locations/1606/taxes/special-rate) on e2e.",
+    "Choose State PW and Search.",
+    "On the Rental row tick Special and type 0.5 in the rate box, then leave it."
+  ],
+  "expectedBehavior": "The box shows 0.005000 (0.5%).",
+  "actualBehavior": "The box shows 0.500000 (50%), while 2 → 0.020000 and 1.25 → 0.012500 are read as percent.",
+  "affectedTests": [
+    "TC-TAX-SPR-038"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-09",
+      "verdict": "CONFIRMED",
+      "finding": "Failed in the full run and the isolated rerun."
+    }
+  ]
+}

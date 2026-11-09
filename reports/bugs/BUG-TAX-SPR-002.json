@@ -1,0 +1,26 @@
+{
+  "id": "BUG-TAX-SPR-002",
+  "title": "Special Rate — a row with no saved record shows a Modified On time",
+  "module": "taxes",
+  "severity": "low",
+  "status": "open",
+  "discoveredDate": "2026-11-09",
+  "requirementSource": "NM-4022 — TestRail C107704: Modified On is \"-\" too, not a time",
+  "stepsToReproduce": [
+    "Open Tax → Special Rate for office 1606 (/navigator/locations/1606/taxes/special-rate) on e2e.",
+    "Choose State PW and Search.",
+    "Read the Audio Conferencing row (no saved record)."
+  ],
+  "expectedBehavior": "Modified By \"-\" and Modified On \"-\".",
+  "actualBehavior": "Modified By is \"-\" but Modified On shows the current time (e.g. 11/09/2026 06:42:27 AM).",
+  "affectedTests": [
+    "TC-TAX-SPR-024"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-09",
+      "verdict": "CONFIRMED",
+      "finding": "Failed in the full run and the isolated rerun; the time shown changes with each search."
+    }
+  ]
+}

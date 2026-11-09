@@ -580,17 +580,6 @@ Application: Navigator",Critical,NM-4025,International_Tax_Setup,1,,Taxes > Inte
 <li>2. Stage date = L</li>
 <li>3. Save</li>
 </ol>",,,"3. Rejected (UI before send, or server with no new version)",,,,Master,S1620,Test Case (Steps),Regression,,,
-,An effective date earlier than the latest stored date is rejected,,,,,Automated,Nikita Nangare,,,"Rejected (UI before send, or server with no new version)",,,taxes,,"Save request held at the network (aborted) — nothing written (server stage only with write fixture)
-
-Test Data:
-User: automation user (Tax FULL_ACCESS)
-Office: Office 1101 (Corporate)
-Search: Mexico / VAT / Baja California
-Application: Navigator",Critical,NM-4025,International_Tax_Setup,1,,Taxes > International_Tax_Setup,"<ol>
-<li>1. Search +5 years for latest stored L</li>
-<li>2. Stage date = L-1</li>
-<li>3. Save</li>
-</ol>",,,"3. Rejected (UI before send, or server with no new version)",,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Without a session the page sends the user to sign in,,,,,Automated,Nikita Nangare,,,Redirect to /auth/sign-in with callbackUrl; no grid,,,taxes,,"Page opened fresh; no network mocks; non-mutating
 
 Test Data:

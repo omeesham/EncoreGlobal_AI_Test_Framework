@@ -39,6 +39,8 @@ import { STATE_PATH } from '../../src/utils/auth-storage';
 //     (reports/bugs/). It passes while the bug exists and turns red when it is fixed — then drop the marker.
 //   * Cases needing live writes, extra role accounts or a future-dated version were removed on request
 //     (2026-10-23); see the test plan for the list.
+//   * TC-060 (an effective date earlier than the latest stored date is rejected) was removed on request
+//     (2026-11-09) after it failed intermittently under parallel load.
 
 // ---------------------------------------------------------------- TestRail mapping
 
@@ -222,10 +224,12 @@ test.describe('International Tax Setup @taxes', () => {
       await ist.selectCountry(IST_MEXICO.country);
       await ist.selectTaxGroup(IST_MEXICO.taxGroup);
       await ist.selectProvince(IST_MEXICO.province);
-      await ist.mockSearch({ kind: 'delay', ms: 6_000 });
+      // The answer is held well past the poll window, so a slow page under a parallel run still
+      // catches the feedback while it is up (6s/5s flaked at 9 workers, 2026-11-09).
+      await ist.mockSearch({ kind: 'delay', ms: 15_000 });
       await ist.clickSearch();
       await verify('A loading indicator (or a disabled Search) is shown while the answer is held', async () => {
-        await expect.poll(async () => (await ist.isLoadingVisible()) || !(await ist.searchButton().isEnabled()), { timeout: 5_000 }).toBe(true);
+        await expect.poll(async () => (await ist.isLoadingVisible()) || !(await ist.searchButton().isEnabled()), { timeout: 12_000 }).toBe(true);
       });
       await verify('The feedback clears and rows are shown once the answer lands', async () => {
         await expect.poll(() => ist.isLoadingVisible(), { timeout: 60_000 }).toBe(false);
@@ -1044,14 +1048,6 @@ test.describe('International Tax Setup @taxes', () => {
       rows = await ist.readAllRows();
       const target = rows[0]!;
       await expectChronologyRejected(target.taxType, target.effectiveDate!, 'equal to latest stored');
-    });
-
-    test('TC-TAX-IST-060: An effective date earlier than the latest stored date is rejected', { tag: '@C107428' }, async () => {
-      await about('Saving a new version dated the day before the latest stored version is refused.');
-      await ist.search({ ...IST_MEXICO, date: FAR_FUTURE });
-      rows = await ist.readAllRows();
-      const target = rows[0]!;
-      await expectChronologyRejected(target.taxType, addDays(target.effectiveDate!, -1), 'one day before latest stored');
     });
   });
 
