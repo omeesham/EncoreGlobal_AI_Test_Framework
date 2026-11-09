@@ -1,0 +1,444 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Search criteria start at their defaults with an empty grid,,,,,Automated,Omeesha Mahanta,,,"""0 records found"", the message ""Select criteria and click Search to view order origin tax records."" and Save disabled",,,taxes,,"Logged in; Order Origin Tax has just been opened for office 1606
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Read the search criteria</li>
+<li>2. Look at the grid and the Save button</li>
+</ol>",,,"1. Location ""All locations"", Tax Type ""All"", Effective Date today, ""Percentage not equal to 0"" ticked
+2. ""0 records found"", the message ""Select criteria and click Search to view order origin tax records."" and Save disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The grid shows the twelve order origin tax columns,,,,,Automated,Omeesha Mahanta,,,"The same twelve columns are listed, all ticked",,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Read the column headers</li>
+<li>2. Open Grid Options</li>
+</ol>",,,"1. Location No, Location Name, Tax Type, Zip Code, City, County, State, Additional Tax, Effective Date, Notes, Modified By, Modified On
+2. The same twelve columns are listed, all ticked",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Order Origin Tax opens from the Tax menu,,,,,Automated,Omeesha Mahanta,,,Basic Information is selected; Order Origin Tax History is offered,,,taxes,,"Logged in; the office Home page is open
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Expand Tax in the left sidebar and click ""Order Origin Tax""</li>
+<li>2. Read the page heading and hover the information icon</li>
+<li>3. Look at the tabs</li>
+</ol>",,,"1. The URL is /navigator/locations/{office}/taxes/order-origin-tax and the browser title is ""Order Origin Tax | Navigator""
+2. The heading is ""Order Origin Tax""; the tooltip reads ""Order Origin Tax.""
+3. Basic Information is selected; Order Origin Tax History is offered",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching with the defaults lists non-zero rates of all locations,,,,,Automated,Omeesha Mahanta,,,No row has 0.000000,,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Click Search</li>
+<li>2. Read Additional Tax in the listed rows</li>
+</ol>",,,"1. Records are found for several locations
+2. No row has 0.000000",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Change Local Office dialog finds offices and needs one ticked,,,,,Automated,Omeesha Mahanta,,,"The dialog closes and Location still reads ""All locations""",,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Click Location</li>
+<li>2. Type ""1606"" in the search box</li>
+<li>3. Type ""Embassy Suites""</li>
+<li>4. Search ""1606"" again and tick it</li>
+<li>5. Click Cancel</li>
+</ol>",,,"1. The ""Change Local Office"" dialog opens with Select disabled
+2. Only 1606 is listed
+3. Offices whose name matches are listed, including 1606
+4. Select is enabled
+5. The dialog closes and Location still reads ""All locations""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Tax Type filter offers every tax type and narrows the rows to one,,,,,Automated,Omeesha Mahanta,,,Records are found and every row's Tax Type is Rental,,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Open Tax Type</li>
+<li>2. Choose ""Rental"" and click Search</li>
+</ol>",,,"1. ""All"" followed by the 40 tax types, from ""APP Downloaded"" to ""Web Conferencing""
+2. Records are found and every row's Tax Type is Rental",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Unticking ""Percentage not equal to 0"" adds the zero-rate rows",,,,,Automated,Omeesha Mahanta,,,Rows with Additional Tax 0.000000 are listed,,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Click Search with the box ticked</li>
+<li>2. Untick the box and click Search</li>
+<li>3. Choose Location 1606 and click Search</li>
+</ol>",,,"1. N records found
+2. More than N records found
+3. Rows with Additional Tax 0.000000 are listed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Effective Date filter lists the rate in effect on that date,,,,,Automated,Omeesha Mahanta,,,1 record found: Audio Conferencing,,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Choose Location 1606, Tax Type ""Audio Conferencing"", untick ""Percentage not equal to 0""</li>
+<li>2. Set Effective Date 12/31/1999 and click Search</li>
+<li>3. Set Effective Date 01/01/2000 and click Search</li>
+</ol>",,,"1. Criteria set
+2. 0 records found (the day before the record)
+3. 1 record found: Audio Conferencing",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An invalid or empty Effective Date filter blocks the search,,,,,Automated,Omeesha Mahanta,,,Search is enabled,,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type 13/40/2026 in Effective Date</li>
+<li>2. Clear Effective Date</li>
+<li>3. Type 01/01/2000</li>
+</ol>",,,"1. Search is disabled
+2. Search is disabled
+3. Search is enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset restores the default criteria and clears the grid,,,,,Automated,Omeesha Mahanta,,,"All locations / All / today / ticked; ""0 records found"" with the ""Select criteria..."" message",,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Change Location, Tax Type, Effective Date and the checkbox, and click Search</li>
+<li>2. Click Reset</li>
+</ol>",,,"1. One row listed
+2. All locations / All / today / ticked; ""0 records found"" with the ""Select criteria..."" message",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The last search criteria are kept when the page is reloaded,,,,,Automated,Omeesha Mahanta,,,The same row is listed,,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Choose Location 1606, ""Audio Conferencing"", 01/01/2000, untick the box, and click Search</li>
+<li>2. Reload the browser page</li>
+<li>3. Click Search</li>
+</ol>",,,"1. One row listed
+2. The same criteria are set and the grid shows 0 records
+3. The same row is listed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Location filter lists only that office's rows,,,,,Automated,Omeesha Mahanta,,,40 records found - one per tax type - and every row's Location No is the office,,,taxes,,"Order Origin Tax is open for the office with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Choose the office in Location (Change Local Office dialog) and untick ""Percentage not equal to 0""</li>
+<li>2. Click Search</li>
+</ol>",,,"1. Location shows the office
+2. 40 records found - one per tax type - and every row's Location No is the office",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Results are sorted by Location No, newest first, and any column sorts both ways",,,,,Automated,Omeesha Mahanta,,,Additional Tax descends,,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Click Search</li>
+<li>2. Additional Tax header menu > Sort ascending</li>
+<li>3. Additional Tax header menu > Sort descending</li>
+</ol>",,,"1. Location No descends
+2. Additional Tax ascends
+3. Additional Tax descends",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A hidden column comes back with Reset to Default View,,,,,Automated,Omeesha Mahanta,,,All twelve columns are shown in order,,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. County header menu > Hide column</li>
+<li>2. Grid Options > Reset to Default View</li>
+</ol>",,,"1. County is not shown; Grid Options lists County unticked
+2. All twelve columns are shown in order",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The search criteria panel collapses and expands,,,,,Automated,Omeesha Mahanta,,,The search criteria are shown again,,,taxes,,"Logged in; Tax > Order Origin Tax is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Click ""Collapse filters""</li>
+<li>2. Click ""Expand filters""</li>
+</ol>",,,"1. The search criteria are hidden
+2. The search criteria are shown again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Additional Tax reads whole numbers as percentages, caps at ±100 % and keeps six decimals",,,,,Automated,Omeesha Mahanta,,,"Shown as 0.050000, 0.083750, -0.050000, 1.000000, 1.000000, 1.000000, -1.000000, -1.000000, 0.123457, 0.000000, 0.000000",,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type each value in Additional Tax and leave the field: 5, 8.375, -5, 100, 101, 99999, -100, -101, 0.1234567, 0.0000004, empty</li>
+</ol>",,,"1. Shown as 0.050000, 0.083750, -0.050000, 1.000000, 1.000000, 1.000000, -1.000000, -1.000000, 0.123457, 0.000000, 0.000000",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Letters cannot be typed into Additional Tax,,,,,Automated,Omeesha Mahanta,,,Still 0.050000,,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type 5 in Additional Tax</li>
+<li>2. Click into the field after the value and press a, b, c; leave the field</li>
+</ol>",,,"1. 050000
+2. Still 0.050000",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A new rate without a new effective date is flagged and cannot be saved,,,,,Automated,Omeesha Mahanta,,,"The row shows ""Changing the tax rate requires a new effective date""; Save is disabled",,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type 5 in Additional Tax and leave the field</li>
+</ol>",,,"1. The row shows ""Changing the tax rate requires a new effective date""; Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An emptied effective date is required,,,,,Automated,Omeesha Mahanta,,,"The row shows ""Required""; Save is disabled",,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Clear Effective Date and leave the field</li>
+</ol>",,,"1. The row shows ""Required""; Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An effective date that is not a real date is flagged,,,,,Automated,Omeesha Mahanta,,,"The row shows ""Invalid date""; Save is disabled",,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type 13/45/2026 in Effective Date and leave the field</li>
+</ol>",,,"1. The row shows ""Invalid date""; Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Notes accept at most 500 characters,,,,,Automated,Omeesha Mahanta,,,500 characters are kept,,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type 501 characters in Notes</li>
+</ol>",,,1. 500 characters are kept,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A notes-only change needs no new effective date,,,,,Automated,Omeesha Mahanta,,,No row message; Save is enabled,,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type a note and leave the field</li>
+</ol>",,,1. No row message; Save is enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Undoing an edit turns Save off again,,,,,Automated,Omeesha Mahanta,,,Save is disabled,,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type a note</li>
+<li>2. Clear the note</li>
+</ol>",,,"1. Save is enabled
+2. Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An effective date picked from the calendar is set on the row,,,,,Automated,Omeesha Mahanta,,,"The cell shows 01/02/2000, no row message, Save is enabled",,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Open the cell calendar and pick January 2, 2000</li>
+</ol>",,,"1. The cell shows 01/02/2000, no row message, Save is enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The effective date shows the stored date and keeps the date the user enters,,,,,Automated,Omeesha Mahanta,,,Shows 01/02/2000,,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Read Effective Date</li>
+<li>2. Click into Effective Date and click elsewhere</li>
+<li>3. Type 01/02/2000 and leave the field</li>
+</ol>",,,"1. 01/01/2000 (the stored date)
+2. Still 01/01/2000
+3. Shows 01/02/2000",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An effective date before the latest one is flagged and cannot be saved,,,,,Automated,Omeesha Mahanta,,,"The row shows ""Effective date must be after D.""; Save is disabled",,,taxes,,"Order Origin Tax is open; Effective Date 12/31/2099, searched with the other defaults
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Row: the first row of a search as of 12/31/2099 - the latest record of a location and tax type (effective date D)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type 5 in Additional Tax and the day before the row Effective Date (D - 1)</li>
+</ol>",,,"1. The row shows ""Effective date must be after D.""; Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The day after the latest effective date is accepted with a new rate,,,,,Automated,Omeesha Mahanta,,,"The cell keeps D + 1, no row message, Save is enabled",,,taxes,,"Order Origin Tax is open; Effective Date 12/31/2099, searched with the other defaults
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Row: the first row of a search as of 12/31/2099 - the latest record of a location and tax type (effective date D)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type 5 in Additional Tax and the day after the row Effective Date (D + 1)</li>
+</ol>",,,"1. The cell keeps D + 1, no row message, Save is enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Switching tab with an unsaved edit asks first, and Stay keeps the edit",,,,,Automated,Omeesha Mahanta,,,Basic Information stays open with the note and Save enabled,,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed; a note has been typed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Click the Order Origin Tax History tab</li>
+<li>2. Click Stay</li>
+</ol>",,,"1. ""Unsaved changes - Are you sure you want to leave this view? Any unsaved changes will be lost."" with Stay and Discard
+2. Basic Information stays open with the note and Save enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Discard drops the unsaved edit and opens the other tab,,,,,Automated,Omeesha Mahanta,,,The row has no note,,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed; a note has been typed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Click the Order Origin Tax History tab, then Discard</li>
+<li>2. Go back to Basic Information and search the row again</li>
+</ol>",,,"1. History opens
+2. The row has no note",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching again with an unsaved edit asks first,,,,,Automated,Omeesha Mahanta,,,The note is still pending and Save enabled,,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed; a note has been typed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Click Search</li>
+<li>2. Click Stay</li>
+</ol>",,,"1. The Unsaved changes dialog is shown
+2. The note is still pending and Save enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Leaving the page with an unsaved edit asks first,,,,,Automated,Omeesha Mahanta,,,Order Origin Tax stays open with the note,,,taxes,,"Order Origin Tax is open for the office; Location = the office, Tax Type ""Audio Conferencing"", ""Percentage not equal to 0"" unticked, searched: one row listed; a note has been typed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Row: the office's ""Audio Conferencing"" (starting entry only, effective 01/01/2000, 0 %)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Click Home in the sidebar</li>
+<li>2. Click Stay</li>
+</ol>",,,"1. The Unsaved changes dialog is shown
+2. Order Origin Tax stays open with the note",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A notes change is saved on the row and stamped with the user and time,,,,,Automated,Omeesha Mahanta,,,The row is as before,,,taxes,,"Order Origin Tax is open for the office; Location = the office, ""Web Conferencing"", unticked, Effective Date 12/31/2099 (latest record), searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Rows of the office: ""Web Conferencing"" (0 %); notes rows ""APP Downloaded"" and ""App Quality Assurance""",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type a note and click Save</li>
+<li>2. Reopen the page and search the row again</li>
+<li>3. Clean-up: clear the note and save</li>
+</ol>",,,"1. ""Record(s) saved successfully.""; Save is disabled again
+2. The note is stored; Modified By is the user, Modified On is today; rate and date are unchanged
+3. The row is as before",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changes on several rows are saved together,,,,,Automated,Omeesha Mahanta,,,The rows are as before,,,taxes,,"Order Origin Tax is open for the office; Location = the office, unticked, Effective Date 12/31/2099, searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Rows of the office: ""Web Conferencing"" (0 %); notes rows ""APP Downloaded"" and ""App Quality Assurance""",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type a note on ""APP Downloaded"" and on ""App Quality Assurance"", then click Save once</li>
+<li>2. Reopen and search again</li>
+<li>3. Clean-up: put both notes back and save</li>
+</ol>",,,"1. ""Record(s) saved successfully.""
+2. Both rows have their new notes
+3. The rows are as before",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A failed save keeps the changes and says so,,,,,Automated,Omeesha Mahanta,,,The row has its earlier note - nothing was stored,,,taxes,,"As SAV-001; the save request is made to fail (server error)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Rows of the office: ""Web Conferencing"" (0 %); notes rows ""APP Downloaded"" and ""App Quality Assurance""",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type a note and click Save</li>
+<li>2. Reopen and search the row again</li>
+</ol>",,,"1. ""Failed to save order origin tax""; the note stays on screen and Save is still enabled
+2. The row has its earlier note - nothing was stored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A new rate with a new effective date is added as a new record,,,,,Automated,Omeesha Mahanta,,,The latest rate is R again,,,taxes,,"As SAV-001; the latest record of the row is read first (date D, rate R)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Rows of the office: ""Web Conferencing"" (0 %); notes rows ""APP Downloaded"" and ""App Quality Assurance""",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Type 5 in Additional Tax and D + 1 day in Effective Date</li>
+<li>2. Click Save</li>
+<li>3. Search the row as of D + 1</li>
+<li>4. Search the row as of D</li>
+<li>5. On History, search the office / Web Conferencing over a range including D + 1</li>
+<li>6. Clean-up: save rate R from D + 2</li>
+</ol>",,,"1. No row message; Save is enabled
+2. ""Record(s) saved successfully.""
+3. Rate 0.050000, Effective Date D + 1, Modified By the user
+4. Rate R, Effective Date D - the earlier record is kept
+5. A record dated D + 1 by the user is listed
+6. The latest rate is R again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"History opens with default criteria, an empty grid and no Save",,,,,Automated,Omeesha Mahanta,,,"""0 records found"", ""Select criteria and click Search to view order origin tax history records."" and no Save button",,,taxes,,"Order Origin Tax is open for office 1606 and the Order Origin Tax History tab is selected
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Read the search criteria</li>
+<li>2. Look at the grid</li>
+</ol>",,,"1. All locations / All / Date Range today - today / ticked
+2. ""0 records found"", ""Select criteria and click Search to view order origin tax history records."" and no Save button",,,,Master,S1620,Test Case (Steps),Regression,,,
+,History shows the twelve order origin tax columns,,,,,Automated,Omeesha Mahanta,,,"The same twelve columns as Basic Information, in the same order",,,taxes,,"Order Origin Tax is open for office 1606 and the Order Origin Tax History tab is selected
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Read the column headers</li>
+</ol>",,,"1. The same twelve columns as Basic Information, in the same order",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A date range search lists read-only records effective in that range,,,,,Automated,Omeesha Mahanta,,,"Records are found, every Effective Date is within the range, and no cell is editable",,,taxes,,"Order Origin Tax is open for office 1606 and the Order Origin Tax History tab is selected
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Pick September 1, 2025 in the Date Range calendar</li>
+<li>2. Click Search</li>
+</ol>",,,"1. The range reads ""09/01/2025 - today""
+2. Records are found, every Effective Date is within the range, and no cell is editable",,,,Master,S1620,Test Case (Steps),Regression,,,
+,History pages its results 50 at a time,,,,,Automated,Omeesha Mahanta,,,"Page 2 lists the remaining records (up to 50), different from page 1",,,taxes,,"Order Origin Tax is open for office 1606 and the Order Origin Tax History tab is selected
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Search 09/01/2025 - today</li>
+<li>2. Click ""Go to next page""</li>
+</ol>",,,"1. More than 50 records; page 1 lists 50
+2. Page 2 lists the remaining records (up to 50), different from page 1",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Location and Tax Type filters narrow History,,,,,Automated,Omeesha Mahanta,,,Every record is for that tax type,,,taxes,,"Order Origin Tax is open for office 1606 and the Order Origin Tax History tab is selected
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Search 09/01/2025 - today and note the first record's location and tax type</li>
+<li>2. Choose that location and click Search</li>
+<li>3. Also choose that tax type and click Search</li>
+</ol>",,,"1. Records listed
+2. Every record is for that location
+3. Every record is for that tax type",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset restores the History criteria and clears the grid,,,,,Automated,Omeesha Mahanta,,,"Default criteria; ""0 records found"" with the empty message",,,taxes,,"Order Origin Tax is open for office 1606 and the Order Origin Tax History tab is selected
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Order_Origin_Tax,1,,Taxes > Order_Origin_Tax,"<ol>
+<li>1. Pick 09/01/2025, untick the box and click Search</li>
+<li>2. Click Reset</li>
+</ol>",,,"1. Records listed
+2. Default criteria; ""0 records found"" with the empty message",,,,Master,S1620,Test Case (Steps),Regression,,,

@@ -305,7 +305,13 @@ export class OrderOriginTaxPage extends BasePage {
   async pickHistoryRangeDay(mdyyyy: string): Promise<void> {
     await this.page.locator(BTN_DATE_RANGE).click();
     await this.clickCalendarDay(mdyyyy);
-    await this.page.locator(POPOVER).waitFor({ state: 'hidden' });
+    const popover = this.page.locator(POPOVER);
+    const closed = await popover.waitFor({ state: 'hidden', timeout: 3_000 }).then(() => true, () => false);
+    if (!closed) {
+      // A click that lands while the calendar is still opening is not taken; pick the day once more.
+      await this.page.locator(calendarDay(mdyyyy)).click();
+      await popover.waitFor({ state: 'hidden' });
+    }
   }
 
   /**
