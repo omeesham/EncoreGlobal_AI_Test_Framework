@@ -131,6 +131,7 @@ SECTION_BY_BASENAME: dict[str, str] = {
     "discount-matrix-company-matrix": "Company_Matrix",
     "discount-optimization-exemption": "Special_Rate_Exemptions",
     "discount-optimization-locations": "Locations",
+    "international-tax-type-setup": "International_Tax_Type_Setup",
     "location-account-address": "Account_Address",
     "location-auto-addon": "Auto_Addon",
     "location-business-types": "Business_Types",
