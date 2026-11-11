@@ -112,6 +112,7 @@ LABELS_BY_BASENAME: dict[str, str] = {
 # Per workbook basename: the TestRail Section name. Anything missing falls back
 # to Title_Case_With_Underscores of the workbook's Submodule column.
 SECTION_BY_BASENAME: dict[str, str] = {
+    "cmp": "CMP",
     "corporate-pg-pricing-override-core": "Core",
     "corporate-pg-pricing-override-export": "Export",
     "corporate-pg-pricing-override-filters": "Filters",
