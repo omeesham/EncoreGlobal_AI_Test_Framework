@@ -1,0 +1,26 @@
+{
+  "id": "BUG-COM-TF-007",
+  "title": "Commission Tier/Flat — Reset Dates months offer only a blank and 1 (NM-3510 regression)",
+  "module": "commissions",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-11-12",
+  "requirementSource": "NM-3510 / NM-2168: each month offers a blank (0) and every day of that month",
+  "stepsToReproduce": [
+    "Open Setup → Commissions → Tier/Flat for office 1101 (/navigator/locations/1101/commissions/tiers) on e2e and click Search.",
+    "Click Reset Dates.",
+    "Open the January selector, then February."
+  ],
+  "expectedBehavior": "Blank, then 1 to 31 (January) / 1 to 28 (February 2026).",
+  "actualBehavior": "Every month lists only a blank and \"1\".",
+  "affectedTests": [
+    "TC-COM-TF-081"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-12",
+      "verdict": "CONFIRMED",
+      "finding": "Failed in the full read-only run (TF_WRITES=off) and confirmed by a separate DOM probe of the live page."
+    }
+  ]
+}

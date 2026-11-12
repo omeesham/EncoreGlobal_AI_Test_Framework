@@ -1,0 +1,27 @@
+{
+  "id": "BUG-COM-TF-012",
+  "title": "Commission Tier/Flat — the band removed by a copy has a blank Currency in History (NM-4692 regression)",
+  "module": "commissions",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-11-12",
+  "requirementSource": "NM-4692: History Currency must show the currency (e.g. USD) for records with Action = Remove made by a copy",
+  "stepsToReproduce": [
+    "Open Setup → Commissions → Tier/Flat for office 1101 (/navigator/locations/1101/commissions/tiers) on e2e and click Search.",
+    "Add a band on ZSub Rental Specialty (0 – 99,999,901) and one on ZSub Contractor Specialty Labor (5 – 99,999,901); Save.",
+    "Copy → Copy Within Location: source ZSub Rental Specialty, tick ZSub Contractor Specialty Labor, Apply (confirm the overwrite).",
+    "Open the Commission Tier/Flat History tab."
+  ],
+  "expectedBehavior": "The Remove entry of the overwritten 5 – 99,999,901 band shows USD.",
+  "actualBehavior": "Its Currency is blank; every other Remove of the same band (made by a normal delete) shows USD.",
+  "affectedTests": [
+    "TC-COM-TF-099"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-12",
+      "verdict": "CONFIRMED",
+      "finding": "History of the copy at 08:45 (isolated rerun) — Remove with blank Currency, next to earlier Remove entries with USD."
+    }
+  ]
+}

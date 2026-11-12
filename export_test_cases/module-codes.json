@@ -11,7 +11,8 @@
     "DSM": { "name": "discount-matrix", "display": "Discount Matrix", "dir": "discount-matrix" },
     "ISR": { "name": "item-search", "display": "Item Search", "dir": "item-search" },
     "MDP": { "name": "multiday-pricing", "display": "Multiday Pricing", "dir": "multiday-pricing" },
-    "TAX": { "name": "taxes", "display": "Taxes", "dir": "taxes" }
+    "TAX": { "name": "taxes", "display": "Taxes", "dir": "taxes" },
+    "COM": { "name": "commissions", "display": "Commissions", "dir": "commissions" }
   },
   "submodules": {
     "LOC": {
@@ -81,6 +82,9 @@
     "TAX": {
       "IST": { "name": "international_tax_setup", "display": "International Tax Setup", "sheet": "international_tax_setup", "mdBasename": "international_tax_setup_test_cases" },
       "STX": { "name": "state_tax", "display": "State Tax", "sheet": "state_tax", "mdBasename": "state_tax_test_cases", "$comment": "STX, not ST: TC-TAX-ST-* is already taken by Sales Tax (NM-4021)." }
+    },
+    "COM": {
+      "TF": { "name": "tier_flat", "display": "Tier/Flat", "sheet": "commission_tier_flat", "mdBasename": "commission_tier_flat_test_cases", "$comment": "NM-3350: one spec for both tabs (Basic Information A–L 001-086, History M–O 087-098 — sections of one spec)." }
     }
   },
   "sheetNameNotes": {

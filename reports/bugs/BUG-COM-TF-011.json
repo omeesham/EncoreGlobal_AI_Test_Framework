@@ -1,0 +1,26 @@
+{
+  "id": "BUG-COM-TF-011",
+  "title": "Commission Tier/Flat — a saved reset day is not stored",
+  "module": "commissions",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-11-12",
+  "requirementSource": "NM-3633 / NM-2168: choosing a reset day and clicking Save in the Reset Date modal must succeed and persist the day",
+  "stepsToReproduce": [
+    "Open Setup → Commissions → Tier/Flat for office 1101 (/navigator/locations/1101/commissions/tiers) on e2e and click Search.",
+    "Click Reset Dates; choose 1 for January (the only non-blank choice — see BUG-COM-TF-007) and click Save.",
+    "Click Cancel, then Reset Dates again; open the Commission Tier/Flat Reset Date History tab."
+  ],
+  "expectedBehavior": "January shows 1 after reopening, and Reset Date History lists the change.",
+  "actualBehavior": "Save shows no error and the modal stays open, but after reopening January is blank again and Reset Date History reads \"0 items found\" — nothing is stored.",
+  "affectedTests": [
+    "TC-COM-TF-083"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-12",
+      "verdict": "CONFIRMED",
+      "finding": "Failed on both attempts of the full run with writes and on an isolated rerun; the modal's Reset Date History stays empty after two saves."
+    }
+  ]
+}

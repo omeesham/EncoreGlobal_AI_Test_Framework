@@ -1,0 +1,27 @@
+{
+  "id": "BUG-COM-TF-014",
+  "title": "Commission Tier/Flat — importing an export fails with a raw duplicate-key error (NM-3425 regression)",
+  "module": "commissions",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-11-12",
+  "requirementSource": "NM-3425: import must handle existing / duplicate bands gracefully and report clear success and error counts",
+  "stepsToReproduce": [
+    "Open Setup → Commissions → Tier/Flat for office 1101 (/navigator/locations/1101/commissions/tiers) on e2e and click Search.",
+    "Click Export (TierFlatCommissions-1101.xlsx).",
+    "Click Import and choose that same file, unchanged."
+  ],
+  "expectedBehavior": "The import reports success (and counts); nothing changes, as every band already exists.",
+  "actualBehavior": "The upload starts on file choice, the progress bar stops at 50% and the dialog shows \"Unexpected error: An item with the same key has already been added. Key: 1101\" — a raw server exception, no counts. A file with invalid values (negative boundary, 150 %) gets the same message instead of row errors.",
+  "affectedTests": [
+    "TC-COM-TF-073",
+    "TC-COM-TF-074 (refused, but with the raw exception)"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-12",
+      "verdict": "CONFIRMED",
+      "finding": "Isolated rerun after the import wait was fixed; a 60-second watch of the dialog showed the message never changes and nothing is stored."
+    }
+  ]
+}

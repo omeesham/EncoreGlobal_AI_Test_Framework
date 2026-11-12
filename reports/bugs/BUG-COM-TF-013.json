@@ -1,0 +1,27 @@
+{
+  "id": "BUG-COM-TF-013",
+  "title": "Commission Tier/Flat — the copied band is not recorded in History (NM-4216 regression)",
+  "module": "commissions",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-11-12",
+  "requirementSource": "NM-4216: History must show both records of a copy — the removed old band (Remove) and the new copied band (Copy)",
+  "stepsToReproduce": [
+    "Open Setup → Commissions → Tier/Flat for office 1101 (/navigator/locations/1101/commissions/tiers) on e2e and click Search.",
+    "Add a band on ZSub Rental Specialty (0 – 99,999,901) and one on ZSub Contractor Specialty Labor (5 – 99,999,901); Save.",
+    "Copy → Copy Within Location: source ZSub Rental Specialty, tick ZSub Contractor Specialty Labor, Apply (confirm the overwrite).",
+    "Open the Commission Tier/Flat History tab."
+  ],
+  "expectedBehavior": "A Copy entry for the new 0 – 99,999,901 band on ZSub Contractor Specialty Labor.",
+  "actualBehavior": "Only the Remove of the old band is listed; there is no Copy (or Add) entry for the copied band, although the copy itself takes effect (TC-COM-TF-078 lists it after a search).",
+  "affectedTests": [
+    "TC-COM-TF-099"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-12",
+      "verdict": "CONFIRMED",
+      "finding": "History of the copy at 08:45 (isolated rerun) lists no entry for the copied band."
+    }
+  ]
+}
