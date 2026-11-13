@@ -74,7 +74,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       tf = new CommissionTierFlatPage(authenticatedSession.page, config);
     });
 
-    test('TC-COM-TF-001: Without a session the page sends the user to sign in', async ({ browser, config }) => {
+    test('TC-COM-TF-001: Without a session the page sends the user to sign in', { tag: '@C107910' }, async ({ browser, config }) => {
       await about('Opening the page with no signed-in session lands on the sign-in page, which returns to this page afterwards.');
       const context = await browser.newContext({ storageState: { cookies: [], origins: [] } });
       try {
@@ -91,7 +91,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-002: Commission Tier/Flat opens on Basic Information', async () => {
+    test('TC-COM-TF-002: Commission Tier/Flat opens on Basic Information', { tag: '@C107911' }, async () => {
       await about('The page opens with its heading, information text and both tabs, on Basic Information.');
       await tf.open(OFFICE);
       await verify('URL, browser title, heading and information text', async () => {
@@ -105,7 +105,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-003: A local office shows its Local Office as read-only text', async () => {
+    test('TC-COM-TF-003: A local office shows its Local Office as read-only text', { tag: '@C107912' }, async () => {
       await about(`On local office ${LOCAL} the Local Office reads "${LOCAL} - <name>" and cannot be changed (TC-TF-02).`);
       await tf.open(LOCAL);
       const lo = await tf.getLocalOffice();
@@ -115,7 +115,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-004: The corporate office offers a Location picker', async () => {
+    test('TC-COM-TF-004: The corporate office offers a Location picker', { tag: '@C107913' }, async () => {
       await about(`On the corporate office ${TF_OFFICES.corporate} the Local Office is a Location picker (TC-TF-01).`);
       await tf.open(TF_OFFICES.corporate);
       await verify('The Local Office field is a picker', async () => {
@@ -123,7 +123,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-005: A local office lists its tiers read-only', async () => {
+    test('TC-COM-TF-005: A local office lists its tiers read-only', { tag: '@C107914' }, async () => {
       await about(`On local office ${LOCAL} the search lists the tiers with no toolbar, no Delete button and no editor in any cell; editing is for the corporate office.`);
       await tf.open(LOCAL);
       const count = await phase('Search with the default criteria', () => tf.search());
@@ -137,7 +137,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-006: The Product Code banner shows when the office has product-code commissions', async () => {
+    test('TC-COM-TF-006: The Product Code banner shows when the office has product-code commissions', { tag: '@C107915' }, async () => {
       await about(`Office ${LOCAL} has product-code commissions, so after a search the page says "${TEXT.productCodeBanner}" above the tabs (NM-3384, TC-TF-05).`);
       await tf.open(LOCAL);
       await phase('Search with the default criteria', () => tf.search());
@@ -146,7 +146,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-007: Currency lists the office currencies and starts on one of them', async () => {
+    test('TC-COM-TF-007: Currency lists the office currencies and starts on one of them', { tag: '@C107916' }, async () => {
       // The dropdown shows even for a single currency (accepted on review 2026-11-12; the requirements said > 1 only).
       await about('The Currency dropdown lists the office currencies with no blank and starts on one of them (TC-TF-04).');
       await tf.open(LOCAL);
@@ -158,7 +158,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-008: Business Type lists each business type once', async () => {
+    test('TC-COM-TF-008: Business Type lists each business type once', { tag: '@C107917' }, async () => {
       await about('Business Type offers each business type once, with no blank, and starts on one of them (NM-1635).');
       await tf.open(OFFICE);
       const options = await tf.getCriteriaOptions('Business Type');
@@ -170,7 +170,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-009: Before a search the grid is empty and Save is off', async () => {
+    test('TC-COM-TF-009: Before a search the grid is empty and Save is off', { tag: '@C107918' }, async () => {
       await about('Before a search: "0 items found", the prompt to search, and no Save available.');
       await tf.open(OFFICE);
       await verify('Empty grid asking for a search; Save not available', async () => {
@@ -187,7 +187,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       await tf.open(OFFICE);
     });
 
-    test('TC-COM-TF-010: A search starts clean: no errors, Save off, actions on', async () => {
+    test('TC-COM-TF-010: A search starts clean: no errors, Save off, actions on', { tag: '@C107919' }, async () => {
       await about('A fresh search shows no validation marker, Save disabled, and Export, Import, Copy and Reset Dates enabled (NM-3554, TC-TF-06).');
       await phase('Search with the default criteria', () => tf.search());
       const state = await tf.toolbarState();
@@ -200,7 +200,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-011: The grid shows every required column, and Grid Options lists them', async () => {
+    test('TC-COM-TF-011: The grid shows every required column, and Grid Options lists them', { tag: '@C107920' }, async () => {
       await about(`The grid offers ${BASIC_COLUMNS_REQUIRED.join(', ')}, each once, all ticked in Grid Options (NM-3621).`);
       await tf.search();
       const headers = await tf.getHeaders();
@@ -213,7 +213,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-012: Comm % sits in the same place on both tabs', async () => {
+    test('TC-COM-TF-012: Comm % sits in the same place on both tabs', { tag: '@C107921' }, async () => {
       await about('Lower Tier Boundary, Upper Tier Boundary, Comm % and Profit Only come in the same order on both tabs.');
       const order = (h: string[]) => ['Lower Tier Boundary', 'Upper Tier Boundary', 'Comm %', 'Profit Only'].filter((c) => h.includes(c)).sort((a, b) => h.indexOf(a) - h.indexOf(b));
       await tf.search();
@@ -224,7 +224,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-013: A search lists only service types of the chosen Business Type', async () => {
+    test('TC-COM-TF-013: A search lists only service types of the chosen Business Type', { tag: '@C107922' }, async () => {
       await about('Every Service Type in the results is one the row editor offers for the chosen Business Type (NM-1635).');
       await tf.search();
       const listed = new Set(await tf.readColumn('Service Type'));
@@ -235,7 +235,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-014: Reset restores the default criteria and clears the grid', async () => {
+    test('TC-COM-TF-014: Reset restores the default criteria and clears the grid', { tag: '@C107923' }, async () => {
       await about('After choosing another Business Type and searching, Reset puts the default back and empties the grid.');
       const defaultType = await tf.getCriteriaValue('Business Type');
       const other = (await tf.getCriteriaOptions('Business Type')).find((o) => o !== defaultType);
@@ -251,7 +251,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-015: The search criteria panel collapses and expands', async () => {
+    test('TC-COM-TF-015: The search criteria panel collapses and expands', { tag: '@C107924' }, async () => {
       await about('Collapse filters hides the search criteria; Expand filters brings them back.');
       await tf.collapseFilters();
       await verify('Search criteria hidden', async () => {
@@ -263,7 +263,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-016: A failed search says so and a retry works', async () => {
+    test('TC-COM-TF-016: A failed search says so and a retry works', { tag: '@C107925' }, async () => {
       await about('When the server fails the search the page reports it instead of hanging; the next Search lists the tiers.');
       const held = await tf.holdRequests('fail', 0, SEARCH_REQUEST);
       let message = '';
@@ -282,7 +282,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-017: Loading placeholders show while a slow search runs', async () => {
+    test('TC-COM-TF-017: Loading placeholders show while a slow search runs', { tag: '@C107926' }, async () => {
       await about('With the search reply held back, the grid shows loading placeholders until it arrives.');
       const held = await tf.holdRequests('delay', 5_000, SEARCH_REQUEST);
       try {
@@ -295,7 +295,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-018: The search panel works from the keyboard', async () => {
+    test('TC-COM-TF-018: The search panel works from the keyboard', { tag: '@C107927' }, async () => {
       await about('From Business Type, Tab goes to Reset and then Search, and Enter on Search runs the search.');
       await tf.criteria('Business Type').focus();
       const order: string[] = [];
@@ -321,7 +321,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       await tf.search();
     });
 
-    test('TC-COM-TF-019: Add Row adds a row with the documented defaults and marks the page changed', async () => {
+    test('TC-COM-TF-019: Add Row adds a row with the documented defaults and marks the page changed', { tag: '@C107928' }, async () => {
       await about('Add Row adds one row — Lower 0, Upper 100,000,000, every rate 0 %, both flags off — and turns Export, Import, Copy and Reset Dates off (TC-TF-14).');
       const before = await tf.rows().count();
       const row = await phase('Add a row', () => tf.addRow());
@@ -339,7 +339,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-020: A new row without a Service Type cannot be saved', async () => {
+    test('TC-COM-TF-020: A new row without a Service Type cannot be saved', { tag: '@C107929' }, async () => {
       await about('A row added with no Service Type keeps Save unavailable until one is chosen.');
       const row = await tf.addRow();
       const serviceType = (await tf.readRow(row))['Service Type'] ?? '';
@@ -350,7 +350,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-021: The row Service Type list is clean', async () => {
+    test('TC-COM-TF-021: The row Service Type list is clean', { tag: '@C107930' }, async () => {
       await about('The Service Type editor of a row lists each service type once, with no blank or "Select" entry (NM-1635).');
       const options = await tf.serviceTypeOptions(await tf.addRow());
       await attachNote('Service types', options.join(', '));
@@ -361,7 +361,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-022: Currency, Modified By and Modified On cannot be edited', async () => {
+    test('TC-COM-TF-022: Currency, Modified By and Modified On cannot be edited', { tag: '@C107931' }, async () => {
       await about('Neither a saved row nor a new row offers an editor in Currency, Modified By or Modified On.');
       const rows: Locator[] = (await tf.getCount()) > 0 ? [tf.rows().first()] : [];
       rows.push(await tf.addRow());
@@ -372,7 +372,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-023: Currency cannot silently wipe an edit in progress', async () => {
+    test('TC-COM-TF-023: Currency cannot silently wipe an edit in progress', { tag: '@C107932' }, async () => {
       await about('While a row has an unsaved edit, Currency is disabled or asks first, so the edit is never lost silently (NM-3648).');
       test.skip(!(await tf.hasCriteria('Currency')), 'Single-currency office — no Currency dropdown');
       const row = await tf.savedBand(WRITES_ALLOWED);
@@ -395,7 +395,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-024: Is SC Comm Calculated On Net? flips with the Space key', async () => {
+    test('TC-COM-TF-024: Is SC Comm Calculated On Net? flips with the Space key', { tag: '@C107933' }, async () => {
       await about('The checkbox can be changed from the keyboard: Space on it flips it.');
       const { row } = await tf.addRowOnFreeServiceType();
       const before = (await tf.readRow(row))['Is SC Comm Calculated On Net?'];
@@ -405,7 +405,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-025: Two added rows are independent', async () => {
+    test('TC-COM-TF-025: Two added rows are independent', { tag: '@C107934' }, async () => {
       await about('Each Add Row click adds its own row; typing into one does not change the other.');
       const { row, serviceType } = await tf.addRowOnFreeServiceType();
       await tf.typeInto(row, 'Lower Tier Boundary', '100');
@@ -418,7 +418,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-026: Changing the Service Type of a new row keeps its values', async () => {
+    test('TC-COM-TF-026: Changing the Service Type of a new row keeps its values', { tag: '@C107935' }, async () => {
       await about('Typed boundaries survive a change of the row Service Type.');
       const { row, free } = await tf.addRowOnFreeServiceType();
       test.skip(free.length < 2, 'Needs two service types with no tiers');
@@ -429,7 +429,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-027: Deleting a new row leaves nothing to save', async () => {
+    test('TC-COM-TF-027: Deleting a new row leaves nothing to save', { tag: '@C107936' }, async () => {
       await about('Delete on a row just added removes it, and the page is unchanged again (TC-TF-15).');
       const before = await tf.rows().count();
       const row = await tf.addRow();
@@ -443,7 +443,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-028: Deleting a saved row hides it, marks the page changed and stores nothing', async () => {
+    test('TC-COM-TF-028: Deleting a saved row hides it, marks the page changed and stores nothing', { tag: '@C107937' }, async () => {
       await about('Delete on a saved row takes it off the grid and turns Save on; reopening without saving brings it back (TC-TF-15, NM-3678).');
       const row = await tf.savedBand(WRITES_ALLOWED);
       const values = await tf.readRow(row);
@@ -476,7 +476,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       ({ row } = await tf.addRowOnFreeServiceType());
     });
 
-    test('TC-COM-TF-029: Lower Tier Boundary accepts 0 up to the Upper Tier Boundary', async () => {
+    test('TC-COM-TF-029: Lower Tier Boundary accepts 0 up to the Upper Tier Boundary', { tag: '@C107938' }, async () => {
       await about('Each valid Lower Tier Boundary is kept as that number with no marker, and Save stays available.');
       for (const { typed, kept, why } of LOWER_INPUT.valid) {
         const cell = await tf.typeInto(row, 'Lower Tier Boundary', typed);
@@ -488,7 +488,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-030: Lower Tier Boundary refuses negatives and values above Upper', async () => {
+    test('TC-COM-TF-030: Lower Tier Boundary refuses negatives and values above Upper', { tag: '@C107939' }, async () => {
       await about('Each invalid Lower Tier Boundary is flagged — refused by the input, or marked red with a warning by the time the cell is left — keeps Save off, and is never kept (NM-3673, TC-TF-07/10).');
       for (const { typed, why } of LOWER_INPUT.invalid) {
         const result = await tf.typeRejected(row, 'Lower Tier Boundary', typed, '0');
@@ -501,7 +501,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-031: Lower Tier Boundary never keeps non-numeric input or markup', async () => {
+    test('TC-COM-TF-031: Lower Tier Boundary never keeps non-numeric input or markup', { tag: '@C107940' }, async () => {
       await about('Empty, letters, symbols, decimals, 1e3, 1,000 and markup each end up flagged or as a plain number — never raw text, never run.');
       for (const typed of LOWER_INPUT.guarded) {
         const cell = await tf.typeFreeForm(row, 'Lower Tier Boundary', typed);
@@ -513,7 +513,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-032: Upper Tier Boundary accepts the Lower Tier Boundary and above', async () => {
+    test('TC-COM-TF-032: Upper Tier Boundary accepts the Lower Tier Boundary and above', { tag: '@C107941' }, async () => {
       await about(`With Lower ${UPPER_LOWER_SEED}, each valid Upper Tier Boundary is kept with no marker, and Save stays available.`);
       await tf.typeInto(row, 'Lower Tier Boundary', String(UPPER_LOWER_SEED));
       for (const { typed, kept, why } of UPPER_INPUT.valid) {
@@ -526,7 +526,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-033: Upper Tier Boundary refuses negatives and values below Lower', async () => {
+    test('TC-COM-TF-033: Upper Tier Boundary refuses negatives and values below Lower', { tag: '@C107942' }, async () => {
       await about(`With Lower ${UPPER_LOWER_SEED}, each invalid Upper Tier Boundary is flagged by the time the cell is left, keeps Save off and is never kept (NM-3673, TC-TF-08/10).`);
       await tf.typeInto(row, 'Lower Tier Boundary', String(UPPER_LOWER_SEED));
       for (const { typed, why } of UPPER_INPUT.invalid) {
@@ -540,7 +540,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-034: Upper Tier Boundary never keeps non-numeric input', async () => {
+    test('TC-COM-TF-034: Upper Tier Boundary never keeps non-numeric input', { tag: '@C107943' }, async () => {
       await about('Empty, letters, padded numbers and a fifty-digit number each end up flagged or as a plain number — never raw text.');
       for (const typed of UPPER_INPUT.guarded) {
         const cell = await tf.typeFreeForm(row, 'Upper Tier Boundary', typed);
@@ -551,7 +551,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-035: Comm % accepts 0 to 100', async () => {
+    test('TC-COM-TF-035: Comm % accepts 0 to 100', { tag: '@C107944' }, async () => {
       await about('Each Comm % from 0 to 100 is kept as typed with no marker, and Save stays available (NM-3241, TC-TF-09).');
       for (const { typed, kept, why } of COMM_INPUT.valid) {
         const cell = await tf.typeInto(row, 'Comm %', typed);
@@ -563,7 +563,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-036: Comm % refuses values outside 0 to 100 while typing', async () => {
+    test('TC-COM-TF-036: Comm % refuses values outside 0 to 100 while typing', { tag: '@C107945' }, async () => {
       await about('Each Comm % below 0 or above 100 is flagged before the cell is left and never kept (NM-3241, TC-TF-09).');
       for (const { typed, why } of COMM_INPUT.invalid) {
         const result = await tf.typeRejected(row, 'Comm %', typed, '0');
@@ -575,7 +575,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-037: Comm % never keeps non-numeric or malformed input', async () => {
+    test('TC-COM-TF-037: Comm % never keeps non-numeric or malformed input', { tag: '@C107946' }, async () => {
       await about('Empty, letters, 1.2.3, three decimals and a typed % each end up flagged or as a plain number — never raw text.');
       for (const typed of COMM_INPUT.guarded) {
         const cell = await tf.typeFreeForm(row, 'Comm %', typed);
@@ -586,8 +586,8 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    for (const [field, id] of [['SC Comm %', 'TC-COM-TF-038'], ['ETS Comm %', 'TC-COM-TF-039']] as const) {
-      test(`${id}: ${field} accepts 100 and refuses values outside 0 to 100`, async () => {
+    for (const [field, id, tag] of [['SC Comm %', 'TC-COM-TF-038', '@C107947'], ['ETS Comm %', 'TC-COM-TF-039', '@C107948']] as const) {
+      test(`${id}: ${field} accepts 100 and refuses values outside 0 to 100`, { tag }, async () => {
         await about(`${field} shares the Comm % editor: 100 is kept, and 100.01 and -0.01 are flagged while typing (NM-3241).`);
         for (const { typed, kept, why } of RATE_EDGES.valid) {
           const cell = await tf.typeInto(row, field, typed);
@@ -606,7 +606,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     }
 
-    test('TC-COM-TF-040: A boundary pair out of order shows its message and clears once corrected', async () => {
+    test('TC-COM-TF-040: A boundary pair out of order shows its message and clears once corrected', { tag: '@C107949' }, async () => {
       await about(`With Lower 5,000 and Upper 4,000 the row is marked with "${TEXT.lowerAboveUpper}" and Save is off; Upper 6,000 clears the mark and turns Save on (NM-3673).`);
       await tf.typeInto(row, 'Lower Tier Boundary', '5000');
       await tf.typeInto(row, 'Upper Tier Boundary', '4000');
@@ -633,7 +633,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       await tf.search();
     });
 
-    test('TC-COM-TF-041: Overlapping bands of one service type are both flagged', async () => {
+    test('TC-COM-TF-041: Overlapping bands of one service type are both flagged', { tag: '@C107950' }, async () => {
       await about('Partly overlapping, nested, identical and boundary-sharing bands of one service type flag both rows and keep Save off (TC-TF-11).');
       for (const { a, b, why } of OVERLAPPING) {
         const { rows } = await phase(`Bands ${a.lower}–${a.upper} and ${b.lower}–${b.upper}`, () => tf.addTwoBands(a, b));
@@ -647,7 +647,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-042: Adjacent bands and bands with a gap are accepted', async () => {
+    test('TC-COM-TF-042: Adjacent bands and bands with a gap are accepted', { tag: '@C107951' }, async () => {
       await about('Bands that do not share a value — adjacent, or with a gap between them — are accepted (TC-TF-13).');
       for (const { a, b, why } of SEPARATE) {
         const { rows } = await phase(`Bands ${a.lower}–${a.upper} and ${b.lower}–${b.upper}`, () => tf.addTwoBands(a, b));
@@ -661,7 +661,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-043: The same band on two service types is accepted', async () => {
+    test('TC-COM-TF-043: The same band on two service types is accepted', { tag: '@C107952' }, async () => {
       await about('Overlap is per service type: 0–1,000 on two different service types is not an overlap.');
       const { row, serviceType, free } = await tf.addRowOnFreeServiceType();
       test.skip(free.length < 2, 'Needs two service types with no tiers');
@@ -677,7 +677,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-044: Fixing an overlap clears the marker on both rows', async () => {
+    test('TC-COM-TF-044: Fixing an overlap clears the marker on both rows', { tag: '@C107953' }, async () => {
       await about('With 0–5,000 and 4,000–9,000 flagged, moving the second lower boundary to 5,001 clears both rows (TC-TF-12).');
       const { serviceType } = await tf.addTwoBands({ lower: 0, upper: 5_000 }, { lower: 4_000, upper: 9_000 });
       await tf.typeInto((await tf.rowWhere(serviceType, 4_000, 9_000))!, 'Lower Tier Boundary', '5001');
@@ -688,7 +688,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-045: Deleting one of two overlapping rows clears the other', async () => {
+    test('TC-COM-TF-045: Deleting one of two overlapping rows clears the other', { tag: '@C107954' }, async () => {
       await about('Delete on one of two overlapping rows recalculates the overlap: the remaining row is no longer flagged (TC-TF-15).');
       const { serviceType } = await tf.addTwoBands({ lower: 0, upper: 5_000 }, { lower: 1_000, upper: 2_000 });
       await tf.deleteRow((await tf.rowWhere(serviceType, 1_000, 2_000))!);
@@ -697,7 +697,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-046: Moving an overlapping row to another service type clears the overlap', async () => {
+    test('TC-COM-TF-046: Moving an overlapping row to another service type clears the overlap', { tag: '@C107955' }, async () => {
       await about('Changing the Service Type of one of two overlapping rows leaves neither flagged.');
       const { serviceType, free } = await tf.addTwoBands({ lower: 0, upper: 5_000 }, { lower: 1_000, upper: 2_000 });
       const other = free.find((s) => s !== serviceType);
@@ -709,7 +709,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-047: A new band overlapping a saved band is flagged', async () => {
+    test('TC-COM-TF-047: A new band overlapping a saved band is flagged', { tag: '@C107956' }, async () => {
       await about('A new row with the same band as a saved row of its service type is flagged and cannot be saved (TC-TF-11).');
       const saved = await tf.readRow(await tf.savedBand(WRITES_ALLOWED));
       const serviceType = saved['Service Type'] ?? '';
@@ -722,7 +722,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-048: Save stays off while a row is invalid, and clicking it sends nothing', async () => {
+    test('TC-COM-TF-048: Save stays off while a row is invalid, and clicking it sends nothing', { tag: '@C107957' }, async () => {
       await about('A row with Lower above Upper keeps Save off and a click sends no request; fixing it turns Save on.');
       const { row } = await tf.addRowOnFreeServiceType();
       await tf.typeInto(row, 'Upper Tier Boundary', '10');
@@ -755,14 +755,14 @@ test.describe('Commission Tier/Flat @commissions', () => {
       ({ serviceType } = await tf.addRowOnFreeServiceType());
     });
 
-    test('TC-COM-TF-049: An unsaved edit turns Save on and Export, Import, Copy and Reset Dates off', async () => {
+    test('TC-COM-TF-049: An unsaved edit turns Save on and Export, Import, Copy and Reset Dates off', { tag: '@C107958' }, async () => {
       await about('With a pending edit, Save is on and Export, Import, Copy and Reset Dates are off (NM-3678, TC-TF-16).');
       await verify('Save on; the four actions off', async () => {
         expect(await tf.toolbarState()).toMatchObject({ save: true, export: false, import: false, copy: false, resetDates: false });
       });
     });
 
-    test('TC-COM-TF-050: Switching tab with an unsaved edit asks first, and Stay keeps the edit', async () => {
+    test('TC-COM-TF-050: Switching tab with an unsaved edit asks first, and Stay keeps the edit', { tag: '@C107959' }, async () => {
       await about('Opening History with a pending edit shows the Unsaved changes dialog with Stay and Discard; Stay keeps the user and the edit (NM-3679, NM-3606, TC-TF-18/19).');
       await tf.clickTab(HISTORY);
       const dialog = await tf.getUnsavedDialog();
@@ -778,7 +778,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-051: Discard drops the unsaved edit and opens the other tab', async () => {
+    test('TC-COM-TF-051: Discard drops the unsaved edit and opens the other tab', { tag: '@C107960' }, async () => {
       await about('Discard leaves for History, and the new row is gone back on Basic Information (TC-TF-20).');
       await tf.clickTab(HISTORY);
       await tf.getUnsavedDialog();
@@ -794,7 +794,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-052: Escape on the dialog keeps the edit', async () => {
+    test('TC-COM-TF-052: Escape on the dialog keeps the edit', { tag: '@C107961' }, async () => {
       await about('Escape closes the Unsaved changes dialog like Stay.');
       await tf.clickTab(HISTORY);
       await tf.getUnsavedDialog();
@@ -805,8 +805,8 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    for (const [label, id] of [['Currency', 'TC-COM-TF-053'], ['Business Type', 'TC-COM-TF-054']] as const) {
-      test(`${id}: Changing ${label} with an unsaved edit asks first, and Discard then searches properly`, async () => {
+    for (const [label, id, tag] of [['Currency', 'TC-COM-TF-053', '@C107962'], ['Business Type', 'TC-COM-TF-054', '@C107963']] as const) {
+      test(`${id}: Changing ${label} with an unsaved edit asks first, and Discard then searches properly`, { tag }, async () => {
         await about(`Choosing another ${label} with a pending edit shows the dialog; after Discard, Search lists that ${label}'s tiers — never stuck at "0 items" (NM-3689, TC-TF-21).`);
         test.skip(!(await tf.hasCriteria(label)), `No ${label} dropdown on this office`);
         const current = await tf.getCriteriaValue(label);
@@ -828,7 +828,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     }
 
-    test('TC-COM-TF-055: Searching again with an unsaved edit asks first', async () => {
+    test('TC-COM-TF-055: Searching again with an unsaved edit asks first', { tag: '@C107964' }, async () => {
       await about('Search with a pending edit shows the Unsaved changes dialog; Stay keeps the edit.');
       await tf.clickSearch();
       await verify('Unsaved changes dialog shown', async () => {
@@ -840,7 +840,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-056: Reset with an unsaved edit asks first, with the same dialog as a tab switch', async () => {
+    test('TC-COM-TF-056: Reset with an unsaved edit asks first, with the same dialog as a tab switch', { tag: '@C107965' }, async () => {
       await about('Reset with a pending edit shows the Unsaved changes dialog, worded exactly as for a tab switch (NM-3679).');
       await tf.clickTab(HISTORY);
       const onTab = await tf.getUnsavedDialog();
@@ -853,7 +853,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-057: Reloading with an unsaved edit raises the browser prompt', async () => {
+    test('TC-COM-TF-057: Reloading with an unsaved edit raises the browser prompt', { tag: '@C107966' }, async () => {
       await about('A browser reload with a pending edit raises the browser\'s own leave-page prompt.');
       const prompt = await phase('Reload', () => tf.reloadAndWatchPrompt());
       await verify('A beforeunload prompt was raised', async () => {
@@ -861,7 +861,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-058: Changing the Location with an unsaved edit asks first', async () => {
+    test('TC-COM-TF-058: Changing the Location with an unsaved edit asks first', { tag: '@C107967' }, async () => {
       await about('On the corporate office, choosing another location with a pending edit shows the dialog (NM-3689).');
       await phase(`Open ${TF_OFFICES.corporate}, search and add a row`, async () => {
         await tf.open(TF_OFFICES.corporate);
@@ -886,7 +886,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       row = await tf.savedBand(WRITES_ALLOWED);
     });
 
-    test('TC-COM-TF-059: Typing a rate back leaves nothing to save', async () => {
+    test('TC-COM-TF-059: Typing a rate back leaves nothing to save', { tag: '@C107968' }, async () => {
       await about('Changing a rate and typing the original back turns Save off and the actions on again (NM-3429, TC-TF-17).');
       const { column, original } = await tf.changeRate(row);
       await verify('Save on after the change', async () => {
@@ -898,7 +898,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-060: Typing a boundary back leaves nothing to save', async () => {
+    test('TC-COM-TF-060: Typing a boundary back leaves nothing to save', { tag: '@C107969' }, async () => {
       await about('Changing Upper Tier Boundary and typing the original back turns Save off (NM-3429).');
       const original = await tf.numberIn(row, 'Upper Tier Boundary');
       await tf.typeInto(row, 'Upper Tier Boundary', String(original - 1));
@@ -911,7 +911,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-061: Ticking Profit Only and unticking it leaves nothing to save', async () => {
+    test('TC-COM-TF-061: Ticking Profit Only and unticking it leaves nothing to save', { tag: '@C107970' }, async () => {
       await about('Profit Only flipped and flipped back returns the page to unchanged (NM-3429).');
       await tf.toggle(row, 'Profit Only');
       await verify('Save on after the change', async () => {
@@ -923,7 +923,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-062: Retyping the stored value is not a change', async () => {
+    test('TC-COM-TF-062: Retyping the stored value is not a change', { tag: '@C107971' }, async () => {
       await about('Typing exactly the stored Lower Tier Boundary leaves Save off.');
       await tf.typeInto(row, 'Lower Tier Boundary', String(await tf.numberIn(row, 'Lower Tier Boundary')));
       await verify('Save off; actions on', async () => {
@@ -955,7 +955,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     }
 
-    test('TC-COM-TF-063: Save sends only the edited and the new rows', async () => {
+    test('TC-COM-TF-063: Save sends only the edited and the new rows', { tag: '@C107972' }, async () => {
       await about('With one saved row edited and one row added, the save request carries exactly those two rows (TC-TF-22). The request never reaches the server.');
       const { edited } = await tf.changeRate(await tf.savedBand(WRITES_ALLOWED));
       const { row } = await tf.addRowOnFreeServiceType();
@@ -975,7 +975,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-064: A failed save keeps the changes and says so', async () => {
+    test('TC-COM-TF-064: A failed save keeps the changes and says so', { tag: '@C107973' }, async () => {
       await about('When the server rejects a save, an error is shown and the new row stays on screen with Save on.');
       const { row, serviceType } = await tf.addRowOnFreeServiceType();
       await tf.setBand(row, 10, 20);
@@ -993,7 +993,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-065: Double-clicking Save sends one request', async () => {
+    test('TC-COM-TF-065: Double-clicking Save sends one request', { tag: '@C107974' }, async () => {
       await about('Two quick clicks on Save send a single save request. Nothing reaches the server.');
       const { row } = await tf.addRowOnFreeServiceType();
       await tf.setBand(row, 10, 20);
@@ -1009,7 +1009,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-066: A new band is saved, the page resets, and Copy opens without a warning', async () => {
+    test('TC-COM-TF-066: A new band is saved, the page resets, and Copy opens without a warning', { tag: '@C107975' }, async () => {
       test.skip(!WRITES_ALLOWED, 'TF_WRITES=off');
       await about('Saving a new band succeeds, turns Save off and the actions on, lets Copy open straight away (NM-3428, TC-TF-23), and a new search lists it.');
       const { row, serviceType } = await tf.addRowOnFreeServiceType();
@@ -1036,7 +1036,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-067: An edit to a saved band is stored', async () => {
+    test('TC-COM-TF-067: An edit to a saved band is stored', { tag: '@C107976' }, async () => {
       test.skip(!WRITES_ALLOWED, 'TF_WRITES=off');
       await about('Changing Comm % of a saved band and saving stores the new rate.');
       const { row, serviceType } = await tf.addRowOnFreeServiceType();
@@ -1055,7 +1055,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-068: Deleting a saved band and saving removes it', async () => {
+    test('TC-COM-TF-068: Deleting a saved band and saving removes it', { tag: '@C107977' }, async () => {
       test.skip(!WRITES_ALLOWED, 'TF_WRITES=off');
       await about('Delete on a saved band, then Save, removes it from the next search.');
       const { row, serviceType } = await tf.addRowOnFreeServiceType();
@@ -1074,7 +1074,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-069: Save cannot be pressed again while a save is in progress', async () => {
+    test('TC-COM-TF-069: Save cannot be pressed again while a save is in progress', { tag: '@C107978' }, async () => {
       test.skip(!WRITES_ALLOWED, 'TF_WRITES=off');
       await about('With the save reply held back, Save is off (or a progress indicator shows) until the reply arrives.');
       const { row } = await tf.addRowOnFreeServiceType();
@@ -1101,7 +1101,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       await tf.search();
     });
 
-    test('TC-COM-TF-070: Export downloads TierFlatCommissions-<office>.xlsx with its column headers', async () => {
+    test('TC-COM-TF-070: Export downloads TierFlatCommissions-<office>.xlsx with its column headers', { tag: '@C107979' }, async () => {
       // The export names differ from the grid ("Commission %", an extra "Local Office Id") — accepted on review 2026-11-12.
       await about(`Export downloads ${EXPORT_FILE(OFFICE)} (NM-3677, TC-TF-24) with the export header row: ${EXPORT_HEADERS.join(', ')}.`);
       const file = await phase('Export', () => tf.exportGrid());
@@ -1114,7 +1114,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-071: The export lists every row with Modified On in UTC', async () => {
+    test('TC-COM-TF-071: The export lists every row with Modified On in UTC', { tag: '@C107980' }, async () => {
       // The export carries UTC while the grid shows local time — intended (BUG-COM-TF-006 dropped on review 2026-11-13).
       await about('The export has one line per grid row, and a band\'s Modified On is the grid time in UTC (NM-4195, TC-TF-25).');
       const count = await tf.getCount();
@@ -1136,7 +1136,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-072: Import refuses every file that is not Excel', async () => {
+    test('TC-COM-TF-072: Import refuses every file that is not Excel', { tag: '@C107981' }, async () => {
       await about(`${BAD_UPLOADS.map((b) => b.name).join(', ')} are each refused with the "Excel files only" message (VALID_MSG_4), and nothing is uploaded (TC-TF-26).`);
       for (const bad of BAD_UPLOADS) {
         const result = await tf.importFile({ name: bad.name, mimeType: bad.mimeType, buffer: Buffer.from(bad.body) });
@@ -1148,7 +1148,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-073: Importing the file just exported succeeds without a duplicate error', async () => {
+    test('TC-COM-TF-073: Importing the file just exported succeeds without a duplicate error', { tag: '@C107982' }, async () => {
       test.fail(true, 'BUG-COM-TF-014: re-importing an unchanged export fails with "An item with the same key has already been added. Key: 1101" (NM-3425)');
       test.skip(!WRITES_ALLOWED, 'TF_WRITES=off');
       await about('Re-importing an unchanged export — every band already stored — succeeds, never an HTTP 400 for duplicates (NM-3425).');
@@ -1166,7 +1166,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-074: An Excel file with invalid values is refused and stores nothing', async () => {
+    test('TC-COM-TF-074: An Excel file with invalid values is refused and stores nothing', { tag: '@C107983' }, async () => {
       test.skip(!WRITES_ALLOWED, 'TF_WRITES=off');
       await about('A file with a negative lower boundary and a 150 % rate is reported with errors, and its band is not stored.');
       const headers = (await tf.exportGrid()).rows[0] ?? [];
@@ -1201,7 +1201,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       await tf.search();
     });
 
-    test('TC-COM-TF-075: Copy Within Location offers only service types of the same Business Type', async () => {
+    test('TC-COM-TF-075: Copy Within Location offers only service types of the same Business Type', { tag: '@C107984' }, async () => {
       await about('The destinations of Copy Within Location are service types of the chosen Business Type, never the source itself (NM-3728, TC-TF-27).');
       const source = (await tf.readRow(await tf.savedBand(WRITES_ALLOWED)))['Service Type'] ?? '';
       const allowed = await tf.serviceTypeOptions(await tf.addRow());
@@ -1217,8 +1217,8 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    for (const [kind, close, id] of [['within', 'cancel', 'TC-COM-TF-076'], ['locations', 'escape', 'TC-COM-TF-077']] as const) {
-      test(`${id}: Copy ${kind === 'within' ? 'Within Location' : 'to Locations'} ticks are cleared after closing`, async () => {
+    for (const [kind, close, id, tag] of [['within', 'cancel', 'TC-COM-TF-076', '@C107985'], ['locations', 'escape', 'TC-COM-TF-077', '@C107986']] as const) {
+      test(`${id}: Copy ${kind === 'within' ? 'Within Location' : 'to Locations'} ticks are cleared after closing`, { tag }, async () => {
         await about(`A destination ticked and then closed with ${close === 'cancel' ? 'Cancel' : 'Escape'} is unticked when the panel opens again (NM-3687, TC-TF-30).`);
         let panel = await tf.openCopy(kind);
         await tf.tickTarget(panel, 0);
@@ -1230,7 +1230,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     }
 
-    test('TC-COM-TF-078: After Copy Within Location the source stays, Search works and the ticks are cleared', async () => {
+    test('TC-COM-TF-078: After Copy Within Location the source stays, Search works and the ticks are cleared', { tag: '@C107987' }, async () => {
       test.skip(!WRITES_ALLOWED, 'TF_WRITES=off');
       await about('Copying a band to a service type with no tiers keeps the source listed and Search usable (NM-3686, TC-TF-29), and the panel opens clear again (NM-3687).');
       const { row, serviceType: source, free } = await tf.addRowOnFreeServiceType();
@@ -1273,7 +1273,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       await tf.search();
     });
 
-    test('TC-COM-TF-079: Reset Dates opens with January–June and July–December columns', async () => {
+    test('TC-COM-TF-079: Reset Dates opens with January–June and July–December columns', { tag: '@C107988' }, async () => {
       await about('Reset Dates opens "Commission Tier Reset" with twelve month selectors: January–June in the first column, July–December in the second (NM-2168).');
       const dialog = await phase('Open Reset Dates', () => tf.openResetDates());
       const at = await tf.monthPositions();
@@ -1292,7 +1292,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-080: Every month offers blank and each day of that month', async () => {
+    test('TC-COM-TF-080: Every month offers blank and each day of that month', { tag: '@C107989' }, async () => {
       test.fail(true, 'BUG-COM-TF-007: every Reset Dates month offers only a blank and "1" (NM-3510)');
       const year = new Date().getFullYear();
       await about(`Each selector offers a blank (0) choice and the days 1 to the month's last day — not just "1" (NM-3510, TC-TF-35); February follows ${year}.`);
@@ -1307,7 +1307,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-081: Cancel closes Reset Dates at once and keeps nothing', async () => {
+    test('TC-COM-TF-081: Cancel closes Reset Dates at once and keeps nothing', { tag: '@C107990' }, async () => {
       await about('After changing January, Cancel closes the modal with no warning; reopening shows the stored January value.');
       await tf.openResetDates();
       const stored = await tf.monthValue(0);
@@ -1324,7 +1324,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-082: Saving a reset day succeeds and keeps the modal open', async () => {
+    test('TC-COM-TF-082: Saving a reset day succeeds and keeps the modal open', { tag: '@C107991' }, async () => {
       test.fail(true, 'BUG-COM-TF-011: a saved reset day is not stored — reopening shows it blank and Reset Date History stays empty (NM-3633)');
       test.skip(!WRITES_ALLOWED, 'TF_WRITES=off');
       await about('Saving a January reset day shows no "Failed to save tier commission reset" error, keeps the modal open with the CPT, and keeps the day (NM-3633). The stored day is put back.');
@@ -1351,7 +1351,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-083: Reset Dates shows the Current Period Total line', async () => {
+    test('TC-COM-TF-083: Reset Dates shows the Current Period Total line', { tag: '@C107992' }, async () => {
       // The value still reads "TODO" on e2e — accepted on review 2026-11-12 (not built yet); only the line is checked.
       await about('The Reset Dates modal ends with a "CPT :" line that carries a value (NM-2168).');
       await tf.openResetDates();
@@ -1367,7 +1367,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       tf = new CommissionTierFlatPage(authenticatedSession.page, config);
     });
 
-    test('TC-COM-TF-084: Automated WCAG 2.1 AA scan finds no serious or critical violations', async () => {
+    test('TC-COM-TF-084: Automated WCAG 2.1 AA scan finds no serious or critical violations', { tag: '@C107993' }, async () => {
       await about('An axe-core scan of Basic Information with results, the Reset Dates modal and History finds no serious or critical violations outside the select triggers and the tab strip.');
       type Violation = { id: string; impact: string | null; nodes: { target: unknown }[] };
       type Axe = { withTags(t: string[]): Axe; exclude(s: string): Axe; analyze(): Promise<{ violations: Violation[] }> };
@@ -1393,7 +1393,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-085: The page stays usable at 1024×768', async () => {
+    test('TC-COM-TF-085: The page stays usable at 1024×768', { tag: '@C107994' }, async () => {
       await about('At 1024×768 Search, Save and the grid stay reachable and the page does not scroll sideways.');
       const original = tf.page.viewportSize();
       try {
@@ -1413,7 +1413,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-086: No untranslated text key is visible', async () => {
+    test('TC-COM-TF-086: No untranslated text key is visible', { tag: '@C107995' }, async () => {
       await about('Every label, header and message is real text, never a raw key like "commission.tier.title" or "VALID_MSG_4".');
       await tf.open(OFFICE);
       await tf.search();
@@ -1446,7 +1446,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       return rows;
     }
 
-    test('TC-COM-TF-087: History opens with its columns, read-only and with no editing actions', async () => {
+    test('TC-COM-TF-087: History opens with its columns, read-only and with no editing actions', { tag: '@C107996' }, async () => {
       await about(`History loads when its tab is opened and lists ${HISTORY_COLUMNS.join(', ')}; nothing in it can be edited (NM-3573, NM-3574).`);
       await verify('History selected, no Search button', async () => {
         expect(await tf.selectedTab()).toBe(HISTORY);
@@ -1461,7 +1461,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-088: An office with no history shows "No results" on a single page', async () => {
+    test('TC-COM-TF-088: An office with no history shows "No results" on a single page', { tag: '@C107997' }, async () => {
       await about('With no entries the grid reads "0 items found" and "No results", the pager shows 1 / 1 and every paging button is off.');
       let empty = false;
       for (const office of [LOCAL, OFFICE]) {
@@ -1476,7 +1476,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-089: Every entry is complete and valid', async () => {
+    test('TC-COM-TF-089: Every entry is complete and valid', { tag: '@C107998' }, async () => {
       await about('Each entry belongs to the office, names its Service Type and Currency, says who changed it and when, has a known Action and valid values (NM-3573, NM-3574, NM-4692, NM-4216, TC-TF-31).');
       test.skip(total === 0, 'No history entries');
       const rows = await readAll();
@@ -1505,7 +1505,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-090: Rows per page starts on 10 and the paging buttons stop at the ends', async () => {
+    test('TC-COM-TF-090: Rows per page starts on 10 and the paging buttons stop at the ends', { tag: '@C107999' }, async () => {
       await about('Rows per page starts on 10; First and Previous are off on page 1, Next and Last move forward and are off on the last page (NM-3628).');
       const pages = pagesFor(total, 10);
       test.skip(pages < 3, `Needs at least three pages of history (${total} entries)`);
@@ -1526,7 +1526,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-091: Changing rows per page on page 2 keeps the page number true to the rows shown', async () => {
+    test('TC-COM-TF-091: Changing rows per page on page 2 keeps the page number true to the rows shown', { tag: '@C108000' }, async () => {
       await about('On page 2, switching to 20 rows per page shows a page number and page count that match the rows on screen (NM-3619, TC-TF-33).');
       test.skip(total <= 20, `Needs more than 20 history entries (${total})`);
       await tf.goToPage('next');
@@ -1539,7 +1539,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-092: The page-number box goes to a typed page and refuses pages that do not exist', async () => {
+    test('TC-COM-TF-092: The page-number box goes to a typed page and refuses pages that do not exist', { tag: '@C108001' }, async () => {
       await about('Typing 2 shows page 2; 0, -1, 9999, letters and a decimal each leave the pager on a real page with rows.');
       const pages = pagesFor(total, 10);
       test.skip(pages < 2, 'Needs two pages of history');
@@ -1556,7 +1556,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-093: Going back to Basic Information starts on page 1', async () => {
+    test('TC-COM-TF-093: Going back to Basic Information starts on page 1', { tag: '@C108002' }, async () => {
       await about('After paging History to its last page, Basic Information opens on page 1, and History reopens on page 1 (NM-3660, TC-TF-34).');
       test.skip(pagesFor(total, 10) < 2, 'Needs two pages of history');
       await tf.goToPage('last');
@@ -1572,7 +1572,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-094: Action sorts both ways, and Grid Options lists every column', async () => {
+    test('TC-COM-TF-094: Action sorts both ways, and Grid Options lists every column', { tag: '@C108003' }, async () => {
       await about('The header menu sorts Action A→Z and Z→A; Grid Options lists each History column, ticked.');
       test.skip(total < 2, 'Needs two history entries');
       await tf.sortBy('Action', 'ascending');
@@ -1588,7 +1588,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-095: History export downloads TierFlatCommAudit-<office>.xlsx with every entry', async () => {
+    test('TC-COM-TF-095: History export downloads TierFlatCommAudit-<office>.xlsx with every entry', { tag: '@C108004' }, async () => {
       // The export names differ from the grid — accepted on review 2026-11-12.
       await about(`Export downloads ${AUDIT_FILE(TF_HISTORY_OFFICE)} (NM-3677, TC-TF-33) with the audit header row and one line per entry of every page.`);
       const file = await phase('Export', () => tf.exportGrid());
@@ -1639,7 +1639,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     }
 
-    test('TC-COM-TF-096: Adding, changing and deleting a band records Add, Modify and Remove', async () => {
+    test('TC-COM-TF-096: Adding, changing and deleting a band records Add, Modify and Remove', { tag: '@C108005' }, async () => {
       await about('A saved new band appears as Add with its Service Type and Currency (NM-3573); a change as Modify; a deletion as Remove, still with its Currency (NM-4692).');
       const { row, serviceType } = await tf.addRowOnFreeServiceType({ pick: 'last' });
       try {
@@ -1667,7 +1667,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-097: Copying over a band records Remove for the old one, with its Currency', async () => {
+    test('TC-COM-TF-097: Copying over a band records Remove for the old one, with its Currency', { tag: '@C108006' }, async () => {
       test.fail(true, 'BUG-COM-TF-012: after a copy, History shows the overwritten band as Remove with a blank Currency (NM-4692)');
       // No Copy entry is written for the copied band — accepted (BUG-COM-TF-013 dropped on review 2026-11-13).
       await about('Copying a band onto a service type that has one records the replaced band as Remove, with its Currency (NM-4692, TC-TF-32).');
@@ -1709,7 +1709,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
 
     for (const office of TF_FOREIGN_OFFICES) {
       test.describe(officeLabel(office), () => {
-        test('TC-COM-TF-098: Basic Information and History load without an error', async () => {
+        test('TC-COM-TF-098: Basic Information and History load without an error', { tag: '@C108007' }, async () => {
           await about('The office searches its tiers and opens History cleanly — rows or the empty state, never "Unexpected error occurred" (NM-3599).');
           await tf.open(office.code);
           const tiers = await phase('Search', () => tf.search());
@@ -1732,7 +1732,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       await tf.search();
     });
 
-    test('TC-COM-TF-099: Basic Information sorts by Service Type both ways and by Lower Tier Boundary as a number', async () => {
+    test('TC-COM-TF-099: Basic Information sorts by Service Type both ways and by Lower Tier Boundary as a number', { tag: '@C108008' }, async () => {
       await about('The header menu sorts Service Type A→Z and Z→A, and Lower Tier Boundary from the largest number down.');
       test.skip((await tf.getCount()) < 2, 'Needs two tiers');
       await tf.sortBy('Service Type', 'ascending');
@@ -1750,7 +1750,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-100: A hidden column stays hidden until Reset to Default View brings every column back', async () => {
+    test('TC-COM-TF-100: A hidden column stays hidden until Reset to Default View brings every column back', { tag: '@C108009' }, async () => {
       await about('Hide column (header menu) and unticking in Grid Options each remove a column; the choice survives a reload; Reset to Default View restores every column.');
       try {
         await tf.resetGridView();
@@ -1780,7 +1780,7 @@ test.describe('Commission Tier/Flat @commissions', () => {
       }
     });
 
-    test('TC-COM-TF-101: The Product Code Commissions link opens the office\'s Product Code Commission page', async () => {
+    test('TC-COM-TF-101: The Product Code Commissions link opens the office\'s Product Code Commission page', { tag: '@C108010' }, async () => {
       await about(`The "${TEXT.productCodeLink}" link in the banner opens ${PRODUCT_CODE_PATH(OFFICE)} in the same tab (NM-3384).`);
       await tf.productCodeBanner().getByRole('link', { name: TEXT.productCodeLink }).click();
       await verify(`${PRODUCT_CODE_PATH(OFFICE)} with the "${TEXT.productCodeHeading}" heading`, async () => {
