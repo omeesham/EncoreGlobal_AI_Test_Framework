@@ -15,7 +15,7 @@
   "expectedBehavior": "The Remove entry of the overwritten 5 – 99,999,901 band shows USD.",
   "actualBehavior": "Its Currency is blank; every other Remove of the same band (made by a normal delete) shows USD.",
   "affectedTests": [
-    "TC-COM-TF-099"
+    "TC-COM-TF-097"
   ],
   "verificationLog": [
     {

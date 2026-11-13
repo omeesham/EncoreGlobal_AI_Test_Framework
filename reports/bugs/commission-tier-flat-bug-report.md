@@ -12,10 +12,10 @@ Four open defects in Setup → Commissions → Tier/Flat, three of them High. Th
 
 | Bug | Severity | Defect | Related ticket | Automated test |
 | --- | --- | --- | --- | --- |
-| BUG-COM-TF-007 | High | Reset-day lists offer only a blank and "1" | NM-3510 (regression) | TC-COM-TF-081 |
-| BUG-COM-TF-011 | High | A saved reset day isn't stored | NM-3633 | TC-COM-TF-083 |
+| BUG-COM-TF-007 | High | Reset-day lists offer only a blank and "1" | NM-3510 (regression) | TC-COM-TF-080 |
+| BUG-COM-TF-011 | High | A saved reset day isn't stored | NM-3633 | TC-COM-TF-082 |
 | BUG-COM-TF-014 | High | Importing an export fails with a raw error | NM-3425 (regression) | TC-COM-TF-073 |
-| BUG-COM-TF-012 | Medium | A band overwritten by a copy has a blank Currency in History | NM-4692 (regression) | TC-COM-TF-099 |
+| BUG-COM-TF-012 | Medium | A band overwritten by a copy has a blank Currency in History | NM-4692 (regression) | TC-COM-TF-097 |
 
 ## BUG-COM-TF-007: Reset-day lists offer only a blank and "1"
 
@@ -36,7 +36,7 @@ Every month in the Reset Dates modal offers only a blank and "1", so no reset da
 
 **Actual:** every month offers only a blank and "1".
 
-**Automated test:** TC-COM-TF-081
+**Automated test:** TC-COM-TF-080
 
 ## BUG-COM-TF-011: A saved reset day isn't stored
 
@@ -57,7 +57,7 @@ Saving a reset day shows no error, but nothing is stored: the month is blank whe
 
 **Actual:** January is blank, and Reset Date History says "0 items found".
 
-**Automated test:** TC-COM-TF-083
+**Automated test:** TC-COM-TF-082
 
 ## BUG-COM-TF-014: Importing an export fails with a raw error
 
@@ -101,4 +101,4 @@ When Copy Within Location overwrites a band, History records the old band as Rem
 
 **Actual:** B's old band appears as Remove with an empty Currency.
 
-**Automated test:** TC-COM-TF-099
+**Automated test:** TC-COM-TF-097

@@ -5,12 +5,12 @@
 | Ticket | NM-3350 (parent NM-3347, epic NM-3489); features NM-2083, NM-1635, NM-2168, NM-3728 |
 | Page | Navigator → Setup → Commissions → Tier/Flat — `/navigator/locations/{office}/commissions/tiers` (tabs Basic Information, Commission Tier/Flat History) |
 | Environment | e2e (`cloudapps-e2e.encoreglobal.com`); edit office **1101** (corporate — the only editable office), 1606 (local, read-only), 2322 (Canada), 7147 (Mexico) |
-| Spec | [`commission-tier-flat.spec.ts`](../../tests/commissions/commission-tier-flat.spec.ts) — 98 cases `TC-COM-TF-001…098` in sections A–O (Basic Information A–L, History M–O), written in the style of `tests/taxes/order-origin-tax.spec.ts` |
+| Spec | [`commission-tier-flat.spec.ts`](../../tests/commissions/commission-tier-flat.spec.ts) — 101 cases `TC-COM-TF-001…101` in sections A–P (Basic Information A–L and P, History M–O), written in the style of `tests/taxes/order-origin-tax.spec.ts` |
 | Page object | [`src/pages/commissions/commission-tier-flat.page.ts`](../../src/pages/commissions/commission-tier-flat.page.ts) |
 | Selectors / data | [`src/selectors/commissions/commission-tier-flat.ts`](../../src/selectors/commissions/commission-tier-flat.ts), [`src/data/commissions/commission-tier-flat.ts`](../../src/data/commissions/commission-tier-flat.ts) |
 | Test cases | [`commission-tier-flat.xlsx`](commission-tier-flat.xlsx) → [`testcases-testrail-import/commissions/commission-tier-flat.csv`](../../testcases-testrail-import/commissions/commission-tier-flat.csv) |
 | ID grammar | `TC-COM-TF-NNN` — module `COM`, submodule `TF` registered in `export_test_cases/module-codes.json`; one spec, one workbook, one ID sequence per screen (as for the tax screens) |
-| Status | Run on e2e 2026-11-12, read-only and with writes: every case passes or fails as marked; 6 open defects, 8 dropped on review (§8). |
+| Status | Run on e2e 2026-11-12, read-only and with writes: every case passes or fails as marked; 4 open defects, 10 dropped on review (§8). |
 
 ## 1. Scope and approach
 
@@ -40,10 +40,9 @@ never saved. Each test opens the page fresh, which drops them.
 - remove their bands in `finally`;
 - are swept again by `purgeLeftovers()` in `beforeAll`, in case a previous run aborted.
 
-`TF_WRITES=off` turns all 12 writing cases (marked **W** below) into skips, so the suite can also run read-only. The
+`TF_WRITES=off` turns all 15 writing cases (marked **W** below) into skips, so the suite can also run read-only. The
 dirty-state cases normally edit an existing row without saving. Only when the office has no tiers do they first save
-one marker band. Copy to other locations
-overwrites the destination office, so it only runs when `TF_COPY_TARGET_OFFICE` names a sandbox office.
+one marker band.
 
 **Save checks stay at the network.** The payload check (061), the failure check (062) and the double-submit check (063)
 catch the save request in the browser (`holdRequests('abort' | 'fail')`), so nothing is stored. The page's calls are
@@ -64,7 +63,7 @@ from the browser, so requests are told apart by when they are sent, not by their
 | Network helpers | `holdRequests('abort' \| 'fail' \| 'delay')`, `countPosts()` — no fixed waits anywhere; every wait is on a UI state, a request or a download event |
 | Files | `exportGrid()` saves the download and parses it with `xlsx`; `importFile()` handles a file chooser or file input, a browser `alert`, and counts uploads; `CommissionTierFlatPage.workbook()` builds an .xlsx in memory (no binary fixtures) |
 | Accessibility | `@axe-core/playwright` WCAG 2.1 AA, same exclusions as the tax pages (select triggers, tab strip) |
-| Sequential numbering | IDs ascend in file order with no gaps (verified: TF 001–098); a loop over offices shares one id (Vikas's convention), any other loop names an id per entry |
+| Sequential numbering | IDs ascend in file order with no gaps (verified: TF 001–101); a loop over offices shares one id (Vikas's convention), any other loop names an id per entry |
 | TestRail mapping | The reporter resolves each result by TC id through `config/testrail/case-map.json`; workbooks → CSV via `scripts/convert-testcases-to-testrail.py` (section `Commissions > Tier_Flat`); `npm run testrail:sync:execute -- --only commissions/commission-tier-flat` imports and writes the case ids back |
 
 ### Environment variables
@@ -77,10 +76,8 @@ from the browser, so requests are told apart by when they are sent, not by their
 | `TF_HISTORY_OFFICE` | 1101 | Office with several History pages |
 | `TF_BUSINESS_TYPE` | Audio Visual | Default Business Type |
 | `TF_WRITES` | on | `off` skips every case that stores data |
-| `TF_COPY_TARGET_OFFICE` | — | Sandbox destination for Copy to Locations (077) |
-| `TF_RESTRICTED_STATE` | — | storageState of a user without commission rights (086) |
 
-## 3. Test cases (`TC-COM-TF-001…100`)
+## 3. Test cases (`TC-COM-TF-001…101`)
 
 P = priority (C Critical, H High, M Medium, L Low). **W** = writes E2E data (skipped with `TF_WRITES=off`). Section D cases each loop over a data table (`LOWER_INPUT`, `UPPER_INPUT`, `COMM_INPUT`, `RATE_EDGES`) with soft checks, so every value is reported inside the case — see the table below.
 
@@ -145,8 +142,8 @@ Values per field (from the data module):
 | Field | Accepted (kept as) | Refused while typing | Free-form (flagged or a plain number) |
 |---|---|---|---|
 | Lower Tier Boundary (Upper = 100,000,000) | `0`, `1`, `99999999`, `100000000`, `0007` → 7 | `100000001`, `-1`, `-0.01`, 50 digits | empty, `abc`, `!@#$`, `1500.75`, `1e3`, `1,000`, markup |
-| Upper Tier Boundary (Lower = 1,000) | `1001`, `1000`, `100000000`, `100000001` (no maximum is enforced) | `999`, `0`, `-1` | empty, `xyz`, `  2000  `, 50 digits |
-| Comm % | `0`, `0.01` → 1 % (below 1 read as a fraction), `50`, `99.99`, `100` | `100.01`, `101`, `-0.01`, `-5` | empty, `abc`, `1.2.3`, `12.345`, `25%` |
+| Upper Tier Boundary (Lower = 1,000) | `1001`, `1000`, `100000000` | `999`, `0`, `100000001`, `-1`, 50 digits | empty, `xyz`, `  2000  ` |
+| Comm % | `0`, `0.01`, `50`, `99.99`, `100` | `100.01`, `101`, `-0.01`, `-5` | empty, `abc`, `1.2.3`, `12.345`, `25%` |
 | SC Comm %, ETS Comm % | `100` | `100.01`, `-0.01` | — (same editor as Comm %) |
 
 ### E. Overlap and gaps
@@ -198,7 +195,7 @@ Values per field (from the data module):
 | ID | Scenario | P | Trace |
 |---|---|---|---|
 | 070 | Export downloads TierFlatCommissions-<office>.xlsx with its column headers | H | NM-3677, TC-TF-24 |
-| 071 | The export lists every row with the same Modified On as the grid | H | NM-4195, TC-TF-25 |
+| 071 | The export lists every row with Modified On in UTC | H | NM-4195, TC-TF-25 |
 | 072 | Import refuses every file that is not Excel | M | TC-TF-26 |
 | 073 **W** | Importing the file just exported succeeds without a duplicate error | H | NM-3425 |
 | 074 **W** | An Excel file with invalid values is refused and stores nothing | H | — |
@@ -210,48 +207,53 @@ Values per field (from the data module):
 | 076 | Copy Within Location ticks are cleared after closing | H | NM-3687, TC-TF-30 |
 | 077 | Copy to Locations ticks are cleared after closing | H | NM-3687, TC-TF-30 |
 | 078 **W** | After Copy Within Location the source stays, Search works and the ticks are cleared | H | NM-3686, NM-3687, TC-TF-29 |
-| 079 **W** | Copy to Locations lists conflicts only for service types of the source | H | NM-3685, TC-TF-28 |
 
 ### K. Reset Dates
 | ID | Scenario | P | Trace |
 |---|---|---|---|
-| 080 | Reset Dates opens with January–June and July–December columns | H | NM-2168 |
-| 081 | Every month offers blank and each day of that month | H | NM-3510, TC-TF-35 |
-| 082 | Cancel closes Reset Dates at once and keeps nothing | M | — |
-| 083 **W** | Saving a reset day succeeds and keeps the modal open | H | NM-3633 |
-| 084 | Reset Dates shows the Current Period Total line | H | NM-2168 |
+| 079 | Reset Dates opens with January–June and July–December columns | H | NM-2168 |
+| 080 | Every month offers blank and each day of that month | H | NM-3510, TC-TF-35 |
+| 081 | Cancel closes Reset Dates at once and keeps nothing | M | — |
+| 082 **W** | Saving a reset day succeeds and keeps the modal open | H | NM-3633 |
+| 083 | Reset Dates shows the Current Period Total line | H | NM-2168 |
 
 ### L. Accessibility and security
 | ID | Scenario | P | Trace |
 |---|---|---|---|
-| 085 | Automated WCAG 2.1 AA scan finds no serious or critical violations | L | — |
-| 086 | The page stays usable at 1024×768 | L | — |
-| 087 | No untranslated text key is visible | L | — |
-| 088 | A user without commission setup rights is turned away | C | NM-3907, TC-TF-03 |
+| 084 | Automated WCAG 2.1 AA scan finds no serious or critical violations | L | — |
+| 085 | The page stays usable at 1024×768 | L | — |
+| 086 | No untranslated text key is visible | L | — |
 
 ### M. History
 | ID | Scenario | P | Trace |
 |---|---|---|---|
-| 089 | History opens with its columns, read-only and with no editing actions | H | NM-3573, NM-3574 |
-| 090 | An office with no history shows "No results" on a single page | M | — |
-| 091 | Every entry is complete and valid | H | NM-3573, NM-3574, NM-4216, NM-4692, TC-TF-31 |
-| 092 | Rows per page starts on 10 and the paging buttons stop at the ends | H | NM-3628 |
-| 093 | Changing rows per page on page 2 keeps the page number true to the rows shown | H | NM-3619, TC-TF-33 |
-| 094 | The page-number box goes to a typed page and refuses pages that do not exist | M | — |
-| 095 | Going back to Basic Information starts on page 1 | H | NM-3660, TC-TF-34 |
-| 096 | Action sorts both ways, and Grid Options lists every column | M | — |
-| 097 | History export downloads TierFlatCommAudit-<office>.xlsx with every entry | H | NM-3677, TC-TF-33 |
+| 087 | History opens with its columns, read-only and with no editing actions | H | NM-3573, NM-3574 |
+| 088 | An office with no history shows "No results" on a single page | M | — |
+| 089 | Every entry is complete and valid | H | NM-3573, NM-3574, NM-4216, NM-4692, TC-TF-31 |
+| 090 | Rows per page starts on 10 and the paging buttons stop at the ends | H | NM-3628 |
+| 091 | Changing rows per page on page 2 keeps the page number true to the rows shown | H | NM-3619, TC-TF-33 |
+| 092 | The page-number box goes to a typed page and refuses pages that do not exist | M | — |
+| 093 | Going back to Basic Information starts on page 1 | H | NM-3660, TC-TF-34 |
+| 094 | Action sorts both ways, and Grid Options lists every column | M | — |
+| 095 | History export downloads TierFlatCommAudit-<office>.xlsx with every entry | H | NM-3677, TC-TF-33 |
 
 ### N. History of changes
 | ID | Scenario | P | Trace |
 |---|---|---|---|
-| 098 **W** | Adding, changing and deleting a band records Add, Modify and Remove | H | NM-3573, NM-4692 |
-| 099 **W** | Copying over a band records Remove for the old one and Copy for the new one | H | NM-4216, NM-4692, TC-TF-32 |
+| 096 **W** | Adding, changing and deleting a band records Add, Modify and Remove | H | NM-3573, NM-4692 |
+| 097 **W** | Copying over a band records Remove for the old one, with its Currency | H | NM-4692, TC-TF-32 |
 
 ### O. Other countries
 | ID | Scenario | P | Trace |
 |---|---|---|---|
-| 100 | Basic Information and History load without an error | H | NM-3599 |
+| 098 | Basic Information and History load without an error | H | NM-3599 |
+
+### P. Grid view and links
+| ID | Scenario | P | Trace |
+|---|---|---|---|
+| 099 | Basic Information sorts by Service Type both ways and by Lower Tier Boundary as a number | M | — |
+| 100 | A hidden column stays hidden until Reset to Default View brings every column back | M | — |
+| 101 | The Product Code Commissions link opens the office's Product Code Commission page | H | NM-3384 |
 
 ## 4. History
 
@@ -262,45 +264,43 @@ History is covered in sections M–O above (read-only grid, field content, pagin
 | Defect | Tests |
 |---|---|
 | NM-1635 | 008, 013, 021 |
-| NM-2168 | 080, 084 |
+| NM-2168 | 079, 083 |
 | NM-3241 | 035, 036, 038, 039 |
-| NM-3384 | 006 |
+| NM-3384 | 006, 101 |
 | NM-3425 | 073 |
 | NM-3428 | 066 |
 | NM-3429 | 059, 060, 061 |
-| NM-3510 | 081 |
+| NM-3510 | 080 |
 | NM-3554 | 010 |
-| NM-3573 | 089, 091, 098 |
-| NM-3574 | 089, 091 |
-| NM-3599 | 100 |
+| NM-3573 | 087, 089, 096 |
+| NM-3574 | 087, 089 |
+| NM-3599 | 098 |
 | NM-3606 | 050 |
-| NM-3619 | 093 |
+| NM-3619 | 091 |
 | NM-3621 | 011 |
-| NM-3628 | 092 |
-| NM-3633 | 083 |
+| NM-3628 | 090 |
+| NM-3633 | 082 |
 | NM-3648 | 023 |
-| NM-3660 | 095 |
+| NM-3660 | 093 |
 | NM-3673 | 030, 033, 040 |
-| NM-3677 | 070, 097 |
+| NM-3677 | 070, 095 |
 | NM-3678 | 028, 049 |
 | NM-3679 | 050, 056 |
-| NM-3685 | 079 |
 | NM-3686 | 078 |
 | NM-3687 | 076, 077, 078 |
 | NM-3689 | 053, 054, 058 |
 | NM-3728 | 075 |
-| NM-3907 | 088 |
 | NM-4195 | 071 |
-| NM-4216 | 091, 099 |
-| NM-4692 | 091, 098, 099 |
+| NM-4216 | 089 |
+| NM-4692 | 089, 096, 097 |
 
-Requirements matrix TC-TF-01…35 → 01 004 · 02 003 · 03 088 · 04 007 · 05 006 · 06 010 · 07 030 · 08 033 · 09 035, 036 · 10 030, 033 · 11 041, 047 · 12 044 · 13 042 · 14 019 · 15 027, 028, 045 · 16 049 · 17 059 · 18 050 · 19 050 · 20 051 · 21 053, 054 · 22 063 · 23 066 · 24 070 · 25 071 · 26 072 · 27 075 · 28 079 · 29 078 · 30 076, 077 · 31 091 · 32 099 · 33 093, 097 · 34 095 · 35 081
+Requirements matrix TC-TF-01…35 → 01 004 · 02 003 · 03 *see §7* · 04 007 · 05 006 · 06 010 · 07 030 · 08 033 · 09 035, 036 · 10 030, 033 · 11 041, 047 · 12 044 · 13 042 · 14 019 · 15 027, 028, 045 · 16 049 · 17 059 · 18 050 · 19 050 · 20 051 · 21 053, 054 · 22 063 · 23 066 · 24 070 · 25 071 · 26 072 · 27 075 · 28 *see §7* · 29 078 · 30 076, 077 · 31 089 · 32 097 · 33 091, 095 · 34 093 · 35 080
 
 ## 6. Non-functional coverage
 
 | Aspect | Coverage |
 |---|---|
-| Responsive | 1024×768, the narrowest supported window (TF-084); grid may scroll internally, the page must not |
+| Responsive | 1024×768, the narrowest supported window (085); grid may scroll internally, the page must not |
 | Cross-browser | Chromium only — the framework configures no Firefox/WebKit project. The specs are browser-agnostic; add projects in `playwright.config.ts` to extend |
 | Accessibility | axe WCAG 2.1 AA on grid, Reset Dates modal and History; keyboard order and Space toggle |
 | Performance / loading | Placeholders while a held search runs; progress while a held save runs; search and save retry after a 500 |
@@ -311,9 +311,8 @@ Requirements matrix TC-TF-01…35 → 01 004 · 02 003 · 03 088 · 04 007 · 05
 
 | Item | Reason | What is needed |
 |---|---|---|
-| TC-TF-05 Product Code status banner (NM-3384) | Needs an office with product-code commissions; banner text unknown | Office id + banner text → one case in section A |
-| TC-TF-03 with a real restricted user | No low-privilege account in this workspace | `TF_RESTRICTED_STATE` storageState (case 086 then runs) |
-| Copy to Locations execution | Overwrites the destination office | `TF_COPY_TARGET_OFFICE` sandbox (case 077 then runs) |
+| TC-TF-03 Restricted user is turned away (NM-3907) | Dropped on review 2026-11-13: no low-privilege test account on e2e | — |
+| TC-TF-28 Copy to Locations conflicts (NM-3685) | Dropped on review 2026-11-13: the copy overwrites the destination office and no sandbox office is available | — |
 | CPT request skipped for Mexico | Calls are server actions — the CPT call cannot be told apart in the browser | Server-side log, or a `data-testid` on the CPT value |
 | Firefox / WebKit | Not configured in the framework | Projects in `playwright.config.ts` |
 
@@ -341,14 +340,12 @@ the marker is removed then). The 12 writing cases were not run.
 
 | Bug | Severity | Defect | Tests |
 |---|---|---|---|
-| BUG-COM-TF-006 | Medium | Export Modified On is UTC, 5 h off the grid (**NM-4195 regression**) | 071 |
-| BUG-COM-TF-007 | **High** | Reset Dates months offer only blank and "1" (**NM-3510 regression**) | 081 |
-| BUG-COM-TF-011 | **High** | A saved reset day is not stored: reopening shows it blank, Reset Date History stays empty (NM-3633) | 083 |
-| BUG-COM-TF-012 | Medium | Band overwritten by a copy shows a blank Currency in History (**NM-4692 regression**) | 099 |
-| BUG-COM-TF-013 | Medium | The copied band gets no Copy entry in History (**NM-4216 regression**) | 099 |
+| BUG-COM-TF-007 | **High** | Reset Dates months offer only blank and "1" (**NM-3510 regression**) | 080 |
+| BUG-COM-TF-011 | **High** | A saved reset day is not stored: reopening shows it blank, Reset Date History stays empty (NM-3633) | 082 |
+| BUG-COM-TF-012 | Medium | Band overwritten by a copy shows a blank Currency in History (**NM-4692 regression**) | 097 |
 | BUG-COM-TF-014 | **High** | Re-importing an export fails: "An item with the same key has already been added. Key: 1101" (**NM-3425 regression**) | 073 |
 
-### Dropped on review (2026-11-12)
+### Dropped on review (2026-11-12/13)
 
 The behaviour is accepted; the records were removed and the tests now assert it.
 
@@ -358,10 +355,12 @@ The behaviour is accepted; the records were removed and the tests now assert it.
 | BUG-COM-TF-002 Service Type "130" on a saved row | No longer reproducible — the row now reads "xAdministrative Fee" | 013: listed service types belong to the Business Type (unchanged) |
 | BUG-COM-TF-003 Lower > Upper not flagged | **Reported in error** — the row is flagged at once: the value turns red, a warning icon appears and its tooltip reads "Lower tier must be less than or equal to upper tier."; the suite only looked for `aria-invalid` | 030, 033, 040: flagged while typing (`isRowFlagged` now reads the red value and warning icon) |
 | BUG-COM-TF-004 Comm % below 1 read as a fraction | Accepted rate entry rule | 035: 0.01 is kept as 1 % |
-| BUG-COM-TF-005 Export headers differ from the grid | Accepted export names | 070, 097: the live export header rows (`EXPORT_HEADERS`, `AUDIT_HEADERS`) |
-| BUG-COM-TF-008 CPT reads "TODO" | Accepted — CPT not built yet | 084: the CPT line is present; 087 no longer treats "TODO" as a raw key |
-| BUG-COM-TF-009 Grid checkboxes have no accessible name | Accepted, like the select triggers | 085: axe scan excludes the grid checkboxes |
-| BUG-COM-TF-010 Mexico 7147 page fails | Out of scope for this user / office | 100 runs for Canada only |
+| BUG-COM-TF-005 Export headers differ from the grid | Accepted export names | 070, 095: the live export header rows (`EXPORT_HEADERS`, `AUDIT_HEADERS`) |
+| BUG-COM-TF-008 CPT reads "TODO" | Accepted — CPT not built yet | 083: the CPT line is present; 086 no longer treats "TODO" as a raw key |
+| BUG-COM-TF-009 Grid checkboxes have no accessible name | Accepted, like the select triggers | 084: axe scan excludes the grid checkboxes |
+| BUG-COM-TF-010 Mexico 7147 page fails | Out of scope for this user / office | 098 runs for Canada only |
+| BUG-COM-TF-006 Export Modified On is UTC | Intended — the export carries UTC (review 2026-11-13) | 071: the export's Modified On is the grid time in UTC |
+| BUG-COM-TF-013 No Copy entry in History for a copied band | Accepted — a copy is recorded only by the Remove of the replaced band (review 2026-11-13) | 097: checks the Remove entry only |
 
 Writing cases: run with writes on (2026-11-12); Save, edit, delete, copy and History Add/Modify/Remove work. Their
 failures were script timing (save toast before the grid reset, import read mid-upload, Copy list rendered in view only)

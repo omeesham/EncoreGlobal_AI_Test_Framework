@@ -1077,6 +1077,31 @@ export class CommissionTierFlatPage extends BasePage {
     await this.waitForResults();
   }
 
+  /** Hides a column from its header menu. The choice is remembered across reloads until Reset to Default View. */
+  @step('Hide a column from its header menu')
+  async hideColumn(column: string): Promise<void> {
+    const header = this.page.locator(HEADERS).filter({ has: this.page.locator(HEADER_MENU_TRIGGER, { hasText: exactly(column) }) }).first();
+    await header.locator(HEADER_MENU_TRIGGER).click();
+    await this.page.locator(MENU_ITEM).filter({ hasText: 'Hide column' }).click();
+    await this.page.locator(MENU).waitFor({ state: 'hidden' });
+  }
+
+  /** Ticks or unticks a column in Grid Options (the menu closes on the click). */
+  @step('Toggle a column in Grid Options')
+  async toggleGridOptionColumn(column: string): Promise<void> {
+    await this.page.locator(BTN_GRID_OPTIONS).click();
+    await this.page.locator(MENU_CHECKBOX).filter({ hasText: exactly(column) }).click();
+    await this.page.keyboard.press('Escape');
+    await this.page.locator(MENU).waitFor({ state: 'hidden' });
+  }
+
+  @step('Grid Options → Reset to Default View')
+  async resetGridView(): Promise<void> {
+    await this.page.locator(BTN_GRID_OPTIONS).click();
+    await this.page.locator(MENU_ITEM).filter({ hasText: 'Reset to Default View' }).click();
+    await this.page.locator(MENU).waitFor({ state: 'hidden' });
+  }
+
   // ---------------------------------------------------------------- paging
 
   pager(): Locator {

@@ -14,7 +14,7 @@
   "expectedBehavior": "January shows 1 after reopening, and Reset Date History lists the change.",
   "actualBehavior": "Save shows no error and the modal stays open, but after reopening January is blank again and Reset Date History reads \"0 items found\" — nothing is stored.",
   "affectedTests": [
-    "TC-COM-TF-083"
+    "TC-COM-TF-082"
   ],
   "verificationLog": [
     {

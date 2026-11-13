@@ -1,18 +1,18 @@
 ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
-,Without a session the page sends the user to sign in,,,,,Automated,Omeesha Mahanta,,,"The sign-in page, with this page as the return address",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Without a session the page sends the user to sign in,,,,,Automated,Omeesha Mahanta,,,"The sign-in page, with this page as the return address",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Critical,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Critical,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open the page without signing in</li>
 </ol>",,,"1. The sign-in page, with this page as the return address",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Commission Tier/Flat opens on Basic Information,,,,,Automated,Omeesha Mahanta,,,Basic Information is the open tab; History is offered,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Commission Tier/Flat opens on Basic Information,,,,,Automated,Omeesha Mahanta,,,Basic Information is the open tab; History is offered,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 </ol>",,,"1. URL, browser title, heading and information text
 2. Basic Information is the open tab; History is offered",,,,Master,S1620,Test Case (Steps),Regression,,,
@@ -57,69 +57,69 @@ Application: Navigator
 Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open the Currency dropdown</li>
 </ol>",,,"1. At least one currency, no blank, the default among them",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Business Type lists each business type once,,,,,Automated,Omeesha Mahanta,,,"Unique, non-blank options; the default among them",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Business Type lists each business type once,,,,,Automated,Omeesha Mahanta,,,"Unique, non-blank options; the default among them",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Open the Business Type dropdown</li>
 </ol>",,,"1. Unique, non-blank options; the default among them",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Before a search the grid is empty and Save is off,,,,,Automated,Omeesha Mahanta,,,Empty grid asking for a search; Save not available,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Before a search the grid is empty and Save is off,,,,,Automated,Omeesha Mahanta,,,Empty grid asking for a search; Save not available,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 </ol>",,,1. Empty grid asking for a search; Save not available,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"A search starts clean: no errors, Save off, actions on",,,,,Automated,Omeesha Mahanta,,,"Save off; Export, Import, Copy and Reset Dates on",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,"A search starts clean: no errors, Save off, actions on",,,,,Automated,Omeesha Mahanta,,,"Save off; Export, Import, Copy and Reset Dates on",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Search with the default criteria</li>
 </ol>",,,"1. No row flagged and no grid message
 2. Save off; Export, Import, Copy and Reset Dates on",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"The grid shows every required column, and Grid Options lists them",,,,,Automated,Omeesha Mahanta,,,"Grid Options lists the same columns, ticked",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,"The grid shows every required column, and Grid Options lists them",,,,,Automated,Omeesha Mahanta,,,"Grid Options lists the same columns, ticked",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 </ol>",,,"1. Every required column, none twice
 2. Grid Options lists the same columns, ticked",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Comm % sits in the same place on both tabs,,,,,Automated,Omeesha Mahanta,,,Same order on both tabs,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Comm % sits in the same place on both tabs,,,,,Automated,Omeesha Mahanta,,,Same order on both tabs,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Open the Commission Tier/Flat History tab</li>
 </ol>",,,1. Same order on both tabs,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A search lists only service types of the chosen Business Type,,,,,Automated,Omeesha Mahanta,,,Each listed service type belongs to the Business Type,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,A search lists only service types of the chosen Business Type,,,,,Automated,Omeesha Mahanta,,,Each listed service type belongs to the Business Type,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row</li>
 </ol>",,,1. Each listed service type belongs to the Business Type,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Reset restores the default criteria and clears the grid,,,,,Automated,Omeesha Mahanta,,,Default Business Type and an empty grid,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Reset restores the default criteria and clears the grid,,,,,Automated,Omeesha Mahanta,,,Default Business Type and an empty grid,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Open the Business Type dropdown</li>
 <li>3. Change Business Type and search</li>
@@ -127,95 +127,95 @@ Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Click Search</li>
 <li>6. Click Reset</li>
 </ol>",,,1. Default Business Type and an empty grid,,,,Master,S1620,Test Case (Steps),Regression,,,
-,The search criteria panel collapses and expands,,,,,Automated,Omeesha Mahanta,,,Search criteria shown again,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,The search criteria panel collapses and expands,,,,,Automated,Omeesha Mahanta,,,Search criteria shown again,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Collapse the search panel</li>
 <li>3. Expand the search panel</li>
 </ol>",,,"1. Search criteria hidden
 2. Search criteria shown again",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A failed search says so and a retry works,,,,,Automated,Omeesha Mahanta,,,Searching again works,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,A failed search says so and a retry works,,,,,Automated,Omeesha Mahanta,,,Searching again works,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 </ol>",,,"1. An error is shown
 2. Searching again works",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Loading placeholders show while a slow search runs,,,,,Automated,Omeesha Mahanta,,,Placeholders or a busy grid while waiting,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Loading placeholders show while a slow search runs,,,,,Automated,Omeesha Mahanta,,,Placeholders or a busy grid while waiting,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. (Network) Hold the reply back for a few seconds</li>
 <li>3. Click Search</li>
 </ol>",,,1. Placeholders or a busy grid while waiting,,,,Master,S1620,Test Case (Steps),Regression,,,
-,The search panel works from the keyboard,,,,,Automated,Omeesha Mahanta,,,Enter on Search lists the results,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,The search panel works from the keyboard,,,,,Automated,Omeesha Mahanta,,,Enter on Search lists the results,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Focus Business Type, press Tab twice, then Enter</li>
 </ol>",,,"1. Business Type → Reset → Search
 2. Enter on Search lists the results",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Add Row adds a row with the documented defaults and marks the page changed,,,,,Automated,Omeesha Mahanta,,,"Export, Import, Copy and Reset Dates are off",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Add Row adds a row with the documented defaults and marks the page changed,,,,,Automated,Omeesha Mahanta,,,"Export, Import, Copy and Reset Dates are off",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Add a row</li>
 </ol>",,,"1. One more row, with the defaults
 2. Export, Import, Copy and Reset Dates are off",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A new row without a Service Type cannot be saved,,,,,Automated,Omeesha Mahanta,,,Save unavailable,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,A new row without a Service Type cannot be saved,,,,,Automated,Omeesha Mahanta,,,Save unavailable,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row</li>
 <li>4. Type 10 into Lower Tier Boundary</li>
 </ol>",,,1. Save unavailable,,,,Master,S1620,Test Case (Steps),Regression,,,
-,The row Service Type list is clean,,,,,Automated,Omeesha Mahanta,,,"Non-empty, unique, no blank",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,The row Service Type list is clean,,,,,Automated,Omeesha Mahanta,,,"Non-empty, unique, no blank",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row</li>
 </ol>",,,"1. Non-empty, unique, no blank",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Currency, Modified By and Modified On cannot be edited",,,,,Automated,Omeesha Mahanta,,,"No editor in Currency, Modified By, Modified On",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,"Currency, Modified By and Modified On cannot be edited",,,,,Automated,Omeesha Mahanta,,,"No editor in Currency, Modified By, Modified On",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row</li>
 </ol>",,,"1. No editor in Currency, Modified By, Modified On",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Currency cannot silently wipe an edit in progress,,,,,Automated,Omeesha Mahanta,,,After Stay the edit and the Currency are as they were,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,Currency cannot silently wipe an edit in progress,,,,,Automated,Omeesha Mahanta,,,After Stay the edit and the Currency are as they were,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Pick a saved band (one is saved first when the office has none)</li>
@@ -226,23 +226,23 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 </ol>",,,"1. Currency is disabled while editing
 2. The Unsaved changes dialog steps in
 3. After Stay the edit and the Currency are as they were",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Is SC Comm Calculated On Net? flips with the Space key,,,,,Automated,Omeesha Mahanta,,,The flag changed,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Is SC Comm Calculated On Net? flips with the Space key,,,,,Automated,Omeesha Mahanta,,,The flag changed,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
 <li>4. Press Space on the checkbox</li>
 </ol>",,,1. The flag changed,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Two added rows are independent,,,,,Automated,Omeesha Mahanta,,,"Two rows of the service type, Lower 100 and 200",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Two added rows are independent,,,,,Automated,Omeesha Mahanta,,,"Two rows of the service type, Lower 100 and 200",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -250,36 +250,36 @@ Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Click Add Row</li>
 <li>6. Choose the row Service Type</li>
 </ol>",,,"1. Two rows of the service type, Lower 100 and 200",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Changing the Service Type of a new row keeps its values,,,,,Automated,Omeesha Mahanta,,,Lower 500 and Upper 900 kept,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Changing the Service Type of a new row keeps its values,,,,,Automated,Omeesha Mahanta,,,Lower 500 and Upper 900 kept,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
 <li>4. Set the band to 500–900</li>
 <li>5. Choose the row Service Type</li>
 </ol>",,,1. Lower 500 and Upper 900 kept,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Deleting a new row leaves nothing to save,,,,,Automated,Omeesha Mahanta,,,Row gone; Save off; actions on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Deleting a new row leaves nothing to save,,,,,Automated,Omeesha Mahanta,,,Row gone; Save off; actions on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row</li>
 <li>4. Right-click the row and choose Delete</li>
 </ol>",,,"1. The row offers a Delete button
 2. Row gone; Save off; actions on",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Deleting a saved row hides it, marks the page changed and stores nothing",,,,,Automated,Omeesha Mahanta,,,The row is back,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,"Deleting a saved row hides it, marks the page changed and stores nothing",,,,,Automated,Omeesha Mahanta,,,The row is back,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Pick a saved band (one is saved first when the office has none)</li>
@@ -289,12 +289,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>7. Click Search</li>
 </ol>",,,"1. One row fewer; Save on; Export, Import, Copy and Reset Dates off
 2. The row is back",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Lower Tier Boundary accepts 0 up to the Upper Tier Boundary,,,,,Automated,Omeesha Mahanta,,,"""0007"" (leading zeros): kept as 7, no marker, Save available",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Lower Tier Boundary accepts 0 up to the Upper Tier Boundary,,,,,Automated,Omeesha Mahanta,,,"""0007"" (leading zeros): kept as 7, no marker, Save available",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -304,12 +304,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 3. ""99999999"" (one below Upper): kept as 99999999, no marker, Save available
 4. ""100000000"" (equal to Upper): kept as 100000000, no marker, Save available
 5. ""0007"" (leading zeros): kept as 7, no marker, Save available",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Lower Tier Boundary refuses negatives and values above Upper,,,,,Automated,Omeesha Mahanta,,,"""123456789012345678901…"" (fifty digits): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Lower Tier Boundary refuses negatives and values above Upper,,,,,Automated,Omeesha Mahanta,,,"""123456789012345678901…"" (fifty digits): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -318,12 +318,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 2. ""-1"" (negative): flagged while still typing, Save off, never kept
 3. ""-0.01"" (just below zero): flagged while still typing, Save off, never kept
 4. ""123456789012345678901…"" (fifty digits): flagged while still typing, Save off, never kept",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Lower Tier Boundary never keeps non-numeric input or markup,,,,,Automated,Omeesha Mahanta,,,"""<img src=x onerror=wi…"": flagged (Save off) or held as a plain number — never raw text, no script runs",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Lower Tier Boundary never keeps non-numeric input or markup,,,,,Automated,Omeesha Mahanta,,,"""<img src=x onerror=wi…"": flagged (Save off) or held as a plain number — never raw text, no script runs",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -335,12 +335,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 5. ""1e3"": flagged (Save off) or held as a plain number — never raw text, no script runs
 6. ""1,000"": flagged (Save off) or held as a plain number — never raw text, no script runs
 7. ""<img src=x onerror=wi…"": flagged (Save off) or held as a plain number — never raw text, no script runs",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Upper Tier Boundary accepts the Lower Tier Boundary and above,,,,,Automated,Omeesha Mahanta,,,"""100000001"" (above the default — no maximum): kept as 100000001, no marker, Save available",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Upper Tier Boundary accepts the Lower Tier Boundary and above,,,,,Automated,Omeesha Mahanta,,,"""100000001"" (above the default — no maximum): kept as 100000001, no marker, Save available",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -350,12 +350,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 2. ""1000"" (equal to Lower): kept as 1000, no marker, Save available
 3. ""100000000"" (the Add Row default): kept as 100000000, no marker, Save available
 4. ""100000001"" (above the default — no maximum): kept as 100000001, no marker, Save available",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Upper Tier Boundary refuses negatives and values below Lower,,,,,Automated,Omeesha Mahanta,,,"""-1"" (negative): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Upper Tier Boundary refuses negatives and values below Lower,,,,,Automated,Omeesha Mahanta,,,"""-1"" (negative): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -364,12 +364,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 </ol>",,,"1. ""999"" (below Lower): flagged while still typing, Save off, never kept
 2. ""0"" (below Lower): flagged while still typing, Save off, never kept
 3. ""-1"" (negative): flagged while still typing, Save off, never kept",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Upper Tier Boundary never keeps non-numeric input,,,,,Automated,Omeesha Mahanta,,,"""123456789012345678901…"": flagged (Save off) or held as a plain number — never raw text, no script runs",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Upper Tier Boundary never keeps non-numeric input,,,,,Automated,Omeesha Mahanta,,,"""123456789012345678901…"": flagged (Save off) or held as a plain number — never raw text, no script runs",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -378,12 +378,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 2. ""xyz"": flagged (Save off) or held as a plain number — never raw text, no script runs
 3. ""  2000  "": flagged (Save off) or held as a plain number — never raw text, no script runs
 4. ""123456789012345678901…"": flagged (Save off) or held as a plain number — never raw text, no script runs",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Comm % accepts 0 to 100,,,,,Automated,Omeesha Mahanta,,,"""100"" (the maximum): kept as 100, no marker, Save available",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Comm % accepts 0 to 100,,,,,Automated,Omeesha Mahanta,,,"""100"" (the maximum): kept as 100, no marker, Save available",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -393,12 +393,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 3. ""50"" (mid-range): kept as 50, no marker, Save available
 4. ""99.99"" (just below the maximum): kept as 99.99, no marker, Save available
 5. ""100"" (the maximum): kept as 100, no marker, Save available",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Comm % refuses values outside 0 to 100 while typing,,,,,Automated,Omeesha Mahanta,,,"""-5"" (negative): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Comm % refuses values outside 0 to 100 while typing,,,,,Automated,Omeesha Mahanta,,,"""-5"" (negative): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -407,12 +407,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 2. ""101"" (above the maximum): flagged while still typing, Save off, never kept
 3. ""-0.01"" (just below zero): flagged while still typing, Save off, never kept
 4. ""-5"" (negative): flagged while still typing, Save off, never kept",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Comm % never keeps non-numeric or malformed input,,,,,Automated,Omeesha Mahanta,,,"""25%"": flagged (Save off) or held as a plain number — never raw text, no script runs",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Comm % never keeps non-numeric or malformed input,,,,,Automated,Omeesha Mahanta,,,"""25%"": flagged (Save off) or held as a plain number — never raw text, no script runs",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -422,12 +422,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 3. ""1.2.3"": flagged (Save off) or held as a plain number — never raw text, no script runs
 4. ""12.345"": flagged (Save off) or held as a plain number — never raw text, no script runs
 5. ""25%"": flagged (Save off) or held as a plain number — never raw text, no script runs",,,,Master,S1620,Test Case (Steps),Regression,,,
-,SC Comm % accepts 100 and refuses values outside 0 to 100,,,,,Automated,Omeesha Mahanta,,,"""-0.01"" (just below zero): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,SC Comm % accepts 100 and refuses values outside 0 to 100,,,,,Automated,Omeesha Mahanta,,,"""-0.01"" (just below zero): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -436,12 +436,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 </ol>",,,"1. ""100"" (the maximum): kept as 100, no marker, Save available
 2. ""100.01"" (just above the maximum): flagged while still typing, Save off, never kept
 3. ""-0.01"" (just below zero): flagged while still typing, Save off, never kept",,,,Master,S1620,Test Case (Steps),Regression,,,
-,ETS Comm % accepts 100 and refuses values outside 0 to 100,,,,,Automated,Omeesha Mahanta,,,"""-0.01"" (just below zero): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,ETS Comm % accepts 100 and refuses values outside 0 to 100,,,,,Automated,Omeesha Mahanta,,,"""-0.01"" (just below zero): flagged while still typing, Save off, never kept",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -450,12 +450,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 </ol>",,,"1. ""100"" (the maximum): kept as 100, no marker, Save available
 2. ""100.01"" (just above the maximum): flagged while still typing, Save off, never kept
 3. ""-0.01"" (just below zero): flagged while still typing, Save off, never kept",,,,Master,S1620,Test Case (Steps),Regression,,,
-,A boundary pair out of order shows its message and clears once corrected,,,,,Automated,Omeesha Mahanta,,,Mark gone; Save on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,A boundary pair out of order shows its message and clears once corrected,,,,,Automated,Omeesha Mahanta,,,Mark gone; Save on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -463,12 +463,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Type 4000 into Upper Tier Boundary</li>
 <li>6. Type 6000 into Upper Tier Boundary</li>
 </ol>",,,1. Mark gone; Save on,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Overlapping bands of one service type are both flagged,,,,,Automated,Omeesha Mahanta,,,"0–1000 and 1000–2000 (sharing a boundary value): both rows flagged, Save off",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Overlapping bands of one service type are both flagged,,,,,Automated,Omeesha Mahanta,,,"0–1000 and 1000–2000 (sharing a boundary value): both rows flagged, Save off",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. For each pair, add two bands on one service type with no tiers: 0–5000 and 4000–9000; 0–10000 and 2000–3000; 100–200 and 100–200; 0–1000 and 1000–2000</li>
@@ -479,12 +479,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 2. 0–10000 and 2000–3000 (one inside the other): both rows flagged, Save off
 3. 100–200 and 100–200 (identical): both rows flagged, Save off
 4. 0–1000 and 1000–2000 (sharing a boundary value): both rows flagged, Save off",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Adjacent bands and bands with a gap are accepted,,,,,Automated,Omeesha Mahanta,,,"0–1000 and 2000–5000 (with a gap (TC-TF-13)): neither row flagged, Save on",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Adjacent bands and bands with a gap are accepted,,,,,Automated,Omeesha Mahanta,,,"0–1000 and 2000–5000 (with a gap (TC-TF-13)): neither row flagged, Save on",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. For each pair, add two bands on one service type with no tiers: 0–999 and 1000–2000; 0–1000 and 2000–5000</li>
@@ -493,12 +493,12 @@ Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>6. Click Search</li>
 </ol>",,,"1. 0–999 and 1000–2000 (adjacent): neither row flagged, Save on
 2. 0–1000 and 2000–5000 (with a gap (TC-TF-13)): neither row flagged, Save on",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The same band on two service types is accepted,,,,,Automated,Omeesha Mahanta,,,Neither row flagged; Save on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,The same band on two service types is accepted,,,,,Automated,Omeesha Mahanta,,,Neither row flagged; Save on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -507,56 +507,56 @@ Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>6. Choose the row Service Type</li>
 <li>7. Set the band to 0–1,000</li>
 </ol>",,,1. Neither row flagged; Save on,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Fixing an overlap clears the marker on both rows,,,,,Automated,Omeesha Mahanta,,,Neither row flagged; Save on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Fixing an overlap clears the marker on both rows,,,,,Automated,Omeesha Mahanta,,,Neither row flagged; Save on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Add two bands on one service type with no tiers: 0–5,000 and 4,000–9,000</li>
 </ol>",,,1. Neither row flagged; Save on,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Deleting one of two overlapping rows clears the other,,,,,Automated,Omeesha Mahanta,,,The remaining row is not flagged,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Deleting one of two overlapping rows clears the other,,,,,Automated,Omeesha Mahanta,,,The remaining row is not flagged,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Add two bands on one service type with no tiers: 0–5,000 and 1,000–2,000</li>
 <li>4. Right-click the row and choose Delete</li>
 </ol>",,,1. The remaining row is not flagged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Moving an overlapping row to another service type clears the overlap,,,,,Automated,Omeesha Mahanta,,,Neither row flagged,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Moving an overlapping row to another service type clears the overlap,,,,,Automated,Omeesha Mahanta,,,Neither row flagged,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Add two bands on one service type with no tiers: 0–5,000 and 1,000–2,000</li>
 <li>4. Choose the row Service Type</li>
 </ol>",,,1. Neither row flagged,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A new band overlapping a saved band is flagged,,,,,Automated,Omeesha Mahanta,,,The overlap is shown; Save off,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,A new band overlapping a saved band is flagged,,,,,Automated,Omeesha Mahanta,,,The overlap is shown; Save off,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Pick a saved band (one is saved first when the office has none)</li>
 <li>4. Click Add Row</li>
 <li>5. Choose the row Service Type</li>
 </ol>",,,1. The overlap is shown; Save off,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Save stays off while a row is invalid, and clicking it sends nothing",,,,,Automated,Omeesha Mahanta,,,Save on once fixed,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,"Save stays off while a row is invalid, and clicking it sends nothing",,,,,Automated,Omeesha Mahanta,,,Save on once fixed,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -565,22 +565,22 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>6. Click Save</li>
 </ol>",,,"1. Save off; nothing sent
 2. Save on once fixed",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"An unsaved edit turns Save on and Export, Import, Copy and Reset Dates off",,,,,Automated,Omeesha Mahanta,,,Save on; the four actions off,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,"An unsaved edit turns Save on and Export, Import, Copy and Reset Dates off",,,,,Automated,Omeesha Mahanta,,,Save on; the four actions off,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
 </ol>",,,1. Save on; the four actions off,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Switching tab with an unsaved edit asks first, and Stay keeps the edit",,,,,Automated,Omeesha Mahanta,,,Still on Basic Information with the edit pending,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,"Switching tab with an unsaved edit asks first, and Stay keeps the edit",,,,,Automated,Omeesha Mahanta,,,Still on Basic Information with the edit pending,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -588,12 +588,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Click Stay</li>
 </ol>",,,"1. Unsaved changes dialog with Stay and Discard
 2. Still on Basic Information with the edit pending",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Discard drops the unsaved edit and opens the other tab,,,,,Automated,Omeesha Mahanta,,,The new row is gone; Save off,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Discard drops the unsaved edit and opens the other tab,,,,,Automated,Omeesha Mahanta,,,The new row is gone; Save off,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -603,24 +603,24 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>7. Click Search</li>
 </ol>",,,"1. History is open
 2. The new row is gone; Save off",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Escape on the dialog keeps the edit,,,,,Automated,Omeesha Mahanta,,,Still on Basic Information with the new row,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Escape on the dialog keeps the edit,,,,,Automated,Omeesha Mahanta,,,Still on Basic Information with the new row,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
 <li>4. Click the Commission Tier/Flat History tab</li>
 <li>5. Press Escape</li>
 </ol>",,,1. Still on Basic Information with the new row,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Changing Currency with an unsaved edit asks first, and Discard then searches properly",,,,,Automated,Omeesha Mahanta,,,Unsaved changes dialog shown,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,"Changing Currency with an unsaved edit asks first, and Discard then searches properly",,,,,Automated,Omeesha Mahanta,,,Unsaved changes dialog shown,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -631,12 +631,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>8. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>9. Choose another Currency</li>
 </ol>",,,1. Unsaved changes dialog shown,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Changing Business Type with an unsaved edit asks first, and Discard then searches properly",,,,,Automated,Omeesha Mahanta,,,Unsaved changes dialog shown,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,"Changing Business Type with an unsaved edit asks first, and Discard then searches properly",,,,,Automated,Omeesha Mahanta,,,Unsaved changes dialog shown,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -647,12 +647,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>8. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>9. Choose another Business Type</li>
 </ol>",,,1. Unsaved changes dialog shown,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Searching again with an unsaved edit asks first,,,,,Automated,Omeesha Mahanta,,,The edit is still pending,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Searching again with an unsaved edit asks first,,,,,Automated,Omeesha Mahanta,,,The edit is still pending,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -660,12 +660,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Click Stay</li>
 </ol>",,,"1. Unsaved changes dialog shown
 2. The edit is still pending",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Reset with an unsaved edit asks first, with the same dialog as a tab switch",,,,,Automated,Omeesha Mahanta,,,Same text and buttons,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,"Reset with an unsaved edit asks first, with the same dialog as a tab switch",,,,,Automated,Omeesha Mahanta,,,Same text and buttons,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -674,12 +674,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>6. Click Reset</li>
 <li>7. Click Stay</li>
 </ol>",,,1. Same text and buttons,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Reloading with an unsaved edit raises the browser prompt,,,,,Automated,Omeesha Mahanta,,,A beforeunload prompt was raised,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Reloading with an unsaved edit raises the browser prompt,,,,,Automated,Omeesha Mahanta,,,A beforeunload prompt was raised,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -700,12 +700,12 @@ Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>7. Click Add Row and choose a Service Type that has no tiers yet</li>
 <li>8. Choose office 1606 in the Location picker</li>
 </ol>",,,1. Unsaved changes dialog shown,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Typing a rate back leaves nothing to save,,,,,Automated,Omeesha Mahanta,,,Save off once the row is back as it was,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Typing a rate back leaves nothing to save,,,,,Automated,Omeesha Mahanta,,,Save off once the row is back as it was,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Pick a saved band (one is saved first when the office has none)</li>
@@ -713,12 +713,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Type the original rate back</li>
 </ol>",,,"1. Save on after the change
 2. Save off once the row is back as it was",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Typing a boundary back leaves nothing to save,,,,,Automated,Omeesha Mahanta,,,Save off once the row is back as it was,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Typing a boundary back leaves nothing to save,,,,,Automated,Omeesha Mahanta,,,Save off once the row is back as it was,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Pick a saved band (one is saved first when the office has none)</li>
@@ -726,35 +726,35 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Type the original Upper Tier Boundary back</li>
 </ol>",,,"1. Save on after the change
 2. Save off once the row is back as it was",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Ticking Profit Only and unticking it leaves nothing to save,,,,,Automated,Omeesha Mahanta,,,Save off once the row is back as it was,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Ticking Profit Only and unticking it leaves nothing to save,,,,,Automated,Omeesha Mahanta,,,Save off once the row is back as it was,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Pick a saved band (one is saved first when the office has none)</li>
 <li>4. Click the Profit Only checkbox</li>
 </ol>",,,"1. Save on after the change
 2. Save off once the row is back as it was",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Retyping the stored value is not a change,,,,,Automated,Omeesha Mahanta,,,Save off; actions on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Retyping the stored value is not a change,,,,,Automated,Omeesha Mahanta,,,Save off; actions on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Pick a saved band (one is saved first when the office has none)</li>
 <li>4. Retype the stored Lower Tier Boundary</li>
 </ol>",,,1. Save off; actions on,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Save sends only the edited and the new rows,,,,,Automated,Omeesha Mahanta,,,Two records; the edited rate is among them,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,Save sends only the edited and the new rows,,,,,Automated,Omeesha Mahanta,,,Two records; the edited rate is among them,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Pick a saved band (one is saved first when the office has none)</li>
@@ -763,12 +763,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>6. (Network) Stop the next request before it reaches the server</li>
 <li>7. Click Save</li>
 </ol>",,,1. Two records; the edited rate is among them,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A failed save keeps the changes and says so,,,,,Automated,Omeesha Mahanta,,,Error message; the row kept; Save on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,A failed save keeps the changes and says so,,,,,Automated,Omeesha Mahanta,,,Error message; the row kept; Save on,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -776,12 +776,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. (Network) Answer the next request with a server error</li>
 <li>6. Save while the server fails</li>
 </ol>",,,1. Error message; the row kept; Save on,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Double-clicking Save sends one request,,,,,Automated,Omeesha Mahanta,,,One request,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Double-clicking Save sends one request,,,,,Automated,Omeesha Mahanta,,,One request,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -789,12 +789,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. (Network) Stop the next request before it reaches the server</li>
 <li>6. Double-click Save</li>
 </ol>",,,1. One request,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"A new band is saved, the page resets, and Copy opens without a warning",,,,,Automated,Omeesha Mahanta,,,The band is listed with Comm % 7.5,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,"A new band is saved, the page resets, and Copy opens without a warning",,,,,Automated,Omeesha Mahanta,,,The band is listed with Comm % 7.5,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -807,12 +807,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 </ol>",,,"1. Success; the page is unchanged again
 2. Copy opens with no ""save or discard"" warning
 3. The band is listed with Comm % 7.5",,,,Master,S1620,Test Case (Steps),Regression,,,
-,An edit to a saved band is stored,,,,,Automated,Omeesha Mahanta,,,Comm % 12.5 is listed,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,An edit to a saved band is stored,,,,,Automated,Omeesha Mahanta,,,Comm % 12.5 is listed,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -822,12 +822,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>7. Save the edit</li>
 <li>8. Click Search</li>
 </ol>",,,1. Comm % 12.5 is listed,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Deleting a saved band and saving removes it,,,,,Automated,Omeesha Mahanta,,,The band is gone,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,Deleting a saved band and saving removes it,,,,,Automated,Omeesha Mahanta,,,The band is gone,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -838,12 +838,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>8. Save the deletion</li>
 <li>9. Click Search</li>
 </ol>",,,1. The band is gone,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Save cannot be pressed again while a save is in progress,,,,,Automated,Omeesha Mahanta,,,Save off or busy while waiting,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,Save cannot be pressed again while a save is in progress,,,,,Automated,Omeesha Mahanta,,,Save off or busy while waiting,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -851,33 +851,33 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. (Network) Hold the reply back for a few seconds</li>
 <li>6. Click Save</li>
 </ol>",,,1. Save off or busy while waiting,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Export downloads TierFlatCommissions-<office>.xlsx with its column headers,,,,,Automated,Omeesha Mahanta,,,"The export header row, in order",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Export downloads TierFlatCommissions-<office>.xlsx with its column headers,,,,,Automated,Omeesha Mahanta,,,"The export header row, in order",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Export</li>
 </ol>",,,"1. File name TierFlatCommissions-1606.xlsx
 2. The export header row, in order",,,,Master,S1620,Test Case (Steps),Regression,,,
-,The export lists every row with the same Modified On as the grid,,,,,Automated,Omeesha Mahanta,,,"The export has one line per grid row, and a band's Modified On equals the grid — no UTC shift (NM-4195, TC-TF-25).",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,The export lists every row with Modified On in UTC,,,,,Automated,Omeesha Mahanta,,,"The export has one line per grid row, and a band's Modified On is the grid time in UTC (NM-4195, TC-TF-25).",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Export</li>
-</ol>",,,"1. The export has one line per grid row, and a band's Modified On equals the grid — no UTC shift (NM-4195, TC-TF-25).",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Import refuses every file that is not Excel,,,,,Automated,Omeesha Mahanta,,,tiers.xlsx.exe: refused with the Excel-only message; no upload sent,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+</ol>",,,"1. The export has one line per grid row, and a band's Modified On is the grid time in UTC (NM-4195, TC-TF-25).",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Import refuses every file that is not Excel,,,,,Automated,Omeesha Mahanta,,,tiers.xlsx.exe: refused with the Excel-only message; no upload sent,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Import and choose each file in turn: tiers.txt, tiers.pdf, tiers.csv, tiers.xlsx.exe</li>
@@ -886,23 +886,23 @@ Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 2. tiers.pdf: refused with the Excel-only message; no upload sent
 3. tiers.csv: refused with the Excel-only message; no upload sent
 4. tiers.xlsx.exe: refused with the Excel-only message; no upload sent",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Importing the file just exported succeeds without a duplicate error,,,,,Automated,Omeesha Mahanta,,,No error; the same number of tiers,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,Importing the file just exported succeeds without a duplicate error,,,,,Automated,Omeesha Mahanta,,,No error; the same number of tiers,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Export</li>
 <li>4. Import the exported file</li>
 </ol>",,,1. No error; the same number of tiers,,,,Master,S1620,Test Case (Steps),Regression,,,
-,An Excel file with invalid values is refused and stores nothing,,,,,Automated,Omeesha Mahanta,,,Errors reported; the band is not stored,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,An Excel file with invalid values is refused and stores nothing,,,,,Automated,Omeesha Mahanta,,,Errors reported; the band is not stored,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Export</li>
@@ -912,12 +912,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>7. Import the invalid file</li>
 <li>8. Click Search</li>
 </ol>",,,1. Errors reported; the band is not stored,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Copy Within Location offers only service types of the same Business Type,,,,,Automated,Omeesha Mahanta,,,Every destination belongs to the Business Type; the source is not offered,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,Copy Within Location offers only service types of the same Business Type,,,,,Automated,Omeesha Mahanta,,,Every destination belongs to the Business Type; the source is not offered,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Pick a saved band (one is saved first when the office has none)</li>
@@ -927,12 +927,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>7. Click Copy → Copy Within Location</li>
 <li>8. Choose the source service type</li>
 </ol>",,,1. Every destination belongs to the Business Type; the source is not offered,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Copy Within Location ticks are cleared after closing,,,,,Automated,Omeesha Mahanta,,,Nothing ticked on reopening,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Copy Within Location ticks are cleared after closing,,,,,Automated,Omeesha Mahanta,,,Nothing ticked on reopening,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Copy → Copy Within Location</li>
@@ -940,12 +940,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Close the panel with Cancel</li>
 <li>6. Click Copy → Copy Within Location</li>
 </ol>",,,1. Nothing ticked on reopening,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Copy to Locations ticks are cleared after closing,,,,,Automated,Omeesha Mahanta,,,Nothing ticked on reopening,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Copy to Locations ticks are cleared after closing,,,,,Automated,Omeesha Mahanta,,,Nothing ticked on reopening,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Copy → Copy to Locations</li>
@@ -953,12 +953,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Close the panel with Escape</li>
 <li>6. Click Copy → Copy to Locations</li>
 </ol>",,,1. Nothing ticked on reopening,,,,Master,S1620,Test Case (Steps),Regression,,,
-,"After Copy Within Location the source stays, Search works and the ticks are cleared",,,,,Automated,Omeesha Mahanta,,,Nothing ticked on reopening,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,"After Copy Within Location the source stays, Search works and the ticks are cleared",,,,,Automated,Omeesha Mahanta,,,Nothing ticked on reopening,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -974,38 +974,23 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 </ol>",,,"1. The source band is listed; Search enabled
 2. A new search lists the copy too
 3. Nothing ticked on reopening",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Copy to Locations lists conflicts only for service types of the source,,,,,Automated,Omeesha Mahanta,,,Every service type named as a conflict exists at the source,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,Reset Dates opens with January–June and July–December columns,,,,,Automated,Omeesha Mahanta,,,"Two columns, each top to bottom",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
-<li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
-<li>2. Click Search</li>
-<li>3. Click Add Row</li>
-<li>4. Open Setup > Commissions > Tier/Flat for office 1606</li>
-<li>5. Click Search</li>
-<li>6. Click Copy → Copy to Locations</li>
-<li>7. Tick a destination</li>
-<li>8. Apply</li>
-</ol>",,,1. Every service type named as a conflict exists at the source,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Reset Dates opens with January–June and July–December columns,,,,,Automated,Omeesha Mahanta,,,"Two columns, each top to bottom",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
-
-Test Data:
-User: automation user (commission setup access)
-Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Open Reset Dates</li>
 </ol>",,,"1. Title and twelve selectors
 2. Two columns, each top to bottom",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Every month offers blank and each day of that month,,,,,Automated,Omeesha Mahanta,,,"December: blank (0), then 1 – 31",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Every month offers blank and each day of that month,,,,,Automated,Omeesha Mahanta,,,"December: blank (0), then 1 – 31",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Reset Dates</li>
@@ -1022,24 +1007,24 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 10. October: blank (0), then 1 – 31
 11. November: blank (0), then 1 – 30
 12. December: blank (0), then 1 – 31",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Cancel closes Reset Dates at once and keeps nothing,,,,,Automated,Omeesha Mahanta,,,No warning dialog,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Cancel closes Reset Dates at once and keeps nothing,,,,,Automated,Omeesha Mahanta,,,No warning dialog,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Reset Dates</li>
 <li>4. Click Cancel in the modal</li>
 <li>5. Click Reset Dates</li>
 </ol>",,,1. No warning dialog,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Saving a reset day succeeds and keeps the modal open,,,,,Automated,Omeesha Mahanta,,,No error; the modal stays open,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,Saving a reset day succeeds and keeps the modal open,,,,,Automated,Omeesha Mahanta,,,No error; the modal stays open,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Reset Dates</li>
@@ -1047,23 +1032,23 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>5. Click Cancel in the modal</li>
 <li>6. Click Reset Dates</li>
 </ol>",,,1. No error; the modal stays open,,,,Master,S1620,Test Case (Steps),Regression,,,
-,Reset Dates shows the Current Period Total line,,,,,Automated,Omeesha Mahanta,,,"The Reset Dates modal ends with a ""CPT :"" line that carries a value (NM-2168).",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Reset Dates shows the Current Period Total line,,,,,Automated,Omeesha Mahanta,,,"The Reset Dates modal ends with a ""CPT :"" line that carries a value (NM-2168).",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Reset Dates</li>
 <li>4. Read the Current Period Total</li>
 </ol>",,,"1. The Reset Dates modal ends with a ""CPT :"" line that carries a value (NM-2168).",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Automated WCAG 2.1 AA scan finds no serious or critical violations,,,,,Automated,Omeesha Mahanta,,,No serious or critical violations,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,Automated WCAG 2.1 AA scan finds no serious or critical violations,,,,,Automated,Omeesha Mahanta,,,No serious or critical violations,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Scan Basic Information</li>
@@ -1073,34 +1058,26 @@ Office: 1606",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>7. Open the Commission Tier/Flat History tab</li>
 <li>8. Scan History</li>
 </ol>",,,1. No serious or critical violations,,,,Master,S1620,Test Case (Steps),Regression,,,
-,The page stays usable at 1024×768,,,,,Automated,Omeesha Mahanta,,,"Search, Save and the grid reachable; no sideways scroll",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,The page stays usable at 1024×768,,,,,Automated,Omeesha Mahanta,,,"Search, Save and the grid reachable; no sideways scroll",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Resize the window to 1024×768</li>
 <li>2. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>3. Click Search</li>
 </ol>",,,"1. Search, Save and the grid reachable; no sideways scroll",,,,Master,S1620,Test Case (Steps),Regression,,,
-,No untranslated text key is visible,,,,,Automated,Omeesha Mahanta,,,No raw keys,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
+,No untranslated text key is visible,,,,,Automated,Omeesha Mahanta,,,No raw keys,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",Low,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Reset Dates</li>
 </ol>",,,1. No raw keys,,,,Master,S1620,Test Case (Steps),Regression,,,
-,A user without commission setup rights is turned away,,,,,Automated,Omeesha Mahanta,,,Forbidden message; no grid; no Save,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606
-
-Test Data:
-User: automation user (commission setup access)
-Application: Navigator
-Office: 1606",Critical,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
-<li>1. Open the Commission Tier/Flat address directly</li>
-</ol>",,,1. Forbidden message; no grid; no Save,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,"History opens with its columns, read-only and with no editing actions",,,,,Automated,Omeesha Mahanta,,,"No editable cell; no Save, Add Row, Import, Copy or Reset Dates",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
 
 Test Data:
@@ -1208,12 +1185,12 @@ Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>3. Export</li>
 </ol>",,,"1. File name TierFlatCommAudit-1101.xlsx
 2. The audit header row; one line per entry",,,,Master,S1620,Test Case (Steps),Regression,,,
-,"Adding, changing and deleting a band records Add, Modify and Remove",,,,,Automated,Omeesha Mahanta,,,"Add, Modify and Remove, each with Service Type and Currency",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,"Adding, changing and deleting a band records Add, Modify and Remove",,,,,Automated,Omeesha Mahanta,,,"Add, Modify and Remove, each with Service Type and Currency",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -1227,12 +1204,12 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>11. Click Save</li>
 <li>12. Open History at the largest page size, newest first, and find the band's entries</li>
 </ol>",,,"1. Add, Modify and Remove, each with Service Type and Currency",,,,Master,S1620,Test Case (Steps),Regression,,,
-,Copying over a band records Remove for the old one and Copy for the new one,,,,,Automated,Omeesha Mahanta,,,The old band as Remove with Currency; the copied band as Copy,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1606; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
+,"Copying over a band records Remove for the old one, with its Currency",,,,,Automated,Omeesha Mahanta,,,The old band as Remove with its Currency,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101; writes E2E data — marker bands (Upper 99,999,901) are removed afterwards; skipped with TF_WRITES=off
 
 Test Data:
 User: automation user (commission setup access)
 Application: Navigator
-Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
 <li>2. Click Search</li>
 <li>3. Click Add Row and choose a Service Type that has no tiers yet</li>
@@ -1249,7 +1226,7 @@ Office: 1606",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
 <li>14. Tick a destination</li>
 <li>15. Click Apply (and confirm any conflicts)</li>
 <li>16. Open History at the largest page size, newest first, and find the band's entries</li>
-</ol>",,,1. The old band as Remove with Currency; the copied band as Copy,,,,Master,S1620,Test Case (Steps),Regression,,,
+</ol>",,,1. The old band as Remove with its Currency,,,,Master,S1620,Test Case (Steps),Regression,,,
 ,Basic Information and History load without an error,,,,,Automated,Omeesha Mahanta,,,Counts shown; no unexpected error,,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 2322 (Canada) and 7147 (Mexico)
 
 Test Data:
@@ -1260,3 +1237,38 @@ Office: 2322 (Canada) and 7147 (Mexico)",High,,Tier_Flat,1,,Commissions > Tier_F
 <li>2. Search</li>
 <li>3. Open History</li>
 </ol>",,,1. Counts shown; no unexpected error,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Basic Information sorts by Service Type both ways and by Lower Tier Boundary as a number,,,,,Automated,Omeesha Mahanta,,,"Lower Tier Boundary largest first, by value",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+<li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
+<li>2. Click Search</li>
+<li>3. Sort Service Type ascending</li>
+<li>4. Sort Service Type descending</li>
+<li>5. Sort Lower Tier Boundary descending</li>
+</ol>",,,"1. Service Type A→Z, then Z→A
+2. Lower Tier Boundary largest first, by value",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A hidden column stays hidden until Reset to Default View brings every column back,,,,,Automated,Omeesha Mahanta,,,"Every column back, in order",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101",Medium,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+<li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
+<li>2. Click Search</li>
+<li>3. Reload the page and search</li>
+<li>4. Click Search</li>
+</ol>",,,"1. Profit Only gone from the grid and unticked in Grid Options
+2. Both columns still hidden after the reload
+3. Every column back, in order",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Product Code Commissions link opens the office's Product Code Commission page,,,,,Automated,Omeesha Mahanta,,,"The ""…"" link in the banner opens … in the same tab (NM-3384).",,,commissions,,"Logged in; Setup > Commissions > Tier/Flat is available for office 1101
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101",High,,Tier_Flat,1,,Commissions > Tier_Flat,"<ol>
+<li>1. Open Setup > Commissions > Tier/Flat for office 1606</li>
+<li>2. Click Search</li>
+</ol>",,,"1. The ""…"" link in the banner opens … in the same tab (NM-3384).",,,,Master,S1620,Test Case (Steps),Regression,,,

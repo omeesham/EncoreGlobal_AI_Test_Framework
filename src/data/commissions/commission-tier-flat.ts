@@ -37,6 +37,9 @@ export const TF_HISTORY_OFFICE = process.env.TF_HISTORY_OFFICE ?? TF_OFFICES.cor
 /** Route (confirmed live). */
 export const TF_PATH = (office: string): string => `/locations/${office}/commissions/tiers`;
 
+/** Product Code Commission page the banner links to (live, 2026-11-13: same tab). */
+export const PRODUCT_CODE_PATH = (office: string): string => `/locations/${office}/commissions/product-code`;
+
 export const TABS = ['Basic Information', 'Commission Tier/Flat History'] as const;
 export type Tab = (typeof TABS)[number];
 
@@ -48,12 +51,6 @@ export const DEFAULT_BUSINESS_TYPE = process.env.TF_BUSINESS_TYPE ?? 'Audio Visu
  * stores data into a skip, so the suite can run read-only against a shared environment.
  */
 export const WRITES_ALLOWED = (process.env.TF_WRITES ?? 'on').toLowerCase() !== 'off';
-
-/**
- * Copy to other locations overwrites the tiers of the destination office. It only runs when a sandbox
- * destination office is named.
- */
-export const COPY_TARGET_OFFICE = process.env.TF_COPY_TARGET_OFFICE ?? '';
 
 // ---------------------------------------------------------------- grid
 
@@ -264,6 +261,8 @@ export const TEXT = {
   pageTitle: 'Commission Tier/Flat | Navigator',
   info: 'View and manage commission tiers for the selected local office.',
   productCodeBanner: 'Product Code Commissions exist for this location.',
+  productCodeLink: 'Product Code Commissions',
+  productCodeHeading: 'Product Code Commission',
   /** Tooltip of the red warning icon of a Lower Tier Boundary above the Upper Tier Boundary. */
   lowerAboveUpper: 'Lower tier must be less than or equal to upper tier.',
   /** History of an office with no business type (Canada 2322 on e2e) shows this instead of a grid. */
