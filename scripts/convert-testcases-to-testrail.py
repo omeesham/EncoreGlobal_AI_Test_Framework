@@ -144,6 +144,7 @@ SECTION_BY_BASENAME: dict[str, str] = {
     "location-notes": "Notes",
     "location-pricing": "Pricing",
     "location-shared-setup-locations": "Shared_Setup_Locations",
+    "product-code": "Product_Code",
     "service-charge-basic-information": "Basic_Information",
     "service-charge-history": "History",
     "service-charge-text-core": "Core",
