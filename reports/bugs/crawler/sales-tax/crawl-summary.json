@@ -1,0 +1,1566 @@
+{
+  "startedAt": "2026-11-04T15:55:59.550Z",
+  "finishedAt": "2026-11-04T15:57:43.866Z",
+  "durationMs": "104s",
+  "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+  "configUsed": {
+    "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+    "allowedOrigins": [
+      "https://cloudapps-e2e.encoreglobal.com"
+    ],
+    "excludeUrlPatterns": [
+      "logout",
+      "signout",
+      "sign-out",
+      "\\/api\\/auth\\/signout",
+      "login\\.microsoftonline\\.com",
+      "b2clogin\\.com",
+      "\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)",
+      "^mailto:",
+      "^tel:",
+      "^javascript:",
+      "\\/api\\/",
+      "\\/_next\\/",
+      "\\/auth\\/signin",
+      "\\/reports\\/download"
+    ],
+    "includeUrlPatterns": [
+      "taxes\\/sales-tax"
+    ],
+    "auth": {
+      "mode": "storage-state",
+      "signedInSelector": "h1"
+    },
+    "limits": {
+      "maxPages": 3,
+      "maxActionsPerPage": 60,
+      "maxTotalActions": 120,
+      "maxDepth": 3,
+      "maxDurationMs": 900000,
+      "settleMs": 900,
+      "actionTimeoutMs": 8000,
+      "navigationTimeoutMs": 30000
+    },
+    "safety": {
+      "allowWrites": true,
+      "allowDestructive": false
+    },
+    "enabledDetectors": [
+      "page-crash",
+      "console-error",
+      "network-failure",
+      "broken-link",
+      "dead-control",
+      "unexpected-route",
+      "form-validation",
+      "input-boundary",
+      "placeholder-text",
+      "missing-label",
+      "accessibility",
+      "layout",
+      "page-title"
+    ],
+    "captureScreenshots": true,
+    "outputDir": "reports/bugs/crawler/sales-tax-search"
+  },
+  "pagesVisited": [
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "normalizedUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax",
+      "module": "Sales Tax",
+      "depth": 0,
+      "title": "Sales Tax | Navigator",
+      "elementCount": 69,
+      "actionsPerformed": 53,
+      "bugsFound": 23,
+      "durationMs": 96696,
+      "reachedVia": "start URL"
+    }
+  ],
+  "actionsPerformed": [
+    {
+      "description": "Open the \"Sales Tax History\" tab.",
+      "kind": "tab",
+      "elementName": "Sales Tax History",
+      "selector": "#radix-_r_12_-trigger-sales-tax-history",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::tab::sales tax history",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"Basic Information\" tab.",
+      "kind": "tab",
+      "elementName": "Basic Information",
+      "selector": "#radix-_r_12_-trigger-sales-tax-table",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::tab::basic information",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"AK\" dropdown.",
+      "kind": "select",
+      "elementName": "AK",
+      "selector": "#sales-tax-state",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::select::ak",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"1101 Corporate Office Encore USA SGA\".",
+      "kind": "button",
+      "elementName": "1101 Corporate Office Encore USA SGA",
+      "selector": "#radix-_r_0_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::1101 corporate office encore usa sga",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Open the \"AK AL AR AS AZ CA CO CT DC DE FL FM GA GU HI IA ID IL IN KS…\" dropdown.",
+      "kind": "select",
+      "elementName": "AK AL AR AS AZ CA CO CT DC DE FL FM GA GU HI IA ID IL IN KS KY LA MA MD ME MH MI MN MO MP MS MT NC ND NE NH NJ NM NV NY ",
+      "selector": "div > div:nth-of-type(2) > div > select",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::select::ak al ar as az ca co ct dc de fl fm ga gu hi ia id il in ks ky la ma md me mh mi mn mo mp ms mt nc nd ne nh nj nm nv ny ",
+      "outcome": "failed",
+      "ok": false,
+      "error": "locator.click: Timeout 8000ms exceeded. Call log: \u001b[2m - waiting for locator('[data-sdet-ref=\"e27\"]').first()\u001b[22m \u001b[2m - locator resolved to <select tabindex=\"-1\" aria-hidden=\"true\" data-sdet-ref=\"e27\">…</select>\u001b[22m \u001b[2m - attempting click action\u001b[22m \u001b[2m 2 × waiting for element to be visible, …"
+    },
+    {
+      "description": "Click \"Actions\".",
+      "kind": "button",
+      "elementName": "Actions",
+      "selector": "#radix-_r_4_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::actions",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Open the \"All\" dropdown.",
+      "kind": "select",
+      "elementName": "All",
+      "selector": "#sales-tax-county",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::select::all",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Open the \"All ALEUTIANS EAST ALEUTIANS WEST ANCHORAGE BETHEL BRISTOL …\" dropdown.",
+      "kind": "select",
+      "elementName": "All ALEUTIANS EAST ALEUTIANS WEST ANCHORAGE BETHEL BRISTOL BAY DENALI DILLINGHAM FAIRBANKS NORTH STAR HAINES HOONAH ANGO",
+      "selector": "div > div:nth-of-type(2) > div > select",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::select::all aleutians east aleutians west anchorage bethel bristol bay denali dillingham fairbanks north star haines hoonah ango",
+      "outcome": "failed",
+      "ok": false,
+      "error": "locator.click: Timeout 8000ms exceeded. Call log: \u001b[2m - waiting for locator('[data-sdet-ref=\"e29\"]').first()\u001b[22m \u001b[2m - locator resolved to <select tabindex=\"-1\" aria-hidden=\"true\" data-sdet-ref=\"e29\">…</select>\u001b[22m \u001b[2m - attempting click action\u001b[22m \u001b[2m 2 × waiting for element to be visible, …"
+    },
+    {
+      "description": "Click \"Commissions\".",
+      "kind": "button",
+      "elementName": "Commissions",
+      "selector": "#radix-_r_7_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::commissions",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Open the \"50\" dropdown.",
+      "kind": "select",
+      "elementName": "50",
+      "selector": "div > div:nth-of-type(1) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::select::50",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Tax\".",
+      "kind": "button",
+      "elementName": "Tax",
+      "selector": "#radix-_r_a_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::tax",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Setup\".",
+      "kind": "button",
+      "elementName": "Setup",
+      "selector": "#radix-_r_d_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::setup",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Warehouse\".",
+      "kind": "button",
+      "elementName": "Warehouse",
+      "selector": "#radix-_r_g_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::warehouse",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Studio\".",
+      "kind": "button",
+      "elementName": "Studio",
+      "selector": "#radix-_r_j_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::studio",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"Enter zip code\" field.",
+      "kind": "input",
+      "elementName": "Enter zip code",
+      "selector": "#sales-tax-zip-code",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::input::enter zip code",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"Select date\" field.",
+      "kind": "input",
+      "elementName": "Select date",
+      "selector": "div:nth-of-type(1) > div > div > input",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::input::select date",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"Current page number\" field.",
+      "kind": "input",
+      "elementName": "Current page number",
+      "selector": "div > div:nth-of-type(2) > span > input",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::input::current page number",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Ask Encore\".",
+      "kind": "button",
+      "elementName": "Ask Encore",
+      "selector": "div:nth-of-type(3) > ul > li > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::ask encore",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Type a test value into the \"input\" field.",
+      "kind": "textarea",
+      "elementName": "input",
+      "selector": "div:nth-of-type(3) > div > div > textarea",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::textarea::input",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"PC prd click auto\".",
+      "kind": "button",
+      "elementName": "PC prd click auto",
+      "selector": "#radix-_r_v_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::pc prd click auto",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Click to restore sidebar\".",
+      "kind": "button",
+      "elementName": "Click to restore sidebar",
+      "selector": "div:nth-of-type(1) > div:nth-of-type(2) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::click to restore sidebar",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"trigger-button\".",
+      "kind": "button",
+      "elementName": "trigger-button",
+      "selector": "div > div:nth-of-type(1) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::trigger-button",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"More information\".",
+      "kind": "button",
+      "elementName": "More information",
+      "selector": "div > div:nth-of-type(2) > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::more information",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Open calendar\".",
+      "kind": "button",
+      "elementName": "Open calendar",
+      "selector": "div > div > div > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::open calendar",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Search\".",
+      "kind": "button",
+      "elementName": "Search",
+      "selector": "[data-testid=\"e2e-search-button\"]",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::e2e-search-button",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Collapse filters\".",
+      "kind": "button",
+      "elementName": "Collapse filters",
+      "selector": "div > div:nth-of-type(3) > div:nth-of-type(2) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::collapse filters",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Expand filters\".",
+      "kind": "button",
+      "elementName": "Expand filters",
+      "selector": "div > div:nth-of-type(3) > div:nth-of-type(2) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::expand filters",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Grid Options\".",
+      "kind": "button",
+      "elementName": "Grid Options",
+      "selector": "#radix-_r_6u_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::grid options",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Zip Code\".",
+      "kind": "button",
+      "elementName": "Zip Code",
+      "selector": "#radix-_r_hg_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::zip code",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column zipCode\".",
+      "kind": "button",
+      "elementName": "Resize column zipCode",
+      "selector": "thead > tr > th:nth-of-type(1) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column zipcode",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Geo Code\".",
+      "kind": "button",
+      "elementName": "Geo Code",
+      "selector": "#radix-_r_hi_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::geo code",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column geoCode\".",
+      "kind": "button",
+      "elementName": "Resize column geoCode",
+      "selector": "thead > tr > th:nth-of-type(2) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column geocode",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"State\".",
+      "kind": "button",
+      "elementName": "State",
+      "selector": "#radix-_r_hk_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::state",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column stateName\".",
+      "kind": "button",
+      "elementName": "Resize column stateName",
+      "selector": "thead > tr > th:nth-of-type(3) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column statename",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"County\".",
+      "kind": "button",
+      "elementName": "County",
+      "selector": "#radix-_r_hm_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::county",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column countyName\".",
+      "kind": "button",
+      "elementName": "Resize column countyName",
+      "selector": "thead > tr > th:nth-of-type(4) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column countyname",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"City\".",
+      "kind": "button",
+      "elementName": "City",
+      "selector": "#radix-_r_ho_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::city",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column cityName\".",
+      "kind": "button",
+      "elementName": "Resize column cityName",
+      "selector": "thead > tr > th:nth-of-type(5) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column cityname",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"State Tax\".",
+      "kind": "button",
+      "elementName": "State Tax",
+      "selector": "#radix-_r_hq_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::state tax",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column stateTax\".",
+      "kind": "button",
+      "elementName": "Resize column stateTax",
+      "selector": "thead > tr > th:nth-of-type(6) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column statetax",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"County Tax\".",
+      "kind": "button",
+      "elementName": "County Tax",
+      "selector": "#radix-_r_hs_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::county tax",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column countyTax\".",
+      "kind": "button",
+      "elementName": "Resize column countyTax",
+      "selector": "thead > tr > th:nth-of-type(7) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column countytax",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"County Local Tax\".",
+      "kind": "button",
+      "elementName": "County Local Tax",
+      "selector": "#radix-_r_hu_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::county local tax",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column countyLocalTax\".",
+      "kind": "button",
+      "elementName": "Resize column countyLocalTax",
+      "selector": "thead > tr > th:nth-of-type(8) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column countylocaltax",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"City Tax\".",
+      "kind": "button",
+      "elementName": "City Tax",
+      "selector": "#radix-_r_i0_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::city tax",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column cityTax\".",
+      "kind": "button",
+      "elementName": "Resize column cityTax",
+      "selector": "thead > tr > th:nth-of-type(9) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column citytax",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"City Local Tax\".",
+      "kind": "button",
+      "elementName": "City Local Tax",
+      "selector": "#radix-_r_i2_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::city local tax",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column cityLocalTax\".",
+      "kind": "button",
+      "elementName": "Resize column cityLocalTax",
+      "selector": "thead > tr > th:nth-of-type(10) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column citylocaltax",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Combined Tax\".",
+      "kind": "button",
+      "elementName": "Combined Tax",
+      "selector": "#radix-_r_i4_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::combined tax",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column combinedTax\".",
+      "kind": "button",
+      "elementName": "Resize column combinedTax",
+      "selector": "thead > tr > th:nth-of-type(11) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column combinedtax",
+      "outcome": "no-effect",
+      "ok": true
+    },
+    {
+      "description": "Click \"Effective Date\".",
+      "kind": "button",
+      "elementName": "Effective Date",
+      "selector": "#radix-_r_i6_",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::effective date",
+      "outcome": "dialog-opened",
+      "ok": true
+    },
+    {
+      "description": "Click \"Resize column effectiveDate\".",
+      "kind": "button",
+      "elementName": "Resize column effectiveDate",
+      "selector": "thead > tr > th:nth-of-type(12) > button",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::resize column effectivedate",
+      "outcome": "content-changed",
+      "ok": true
+    },
+    {
+      "description": "Click \"Full Screen\".",
+      "kind": "button",
+      "elementName": "Full Screen",
+      "selector": "div > div:nth-of-type(1) > div > button:nth-of-type(1)",
+      "urlBefore": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "urlAfter": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/chat/00000000-0000-0000-0000-000000000000",
+      "fingerprint": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/:id/taxes/sales-tax::button::full screen",
+      "outcome": "navigated",
+      "ok": true
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "Exercise tab: Sales Tax History",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise tab: Basic Information",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from 1101 Corporate Office Encore USA SGA",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Actions",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise select: All",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from Commissions",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise select: 50",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from Tax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Setup",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Warehouse",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Studio",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise input: Enter zip code",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise button: Ask Encore",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise textarea: input",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from PC prd click auto",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise button: trigger-button",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from Open calendar",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise button: Search",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise button: Collapse filters",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Exercise button: Expand filters",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from Grid Options",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Zip Code",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Geo Code",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from State",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from County",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from City",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from State Tax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from County Tax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from County Local Tax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise button: Resize column countyLocalTax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Open dialog from City Tax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from City Local Tax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Combined Tax",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Open dialog from Effective Date",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Dialog opened, inspected and dismissed with Escape."
+    },
+    {
+      "name": "Exercise button: Resize column effectiveDate",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "The screen re-rendered in response."
+    },
+    {
+      "name": "Navigate via button: Full Screen",
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "outcome": "explored",
+      "detail": "Landed on https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/chat/00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "bugs": [
+    {
+      "id": "BUG-CTRL-001",
+      "title": "\"Click to restore sidebar\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Click to restore sidebar\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-001.png",
+        "domSnippet": null,
+        "selector": "div:nth-of-type(1) > div:nth-of-type(2) > div > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:56.013Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "af803ffda37e"
+    },
+    {
+      "id": "BUG-CTRL-002",
+      "title": "\"More information\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"More information\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-002.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(2) > div > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:58.249Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "694dacec4770"
+    },
+    {
+      "id": "BUG-CTRL-003",
+      "title": "\"Resize column zipCode\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column zipCode\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-003.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(1) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:08.042Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "1003ceeecdde"
+    },
+    {
+      "id": "BUG-CTRL-004",
+      "title": "\"Resize column geoCode\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column geoCode\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-004.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(2) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:10.692Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "664f01072eab"
+    },
+    {
+      "id": "BUG-CTRL-005",
+      "title": "\"Resize column stateName\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column stateName\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-005.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(3) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:13.275Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "cb4b1579c1d6"
+    },
+    {
+      "id": "BUG-CTRL-006",
+      "title": "\"Resize column countyName\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column countyName\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-006.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(4) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:15.911Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "c74d4eeccc77"
+    },
+    {
+      "id": "BUG-CTRL-007",
+      "title": "\"Resize column cityName\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column cityName\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-007.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(5) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:18.583Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "588b489c348e"
+    },
+    {
+      "id": "BUG-CTRL-008",
+      "title": "\"Resize column stateTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column stateTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-008.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(6) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:21.204Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "bec0aa1b17b3"
+    },
+    {
+      "id": "BUG-CTRL-009",
+      "title": "\"Resize column countyTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column countyTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-009.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(7) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:23.779Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "c2fd4f14f398"
+    },
+    {
+      "id": "BUG-CTRL-010",
+      "title": "\"Resize column cityTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column cityTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-010.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(9) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:29.006Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "1a7ed37c87e5"
+    },
+    {
+      "id": "BUG-CTRL-011",
+      "title": "\"Resize column cityLocalTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column cityLocalTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-011.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(10) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:31.743Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "7e50a4a822c3"
+    },
+    {
+      "id": "BUG-CTRL-012",
+      "title": "\"Resize column combinedTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column combinedTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-012.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(11) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:34.360Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "98149ba70bed"
+    },
+    {
+      "id": "BUG-INPUT-001",
+      "title": "Field \"Current page number\" silently truncates input",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Validation",
+      "detector": "input-boundary",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Type 300 characters into the \"Current page number\" field.",
+        "3. Observe that only 1 characters are kept and nothing explains why."
+      ],
+      "expectedResult": "A field that limits length declares it (maxlength, a counter, or a validation message) so the user knows the value was cut.",
+      "actualResult": "300 characters were entered and the field kept 1, with no maxlength attribute and no message.",
+      "evidence": {
+        "screenshot": "evidence/BUG-INPUT-001.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(2) > span > input",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:12.868Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "Sales Tax > Sales Tax History — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "Sales Tax > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "fingerprint": "83585aff472e"
+    },
+    {
+      "id": "BUG-LABEL-001",
+      "title": "8 form control(s) have no accessible label on Sales Tax",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "missing-label",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Inspect the form controls listed above and confirm none carries a label association."
+      ],
+      "expectedResult": "Every form control is named by a <label for>, aria-label or aria-labelledby, so assistive technology can announce it.",
+      "actualResult": "8 control(s) are named only by placeholder text or by nothing at all: input (Enter zip code); button[type=button] (AK); select (AK AL AR AS AZ CA CO CT DC DE FL FM GA GU HI IA I…); button[type=button] (All); select (All ALEUTIANS EAST ALEUTIANS WEST ANCHORAGE BETHE…)",
+      "evidence": {
+        "screenshot": "evidence/BUG-LABEL-001.png",
+        "domSnippet": null,
+        "selector": "#sales-tax-zip-code",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:12.944Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "Sales Tax > Sales Tax History — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "Sales Tax > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "fingerprint": "d5f272af2270"
+    },
+    {
+      "id": "BUG-LAYOUT-001",
+      "title": "Text is cut off by its container on Sales Tax",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "expectedResult": "Text either fits, wraps, or is truncated deliberately with an ellipsis and a full value on hover.",
+      "actualResult": "1 element(s) hide overflowing text with no ellipsis: span: \"Grid Options\"",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:13.029Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "Sales Tax > Sales Tax History — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "Sales Tax > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "fingerprint": "b50ab6ffa0c3"
+    },
+    {
+      "id": "BUG-LAYOUT-002",
+      "title": "Interactive elements overlap on Sales Tax",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "expectedResult": "Controls do not sit on top of one another — an overlapped control cannot be clicked reliably.",
+      "actualResult": "1 overlapping pair(s). Worst: input \"Select date\" over button \"Open calendar\" (100% covered).",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-002.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:13.111Z",
+      "occurrences": 2,
+      "alsoSeenOn": [
+        "Sales Tax > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "fingerprint": "df4e61c6127b"
+    }
+  ],
+  "errors": [],
+  "notTested": [
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/home",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/inbox",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/fulfillments",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/assets",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/customers",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/products",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Open the \"Basic Information\" tab.",
+      "reason": "tab is already the selected one"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Use the \"Go to first page\" pagination control.",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Open the \"AK AL AR AS AZ CA CO CT DC DE FL FM GA GU HI IA ID IL IN KS…\" dropdown.",
+      "reason": "interaction failed: locator.click: Timeout 8000ms exceeded. Call log: \u001b[2m - waiting for locator('[data-sdet-ref=\"e27\"]').first()\u001b[22m \u001b[2m - locator resolved to <select tabindex=\"-1\" aria-hidden=\"true\" data-sdet-ref=\"e27\">…</select>\u001b[22m \u001b[2m - attempting click action\u001b[22m \u001b[2m 2 × waiting for element to be visible, …"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Open the \"All ALEUTIANS EAST ALEUTIANS WEST ANCHORAGE BETHEL BRISTOL …\" dropdown.",
+      "reason": "interaction failed: locator.click: Timeout 8000ms exceeded. Call log: \u001b[2m - waiting for locator('[data-sdet-ref=\"e29\"]').first()\u001b[22m \u001b[2m - locator resolved to <select tabindex=\"-1\" aria-hidden=\"true\" data-sdet-ref=\"e29\">…</select>\u001b[22m \u001b[2m - attempting click action\u001b[22m \u001b[2m 2 × waiting for element to be visible, …"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Click \"DRO Search\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Open the \"Select state\" dropdown.",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Use the \"Go to previous page\" pagination control.",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Click \"Payment Search\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Use the \"Go to next page\" pagination control.",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Click \"ECT Search\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Use the \"Go to last page\" pagination control.",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Click \"Event Agendas\".",
+      "reason": "control is disabled"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Click \"Reset\".",
+      "reason": "destructive action (\"reset\") — safety.allowDestructive is off"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax :: Click \"Import\".",
+      "reason": "never-click control (\"import\")"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/chat/00000000-0000-0000-0000-000000000000",
+      "reason": "does not match any include pattern"
+    },
+    {
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "reason": "remaining controls not exercised — \"Full Screen\" navigated away"
+    }
+  ],
+  "stopReason": "completed — frontier exhausted",
+  "totals": {
+    "pagesVisited": 1,
+    "actionsPerformed": 53,
+    "scenariosExplored": 36,
+    "bugsFound": 16,
+    "findingsBeforeDedup": 23,
+    "errors": 0,
+    "notTested": 22,
+    "bySeverity": {
+      "Critical": 0,
+      "Major": 12,
+      "Minor": 4,
+      "Trivial": 0
+    },
+    "byCategory": {
+      "Validation": 1,
+      "Accessibility": 1,
+      "UI": 2,
+      "Functional": 12
+    }
+  }
+}

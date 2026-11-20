@@ -1,0 +1,31 @@
+{
+  "id": "BUG-TAX-ITT-001",
+  "title": "International Tax Type Setup — Effective Dates shift earlier for a user in a US time zone",
+  "module": "taxes",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-11-09",
+  "requirementSource": "NM-4026 — TestRail C107677–C107680: a US user sees, types, picks and saves the Effective Date as entered",
+  "stepsToReproduce": [
+    "Set the browser time zone to America/New_York and open Tax → International Tax Type Setup for office 1606 (/navigator/locations/1606/taxes/international-tax-type-setup) on e2e.",
+    "Search Canada as of 01/01/2000 and read Quebec's Effective Date.",
+    "Search Mexico as of 12/31/2099, pick GOV type IVA on an empty province and type 01/15/2030 in Effective Date, then leave the field.",
+    "Pick the 20th in that row's calendar.",
+    "Enter a GOV Reg. Number and Save; inspect the save request."
+  ],
+  "expectedBehavior": "Quebec shows 01/01/2000; the typed date stays 01/15/2030; the picked day shows the 20th; the save sends 2030-01-15T00:00:00.000Z.",
+  "actualBehavior": "Quebec shows 12/31/1999; the typed date reads 01/14 while typing and 01/13/2030 after leaving; the picked day shows the 19th; the save sends a date a day early.",
+  "affectedTests": [
+    "TC-TAX-ITT-043",
+    "TC-TAX-ITT-044",
+    "TC-TAX-ITT-045",
+    "TC-TAX-ITT-046"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-09",
+      "verdict": "CONFIRMED",
+      "finding": "Failed identically in the full Tax run (9 workers) and an isolated rerun (4 workers, no retries); the TestRail cases already record the shifted values."
+    }
+  ]
+}

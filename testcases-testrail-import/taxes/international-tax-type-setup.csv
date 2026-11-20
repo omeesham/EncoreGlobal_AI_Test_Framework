@@ -1,0 +1,483 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,The information icon explains the page,,,,,Automated,Omeesha Mahanta,,,"The tooltip reads ""Search and manage international tax configurations.""",,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Hover the (i) icon beside the heading</li>
+</ol>",,,"1. The tooltip reads ""Search and manage international tax configurations.""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The grid shows the six tax type columns,,,,,Automated,Omeesha Mahanta,,,"The same six columns are listed, all ticked",,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Read the column headers</li>
+<li>2. Open Grid Options</li>
+</ol>",,,"1. Province, GOV Tax Type Name, GOV Tax Reg. Number, Provincial Tax Type Name, Provincial Tax Reg. Number, Effective Date
+2. The same six columns are listed, all ticked",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Without a session the page sends the user to sign in,,,,,Automated,Omeesha Mahanta,,,"The sign-in page opens (""Sign in | Navigator""); its callbackUrl is /locations/1606/taxes/international-tax-type-setup",,,taxes,,"A browser with no Navigator session
+
+Test Data:
+Application: Navigator
+No signed-in session",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Open /navigator/locations/1606/taxes/international-tax-type-setup</li>
+</ol>",,,"1. The sign-in page opens (""Sign in | Navigator""); its callbackUrl is /locations/1606/taxes/international-tax-type-setup",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The search panel works from the keyboard,,,,,Automated,Omeesha Mahanta,,,The 13 Canadian provinces are listed,,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Focus Country, press Enter, Arrow Down, Enter</li>
+<li>2. Press Tab four times</li>
+<li>3. Press Enter</li>
+</ol>",,,"1. Country is Canada
+2. Focus moves Effective Date > Open calendar > Reset > Search
+3. The 13 Canadian provinces are listed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,International Tax Type Setup opens from the Tax menu with its defaults,,,,,Automated,Omeesha Mahanta,,,"""0 records found"", the message ""Select country and effective date, then click Search to view international tax type records."" and Save disabled",,,taxes,,"Logged in; the office Home page is open
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Expand Tax in the left sidebar and click ""International Tax Type Setup""</li>
+<li>2. Read the page heading</li>
+<li>3. Read the search criteria</li>
+<li>4. Look at the grid and the Save button</li>
+</ol>",,,"1. The URL is /navigator/locations/{office}/taxes/international-tax-type-setup and the browser title is ""International Tax Type Setup | Navigator""
+2. ""International Tax Type Setup""
+3. Country ""Mexico"", Effective Date today
+4. ""0 records found"", the message ""Select country and effective date, then click Search to view international tax type records."" and Save disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Country offers Mexico, Canada and Bahamas",,,,,Automated,Omeesha Mahanta,,,"Mexico, Canada, Bahamas",,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Open Country</li>
+</ol>",,,"1. Mexico, Canada, Bahamas",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching Canada and Bahamas lists their own provinces,,,,,Automated,Omeesha Mahanta,,,1 record: Bahamas,,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Choose Canada and click Search</li>
+<li>2. Choose Bahamas and click Search</li>
+</ol>",,,"1. 13 records: Alberta, British Columbia, Manitoba, Nanavut, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Ontario, Prince Edward Island, Quebec, Saskatchewan, Yukon
+2. 1 record: Bahamas",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Search needs a valid Effective Date,,,,,Automated,Omeesha Mahanta,,,Search is disabled,,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Clear Effective Date</li>
+<li>2. Type 13/45/2026 in Effective Date</li>
+</ol>",,,"1. Search is disabled
+2. Search is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset restores the criteria and clears the grid,,,,,Automated,Omeesha Mahanta,,,"Mexico / today; ""0 records found"", no rows and the ""Select country and effective date..."" message",,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Choose Canada, Effective Date 01/01/2020, and click Search</li>
+<li>2. Click Reset</li>
+</ol>",,,"1. Canadian rows listed
+2. Mexico / today; ""0 records found"", no rows and the ""Select country and effective date..."" message",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The search panel collapses and expands,,,,,Automated,Omeesha Mahanta,,,Search is in view again,,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Click ""Collapse filters""</li>
+<li>2. Click ""Expand filters""</li>
+</ol>",,,"1. The search panel, with Search, is out of view
+2. Search is in view again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching Mexico lists one row per Mexican state,,,,,Automated,Omeesha Mahanta,,,"32 different states, in alphabetical order",,,taxes,,"International Tax Type Setup is open for the office with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Click Search</li>
+<li>2. Read the Province column</li>
+</ol>",,,"1. ""32 records found""
+2. 32 different states, in alphabetical order",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting a column reorders the rows both ways,,,,,Automated,Omeesha Mahanta,,,"Alberta first, Yukon last",,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria; Canada searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Open the Province header menu and click ""Sort descending""</li>
+<li>2. Click ""Sort ascending""</li>
+</ol>",,,"1. Yukon first, Alberta last
+2. Alberta first, Yukon last",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A hidden column comes back with Reset to Default View,,,,,Automated,Omeesha Mahanta,,,All six columns are shown again,,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Open the GOV Tax Reg. Number header menu and click ""Hide column""</li>
+<li>2. Grid Options > ""Reset to Default View""</li>
+</ol>",,,"1. The column is gone; Grid Options shows it unticked
+2. All six columns are shown again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A row's tax type pickers offer its country's types,,,,,Automated,Omeesha Mahanta,,,"GOV: GST, HST; Provincial: blank, PST, QST",,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes (IVA); a Mexican state with no tax type yet
+Canada - Alberta",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Search Mexico; click Aguascalientes' GOV and Provincial Tax Type cells and open each picker</li>
+<li>2. Search Canada; do the same on Alberta</li>
+</ol>",,,"1. GOV: IVA; Provincial: a blank option only
+2. GOV: GST, HST; Provincial: blank, PST, QST",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Bahamas has no tax types to pick,,,,,Automated,Omeesha Mahanta,,,GOV: no options; Provincial: the blank option only,,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria; Bahamas searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Open the GOV and Provincial pickers of the Bahamas row</li>
+</ol>",,,1. GOV: no options; Provincial: the blank option only,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting by GOV Tax Type Name groups the rows by type,,,,,Automated,Omeesha Mahanta,,,"GST provinces first, then HST",,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria; Canada searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Sort GOV Tax Type Name descending</li>
+<li>2. Sort ascending</li>
+</ol>",,,"1. HST provinces first, then GST
+2. GST provinces first, then HST",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting by Effective Date orders the rows by date,,,,,Automated,Omeesha Mahanta,,,Newest date first,,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria; Canada searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Sort Effective Date ascending</li>
+<li>2. Sort descending</li>
+</ol>",,,"1. Oldest date first (the 01/01/2000 rows), 10/30/2026 (Alberta) last
+2. Newest date first",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A moved column stays moved until Reset to Default View,,,,,Automated,Omeesha Mahanta,,,The default column order is back,,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Drag the Province header by its grip onto GOV Tax Reg. Number</li>
+<li>2. Reload the page</li>
+<li>3. Grid Options > ""Reset to Default View""</li>
+</ol>",,,"1. Province is no longer the first column
+2. The moved order is kept
+3. The default column order is back",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A column can be widened by dragging its edge,,,,,Automated,Omeesha Mahanta,,,The column is more than 50 px wider,,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Drag the right edge of GOV Tax Reg. Number 200 px to the right</li>
+</ol>",,,1. The column is more than 50 px wider,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The search date shows the record in effect on that day,,,,,Automated,Omeesha Mahanta,,,"GOV GST, Provincial QST with Reg. Number 1002036904, Effective Date 01/01/2000",,,taxes,,"Logged in; Tax > International Tax Type Setup is open for office 1606 with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Choose Canada, Effective Date 12/31/1999, click Search and read Quebec</li>
+<li>2. Set Effective Date 01/01/2000, click Search and read Quebec</li>
+</ol>",,,"1. No tax types and no Effective Date
+2. GOV GST, Provincial QST with Reg. Number 1002036904, Effective Date 01/01/2000",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A tax type picked on an empty row asks for a Reg. Number and an Effective Date,,,,,Automated,Omeesha Mahanta,,,"The date is flagged ""Required""; Save is disabled",,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Mexico searched; the first state with no tax type is used
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes (IVA); a Mexican state with no tax type yet",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Look at the state's GOV Tax Reg. Number cell</li>
+<li>2. Pick IVA as GOV Tax Type Name</li>
+<li>3. Look at the Effective Date and Save</li>
+</ol>",,,"1. No input
+2. IVA is set and a Reg. Number input appears
+3. The date is flagged ""Required""; Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An impossible Effective Date is flagged and cannot be saved,,,,,Automated,Omeesha Mahanta,,,"The value stays; the row is flagged ""Invalid date""; Save is disabled",,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Mexico searched; IVA picked on a state with no tax type
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes (IVA); a Mexican state with no tax type yet",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Type 13/45/2026 in the row's Effective Date and leave the field</li>
+</ol>",,,"1. The value stays; the row is flagged ""Invalid date""; Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A changed Reg. Number needs a new Effective Date,,,,,Automated,Omeesha Mahanta,,,"Flagged ""Effective date must be changed when tax type or registration number is modified""; Save is disabled",,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Change Ontario's GOV Tax Reg. Number, keep its Effective Date</li>
+</ol>",,,"1. Flagged ""Effective date must be changed when tax type or registration number is modified""; Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The new Effective Date must come after the record's date,,,,,Automated,Omeesha Mahanta,,,No flag; Save enabled,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; Ontario's latest record is dated D; its Reg. Number has been changed
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Type D - 1 day</li>
+<li>2. Type D</li>
+<li>3. Type D + 1 day</li>
+</ol>",,,"1. Flagged ""Effective date must be after D"" (D written short, e.g. 1/1/2000); Save disabled
+2. Flagged ""Effective date must be changed when...""; Save disabled
+3. No flag; Save enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Removing a Provincial tax type needs a new Effective Date,,,,,Automated,Omeesha Mahanta,,,"Flagged ""Effective date must be changed when...""; Save disabled",,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Pick the blank Provincial Tax Type on Manitoba</li>
+<li>2. Look at the row and Save</li>
+</ol>",,,"1. Provincial type and its Reg. Number input are gone
+2. Flagged ""Effective date must be changed when...""; Save disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Reg. Number takes up to 100 characters, trims blanks and keeps markup as text",,,,,Automated,Omeesha Mahanta,,,"The value is ""<b>x</b>"" as typed; no bold text is rendered",,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Check the GOV Tax Reg. Number input of Ontario</li>
+<li>2. Type three spaces and leave the field</li>
+<li>3. Type &lt;b>x&lt;/b> and leave the field</li>
+</ol>",,,"1. Maximum length 100
+2. The value is empty
+3. The value is ""<b>x</b>"" as typed; no bold text is rendered",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Typed and calendar-picked Effective Dates are kept as entered,,,,,Automated,Omeesha Mahanta,,,The cell reads the 20th of the month the calendar showed (01/20/2030),,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Mexico searched; IVA picked on a state with no tax type
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes (IVA); a Mexican state with no tax type yet",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Type 01/15/2030 in the row's Effective Date and leave the field</li>
+<li>2. Open the row's calendar and pick the 20th</li>
+</ol>",,,"1. It still reads 01/15/2030
+2. The cell reads the 20th of the month the calendar showed (01/20/2030)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A Provincial tax type needs its Reg. Number,,,,,Automated,Omeesha Mahanta,,,"Flagged ""Provincial Tax Reg Number is required""; Save disabled",,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Pick PST as Provincial Tax Type on Northwest Territories and type the day after its record as Effective Date</li>
+</ol>",,,"1. Flagged ""Provincial Tax Reg Number is required""; Save disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A GOV tax type needs its Reg. Number,,,,,Automated,Omeesha Mahanta,,,"Flagged ""GOV Tax Reg Number is required"", as a Provincial type is; Save disabled",,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Mexico searched; a state with no tax type is used
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes (IVA); a Mexican state with no tax type yet",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Pick IVA, leave GOV Tax Reg. Number empty, type 01/15/2030 as Effective Date</li>
+</ol>",,,"1. Flagged ""GOV Tax Reg Number is required"", as a Provincial type is; Save disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching with unsaved changes asks first; Stay keeps them,,,,,Automated,Omeesha Mahanta,,,The dialog closes; the changed Reg. Number is still there,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; Ontario's GOV Tax Reg. Number has been changed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Click Search</li>
+<li>2. Click Stay</li>
+</ol>",,,"1. Dialog ""Unsaved changes"": ""Are you sure you want to leave this view? Any unsaved changes will be lost."" with Stay and Discard
+2. The dialog closes; the changed Reg. Number is still there",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Discard drops the changes and runs the search,,,,,Automated,Omeesha Mahanta,,,The search runs and Ontario shows its stored Reg. Number,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; Ontario's GOV Tax Reg. Number has been changed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Click Search, then Discard</li>
+</ol>",,,1. The search runs and Ontario shows its stored Reg. Number,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset with unsaved changes asks first,,,,,Automated,Omeesha Mahanta,,,Rows and the changed Reg. Number are still there,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; Ontario's GOV Tax Reg. Number has been changed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Click Reset</li>
+<li>2. Click Stay</li>
+</ol>",,,"1. The Unsaved changes dialog is shown
+2. Rows and the changed Reg. Number are still there",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing the country with unsaved changes asks first,,,,,Automated,Omeesha Mahanta,,,Country is still Canada and the change is kept,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; Ontario's GOV Tax Reg. Number has been changed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Choose Mexico in Country</li>
+<li>2. Click Stay</li>
+</ol>",,,"1. The Unsaved changes dialog is shown
+2. Country is still Canada and the change is kept",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Leaving the page with unsaved changes asks first,,,,,Automated,Omeesha Mahanta,,,The page stays open with the change,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; Ontario's GOV Tax Reg. Number has been changed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Click Home in the sidebar</li>
+<li>2. Click Stay</li>
+</ol>",,,"1. The Unsaved changes dialog is shown
+2. The page stays open with the change",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reloading with unsaved changes raises the browser leave-page prompt,,,,,Automated,Omeesha Mahanta,,,"The browser asks before leaving (its ""Leave site?"" prompt)",,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; Ontario's GOV Tax Reg. Number has been changed and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Reload the browser page</li>
+</ol>",,,"1. The browser asks before leaving (its ""Leave site?"" prompt)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A new GOV Reg. Number is saved as a new record from its effective date,,,,,Automated,Omeesha Mahanta,,,The latest number is 45896155 again,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Mexico searched; Aguascalientes' latest record is dated D
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes, IVA Reg. Number 45896155; Canada - Alberta, PST 836078-2; Quebec, QST 1002036904",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Type a new GOV Tax Reg. Number and D + 1 day as Effective Date, then click Save</li>
+<li>2. Search as of D + 1</li>
+<li>3. Search as of D</li>
+<li>4. Clean-up: save 45896155 from D + 2</li>
+</ol>",,,"1. ""Record(s) saved successfully.""; only Aguascalientes is sent, dated D + 1 at midnight UTC; Save is disabled again
+2. Aguascalientes shows the new number from D + 1
+3. Aguascalientes shows 45896155 from D - the earlier record is kept
+4. The latest number is 45896155 again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Provincial Reg. Numbers on two rows are saved together,,,,,Automated,Omeesha Mahanta,,,Alberta 836078-2 and Quebec 1002036904 again,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes, IVA Reg. Number 45896155; Canada - Alberta, PST 836078-2; Quebec, QST 1002036904",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Type new Provincial Tax Reg. Numbers on Alberta and Quebec, each with the day after its latest record, then click Save once</li>
+<li>2. Search the latest records again</li>
+<li>3. Clean-up: save the original numbers from one day later</li>
+</ol>",,,"1. ""Record(s) saved successfully.""; both rows are sent
+2. Both rows show their new numbers from their new dates
+3. Alberta 836078-2 and Quebec 1002036904 again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A changed GOV tax type is saved as a new record,,,,,Automated,Omeesha Mahanta,,,Yukon is GST again,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; Yukon's latest record is dated D
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: Canada - Yukon (GST R105164933, no Provincial type)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Pick HST as Yukon's GOV Tax Type, type D + 1 day, click Save</li>
+<li>2. Search as of D + 1, then as of D</li>
+<li>3. Clean-up: save GST from D + 2</li>
+</ol>",,,"1. ""Record(s) saved successfully.""; the record sent has HST from D + 1
+2. HST from D + 1; GST before it
+3. Yukon is GST again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A Provincial tax type added with its Reg. Number is saved, and can be removed again",,,,,Automated,Omeesha Mahanta,,,Yukon has no Provincial type again,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; Yukon's latest record is dated D
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: Canada - Yukon (GST R105164933, no Provincial type)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Pick PST on Yukon, type a Provincial Reg. Number and D + 1 day, click Save</li>
+<li>2. Search the latest records</li>
+<li>3. Pick the blank Provincial type, type D + 2, click Save</li>
+</ol>",,,"1. ""Record(s) saved successfully.""; the record sent has PST and the number
+2. Yukon has PST with the number from D + 1
+3. Yukon has no Provincial type again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Setting up a state with no tax type sends its new record,,,,,Automated,Omeesha Mahanta,,,The state still has no tax type - nothing was stored,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Mexico searched; a state with no tax type is used; the server reply is given in the browser
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes (IVA); a Mexican state with no tax type yet",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Pick IVA, type a GOV Reg. Number and 01/15/2030, click Save</li>
+<li>2. Search the latest records again</li>
+</ol>",,,"1. ""Record(s) saved successfully.""; one record is sent for that state with IVA, the number and 2030-01-15T00:00:00.000Z; Save is disabled again
+2. The state still has no tax type - nothing was stored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A failed save keeps the changes and says so,,,,,Automated,Omeesha Mahanta,,,Quebec has its earlier number and date - nothing was stored,,,taxes,,"International Tax Type Setup is open for office 1606; the country is searched with Effective Date 12/31/2099 (each row's latest record); Canada searched; the save request is made to fail (server error)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes, IVA Reg. Number 45896155; Canada - Alberta, PST 836078-2; Quebec, QST 1002036904",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Type a new Provincial Reg. Number and a new date on Quebec, then click Save</li>
+<li>2. Reopen and search the latest records</li>
+</ol>",,,"1. ""Failed to save international tax type""; the edit stays on screen and Save is still enabled
+2. Quebec has its earlier number and date - nothing was stored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone the search date picks the record in effect that day,,,,,Automated,Omeesha Mahanta,,,GST and QST,,,taxes,,"International Tax Type Setup is open for office 1606 in a browser set to America/New_York (US Eastern time)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Choose Canada, Effective Date 12/31/1999, Search; read Quebec</li>
+<li>2. Set 01/01/2000, Search; read Quebec</li>
+</ol>",,,"1. No tax types
+2. GST and QST",,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone a stored Effective Date shows as stored,,,,,Automated,Omeesha Mahanta,,,"01/01/2000, the stored date (today it shows 12/31/1999)",,,taxes,,"International Tax Type Setup is open for office 1606 in a browser set to America/New_York (US Eastern time)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Canada - Quebec (GST/QST since 01/01/2000), Ontario (HST), Manitoba (GST/PST), Northwest Territories (GST only)",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Choose Canada, Effective Date 01/01/2000, Search; read Quebec's Effective Date</li>
+</ol>",,,"1. 01/01/2000, the stored date (today it shows 12/31/1999)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone a typed Effective Date is kept as typed,,,,,Automated,Omeesha Mahanta,,,It still reads 01/15/2030 (today it reads 01/14 while typing and 01/13 after leaving),,,taxes,,"International Tax Type Setup is open for office 1606 in a browser set to America/New_York (US Eastern time); Mexico searched as of 12/31/2099; IVA picked on a state with no tax type
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes (IVA); a Mexican state with no tax type yet",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Type 01/15/2030 in the row's Effective Date and leave the field</li>
+</ol>",,,1. It still reads 01/15/2030 (today it reads 01/14 while typing and 01/13 after leaving),,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone a save sends the Effective Date as entered,,,,,Automated,Omeesha Mahanta,,,The record sent is dated 2030-01-15T00:00:00.000Z (today it is 2030-01-14 - a day early),,,taxes,,"International Tax Type Setup is open for office 1606 in a browser set to America/New_York (US Eastern time); Mexico searched as of 12/31/2099; a state with no tax type is used; the server reply is given in the browser
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes (IVA); a Mexican state with no tax type yet",High,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Pick IVA, type a Reg. Number and 01/15/2030, click Save</li>
+</ol>",,,1. The record sent is dated 2030-01-15T00:00:00.000Z (today it is 2030-01-14 - a day early),,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone a day picked in the calendar is the day shown,,,,,Automated,Omeesha Mahanta,,,The cell reads the 20th of that month (today it reads the 19th),,,taxes,,"International Tax Type Setup is open for office 1606 in a browser set to America/New_York (US Eastern time); Mexico searched as of 12/31/2099; IVA picked on a state with no tax type
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: Mexico - Aguascalientes (IVA); a Mexican state with no tax type yet",Medium,,International_Tax_Type_Setup,1,,Taxes > International_Tax_Type_Setup,"<ol>
+<li>1. Open the row's calendar and pick the 20th</li>
+</ol>",,,1. The cell reads the 20th of that month (today it reads the 19th),,,,Master,S1620,Test Case (Steps),Regression,,,

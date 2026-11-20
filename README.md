@@ -221,6 +221,143 @@ To keep an intentional fallback out of the report, put `// testid-audit: ignore 
 line above the selector; it moves to the report's exclusions appendix with that reason attached.
 `--strict` exits non-zero while any CRITICAL or HIGH finding remains, for use in a pipeline.
 
+### Missing data-testid audit — any screen
+
+```bash
+node scripts/generic-testid-audit.js --help          # every flag, with notes
+node scripts/generic-testid-audit.js --steps config/audit-steps/example-location-settings.txt
+npm run audit:testids:location-settings              # a saved target, two flags
+```
+
+This drives a browser to a real screen and reports what is actually rendered there, rather than
+reading the suite's own selector code. It is the tool to reach for when the screen is not in the
+suite yet, or when you need the gaps for one ticket rather than a whole module.
+
+**You must tell it which screen to look at.** It has no default and cannot resolve a ticket number
+— there is no Jira access. Run it with no arguments and it prints the usage rather than guessing.
+There are five ways to point it:
+
+| Way | Flag | Use when |
+| --- | --- | --- |
+| Steps file | `--steps <file>` | the screen needs clicks — a modal, dialog, wizard step or expanded panel |
+| Saved target | `--module x --target y` | a screen audited repeatedly; the route lives in `config/testid-audit.config.js` |
+| Direct URL | `--page <url> --scope <sel>` | a one-off on a screen that has an address |
+| Local HTML | `--html <file>` | offline, no login, no browser navigation |
+| Source only | `--mode source` | no browser at all — scans POM and spec files for fragile selectors |
+
+A steps file is the general case, since it covers anything reachable by hand:
+
+```
+Module: locations
+Submodule: location-settings
+Output: reports/testid-audit-locations
+
+1. Go to /navigator/locations/{office}/settings/location
+2. Click "More information"
+3. Audit inside "main"
+```
+
+`{office}` is filled in from `config.offices` — USA 1606, Canada 2359, Mexico 7147. A route
+containing it audits **all three by default**, one workbook per country, because auditing one
+country and labelling it as the module is how a partial audit reads as a complete one. The same
+screen genuinely differs: Local Office Settings has 19 untagged controls in USA, 3 in Canada and
+13 in Mexico. Narrow it with `--office 1606` when you deliberately want one.
+
+`Module` and `Submodule` become the first two columns of the workbook, so the report is labelled
+by whatever you call it. Step numbers, trailing periods, `#` comments and curly quotes are all
+tolerated. The verbs are `Go to`, `Click`, `Type "x" into "y"`, `Select "x" from "y"`, `Wait for`,
+`Audit here` and `Audit inside "<selector>"`. A line it cannot parse fails the run — a silently
+skipped navigation step would produce a confident report about whichever page it happened to
+land on.
+
+**Keep steps files read-only against the app.** `Type` and `Select` exist for screens you can only
+reach by filling something in first, but a file that ends in `Click "Save"` creates a record on
+e2e every time anyone re-runs it.
+
+`Audit inside` sets the boundary of the scan. Without it the whole page is read, including the
+global sidebar and navigation — on the Add Product Group screen that is the difference between 13
+findings and 35. Scope to the narrowest container that holds what the ticket is about.
+
+Each run writes three things into the output directory, named after the module and submodule:
+
+| Output | What it is for |
+| --- | --- |
+| `.xlsx` | The workbook for the application team — Module, Submodule, Element, Current selector, Steps to locate the element, DOM snippet, Screenshot |
+| `.json` | The same findings machine-readable, with risk, confidence and the suggested testid |
+| `<submodule>/` | One PNG per finding: a DevTools Elements view of that element, highlighted in its parent markup |
+
+The Screenshot column holds a path relative to the workbook, so the report survives being zipped
+or moved as long as the folder travels with it. Screenshots are rendered from each element's real
+`outerHTML` — Chrome's own DevTools panel is browser UI and cannot be captured by Playwright.
+
+**Each run deletes the previous report for the same module and submodule**, so a folder only ever
+holds the latest record for that screen. It matches on the report's own name, so another ticket in
+the same folder is left alone. If the workbook is open in Excel the run stops before deleting
+anything and tells you to close it.
+
+`--mode` selects what is scanned: `runtime` (default, the live page), `source` (POM and spec files
+only, no browser) or `combined` (both merged). A `runtime` run that finds nothing fails loudly
+rather than writing an empty-looking report — that almost always means the saved login in
+`.auth/encore-state.json` has expired, the URL is wrong, or `--scope` matched nothing.
+
+One run audits one screen. It does not crawl: it will not follow links or discover other pages, so
+a module with eight screens needs eight steps files. It writes no specs, page objects or TestRail
+cases — it is a survey, not test automation.
+
+#### Auditing a new screen, step by step
+
+Running the tool is one command. Getting a report you can trust takes five steps, and
+the fourth is the one that matters.
+
+**1. Find the route, then prove it.** If the screen is already automated, read the route
+out of its page object rather than guessing — the Local Office route sat wrong in config
+for a while and returned a 404 on every office. Drive the URL once and confirm it loads
+before you build anything on it.
+
+**2. Write the steps file.** Put `{office}` in the path so one file covers all three
+countries. Use `Click` steps for anything you cannot reach by URL.
+
+**3. Set the scope and a ready selector.** Scope to the narrowest container holding what
+the ticket is about — on one screen `main` gave 13 findings where the whole page gave 35.
+Name a `readySelector` too: a control whose presence proves the form has finished
+rendering. Without one the scan falls back to a timing heuristic, which is a floor, not a
+guarantee.
+
+**4. Cross-check the count against the page.** This is not optional. Open the screen,
+count the interactive elements without a `data-testid` yourself, and compare. A report
+built from a half-rendered page looks exactly like a correct one — on Locations the tool
+reported 2 gaps where 9 existed, and nothing about the workbook looked wrong. Do this
+once per screen; after that the steps file is proven and re-runnable by anyone.
+
+A quick way to get the number, with the screen open in DevTools:
+
+```js
+[...document.querySelector('main').querySelectorAll(
+  'button,a,input,textarea,select,[role="button"],[role="combobox"],[role="tab"],[role="checkbox"],[role="switch"]'
+)].filter(el => !el.closest('[aria-hidden="true"]')
+             && el.getBoundingClientRect().width > 1
+             && !el.hasAttribute('data-testid')).length
+```
+
+**5. Compare the three countries, and explain any gap.** Differing counts are normal —
+Local Office Settings genuinely has 19 untagged controls in USA, 3 in Canada and 13 in
+Mexico. But a large difference is worth understanding before you hand the report over: the
+first multi-country run showed 104/104/13, which turned out to be 92 options inside a
+hidden dropdown rather than a real country difference.
+
+#### Working conventions
+
+One ticket, one branch, cut from `main` — `feature/sprint19-<name>-NM-####`. Never branch
+one ticket off another ticket's branch: the second ticket then carries the first one's
+commits in its history and the two cannot be reviewed or reverted independently.
+
+Commit only what is delivered. Tests of our own tooling, their fixtures and scratch files
+stay out of the repository. If something lands that should not have, amend and force-push
+rather than adding a removal commit — a later deletion still leaves the file readable in
+history.
+
+Nothing is pushed until the work has been asked for and reviewed.
+
 ### Viewing reports locally
 
 ```bash
@@ -601,6 +738,18 @@ Every failing run writes `reports/failure-summary.json`. Each failure carries a 
 | `APPLICATION` / `DATA` (a.k.a. "Product Defects") | App-side — file with Encore's product team |
 
 Allure's **Categories** panel groups failures into the same buckets visually.
+
+---
+
+## Before you raise a PR
+
+```bash
+npm run pre-pr          # full gate: static checks + tsc + playwright --list (~20 s)
+npm run pre-pr:fast     # static checks only
+npm run pre-pr -- --base origin/main --strict   # other base branch; warnings also fail
+```
+
+`scripts/pre-pr-check.js` compares your branch with `origin/develop` and catches what the PR review bots flagged on NM-4129. Those are npm scripts or docs pointing at missing or gitignored files, Playwright projects with no specs, mutation projects not pinned to one worker, dependency downgrades, vulnerable `xlsx`, deleted files still referenced, selectors that lost their `data-testid`, fixed sleeps, cleanup that only runs when a save succeeded, TestRail case-map duplicates, and type or collection errors. Every finding names the review comment it prevents. It exits non-zero on errors and ends with a short manual checklist for what it can't check automatically.
 
 ---
 

@@ -1,0 +1,892 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,The information icon explains the page,,,,,Automated,Omeesha Mahanta,,,"The tooltip reads ""Special Rate.""",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Hover the (i) icon beside the heading</li>
+</ol>",,,"1. The tooltip reads ""Special Rate.""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Without a session the page sends the user to sign in,,,,,Automated,Omeesha Mahanta,,,"The sign-in page opens (""Sign in | Navigator""); its callbackUrl is /locations/1606/taxes/special-rate",,,taxes,,"A browser with no Navigator session
+
+Test Data:
+Application: Navigator
+No signed-in session",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Open /navigator/locations/1606/taxes/special-rate</li>
+</ol>",,,"1. The sign-in page opens (""Sign in | Navigator""); its callbackUrl is /locations/1606/taxes/special-rate",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The grid shows the seventeen special rate columns,,,,,Automated,Omeesha Mahanta,,,"The same seventeen columns are listed, all ticked",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Read the column headers</li>
+<li>2. Open Grid Options</li>
+</ol>",,,"1. State, County, City, Zip Code, Tax Type, Taxable, Special, Effective Date, State Special, County Special, City Special, Special Combined, Sales Combined, Total Combined, Notes, Modified By, Modified On
+2. The same seventeen columns are listed, all ticked",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special Rate opens from the Tax menu with its defaults,,,,,Automated,Omeesha Mahanta,,,"""0 records found"", the message ""Select criteria and click Search to view special rate records."" and Save disabled",,,taxes,,"Logged in; the office Home page is open
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Expand Tax in the left sidebar and click ""Special Rate""</li>
+<li>2. Read the search criteria</li>
+<li>3. Look at the grid and the Save button</li>
+</ol>",,,"1. The URL is /navigator/locations/{office}/taxes/special-rate; the browser title is ""Special Rate | Navigator""; heading ""Special Rate""; the Basic Information tab is selected
+2. State, Tax Type, Special? and Taxable show All; County and City are disabled; Effective Date is today
+3. ""0 records found"", the message ""Select criteria and click Search to view special rate records."" and Save disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"State, Tax Type, Special? and Taxable offer their full lists",,,,,Automated,Omeesha Mahanta,,,"All, Yes, No",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Open State</li>
+<li>2. Open Tax Type</li>
+<li>3. Open Special?</li>
+<li>4. Open Taxable</li>
+</ol>",,,"1. All, then the 59 codes AK ... WY (US states, DC and territories) in order
+2. All, then the 40 tax types from ""APP Downloaded"" to ""Web Conferencing""
+3. All, Yes, No
+4. All, Yes, No",,,,Master,S1620,Test Case (Steps),Regression,,,
+,County opens after a State and City after a County,,,,,Automated,Omeesha Mahanta,,,City is enabled and lists BERKELEY,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Places: CA > ALAMEDA > BERKELEY; NY",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Look at County and City</li>
+<li>2. Choose State CA</li>
+<li>3. Choose County ALAMEDA</li>
+</ol>",,,"1. Both disabled
+2. County is enabled and lists ALAMEDA; City stays disabled
+3. City is enabled and lists BERKELEY",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"County and City start on All, with no blank choice",,,,,Automated,Omeesha Mahanta,,,The list starts with All; there is no empty choice; City shows All,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Places: CA > ALAMEDA > BERKELEY; NY",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose State CA and open County</li>
+<li>2. Choose County ALAMEDA and open City</li>
+</ol>",,,"1. The list starts with All; there is no empty choice
+2. The list starts with All; there is no empty choice; City shows All",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A State search lists that state's row for each tax type,,,,,Automated,Omeesha Mahanta,,,"40 records: every row PW, County ""-"", City ""-"", one row per tax type",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose State PW and click Search</li>
+</ol>",,,"1. 40 records: every row PW, County ""-"", City ""-"", one row per tax type",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A County search lists that county's rows,,,,,Automated,Omeesha Mahanta,,,"40 records: every row County ALAMEDA, City ""-""; the search sends the county",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Places: CA > ALAMEDA > BERKELEY; NY",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose CA, ALAMEDA and click Search</li>
+</ol>",,,"1. 40 records: every row County ALAMEDA, City ""-""; the search sends the county",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A City search lists that city's rows by zip code,,,,,Automated,Omeesha Mahanta,,,"Records found (a multiple of 40, 480 on 2026-11-05): every row City BERKELEY with a 5-digit zip code",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Places: CA > ALAMEDA > BERKELEY; NY",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose CA, ALAMEDA, BERKELEY and click Search</li>
+</ol>",,,"1. Records found (a multiple of 40, 480 on 2026-11-05): every row City BERKELEY with a 5-digit zip code",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Choosing another State clears County and City,,,,,Automated,Omeesha Mahanta,,,40 state-level NY rows,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Places: CA > ALAMEDA > BERKELEY; NY",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose CA, ALAMEDA, BERKELEY, then State NY</li>
+<li>2. Click Search</li>
+</ol>",,,"1. County no longer shows ALAMEDA; City is disabled
+2. 40 state-level NY rows",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tax Type limits the rows to that tax type,,,,,Automated,Omeesha Mahanta,,,"59 records, all Power (one per state)",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose Tax Type Power and click Search</li>
+</ol>",,,"1. 59 records, all Power (one per state)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special? Yes and No split the rows,,,,,Automated,Omeesha Mahanta,,,"2360, every row",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose Special? Yes and click Search</li>
+<li>2. Choose Special? No and click Search</li>
+<li>3. Add the two counts</li>
+</ol>",,,"1. Every row shows Special Yes
+2. Every row shows Special No
+3. 2360, every row",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Taxable Yes and No split the rows,,,,,Automated,Omeesha Mahanta,,,"2360, every row",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose Taxable Yes and click Search</li>
+<li>2. Choose Taxable No and click Search</li>
+<li>3. Add the two counts</li>
+</ol>",,,"1. Every row shows Taxable Yes
+2. Every row shows Taxable No
+3. 2360, every row",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An empty or impossible Effective Date stops the search,,,,,Automated,Omeesha Mahanta,,,"""Invalid date""; Search is disabled",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Clear the Effective Date</li>
+<li>2. Type 02/30/2026</li>
+</ol>",,,"1. Search is disabled
+2. ""Invalid date""; Search is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset puts back the default criteria and clears the grid,,,,,Automated,Omeesha Mahanta,,,"Every filter on All, County/City disabled, today as the date; ""0 records found"" and the ""Select criteria..."" message",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Places: CA > ALAMEDA > BERKELEY; NY",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose CA, ALAMEDA, Special? No, Taxable No, Tax Type Rental, Effective Date 01/01/2020; click Search</li>
+<li>2. Click Reset</li>
+</ol>",,,"1. Rows listed
+2. Every filter on All, County/City disabled, today as the date; ""0 records found"" and the ""Select criteria..."" message",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The search panel can be collapsed and expanded,,,,,Automated,Omeesha Mahanta,,,Search is in view again,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click ""Collapse filters""</li>
+<li>2. Click ""Expand filters""</li>
+</ol>",,,"1. The panel, with Search, is out of view
+2. Search is in view again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching with every filter on All lists each state's tax types,,,,,Automated,Omeesha Mahanta,,,State AK,,,taxes,,"Special Rate is open for the office with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click Search</li>
+<li>2. Read the first row</li>
+</ol>",,,"1. ""2360 records found"" (59 states x 40 tax types)
+2. State AK",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The search panel works from the keyboard,,,,,Automated,Omeesha Mahanta,,,The 40 AK rows are listed,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Focus State, press Enter, Arrow Down, Enter</li>
+<li>2. Press Tab three times</li>
+<li>3. Press Tab, then Tab four more times</li>
+<li>4. Press Enter</li>
+</ol>",,,"1. State is AK; County is enabled
+2. Focus moves County > Tax Type > Special? (the disabled City is skipped)
+3. Taxable, then Effective Date > Open calendar > Reset > Search
+4. The 40 AK rows are listed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A moved column stays moved until Reset to Default View,,,,,Automated,Omeesha Mahanta,,,The default column order again,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Drag the Tax Type header by its grip onto State</li>
+<li>2. Grid Options > ""Reset to Default View""</li>
+</ol>",,,"1. Tax Type becomes the first column, before State
+2. The default column order again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A column can be widened by dragging its edge,,,,,Automated,Omeesha Mahanta,,,The column is more than 50 px wider,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Drag the right edge of Tax Type 200 px to the right</li>
+</ol>",,,1. The column is more than 50 px wider,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A column can be hidden and the default view restored,,,,,Automated,Omeesha Mahanta,,,All seventeen columns again,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Notes header > ""Hide column""; in Grid Options untick Modified By</li>
+<li>2. Grid Options > ""Reset to Default View""</li>
+</ol>",,,"1. Both columns are gone and unticked in Grid Options
+2. All seventeen columns again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special Combined and Total Combined add up,,,,,Automated,Omeesha Mahanta,,,Equals Total Combined,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; Special? Yes searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. On each row, add State + County + City Special</li>
+<li>2. Add Special Combined + Sales Combined</li>
+</ol>",,,"1. Equals Special Combined
+2. Equals Total Combined",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A row never saved shows no modification time,,,,,Automated,Omeesha Mahanta,,,"Modified On is ""-"" too, not a time",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Read Audio Conferencing (no saved record, Modified By ""-"")</li>
+</ol>",,,"1. Modified On is ""-"" too, not a time",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Effective Date picks the record in effect that day,,,,,Automated,Omeesha Mahanta,,,"Record from 01/02/2099: Special Yes, State/Special/Total Combined 0.012500, Notes ""ITS-AUTO probe""",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW - Freight: record from 01/19/2006 (not special) and record from 01/02/2099 (Special, 0.012500, note ""ITS-AUTO probe"")",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose PW, Effective Date 01/01/2099, Search; read Freight</li>
+<li>2. Set Effective Date 01/02/2099, Search; read Freight</li>
+</ol>",,,"1. Record from 01/19/2006, Special No
+2. Record from 01/02/2099: Special Yes, State/Special/Total Combined 0.012500, Notes ""ITS-AUTO probe""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting by Effective Date orders the rows,,,,,Automated,Omeesha Mahanta,,,Dates go down,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Effective Date header > ""Sort ascending""</li>
+<li>2. Effective Date header > ""Sort descending""</li>
+</ol>",,,"1. The server is asked to sort by effectiveDate; dates go up
+2. Dates go down",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting by State Special orders the rows by rate,,,,,Automated,Omeesha Mahanta,,,"The 1% (0.010000) rows first, then 0; rates never go up down the list",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State AR searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. State Special header > ""Sort descending""</li>
+</ol>",,,"1. The 1% (0.010000) rows first, then 0; rates never go up down the list",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Only Taxable, Special, Effective Date and Notes can be edited; the rate box follows the row level",,,,,Automated,Omeesha Mahanta,,,The rate box is in City Special,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special
+Places: CA > ALAMEDA > BERKELEY",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click into the Rental row cells and tick Special</li>
+<li>2. Search CA > ALAMEDA, tick Special on the first row</li>
+<li>3. Search CA > ALAMEDA > BERKELEY, tick Special on the first row</li>
+</ol>",,,"1. Editable: Taxable, Special, Effective Date, State Special (rate box) and Notes; nothing else
+2. The rate box is in County Special
+3. The rate box is in City Special",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing Special needs a new Effective Date,,,,,Automated,Omeesha Mahanta,,,"The row says ""Effective date must be changed when special rate, taxable setting, or special setting is modified""; Save disabled",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Tick Special on Rental, leave the date</li>
+</ol>",,,"1. The row says ""Effective date must be changed when special rate, taxable setting, or special setting is modified""; Save disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changing Taxable needs a new Effective Date,,,,,Automated,Omeesha Mahanta,,,Same message; Save disabled,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Tick Taxable on Rental, leave the date</li>
+</ol>",,,1. Same message; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A row changed without a new date is marked and cannot be saved,,,,,Automated,Omeesha Mahanta,,,"The row turns red with a (!) icon holding ""Effective date must be changed when special rate, taxable setting, or special setting is modified""; Save is disabled",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Tick Special on Rental and leave the date</li>
+</ol>",,,"1. The row turns red with a (!) icon holding ""Effective date must be changed when special rate, taxable setting, or special setting is modified""; Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The new Effective Date must be after the current record,,,,,Automated,Omeesha Mahanta,,,No message; Save enabled,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type rate 2 and Effective Date 01/01/2006</li>
+<li>2. Type 01/20/2006</li>
+</ol>",,,"1. ""Effective date must be after 1/19/2006""; Save disabled
+2. No message; Save enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,An empty or impossible Effective Date is refused,,,,,Automated,Omeesha Mahanta,,,"""Invalid date""; Save disabled",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Clear the row's Effective Date</li>
+<li>2. Type 13/45/2099</li>
+</ol>",,,"1. ""Required""; Save disabled
+2. ""Invalid date""; Save disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A day picked in the row calendar is the day shown,,,,,Automated,Omeesha Mahanta,,,The cell shows the 20th of the month the calendar showed,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Open the row calendar and click 20</li>
+</ol>",,,1. The cell shows the 20th of the month the calendar showed,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Notes keep at most 500 characters,,,,,Automated,Omeesha Mahanta,,,The field holds 500 (maxlength 500),,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type 600 characters into Rental's Notes</li>
+</ol>",,,1. The field holds 500 (maxlength 500),,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Changing only Notes can be saved, or the page says why not",,,,,Automated,Omeesha Mahanta,,,"Save turns on, or the row shows a message saying what else is needed",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Change only Rental's Notes</li>
+</ol>",,,"1. Save turns on, or the row shows a message saying what else is needed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A rate typed in percent is stored as a fraction,,,,,Automated,Omeesha Mahanta,,,010000,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type 2 in State Special and leave it</li>
+<li>2. Type 1.25</li>
+<li>3. Type 1</li>
+</ol>",,,"1. 020000
+2. 012500
+3. 010000",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A rate below 1 percent is read in percent too,,,,,Automated,Omeesha Mahanta,,,"005000 (half a percent), like every other typed rate",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Critical,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type 0.5 in State Special and leave it</li>
+</ol>",,,"1. 005000 (half a percent), like every other typed rate",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A rate over 100% is capped at 100%,,,,,Automated,Omeesha Mahanta,,,The box shows 1.000000 (100%); no message; Save enabled,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type 150 in State Special and Effective Date 01/20/2006</li>
+</ol>",,,1. The box shows 1.000000 (100%); no message; Save enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A rate below 0 is raised to 0,,,,,Automated,Omeesha Mahanta,,,The box shows 0.000000; no message; Save enabled,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type -1 in State Special and Effective Date 01/20/2006</li>
+</ol>",,,1. The box shows 0.000000; no message; Save enabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A rate keeps six decimals,,,,,Automated,Omeesha Mahanta,,,012346,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type 1.23456789 in State Special</li>
+</ol>",,,1. 012346,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save sends exactly what was entered,,,,,Automated,Omeesha Mahanta,,,"""Record(s) saved successfully.""; one record sent: PW Rental, special true, specialRate 0.02, stateSpecialRate 0.02, effectiveDate 2006-01-20T00:00:00.000Z, the note",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type rate 2, Notes ""SR-AUTO sent"", Effective Date 01/20/2006 and click Save</li>
+</ol>",,,"1. ""Record(s) saved successfully.""; one record sent: PW Rental, special true, specialRate 0.02, stateSpecialRate 0.02, effectiveDate 2006-01-20T00:00:00.000Z, the note",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Searching with unsaved changes asks first; Stay keeps them,,,,,Automated,Omeesha Mahanta,,,Rental is still ticked Special,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click Search</li>
+<li>2. Click Stay</li>
+</ol>",,,"1. ""Unsaved changes"": ""Are you sure you want to leave this view? Any unsaved changes will be lost."" with Close, Stay, Discard
+2. Rental is still ticked Special",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Discard drops the changes and searches,,,,,Automated,Omeesha Mahanta,,,Rental is back to Special No; Save disabled,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click Search, then Discard</li>
+</ol>",,,1. Rental is back to Special No; Save disabled,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset with unsaved changes asks first; Discard resets,,,,,Automated,Omeesha Mahanta,,,"Criteria back to All; ""0 records found""",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click Reset, then Discard</li>
+</ol>",,,"1. Criteria back to All; ""0 records found""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Switching tab with unsaved changes asks first,,,,,Automated,Omeesha Mahanta,,,Special Rate History opens,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click Special Rate History, then Stay</li>
+<li>2. Click Special Rate History, then Discard</li>
+</ol>",,,"1. Still on Basic Information; Rental still Special
+2. Special Rate History opens",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Closing the dialog keeps the changes,,,,,Automated,Omeesha Mahanta,,,Rental still Special,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click Search, then Close (x)</li>
+</ol>",,,1. Rental still Special,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reloading with unsaved changes asks the browser first,,,,,Automated,Omeesha Mahanta,,,The browser asks before leaving (beforeunload); Rental still Special,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental and not saved
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Reload the page; stay on it</li>
+</ol>",,,1. The browser asks before leaving (beforeunload); Rental still Special,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A special rate is saved as a new record from its effective date,,,,,Automated,Omeesha Mahanta,,,"One more record a day later, not special",,,taxes,,"Special Rate is open for office 1606; State PW searched with Effective Date 12/31/2199 (each row's latest record)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: PW - Rigging and Sales (state-level, not special); new records dated the day after each row's latest record and never before 01/03/2099, then put back",Critical,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. On Rigging tick Special, rate 1.5, a note, Effective Date = latest + 1 day; click Save</li>
+<li>2. Search PW as of the new date; read Rigging</li>
+<li>3. Search PW as of the previous record's date</li>
+<li>4. Put the row back</li>
+</ol>",,,"1. ""Record(s) saved successfully.""; one record sent (special true, 0.015, midnight UTC date, the note); Save off again
+2. Special Yes; State Special, Special Combined, Total Combined 0.015000; the note; Modified By the user
+3. The earlier record, unchanged
+4. One more record a day later, not special",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A changed Taxable setting is saved,,,,,Automated,Omeesha Mahanta,,,Restored,,,taxes,,"Special Rate is open for office 1606; State PW searched with Effective Date 12/31/2199 (each row's latest record)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: PW - Rigging and Sales (state-level, not special); new records dated the day after each row's latest record and never before 01/03/2099, then put back",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Tick Taxable on Rigging with the next date; Save</li>
+<li>2. Search the latest records</li>
+<li>3. Put the row back</li>
+</ol>",,,"1. Saved; the record sent has the new Taxable
+2. Rigging shows the new Taxable from that date
+3. Restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Changes on two rows are saved together,,,,,Automated,Omeesha Mahanta,,,Restored,,,taxes,,"Special Rate is open for office 1606; State PW searched with Effective Date 12/31/2199 (each row's latest record)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: PW - Rigging and Sales (state-level, not special); new records dated the day after each row's latest record and never before 01/03/2099, then put back",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Special 2% on Rigging and 3% on Sales, each with its next date; one Save</li>
+<li>2. Search the latest records</li>
+<li>3. Put both rows back</li>
+</ol>",,,"1. Both records sent
+2. Rigging 0.020000, Sales 0.030000
+3. Restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unticking Special saves the rate as 0,,,,,Automated,Omeesha Mahanta,,,Special No; combined rates 0.000000,,,taxes,,"Special Rate is open for office 1606; State PW searched with Effective Date 12/31/2199 (each row's latest record)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: PW - Rigging and Sales (state-level, not special); new records dated the day after each row's latest record and never before 01/03/2099, then put back",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Save Special 2% on Rigging</li>
+<li>2. Untick Special with the next date; Save</li>
+<li>3. Search the latest records</li>
+</ol>",,,"1. Saved
+2. The record sent is special false, rate 0
+3. Special No; combined rates 0.000000",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A saved record appears in Special Rate History,,,,,Automated,Omeesha Mahanta,,,Restored,,,taxes,,"Special Rate is open for office 1606; State PW searched with Effective Date 12/31/2199 (each row's latest record)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: PW - Rigging and Sales (state-level, not special); new records dated the day after each row's latest record and never before 01/03/2099, then put back",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Save Special 1% with a note on Sales</li>
+<li>2. Open Special Rate History; PW, Tax Type Sales, range today - the new date; Search</li>
+<li>3. Put the row back</li>
+</ol>",,,"1. Saved
+2. The record is listed: Special Yes, 0.010000, the new date and the note
+3. Restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A failed save keeps the changes and says so,,,,,Automated,Omeesha Mahanta,,,Sales is as it was,,,taxes,,"Special Rate is open for office 1606; State PW searched with Effective Date 12/31/2199 (each row's latest record); the server is made to reject saves
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: PW - Rigging and Sales (state-level, not special); new records dated the day after each row's latest record and never before 01/03/2099, then put back",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Special 4% on Sales with the next date; Save</li>
+<li>2. Reopen and search the latest records</li>
+</ol>",,,"1. ""Failed to save special rate""; the edit stays; Save still enabled
+2. Sales is as it was",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A Notes-only change updates the current record,,,,,Automated,Omeesha Mahanta,,,Restored,,,taxes,,"Special Rate is open for office 1606; State PW searched with Effective Date 12/31/2199 (each row's latest record)
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Rows: PW - Rigging and Sales (state-level, not special); new records dated the day after each row's latest record and never before 01/03/2099, then put back",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Change only Rigging's Notes on its latest record (2099 onward) and click Save</li>
+<li>2. Search the latest records</li>
+<li>3. Open Special Rate History for PW Rigging up to that date</li>
+<li>4. Put the note back</li>
+</ol>",,,"1. ""Record(s) saved successfully.""; the record sent keeps the same Effective Date
+2. Rigging shows the new note from the same date
+3. The new version (with the note) is listed first for that date, above the version it replaced
+4. Restored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A city row sends its rate as the city rate,,,,,Automated,Omeesha Mahanta,,,"The record sent carries the city and its zip code, citySpecialRate 0.02, stateSpecialRate 0 and countySpecialRate 0",,,taxes,,"Special Rate is open for office 1606; CA > ALAMEDA > BERKELEY searched as of 12/31/2199
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: CA > ALAMEDA > BERKELEY, first row (zip-code level)",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Tick Special on the first row, rate 2, next date; Save</li>
+</ol>",,,"1. The record sent carries the city and its zip code, citySpecialRate 0.02, stateSpecialRate 0 and countySpecialRate 0",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A county row sends its rate as the county rate,,,,,Automated,Omeesha Mahanta,,,"The record sent carries the county, countySpecialRate 0.02 and stateSpecialRate 0",,,taxes,,"Special Rate is open for office 1606; CA > ALAMEDA searched as of 12/31/2199
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: CA > ALAMEDA, first tax type (county level)",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Tick Special on the first row, rate 2, next date; Save</li>
+</ol>",,,"1. The record sent carries the county, countySpecialRate 0.02 and stateSpecialRate 0",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special Rate History opens with its defaults,,,,,Automated,Omeesha Mahanta,,,"50 rows per page (10, 20, 30, 40, 50 offered); every paging button disabled",,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Read the criteria</li>
+<li>2. Read the grid</li>
+<li>3. Read the paging bar</li>
+</ol>",,,"1. Filters on All; County/City disabled; Date Range today - today
+2. State, County, City, Zip Code, Tax Type, Taxable, Special, State Special, County Special, City Special, Effective Date, Notes, Modified By, Modified On; ""0 records found""; ""Select criteria and click Search to view special rate history records.""
+3. 50 rows per page (10, 20, 30, 40, 50 offered); every paging button disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A range with no records says so,,,,,Automated,Omeesha Mahanta,,,"0 records and ""No special rate history records found""",,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click Search (today - today)</li>
+</ol>",,,"1. 0 records and ""No special rate history records found""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A state and range list that state's records of the period, read only",,,,,Automated,Omeesha Mahanta,,,None,,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: AS (American Samoa) history of January 2006 (18 records from 01/19/2006); all states' history of 2006",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. State AS, Date Range 01/01/2006 - 01/31/2006, Search</li>
+<li>2. Look for editable cells</li>
+</ol>",,,"1. 18 records, all AS, all Effective Date 01/19/2006
+2. None",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The range filters on the Effective Date,,,,,Automated,Omeesha Mahanta,,,More than 50 records; every Effective Date on the page is in 2006,,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: AS (American Samoa) history of January 2006 (18 records from 01/19/2006); all states' history of 2006",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Date Range 01/01/2006 - 12/31/2006, Search</li>
+</ol>",,,1. More than 50 records; every Effective Date on the page is in 2006,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Paging moves through the records,,,,,Automated,Omeesha Mahanta,,,Page 1 again,,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria; 2006 searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: AS (American Samoa) history of January 2006 (18 records from 01/19/2006); all states' history of 2006",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Read the paging bar</li>
+<li>2. Click Next</li>
+<li>3. Click Last</li>
+<li>4. Click First</li>
+</ol>",,,"1. Page 1 of ceil(count/50); 50 rows; First/Previous off, Next/Last on
+2. Page 2 requested and shown
+3. The last page with the remaining rows; Next/Last off
+4. Page 1 again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rows per page changes the page size,,,,,Automated,Omeesha Mahanta,,,Pages of 10 requested; 10 rows; page count ceil(count/10),,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria; 2006 searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: AS (American Samoa) history of January 2006 (18 records from 01/19/2006); all states' history of 2006",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Choose 10 rows per page</li>
+</ol>",,,1. Pages of 10 requested; 10 rows; page count ceil(count/10),,,,Master,S1620,Test Case (Steps),Regression,,,
+,The filters narrow the history,,,,,Automated,Omeesha Mahanta,,,Every row Taxable No,,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria; Date Range 2006
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: AS (American Samoa) history of January 2006 (18 records from 01/19/2006); all states' history of 2006",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. State HI, Search</li>
+<li>2. Tax Type Rental, Search</li>
+<li>3. Special? Yes, Search</li>
+<li>4. Taxable No, Search</li>
+</ol>",,,"1. Fewer records, every row HI
+2. Every row Rental
+3. Every row Special Yes
+4. Every row Taxable No",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting the history by Effective Date,,,,,Automated,Omeesha Mahanta,,,Dates go down,,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria; 2006 searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: AS (American Samoa) history of January 2006 (18 records from 01/19/2006); all states' history of 2006",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Effective Date header > Sort ascending</li>
+<li>2. Sort descending</li>
+</ol>",,,"1. Server asked to sort by effectiveDate; dates go up
+2. Dates go down",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset puts back the history defaults,,,,,Automated,Omeesha Mahanta,,,"Filters All; range today - today; ""0 records found"" and the ""Select criteria..."" message",,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: AS (American Samoa) history of January 2006 (18 records from 01/19/2006); all states' history of 2006",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. AS, Special? No, January 2006, Search; then Reset</li>
+</ol>",,,"1. Filters All; range today - today; ""0 records found"" and the ""Select criteria..."" message",,,,Master,S1620,Test Case (Steps),Regression,,,
+,County limits the history to that county,,,,,Automated,Omeesha Mahanta,,,"Records found, all TX / HARRIS; the search sends the county",,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: TX > HARRIS county records of November 2013",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. State TX, County HARRIS, Date Range 01/01/2013 - 12/31/2013, Search</li>
+</ol>",,,"1. Records found, all TX / HARRIS; the search sends the county",,,,Master,S1620,Test Case (Steps),Regression,,,
+,City limits the history to that city,,,,,Automated,Omeesha Mahanta,,,"The search sends the city; every row listed is HOUSTON, or ""No special rate history records found""",,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Place: TX > HARRIS > HOUSTON",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. State TX, County HARRIS, City HOUSTON, Date Range 2013, Search</li>
+</ol>",,,"1. The search sends the city; every row listed is HOUSTON, or ""No special rate history records found""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Previous page and a typed page number move through the history,,,,,Automated,Omeesha Mahanta,,,Page 2; First and Previous enabled,,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria; 2006 searched
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: AS (American Samoa) history of January 2006 (18 records from 01/19/2006); all states' history of 2006",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type 3 in the page box and press Enter</li>
+<li>2. Click Previous</li>
+</ol>",,,"1. Page 3 requested and shown
+2. Page 2; First and Previous enabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A history column can be hidden and the default view restored,,,,,Automated,Omeesha Mahanta,,,All fourteen columns again,,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Notes header > ""Hide column""</li>
+<li>2. Grid Options > ""Reset to Default View""</li>
+</ol>",,,"1. Notes is gone and unticked in Grid Options
+2. All fourteen columns again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The history search panel can be collapsed and expanded,,,,,Automated,Omeesha Mahanta,,,Search is in view again,,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Click ""Collapse filters""</li>
+<li>2. Click ""Expand filters""</li>
+</ol>",,,"1. The panel, with Search, is out of view
+2. Search is in view again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid Options list the history columns,,,,,Automated,Omeesha Mahanta,,,"The fourteen history columns, all ticked",,,taxes,,"Special Rate is open for office 1606 on the Special Rate History tab with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Open Grid Options</li>
+</ol>",,,"1. The fourteen history columns, all ticked",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Special Rate History lists the same records on every office,,,,,Automated,Omeesha Mahanta,,,"18 records, all AS from 01/19/2006",,,taxes,,"Special Rate is open for the office on the Special Rate History tab
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each
+Data: AS history of January 2006 (18 records)",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. State AS, Date Range 01/01/2006 - 01/31/2006, Search</li>
+</ol>",,,"1. 18 records, all AS from 01/19/2006",,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone the search date picks the record in effect that day,,,,,Automated,Omeesha Mahanta,,,"Special Yes, 0.012500",,,taxes,,"The browser runs in America/New_York (US Eastern time); Special Rate is open for office 1606
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW - Freight: record from 01/19/2006 (not special) and record from 01/02/2099 (Special, 0.012500, note ""ITS-AUTO probe"")",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. PW, Effective Date 01/01/2099, Search; read Freight</li>
+<li>2. Effective Date 01/02/2099, Search; read Freight</li>
+</ol>",,,"1. Special No
+2. Special Yes, 0.012500",,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone a stored Effective Date shows one day earlier,,,,,Automated,Omeesha Mahanta,,,01/18/2006 (stored as 01/19/2006 midnight UTC),,,taxes,,"The browser runs in America/New_York (US Eastern time); Special Rate is open for office 1606
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. PW, Search; read Rental's Effective Date</li>
+</ol>",,,1. 01/18/2006 (stored as 01/19/2006 midnight UTC),,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone a typed Effective Date moves back when the field is left,,,,,Automated,Omeesha Mahanta,,,It reads 01/13/2030,,,taxes,,"The browser runs in America/New_York (US Eastern time); Special Rate is open for office 1606; PW searched; Special ticked on Rental
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type 01/15/2030 in the row's Effective Date and leave it</li>
+</ol>",,,1. It reads 01/13/2030,,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone a save sends the Effective Date one day earlier,,,,,Automated,Omeesha Mahanta,,,The record sent is dated 2030-01-14T00:00:00.000Z,,,taxes,,"The browser runs in America/New_York (US Eastern time); Special Rate is open for office 1606; PW searched; Special ticked on Rental
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",High,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Rate 2, Effective Date 01/15/2030, Save</li>
+</ol>",,,1. The record sent is dated 2030-01-14T00:00:00.000Z,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"In a US time zone the ""must be after"" message names the date the row shows",,,,,Automated,Omeesha Mahanta,,,"""Effective date must be after 1/18/2006""",,,taxes,,"The browser runs in America/New_York (US Eastern time); Special Rate is open for office 1606; PW searched; Special ticked on Rental
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type Effective Date 01/01/2006</li>
+</ol>",,,"1. ""Effective date must be after 1/18/2006""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone a day picked in the calendar is set as the day before,,,,,Automated,Omeesha Mahanta,,,The cell shows the 19th of that month,,,taxes,,"The browser runs in America/New_York (US Eastern time); Special Rate is open for office 1606; PW searched; Special ticked on Rental
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Open the row calendar and click 20</li>
+</ol>",,,1. The cell shows the 19th of that month,,,,Master,S1620,Test Case (Steps),Regression,,,
+,In a US time zone the history shows stored Effective Dates one day earlier,,,,,Automated,Omeesha Mahanta,,,"18 records, all Effective Date 01/18/2006 (stored as 01/19/2006)",,,taxes,,"The browser runs in America/New_York (US Eastern time); Special Rate is open for office 1606; Special Rate History tab
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: AS (American Samoa) history of January 2006 (18 records from 01/19/2006); all states' history of 2006",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. AS, January 2006, Search</li>
+</ol>",,,"1. 18 records, all Effective Date 01/18/2006 (stored as 01/19/2006)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page's own tooltips open on hover,,,,,Automated,Omeesha Mahanta,,,"""Grid Options""",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. On each tab hover (i) More information</li>
+<li>2. Hover Collapse filters; collapse, then hover Expand filters</li>
+<li>3. Hover Grid Options</li>
+</ol>",,,"1. Tooltip ""Special Rate.""
+2. ""Hide filters"", then ""Show filters""
+3. ""Grid Options""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The information tooltip names the page and closes when the mouse leaves,,,,,Automated,Omeesha Mahanta,,,The tooltip closes,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Hover (i) More information</li>
+<li>2. Move the mouse away</li>
+</ol>",,,"1. Tooltip ""Special Rate.""
+2. The tooltip closes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Every row validation reason is held on the row's warning icon,,,,,Automated,Omeesha Mahanta,,,"It holds ""Required""; Save is disabled",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria; State PW searched (as of today); Special ticked on Rental
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Row: PW (Palau) - Rental, state-level record from 01/19/2006, not taxable, not special",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Leave the date unchanged</li>
+<li>2. Type 01/01/2006</li>
+<li>3. Type 13/45/2099</li>
+<li>4. Clear the date</li>
+</ol>",,,"1. The red (!) holds ""Effective date must be changed when special rate, taxable setting, or special setting is modified""
+2. It holds ""Effective date must be after 1/19/2006""
+3. It holds ""Invalid date""
+4. It holds ""Required""; Save is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"An impossible search date is marked ""Invalid date"" and Search is off",,,,,Automated,Omeesha Mahanta,,,"The date is marked ""Invalid date""; Search is disabled",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Type 02/30/2026 as the search Effective Date and leave it</li>
+</ol>",,,"1. The date is marked ""Invalid date""; Search is disabled",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Icon-only buttons are named for what they do,,,,,Automated,Omeesha Mahanta,,,"Paging buttons named ""Go to first page"", ""Go to previous page"", ""Go to next page"", ""Go to last page""",,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Find the search date's calendar button</li>
+<li>2. Search PW; find Rental's calendar button</li>
+<li>3. On Special Rate History search 2006 and go to page 2</li>
+</ol>",,,"1. Named ""Open calendar""
+2. Named ""Open calendar""
+3. Paging buttons named ""Go to first page"", ""Go to previous page"", ""Go to next page"", ""Go to last page""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The sidebar toggle and the history Date Range button have a name for screen readers,,,,,Automated,Omeesha Mahanta,,,It has one,,,taxes,,"Logged in; Tax > Special Rate is open for office 1606 on Basic Information with default criteria
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",Low,,Special_Rate,1,,Taxes > Special_Rate,"<ol>
+<li>1. Read the sidebar toggle's label</li>
+<li>2. On Special Rate History read the Date Range button's label</li>
+</ol>",,,"1. It has one
+2. It has one",,,,Master,S1620,Test Case (Steps),Regression,,,

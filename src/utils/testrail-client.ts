@@ -4,6 +4,7 @@
 export interface TestRailCase {
   id: number;
   title: string;
+  section_id?: number;
 }
 
 export interface TestRailResult {
@@ -207,6 +208,11 @@ export class TestRailClient {
     payload: { name: string; suite_id?: number; parent_id?: number | null },
   ): Promise<TestRailSection> {
     return this.request('POST', `/api/v2/add_section/${projectId}`, payload);
+  }
+
+  /** Re-parents a section; its cases (and their ids) move with it. */
+  moveSection(sectionId: number, parentId: number | null): Promise<TestRailSection> {
+    return this.request('POST', `/api/v2/move_section/${sectionId}`, { parent_id: parentId });
   }
 
   getPriorities(): Promise<TestRailNamedRef[]> {

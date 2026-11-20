@@ -1,0 +1,26 @@
+{
+  "id": "BUG-TAX-SPR-001",
+  "title": "Special Rate — County and City start blank and list an empty choice",
+  "module": "taxes",
+  "severity": "medium",
+  "status": "open",
+  "discoveredDate": "2026-11-09",
+  "requirementSource": "NM-4022 — TestRail C107687: the list starts with All, has no empty choice, City shows All",
+  "stepsToReproduce": [
+    "Open Tax → Special Rate for office 1606 (/navigator/locations/1606/taxes/special-rate) on e2e.",
+    "Choose State CA and open County.",
+    "Choose County ALAMEDA and open City."
+  ],
+  "expectedBehavior": "County and City show All; their lists start with All and have no empty choice.",
+  "actualBehavior": "County and City show blank; both lists start with an empty choice followed by All.",
+  "affectedTests": [
+    "TC-TAX-SPR-007"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-09",
+      "verdict": "CONFIRMED",
+      "finding": "Failed in the full run and the isolated rerun. Similar to BUG-TAX-ST-002 on Sales Tax (County goes blank)."
+    }
+  ]
+}

@@ -1,0 +1,654 @@
+{
+  "generatedAt": "2026-11-04T15:57:43.878Z",
+  "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+  "stopReason": "completed — frontier exhausted",
+  "totals": {
+    "pagesVisited": 1,
+    "actionsPerformed": 53,
+    "scenariosExplored": 36,
+    "bugsFound": 16,
+    "findingsBeforeDedup": 23,
+    "errors": 0,
+    "notTested": 22,
+    "bySeverity": {
+      "Critical": 0,
+      "Major": 12,
+      "Minor": 4,
+      "Trivial": 0
+    },
+    "byCategory": {
+      "Validation": 1,
+      "Accessibility": 1,
+      "UI": 2,
+      "Functional": 12
+    }
+  },
+  "configUsed": {
+    "startUrl": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+    "allowedOrigins": [
+      "https://cloudapps-e2e.encoreglobal.com"
+    ],
+    "excludeUrlPatterns": [
+      "logout",
+      "signout",
+      "sign-out",
+      "\\/api\\/auth\\/signout",
+      "login\\.microsoftonline\\.com",
+      "b2clogin\\.com",
+      "\\.(pdf|csv|xlsx|xls|zip|docx|png|jpe?g|gif|svg|woff2?|ttf)(\\?|$)",
+      "^mailto:",
+      "^tel:",
+      "^javascript:",
+      "\\/api\\/",
+      "\\/_next\\/",
+      "\\/auth\\/signin",
+      "\\/reports\\/download"
+    ],
+    "includeUrlPatterns": [
+      "taxes\\/sales-tax"
+    ],
+    "auth": {
+      "mode": "storage-state",
+      "signedInSelector": "h1"
+    },
+    "limits": {
+      "maxPages": 3,
+      "maxActionsPerPage": 60,
+      "maxTotalActions": 120,
+      "maxDepth": 3,
+      "maxDurationMs": 900000,
+      "settleMs": 900,
+      "actionTimeoutMs": 8000,
+      "navigationTimeoutMs": 30000
+    },
+    "safety": {
+      "allowWrites": true,
+      "allowDestructive": false
+    },
+    "enabledDetectors": [
+      "page-crash",
+      "console-error",
+      "network-failure",
+      "broken-link",
+      "dead-control",
+      "unexpected-route",
+      "form-validation",
+      "input-boundary",
+      "placeholder-text",
+      "missing-label",
+      "accessibility",
+      "layout",
+      "page-title"
+    ],
+    "captureScreenshots": true,
+    "outputDir": "reports/bugs/crawler/sales-tax-search"
+  },
+  "bugs": [
+    {
+      "id": "BUG-CTRL-001",
+      "title": "\"Click to restore sidebar\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Click to restore sidebar\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-001.png",
+        "domSnippet": null,
+        "selector": "div:nth-of-type(1) > div:nth-of-type(2) > div > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:56.013Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "af803ffda37e"
+    },
+    {
+      "id": "BUG-CTRL-002",
+      "title": "\"More information\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"More information\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-002.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(2) > div > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:58.249Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "694dacec4770"
+    },
+    {
+      "id": "BUG-CTRL-003",
+      "title": "\"Resize column zipCode\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column zipCode\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-003.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(1) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:08.042Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "1003ceeecdde"
+    },
+    {
+      "id": "BUG-CTRL-004",
+      "title": "\"Resize column geoCode\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column geoCode\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-004.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(2) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:10.692Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "664f01072eab"
+    },
+    {
+      "id": "BUG-CTRL-005",
+      "title": "\"Resize column stateName\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column stateName\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-005.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(3) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:13.275Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "cb4b1579c1d6"
+    },
+    {
+      "id": "BUG-CTRL-006",
+      "title": "\"Resize column countyName\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column countyName\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-006.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(4) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:15.911Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "c74d4eeccc77"
+    },
+    {
+      "id": "BUG-CTRL-007",
+      "title": "\"Resize column cityName\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column cityName\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-007.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(5) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:18.583Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "588b489c348e"
+    },
+    {
+      "id": "BUG-CTRL-008",
+      "title": "\"Resize column stateTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column stateTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-008.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(6) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:21.204Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "bec0aa1b17b3"
+    },
+    {
+      "id": "BUG-CTRL-009",
+      "title": "\"Resize column countyTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column countyTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-009.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(7) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:23.779Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "c2fd4f14f398"
+    },
+    {
+      "id": "BUG-CTRL-010",
+      "title": "\"Resize column cityTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column cityTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-010.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(9) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:29.006Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "1a7ed37c87e5"
+    },
+    {
+      "id": "BUG-CTRL-011",
+      "title": "\"Resize column cityLocalTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column cityLocalTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-011.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(10) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:31.743Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "7e50a4a822c3"
+    },
+    {
+      "id": "BUG-CTRL-012",
+      "title": "\"Resize column combinedTax\" does nothing when clicked",
+      "severity": "Major",
+      "priority": "P2",
+      "category": "Functional",
+      "detector": "dead-control",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Click \"Resize column combinedTax\".",
+        "3. Observe that nothing on the page changes."
+      ],
+      "expectedResult": "Clicking the button navigates, opens something, or changes what is on screen.",
+      "actualResult": "After the click the URL is unchanged, no dialog opened, and the page content is byte-identical — the control has no visible effect.",
+      "evidence": {
+        "screenshot": "evidence/BUG-CTRL-012.png",
+        "domSnippet": null,
+        "selector": "thead > tr > th:nth-of-type(11) > button",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:57:34.360Z",
+      "occurrences": 1,
+      "alsoSeenOn": [],
+      "fingerprint": "98149ba70bed"
+    },
+    {
+      "id": "BUG-INPUT-001",
+      "title": "Field \"Current page number\" silently truncates input",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Validation",
+      "detector": "input-boundary",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Type 300 characters into the \"Current page number\" field.",
+        "3. Observe that only 1 characters are kept and nothing explains why."
+      ],
+      "expectedResult": "A field that limits length declares it (maxlength, a counter, or a validation message) so the user knows the value was cut.",
+      "actualResult": "300 characters were entered and the field kept 1, with no maxlength attribute and no message.",
+      "evidence": {
+        "screenshot": "evidence/BUG-INPUT-001.png",
+        "domSnippet": null,
+        "selector": "div > div:nth-of-type(2) > span > input",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:12.868Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "Sales Tax > Sales Tax History — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "Sales Tax > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "fingerprint": "83585aff472e"
+    },
+    {
+      "id": "BUG-LABEL-001",
+      "title": "8 form control(s) have no accessible label on Sales Tax",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "Accessibility",
+      "detector": "missing-label",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "2. Inspect the form controls listed above and confirm none carries a label association."
+      ],
+      "expectedResult": "Every form control is named by a <label for>, aria-label or aria-labelledby, so assistive technology can announce it.",
+      "actualResult": "8 control(s) are named only by placeholder text or by nothing at all: input (Enter zip code); button[type=button] (AK); select (AK AL AR AS AZ CA CO CT DC DE FL FM GA GU HI IA I…); button[type=button] (All); select (All ALEUTIANS EAST ALEUTIANS WEST ANCHORAGE BETHE…)",
+      "evidence": {
+        "screenshot": "evidence/BUG-LABEL-001.png",
+        "domSnippet": null,
+        "selector": "#sales-tax-zip-code",
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:12.944Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "Sales Tax > Sales Tax History — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "Sales Tax > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "fingerprint": "d5f272af2270"
+    },
+    {
+      "id": "BUG-LAYOUT-001",
+      "title": "Text is cut off by its container on Sales Tax",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "expectedResult": "Text either fits, wraps, or is truncated deliberately with an ellipsis and a full value on hover.",
+      "actualResult": "1 element(s) hide overflowing text with no ellipsis: span: \"Grid Options\"",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-001.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:13.029Z",
+      "occurrences": 3,
+      "alsoSeenOn": [
+        "Sales Tax > Sales Tax History — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+        "Sales Tax > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "fingerprint": "b50ab6ffa0c3"
+    },
+    {
+      "id": "BUG-LAYOUT-002",
+      "title": "Interactive elements overlap on Sales Tax",
+      "severity": "Minor",
+      "priority": "P3",
+      "category": "UI",
+      "detector": "layout",
+      "module": "Sales Tax",
+      "page": "Sales Tax",
+      "preconditions": [
+        "Signed in to the application with the automation account.",
+        "Application reachable at https://cloudapps-e2e.encoreglobal.com.",
+        "Crawler ran with writes ENABLED (safety.allowWrites = true).",
+        "Screen under test: Sales Tax."
+      ],
+      "stepsToReproduce": [
+        "1. Open https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "expectedResult": "Controls do not sit on top of one another — an overlapped control cannot be clicked reliably.",
+      "actualResult": "1 overlapping pair(s). Worst: input \"Select date\" over button \"Open calendar\" (100% covered).",
+      "evidence": {
+        "screenshot": "evidence/BUG-LAYOUT-002.png",
+        "domSnippet": null,
+        "selector": null,
+        "consoleErrors": [],
+        "networkFailures": []
+      },
+      "url": "https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax",
+      "firstSeenAt": "2026-11-04T15:56:13.111Z",
+      "occurrences": 2,
+      "alsoSeenOn": [
+        "Sales Tax > Basic Information — https://cloudapps-e2e.encoreglobal.com/navigator/locations/1101/taxes/sales-tax"
+      ],
+      "fingerprint": "df4e61c6127b"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "id": "BUG-TAX-ST-003",
+  "title": "Sales Tax — repeating a Zip Code search sends a hidden State and returns nothing",
+  "module": "taxes",
+  "severity": "high",
+  "status": "open",
+  "discoveredDate": "2026-11-04",
+  "requirementSource": "NM-4021 §6.2 — with a Zip Code entered, State/County/City are cleared and disabled and do not take part in the search",
+  "stepsToReproduce": [
+    "Navigate to Tax → Sales Tax for office 1101 (/navigator/locations/1101/taxes/sales-tax) on e2e as the automation user.",
+    "Type Zip Code 90210 and click Search — 1 record.",
+    "Click Search again without changing anything."
+  ],
+  "expectedBehavior": "The same record is returned; the request carries only zipCode and effectiveDate.",
+  "actualBehavior": "After the first search the disabled State field silently reverts to AK. Every later search sends stateId=59 (AK) with zipCode=90210 and returns 0 records. Reproduced 3/3 times; it also hits a changed Effective Date (e.g. 04/01/2025), so it looks like a wrong as-of result.",
+  "affectedTests": [
+    "TC-TAX-ST-013",
+    "TC-TAX-ST-059"
+  ],
+  "verificationLog": [
+    {
+      "date": "2026-11-04",
+      "verdict": "CONFIRMED",
+      "finding": "Reproduced live on e2e (office 1101) during NM-4021 automation; the affected test asserts the documented behaviour under test.fail."
+    },
+    {
+      "date": "2026-11-05",
+      "verdict": "CONFIRMED",
+      "finding": "Also reproduced on the Sales Tax History tab (TC-TAX-ST-059)."
+    }
+  ]
+}

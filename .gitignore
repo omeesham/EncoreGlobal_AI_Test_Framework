@@ -30,8 +30,16 @@ CLAUDE.md
 docs/
 specs_planning/
 specs/
-scripts/
+scripts/*
+# Exception: TestRail test-run lifecycle script (npm run testrail:run:*) ships
+!scripts/testrail-run.ts
+!scripts/testrail-sync.ts
+# Exception: pre-PR review gate (npm run pre-pr) ships
+!scripts/pre-pr-check.js
 .auth/
+
+# Local scratch for audit fixtures and one-off probes
+.tmp/
 # Client requires NO GitHub workflows in the deliverable — never track or ship .github
 .github/
 

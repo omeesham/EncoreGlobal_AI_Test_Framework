@@ -1,0 +1,252 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Without a session the page sends the user to sign in,,,,,Automated,Omeesha Mahanta,,,"The sign-in page (""Sign in | Navigator"") with callbackUrl=/locations/1606/taxes/tax-type-detail",,,taxes,,"Not signed in
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)",High,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Open /navigator/locations/1606/taxes/tax-type-detail</li>
+</ol>",,,"1. The sign-in page (""Sign in | Navigator"") with callbackUrl=/locations/1606/taxes/tax-type-detail",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page asks for the active tax types once,,,,,Automated,Omeesha Mahanta,,,One request with bActive true and includeAll true,,,taxes,,"Logged in
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Medium,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Open the page and watch the tax type list request</li>
+</ol>",,,1. One request with bActive true and includeAll true,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"While the list loads, placeholders show, then every tax type",,,,,Automated,Omeesha Mahanta,,,40 tax types,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Reload with the list reply held back 6 s</li>
+<li>2. Wait for the reply</li>
+</ol>",,,"1. Loading placeholders show; the count line reads ""0 Tax type found"" until the list arrives
+2. 40 tax types",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The count line gives the number of tax types listed,,,,,Automated,Omeesha Mahanta,,,"""40 Tax type found""; 40 rows listed",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Read the count above the grid</li>
+</ol>",,,"1. ""40 Tax type found""; 40 rows listed",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page fits a phone screen,,,,,Automated,Omeesha Mahanta,,,No sideways scroll; the count and the tax type names show,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Set the window to 390 x 844</li>
+</ol>",,,1. No sideways scroll; the count and the tax type names show,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tax Type Detail opens from the Tax menu with every tax type,,,,,Automated,Omeesha Mahanta,,,"Columns Tax Type, Default Taxability, Active; the 40 tax types A to Z (APP Downloaded ... Web Conferencing); count 40",,,taxes,,"Logged in; the office Home page is open
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Offices: 1606 (USA), 2359 (Canada), 7147 (Mexico) - run on each",High,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Expand Tax in the left sidebar and click ""Tax Type Detail""</li>
+<li>2. Read the grid</li>
+</ol>",,,"1. URL /navigator/locations/{office}/taxes/tax-type-detail; browser title ""Tax Type Detail | Navigator""; heading ""Tax Type Detail""
+2. Columns Tax Type, Default Taxability, Active; the 40 tax types A to Z (APP Downloaded ... Web Conferencing); count 40",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A list that fails to load shows the empty list message,,,,,Automated,Omeesha Mahanta,,,The same,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Medium,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Reload with the list request failing (no connection)</li>
+<li>2. Reload with the list request answered 500</li>
+</ol>",,,"1. The page stays open with its heading; ""0 Tax type found"" and ""No tax type detail records found.""; no rows
+2. The same",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The grid works from the keyboard,,,,,Automated,Omeesha Mahanta,,,"Sorted Z to A, down arrow on Tax Type",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Medium,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Click the heading, press Tab 4 times</li>
+<li>2. Shift+Tab twice to Tax Type; Enter, Arrow Down, Enter</li>
+</ol>",,,"1. Focus: Grid Options, Tax Type, Default Taxability, Active
+2. Sorted Z to A, down arrow on Tax Type",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Every tax type is listed once, active and with its default taxability",,,,,Automated,Omeesha Mahanta,,,40 different tax types; each ticked Active and Default Taxability; the mark columns hold only ticks,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",High,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Read every row</li>
+</ol>",,,1. 40 different tax types; each ticked Active and Default Taxability; the mark columns hold only ticks,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The list cannot be edited,,,,,Automated,Omeesha Mahanta,,,None,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Medium,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Click, double-click and right-click the Rental row and each of its cells</li>
+<li>2. Look for inputs, checkboxes or Save</li>
+</ol>",,,"1. Nothing opens or changes; nothing is sent to the server
+2. None",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A name cut off by a narrow column shows in full on hover,,,,,Automated,Omeesha Mahanta,,,"The name is cut off; the tooltip shows ""Technician - Support Services""",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Hover ""Technician - Support Services"" at the default width</li>
+<li>2. Drag the Tax Type border 700 px left, hover the name</li>
+</ol>",,,"1. Shown in full; no tooltip
+2. The name is cut off; the tooltip shows ""Technician - Support Services""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Tax types with an ""M"" variant show their names as stored",,,,,Automated,Omeesha Mahanta,,,"App Quality Assurance – M, Application Development – M, Application Programming – M, Concise Labor - M, exactly as stored",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Read the names ending in ""M""</li>
+</ol>",,,"1. App Quality Assurance – M, Application Development – M, Application Programming – M, Concise Labor - M, exactly as stored",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each header has its menu,,,,,Automated,Omeesha Mahanta,,,"Tax Type: Sort ascending, Sort descending. Default Taxability and Active: Sort ascending, Sort descending, Hide column",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Medium,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Open each column header</li>
+</ol>",,,"1. Tax Type: Sort ascending, Sort descending. Default Taxability and Active: Sort ascending, Sort descending, Hide column",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tax Type sorts both ways in the browser and shows the direction,,,,,Automated,Omeesha Mahanta,,,"A to Z, up arrow; the list is not reloaded from the server",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",High,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Read the list</li>
+<li>2. Tax Type > Sort descending</li>
+<li>3. Tax Type > Sort ascending</li>
+</ol>",,,"1. A to Z, no sort arrow
+2. Z to A, down arrow
+3. A to Z, up arrow; the list is not reloaded from the server",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Sorting by a mark column keeps every tax type,,,,,Automated,Omeesha Mahanta,,,40 tax types after each sort,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Sort Default Taxability descending, then ascending; the same for Active</li>
+</ol>",,,1. 40 tax types after each sort,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A sort lasts for the visit; a reload lists A to Z again,,,,,Automated,Omeesha Mahanta,,,"A to Z, no sort arrow",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Sort Tax Type descending</li>
+<li>2. Reload the page</li>
+</ol>",,,"1. Z to A
+2. A to Z, no sort arrow",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A column hidden from its header comes back from Grid Options,,,,,Automated,Omeesha Mahanta,,,Back between Tax Type and Active,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Medium,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Default Taxability > Hide column</li>
+<li>2. Tick Default Taxability in Grid Options</li>
+</ol>",,,"1. Columns Tax Type, Active; Grid Options shows Default Taxability unticked
+2. Back between Tax Type and Active",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid Options lists the optional columns,,,,,Automated,Omeesha Mahanta,,,"Only Tax Type, still 40 tax types",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Medium,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Open Grid Options</li>
+<li>2. Untick both</li>
+</ol>",,,"1. Reset to Default View; Default Taxability and Active, both ticked
+2. Only Tax Type, still 40 tax types",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A column can be dragged to another place,,,,,Automated,Omeesha Mahanta,,,"Active, Tax Type, Default Taxability; the cells move too",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Drag Active by its grip onto Tax Type</li>
+</ol>",,,"1. Active, Tax Type, Default Taxability; the cells move too",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tax Type resizes with the mouse,,,,,Automated,Omeesha Mahanta,,,About 100 px narrower; others unchanged,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Drag the Tax Type border 100 px right</li>
+<li>2. Reset; drag it 100 px left</li>
+</ol>",,,"1. Tax Type about 100 px wider; others unchanged
+2. About 100 px narrower; others unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Dragging the Default Taxability or Active border widens the grid,,,,,Automated,Omeesha Mahanta,,,The grid is about 100 px wider; no column narrower,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Drag the Default Taxability border 100 px right</li>
+<li>2. Reset; drag the Active border 100 px right</li>
+</ol>",,,"1. The grid is about 100 px wider; no column narrower
+2. The grid is about 100 px wider; no column narrower",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The column layout is kept after a reload,,,,,Automated,Omeesha Mahanta,,,"Same columns, order and widths",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Medium,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Hide Default Taxability, drag Active first, widen Tax Type 100 px; reload</li>
+</ol>",,,"1. Same columns, order and widths",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Reset to Default View undoes hidden, moved and resized columns",,,,,Automated,Omeesha Mahanta,,,"Tax Type, Default Taxability, Active at their default widths",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Medium,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Hide Default Taxability, drag Active first, widen Tax Type; Grid Options > Reset to Default View</li>
+</ol>",,,"1. Tax Type, Default Taxability, Active at their default widths",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset to Default View resets the columns and keeps the chosen sort,,,,,Automated,Omeesha Mahanta,,,The three columns are back; still Z to A with the down arrow,,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Sort Tax Type descending; hide Active</li>
+<li>2. Grid Options > Reset to Default View</li>
+</ol>",,,"1. Z to A; Tax Type and Default Taxability
+2. The three columns are back; still Z to A with the down arrow",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Grid Options names itself on hover,,,,,Automated,Omeesha Mahanta,,,"Tooltip ""Grid Options""",,,taxes,,"Logged in; Tax > Tax Type Detail is open for office 1606 with the default grid layout
+
+Test Data:
+User: automation user (tax setup access)
+Application: Navigator
+Office: 1606 (USA)
+Data: the 40 active tax types (company-wide)",Low,,Tax_Type_Detail,1,,Taxes > Tax_Type_Detail,"<ol>
+<li>1. Hover Grid Options</li>
+</ol>",,,"1. Tooltip ""Grid Options""",,,,Master,S1620,Test Case (Steps),Regression,,,

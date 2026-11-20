@@ -66,11 +66,11 @@ import {
  * unsaved-changes prompt — that actual behaviour is itself asserted), and the dialog stays
  * open after a successful save with Save disabled again.
  *
- * Two cases of the sequence wait for data the office does not hold today and are not in
- * this file: TC-ISR-PCD-013 needs a product whose Product Type differs from its Category's,
- * and TC-ISR-PCD-039 needs a sub class whose items have assets attached. Both are listed in
- * the workbook with the data they wait for, rather than passing on a row that cannot show
- * the behaviour.
+ * Two cases of the sequence wait for data the office does not hold today and are held as
+ * test.fixme (counted and reported, never run): TC-ISR-PCD-013 needs a product whose Product
+ * Type differs from its Category's, and TC-ISR-PCD-039 needs a sub class whose items have
+ * assets attached. Both are listed in the workbook with the data they wait for, rather than
+ * passing on a row that cannot show the behaviour.
  */
 test.describe.configure({ timeout: 300_000 });
 
@@ -490,6 +490,8 @@ test.describe('Item Search View Product Code — segments and fields @item-searc
 
   // TC-ISR-PCD-013 (each segment shows its own Product Type rather than the Category's) needs
   // a product whose Product Type differs from its Category's; office 1101 holds none today.
+
+  test.fixme('TC-ISR-PCD-013: Each segment shows its own Product Type rather than the Category\'s [blocked: needs a product whose Product Type differs from its Category\'s; the office holds none]', { tag: '@C105900' }, async () => {});
 
   test('TC-ISR-PCD-014: History and Translations tabs exist on every segment and name the segment', { tag: '@C105901' }, async ({ dependencyGate }) => {
     dependencyGate([]);
@@ -1190,6 +1192,8 @@ test.describe('Item Search View Product Code — hierarchy saves @item-search @p
 
   // TC-ISR-PCD-039 (deactivating a level that still has assets attached is refused) needs a
   // sub class whose items have assets attached; the automation cannot create assets.
+
+  test.fixme('TC-ISR-PCD-039: Deactivating a level that still has assets attached is refused [blocked: needs a sub class whose items have assets attached; the office holds none]', { tag: '@C105926' }, async () => {});
 
   test('TC-ISR-PCD-040: Choosing an organization on the Sub Class saves and reaches its items', { tag: '@C105927' }, async ({ dependencyGate }) => {
     dependencyGate([]);

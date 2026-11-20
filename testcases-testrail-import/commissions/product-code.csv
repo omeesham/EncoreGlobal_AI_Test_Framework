@@ -1,0 +1,724 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Without a session the page sends the user to sign in,,,,,Automated,Omeesha Mahanta,,,"The sign-in page (""Sign in | Navigator"") with callbackUrl=/locations/1101/commissions/product-code",,,commissions,,"Not signed in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open /navigator/locations/1101/commissions/product-code</li>
+</ol>",,,"1. The sign-in page (""Sign in | Navigator"") with callbackUrl=/locations/1101/commissions/product-code",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Commissions menu opens Product Code Commission on Basic Information,,,,,Automated,Omeesha Mahanta,,,"The menu lists CMP, Allow DPCD, Product Code, Tier/Flat; title ""Product Code Commission | Navigator"", heading ""Product Code Commission"", tabs Basic Information and Product Code Commission History, Basic Information selected",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open Home on 1101</li>
+<li>2. Open the Commissions menu</li>
+<li>3. Click Product Code</li>
+</ol>",,,"1. The menu lists CMP, Allow DPCD, Product Code, Tier/Flat; title ""Product Code Commission | Navigator"", heading ""Product Code Commission"", tabs Basic Information and Product Code Commission History, Basic Information selected",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The first view shows the search criteria and an empty grid,,,,,Automated,Omeesha Mahanta,,,"Search Criteria: Local Office 1101 - Corporate Office Encore USA SGA (a button), Any Field empty, Use Default Commission ticked, Include Inactive unticked, Reset and Search; ""0 items found"", columns Local Office ID, Category, Sub Category, Class, Sub Class, Item, Description, Commission, Use Default Commission; ""No results""; page 1 of 1, all page buttons off; Export and Grid Options on",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open /navigator/locations/1101/commissions/product-code</li>
+</ol>",,,"1. Search Criteria: Local Office 1101 - Corporate Office Encore USA SGA (a button), Any Field empty, Use Default Commission ticked, Include Inactive unticked, Reset and Search; ""0 items found"", columns Local Office ID, Category, Sub Category, Class, Sub Class, Item, Description, Commission, Use Default Commission; ""No results""; page 1 of 1, all page buttons off; Export and Grid Options on",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The information icon explains the page, by mouse and by keyboard",,,,,Automated,Omeesha Mahanta,,,"""Search and manage product code commission settings."" both times",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Hover the (i) next to the heading</li>
+<li>2. Move away, then focus the (i) with the keyboard</li>
+</ol>",,,"1. ""Search and manage product code commission settings."" both times",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Opened on 1606, the page lists its product codes and only views them",,,,,Automated,Omeesha Mahanta,,,"Local Office ""1606 - Embassy Suites by Hilton Washington DC Convention Center"" shown as text (cannot be changed); ""1,001 items found"" with ""Search Limit exceeded. Only the first 1001 items were returned.""; every row is 1606; no Export; the dialog has Use Default Commission and Propagate ticked but off, Save and Copy to Location(s) off",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1606 (local office)",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open /navigator/locations/1606/commissions/product-code</li>
+<li>2. Click Search</li>
+<li>3. Click the Sub Class link of the first row</li>
+</ol>",,,"1. Local Office ""1606 - Embassy Suites by Hilton Washington DC Convention Center"" shown as text (cannot be changed); ""1,001 items found"" with ""Search Limit exceeded. Only the first 1001 items were returned.""; every row is 1606; no Export; the dialog has Use Default Commission and Propagate ticked but off, Save and Copy to Location(s) off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Opened on 2359, the page lists its product codes and only views them",,,,,Automated,Omeesha Mahanta,,,"Local Office ""2359 - Toronto Hilton"" shown as text (cannot be changed); ""1,001 items found"" with ""Search Limit exceeded. Only the first 1001 items were returned.""; every row is 2359; no Export; the dialog has Use Default Commission and Propagate ticked but off, Save and Copy to Location(s) off",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 2359 (local office)",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open /navigator/locations/2359/commissions/product-code</li>
+<li>2. Click Search</li>
+<li>3. Click the Sub Class link of the first row</li>
+</ol>",,,"1. Local Office ""2359 - Toronto Hilton"" shown as text (cannot be changed); ""1,001 items found"" with ""Search Limit exceeded. Only the first 1001 items were returned.""; every row is 2359; no Export; the dialog has Use Default Commission and Propagate ticked but off, Save and Copy to Location(s) off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Opened on 7147, the page lists its product codes and only views them",,,,,Automated,Omeesha Mahanta,,,"Local Office ""7147 - Barcelo Monterrey Valle"" shown as text (cannot be changed); ""1,001 items found"" with ""Search Limit exceeded. Only the first 1001 items were returned.""; every row is 7147; no Export; the dialog has Use Default Commission and Propagate ticked but off, Save and Copy to Location(s) off",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 7147 (local office)",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open /navigator/locations/7147/commissions/product-code</li>
+<li>2. Click Search</li>
+<li>3. Click the Sub Class link of the first row</li>
+</ol>",,,"1. Local Office ""7147 - Barcelo Monterrey Valle"" shown as text (cannot be changed); ""1,001 items found"" with ""Search Limit exceeded. Only the first 1001 items were returned.""; every row is 7147; no Export; the dialog has Use Default Commission and Propagate ticked but off, Save and Copy to Location(s) off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The corporate office itself has no product codes,,,,,Automated,Omeesha Mahanta,,,"""0 items found"" both times",,,commissions,,"Page open on 1101
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Search</li>
+<li>2. Untick Use Default Commission, click Search</li>
+</ol>",,,"1. ""0 items found"" both times",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Searching an office lists its active items on the default commission, up to 1001",,,,,Automated,Omeesha Mahanta,,,"Request {locationNo 1606, anyField """", useDefaultCommission true, includeInactive false, culture en-US}; ""1,001 items found"" with ""Search Limit exceeded. Only the first 1001 items were returned.""; 101 pages of 10; each row 1606, 0.00 %, Use Default Commission ticked",,,commissions,,"Page open on 1101
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Pick 1606 in Change Local Office</li>
+<li>2. Click Search</li>
+</ol>",,,"1. Request {locationNo 1606, anyField """", useDefaultCommission true, includeInactive false, culture en-US}; ""1,001 items found"" with ""Search Limit exceeded. Only the first 1001 items were returned.""; 101 pages of 10; each row 1606, 0.00 %, Use Default Commission ticked",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Any Field finds an item and shows its whole product tree; Enter searches too,,,,,Automated,Omeesha Mahanta,,,"One row: Audio / Audio Source / Music Access Service / Encore Music: Royalty Free Music / Encore Music: Stingers - Royalty Free Music (Description the same); Enter searches ""Projector"": 21 rows",,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type Stingers, click Search</li>
+<li>2. Type Projector, press Enter</li>
+</ol>",,,"1. One row: Audio / Audio Source / Music Access Service / Encore Music: Royalty Free Music / Encore Music: Stingers - Royalty Free Music (Description the same); Enter searches ""Projector"": 21 rows",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Any Field ignores letter case and the spaces around the text,,,,,Automated,Omeesha Mahanta,,,The Stingers item each time,,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Search stingers</li>
+<li>2. Search STINGERS</li>
+<li>3. Search "" Stingers ""</li>
+</ol>",,,1. The Stingers item each time,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A search that matches nothing shows no rows,,,,,Automated,Omeesha Mahanta,,,"""0 items found"", ""No results"", page 1 of 1",,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Search zzzz</li>
+</ol>",,,"1. ""0 items found"", ""No results"", page 1 of 1",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Wildcard and quote characters are searched as text,,,,,Automated,Omeesha Mahanta,,,Each finds only rows holding that character; no error,,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Search %</li>
+<li>2. Search _</li>
+<li>3. Search '</li>
+</ol>",,,1. Each finds only rows holding that character; no error,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Any Field finds a name written with a hyphen,,,,,Automated,Omeesha Mahanta,,,The Stingers item,,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Search ""Stingers - Royalty""</li>
+</ol>",,,1. The Stingers item,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Include Inactive adds the inactive items,,,,,Automated,Omeesha Mahanta,,,"21 rows, then 32; the request has includeInactive true",,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Search Projector</li>
+<li>2. Tick Include Inactive, click Search</li>
+</ol>",,,"1. 21 rows, then 32; the request has includeInactive true",,,,Master,S1620,Test Case (Steps),Regression,,,
+,With Use Default Commission unticked only rows off the default are listed,,,,,Automated,Omeesha Mahanta,,,"Request has useDefaultCommission false; ""0 items found""",,,commissions,,"1606 picked; every commission on its default
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Untick Use Default Commission, click Search</li>
+</ol>",,,"1. Request has useDefaultCommission false; ""0 items found""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Reset puts back the first view,,,,,Automated,Omeesha Mahanta,,,"Local Office 1101 again, Any Field empty, Use Default ticked, Include Inactive unticked, ""0 items found""",,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Search Projector with Use Default unticked and Include Inactive ticked</li>
+<li>2. Click Reset</li>
+</ol>",,,"1. Local Office 1101 again, Any Field empty, Use Default ticked, Include Inactive unticked, ""0 items found""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"When the search fails, a message shows and the grid is empty",,,,,Automated,Omeesha Mahanta,,,"""An unexpected response was received from the server."" after the server error, ""Failed to fetch"" after the dropped connection; no rows",,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Search reply: 500, then no connection",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Search while the server fails</li>
+<li>2. Search while the connection drops</li>
+</ol>",,,"1. ""An unexpected response was received from the server."" after the server error, ""Failed to fetch"" after the dropped connection; no rows",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The dialog shows the current office, a filter, a search, All Locations and the office list",,,,,Automated,Omeesha Mahanta,,,"Change Local Office: ""Current: 1101 - Corporate Office Encore USA SGA"", Active/Inactive ticked, ""Search by Location Name, Number"", columns Local Office and Local Office Name, an All Locations row, 1101 ticked, Select on",,,commissions,,"Page open on 1101
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click the Local Office (1101 - Corporate Office Encore USA SGA)</li>
+</ol>",,,"1. Change Local Office: ""Current: 1101 - Corporate Office Encore USA SGA"", Active/Inactive ticked, ""Search by Location Name, Number"", columns Local Office and Local Office Name, an All Locations row, 1101 ticked, Select on",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Search finds offices by number, part of a number or name in any case",,,,,Automated,Omeesha Mahanta,,,"1606 only; 2359 Toronto Hilton both ways; ""No results.""",,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Search 1606</li>
+<li>2. Search toronto hilton</li>
+<li>3. Search TORONTO HILTON</li>
+<li>4. Search zzzz</li>
+</ol>",,,"1. 1606 only; 2359 Toronto Hilton both ways; ""No results.""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unticking Active/Inactive adds the inactive offices,,,,,Automated,Omeesha Mahanta,,,"Unticked: 0000, 1099 and 1100 are added; ticked: the active offices again",,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Untick Active/Inactive</li>
+<li>2. Tick it again</li>
+</ol>",,,"1. Unticked: 0000, 1099 and 1100 are added; ticked: the active offices again",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Cancel, Close and Escape leave the office unchanged",,,,,Automated,Omeesha Mahanta,,,The office stays 1101 each time,,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Tick 1606, click Cancel</li>
+<li>2. Reopen, tick 1606, click X</li>
+<li>3. Reopen, tick 1606, press Escape</li>
+</ol>",,,1. The office stays 1101 each time,,,,Master,S1620,Test Case (Steps),Regression,,,
+,All Locations can be chosen to search every office,,,,,Automated,Omeesha Mahanta,,,"Local Office reads ""All Locations""; the Stingers item is listed for several offices",,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click All Locations (then Select if the dialog stays)</li>
+<li>2. Search Stingers</li>
+</ol>",,,"1. Local Office reads ""All Locations""; the Stingers item is listed for several offices",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each row links every level of its product tree; the other cells are plain text,,,,,Automated,Omeesha Mahanta,,,"Category, Sub Category, Class, Sub Class and Item are links; Local Office ID, Description, Commission and Use Default Commission are not",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Read the links in the Stingers row</li>
+</ol>",,,"1. Category, Sub Category, Class, Sub Class and Item are links; Local Office ID, Description, Commission and Use Default Commission are not",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each column sorts both ways from its header menu,,,,,Automated,Omeesha Mahanta,,,"Each menu: Sort ascending, Sort descending, Hide column; each column in A-Z / Z-A order",,,commissions,,"1606 picked; ""Audio"" searched; 50 rows per page
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open each header menu</li>
+<li>2. Sort Category, Sub Category, Class, Sub Class, Item and Description ascending and descending</li>
+</ol>",,,"1. Each menu: Sort ascending, Sort descending, Hide column; each column in A-Z / Z-A order",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Columns can be hidden and shown, and Reset to Default View brings them all back",,,,,Automated,Omeesha Mahanta,,,Grid Options: Reset to Default View and every column ticked; Description and Class hidden and unticked; Class back; every column back after Reset,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Read Grid Options</li>
+<li>2. Hide Description from its header menu</li>
+<li>3. Untick Class in Grid Options</li>
+<li>4. Tick Class</li>
+<li>5. Hide Class, then Reset to Default View</li>
+</ol>",,,1. Grid Options: Reset to Default View and every column ticked; Description and Class hidden and unticked; Class back; every column back after Reset,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Only Class, Sub Class, Item and Description can be widened by dragging",,,,,Automated,Omeesha Mahanta,,,"Class, Sub Class, Item and Description get wider; Local Office ID, Category, Sub Category, Commission and Use Default Commission keep their width",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Drag each column edge 80 px right (and back)</li>
+</ol>",,,"1. Class, Sub Class, Item and Description get wider; Local Office ID, Category, Sub Category, Commission and Use Default Commission keep their width",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A column can be moved by dragging its grip,,,,,Automated,Omeesha Mahanta,,,Description comes before Category; Reset puts it back,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Drag Description by its grip onto Category</li>
+<li>2. Reset to Default View</li>
+</ol>",,,1. Description comes before Category; Reset puts it back,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rows per page sets the rows shown and the page count,,,,,Automated,Omeesha Mahanta,,,"Options 10, 20, 30, 40, 50; each size shows that many rows and ceil(1001 / size) pages",,,commissions,,"1606 picked; 1001 rows found
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open Rows per page</li>
+<li>2. Choose 20, 30, 40, 50 and 10</li>
+</ol>",,,"1. Options 10, 20, 30, 40, 50; each size shows that many rows and ceil(1001 / size) pages",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page buttons and the page number move through the rows,,,,,Automated,Omeesha Mahanta,,,"Pages 2, 101 (1 row, next/last off), 100, 1; 106 is not taken (page 1); 3 opens page 3; the bad entries leave page 3",,,commissions,,"1606 picked; 1001 rows found
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Next, Last, Previous, First</li>
+<li>2. Type 106, then 3, in the page box</li>
+<li>3. Type 0, -1, abc and nothing</li>
+</ol>",,,"1. Pages 2, 101 (1 row, next/last off), 100, 1; 106 is not taken (page 1); 3 opens page 3; the bad entries leave page 3",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A cut-off cell shows its full text on hover,,,,,Automated,Omeesha Mahanta,,,"The cell is cut off and the tooltip shows ""Encore Music: Stingers - Royalty Free Music""",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Hover the Item cell</li>
+</ol>",,,"1. The cell is cut off and the tooltip shows ""Encore Music: Stingers - Royalty Free Music""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each level opens its dialog with the segment and the segments under it,,,,,Automated,Omeesha Mahanta,,,"""Product Code Commission"" with a section for the level (Name, Comm %, Use Default Commission, Propagate except on Item; 0.00 %, both ticked) and one for the level below; Sub Class lists its 3 items, Class its 2 sub classes, Item has no list",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Category, then Cancel</li>
+<li>2. Click Sub Category, then Cancel</li>
+<li>3. Click Class, then Cancel</li>
+<li>4. Click Sub Class, then Cancel</li>
+<li>5. Click Item, then Cancel</li>
+</ol>",,,"1. ""Product Code Commission"" with a section for the level (Name, Comm %, Use Default Commission, Propagate except on Item; 0.00 %, both ticked) and one for the level below; Sub Class lists its 3 items, Class its 2 sub classes, Item has no list",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"As opened, Save is off and Copy to Location(s) is on",,,,,Automated,Omeesha Mahanta,,,Save off; Copy to Location(s) and Cancel on; Comm % is plain text,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open the Sub Class dialog</li>
+</ol>",,,1. Save off; Copy to Location(s) and Cancel on; Comm % is plain text,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Unticking Use Default Commission makes Comm % editable, turns Save on and Copy off",,,,,Automated,Omeesha Mahanta,,,"Save on, Copy off; Comm % becomes a field; ticked again, Comm % is plain text",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Untick Use Default Commission</li>
+<li>2. Click Comm %</li>
+<li>3. Tick Use Default Commission again, click Comm %</li>
+</ol>",,,"1. Save on, Copy off; Comm % becomes a field; ticked again, Comm % is plain text",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Comm % is a decimal text field with a 0.00 placeholder,,,,,Automated,Omeesha Mahanta,,,"type text, inputmode decimal, placeholder 0.00, aria-invalid false",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Comm %</li>
+</ol>",,,"1. type text, inputmode decimal, placeholder 0.00, aria-invalid false",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Whole and decimal percentages up to 100 are shown with two decimals,,,,,Automated,Omeesha Mahanta,,,"00 %, 5.50 %, 99.99 %, 100.00 %, 0.00 %, 5.00 %, 2.56 %",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type 5, 5.5, 99.99, 100, 0, 0005 and 2.555, leaving the field each time</li>
+</ol>",,,"1. 00 %, 5.50 %, 99.99 %, 100.00 %, 0.00 %, 5.00 %, 2.56 %",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Letters, signs and a second decimal point are not typed",,,,,Automated,Omeesha Mahanta,,,"The field holds """", 5, 5, 5, 12, 1.23, 15",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type abc, -5, +5, "" 5"", 1e2, 1.2.3 and 1,5</li>
+</ol>",,,"1. The field holds """", 5, 5, 5, 12, 1.23, 15",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A value below 1 is read as a fraction and shown as a percentage,,,,,Automated,Omeesha Mahanta,,,"00 %, 25.00 %",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type 0.5</li>
+<li>2. Type .25</li>
+</ol>",,,"1. 00 %, 25.00 %",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Over 100 is marked invalid and the previous value is kept,,,,,Automated,Omeesha Mahanta,,,The field is marked invalid while typing; leaving it puts 5.00 % back each time,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked; 5.00 % entered
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type 100.01, leave the field</li>
+<li>2. Type 150, leave the field</li>
+</ol>",,,1. The field is marked invalid while typing; leaving it puts 5.00 % back each time,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Clearing Comm % keeps the last value,,,,,Automated,Omeesha Mahanta,,,00 % again,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type 7, leave the field</li>
+<li>2. Clear the field, leave it</li>
+</ol>",,,1. 00 % again,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Escape in Comm % closes the dialog without saving,,,,,Automated,Omeesha Mahanta,,,The dialog closes; nothing is saved: the Sub Class opens again at 0.00 % with Use Default ticked,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked; 7.00 % entered
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Comm %, type 8, press Escape</li>
+<li>2. Open the Sub Class again</li>
+</ol>",,,1. The dialog closes; nothing is saved: the Sub Class opens again at 0.00 % with Use Default ticked,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Closing the dialog with unsaved changes closes it without saving,,,,,Automated,Omeesha Mahanta,,,The dialog closes straight away each time; nothing is saved: the Sub Class opens again at 0.00 % with Use Default ticked,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked; 7.00 % entered
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Cancel, open the Sub Class again</li>
+<li>2. Repeat the change, press Escape, open the Sub Class again</li>
+</ol>",,,1. The dialog closes straight away each time; nothing is saved: the Sub Class opens again at 0.00 % with Use Default ticked,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancel and Escape close an unchanged dialog and send nothing,,,,,Automated,Omeesha Mahanta,,,"The dialog closes; no request, no message",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Cancel</li>
+<li>2. Reopen, press Escape</li>
+</ol>",,,"1. The dialog closes; no request, no message",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Saving with Propagate asks first, counting the segment and every segment below it",,,,,Automated,Omeesha Mahanta,,,"""Confirm - You have chosen to propagate the changes to the current segment and all of its child segments - Total [4] child segments. Confirm to proceed?"" for the Sub Class (itself and 3 items) and [7] for the Class (itself, 2 sub classes and 4 items); Cancel sends nothing",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked; 3.00 % entered
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Save on the Sub Class, then Cancel</li>
+<li>2. Repeat on the Class dialog</li>
+</ol>",,,"1. ""Confirm - You have chosen to propagate the changes to the current segment and all of its child segments - Total [4] child segments. Confirm to proceed?"" for the Sub Class (itself and 3 items) and [7] for the Class (itself, 2 sub classes and 4 items); Cancel sends nothing",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Cancel or Escape on the question sends nothing and keeps the edit,,,,,Automated,Omeesha Mahanta,,,Nothing sent; the dialog stays with 3.00 % and Save on,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked; 3.00 % entered
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Save, then Cancel</li>
+<li>2. Click Save, then Escape</li>
+</ol>",,,1. Nothing sent; the dialog stays with 3.00 % and Save on,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Saving with Propagate sets the segment and every item below it, and History records each",,,,,Automated,Omeesha Mahanta,,,"Sent {locationNo 1606, productId 91353, commission 0.05, useDefaultComm false, propagate true, includeInactive false}; ""Commission changes saved.""; dialog closes; the 3 items are listed at 5.00 %, Use Default unticked; the dialog shows 5.00 % for the Sub Class and its items; History adds Modify 5.00 % for the Sub Class and each item, dated today",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type 5, click Save, click Ok</li>
+<li>2. Untick Use Default Commission in the search, Search</li>
+<li>3. Open the Sub Class</li>
+<li>4. Open History</li>
+</ol>",,,"1. Sent {locationNo 1606, productId 91353, commission 0.05, useDefaultComm false, propagate true, includeInactive false}; ""Commission changes saved.""; dialog closes; the 3 items are listed at 5.00 %, Use Default unticked; the dialog shows 5.00 % for the Sub Class and its items; History adds Modify 5.00 % for the Sub Class and each item, dated today",,,,Master,S1620,Test Case (Steps),Regression,,,
+,After a save the grid runs the search again by itself,,,,,Automated,Omeesha Mahanta,,,"The page searches again: the Stingers row, now off the default, leaves the list (""0 items found"")",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type 5, Save, Ok</li>
+<li>2. Read the grid</li>
+</ol>",,,"1. The page searches again: the Stingers row, now off the default, leaves the list (""0 items found"")",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Without Propagate only the segment is saved; its items keep their own setting,,,,,Automated,Omeesha Mahanta,,,"No question; sent propagate false, commission 0.04; ""Commission changes saved.""; the Sub Class shows 4.00 %; the grid lists the Stingers item at the Sub Class's 4.00 %; the dialog lists the 3 items still at 0.00 % with Use Default ticked",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type 4, untick Propagate, Save</li>
+<li>2. Untick Use Default in the search, search Stingers</li>
+<li>3. Open the Sub Class</li>
+</ol>",,,"1. No question; sent propagate false, commission 0.04; ""Commission changes saved.""; the Sub Class shows 4.00 %; the grid lists the Stingers item at the Sub Class's 4.00 %; the dialog lists the 3 items still at 0.00 % with Use Default ticked",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"An item is saved on its own, without Propagate or a question",,,,,Automated,Omeesha Mahanta,,,"No Propagate box; no question; sent commission 0.06; ""Commission changes saved.""; only the Stingers item is listed, at 6.00 %",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Item dialog open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Untick Use Default, type 6, Save</li>
+<li>2. Search with Use Default unticked</li>
+</ol>",,,"1. No Propagate box; no question; sent commission 0.06; ""Commission changes saved.""; only the Stingers item is listed, at 6.00 %",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"100 % can be saved, and ticking Use Default again puts the default back",,,,,Automated,Omeesha Mahanta,,,"Commission 1 sent; the dialog shows 100.00 %, the grid and History show the stored 1 as 1.00 %; then useDefaultComm true, propagate true; the row is listed at 0.00 % with Use Default ticked; History top Sub Class entry Modify 0.00 %",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Type 100, Save, Ok</li>
+<li>2. Search Stingers with Use Default unticked; read the row</li>
+<li>3. Open the Sub Class, tick Use Default, Save, Ok</li>
+<li>4. Open the page again, pick 1606, search Stingers</li>
+<li>5. Open History</li>
+</ol>",,,"1. Commission 1 sent; the dialog shows 100.00 %, the grid and History show the stored 1 as 1.00 %; then useDefaultComm true, propagate true; the row is listed at 0.00 % with Use Default ticked; History top Sub Class entry Modify 0.00 %",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A failed save says so and keeps the dialog and the edit,,,,,Automated,Omeesha Mahanta,,,"An error message (not ""Commission changes saved.""); the dialog stays with 3.00 %",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; Use Default unticked; 3.00 % entered
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards
+Save reply: 500, then no connection",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Save, Ok (server error)</li>
+<li>2. Save, Ok (no connection)</li>
+</ol>",,,"1. An error message (not ""Commission changes saved.""); the dialog stays with 3.00 %",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The copy panel names the source office and lists the other offices,,,,,Automated,Omeesha Mahanta,,,"""Copy Product Code Commission to Location(s)"": Source Location 1606 - Embassy Suites..., ""Search..."", Destination Location(s) with Select all, 1606 not listed, nothing ticked, Apply off",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Copy to Location(s)</li>
+</ol>",,,"1. ""Copy Product Code Commission to Location(s)"": Source Location 1606 - Embassy Suites..., ""Search..."", Destination Location(s) with Select all, 1606 not listed, nothing ticked, Apply off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The destination search finds offices by number or name in any case,,,,,Automated,Omeesha Mahanta,,,"2359 - Toronto Hilton; the same Toronto offices both ways; ""No results.""",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; copy panel open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Search 2359</li>
+<li>2. Search toronto</li>
+<li>3. Search TORONTO</li>
+<li>4. Search zzzz</li>
+</ol>",,,"1. 2359 - Toronto Hilton; the same Toronto offices both ways; ""No results.""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Select all ticks every listed office and turns Apply on; again unticks them,,,,,Automated,Omeesha Mahanta,,,All listed ticked and Apply on; none ticked and Apply off; the panel closes and the dialog stays,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open; copy panel open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Tick Select all</li>
+<li>2. Tick it again</li>
+<li>3. Click Close</li>
+</ol>",,,1. All listed ticked and Apply on; none ticked and Apply off; the panel closes and the dialog stays,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Apply copies the commission to the chosen office and History records the copy,,,,,Automated,Omeesha Mahanta,,,"Sent {sourceLocationNo 1606, productCodeId 91353, destinationLocationNos ""2359"", includeInactive false}; ""4 new records were inserted""; 2359 lists the 3 items at 5.00 %; History: Copy 5.00 % for the Sub Class and its 3 items, Notes 1606",,,commissions,,"5 % saved on the 1606 Sub Class with Propagate
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards
+Copied to: 2359 Toronto Hilton (put back afterwards)",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open the Sub Class, Copy to Location(s)</li>
+<li>2. Tick 2359, Apply</li>
+<li>3. Pick 2359, search with Use Default unticked</li>
+<li>4. Open History</li>
+</ol>",,,"1. Sent {sourceLocationNo 1606, productCodeId 91353, destinationLocationNos ""2359"", includeInactive false}; ""4 new records were inserted""; 2359 lists the 3 items at 5.00 %; History: Copy 5.00 % for the Sub Class and its 3 items, Notes 1606",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"History lists the picked office's changes, newest first",,,,,Automated,Omeesha Mahanta,,,"Columns Local Office ID, Level, Name, Action, Commission, Use Default Commission, Notes, Modified By, Modified Date; only 1606 entries; ten a page; newest first",,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open Product Code Commission History</li>
+</ol>",,,"1. Columns Local Office ID, Level, Name, Action, Commission, Use Default Commission, Notes, Modified By, Modified Date; only 1606 entries; ten a page; newest first",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Each History entry shows the level, name, action, commission, user and date",,,,,Automated,Omeesha Mahanta,,,"A level of the tree, a name, Modify or Copy, ""n.nn %"", a user e-mail, MM/DD/YYYY, hh:mm AM/PM",,,commissions,,"1606 picked; History open, 50 rows
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Read every row</li>
+</ol>",,,"1. A level of the tree, a name, Modify or Copy, ""n.nn %"", a user e-mail, MM/DD/YYYY, hh:mm AM/PM",,,,Master,S1620,Test Case (Steps),Regression,,,
+,History columns sort both ways,,,,,Automated,Omeesha Mahanta,,,"Level, Name, Action and Modified By in A-Z / Z-A; Commission by the stored value, descending the reverse of ascending",,,commissions,,"1606 picked; History open, 50 rows
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Sort Level, Name, Action, Modified By and Commission ascending and descending</li>
+</ol>",,,"1. Level, Name, Action and Modified By in A-Z / Z-A; Commission by the stored value, descending the reverse of ascending",,,,Master,S1620,Test Case (Steps),Regression,,,
+,History Export holds every entry of every page,,,,,Automated,Omeesha Mahanta,,,"commissions_prodcode_history_<timestamp>.xlsx; columns LOCATION ID, Level, Name, Action, Comm %, User Default Comm, Notes, Modified By, Modified On; every entry of the grid (100 % is written as 100, shown in the grid as 1.00 %); entries saved in the same minute may be in another order, and entries saved just before may be in the export only",,,commissions,,"1606 picked; History open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Read every page</li>
+<li>2. Click Export</li>
+</ol>",,,"1. commissions_prodcode_history_<timestamp>.xlsx; columns LOCATION ID, Level, Name, Action, Comm %, User Default Comm, Notes, Modified By, Modified On; every entry of the grid (100 % is written as 100, shown in the grid as 1.00 %); entries saved in the same minute may be in another order, and entries saved just before may be in the export only",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"When History fails to load, a message shows and the grid is empty",,,,,Automated,Omeesha Mahanta,,,"""An unexpected response was received from the server."" after the server error, ""Failed to fetch"" after the dropped connection; ""No results""",,,commissions,,"1606 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+History reply: 500, then no connection",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open History while the server fails</li>
+<li>2. Repeat with no connection</li>
+</ol>",,,"1. ""An unexpected response was received from the server."" after the server error, ""Failed to fetch"" after the dropped connection; ""No results""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A local office sees its own History without Export,,,,,Automated,Omeesha Mahanta,,,"1606: only 1606 entries, no Export; 1101 (nothing picked): ""0 items found""",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1606 (local office) and 1101",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Open the page on 1606, open History</li>
+<li>2. Open the page on 1101, open History</li>
+</ol>",,,"1. 1606: only 1606 entries, no Export; 1101 (nothing picked): ""0 items found""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Export downloads the rows found,,,,,Automated,Omeesha Mahanta,,,"commissions_prodcode_<timestamp>.xlsx; columns LOCATION ID, Level, Name, Comm %, User Default Comm; one row per row found: 1606 Embassy Suites..., Item, the item, its commission, Yes",,,commissions,,"1606 picked; ""Royalty Free"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",High,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Export</li>
+</ol>",,,"1. commissions_prodcode_<timestamp>.xlsx; columns LOCATION ID, Level, Name, Comm %, User Default Comm; one row per row found: 1606 Embassy Suites..., Item, the item, its commission, Yes",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Export with no rows downloads nothing and says so,,,,,Automated,Omeesha Mahanta,,,"Export is on; no file is downloaded and ""Failed to export product code commission data."" shows",,,commissions,,"Page open on 1101, nothing found
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Export</li>
+</ol>",,,"1. Export is on; no file is downloaded and ""Failed to export product code commission data."" shows",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tab moves through the search panel in reading order,,,,,Automated,Omeesha Mahanta,,,"1101 office, Any Field, Use Default Commission, Include Inactive, Reset, Search, Collapse search panel, Export",,,commissions,,"Page open on 1101
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Focus Basic Information, press Tab 8 times</li>
+</ol>",,,"1. 1101 office, Any Field, Use Default Commission, Include Inactive, Reset, Search, Collapse search panel, Export",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The dialog works from the keyboard,,,,,Automated,Omeesha Mahanta,,,"Comm % shows 7.00 %; focus moves to the dialog, back to Comm % (7.00 %), then Use Default Commission, Propagate, Cancel, Save",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched; Sub Class dialog open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center
+Product: Audio > Audio Source > Music Access Service > Encore Music: Royalty Free Music > Encore Music: Stingers - Royalty Free Music (search ""Stingers"")
+Every change is put back on the default afterwards",Medium,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Focus Use Default Commission, press Space</li>
+<li>2. Shift+Tab, Enter, type 7</li>
+<li>3. Tab 6 times</li>
+</ol>",,,"1. Comm % shows 7.00 %; focus moves to the dialog, back to Comm % (7.00 %), then Use Default Commission, Propagate, Cancel, Save",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Arrow keys move between the tabs,,,,,Automated,Omeesha Mahanta,,,"History opens, then Basic Information",,,commissions,,"Page open on 1101
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Focus Basic Information, press Arrow Right</li>
+<li>2. Press Arrow Left</li>
+</ol>",,,"1. History opens, then Basic Information",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The search panel collapses and expands, keeping the rows",,,,,Automated,Omeesha Mahanta,,,Criteria hidden with the rows kept; shown again with the same values,,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click Collapse search panel</li>
+<li>2. Click Expand search panel</li>
+</ol>",,,1. Criteria hidden with the rows kept; shown again with the same values,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The sidebar toggle hides and shows the menu and the page keeps its state,,,,,Automated,Omeesha Mahanta,,,"Collapsed, then expanded; criteria and rows unchanged",,,commissions,,"Page open on 1101, 1606 picked, ""Stingers"" searched
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office picked: 1606 Embassy Suites by Hilton Washington DC Convention Center",Low,,Product_Code,1,,Commissions > Product_Code,"<ol>
+<li>1. Click the sidebar toggle twice</li>
+</ol>",,,"1. Collapsed, then expanded; criteria and rows unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,

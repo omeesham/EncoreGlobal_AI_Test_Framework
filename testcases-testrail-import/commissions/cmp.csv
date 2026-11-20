@@ -1,0 +1,626 @@
+ID,Title,AI Automated Test,AI Model,AI Type,Attachments,Automation Type,Created By,Created On,Estimate,Expected Result,Forecast,Goals,Labels,Mission,Preconditions,Priority,References,Section,Section Depth,Section Description,Section Hierarchy,Steps,Steps,Steps (Additional Info),Steps (Expected Result),Steps (References),Steps (Shared step ID),Steps (Step),Suite,Suite ID,Template,Type,Updated By,Updated On,is_converted
+,Without a session the page sends the user to sign in,,,,,Automated,Omeesha Mahanta,,,"The sign-in page (""Sign in | Navigator"") with callbackUrl=/locations/1101/commissions/cmp",,,commissions,,"Not signed in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open /navigator/locations/1101/commissions/cmp</li>
+</ol>",,,"1. The sign-in page (""Sign in | Navigator"") with callbackUrl=/locations/1101/commissions/cmp",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Commissions menu opens CMP Commissions on Basic Information,,,,,Automated,Omeesha Mahanta,,,"The menu lists CMP, Allow DPCD, Product Code, Tier/Flat; the page title is ""CMP Commissions | Navigator"", the heading ""CMP Commissions"", tabs Basic Information and Commission CMP History with Basic Information selected",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open Home on 1101</li>
+<li>2. Open the Commissions menu</li>
+<li>3. Click CMP</li>
+</ol>",,,"1. The menu lists CMP, Allow DPCD, Product Code, Tier/Flat; the page title is ""CMP Commissions | Navigator"", the heading ""CMP Commissions"", tabs Basic Information and Commission CMP History with Basic Information selected",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The first view shows an office, its business type and saved commission",,,,,Automated,Omeesha Mahanta,,,"Local Office 1102 - Corporate Office - Long Beach, Business Type Audio Visual, Commission equal to the exported value for 1102 (written ""9 %""); Export on, Save off",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open /navigator/locations/1101/commissions/cmp</li>
+<li>2. Click Export and read the file</li>
+</ol>",,,"1. Local Office 1102 - Corporate Office - Long Beach, Business Type Audio Visual, Commission equal to the exported value for 1102 (written ""9 %""); Export on, Save off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The information icon explains the page, by mouse and by keyboard",,,,,Automated,Omeesha Mahanta,,,"""View and update the commission percentage for the selected local office."" both times",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Hover the (i) next to the heading</li>
+<li>2. Move away, then focus the (i) with the keyboard</li>
+</ol>",,,"1. ""View and update the commission percentage for the selected local office."" both times",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page is not offered and shows its error message,,,,,Automated,Omeesha Mahanta,,,"""Unexpected error occured."" with Try again; no Commission field (CMP is set from 1101)",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1606 (USA)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open /navigator/locations/1606/commissions/cmp</li>
+</ol>",,,"1. ""Unexpected error occured."" with Try again; no Commission field (CMP is set from 1101)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page is not offered and shows its error message,,,,,Automated,Omeesha Mahanta,,,"""Unexpected error occured."" with Try again; no Commission field (CMP is set from 1101)",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 2359 (Canada)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open /navigator/locations/2359/commissions/cmp</li>
+</ol>",,,"1. ""Unexpected error occured."" with Try again; no Commission field (CMP is set from 1101)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page is not offered and shows its error message,,,,,Automated,Omeesha Mahanta,,,"""Unexpected error occured."" with Try again; no Commission field (CMP is set from 1101)",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 7147 (Mexico)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open /navigator/locations/7147/commissions/cmp</li>
+</ol>",,,"1. ""Unexpected error occured."" with Try again; no Commission field (CMP is set from 1101)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,On a local office (1115) the page only shows its commissions,,,,,Automated,Omeesha Mahanta,,,"Only the Basic Information tab; ""1115 - The Abbey Resort"" shown as text (no Change Local Office); Business Type Audio Visual and can be opened; the Commission field is off; no Save or Export",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1115 (local office)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open /navigator/locations/1115/commissions/cmp</li>
+</ol>",,,"1. Only the Basic Information tab; ""1115 - The Abbey Resort"" shown as text (no Change Local Office); Business Type Audio Visual and can be opened; the Commission field is off; no Save or Export",,,,Master,S1620,Test Case (Steps),Regression,,,
+,On a local office each business type shows the commission set for it from 1101,,,,,Automated,Omeesha Mahanta,,,Business Type on 1115 lists the ticked types; each type shows the same commission on 1115 as on 1101 (e.g. Business Center Rentals 2.1 %),,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1115 (local office) and 1101",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open Settings > Location > Business Types on 1115 and note the ticked types</li>
+<li>2. Open CMP on 1115; choose each business type and note its commission</li>
+<li>3. Open CMP on 1101, pick 1115; choose each business type and note its commission</li>
+</ol>",,,1. Business Type on 1115 lists the ticked types; each type shows the same commission on 1115 as on 1101 (e.g. Business Center Rentals 2.1 %),,,,Master,S1620,Test Case (Steps),Regression,,,
+,"The dialog shows the current office, a filter, a search and the office list",,,,,Automated,Omeesha Mahanta,,,"Change Local Office: ""Current: 1102 - Corporate Office - Long Beach"", Active/Inactive ticked, search ""Search by Location Name, Number"", columns Local Office and Local Office Name, 1102 ticked, Select off",,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Click the Local Office (1102 - Corporate Office - Long Beach)</li>
+</ol>",,,"1. Change Local Office: ""Current: 1102 - Corporate Office - Long Beach"", Active/Inactive ticked, search ""Search by Location Name, Number"", columns Local Office and Local Office Name, 1102 ticked, Select off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Only one office can be ticked,,,,,Automated,Omeesha Mahanta,,,Only 1121 is ticked; Select is on,,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Tick 1112</li>
+<li>2. Tick 1121</li>
+</ol>",,,1. Only 1121 is ticked; Select is on,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Search finds offices by number, part of a number, or name in any case",,,,,Automated,Omeesha Mahanta,,,"1107 HEDGE Corp SGA Budget Only for the first three; every office containing 11 for ""11""; ""No results."" for zzzz",,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Search 1107</li>
+<li>2. Search hedge</li>
+<li>3. Search HEDGE Corp</li>
+<li>4. Search 11</li>
+<li>5. Search zzzz</li>
+</ol>",,,"1. 1107 HEDGE Corp SGA Budget Only for the first three; every office containing 11 for ""11""; ""No results."" for zzzz",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Spaces around the text are searched for too,,,,,Automated,Omeesha Mahanta,,,"The spaces are part of the search: "" 16"" lists only offices whose name holds "" 16"" (6913 Encore San Francisco Local 16 IATSE Labor Pool); "" 1606"", ""1606 "" and ""  1107  "" show ""No results.""",,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type a space, then 16 ("" 16"")</li>
+<li>2. Search "" 1606""</li>
+<li>3. Search ""1606 ""</li>
+<li>4. Search ""  1107  "" (spaces before and after)</li>
+</ol>",,,"1. The spaces are part of the search: "" 16"" lists only offices whose name holds "" 16"" (6913 Encore San Francisco Local 16 IATSE Labor Pool); "" 1606"", ""1606 "" and ""  1107  "" show ""No results.""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unticking the current office turns Select off; an office is ticked only by its box,,,,,Automated,Omeesha Mahanta,,,No office ticked and Select off; clicking the name ticks nothing; ticking the box ticks 1112 and turns Select on,,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Untick 1102</li>
+<li>2. Click the name Dallas Data Center</li>
+<li>3. Tick 1112</li>
+</ol>",,,1. No office ticked and Select off; clicking the name ticks nothing; ticking the box ticks 1112 and turns Select on,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Offices are listed by number; a search narrows the list and clearing it brings it back,,,,,Automated,Omeesha Mahanta,,,Offices in number order; the search changes the list and keeps every listed office named Chicago; clearing shows the whole list again,,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Read the list</li>
+<li>2. Search chicago</li>
+<li>3. Clear the search</li>
+</ol>",,,1. Offices in number order; the search changes the list and keeps every listed office named Chicago; clearing shows the whole list again,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Unticking Active/Inactive adds the inactive offices,,,,,Automated,Omeesha Mahanta,,,"Unticked: 0000, 1099, 1100 and 1103 are added; ticked: the list is back to the active offices",,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Untick Active/Inactive</li>
+<li>2. Tick it again</li>
+</ol>",,,"1. Unticked: 0000, 1099, 1100 and 1103 are added; ticked: the list is back to the active offices",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Cancel, Close and Escape leave the office unchanged",,,,,Automated,Omeesha Mahanta,,,The dialog closes each time and the office stays 1102 - Corporate Office - Long Beach,,,commissions,,"Change Local Office open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Tick 1112, click Cancel</li>
+<li>2. Reopen, tick 1112, click X</li>
+<li>3. Reopen, tick 1112, press Escape</li>
+</ol>",,,1. The dialog closes each time and the office stays 1102 - Corporate Office - Long Beach,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Picking an office shows its saved commission, or an empty field when it has none",,,,,Automated,Omeesha Mahanta,,,1107 shows its exported commission; the office without one shows an empty Commission field,,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Export and note the values</li>
+<li>2. Pick 1107 and Select</li>
+<li>3. Pick an office not in the export (e.g. 1105) and Select</li>
+</ol>",,,1. 1107 shows its exported commission; the office without one shows an empty Commission field,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"When an office fails to load, the page keeps the previous commission without a message",,,,,Automated,Omeesha Mahanta,,,The office changes to 1107; the field keeps the commission already shown (9 %); no message; the page keeps working,,,commissions,,"Page open on 1102 (9 %)
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Server reply for 1107's commission: 500",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Pick 1107 while its commission cannot be loaded</li>
+</ol>",,,1. The office changes to 1107; the field keeps the commission already shown (9 %); no message; the page keeps working,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Business Type offers Audio Visual, by mouse and by keyboard",,,,,Automated,Omeesha Mahanta,,,"Both times the single option Audio Visual, selected",,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Click Business Type</li>
+<li>2. Close it, focus it and press Arrow Down</li>
+</ol>",,,"1. Both times the single option Audio Visual, selected",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Business Type lists the types ticked for the office in Settings > Location,,,,,Automated,Omeesha Mahanta,,,"1107 has all 10 types ticked and Business Type offers all 10 (Audio Visual, Business Center Rentals, Business Center Services, Electrical Services, Production, Expo Services, In-House, Integrated Solutions, Internet Services, Rigging Services); 1102 has Audio Visual ticked and offers only Audio Visual",,,commissions,,"Logged in
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Settings > Location > Business Types: every type ticked for 1107; only Audio Visual for 1102",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open Settings > Location > Business Types on 1107 and note the ticked types</li>
+<li>2. Open CMP on 1101, pick 1107, open Business Type</li>
+<li>3. Do the same for 1102</li>
+</ol>",,,"1. 1107 has all 10 types ticked and Business Type offers all 10 (Audio Visual, Business Center Rentals, Business Center Services, Electrical Services, Production, Expo Services, In-House, Integrated Solutions, Internet Services, Rigging Services); 1102 has Audio Visual ticked and offers only Audio Visual",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Each business type shows its own saved commission, as the export lists it",,,,,Automated,Omeesha Mahanta,,,"Each type shows the commission the export holds for it (e.g. Expo Services 18 %, Internet Services 19 %, Rigging Services 2 %; the export rounds to two decimals); a type with none shows an empty field",,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Click Export and note the rows for 1121</li>
+<li>2. Pick 1121</li>
+<li>3. Choose each business type and note its commission</li>
+</ol>",,,"1. Each type shows the commission the export holds for it (e.g. Expo Services 18 %, Internet Services 19 %, Rigging Services 2 %; the export rounds to two decimals); a type with none shows an empty field",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Whole and decimal percentages up to 100 are taken and shown with %,,,,,Automated,Omeesha Mahanta,,,"""1 %"", ""5.5 %"", ""99.99 %"", ""100 %""; Save on each time",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 1, leave the field</li>
+<li>2. Type 5.5</li>
+<li>3. Type 99.99</li>
+<li>4. Type 100</li>
+</ol>",,,"1. ""1 %"", ""5.5 %"", ""99.99 %"", ""100 %""; Save on each time",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Letters, symbols, signs and a second decimal point are not typed",,,,,Automated,Omeesha Mahanta,,,"Field shows """", """", ""5"", ""5"", ""5"", ""12"", ""1.23""",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type abc</li>
+<li>2. Type %</li>
+<li>3. Type -5</li>
+<li>4. Type +5</li>
+<li>5. Type "" 5""</li>
+<li>6. Type 1e2</li>
+<li>7. Type 1.2.3</li>
+</ol>",,,"1. Field shows """", """", ""5"", ""5"", ""5"", ""12"", ""1.23""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Leading and trailing zeros do not change the value,,,,,Automated,Omeesha Mahanta,,,"""5 %""; then 2.3 % with Save off (same value)",,,commissions,,"1107 picked (2.3 %)
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 0005</li>
+<li>2. Type 2.30</li>
+</ol>",,,"1. ""5 %""; then 2.3 % with Save off (same value)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A value below 1 is read as a fraction and shown as a percentage,,,,,Automated,Omeesha Mahanta,,,"The field shows 50 %, 5 %, 25 %, 50 % and Save sends 50, 5, 25, 50",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)
+Save reply held back",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 0.5 and Save</li>
+<li>2. Type 0.05 and Save</li>
+<li>3. Type .25 and Save</li>
+<li>4. Type ..5 and Save</li>
+</ol>",,,"1. The field shows 50 %, 5 %, 25 %, 50 % and Save sends 50, 5, 25, 50",,,,Master,S1620,Test Case (Steps),Regression,,,
+,More than two decimals are taken as typed,,,,,Automated,Omeesha Mahanta,,,"""2.555"" while typing and ""2.555 %"" after; Save on",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 2.555, leave the field</li>
+</ol>",,,"1. ""2.555"" while typing and ""2.555 %"" after; Save on",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Over 100 empties the field and keeps Save off,,,,,Automated,Omeesha Mahanta,,,The field is emptied each time and Save stays off (nothing over 100 can be saved),,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 100.01, leave the field</li>
+<li>2. Type 101</li>
+<li>3. Type 150</li>
+<li>4. Type 12345</li>
+</ol>",,,1. The field is emptied each time and Save stays off (nothing over 100 can be saved),,,,Master,S1620,Test Case (Steps),Regression,,,
+,An empty or zero commission leaves the field empty and Save off,,,,,Automated,Omeesha Mahanta,,,The field is empty (placeholder 0.00) and Save stays off,,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Clear the field, leave it</li>
+<li>2. Type 0, leave it</li>
+</ol>",,,1. The field is empty (placeholder 0.00) and Save stays off,,,,Master,S1620,Test Case (Steps),Regression,,,
+,A comma is left out of the number,,,,,Automated,Omeesha Mahanta,,,"""15"" while typing, ""15 %"" after",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 1,5, leave the field</li>
+</ol>",,,"1. ""15"" while typing, ""15 %"" after",,,,Master,S1620,Test Case (Steps),Regression,,,
+,The Commission field is a decimal text box with a 0.00 placeholder,,,,,Automated,Omeesha Mahanta,,,"type text, inputmode decimal, placeholder 0.00, aria-invalid false; the Commission label is shown",,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Inspect the field under the Commission label</li>
+</ol>",,,"1. type text, inputmode decimal, placeholder 0.00, aria-invalid false; the Commission label is shown",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Pasting takes a plain number and refuses anything else whole,,,,,Automated,Omeesha Mahanta,,,"""12.5 %""; the other pastes leave the field empty",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Paste 12.5</li>
+<li>2. Paste 12.5%</li>
+<li>3. Paste "" 7 ""</li>
+<li>4. Paste abc12.5%</li>
+</ol>",,,"1. ""12.5 %""; the other pastes leave the field empty",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save turns on with a change and off again when the value is put back,,,,,Automated,Omeesha Mahanta,,,"Save off, on, off",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Note Save</li>
+<li>2. Type 5</li>
+<li>3. Type the saved value again</li>
+</ol>",,,"1. Save off, on, off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Save works once an office is picked; the office shown on opening is view-only,,,,,Automated,Omeesha Mahanta,,,"Save stays off for 1102 as opened; after picking 1107, Save turns on",,,commissions,,"Page just opened on 1102
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 10 in Commission and leave the field</li>
+<li>2. Reopen the page and pick 1107</li>
+<li>3. Type 10 and leave the field</li>
+</ol>",,,"1. Save stays off for 1102 as opened; after picking 1107, Save turns on",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Save asks to confirm, and Cancel sends nothing",,,,,Automated,Omeesha Mahanta,,,"""Save Changes - Are you sure you want to save the changes?""; Cancel sends nothing; 9 % and Save on stay",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 9</li>
+<li>2. Click Save</li>
+<li>3. Click Cancel</li>
+</ol>",,,"1. ""Save Changes - Are you sure you want to save the changes?""; Cancel sends nothing; 9 % and Save on stay",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Enter on the Save button asks to confirm, and Escape closes the question without saving",,,,,Automated,Omeesha Mahanta,,,"""Save Changes - Are you sure you want to save the changes?""; Escape closes it, nothing is sent; 9 % and Save on stay",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 9</li>
+<li>2. Tab to Save and press Enter</li>
+<li>3. Press Escape</li>
+</ol>",,,"1. ""Save Changes - Are you sure you want to save the changes?""; Escape closes it, nothing is sent; 9 % and Save on stay",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Saving stores the commission and records it in History and the export,,,,,Automated,Omeesha Mahanta,,,"Sent {locationNo 1107, businessTypeId 1, cmpCommission 2.5}; ""CMP commission updated successfully.""; Save off; 2.5 % after reload; export 2.50%; History top row 1107, Audio Visual, Modify, 2.50 %, the signed-in user, today",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 2.5</li>
+<li>2. Save and confirm</li>
+<li>3. Reload, pick 1107</li>
+<li>4. Export</li>
+<li>5. Open History</li>
+</ol>",,,"1. Sent {locationNo 1107, businessTypeId 1, cmpCommission 2.5}; ""CMP commission updated successfully.""; Save off; 2.5 % after reload; export 2.50%; History top row 1107, Audio Visual, Modify, 2.50 %, the signed-in user, today",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A commission saved for another business type changes only that type,,,,,Automated,Omeesha Mahanta,,,"The save sends businessTypeId 5 with the value; ""CMP commission updated successfully.""; after reloading Production shows the value and every other type is unchanged; the top History entry is 1107, Production, the value with two decimals, today",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)
+Business type changed: Production (its earlier value is put back; a type with none keeps the new value)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Note each business type's commission</li>
+<li>2. Choose Production, type 4 (or another value if 4 is saved)</li>
+<li>3. Save and confirm</li>
+<li>4. Reload, pick 1107, read each type</li>
+<li>5. Open Commission CMP History</li>
+</ol>",,,"1. The save sends businessTypeId 5 with the value; ""CMP commission updated successfully.""; after reloading Production shows the value and every other type is unchanged; the top History entry is 1107, Production, the value with two decimals, today",,,,Master,S1620,Test Case (Steps),Regression,,,
+,100 % can be saved,,,,,Automated,Omeesha Mahanta,,,"100 sent; ""CMP commission updated successfully.""",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 100</li>
+<li>2. Save and confirm</li>
+</ol>",,,"1. 100 sent; ""CMP commission updated successfully.""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Enter in the field saves, and a double click on Save saves once",,,,,Automated,Omeesha Mahanta,,,One save each,,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 3.75, press Enter, confirm</li>
+<li>2. Type the old value, double-click Save, confirm</li>
+</ol>",,,1. One save each,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Whole numbers are sent as typed, to the precision of a decimal number",,,,,Automated,Omeesha Mahanta,,,"7, 29 and 57 are sent (floating-point leftovers such as 7.000000000000001 accepted)",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)
+Save reply held back",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 7 and Save</li>
+<li>2. Type 29 and Save</li>
+<li>3. Type 57 and Save</li>
+</ol>",,,"1. 7, 29 and 57 are sent (floating-point leftovers such as 7.000000000000001 accepted)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,A failed save says so and keeps the edit,,,,,Automated,Omeesha Mahanta,,,"""Failed to save CMP commission.""; 6 % and Save on stay",,,commissions,,"1107 picked
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)
+Save reply: 500, then no connection",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Type 6 and Save (server error)</li>
+<li>2. Save again (no connection)</li>
+</ol>",,,"1. ""Failed to save CMP commission.""; 6 % and Save on stay",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Changing office with an unsaved edit asks first: Stay keeps it, Discard moves on",,,,,Automated,Omeesha Mahanta,,,"""Unsaved changes""; Stay keeps 1107 and the edit; Discard opens 1102 with its value, Save off",,,commissions,,"1107 picked; Commission changed
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Pick 1102, answer Stay</li>
+<li>2. Pick 1102, answer Discard</li>
+</ol>",,,"1. ""Unsaved changes""; Stay keeps 1107 and the edit; Discard opens 1102 with its value, Save off",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Changing tab with an unsaved edit asks first: Stay keeps it, Discard drops it",,,,,Automated,Omeesha Mahanta,,,Stay keeps Basic Information and the edit; Discard opens History; Basic Information shows the saved value,,,commissions,,"1107 picked; Commission changed
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open History, answer Stay</li>
+<li>2. Open History, answer Discard</li>
+<li>3. Open Basic Information</li>
+</ol>",,,1. Stay keeps Basic Information and the edit; Discard opens History; Basic Information shows the saved value,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Closing the Unsaved changes question keeps the edit,,,,,Automated,Omeesha Mahanta,,,Office 1107 and the edit stay,,,commissions,,"1107 picked; Commission changed
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Pick 1102, close the question with X</li>
+<li>2. Pick 1102, press Escape</li>
+</ol>",,,1. Office 1107 and the edit stay,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Opening another Commissions page with an unsaved edit asks first: Stay keeps it, Discard leaves",,,,,Automated,Omeesha Mahanta,,,"""Unsaved changes""; Stay keeps the CMP page and the edit; Discard opens Allow DPCD",,,commissions,,"1107 picked; Commission changed
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Sidebar > Commissions > Allow DPCD, answer Stay</li>
+<li>2. Sidebar > Commissions > Allow DPCD, answer Discard</li>
+</ol>",,,"1. ""Unsaved changes""; Stay keeps the CMP page and the edit; Discard opens Allow DPCD",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Leaving the page with an unsaved edit makes the browser ask first,,,,,Automated,Omeesha Mahanta,,,The browser asks before leaving; the edit stays,,,commissions,,"1107 picked; Commission changed
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+Office changed: 1107 HEDGE Corp SGA Budget Only (its value is put back)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Reload the page</li>
+<li>2. Choose to stay</li>
+</ol>",,,1. The browser asks before leaving; the edit stays,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Export downloads every office commission with two decimals,,,,,Automated,Omeesha Mahanta,,,"CMPCommission.xlsx: Local Office Id, Business Type, Commission; one row per office and business type with a commission (""1102-Corporate Office - Long Beach"", ""9.00%"")",,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Click Export on Basic Information</li>
+</ol>",,,"1. CMPCommission.xlsx: Local Office Id, Business Type, Commission; one row per office and business type with a commission (""1102-Corporate Office - Long Beach"", ""9.00%"")",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"History lists changes newest first, ten to a page",,,,,Automated,Omeesha Mahanta,,,"Columns Local Office, Business Type, Action, Commission, Modified By, Modified On; 10 rows; newest first",,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",High,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open Commission CMP History</li>
+</ol>",,,"1. Columns Local Office, Business Type, Action, Commission, Modified By, Modified On; 10 rows; newest first",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each column sorts both ways from its header menu,,,,,Automated,Omeesha Mahanta,,,"Each menu: Sort ascending, Sort descending; each column in the right order",,,commissions,,"History open, 50 rows per page
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open each header menu</li>
+<li>2. Sort Local Office, Business Type, Action, Commission and Modified On ascending and descending</li>
+</ol>",,,"1. Each menu: Sort ascending, Sort descending; each column in the right order",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"With several pages, sorting orders the page shown and stays on while paging",,,,,Automated,Omeesha Mahanta,,,The ten rows shown are ordered by commission; the next page comes ordered the same way,,,commissions,,"History open, 10 rows per page, more than one page
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Sort Commission ascending</li>
+<li>2. Go to the next page</li>
+</ol>",,,1. The ten rows shown are ordered by commission; the next page comes ordered the same way,,,,Master,S1620,Test Case (Steps),Regression,,,
+,Modified By sorts alphabetically regardless of capital letters,,,,,Automated,Omeesha Mahanta,,,"ayaganti, s-prd-clickauto, V-nikita (A to Z, case ignored)",,,commissions,,"History open, 50 rows per page
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Sort Modified By ascending</li>
+</ol>",,,"1. ayaganti, s-prd-clickauto, V-nikita (A to Z, case ignored)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Rows per page sets the rows shown and the page count,,,,,Automated,Omeesha Mahanta,,,"Options 10, 20, 30, 40, 50; each size shows that many rows (or all) and the matching page count",,,commissions,,"History open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open rows per page</li>
+<li>2. Choose 20, 30, 40, 50, then 10</li>
+</ol>",,,"1. Options 10, 20, 30, 40, 50; each size shows that many rows (or all) and the matching page count",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"A new rows-per-page goes back to page 1, and leaving the tab resets it to 10",,,,,Automated,Omeesha Mahanta,,,Page 1 with 20 rows; after the round trip 10 rows a page from page 1,,,commissions,,"History open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Go to page 2</li>
+<li>2. Choose 20 rows per page</li>
+<li>3. Open Basic Information, then History again</li>
+</ol>",,,1. Page 1 with 20 rows; after the round trip 10 rows a page from page 1,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The page buttons and page number move through History,,,,,Automated,Omeesha Mahanta,,,"Page 2 with other rows and first/previous on; last page with next/last off; the page before the last; page 1 with first/previous off; out of range not taken; page 3; 0, -1, abc and empty not taken (page stays 3)",,,commissions,,"History open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Next</li>
+<li>2. Last</li>
+<li>3. Previous</li>
+<li>4. First</li>
+<li>5. Type a page number beyond the last, Enter</li>
+<li>6. Type 3, Enter</li>
+<li>7. Type 0, -1, abc and nothing, Enter each</li>
+</ol>",,,"1. Page 2 with other rows and first/previous on; last page with next/last off; the page before the last; page 1 with first/previous off; out of range not taken; page 3; 0, -1, abc and empty not taken (page stays 3)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Each column can be widened by dragging its edge,,,,,Automated,Omeesha Mahanta,,,Each column is wider after the drag,,,commissions,,"History open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Drag each column edge 100 px right, then back</li>
+</ol>",,,1. Each column is wider after the drag,,,,Master,S1620,Test Case (Steps),Regression,,,
+,"Each History entry shows office, type, action, commission, user and date",,,,,Automated,Omeesha Mahanta,,,"""NNNN-Office name"", a business type, Modify, a commission like ""2.30 %"", a user e-mail, Modified On as DD-MMM-YYYY",,,commissions,,"History open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Read every row</li>
+</ol>",,,"1. ""NNNN-Office name"", a business type, Modify, a commission like ""2.30 %"", a user e-mail, Modified On as DD-MMM-YYYY",,,,Master,S1620,Test Case (Steps),Regression,,,
+,History Export holds every entry,,,,,Automated,Omeesha Mahanta,,,"CMPCommissionHistory.xlsx: Local Office Id, Action, Business Type, Commission, Modified By, Modified On; one row per entry",,,commissions,,"History open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Count the entries (50 rows per page, last page)</li>
+<li>2. Click Export on History</li>
+</ol>",,,"1. CMPCommissionHistory.xlsx: Local Office Id, Action, Business Type, Commission, Modified By, Modified On; one row per entry",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"History Export holds the entries of every page, in the same order",,,,,Automated,Omeesha Mahanta,,,"The export has as many entries as all pages together, in the same order, with the same office, action, business type, commission (written ""2.3%"" for ""2.30 %"") and user; Modified On is MM/DD/YYYY HH:mm:ss (UTC) on the date the grid shows",,,commissions,,"History open (10 rows per page)
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Read every History page with Next</li>
+<li>2. Click Export and read CMPCommissionHistory.xlsx</li>
+</ol>",,,"1. The export has as many entries as all pages together, in the same order, with the same office, action, business type, commission (written ""2.3%"" for ""2.30 %"") and user; Modified On is MM/DD/YYYY HH:mm:ss (UTC) on the date the grid shows",,,,Master,S1620,Test Case (Steps),Regression,,,
+,"When History fails to load, a message shows and the grid is empty",,,,,Automated,Omeesha Mahanta,,,"An error message and ""No results.""",,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)
+History reply: 500, then no connection",Medium,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Open History while the list fails</li>
+</ol>",,,"1. An error message and ""No results.""",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Tab moves through the page in reading order,,,,,Automated,Omeesha Mahanta,,,"Export, the office, Business Type, the Commission field (Save skipped while off)",,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Press Tab from the information icon</li>
+</ol>",,,"1. Export, the office, Business Type, the Commission field (Save skipped while off)",,,,Master,S1620,Test Case (Steps),Regression,,,
+,Arrow keys move between the tabs,,,,,Automated,Omeesha Mahanta,,,Commission CMP History opens with its list; then Basic Information with the Commission field,,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Focus Basic Information, press Arrow Right</li>
+<li>2. Press Arrow Left</li>
+</ol>",,,1. Commission CMP History opens with its list; then Basic Information with the Commission field,,,,Master,S1620,Test Case (Steps),Regression,,,
+,The sidebar toggle hides and shows the menu and the page keeps its state,,,,,Automated,Omeesha Mahanta,,,"The sidebar collapses, then expands; office, business type, commission and buttons unchanged",,,commissions,,"Logged in; page open
+
+Test Data:
+User: automation user (commission setup access)
+Application: Navigator
+Office: 1101 (corporate office)",Low,,CMP,1,,Commissions > CMP,"<ol>
+<li>1. Click the sidebar toggle</li>
+<li>2. Click it again</li>
+</ol>",,,"1. The sidebar collapses, then expands; office, business type, commission and buttons unchanged",,,,Master,S1620,Test Case (Steps),Regression,,,
