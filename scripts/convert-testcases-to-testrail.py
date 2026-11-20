@@ -89,6 +89,7 @@ SKIP_BASENAMES = {"encore_test_cases", "encore-qa-tracker"}
 MODULE_CONFIG: dict[str, dict[str, str]] = {
     "corporate-pg-pricing-override": {"module": "Corporate_Pricing_Pg_Override",
                                      "labels": "corporate-pricing-pg-override,functional"},
+    "commissions":           {"module": "Commissions", "labels": "commissions"},
     "corporate-pricing":     {"module": "Corporate_Pricing", "labels": "corporate-pricing"},
     "discount-matrix":       {"module": "Discount_Matrix", "labels": "discount-matrix"},
     "discount-optimization": {"module": "Discount_Optimization", "labels": "discount-optimization"},
@@ -112,6 +113,7 @@ LABELS_BY_BASENAME: dict[str, str] = {
 # Per workbook basename: the TestRail Section name. Anything missing falls back
 # to Title_Case_With_Underscores of the workbook's Submodule column.
 SECTION_BY_BASENAME: dict[str, str] = {
+    "commission-tier-flat": "Tier_Flat",
     "corporate-pg-pricing-override-core": "Core",
     "corporate-pg-pricing-override-export": "Export",
     "corporate-pg-pricing-override-filters": "Filters",
