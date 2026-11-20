@@ -33,6 +33,11 @@ test.describe('Product Code Commission @commissions', () => {
   /** Opens the Sub Class of the "Stingers" row on the edit office, from 1101. */
   const openSubClass = async (level: (typeof LEVELS)[number] = 'Sub Class'): Promise<void> => {
     await pc.openOffice(EDIT_OFFICE.code, TREE.search);
+    // Use Default Commission filters both ways: ticked lists only items on the default, unticked only
+    // items with their own commission. A test interrupted between its save and its reset (e.g. a network
+    // drop) leaves Stingers on its own commission, which would hide it from every later test — so look
+    // there too rather than fail them all.
+    if ((await pc.rows()).length === 0) await pc.search({ any: TREE.search, useDefault: false });
     await pc.openLevel(level);
   };
 
@@ -231,7 +236,8 @@ test.describe('Product Code Commission @commissions', () => {
           const seen = await pc.watchToasts();
           await pc.search({ any: how === 500 ? SEARCHES.one : SEARCHES.inactive.term });
           await verify(`${how}: message, no rows`, async () => {
-            await expect.poll(seen).toContain(TEXT.loadFailed[how]);
+            // The network message carries the host, e.g. "Failed to fetch (cloudapps-e2e...)".
+            await expect.poll(async () => (await seen()).some((t) => t.includes(TEXT.loadFailed[how]))).toBe(true);
             expect(await pc.rows()).toEqual([]);
           });
         } finally {
@@ -884,7 +890,7 @@ test.describe('Product Code Commission @commissions', () => {
       await pc.open(OFFICE);
       await pc.pickOffice(EDIT_OFFICE.code);
       await pc.openTab(TEXT.tabs[1]);
-      const grid = await pc.allRows();
+      const grid = await pc.allRows(['Level', 'Name', 'Action', 'Commission', 'Modified By']);
       const file = await pc.exportFile();
       const [header = [], ...entries] = file?.rows ?? [];
       const cell = (r: string[], c: string): string => r[header.indexOf(c)] ?? '';
@@ -911,7 +917,8 @@ test.describe('Product Code Commission @commissions', () => {
           const seen = await pc.watchToasts();
           await pc.openTab(TEXT.tabs[1]);
           await verify(`${how}: message, no rows`, async () => {
-            await expect.poll(seen).toContain(TEXT.loadFailed[how]);
+            // The network message carries the host, e.g. "Failed to fetch (cloudapps-e2e...)".
+            await expect.poll(async () => (await seen()).some((t) => t.includes(TEXT.loadFailed[how]))).toBe(true);
             await expect(pc.main.getByText(TEXT.noResults, { exact: true })).toBeVisible();
           });
         } finally {

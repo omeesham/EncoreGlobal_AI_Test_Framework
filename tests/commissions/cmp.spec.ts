@@ -92,6 +92,19 @@ test.describe('CMP Commissions @commissions', () => {
 
     for (const office of COUNTRY_OFFICES) {
       test.describe(`${office.country} ${office.code}`, () => {
+        if (office.readOnly) {
+          test(`${office.tc}: The page opens read-only with the office's commission`, { tag: office.tag }, async () => {
+            await about(`Opened on ${office.code}, the page shows the office with no Change Local Office, keeps the Commission field off and has no Save.`);
+            await cmp.open(office.code);
+            const view = await cmp.localView();
+            await verify('Fixed office, field off, no Save, no error', async () => {
+              expect(view.office.startsWith(`${office.code} - `)).toBe(true);
+              expect([view.picker, view.field, view.save]).toEqual([0, false, 0]);
+              await expect(cmp.main.getByText(TEXT.crash)).toHaveCount(0);
+            });
+          });
+          return;
+        }
         test(`${office.tc}: The page is not offered and shows its error message`, { tag: office.tag }, async () => {
           await about(`CMP is not set from ${office.code}: the page shows "${TEXT.crash}" with ${TEXT.tryAgain}, and no commission field.`);
           await cmp.open(office.code);

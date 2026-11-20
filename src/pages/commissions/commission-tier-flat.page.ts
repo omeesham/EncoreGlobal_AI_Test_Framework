@@ -53,8 +53,6 @@ import {
   MENU_ITEM,
   MENU_CHECKBOX,
   DLG_UNSAVED,
-  BTN_DLG_STAY,
-  BTN_DLG_DISCARD,
   DIALOG,
   DLG_RESET_DATES,
   monthCombo,
@@ -500,7 +498,15 @@ export class CommissionTierFlatPage extends BasePage {
   @step('Read the warning of a cell')
   async cellWarning(row: Locator, column: string): Promise<string | null> {
     const i = (await this.headerCells()).indexOf(column);
-    const icon = row.locator('td').nth(i).locator(WARNING_ICON).first();
+    const cell = row.locator('td').nth(i);
+    // The warning icon is now a button whose accessible name is the message itself
+    // (e.g. button "Lower tier must be less than or equal to upper tier."), so read that first;
+    // hovering for the tooltip is kept as the fallback for icons that carry no label.
+    const label = await cell.locator(`button:has(svg), ${WARNING_ICON}`).evaluateAll((els) => els
+      .map((e) => (e.getAttribute('aria-label') || e.getAttribute('title') || e.textContent || '').replace(/\s+/g, ' ').trim())
+      .find(Boolean) ?? null);
+    if (label) return label;
+    const icon = cell.locator(WARNING_ICON).first();
     if (!(await icon.isVisible().catch(() => false))) return null;
     await icon.hover();
     const tip = this.page.locator(TOOLTIP).first();
@@ -817,35 +823,52 @@ export class CommissionTierFlatPage extends BasePage {
 
   // ---------------------------------------------------------------- unsaved-changes guard
 
+  // The app mounts the Unsaved changes dialog twice, stacked, for one tab switch or Reset —
+  // accepted (BUG-COM-TF-015 dropped on review 2026-11-20). Every helper below therefore works on
+  // the top-most visible copy and answers the same way until none is left.
+
+  private visibleUnsavedDialogs(): Locator {
+    return this.page.locator(DLG_UNSAVED).filter({ visible: true });
+  }
+
+  /** Gives the same answer to each stacked copy until no Unsaved changes dialog is left. */
+  private async answerUnsavedDialogs(answer: () => Promise<void>): Promise<void> {
+    const dialogs = this.visibleUnsavedDialogs();
+    for (let i = 0; i < 3 && (await dialogs.count()) > 0; i++) {
+      const before = await dialogs.count();
+      await answer();
+      await expect.poll(() => dialogs.count(), { timeout: 5_000 }).toBeLessThan(before);
+    }
+    await expect(dialogs).toHaveCount(0);
+  }
+
   async isUnsavedDialogVisible(): Promise<boolean> {
-    return this.page.locator(DLG_UNSAVED).isVisible();
+    return (await this.visibleUnsavedDialogs().count()) > 0;
   }
 
   @step('Wait for the Unsaved changes dialog')
   async getUnsavedDialog(): Promise<{ text: string; buttons: string[] }> {
-    const dlg = this.page.locator(DLG_UNSAVED);
+    const dlg = this.visibleUnsavedDialogs().last();
     await dlg.waitFor({ state: 'visible' });
-    const buttons = (await dlg.getByRole('button').allInnerTexts()).map((t) => t.trim()).filter(Boolean);
+    // CSS, not getByRole: the stacked copies are aria-hidden, which hides their buttons from role queries.
+    const buttons = (await dlg.locator('button').allInnerTexts()).map((t) => t.trim()).filter(Boolean);
     return { text: (await dlg.innerText()).replace(/\s+/g, ' ').trim(), buttons };
   }
 
   @step('Choose Stay in the Unsaved changes dialog')
   async stay(): Promise<void> {
-    await this.page.locator(BTN_DLG_STAY).click();
-    await this.page.locator(DLG_UNSAVED).waitFor({ state: 'hidden' });
+    await this.answerUnsavedDialogs(() => this.visibleUnsavedDialogs().last().locator('button:text-is("Stay")').click());
   }
 
   /** Discards the edits; the action that asked then goes ahead. */
   @step('Choose Discard in the Unsaved changes dialog')
   async discard(): Promise<void> {
-    await this.page.locator(BTN_DLG_DISCARD).click();
-    await this.page.locator(DLG_UNSAVED).waitFor({ state: 'hidden' });
+    await this.answerUnsavedDialogs(() => this.visibleUnsavedDialogs().last().locator('button:text-is("Discard")').click());
   }
 
   @step('Close the Unsaved changes dialog with Escape')
   async escapeDialog(): Promise<void> {
-    await this.page.keyboard.press('Escape');
-    await this.page.locator(DLG_UNSAVED).waitFor({ state: 'hidden' });
+    await this.answerUnsavedDialogs(() => this.page.keyboard.press('Escape'));
   }
 
   // ---------------------------------------------------------------- export / import

@@ -28,10 +28,12 @@ export const MULTI_TYPE_OFFICE = '1121';
 export const LOCAL_OFFICE = { code: '1115', name: '1115 - The Abbey Resort' } as const;
 
 /** Canonical country offices: the page is not offered there and shows its error message (each with its own case). */
+// `readOnly`: the office opens the read-only local-office view instead of the error page.
+// USA 1606 does so since 2026-11-20 — confirmed intended on review 2026-11-20.
 export const COUNTRY_OFFICES = [
-  { code: '1606', country: 'USA', tc: 'TC-COM-CMP-005', tag: '@C107851' },
-  { code: '2359', country: 'Canada', tc: 'TC-COM-CMP-006', tag: '@C107852' },
-  { code: '7147', country: 'Mexico', tc: 'TC-COM-CMP-007', tag: '@C107853' },
+  { code: '1606', country: 'USA', tc: 'TC-COM-CMP-005', tag: '@C107851', readOnly: true },
+  { code: '2359', country: 'Canada', tc: 'TC-COM-CMP-006', tag: '@C107852', readOnly: false },
+  { code: '7147', country: 'Mexico', tc: 'TC-COM-CMP-007', tag: '@C107853', readOnly: false },
 ] as const;
 
 /** Offices listed only once Active/Inactive is unticked. */

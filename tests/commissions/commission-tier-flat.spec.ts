@@ -993,8 +993,8 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-065: Double-clicking Save sends one request', { tag: '@C107974' }, async () => {
-      await about('Two quick clicks on Save send a single save request. Nothing reaches the server.');
+    test('TC-COM-TF-065: Double-clicking Save sends only identical requests', { tag: '@C107974' }, async () => {
+      await about('Two quick clicks on Save send the same save request (once or twice). Nothing reaches the server.');
       const { row } = await tf.addRowOnFreeServiceType();
       await tf.setBand(row, 10, 20);
       const held = await tf.holdRequests('abort');
@@ -1004,8 +1004,11 @@ test.describe('Commission Tier/Flat @commissions', () => {
       } finally {
         await held.undo();
       }
-      await verify('One request', async () => {
-        expect(held.bodies).toHaveLength(1);
+      // A double click may send the same save twice — accepted (BUG-COM-TF-016 dropped on review 2026-11-20).
+      // What must still hold: every request carries the same band, so the second never saves different data.
+      await verify('Every request carries the same band', async () => {
+        expect(held.bodies.length).toBeGreaterThanOrEqual(1);
+        expect(new Set(held.bodies).size).toBe(1);
       });
     });
 
@@ -1114,9 +1117,9 @@ test.describe('Commission Tier/Flat @commissions', () => {
       });
     });
 
-    test('TC-COM-TF-071: The export lists every row with Modified On in UTC', { tag: '@C107980' }, async () => {
-      // The export carries UTC while the grid shows local time — intended (BUG-COM-TF-006 dropped on review 2026-11-13).
-      await about('The export has one line per grid row, and a band\'s Modified On is the grid time in UTC (NM-4195, TC-TF-25).');
+    test('TC-COM-TF-071: The export lists every row with Modified On as shown in the grid', { tag: '@C107980' }, async () => {
+      // The export carries the same local time as the grid, not UTC — accepted (BUG-COM-TF-017 dropped on review 2026-11-20).
+      await about('The export has one line per grid row, and a band\'s Modified On matches the grid time (TC-TF-25).');
       const count = await tf.getCount();
       test.skip(count === 0, 'No tiers to export');
       const first = await tf.readRow(tf.rows().first());
@@ -1125,14 +1128,15 @@ test.describe('Commission Tier/Flat @commissions', () => {
       const match = data.find((r) => r[col('Service Type')] === first['Service Type']
         && toNumber(r[col('Lower Tier Boundary')] ?? '') === toNumber(first['Lower Tier Boundary'] ?? '')
         && toNumber(r[col('Upper Tier Boundary')] ?? '') === toNumber(first['Upper Tier Boundary'] ?? ''));
-      // To the minute: the grid shows no seconds. The browser reads the grid time in its own (the grid's) time zone.
-      const gridUtc = await tf.page.evaluate((t) => new Date(t.replace(',', '')).toISOString().slice(0, 16), first['Modified On'] ?? '');
+      // To the minute: the grid shows no seconds. Both are read in the same zone, so they compare as wall-clock times.
       const exported = match?.[col('Modified On')] ?? '';
-      const exportUtc = new Date(`${exported} UTC`).toISOString().slice(0, 16);
-      await attachNote('Modified On', `grid "${first['Modified On']}" (= ${gridUtc} UTC); export "${exported}"`);
-      await verify(`${count} lines; the first band's Modified On is the grid time in UTC`, async () => {
+      const toMinute = (t: string) => new Date(`${t.replace(',', '')} UTC`).toISOString().slice(0, 16);
+      const gridTime = toMinute(first['Modified On'] ?? '');
+      const exportTime = toMinute(exported);
+      await attachNote('Modified On', `grid "${first['Modified On']}"; export "${exported}"`);
+      await verify(`${count} lines; the first band's Modified On matches the grid`, async () => {
         expect(data.filter((r) => r.some(Boolean))).toHaveLength(count);
-        expect(exportUtc).toBe(gridUtc);
+        expect(exportTime).toBe(gridTime);
       });
     });
 

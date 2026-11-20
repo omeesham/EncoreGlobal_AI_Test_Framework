@@ -655,11 +655,21 @@ export class ProductCodePage extends BasePage {
 
   /** Every History entry, read page by page. */
   @step('Read every History page')
-  async allRows(): Promise<Row[]> {
-    const rows = await this.rows();
+  /** Every row of every page. `need`: columns each row must carry — a page is re-read until they are
+   *  all filled, since right after a tab switch or page turn the header can still be the previous one. */
+  async allRows(need: string[] = []): Promise<Row[]> {
+    const read = async (): Promise<Row[]> => {
+      let rows: Row[] = [];
+      await expect.poll(async () => {
+        rows = await this.rows();
+        return rows.every((r) => need.every((c) => r[c] !== undefined));
+      }, { timeout: 10_000 }).toBe(true);
+      return rows;
+    };
+    const rows = await read();
     for (let p = Number((await this.pager()).page) + 1; p <= (await this.pager()).pages; p++) {
       await this.goToPage('next');
-      rows.push(...(await this.rows()));
+      rows.push(...(await read()));
     }
     return rows;
   }

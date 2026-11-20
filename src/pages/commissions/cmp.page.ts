@@ -427,17 +427,32 @@ export class CmpPage extends BasePage {
 
   // ---------------------------------------------------------------- unsaved changes
 
+  // The app can mount the Unsaved changes dialog twice, stacked, for one tab switch — accepted
+  // (same behaviour as BUG-COM-TF-015, dropped on review 2026-11-20). The stacked copies are
+  // aria-hidden, so lookups include hidden roles, act on the top-most visible copy, and repeat
+  // the answer until none is left.
+  private visibleUnsavedDialogs(): Locator {
+    return this.page.getByRole('alertdialog', { includeHidden: true })
+      .filter({ hasText: TEXT.unsavedTitle, visible: true });
+  }
+
   async dialogText(): Promise<string> {
-    await this.alert.waitFor();
-    return flat(await this.alert.innerText());
+    const dlg = this.visibleUnsavedDialogs().last();
+    await dlg.waitFor();
+    return flat(await dlg.innerText());
   }
 
   @step('Answer the dialog')
   async answerDialog(answer: DialogAnswer): Promise<void> {
-    await this.alert.waitFor();
-    if (answer === 'Escape') await this.page.keyboard.press('Escape');
-    else await this.alert.getByRole('button', { name: answer, exact: true }).click();
-    await this.alert.waitFor({ state: 'hidden' });
+    const dialogs = this.visibleUnsavedDialogs();
+    await dialogs.last().waitFor();
+    for (let i = 0; i < 3 && (await dialogs.count()) > 0; i++) {
+      const before = await dialogs.count();
+      if (answer === 'Escape') await this.page.keyboard.press('Escape');
+      else await dialogs.last().getByRole('button', { name: answer, exact: true, includeHidden: true }).click();
+      await expect.poll(() => dialogs.count(), { timeout: 5_000 }).toBeLessThan(before);
+    }
+    await expect(dialogs).toHaveCount(0);
   }
 
   /** Reloads with an unsaved edit and reports whether the browser asked first (the answer keeps the page). */
