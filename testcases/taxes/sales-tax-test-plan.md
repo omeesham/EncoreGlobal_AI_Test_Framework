@@ -9,7 +9,7 @@
 | Page object | [`src/pages/taxes/sales-tax.page.ts`](../../src/pages/taxes/sales-tax.page.ts) |
 | Selectors / data | [`src/selectors/taxes/sales-tax.ts`](../../src/selectors/taxes/sales-tax.ts), [`src/data/taxes/sales-tax.ts`](../../src/data/taxes/sales-tax.ts) |
 | Test cases | [`sales-tax.xlsx`](sales-tax.xlsx) → [`testcases-testrail-import/taxes/sales-tax.csv`](../../testcases-testrail-import/taxes/sales-tax.csv) |
-| Bugs | `reports/bugs/BUG-TAX-ST-002`, `003`, `006` (001 dropped 2026-11-05); exploratory crawl in `reports/bugs/crawler/sales-tax/` |
+| Bugs | `reports/bugs/BUG-TAX-ST-002`, `003`, `006` (001 dropped 2026-11-05) |
 | Live audit | 2026-11-04 |
 
 ## 1. Scope and approach
@@ -197,24 +197,6 @@ Priority: C = Critical, H = High, M = Medium, L = Low. "Bug" = runs under `test.
 Observations (not filed): import skips line 1 as a header (§7.2 silent); a zip typed but not searched is lost
 on a tab switch; LOS ANGELES county's city lookup took ~33 s; AK lists both "MATANUSKA SUSITNA" and
 "MATANUSKA-SUSITNA", and MATANUSKA-SUSITNA lists WILLOW twice.
-
-### Exploratory crawl (2026-11-04)
-
-`src/crawler` run against the Sales Tax route only (`CRAWLER_INCLUDE=taxes/sales-tax`), Search allowed and
-Import/Upload/Save on the never-click list: 1 page, 53 actions, 16 raw findings. Verified by hand:
-
-| Crawler finding | Verdict |
-|---|---|
-| BUG-LABEL-001 — controls without a label | Zip Code is named only by its placeholder (axe accepts this); filed as BUG-TAX-ST-008, dropped 2026-11-04. State/County/City: shared select, accepted (BUG-TAX-IST-003) |
-| BUG-INPUT-001 — page-number box truncates | Real but shared grid component: out-of-range pages (0, 999, "3.5"→35) silently revert; the existing "Page must be between 1 and N" message never shows. Raise against the shared data table |
-| BUG-CTRL-001 "Click to restore sidebar" | False positive — sidebar drag rail, acts only when collapsed |
-| BUG-CTRL-002 "More information" | False positive — tooltip shows on hover and keyboard focus |
-| BUG-CTRL-003…012 "Resize column …" | False positive — handles resize by drag (141 → 225 px). Note: not resizable from the keyboard |
-| BUG-LAYOUT-001 "Grid Options" cut off | False positive — intentional `sr-only` label |
-| BUG-LAYOUT-002 date input over calendar button | False positive — clicking the icon opens the calendar |
-
-Crawler limits seen here: it cannot open the Radix dropdowns (it targets the hidden native `<select>` mirror),
-so cascading State/County/City was not explored by it; those rules are covered by tests 015–018.
 
 ### Dropped on review (2026-11-04)
 

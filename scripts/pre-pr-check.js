@@ -463,7 +463,6 @@ function checkTypecheck() {
 function checkPlaywrightList() {
   const out = path.join(os.tmpdir(), `pre-pr-list-${process.pid}.json`);
   const res = run('npx', ['playwright', 'test', '--list', '--reporter=json'], {
-    CRAWLER_ENABLED: 'true',
     PLAYWRIGHT_JSON_OUTPUT_FILE: out,
     PLAYWRIGHT_JSON_OUTPUT_NAME: out,
   });
