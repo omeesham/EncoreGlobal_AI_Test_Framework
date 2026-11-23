@@ -52,7 +52,7 @@ const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
 const ExcelJS = require('exceljs');
-const { describeElement, buildLocateSteps, buildDomSnippet, normalizeModuleFileName, DATE_TEXT: DATE } = require('./generic-testid-audit.js');
+const { describeElement, buildLocateSteps, buildDomSnippet, normalizeModuleFileName, DATE_TEXT: DATE, tablePlace, tablePath } = require('./generic-testid-audit.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const SHOT_WIDTH = 420;
@@ -85,10 +85,11 @@ function parseArgs(argv) {
 }
 
 const inPage = (item) => / > main\b/.test(item.path || '');
-const unindexed = (value) => String(value || '').replace(/:nth-of-type\(\d+\)/g, '');
+// A grid's header is one place however many plain boxes wrap its table (tablePlace).
+const unindexed = (value) => tablePlace(value).replace(/:nth-of-type\(\d+\)/g, '');
 // The first of several is the same place as the only one: a grid that gains a
 // sibling (sorted, another view) keeps its elements where they were.
-const slot = (value) => String(value || '').replace(/:nth-of-type\(1\)/g, '');
+const slot = (value) => tablePlace(value).replace(/:nth-of-type\(1\)/g, '');
 const pageOf = (item) => new URL(item.pageUrl).pathname;
 // A page is the same page on every office: a view only another office shows
 // (a read-only one, say) lists only what it adds.
@@ -141,11 +142,11 @@ function elementKey(item) {
   // An icon moves when a neighbour appears; it is the icon beside the same
   // thing, whatever count that thing shows ("17 items found", "16 items found").
   const near = String(item.nearText || '').replace(/\d+/g, '#');
-  if (item.kind === 'image' && fixed(item)) return pageKey(item) + '|image|' + [item.tagName, near, item.column, unindexed(item.path)].join('|');
+  if (item.kind === 'image' && fixed(item)) return pageKey(item) + '|image|' + [item.tagName, near, item.column, unindexed(tablePath(item))].join('|');
   return pageKey(item) + '|' + [
     item.tagName, item.role, text, ariaLabel, item.label, item.column, item.panel, item.placeholder,
     content && (inPage(item) || item.kind !== 'container') ? '' : near,
-    (inPage(item) && !content) || inLayout(item) ? unindexed(item.path) : slot(item.path)
+    (inPage(item) && !content) || inLayout(item) ? unindexed(tablePath(item)) : slot(tablePath(item))
   ].join('|') + (fixed(item) ? '' : '|' + item.state);
 }
 
@@ -276,7 +277,7 @@ function collect(plan, reportsDir) {
   for (const { ticket, findings } of loaded) {
     for (const item of findings) {
       const place = inPage(item) && item.kind === 'control' && item.label
-        ? [pageKey(item), item.tagName, item.role, item.label, item.path].join('|') : '';
+        ? [pageKey(item), item.tagName, item.role, item.label, tablePath(item)].join('|') : '';
       const key = (place && byPlace.get(place)) || elementKey(item);
       if (place && !byPlace.has(place)) byPlace.set(place, key);
       if (!owned.has(key)) owned.set(key, { ticket, item });

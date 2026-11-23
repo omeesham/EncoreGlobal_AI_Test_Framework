@@ -369,7 +369,9 @@ Ignore inside: [data-testid="rte-content"]
 Layout-only wrappers and the inside of SVG icons are left out; the icon itself is reported. Across
 states an element is matched by what it is — a field by its label, text by its place on the page,
 an icon by what sits beside it — so a value or count that changes between states does not make a
-second row.
+second row. A grid's column headers and the table itself stay one element when the boxes around
+the table change (an empty grid is often wrapped deeper than one with results); its cells keep
+their full place, so two tables on one page stay apart.
 
 The browser renders at 1600×1000 (`viewport` in the config). Below desktop width some screens drop
 controls — Products hides View Availability at 1280px — and an audit cannot report what was never

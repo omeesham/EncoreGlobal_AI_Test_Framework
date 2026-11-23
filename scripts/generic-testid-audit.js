@@ -849,6 +849,17 @@ async function captureUiScreenshots(page, items, scratchDir) {
 const ONE_DATE = '(?:(?:January|February|March|April|May|June|July|August|September|October|November|December) \\d{1,2}(?:st|nd|rd|th)?, \\d{4}|\\d{1,2}/\\d{1,2}/\\d{4})';
 const DATE_TEXT = new RegExp('^' + ONE_DATE + '(?: ?[-–] ?' + ONE_DATE + ')?$');
 
+// A grid keeps its table while the boxes around it change: with no rows the
+// table sits two wrappers deeper than with results. A header control is known
+// by its place from the table down (its column and name are in the key too),
+// and the table by its header words, so neither turns into a second element.
+// Cells and rows keep their whole path: two tables on one page stay apart.
+const wrappedTable = (value) => String(value || '').replace(/(?: > div(?::nth-of-type\(\d+\))?)+ > table\b/g, ' > table');
+const tablePlace = (value) => (/ > thead\b/.test(String(value || '')) ? wrappedTable(value) : String(value || ''));
+const tablePath = (item) => (item.tagName === 'TABLE'
+  ? wrappedTable(item.path) + '|' + String(item.text || '').slice(0, 40)
+  : tablePlace(item.path));
+
 /**
  * Folds findings from several states of one screen into one list. A control
  * that stays on screen across states - a toolbar button, a dialog's Close - is
@@ -868,7 +879,7 @@ function stateKey(item) {
   // A table's rows are one template on every page of results; only a list in
   // the shared portal needs its first option to tell it from another list.
   const tableRow = /^(row|cell|gridcell)$/.test(item.role || '') || Boolean(item.column) || /^(TR|TD)$/.test(item.tagName);
-  if (item.templateKey) return item.templateKey + (inPage || tableRow ? '' : '|' + ((item.instanceSamples || [])[0] || ''));
+  if (item.templateKey) return tablePlace(item.templateKey) + (inPage || tableRow ? '' : '|' + ((item.instanceSamples || [])[0] || ''));
   const content = item.kind && item.kind !== 'control';
   // A combobox shows its value (All Categories, then "Audio, Video"; 20, then
   // 50 rows), and a count its number (16 pages, then 7): the same element.
@@ -877,12 +888,12 @@ function stateKey(item) {
   const text = item.label || value || (content && inPage) ? '' : String(item.text || '').replace(DATE_TEXT, 'date');
   // An icon has no words of its own and moves when a neighbour appears (a
   // search box's clear button); it is the icon beside the same thing.
-  if (item.kind === 'image' && inPage) return ['image', item.tagName, item.nearText, item.column, item.path.replace(/:nth-of-type\(\d+\)/g, '')].join('|');
+  if (item.kind === 'image' && inPage) return ['image', item.tagName, item.nearText, item.column, tablePath(item).replace(/:nth-of-type\(\d+\)/g, '')].join('|');
   // Every dropdown list opens in the same portal; an unnamed one is known by what it holds.
   const holds = item.kind === 'container' && !inPage ? item.nearText : '';
   // The first of several is the same place as the only one: a dialog that
   // gains a sibling (its results, a clear button) keeps its elements.
-  return [item.tagName, item.role, text, item.ariaLabel, item.label, holds, String(item.path || '').replace(/:nth-of-type\(1\)/g, '')].join('|');
+  return [item.tagName, item.role, text, item.ariaLabel, item.label, holds, tablePath(item).replace(/:nth-of-type\(1\)/g, '')].join('|');
 }
 
 function mergeStates(findings) {
@@ -1603,6 +1614,8 @@ if (require.main === module) {
 
 module.exports = {
   DATE_TEXT,
+  tablePlace,
+  tablePath,
   cleanText,
   buildSuggestedTestId,
   findMissingTestIdsInDom,
