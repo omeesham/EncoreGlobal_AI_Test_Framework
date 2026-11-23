@@ -1,0 +1,74 @@
+# NM-4989 - Taxes > Order Origin Tax, Order Origin Tax History tab (parent NM-3936).
+# The tab before a search with its grid's scroll bar, the Date Range calendar,
+# the history while it loads, with no records and with records (from the start
+# of the previous month, more than one page) and a cell cut short with its
+# tooltip, the rows-per-page list, the next page, a column's menu, Grid
+# Options, the filters collapsed, and the message of a failed search. The
+# Location dialog and the Tax Type list are the same as on Basic Information
+# and are audited there.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4989/config/audit-steps/taxes/nm-4989-order-origin-tax-history.txt --office 1606
+#
+# Changes no data: the history is only read.
+
+Module: Taxes
+Submodule: order-origin-tax-history-nm-4989
+Output: reports/testid-audit-taxes
+Elements: all
+
+1. Go to /navigator/locations/{office}/taxes/order-origin-tax
+2. Wait for "css=[data-testid=e2e-search-button]:not([disabled])"
+3. Click "css=main [role=tab]:has-text('Order Origin Tax History')"
+4. Wait for "main #date"
+5. Wait until the page settles
+6. Audit inside "main" as "History - before search"
+7. Hover "css=main thead th >> nth=0"
+8. Wait for "css=main [data-slot=scroll-area-scrollbar]"
+9. Audit inside "main" as "History grid - pointer over it (scroll bar shown)"
+10. Press "Escape"
+11. Click "main #date"
+12. Wait for "css=[data-slot=popover-content] [role=grid]"
+13. Audit inside "[data-slot=popover-content]" as "Date Range calendar open"
+14. Press "Escape"
+# Today only: no history.
+15. Click "[data-testid=e2e-search-button]"
+16. Wait up to 90 seconds for "css=main:has-text('No order origin tax history records found')"
+17. Wait until the page settles
+18. Audit inside "main" as "History - no records"
+# From the first day shown a month back to today, 0 % rows included: more
+# than one page of history. The search is held so its loading state can be
+# audited.
+19. Click "main #date"
+20. Click "css=[data-slot=popover-content] button[aria-label='Go to the Previous Month']"
+21. Click "css=[data-slot=popover-content] [role=gridcell] button >> nth=0"
+22. Click "[data-testid=e2e-checkbox]"
+23. Hold "POST action:searchOrderOriginTaxHistory"
+24. Click "[data-testid=e2e-search-button]"
+25. Wait for "css=main [data-slot=skeleton]"
+26. Audit inside "main" as "History - loading"
+27. Release "POST action:searchOrderOriginTaxHistory"
+28. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+29. Wait until the page settles
+30. Audit inside "main" as "History - records found"
+31. Hover "css=main tbody tr:has(td + td) >> nth=0 >> css=td:nth-child(2) [data-slot=tooltip-trigger]"
+32. Audit inside "[data-radix-popper-content-wrapper]" as "History cell tooltip (text cut short)"
+33. Click "css=main [role=combobox]:not([id])"
+34. Audit inside "[role=listbox]" as "Rows per page list open"
+35. Press "Escape"
+36. Click "css=main button[aria-label='Go to next page']"
+37. Wait for "css=main button[aria-label='Go to previous page']:not([disabled])"
+38. Wait until the page settles
+39. Audit inside "main" as "History - page 2"
+40. Click "css=main thead th:has-text('Location No') button[data-slot=dropdown-menu-trigger]"
+41. Audit inside "[role=menu]" as "History column menu open"
+42. Press "Escape"
+43. Click "css=main button[aria-label='Grid Options']"
+44. Audit inside "[role=menu]" as "History Grid Options menu open"
+45. Press "Escape"
+46. Click "css=main button[aria-label='Collapse filters']"
+47. Wait for "css=main button[aria-label='Expand filters']"
+48. Audit inside "main" as "History - filters collapsed"
+49. Click "css=main button[aria-label='Expand filters']"
+# A failed search, last: every history search fails from here on.
+50. Fail "POST action:searchOrderOriginTaxHistory"
+51. Click "[data-testid=e2e-search-button]"
+52. Audit message as "History search failed message"

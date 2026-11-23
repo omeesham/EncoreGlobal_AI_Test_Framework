@@ -1,0 +1,40 @@
+# NM-4989 - Taxes > Special Rate: the message shown after Save (parent NM-3936).
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4989/config/audit-steps/taxes/nm-4989-special-rate-save.txt --office 1606
+#
+# CHANGES DATA, then puts it back. Only the Notes of one row are changed: the
+# Palau (PW) Damage Waiver state row as of 11/01/2026 gets a note, is saved,
+# and the note is emptied and saved again. Taxable, Special, rate and date are
+# not touched. Each save adds a row to Special Rate History. If a run stops
+# between the two saves, empty that row's Notes and save.
+# The message is hovered while it is audited, so it does not close on its timer.
+
+Module: Taxes
+Submodule: special-rate-save-nm-4989
+Output: reports/testid-audit-taxes
+Elements: all
+
+1. Go to /navigator/locations/{office}/taxes/special-rate
+2. Wait for "css=[data-testid=e2e-search-button]:not([disabled])"
+3. Click "#special-rate-state"
+4. Click "css=[role=listbox] [role=option]:has-text('PW') >> nth=0"
+5. Click "#special-rate-tax-type"
+6. Click "css=[role=listbox] [role=option]:has-text('Damage Waiver') >> nth=0"
+7. Type "11/01/2026" into "css=main form input[aria-label='Select date']" and leave
+8. Click "[data-testid=e2e-search-button]"
+9. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+10. Wait until the page settles
+11. Wait for "css=main tbody tr:has(td + td) td:nth-child(15) input[value='']"
+12. Type "Testid check" into "css=main tbody tr:has(td + td) td:nth-child(15) input" and leave
+13. Wait for "css=main button:text-is('Save'):not([disabled])"
+14. Click "css=main button:text-is('Save')"
+15. Wait up to 60 seconds for "css=[data-sonner-toast][data-type=success]"
+16. Hover "css=[data-sonner-toast][data-type=success]"
+17. Audit inside "section[aria-label^='Notifications']" as "Save message (toast)"
+# Put it back: the note emptied and saved again. The first message is closed
+# so the wait below sees the second save's own message.
+18. Click "css=[data-sonner-toast][data-type=success] button[aria-label='Close toast']"
+19. Type "" into "css=main tbody tr:has(td + td) td:nth-child(15) input" and leave
+20. Wait for "css=main button:text-is('Save'):not([disabled])"
+21. Click "css=main button:text-is('Save')"
+22. Wait up to 60 seconds for "css=[data-sonner-toast][data-type=success]"
+23. Wait for "css=main button:text-is('Save')[disabled]"

@@ -1,0 +1,156 @@
+# NM-4989 - Taxes > Special Rate, Basic Information tab (parent NM-3936).
+# Every state of the tab: the tooltips (page information, filters, Grid
+# Options, the search date's message), the empty grid's scroll bar, the search
+# criteria with each list open (State, County and City once their parent is
+# chosen, Tax Type, Special?, Taxable) and the calendar, a refused and an
+# empty search date, the grid while it loads, with state rows, with city (zip
+# code) rows, with one row and with none, a column's menu, Grid Options, the
+# filters collapsed, a row being edited (Taxable and Special as check boxes,
+# the special rate box, each message of the Effective Date marker and its
+# calendar), the Unsaved changes question, and the message of a failed save.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4989/config/audit-steps/taxes/nm-4989-special-rate-basic.txt --office 1606
+#
+# Changes no data: rows are edited but never saved. The one Save click is made
+# while every save request is failed (Fail), so nothing reaches the server.
+
+Module: Taxes
+Submodule: special-rate-basic-nm-4989
+Output: reports/testid-audit-taxes
+Elements: all
+
+1. Go to /navigator/locations/{office}/taxes/special-rate
+2. Wait for "css=[data-testid=e2e-search-button]:not([disabled])"
+3. Wait until the page settles
+4. Audit inside "main" as "Basic Information - before search"
+5. Hover "css=main thead th >> nth=0"
+6. Wait for "css=main [data-slot=scroll-area-scrollbar]"
+7. Audit inside "main" as "Grid - pointer over it (scroll bar shown)"
+8. Press "Escape"
+9. Hover "css=main button[aria-label='More information']"
+10. Audit inside "[data-radix-popper-content-wrapper]" as "Page information tooltip"
+11. Hover "css=main button[aria-label='Collapse filters']"
+12. Audit inside "[data-radix-popper-content-wrapper]" as "Collapse filters tooltip"
+13. Hover "css=main button[aria-label='Grid Options']"
+14. Audit inside "[data-radix-popper-content-wrapper]" as "Grid Options tooltip"
+# State, then County and City, which open once their parent is chosen.
+15. Click "#special-rate-state"
+16. Audit inside "[role=listbox]" as "State list open"
+17. Click "css=[role=listbox] [role=option]:has-text('CA') >> nth=0"
+18. Wait for "css=#special-rate-county:not([disabled])"
+19. Wait until the page settles
+20. Click "#special-rate-county"
+21. Audit inside "[role=listbox]" as "County list open"
+22. Click "css=[role=listbox] [role=option]:has-text('ALAMEDA') >> nth=0"
+23. Wait for "css=#special-rate-city:not([disabled])"
+24. Wait until the page settles
+25. Click "#special-rate-city"
+26. Audit inside "[role=listbox]" as "City list open"
+27. Click "css=[role=listbox] [role=option]:has-text('BERKELEY') >> nth=0"
+28. Wait for "css=#special-rate-city:has-text('BERKELEY')"
+29. Audit inside "main form" as "Search criteria - state, county and city chosen"
+30. Click "#special-rate-tax-type"
+31. Audit inside "[role=listbox]" as "Tax Type list open"
+32. Press "Escape"
+33. Click "#special-rate-special"
+34. Audit inside "[role=listbox]" as "Special? list open"
+35. Press "Escape"
+36. Click "#special-rate-taxable"
+37. Audit inside "[role=listbox]" as "Taxable list open"
+38. Press "Escape"
+39. Click "css=main form button[aria-label='Open calendar']"
+40. Wait for "css=[data-slot=popover-content] [role=grid]"
+41. Audit inside "[data-slot=popover-content]" as "Effective Date calendar open"
+42. Press "Escape"
+43. Type "13/45/2026" into "css=main form input[aria-label='Select date']" and leave
+44. Audit inside "main form" as "Search criteria - Effective Date refused"
+45. Type "" into "css=main form input[aria-label='Select date']" and leave
+46. Audit inside "main form" as "Search criteria - Effective Date empty"
+47. Hover "css=main form div[data-slot=tooltip-trigger]"
+48. Audit inside "[data-radix-popper-content-wrapper]" as "Effective Date message tooltip (Required)"
+49. Type "11/01/2026" into "css=main form input[aria-label='Select date']" and leave
+# City rows (zip codes) of Berkeley, CA. The search is held so the grid can be
+# audited while it loads.
+50. Hold "POST action:searchSpecialRateTax"
+51. Click "[data-testid=e2e-search-button]"
+52. Wait for "css=main [data-slot=skeleton]"
+53. Audit inside "main" as "Grid - loading"
+54. Release "POST action:searchSpecialRateTax"
+55. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+56. Wait until the page settles
+57. Audit inside "main" as "Search done - city rows"
+# State rows of every state.
+58. Click "[data-testid=e2e-reset-button]"
+59. Wait for "css=#special-rate-county[disabled]"
+60. Click "[data-testid=e2e-search-button]"
+61. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+62. Wait until the page settles
+63. Audit inside "main" as "Search done - state rows"
+64. Click "css=main thead th:has-text('State Special') button[data-slot=dropdown-menu-trigger]"
+65. Audit inside "[role=menu]" as "Column menu open"
+66. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+67. Wait until the page settles
+68. Audit inside "main thead" as "Grid sorted (State Special, descending)"
+69. Click "css=main button[aria-label='Grid Options']"
+70. Audit inside "[role=menu]" as "Grid Options menu open"
+71. Press "Escape"
+72. Click "css=main button[aria-label='Collapse filters']"
+73. Wait for "css=main button[aria-label='Expand filters']"
+74. Audit inside "main" as "Filters collapsed"
+75. Hover "css=main button[aria-label='Expand filters']"
+76. Audit inside "[data-radix-popper-content-wrapper]" as "Expand filters tooltip"
+77. Click "css=main button[aria-label='Expand filters']"
+# Palau (PW) Freight with Special? on Yes: not special on this date, so
+# nothing is found. With Special? back on All it is the one row edited below.
+78. Click "#special-rate-state"
+79. Click "css=[role=listbox] [role=option]:has-text('PW') >> nth=0"
+80. Click "#special-rate-tax-type"
+81. Click "css=[role=listbox] [role=option]:has-text('Freight') >> nth=0"
+82. Click "#special-rate-special"
+83. Click "css=[role=listbox] [role=option]:has-text('Yes') >> nth=0"
+84. Click "[data-testid=e2e-search-button]"
+85. Wait up to 90 seconds for "css=main:has-text('records found'):not(:has([data-slot=skeleton]))"
+86. Wait until the page settles
+87. Audit inside "main" as "Search done - no records"
+88. Click "#special-rate-special"
+89. Click "css=[role=listbox] [role=option]:has-text('All') >> nth=0"
+90. Click "[data-testid=e2e-search-button]"
+91. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+92. Wait until the page settles
+93. Audit inside "main" as "Search done - one row"
+# A row being edited: Taxable and Special turn into check boxes when clicked
+# (one at a time), and a ticked Special opens the rate box of the row's level
+# (State Special).
+94. Click "css=main tbody tr:has(td + td) >> nth=0 >> css=td:nth-child(6) button"
+95. Wait for "css=main tbody tr:has(td + td) td:nth-child(6) [role=checkbox]"
+96. Audit inside "css=main tbody tr:has(td + td) >> nth=0" as "Row - Taxable check box shown"
+97. Click "css=main tbody tr:has(td + td) >> nth=0 >> css=td:nth-child(7) button"
+98. Wait for "css=main tbody tr:has(td + td) td:nth-child(7) [role=checkbox]"
+99. Audit inside "css=main tbody tr:has(td + td) >> nth=0" as "Row - Special check box shown"
+100. Click "css=main tbody tr:has(td + td) td:nth-child(7) [role=checkbox]"
+101. Wait for "css=main tbody tr:has(td + td) td:nth-child(9) input"
+102. Type "2" into "css=main tbody tr:has(td + td) td:nth-child(9) input"
+103. Click "css=main :text-matches('records? found') >> nth=0"
+104. Audit inside "main" as "Row edited - new effective date needed"
+105. Click "css=main tbody tr:has(td + td) td:nth-child(8) button[aria-label='Open calendar']"
+106. Wait for "css=[data-slot=popover-content] [role=grid]"
+107. Audit inside "[data-slot=popover-content]" as "Row Effective Date calendar open"
+108. Press "Escape"
+109. Type "13/45/2026" into "css=main tbody tr:has(td + td) td:nth-child(8) input" and leave
+110. Audit inside "css=main tbody tr:has(td + td) >> nth=0" as "Row - Invalid date"
+111. Type "" into "css=main tbody tr:has(td + td) td:nth-child(8) input" and leave
+112. Audit inside "css=main tbody tr:has(td + td) >> nth=0" as "Row - Required"
+113. Type "01/01/2000" into "css=main tbody tr:has(td + td) td:nth-child(8) input" and leave
+114. Audit inside "css=main tbody tr:has(td + td) >> nth=0" as "Row - date before the last record"
+# Search with an unsaved change asks first.
+115. Click "[data-testid=e2e-search-button]"
+116. Wait for "css=[role=alertdialog]"
+117. Audit inside "[role=alertdialog]" as "Unsaved changes question"
+118. Click "css=[role=alertdialog] button:text-is('Discard')"
+119. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+120. Wait until the page settles
+# A failed save: every save request fails from here on, so nothing is saved.
+121. Type "x" into "css=main tbody tr:has(td + td) td:nth-child(15) input" and leave
+122. Wait for "css=main button:text-is('Save'):not([disabled])"
+123. Fail "POST action:updateSpecialRateTaxAction"
+124. Click "css=main button:text-is('Save')"
+125. Audit message "Failed to save" as "Save failed message"

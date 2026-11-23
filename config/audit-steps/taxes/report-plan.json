@@ -1,0 +1,18 @@
+{
+  "title": "Missing data-testid - Taxes: Order Origin Tax and Special Rate (NM-4989)",
+  "module": "Taxes",
+  "office": "1606",
+  "officeLabel": "1606 - Embassy Suites by Hilton Washington DC Convention Center",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-taxes",
+  "output": "reports/testid-audit-taxes/NM-4989-taxes-1606",
+  "fileName": "NM-4989-taxes-missing-testids-1606",
+  "submodules": [
+    { "ticket": "NM-4020-BI", "name": "Order Origin Tax - Basic Information", "reports": ["order-origin-tax-basic-nm-4989", "order-origin-tax-save-nm-4989"] },
+    { "ticket": "NM-4020-HIS", "name": "Order Origin Tax - Order Origin Tax History", "reports": ["order-origin-tax-history-nm-4989"] },
+    { "ticket": "NM-4022-BI", "name": "Special Rate - Basic Information", "reports": ["special-rate-basic-nm-4989", "special-rate-save-nm-4989"] },
+    { "ticket": "NM-4022-HIS", "name": "Special Rate - Special Rate History", "reports": ["special-rate-history-nm-4989"] },
+    { "ticket": "NM-4989-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4989"] }
+  ],
+  "ownership": ["NM-4020-BI", "NM-4020-HIS", "NM-4022-BI", "NM-4022-HIS", "NM-4989-NAV"]
+}

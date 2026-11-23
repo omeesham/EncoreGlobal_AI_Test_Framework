@@ -1,0 +1,109 @@
+# NM-4989 - Taxes: the application shell around Order Origin Tax and Special Rate (parent NM-3936).
+# Every element of the left navigation, collapsed and expanded: the location
+# switcher (with search results and no-match), each sidebar menu and submenu,
+# the user menu with its Language submenu, Theme options and Command Menu
+# (filtered and with no results), the collapsed sidebar with a menu open, and
+# the Ask Encore panel with what it opens - the Projects sheet (active and
+# archived), the New project form, Chat settings (both tabs and the New
+# prompt form), the model menu and the prompt library.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4989/config/audit-steps/taxes/nm-4989-app-shell.txt --office 1606
+# Changes no data: menus are only opened and closed - no link is
+# followed, no language or theme is chosen, no form is submitted (Create, Add
+# and Save are never clicked), and Ask Encore's Full Screen button (which opens
+# the separate chat page) is not clicked. No question is sent to Ask Encore.
+
+Module: Taxes
+Submodule: app-shell-nm-4989
+Output: reports/testid-audit-taxes
+Elements: all
+
+1. Go to /navigator/locations/{office}/taxes/order-origin-tax
+2. Wait for "css=[data-testid=e2e-search-button]:not([disabled])"
+3. Audit inside "[data-slot=sidebar]" as "Sidebar"
+4. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger] >> nth=0"
+5. Audit inside "[role=menu]" as "Location switcher open"
+6. Type "1101" into "css=[role=menu] input"
+7. Wait for "css=[role=menu] [role=menuitem]:has-text('Corporate Office')"
+8. Audit inside "[role=menu]" as "Location switcher - search results"
+9. Type "zzqqxx" into "css=[role=menu] input"
+10. Wait for "text=No location found"
+11. Audit inside "[role=menu]" as "Location switcher - no match"
+12. Press "Escape"
+13. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger]:has-text('Actions')"
+14. Audit inside "[role=menu]" as "Actions menu open"
+15. Hover "css=[role=menu] [aria-haspopup=menu]:has-text('Search Statistics')"
+16. Audit inside "[data-slot=dropdown-menu-sub-content]" as "Actions > Search Statistics submenu open"
+17. Press "Escape"
+18. Press "Escape"
+19. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger]:has-text('Commissions')"
+20. Audit inside "[role=menu]" as "Commissions menu open"
+21. Press "Escape"
+22. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger]:has-text('Tax')"
+23. Audit inside "[role=menu]" as "Tax menu open"
+24. Press "Escape"
+25. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger]:has-text('Setup')"
+26. Audit inside "[role=menu]" as "Setup menu open"
+27. Press "Escape"
+28. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger]:has-text('Warehouse')"
+29. Audit inside "[role=menu]" as "Warehouse menu open"
+30. Press "Escape"
+31. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger]:has-text('Studio')"
+32. Audit inside "[role=menu]" as "Studio menu open"
+33. Press "Escape"
+34. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger] >> nth=-1"
+35. Audit inside "[role=menu]" as "User menu open"
+36. Hover "css=[role=menu] [aria-haspopup=menu]:has-text('Language')"
+37. Audit inside "[data-slot=dropdown-menu-sub-content]" as "User menu > Language submenu open"
+38. Press "Escape"
+39. Press "Escape"
+# Command Menu, from the user menu: the command palette over the page.
+40. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger] >> nth=-1"
+41. Click "css=[role=menu] [role=menuitem]:has-text('Command Menu')"
+42. Wait for "css=[data-slot=command-input]"
+43. Audit inside "[role=dialog]" as "Command Menu open"
+44. Type "Home" into "css=[data-slot=command-input]"
+45. Wait for "css=[role=dialog] [cmdk-item]"
+46. Audit inside "[role=dialog]" as "Command Menu - filtered"
+47. Type "zzqqxx" into "css=[data-slot=command-input]"
+48. Audit inside "[role=dialog]" as "Command Menu - no results"
+49. Press "Escape"
+50. Click "css=main [data-slot=sidebar-trigger]"
+51. Wait for "css=[data-slot=sidebar][data-state=collapsed]"
+52. Audit inside "[data-slot=sidebar]" as "Sidebar collapsed"
+53. Hover "css=[data-slot=sidebar] [data-slot=sidebar-menu-button]:has-text('Home')"
+54. Audit inside "[data-radix-popper-content-wrapper]" as "Collapsed sidebar item tooltip"
+55. Click "css=[data-slot=sidebar] [data-slot=dropdown-menu-trigger]:has-text('Actions')"
+56. Audit inside "[role=menu]" as "Actions menu open (sidebar collapsed)"
+57. Press "Escape"
+58. Click "css=main [data-slot=sidebar-trigger]"
+59. Wait for "css=[data-slot=sidebar][data-state=expanded]"
+60. Click "css=[data-slot=sidebar-menu-button]:has-text('Ask Encore')"
+61. Wait for "css=textarea[aria-label=input]"
+62. Wait for "css=main#skip + div button:has-text('Default Chat')"
+63. Audit inside "main#skip + div" as "Ask Encore panel"
+64. Click "css=main#skip + div button[aria-label='Projects']"
+65. Audit inside "[data-slot=sheet-content]" as "Ask Encore - Projects sheet"
+66. Click "css=[data-slot=sheet-content] button:has-text('Showing active')"
+67. Wait for "css=[data-slot=sheet-content] button:has-text('Showing archived')"
+68. Audit inside "[data-slot=sheet-content]" as "Ask Encore - Projects sheet, archived view"
+# New project is opened to see its form; Create is never clicked.
+69. Click "css=[data-slot=sheet-content] button:text-is('New')"
+70. Wait for "css=[data-slot=sheet-content] label:has-text('Custom instructions')"
+71. Audit inside "[data-slot=sheet-content]" as "Ask Encore - New project form"
+72. Press "Escape"
+73. Click "css=main#skip + div button[aria-label='Chat settings']"
+74. Wait for "css=[role=dialog] button:text-is('Preview')"
+75. Audit inside "[role=dialog]" as "Ask Encore - Chat settings, Custom instructions tab"
+76. Click "css=[role=dialog] [role=tab]:has-text('Prompt library')"
+77. Audit inside "[role=dialog]" as "Ask Encore - Chat settings, Prompt library tab"
+# New prompt is opened to see its form; Create is never clicked.
+78. Click "css=[role=dialog] button:has-text('New prompt')"
+79. Wait for "css=[role=dialog] label:has-text('Share at location')"
+80. Audit inside "[role=dialog]" as "Ask Encore - New prompt form"
+81. Press "Escape"
+82. Click "css=main#skip + div button:has-text('Default Chat')"
+83. Audit inside "[role=menu]" as "Ask Encore - model menu open"
+84. Press "Escape"
+85. Click "css=main#skip + div button[aria-label='Prompt library']"
+86. Audit inside "[data-slot=popover-content]" as "Ask Encore - Prompt library popover"
+87. Press "Escape"

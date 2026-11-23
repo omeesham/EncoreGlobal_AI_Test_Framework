@@ -1,0 +1,145 @@
+# NM-4989 - Taxes > Order Origin Tax, Basic Information tab (parent NM-3936).
+# Every state of the tab: the tooltips (page information, filters, Grid
+# Options, a cell cut short, the search date's message), the empty grid's
+# scroll bar, the search criteria with each list and calendar open, the Change
+# Local Office dialog (list, search results, a location ticked, no match,
+# reopened with a location chosen), a refused and an empty search date, the
+# grid while it loads, with all rows, with one row and with none, a column's
+# menu, Grid Options, the filters collapsed, a row being edited with each of
+# its messages and its calendar, the Unsaved changes question, and the
+# messages of a failed save and a failed search.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4989/config/audit-steps/taxes/nm-4989-order-origin-tax-basic.txt --office 1606
+#
+# Changes no data: rows are edited but never saved. The one Save click is made
+# while every save request is failed (Fail), so nothing reaches the server.
+
+Module: Taxes
+Submodule: order-origin-tax-basic-nm-4989
+Output: reports/testid-audit-taxes
+Elements: all
+
+1. Go to /navigator/locations/{office}/taxes/order-origin-tax
+2. Wait for "css=[data-testid=e2e-search-button]:not([disabled])"
+3. Wait until the page settles
+4. Audit inside "main" as "Basic Information - before search"
+5. Hover "css=main thead th >> nth=0"
+6. Wait for "css=main [data-slot=scroll-area-scrollbar]"
+7. Audit inside "main" as "Grid - pointer over it (scroll bar shown)"
+8. Press "Escape"
+9. Hover "css=main button[aria-label='More information']"
+10. Audit inside "[data-radix-popper-content-wrapper]" as "Page information tooltip"
+11. Hover "css=main button[aria-label='Collapse filters']"
+12. Audit inside "[data-radix-popper-content-wrapper]" as "Collapse filters tooltip"
+13. Hover "css=main button[aria-label='Grid Options']"
+14. Audit inside "[data-radix-popper-content-wrapper]" as "Grid Options tooltip"
+# The Location box opens the Change Local Office dialog.
+15. Click "#order-origin-tax-location"
+16. Wait for "[data-testid=location-settings-modal-change-local-office-input-search]"
+17. Wait until the page settles
+18. Audit inside "[role=dialog]" as "Change Local Office dialog"
+19. Type "1606" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+20. Wait for "css=[role=dialog] tbody tr:has-text('Embassy Suites')"
+21. Audit inside "[role=dialog]" as "Change Local Office - search results"
+22. Click "css=[role=dialog] tbody tr:has-text('Embassy Suites') button[role=checkbox]"
+23. Audit inside "[role=dialog]" as "Change Local Office - location ticked"
+24. Type "zzqqxx" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+25. Wait 2 seconds
+26. Audit inside "[role=dialog]" as "Change Local Office - no match"
+27. Type "1606" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+28. Wait for "css=[role=dialog] tbody tr:has-text('Embassy Suites')"
+29. Click "[data-testid=location-settings-modal-change-local-office-btn-select]"
+30. Wait for "css=#order-origin-tax-location:has-text('1606')"
+31. Audit inside "main form" as "Search criteria - location chosen"
+32. Click "#order-origin-tax-location"
+33. Wait for "[data-testid=location-settings-modal-change-local-office-input-search]"
+34. Wait until the page settles
+35. Audit inside "[role=dialog]" as "Change Local Office - reopened with a location chosen"
+36. Click "[data-testid=location-settings-modal-change-local-office-btn-cancel]"
+37. Wait for "css=body:not(:has([role=dialog]))"
+# The other lists and the calendar.
+38. Click "#order-origin-tax-tax-type"
+39. Audit inside "[role=listbox]" as "Tax Type list open"
+40. Click "css=[role=listbox] [role=option]:has-text('APP Downloaded') >> nth=0"
+41. Click "css=main form button[aria-label='Open calendar']"
+42. Wait for "css=[data-slot=popover-content] [role=grid]"
+43. Audit inside "[data-slot=popover-content]" as "Effective Date calendar open"
+44. Press "Escape"
+45. Type "13/45/2026" into "css=main form input[aria-label='Select date']" and leave
+46. Audit inside "main form" as "Search criteria - Effective Date refused"
+47. Type "" into "css=main form input[aria-label='Select date']" and leave
+48. Audit inside "main form" as "Search criteria - Effective Date empty"
+49. Hover "css=main form div[data-slot=tooltip-trigger]"
+50. Audit inside "[data-radix-popper-content-wrapper]" as "Effective Date message tooltip (Required)"
+51. Type "12/31/2099" into "css=main form input[aria-label='Select date']" and leave
+# One location and one tax type with "Percentage not equal to 0" ticked: 1606
+# has only 0 % rows, so nothing is found.
+52. Click "[data-testid=e2e-search-button]"
+53. Wait up to 90 seconds for "css=main:has-text('records found'):not(:has([data-slot=skeleton]))"
+54. Wait until the page settles
+55. Audit inside "main" as "Search done - no records"
+# The same search with the box unticked finds the one row. The search request
+# is held so the grid can be audited while it loads.
+56. Click "[data-testid=e2e-checkbox]"
+57. Hold "POST action:searchOrderOriginTax"
+58. Click "[data-testid=e2e-search-button]"
+59. Wait for "css=main [data-slot=skeleton]"
+60. Audit inside "main" as "Grid - loading"
+61. Release "POST action:searchOrderOriginTax"
+62. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+63. Wait until the page settles
+64. Audit inside "main" as "Search done - one row"
+65. Hover "css=main tbody tr:has(td + td) >> nth=0 >> css=td:last-child [data-slot=tooltip-trigger]"
+66. Audit inside "[data-radix-popper-content-wrapper]" as "Cell tooltip (text cut short)"
+# A row being edited: each message of its Effective Date marker.
+67. Type "5" into "css=main tbody tr:has(td + td) td:nth-child(8) input"
+68. Click "css=main :text-matches('records? found') >> nth=0"
+69. Audit inside "main" as "Row edited - new effective date needed"
+70. Click "css=main tbody tr:has(td + td) td:nth-child(9) button[aria-label='Open calendar']"
+71. Wait for "css=[data-slot=popover-content] [role=grid]"
+72. Audit inside "[data-slot=popover-content]" as "Row Effective Date calendar open"
+73. Press "Escape"
+74. Type "13/45/2026" into "css=main tbody tr:has(td + td) td:nth-child(9) input" and leave
+75. Audit inside "css=main tbody tr:has(td + td) >> nth=0" as "Row - Invalid date"
+76. Type "" into "css=main tbody tr:has(td + td) td:nth-child(9) input" and leave
+77. Audit inside "css=main tbody tr:has(td + td) >> nth=0" as "Row - Required"
+78. Type "01/01/1999" into "css=main tbody tr:has(td + td) td:nth-child(9) input" and leave
+79. Audit inside "css=main tbody tr:has(td + td) >> nth=0" as "Row - date before the last record"
+# Search with an unsaved change asks first.
+80. Click "[data-testid=e2e-search-button]"
+81. Wait for "css=[role=alertdialog]"
+82. Audit inside "[role=alertdialog]" as "Unsaved changes question"
+83. Click "css=[role=alertdialog] button:text-is('Discard')"
+84. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+85. Wait until the page settles
+# All locations and tax types: the full grid, its menus and the filters collapsed.
+86. Click "[data-testid=e2e-reset-button]"
+87. Wait for "css=#order-origin-tax-location:has-text('All locations')"
+88. Click "[data-testid=e2e-search-button]"
+89. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+90. Wait until the page settles
+91. Audit inside "main" as "Search done - all locations"
+92. Click "css=main thead th:has-text('Location No') button[data-slot=dropdown-menu-trigger]"
+93. Audit inside "[role=menu]" as "Column menu open"
+94. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+95. Wait until the page settles
+96. Audit inside "main thead" as "Grid sorted (Location No, descending)"
+97. Click "css=main button[aria-label='Grid Options']"
+98. Audit inside "[role=menu]" as "Grid Options menu open"
+99. Press "Escape"
+100. Click "css=main button[aria-label='Collapse filters']"
+101. Wait for "css=main button[aria-label='Expand filters']"
+102. Audit inside "main" as "Filters collapsed"
+103. Hover "css=main button[aria-label='Expand filters']"
+104. Audit inside "[data-radix-popper-content-wrapper]" as "Expand filters tooltip"
+105. Click "css=main button[aria-label='Expand filters']"
+# A failed save: every save request fails from here on, so nothing is saved.
+106. Type "x" into "css=main tbody tr:has(td + td) >> nth=0 >> css=td:nth-child(10) input" and leave
+107. Wait for "css=main button:text-is('Save'):not([disabled])"
+108. Fail "POST action:updateOrderOriginTaxAction"
+109. Click "css=main button:text-is('Save')"
+110. Audit message "Failed to save" as "Save failed message"
+# A failed search, last: every search request fails from here on.
+111. Fail "POST action:searchOrderOriginTax"
+112. Click "[data-testid=e2e-search-button]"
+113. Click "css=[role=alertdialog] button:text-is('Discard')"
+114. Audit message "Unable to load" as "Search failed message"

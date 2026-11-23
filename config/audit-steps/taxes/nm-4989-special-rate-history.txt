@@ -1,0 +1,93 @@
+# NM-4989 - Taxes > Special Rate, Special Rate History tab (parent NM-3936).
+# The tab before a search with its grid's scroll bar, the Date Range calendar,
+# the history while it loads, with no records and with records (21 years back
+# to today, many pages) and a cell cut short with its tooltip, the
+# rows-per-page list, the next page, a column's menu, Grid Options and the
+# filters collapsed. The criteria lists are the same as on Basic Information
+# and are audited there.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-4989/config/audit-steps/taxes/nm-4989-special-rate-history.txt --office 1606
+#
+# Changes no data: the history is only read.
+
+Module: Taxes
+Submodule: special-rate-history-nm-4989
+Output: reports/testid-audit-taxes
+Elements: all
+
+1. Go to /navigator/locations/{office}/taxes/special-rate
+2. Wait for "css=[data-testid=e2e-search-button]:not([disabled])"
+3. Click "css=main [role=tab]:has-text('Special Rate History')"
+4. Wait for "css=main form button[aria-label='Open popover']"
+5. Wait until the page settles
+6. Audit inside "main" as "History - before search"
+7. Hover "css=main thead th >> nth=0"
+8. Wait for "css=main [data-slot=scroll-area-scrollbar]"
+9. Audit inside "main" as "History grid - pointer over it (scroll bar shown)"
+10. Press "Escape"
+11. Click "css=main form button[aria-label='Open popover']"
+12. Wait for "css=[data-slot=popover-content] [role=grid]"
+13. Audit inside "[data-slot=popover-content]" as "Date Range calendar open"
+14. Press "Escape"
+# Today only: no history.
+15. Click "[data-testid=e2e-search-button]"
+16. Wait up to 90 seconds for "css=main:has-text('No special rate history records found')"
+17. Wait until the page settles
+18. Audit inside "main" as "History - no records"
+# From the same day 21 years ago to today. Previous Month takes the focus (the
+# calendar still shows today), two Tabs reach today in the day grid,
+# Shift+PageUp goes back a year, and Enter picks the start.
+19. Click "css=main form button[aria-label='Open popover']"
+20. Wait for "css=[data-slot=popover-content] [role=grid]"
+21. Click "css=[data-slot=popover-content] button[aria-label='Go to the Previous Month']"
+22. Press "Tab"
+23. Press "Tab"
+24. Press "Shift+PageUp"
+25. Press "Shift+PageUp"
+26. Press "Shift+PageUp"
+27. Press "Shift+PageUp"
+28. Press "Shift+PageUp"
+29. Press "Shift+PageUp"
+30. Press "Shift+PageUp"
+31. Press "Shift+PageUp"
+32. Press "Shift+PageUp"
+33. Press "Shift+PageUp"
+34. Press "Shift+PageUp"
+35. Press "Shift+PageUp"
+36. Press "Shift+PageUp"
+37. Press "Shift+PageUp"
+38. Press "Shift+PageUp"
+39. Press "Shift+PageUp"
+40. Press "Shift+PageUp"
+41. Press "Shift+PageUp"
+42. Press "Shift+PageUp"
+43. Press "Shift+PageUp"
+44. Press "Shift+PageUp"
+45. Press "Enter"
+46. Wait for "css=body:not(:has([data-slot=popover-content]))"
+47. Hold "POST action:searchSpecialRateTaxHistory"
+48. Click "[data-testid=e2e-search-button]"
+49. Wait for "css=main [data-slot=skeleton]"
+50. Audit inside "main" as "History - loading"
+51. Release "POST action:searchSpecialRateTaxHistory"
+52. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+53. Wait until the page settles
+54. Audit inside "main" as "History - records found"
+55. Hover "css=main tbody tr:has(td + td) >> nth=0 >> css=td:nth-child(13) [data-slot=tooltip-trigger]"
+56. Audit inside "[data-radix-popper-content-wrapper]" as "History cell tooltip (text cut short)"
+57. Click "css=main [role=combobox]:not([id])"
+58. Audit inside "[role=listbox]" as "Rows per page list open"
+59. Press "Escape"
+60. Click "css=main button[aria-label='Go to next page']"
+61. Wait for "css=main button[aria-label='Go to previous page']:not([disabled])"
+62. Wait until the page settles
+63. Audit inside "main" as "History - page 2"
+64. Click "css=main thead th:has-text('State Special') button[data-slot=dropdown-menu-trigger]"
+65. Audit inside "[role=menu]" as "History column menu open"
+66. Press "Escape"
+67. Click "css=main button[aria-label='Grid Options']"
+68. Audit inside "[role=menu]" as "History Grid Options menu open"
+69. Press "Escape"
+70. Click "css=main button[aria-label='Collapse filters']"
+71. Wait for "css=main button[aria-label='Expand filters']"
+72. Audit inside "main" as "History - filters collapsed"
+73. Click "css=main button[aria-label='Expand filters']"
