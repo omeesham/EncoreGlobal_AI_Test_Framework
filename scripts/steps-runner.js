@@ -437,9 +437,19 @@ async function executeSteps(page, steps, options = {}) {
         // that sends the text of the search before it, until that one is done.
         await page.waitForTimeout(step.waitMs);
       } else if (step.verb === 'upload') {
-        const chooser = page.waitForEvent('filechooser', { timeout });
-        await resolveLocator(page, step.target).click({ timeout });
-        await (await chooser).setFiles(step.value);
+        // The control that opens the file picker (an Import button), or the file
+        // field itself, which a page often hides behind its own Browse button.
+        const control = resolveLocator(page, step.target);
+        const isFileField = await control.first().evaluate((el) => el.tagName === 'INPUT' && el.type === 'file', null, { timeout }).catch(() => false);
+        if (isFileField) {
+          await control.first().setInputFiles(step.value, { timeout });
+        } else {
+          const chooser = page.waitForEvent('filechooser', { timeout });
+          // A picker that never opens fails this step, not the whole run.
+          chooser.catch(() => {});
+          await control.click({ timeout });
+          await (await chooser).setFiles(step.value);
+        }
       } else if (step.verb === 'hold') {
         await holdRequests(page, step.target);
       } else if (step.verb === 'release') {
@@ -471,12 +481,20 @@ async function executeSteps(page, steps, options = {}) {
         await page.waitForTimeout(800);
       } else if (step.verb === 'audit') {
         scope = step.scope || '';
+        let toldOver = null;
         if (step.toast) {
           // A message comes after the save or load that sends it, and closes by
           // itself a few seconds later; pointing at it keeps it open.
           const message = step.message ? page.locator(MESSAGE).filter({ hasText: step.message }).first() : page.locator(MESSAGE).first();
           await message.waitFor({ state: 'visible', timeout: Math.max(timeout, 60000) });
-          await message.hover({ timeout });
+          // A modal dialog left open takes the pointer from the rest of the page, so
+          // the message cannot be pointed at; it is told the pointer is over it, and
+          // told it has left once audited, so it closes as usual afterwards.
+          await message.hover({ timeout: Math.min(timeout, 5000) }).catch(async () => {
+            await message.dispatchEvent('pointerover');
+            await message.dispatchEvent('mouseover');
+            toldOver = message;
+          });
           await page.waitForTimeout(500);
         }
         if (scope) {
@@ -485,6 +503,10 @@ async function executeSteps(page, steps, options = {}) {
         }
         const named = step.label || (step.toast ? 'Message' + (step.message ? ' "' + step.message + '"' : '') : '');
         if (onAudit) await onAudit(scope, named, step.scope || '', { varies: !!step.varies });
+        if (toldOver) {
+          await toldOver.dispatchEvent('pointerout').catch(() => {});
+          await toldOver.dispatchEvent('mouseout').catch(() => {});
+        }
       }
       log('  ' + label + ' - ok');
     } catch (error) {

@@ -283,7 +283,7 @@ These steps cover what a click cannot reach:
 | Step | Use when |
 | --- | --- |
 | `Hover "<label>"` | a tooltip or submenu opens on hover; it waits a second for it to appear |
-| `Upload "<file>" via "<label>"` | a control opens the file picker (an Import button); the path is relative to the steps file |
+| `Upload "<file>" via "<label>"` | a control opens the file picker (an Import button), or the file field itself is named (a page often hides it behind its own Browse button) and the file is put in it directly; the path is relative to the steps file |
 | `Drag "<label>" to "<label>"` | rows are added to a grid by dropping them on it, from a list beside it; a drop the page misses is tried again |
 | `Hold "<url part>"` … `Release "<url part>"` | the screen shows placeholders while it loads: requests whose address or body contains the text wait until released, so the loading state can be audited in between. A method in front (`Hold "POST <text>"`) holds only requests sent with it, for a page that loads its data by posting to its own address: name the text that request alone sends, or, when two Next.js server actions send the same body, the action by its name: `Hold "POST action:getPreferredInventorySourcesLookup"`. The name is the one the app's code gives the action, and its id (the `next-action` header) is looked up in the page's scripts on every run, since the id changes with each build of the app while the name does not. A raw id still works, until the next build |
 | `Fail "<url part>"` | the message a failed save or load shows: every matching request (same matching as `Hold`) fails from then on, as a lost connection would, so nothing reaches the server. Put it last in a file: the page cannot load again while its requests fail |
@@ -293,7 +293,7 @@ These steps cover what a click cannot reach:
 | `Wait N seconds` | the page shows no sign of a request in flight - a search box that sends the text of the search before it until that one is done |
 | `Wait until the page settles` | a screen loads in several rounds: it waits until no request has been in flight for half a second and no loading placeholder is left, rather than for a guessed number of seconds |
 | `Type "x" into "y" and leave` | a form checks a field only once it loses focus - Add stays disabled until then: it presses Tab after typing |
-| `Audit message` | the message (toast) a save or load shows: it waits up to 60 seconds for it, points at it so it does not close, and audits the message area. `Audit message "Saved"` waits for the one holding that text; `as "<state>"` names the state as usual |
+| `Audit message` | the message (toast) a save or load shows: it waits up to 60 seconds for it, points at it so it does not close (when a dialog left open blocks the pointer, the message is told the pointer is over it, and that it has left once audited), and audits the message area. `Audit message "Saved"` waits for the one holding that text; `as "<state>"` names the state as usual |
 
 Hover, Upload and Drag find their controls the same way `Click` does. Put `Hold` before the click
 that sends the request:

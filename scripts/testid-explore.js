@@ -314,7 +314,9 @@ async function main() {
       }
 
       report.states.push({ state: label, scope: checkpoint.scope, controls: list.length, found, blocked: [...new Set(blocked)] });
-      if (blocked.length) console.log('  blocked: ' + [...new Set(blocked)].join(' ; '));
+      // One line per request: a body can run to many lines (an analytics batch).
+      const brief = (key) => key.replace(/\s+/g, ' ').slice(0, 200);
+      if (blocked.length) console.log('  blocked: ' + [...new Set(blocked.map(brief))].join(' ; '));
       await context.close();
     }
   } finally {
