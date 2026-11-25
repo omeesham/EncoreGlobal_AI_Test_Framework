@@ -1,0 +1,23 @@
+# NM-5067 - Commissions > CMP as a local office sees it (sub-ticket NM-3649).
+# Run on 1606, where the page only shows the office's own commission: the
+# office fixed, the Commission field read-only, and no Save, Export or History
+# tab. The page and its tooltip, and the Business Type list.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-cmp-office-view.txt --office 1606
+#
+# Changes no data.
+
+Module: Commissions
+Submodule: cmp-office-view-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/cmp
+2. Wait for "css=main button[role=combobox]"
+3. Wait until the page settles
+4. Audit inside "main" as "Local office - Basic Information"
+5. Hover "css=main button[aria-label='More information']"
+6. Audit inside "[data-radix-popper-content-wrapper]" as "Local office - page information tooltip"
+7. Hover "css=main h1"
+8. Click "css=main button[role=combobox]"
+9. Audit inside "[role=listbox]" as "Local office - Business Type list open"
+10. Press "Escape"

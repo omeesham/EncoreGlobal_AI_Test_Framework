@@ -1,0 +1,185 @@
+# NM-5067 - Commissions > Tier/Flat, Basic Information tab (sub-ticket NM-3350).
+# Every state of the tab, run on 1101, the office that edits tiers: the
+# tooltips, the empty grid's scroll bar, the Currency and Business Type lists,
+# the Change Local Office dialog, the grid while it loads and with its rows,
+# the search panel collapsed, a column's menu, Grid Options, the Copy menu and
+# both of its dialogs (Location To Location: lists, search, a location ticked,
+# all ticked, no match; Within Location: the Source Service Type list and a
+# service type ticked), the Import dialog with a file it refuses, the
+# Commission Tier Reset dialog (a month's list, the Reset Date History tab), a
+# row's Service Type list, a tier being edited, a row deleted and a row added
+# (both unsaved), and the messages of a failed save, a failed export and a
+# failed search.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-tier-flat-basic.txt --office 1101
+#
+# Changes no data: dialogs are closed without Apply, Upload or Save, and every
+# save request fails (Fail) before the one Save click, so nothing reaches the
+# server.
+
+Module: Commissions
+Submodule: tier-flat-basic-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/tiers
+2. Wait for "css=main button:text-is('Search'):not([disabled])"
+3. Wait until the page settles
+4. Audit inside "main" as "Basic Information - before search"
+5. Hover "css=main thead th >> nth=1"
+6. Wait for "css=main [data-slot=scroll-area-scrollbar]"
+7. Audit inside "main" as "Grid - pointer over it (scroll bar shown)"
+8. Hover "css=main button[aria-label='More information']"
+9. Audit inside "[data-radix-popper-content-wrapper]" as "Page information tooltip"
+10. Hover "css=main button[aria-label='Collapse search panel']"
+11. Audit inside "[data-radix-popper-content-wrapper]" as "Collapse search panel tooltip"
+12. Hover "css=main button[aria-label='Grid Options']"
+13. Audit inside "[data-radix-popper-content-wrapper]" as "Grid Options tooltip"
+14. Click "#commission-tiers-currency"
+15. Audit inside "[role=listbox]" as "Currency list open"
+16. Press "Escape"
+17. Click "#commission-tiers-business-type"
+18. Audit inside "[role=listbox]" as "Business Type list open"
+19. Press "Escape"
+20. Click "css=main button:has-text('1101 - Corporate')"
+21. Wait for "[data-testid=location-settings-modal-change-local-office-input-search]"
+22. Wait until the page settles
+23. Audit inside "[role=dialog]" as "Change Local Office dialog"
+24. Click "[data-testid=location-settings-modal-change-local-office-btn-cancel]"
+25. Wait for "css=body:not(:has([role=dialog]))"
+# The search: the grid while it loads, then the rows.
+26. Wait 2 seconds
+27. Hold "POST action:searchCommissionTiers"
+28. Click "css=main button:text-is('Search')"
+29. Wait for "css=main [data-slot=skeleton]"
+30. Audit inside "main" as "Grid - loading"
+31. Release "POST action:searchCommissionTiers"
+32. Wait up to 90 seconds for "css=main tbody tr [data-testid^=commission-tier-delete-]"
+33. Wait until the page settles
+34. Audit inside "main" as "Search done - rows"
+35. Click "css=main button[aria-label='Collapse search panel']"
+36. Wait for "css=main button[aria-label='Expand search panel']"
+37. Audit inside "main" as "Search panel collapsed"
+38. Hover "css=main button[aria-label='Expand search panel']"
+39. Audit inside "[data-radix-popper-content-wrapper]" as "Expand search panel tooltip"
+40. Click "css=main button[aria-label='Expand search panel']"
+41. Click "css=main thead th:has-text('Service Type') button[data-slot=dropdown-menu-trigger]"
+42. Audit inside "[role=menu]" as "Column menu open"
+43. Press "Escape"
+44. Click "css=main button[aria-label='Grid Options']"
+45. Audit inside "[role=menu]" as "Grid Options menu open"
+46. Press "Escape"
+# Export shows a dialog while the file is made: its request is held so the
+# dialog can be audited.
+47. Hold "POST action:exportCommissionTiers"
+48. Click "css=main button:has-text('Export')"
+49. Wait for "css=[role=dialog]:has-text('Exporting')"
+50. Audit inside "[role=dialog]" as "Export dialog (exporting data)"
+51. Release "POST action:exportCommissionTiers"
+52. Wait for "css=body:not(:has([role=dialog]))"
+# Copy: its menu and both dialogs, closed without Apply.
+53. Click "[data-testid=commission-tiers-copy-menu]"
+54. Audit inside "[role=menu]" as "Copy menu open"
+55. Click "css=[role=menuitem]:has-text('Copy to Locations')"
+56. Wait for "css=[role=dialog] tbody tr"
+57. Wait until the page settles
+58. Audit inside "[role=dialog]" as "Location To Location Copy dialog"
+59. Click "css=[role=dialog] [role=combobox] >> nth=0"
+60. Audit inside "[role=listbox]" as "Copy - Business Type list open"
+61. Press "Escape"
+62. Click "css=[role=dialog] [role=combobox] >> nth=1"
+63. Audit inside "[role=listbox]" as "Copy - Currency list open"
+64. Press "Escape"
+65. Type "1102" into "css=[role=dialog] input[placeholder='Search...']"
+66. Wait 2 seconds
+67. Audit inside "[role=dialog]" as "Location To Location Copy - search results"
+68. Click "css=[role=dialog] tbody tr:has-text('1102') [role=checkbox]"
+69. Audit inside "[role=dialog]" as "Location To Location Copy - location ticked"
+70. Type "zzqqxx" into "css=[role=dialog] input[placeholder='Search...']"
+71. Wait 2 seconds
+72. Audit inside "[role=dialog]" as "Location To Location Copy - no match"
+73. Type "" into "css=[role=dialog] input[placeholder='Search...']"
+74. Wait 2 seconds
+75. Click "css=[role=dialog] thead [role=checkbox]"
+76. Audit inside "[role=dialog]" as "Location To Location Copy - all ticked"
+77. Click "css=[role=dialog] button:text-is('Close')"
+78. Wait for "css=body:not(:has([role=dialog]))"
+79. Click "[data-testid=commission-tiers-copy-menu]"
+80. Click "css=[role=menuitem]:has-text('Copy Within Location')"
+81. Wait for "css=[role=dialog] tbody tr"
+82. Wait until the page settles
+83. Audit inside "[role=dialog]" as "Within Location Copy dialog"
+84. Click "css=[role=dialog] [role=combobox] >> nth=2"
+85. Audit inside "[role=listbox]" as "Copy - Source Service Type list open"
+86. Press "Escape"
+87. Click "css=[role=dialog] tbody tr >> nth=0 >> css=[role=checkbox]"
+88. Audit inside "[role=dialog]" as "Within Location Copy - service type ticked"
+89. Click "css=[role=dialog] button:text-is('Close')"
+90. Wait for "css=body:not(:has([role=dialog]))"
+# Import: the dialog, and a file it refuses.
+91. Click "css=main button:has-text('Import')"
+92. Wait for "css=[role=dialog]"
+93. Audit inside "[role=dialog]" as "Import dialog"
+94. Upload "files/bad-import.txt" via "css=[role=dialog] input[type=file]"
+95. Wait for "css=[role=dialog]:has-text('Unsupported file type')"
+96. Audit inside "[role=dialog]" as "Import - file refused (not Excel)"
+97. Click "css=[role=dialog] button:text-is('Cancel')"
+98. Wait for "css=body:not(:has([role=dialog]))"
+# Reset Dates: the dialog, a month's list and the history tab.
+99. Click "css=main button:has-text('Reset Dates')"
+100. Wait for "css=[role=dialog] [role=combobox]"
+101. Wait until the page settles
+102. Audit inside "[role=dialog]" as "Commission Tier Reset dialog"
+103. Click "css=[role=dialog] [role=combobox] >> nth=0"
+104. Audit inside "[role=listbox]" as "Reset - month list open"
+105. Press "Escape"
+106. Click "css=[role=dialog] [role=tab] >> nth=1"
+107. Wait until the page settles
+108. Audit inside "[role=dialog]" as "Reset Date History tab"
+109. Click "css=[role=dialog] button:text-is('Cancel')"
+110. Wait for "css=body:not(:has([role=dialog]))"
+# A row: its Service Type list and a commission changed, which turns Save on.
+111. Click "css=main tbody tr >> nth=0 >> css=[data-testid^=commission-tier-service-type-]"
+112. Audit inside "[role=listbox]" as "Row Service Type list open"
+113. Press "Escape"
+114. Click "css=main tbody tr >> nth=0 >> css=[data-testid^=commission-tier-commission-]"
+115. Wait for "css=main tbody tr >> nth=0 >> css=input"
+116. Audit inside "main" as "Row - field open"
+117. Type "1" into "css=main tbody tr >> nth=0 >> css=input" and leave
+118. Wait for "css=main button:text-is('Save'):not([disabled])"
+119. Audit inside "main" as "Row - commission changed (Save on)"
+# A failed save: every save request fails from here on, so nothing is saved.
+120. Fail "POST action:updateCommissionTiers"
+121. Click "css=main button:text-is('Save')"
+122. Audit message "Failed" as "Save failed message"
+123. Hover "css=main h1"
+124. Wait 8 seconds
+# A tier that cannot be saved, a row deleted and a row added (all unsaved).
+125. Click "css=main tbody tr >> nth=0 >> css=[data-testid^=commission-tier-lower-tier-]"
+126. Wait for "css=main tbody tr >> nth=0 >> css=input"
+127. Type "50" into "css=main tbody tr >> nth=0 >> css=input" and leave
+128. Audit inside "main" as "Row - lower tier above the upper (Save off)"
+129. Hover "css=main [aria-label*='Lower tier must be']"
+130. Audit inside "[data-radix-popper-content-wrapper]" as "Row - lower tier message tooltip"
+131. Click "css=main tbody tr >> nth=1 >> css=[data-testid^=commission-tier-delete-]"
+132. Audit inside "main" as "Row deleted (unsaved)"
+133. Click "[data-testid=commission-tiers-add-row]"
+134. Audit inside "main" as "Row added (unsaved)"
+# Search with unsaved changes asks first; Discard. Then a failed export, and a
+# failed search last (another currency, so the page asks the server again).
+135. Click "css=main button:text-is('Search')"
+136. Wait for "[data-testid=location-settings-modal-unsaved-changes]"
+137. Audit inside "[data-testid=location-settings-modal-unsaved-changes]" as "Unsaved changes question"
+138. Click "[data-testid=location-settings-modal-unsaved-changes-btn-confirm]"
+139. Wait up to 90 seconds for "css=main tbody tr [data-testid^=commission-tier-delete-]"
+140. Hover "css=main h1"
+141. Wait 8 seconds
+142. Fail "POST action:exportCommissionTiers"
+143. Click "css=main button:has-text('Export')"
+144. Audit message "Failed" as "Export failed message"
+145. Hover "css=main h1"
+146. Wait 8 seconds
+147. Fail "POST action:searchCommissionTiers"
+148. Click "#commission-tiers-currency"
+149. Click "css=[role=listbox] [role=option]:has-text('CAD')"
+150. Click "css=main button:text-is('Search')"
+151. Audit message "Failed to fetch" as "Search failed message"

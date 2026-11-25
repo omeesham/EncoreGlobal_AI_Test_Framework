@@ -1,0 +1,43 @@
+# NM-5067 - Commissions > Product Code as a local office sees it (sub-ticket
+# NM-3349). Run on 1606, where the page only shows the office's own
+# commissions: the office fixed (no Change Local Office), no Export, and a
+# level's dialog with every box, Save and Copy to Location(s) off. The tab
+# before search, the first 1001 items with the limit message, a narrowed
+# search, the grid while it loads, a level's dialog, and the History tab with
+# its entries.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-product-code-office-view.txt --office 1606
+#
+# Changes no data.
+
+Module: Commissions
+Submodule: product-code-office-view-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/product-code
+2. Wait for "css=main button:text-is('Search'):not([disabled])"
+3. Wait until the page settles
+4. Audit inside "main" as "Local office - before search"
+5. Hold "POST action:searchProdCodeCommission"
+6. Click "css=main button:text-is('Search')"
+7. Wait for "css=main [data-slot=skeleton]"
+8. Audit inside "main" as "Local office - loading"
+9. Release "POST action:searchProdCodeCommission"
+10. Wait up to 90 seconds for "css=main tbody tr [role=button]"
+11. Wait until the page settles
+12. Audit inside "main" as "Local office - first 1001 items (limit message)"
+13. Type "Stingers" into "#product-code-commission-any-field"
+14. Click "css=main button:text-is('Search')"
+15. Wait up to 90 seconds for "css=main tbody tr:has-text('Stingers') [role=button]"
+16. Wait until the page settles
+17. Audit inside "main" as "Local office - one branch"
+18. Click "css=main tbody tr >> nth=0 >> css=[role=button] >> nth=3"
+19. Wait for "css=[role=dialog] table"
+20. Wait until the page settles
+21. Audit inside "[role=dialog]" as "Local office - Sub Class dialog (view only)"
+22. Click "css=[role=dialog] button:text-is('Cancel')"
+23. Wait for "css=body:not(:has([role=dialog]))"
+24. Click "css=main [role=tab]:has-text('History')"
+25. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+26. Wait until the page settles
+27. Audit inside "main" as "Local office - History entries"

@@ -1,0 +1,60 @@
+# NM-5067 - Commissions > CMP, History tab (sub-ticket NM-3649). Run on 1101
+# with 1107 chosen: the tab while it loads and with its entries, the
+# rows-per-page list, the next page, a column's menu, the grid sorted, the
+# Export dialog, and the message of a failed export. (The tab has no Grid
+# Options.)
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-cmp-history.txt --office 1101
+#
+# Changes no data.
+
+Module: Commissions
+Submodule: cmp-history-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/cmp
+2. Wait for "css=main input:not([disabled])"
+3. Wait until the page settles
+4. Click "css=main button:has-text('1102')"
+5. Type "1107" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+6. Wait for "css=[role=dialog] tbody tr:has-text('HEDGE')"
+7. Click "css=[role=dialog] tbody tr:has-text('HEDGE') button[role=checkbox]"
+8. Click "[data-testid=location-settings-modal-change-local-office-btn-select]"
+9. Wait for "css=main button:has-text('1107')"
+10. Wait until the page settles
+11. Hold "POST action:getCmpHistory"
+12. Click "css=main [role=tab]:has-text('History')"
+13. Wait 2 seconds
+14. Audit inside "main" as "History - loading"
+15. Release "POST action:getCmpHistory"
+16. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+17. Wait until the page settles
+18. Audit inside "main" as "History - entries"
+19. Click "css=main [role=combobox]:has-text('10')"
+20. Audit inside "[role=listbox]" as "History rows per page list open"
+21. Press "Escape"
+22. Click "css=main button[aria-label='Go to next page']"
+23. Wait until the page settles
+24. Audit inside "main" as "History - page 2"
+# A column title opens its sort menu.
+25. Click "css=main thead th:has-text('Local Office') button:has-text('Local Office')"
+26. Wait for "css=[role=menu]"
+27. Audit inside "[role=menu]" as "History column menu open"
+28. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+29. Wait until the page settles
+30. Audit inside "main thead" as "History sorted (Local Office, descending)"
+# Export shows a dialog while the file is made: its request is held so the
+# dialog can be audited.
+31. Hold "POST action:exportCmpCommissionHistory"
+32. Click "css=main button:has-text('Export')"
+33. Wait for "css=[role=dialog]"
+34. Audit inside "[role=dialog]" as "History Export dialog (exporting data)"
+35. Release "POST action:exportCmpCommissionHistory"
+36. Wait for "css=body:not(:has([role=dialog]))"
+# A failed export, last.
+37. Wait 4 seconds
+38. Fail "POST action:exportCmpCommissionHistory"
+39. Click "css=main button:has-text('Export')"
+40. Audit message "Failed" as "History export failed message"
+41. Hover "css=main h1"
+42. Wait 8 seconds

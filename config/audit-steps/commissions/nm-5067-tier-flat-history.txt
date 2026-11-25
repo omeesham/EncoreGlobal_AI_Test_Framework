@@ -1,0 +1,63 @@
+# NM-5067 - Commissions > Tier/Flat, Commission Tier/Flat History tab
+# (sub-ticket NM-3350). Run on 1101: the tab while it loads and with its
+# entries, a cut-short cell's tooltip, the rows-per-page list, the next page,
+# a column's menu, the grid sorted, Grid Options and its tooltip, the Export
+# dialog, and the messages of a failed export and a failed load.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-tier-flat-history.txt --office 1101
+#
+# Changes no data.
+
+Module: Commissions
+Submodule: tier-flat-history-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/tiers
+2. Wait for "css=main button:text-is('Search'):not([disabled])"
+3. Wait until the page settles
+4. Hold "POST action:getCommissionTierHistory"
+5. Click "css=main [role=tab]:has-text('History')"
+6. Wait for "css=main [data-slot=skeleton]"
+7. Audit inside "main" as "History - loading"
+8. Release "POST action:getCommissionTierHistory"
+9. Wait up to 90 seconds for "css=main tbody tr:has(td + td)"
+10. Wait until the page settles
+11. Audit inside "main" as "History - entries"
+12. Hover "css=main tbody tr:has(td + td) >> nth=0 >> css=td [data-slot=tooltip-trigger] >> nth=0"
+13. Audit inside "[data-radix-popper-content-wrapper]" as "History cell tooltip (text cut short)"
+14. Hover "css=main button[aria-label='Grid Options']"
+15. Audit inside "[data-radix-popper-content-wrapper]" as "History Grid Options tooltip"
+16. Click "css=main [role=combobox]:has-text('10')"
+17. Audit inside "[role=listbox]" as "History rows per page list open"
+18. Press "Escape"
+19. Click "css=main button[aria-label='Go to next page']"
+20. Wait until the page settles
+21. Audit inside "main" as "History - page 2"
+22. Click "css=main thead th:has-text('Action') button[data-slot=dropdown-menu-trigger]"
+23. Audit inside "[role=menu]" as "History column menu open"
+24. Click "css=[role=menu] [role=menuitem]:has-text('Sort descending')"
+25. Wait until the page settles
+26. Audit inside "main thead" as "History sorted (Action, descending)"
+27. Click "css=main button[aria-label='Grid Options']"
+28. Audit inside "[role=menu]" as "History Grid Options menu open"
+29. Press "Escape"
+# Export shows a dialog while the file is made: its request is held so the
+# dialog can be audited.
+30. Hold "POST action:exportCommissionTiers"
+31. Click "css=main button:has-text('Export')"
+32. Wait for "css=[role=dialog]"
+33. Audit inside "[role=dialog]" as "History Export dialog (exporting data)"
+34. Release "POST action:exportCommissionTiers"
+35. Wait for "css=body:not(:has([role=dialog]))"
+# A failed export, then a failed load, last (20 rows per page asks again; the
+# tabs keep what they fetched).
+36. Wait 4 seconds
+37. Fail "POST action:exportCommissionTiers"
+38. Click "css=main button:has-text('Export')"
+39. Audit message "Failed" as "History export failed message"
+40. Hover "css=main h1"
+41. Wait 8 seconds
+42. Fail "POST action:getCommissionTierHistory"
+43. Click "css=main [role=combobox]:has-text('10')"
+44. Click "css=[role=listbox] [role=option]:has-text('20')"
+45. Audit message "Failed" as "History load failed message"

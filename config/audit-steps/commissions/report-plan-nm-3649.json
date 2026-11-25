@@ -1,0 +1,16 @@
+{
+  "title": "Missing data-testid - Commissions > CMP (NM-3649, NM-5067)",
+  "module": "Commissions",
+  "office": "1101",
+  "officeLabel": "1101 - Corporate Office Encore USA SGA; local office view on 1606 - Embassy Suites by Hilton Washington DC Convention Center",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-commissions",
+  "output": "reports/testid-audit-commissions/NM-5067-NM-3649-cmp",
+  "fileName": "NM-5067-NM-3649-cmp-commission-missing-testids",
+  "submodules": [
+    { "ticket": "NM-3649-BI", "name": "CMP - Basic Information", "reports": ["cmp-basic-nm-5067", "cmp-save-nm-5067"] },
+    { "ticket": "NM-3649-HIS", "name": "CMP - Commission CMP History", "reports": ["cmp-history-nm-5067"] },
+    { "ticket": "NM-3649-LOV", "name": "CMP - Local office view (1606)", "reports": ["cmp-office-view-nm-5067@1606"] }
+  ],
+  "ownership": ["NM-3649-BI", "NM-3649-HIS", "NM-3649-LOV"]
+}

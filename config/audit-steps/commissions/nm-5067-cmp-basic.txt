@@ -1,0 +1,88 @@
+# NM-5067 - Commissions > CMP, Basic Information tab (sub-ticket NM-3649).
+# Every state of the tab, run on 1101, the office that manages CMP: the page
+# and its tooltip, the Change Local Office dialog (list, search results, no
+# match, Active/Inactive unticked), 1107 chosen (every business type ticked for
+# it in Settings), the Business Type list, the Commission field over 100 (and
+# its warning) and changed, the Save Changes question, the Unsaved changes
+# question, and the messages of a failed save and a failed export.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-cmp-basic.txt --office 1101
+#
+# Changes no data: the Save Changes question is cancelled first; the one Save
+# answer is given while every save request fails (Fail), so nothing reaches the
+# server.
+
+Module: Commissions
+Submodule: cmp-basic-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/cmp
+2. Wait for "css=main input:not([disabled])"
+3. Wait until the page settles
+4. Audit inside "main" as "Basic Information"
+5. Hover "css=main button[aria-label='More information']"
+6. Audit inside "[data-radix-popper-content-wrapper]" as "Page information tooltip"
+# The Local Office opens the Change Local Office dialog.
+7. Click "css=main button:has-text('1102')"
+8. Wait for "[data-testid=location-settings-modal-change-local-office-input-search]"
+9. Wait until the page settles
+10. Audit inside "[role=dialog]" as "Change Local Office dialog"
+11. Type "1107" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+12. Wait for "css=[role=dialog] tbody tr:has-text('HEDGE')"
+13. Audit inside "[role=dialog]" as "Change Local Office - search results"
+14. Type "zzqqxx" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+15. Wait 2 seconds
+16. Audit inside "[role=dialog]" as "Change Local Office - no match"
+17. Type "" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+18. Click "#active-inactive-filter"
+19. Wait until the page settles
+20. Audit inside "[role=dialog]" as "Change Local Office - Active/Inactive unticked"
+21. Click "#active-inactive-filter"
+22. Wait until the page settles
+23. Type "1107" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+24. Wait for "css=[role=dialog] tbody tr:has-text('HEDGE')"
+25. Click "css=[role=dialog] tbody tr:has-text('HEDGE') button[role=checkbox]"
+26. Click "[data-testid=location-settings-modal-change-local-office-btn-select]"
+27. Wait for "css=main button:has-text('1107')"
+28. Wait until the page settles
+29. Audit inside "main" as "1107 chosen"
+30. Click "css=main button[role=combobox]"
+31. Audit inside "[role=listbox]" as "Business Type list open (every type)"
+32. Press "Escape"
+# The Commission field: over 100, then changed; Save asks first, Cancel.
+33. Type "150" into "css=main input"
+34. Audit inside "main" as "Commission over 100"
+35. Hover "css=main button[aria-label='Commission must be between 1% and 100%.']"
+36. Audit inside "[data-radix-popper-content-wrapper]" as "Commission over 100 - warning tooltip"
+37. Type "5" into "css=main input" and leave
+38. Wait for "css=main button:text-is('Save'):not([disabled])"
+39. Audit inside "main" as "Commission changed (Save on)"
+40. Click "css=main button:text-is('Save')"
+41. Wait for "css=[role=alertdialog]"
+42. Audit inside "[role=alertdialog]" as "Save Changes question"
+43. Click "[data-testid=commission-cmp-save-changes-confirm-btn-cancel]"
+44. Wait for "css=body:not(:has([role=alertdialog]))"
+# Leaving with the change unsaved asks first (two questions open, one over the
+# other; Stay answers each).
+45. Click "css=main [role=tab]:has-text('History')"
+46. Wait for "css=[role=alertdialog]"
+47. Audit inside "css=[role=alertdialog] >> nth=-1" as "Unsaved changes question"
+48. Click "css=[role=alertdialog] >> nth=-1 >> css=[data-testid=location-settings-modal-unsaved-changes-btn-cancel]"
+49. Wait 1 seconds
+50. Click "css=[role=alertdialog] >> nth=-1 >> css=[data-testid=location-settings-modal-unsaved-changes-btn-cancel]"
+51. Wait for "css=body:not(:has([role=alertdialog]))"
+# A failed save: every save request fails from here on, so nothing is saved.
+52. Fail "POST action:updateCmpCommissionAction"
+53. Click "css=main button:text-is('Save')"
+54. Wait for "css=[role=alertdialog]"
+55. Click "[data-testid=commission-cmp-save-changes-confirm-btn-confirm]"
+56. Audit message "Failed" as "Save failed message"
+57. Hover "css=main h1"
+58. Wait 8 seconds
+# A failed export, last. (A failed load shows no message: the page shows the
+# office picked.)
+59. Fail "POST action:exportCmpCommissions"
+60. Click "css=main button:has-text('Export')"
+61. Audit message "Failed" as "Export failed message"
+62. Hover "css=main h1"
+63. Wait 8 seconds

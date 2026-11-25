@@ -1,0 +1,171 @@
+# NM-5067 - Commissions > Product Code, Basic Information tab (sub-ticket
+# NM-3349). Every state of the tab, run on 1101, the office that edits
+# commissions (1606 is picked in Change Local Office, as the page is used): the
+# tooltips, the empty grid's scroll bar, the message of an export with no
+# office's items, the search panel collapsed, the column and Grid Options
+# menus, the Change Local Office dialog (list, search results, a location
+# ticked, no match), the grid while it loads, with the first 1001 items and the
+# limit message, the rows-per-page list and the next page, a narrowed search,
+# the dialog of each level of a row (Category, Sub Category, Class, Sub Class,
+# Item), Use Default unticked, the Comm % field, an invalid value and its
+# message tooltip, a changed value, the Confirm question, Propagate unticked,
+# and the messages of a failed save, a failed export and a failed search. Copy
+# to Location(s) needs a saved commission: its panel is in
+# nm-5067-product-code-save.txt.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-product-code-basic.txt --office 1101
+#
+# Changes no data: the Confirm question is cancelled and dialogs are closed
+# without saving; the one Save click is made while every save request is failed
+# (Fail), so nothing reaches the server.
+
+Module: Commissions
+Submodule: product-code-basic-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/product-code
+2. Wait for "css=main button:text-is('Search'):not([disabled])"
+3. Wait until the page settles
+4. Audit inside "main" as "Basic Information - before search"
+5. Hover "css=main thead th >> nth=0"
+6. Wait for "css=main [data-slot=scroll-area-scrollbar]"
+7. Audit inside "main" as "Grid - pointer over it (scroll bar shown)"
+8. Hover "css=main button[aria-label='More information']"
+9. Audit inside "[data-radix-popper-content-wrapper]" as "Page information tooltip"
+10. Hover "css=main button[aria-label='Collapse search panel']"
+11. Audit inside "[data-radix-popper-content-wrapper]" as "Collapse search panel tooltip"
+12. Hover "css=main button[aria-label='Grid Options']"
+13. Audit inside "[data-radix-popper-content-wrapper]" as "Grid Options tooltip"
+# The corporate office has no items of its own: Export says it failed.
+14. Click "css=main button:has-text('Export')"
+15. Audit message "Failed to export" as "Export message (nothing to export)"
+16. Click "css=main button[aria-label='Collapse search panel']"
+17. Wait for "css=main button[aria-label='Expand search panel']"
+18. Audit inside "main" as "Search panel collapsed"
+19. Hover "css=main button[aria-label='Expand search panel']"
+20. Audit inside "[data-radix-popper-content-wrapper]" as "Expand search panel tooltip"
+21. Click "css=main button[aria-label='Expand search panel']"
+22. Click "css=main thead th:has-text('Category') button[data-slot=dropdown-menu-trigger]"
+23. Audit inside "[role=menu]" as "Column menu open"
+24. Press "Escape"
+25. Click "css=main button[aria-label='Grid Options']"
+26. Audit inside "[role=menu]" as "Grid Options menu open"
+27. Press "Escape"
+# The Local Office box opens the Change Local Office dialog.
+28. Click "css=main button:has-text('1101 - Corporate')"
+29. Wait for "[data-testid=location-settings-modal-change-local-office-input-search]"
+30. Wait until the page settles
+31. Audit inside "[role=dialog]" as "Change Local Office dialog"
+32. Type "1606" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+33. Wait for "css=[role=dialog] tbody tr:has-text('Embassy Suites')"
+34. Audit inside "[role=dialog]" as "Change Local Office - search results"
+35. Click "css=[role=dialog] tbody tr:has-text('Embassy Suites') button[role=checkbox]"
+36. Audit inside "[role=dialog]" as "Change Local Office - location ticked"
+37. Type "zzqqxx" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+38. Wait 2 seconds
+39. Audit inside "[role=dialog]" as "Change Local Office - no match"
+40. Type "1606" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+41. Wait for "css=[role=dialog] tbody tr:has-text('Embassy Suites')"
+42. Click "[data-testid=location-settings-modal-change-local-office-btn-select]"
+43. Wait for "css=main button:has-text('1606')"
+44. Audit inside "main form" as "Search criteria - location chosen"
+# Every item of the office: the first 1001 and the limit message. The request
+# is held so the grid can be audited while it loads.
+45. Hold "POST action:searchProdCodeCommission"
+46. Click "css=main button:text-is('Search')"
+47. Wait for "css=main [data-slot=skeleton]"
+48. Audit inside "main" as "Grid - loading"
+49. Release "POST action:searchProdCodeCommission"
+50. Wait up to 90 seconds for "css=main tbody tr [role=button]"
+51. Wait until the page settles
+52. Audit inside "main" as "Search done - first 1001 items (limit message)"
+53. Click "css=main [role=combobox]:has-text('10')"
+54. Audit inside "[role=listbox]" as "Rows per page list open"
+55. Press "Escape"
+56. Click "css=main button[aria-label='Go to next page']"
+57. Wait until the page settles
+58. Audit inside "main" as "Grid - page 2"
+# Export shows a dialog while the file is made: its request is held so the
+# dialog can be audited.
+59. Hold "POST action:exportProductCodeCommission"
+60. Click "css=main button:has-text('Export')"
+61. Wait for "css=[role=dialog]:has-text('Exporting')"
+62. Audit inside "[role=dialog]" as "Export dialog (exporting data)"
+63. Release "POST action:exportProductCodeCommission"
+64. Wait for "css=body:not(:has([role=dialog]))"
+# One branch of the product tree, and the dialog of each of its levels.
+65. Type "Stingers" into "#product-code-commission-any-field"
+66. Click "css=main button:text-is('Search')"
+67. Wait up to 90 seconds for "css=main tbody tr:has-text('Stingers') [role=button]"
+68. Wait until the page settles
+69. Audit inside "main" as "Search done - one branch"
+70. Click "css=main tbody tr >> nth=0 >> css=[role=button] >> nth=0"
+71. Wait for "css=[role=dialog] table"
+72. Wait until the page settles
+73. Audit inside "[role=dialog]" as "Category dialog"
+74. Click "css=[role=dialog] button:text-is('Cancel')"
+75. Wait for "css=body:not(:has([role=dialog]))"
+76. Click "css=main tbody tr >> nth=0 >> css=[role=button] >> nth=1"
+77. Wait for "css=[role=dialog] table"
+78. Wait until the page settles
+79. Audit inside "[role=dialog]" as "Sub Category dialog"
+80. Click "css=[role=dialog] button:text-is('Cancel')"
+81. Wait for "css=body:not(:has([role=dialog]))"
+82. Click "css=main tbody tr >> nth=0 >> css=[role=button] >> nth=2"
+83. Wait for "css=[role=dialog] table"
+84. Wait until the page settles
+85. Audit inside "[role=dialog]" as "Class dialog"
+86. Click "css=[role=dialog] button:text-is('Cancel')"
+87. Wait for "css=body:not(:has([role=dialog]))"
+88. Click "css=main tbody tr >> nth=0 >> css=[role=button] >> nth=4"
+89. Wait for "css=[role=dialog] table"
+90. Wait until the page settles
+91. Audit inside "[role=dialog]" as "Item dialog"
+92. Click "css=[role=dialog] button:text-is('Cancel')"
+93. Wait for "css=body:not(:has([role=dialog]))"
+# The Sub Class dialog: Use Default unticked (Comm % becomes editable), the
+# Comm % field and each of its messages, the Confirm question, Propagate
+# unticked. (Copy to Location(s) needs a saved commission: see the save walk.)
+94. Click "css=main tbody tr >> nth=0 >> css=[role=button] >> nth=3"
+95. Wait for "css=[role=dialog] table"
+96. Wait until the page settles
+97. Audit inside "[role=dialog]" as "Sub Class dialog"
+98. Click "css=[role=dialog] table >> nth=0 >> css=[role=checkbox][aria-label='Use Default Commission']"
+99. Wait for "css=[role=dialog] table >> nth=0 >> css=td [role=button]"
+100. Audit inside "[role=dialog]" as "Use Default Commission unticked (Comm % editable)"
+101. Click "css=[role=dialog] table >> nth=0 >> css=td [role=button]"
+102. Wait for "css=[role=dialog] table input"
+103. Audit inside "[role=dialog]" as "Comm % field open"
+104. Type "150" into "css=[role=dialog] table input"
+105. Audit inside "[role=dialog]" as "Comm % over 100 (marked invalid)"
+106. Hover "css=[role=dialog] table [data-slot=tooltip-trigger]"
+107. Audit inside "[data-radix-popper-content-wrapper]" as "Comm % message tooltip (0-100%)"
+108. Type "5" into "css=[role=dialog] table input" and leave
+109. Audit inside "[role=dialog]" as "Comm % changed"
+110. Click "css=[role=dialog] button:text-is('Save')"
+111. Wait for "css=[role=alertdialog]"
+112. Audit inside "[role=alertdialog]" as "Confirm question (propagate to child segments)"
+113. Click "css=[role=alertdialog] button:text-is('Cancel')"
+114. Click "css=[role=dialog] table >> nth=0 >> css=[role=checkbox][aria-label='Propagate']"
+115. Audit inside "[role=dialog]" as "Propagate unticked"
+# A failed save (5 % on the Sub Class alone, so no question): every save
+# request fails from here on, so nothing is saved.
+116. Fail "POST action:updateProdCodeCommission"
+117. Click "css=[role=dialog] button:text-is('Save')"
+118. Audit message "Failed to save" as "Save failed message"
+119. Click "css=[role=dialog] button:text-is('Cancel')"
+120. Wait for "css=body:not(:has([role=dialog]))"
+# A failed export, then a failed search, last; each waits for the message before
+# it to close. The search text is changed first: the page answers the same
+# search again from memory, without a request.
+121. Hover "css=main h1"
+122. Wait 8 seconds
+123. Fail "POST action:exportProductCodeCommission"
+124. Click "css=main button:has-text('Export')"
+125. Audit message "Failed to export" as "Export failed message"
+126. Hover "css=main h1"
+127. Wait 8 seconds
+128. Type "Stinger" into "#product-code-commission-any-field"
+129. Fail "POST action:searchProdCodeCommission"
+130. Click "css=main button:text-is('Search')"
+131. Audit message "Failed to fetch" as "Search failed message"

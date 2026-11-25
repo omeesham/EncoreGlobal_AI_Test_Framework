@@ -1,0 +1,16 @@
+{
+  "title": "Missing data-testid - Commissions > Tier/Flat (NM-3350, NM-5067)",
+  "module": "Commissions",
+  "office": "1101",
+  "officeLabel": "1101 - Corporate Office Encore USA SGA; local office view on 1606 - Embassy Suites by Hilton Washington DC Convention Center",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-commissions",
+  "output": "reports/testid-audit-commissions/NM-5067-NM-3350-tier-flat",
+  "fileName": "NM-5067-NM-3350-tier-flat-commission-missing-testids",
+  "submodules": [
+    { "ticket": "NM-3350-BI", "name": "Tier/Flat - Basic Information", "reports": ["tier-flat-basic-nm-5067", "tier-flat-save-nm-5067", "tier-flat-copy-nm-5067"] },
+    { "ticket": "NM-3350-HIS", "name": "Tier/Flat - Commission Tier/Flat History", "reports": ["tier-flat-history-nm-5067"] },
+    { "ticket": "NM-3350-LOV", "name": "Tier/Flat - Local office view (1606)", "reports": ["tier-flat-office-view-nm-5067@1606"] }
+  ],
+  "ownership": ["NM-3350-BI", "NM-3350-HIS", "NM-3350-LOV"]
+}

@@ -1,0 +1,79 @@
+# NM-5067 - Commissions > Product Code: the states only a real save shows
+# (sub-ticket NM-3349). Run on 1101, with 1606 picked in Change Local Office:
+# the "saved" message, the Sub Class dialog holding a saved commission, and the
+# Copy to Location(s) panel it then offers (list, search, a location ticked,
+# all ticked), closed without Apply.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-product-code-save.txt --office 1101
+#
+# Changes data, then puts it back: 5 % is saved on the 1606 Sub Class "Encore
+# Music: Royalty Free Music" (and its 3 items), then Use Default Commission is
+# ticked again and saved, which puts every one back on the default 0.00 %.
+# History keeps an entry for each save. Copy's Apply is never clicked.
+
+Module: Commissions
+Submodule: product-code-save-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/product-code
+2. Wait for "css=main button:text-is('Search'):not([disabled])"
+3. Wait until the page settles
+4. Click "css=main button:has-text('1101 - Corporate')"
+5. Type "1606" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+6. Wait for "css=[role=dialog] tbody tr:has-text('Embassy Suites')"
+7. Click "css=[role=dialog] tbody tr:has-text('Embassy Suites') button[role=checkbox]"
+8. Click "[data-testid=location-settings-modal-change-local-office-btn-select]"
+9. Wait for "css=main button:has-text('1606')"
+10. Type "Stingers" into "#product-code-commission-any-field"
+11. Click "css=main button:text-is('Search')"
+12. Wait up to 90 seconds for "css=main tbody tr:has-text('Stingers') [role=button]"
+13. Wait until the page settles
+# 5 % on the Sub Class and its items: Save asks, Ok saves.
+14. Click "css=main tbody tr >> nth=0 >> css=[role=button] >> nth=3"
+15. Wait for "css=[role=dialog] table"
+16. Wait until the page settles
+17. Click "css=[role=dialog] table >> nth=0 >> css=[role=checkbox][aria-label='Use Default Commission']"
+18. Click "css=[role=dialog] table >> nth=0 >> css=td [role=button]"
+19. Type "5" into "css=[role=dialog] table input" and leave
+20. Click "css=[role=dialog] button:text-is('Save')"
+21. Wait for "css=[role=alertdialog]"
+22. Click "css=[role=alertdialog] button:text-is('Ok')"
+23. Audit message "saved" as "Saved message"
+24. Wait for "css=body:not(:has([role=dialog]))"
+# The saved items are off the default, so the search lists them with Use
+# Default Commission unticked.
+25. Click "#product-code-commission-use-default-commission"
+26. Click "css=main button:text-is('Search')"
+27. Wait up to 90 seconds for "css=main tbody tr:has-text('5.00 %') [role=button]"
+28. Wait until the page settles
+29. Audit inside "main" as "Search done - commission saved (off the default)"
+# The dialog with the saved commission, and the Copy to Location(s) panel.
+30. Click "css=main tbody tr >> nth=0 >> css=[role=button] >> nth=3"
+31. Wait for "css=[role=dialog] table"
+32. Wait until the page settles
+33. Audit inside "[role=dialog]" as "Sub Class dialog - commission saved"
+34. Click "css=[role=dialog] button:has-text('Copy to Location')"
+35. Wait for "css=[data-testid=product-code-commission-copy-panel][aria-hidden=false] tbody tr"
+36. Wait until the page settles
+37. Audit inside "[data-testid=product-code-commission-copy-panel]" as "Copy to Location(s) panel"
+38. Type "2359" into "[data-testid=product-code-commission-search]"
+39. Wait 2 seconds
+40. Audit inside "[data-testid=product-code-commission-copy-panel]" as "Copy panel - search results"
+41. Click "css=[data-testid=product-code-commission-copy-panel] tbody tr:has-text('2359') [role=checkbox]"
+42. Audit inside "[data-testid=product-code-commission-copy-panel]" as "Copy panel - location ticked"
+43. Type "zzqqxx" into "[data-testid=product-code-commission-search]"
+44. Wait 2 seconds
+45. Audit inside "[data-testid=product-code-commission-copy-panel]" as "Copy panel - no match"
+46. Type "" into "[data-testid=product-code-commission-search]"
+47. Wait 2 seconds
+48. Click "css=[data-testid=product-code-commission-copy-panel] [role=checkbox][aria-label='Select all']"
+49. Audit inside "[data-testid=product-code-commission-copy-panel]" as "Copy panel - all ticked"
+50. Click "css=[data-testid=product-code-commission-copy-panel] button:text-is('Close')"
+51. Wait for "css=[data-testid=product-code-commission-copy-panel][aria-hidden=true]"
+# Put back: Use Default ticked again, saved over the Sub Class and its items.
+52. Click "css=[role=dialog] table >> nth=0 >> css=[role=checkbox][aria-label='Use Default Commission']"
+53. Click "css=[role=dialog] button:text-is('Save')"
+54. Wait for "css=[role=alertdialog]"
+55. Click "css=[role=alertdialog] button:text-is('Ok')"
+56. Wait for "css=body:not(:has([role=dialog]))"
+57. Wait until the page settles

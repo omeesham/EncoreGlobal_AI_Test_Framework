@@ -1,0 +1,16 @@
+{
+  "title": "Missing data-testid - Commissions > Product Code (NM-3349, NM-5067)",
+  "module": "Commissions",
+  "office": "1101",
+  "officeLabel": "1101 - Corporate Office Encore USA SGA; local office view on 1606 - Embassy Suites by Hilton Washington DC Convention Center",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-commissions",
+  "output": "reports/testid-audit-commissions/NM-5067-NM-3349-product-code",
+  "fileName": "NM-5067-NM-3349-product-code-commission-missing-testids",
+  "submodules": [
+    { "ticket": "NM-3349-BI", "name": "Product Code - Basic Information", "reports": ["product-code-basic-nm-5067", "product-code-save-nm-5067"] },
+    { "ticket": "NM-3349-HIS", "name": "Product Code - Product Code Commission History", "reports": ["product-code-history-nm-5067"] },
+    { "ticket": "NM-3349-LOV", "name": "Product Code - Local office view (1606)", "reports": ["product-code-office-view-nm-5067@1606"] }
+  ],
+  "ownership": ["NM-3349-BI", "NM-3349-HIS", "NM-3349-LOV"]
+}

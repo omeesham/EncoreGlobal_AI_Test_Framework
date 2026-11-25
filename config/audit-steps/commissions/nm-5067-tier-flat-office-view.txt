@@ -1,0 +1,36 @@
+# NM-5067 - Commissions > Tier/Flat as a local office sees it (sub-ticket
+# NM-3350). Run on 1606, where the page only shows the office's own tiers:
+# the office fixed, and no Export, Import, Copy, Reset Dates, Save or Add Row.
+# The tab before search, the grid while it loads and with the office's tiers,
+# the rows-per-page list, the next page, and the History tab.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-tier-flat-office-view.txt --office 1606
+#
+# Changes no data.
+
+Module: Commissions
+Submodule: tier-flat-office-view-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/tiers
+2. Wait for "css=main button:text-is('Search'):not([disabled])"
+3. Wait until the page settles
+4. Audit inside "main" as "Local office - before search"
+5. Wait 2 seconds
+6. Hold "POST action:searchCommissionTiers"
+7. Click "css=main button:text-is('Search')"
+8. Wait for "css=main [data-slot=skeleton]"
+9. Audit inside "main" as "Local office - loading"
+10. Release "POST action:searchCommissionTiers"
+11. Wait up to 90 seconds for "css=main :text-matches('items? found')"
+12. Wait until the page settles
+13. Audit inside "main" as "Local office - search done"
+14. Click "css=main [role=combobox]:has-text('10')"
+15. Audit inside "[role=listbox]" as "Local office - rows per page list open"
+16. Press "Escape"
+17. Click "css=main button[aria-label='Go to next page']"
+18. Wait until the page settles
+19. Audit inside "main" as "Local office - page 2"
+20. Click "css=main [role=tab]:has-text('History')"
+21. Wait until the page settles
+22. Audit inside "main" as "Local office - History"

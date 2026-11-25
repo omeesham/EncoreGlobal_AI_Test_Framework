@@ -1,0 +1,48 @@
+# NM-5067 - Commissions > Tier/Flat: what Apply shows in both Copy dialogs
+# (sub-ticket NM-3350). Run on 1101: Location To Location Copy with a
+# location ticked, Apply's check of the copy (Verify Copy Conflicts) and the
+# message of a failed copy; Within Location Copy with a service type ticked and
+# the message of a failed check.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-tier-flat-copy.txt --office 1101
+#
+# Changes no data: both copy requests fail (Fail) once the page has loaded, so no
+# copy reaches the server; only the read-only checks before them are sent (the
+# second check fails too).
+
+Module: Commissions
+Submodule: tier-flat-copy-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/tiers
+2. Wait for "css=main button:text-is('Search'):not([disabled])"
+3. Wait until the page settles
+4. Wait 2 seconds
+5. Click "css=main button:text-is('Search')"
+6. Wait up to 90 seconds for "css=main tbody tr [data-testid^=commission-tier-delete-]"
+7. Wait until the page settles
+8. Fail "POST action:copyCommissionTiersToLocations"
+9. Fail "POST action:copyCommissionTiersWithinLocation"
+10. Click "[data-testid=commission-tiers-copy-menu]"
+11. Click "css=[role=menuitem]:has-text('Copy to Locations')"
+12. Wait for "css=[role=dialog] tbody tr"
+13. Wait until the page settles
+14. Click "css=[role=dialog] tbody tr:has-text('1102') [role=checkbox]"
+15. Click "css=[role=dialog] button:text-is('Apply')"
+16. Wait for "[data-testid=commission-tier-copy-verify-modal]"
+17. Wait until the page settles
+18. Audit inside "[data-testid=commission-tier-copy-verify-modal]" as "Location To Location Copy - Verify Copy Conflicts"
+19. Click "[data-testid=commission-tier-copy-verify-ok]"
+20. Audit message "Failed" as "Location To Location Copy - copy failed message"
+21. Wait 8 seconds
+22. Click "[data-testid=commission-tier-copy-verify-cancel]"
+23. Click "[data-testid=commission-tier-copy-to-locations-close]"
+24. Wait for "css=body:not(:has([role=dialog]))"
+25. Click "[data-testid=commission-tiers-copy-menu]"
+26. Click "css=[role=menuitem]:has-text('Copy Within Location')"
+27. Wait for "css=[role=dialog] tbody tr"
+28. Wait until the page settles
+29. Click "css=[role=dialog] tbody tr:has-text('App Remote Access') [role=checkbox]"
+30. Fail "POST action:verifyCopyCommissionTiersWithinLocation"
+31. Click "css=[role=dialog] button:text-is('Apply')"
+32. Audit message "Failed to verify" as "Within Location Copy - check failed message"

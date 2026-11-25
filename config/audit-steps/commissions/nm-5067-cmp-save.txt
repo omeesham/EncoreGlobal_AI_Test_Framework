@@ -1,0 +1,42 @@
+# NM-5067 - Commissions > CMP: the states only a real save shows (sub-ticket
+# NM-3649). Run on 1101 with 1107 chosen: the "updated successfully" message
+# and the page after the save.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-cmp-save.txt --office 1101
+#
+# Changes data, then puts it back: 1107's Audio Visual commission is saved as
+# 8 % and then as 7 % again (its value before). History keeps an entry for
+# each save.
+
+Module: Commissions
+Submodule: cmp-save-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/cmp
+2. Wait for "css=main input:not([disabled])"
+3. Wait until the page settles
+4. Click "css=main button:has-text('1102')"
+5. Type "1107" into "[data-testid=location-settings-modal-change-local-office-input-search]"
+6. Wait for "css=[role=dialog] tbody tr:has-text('HEDGE')"
+7. Click "css=[role=dialog] tbody tr:has-text('HEDGE') button[role=checkbox]"
+8. Click "[data-testid=location-settings-modal-change-local-office-btn-select]"
+9. Wait for "css=main button:has-text('1107')"
+10. Wait until the page settles
+11. Wait for "css=main button[role=combobox]:has-text('Audio Visual')"
+# 8 % saved.
+12. Type "8" into "css=main input" and leave
+13. Click "css=main button:text-is('Save')"
+14. Wait for "css=[role=alertdialog]"
+15. Click "[data-testid=commission-cmp-save-changes-confirm-btn-confirm]"
+16. Audit message "updated successfully" as "Saved message"
+17. Wait until the page settles
+18. Audit inside "main" as "Commission saved"
+# Put back: 7 %.
+19. Hover "css=main h1"
+20. Wait 8 seconds
+21. Type "7" into "css=main input" and leave
+22. Click "css=main button:text-is('Save')"
+23. Wait for "css=[role=alertdialog]"
+24. Click "[data-testid=commission-cmp-save-changes-confirm-btn-confirm]"
+25. Wait for "css=[data-sonner-toast]:has-text('updated successfully')"
+26. Wait until the page settles

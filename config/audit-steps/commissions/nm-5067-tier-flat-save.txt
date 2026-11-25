@@ -1,0 +1,51 @@
+# NM-5067 - Commissions > Tier/Flat: the states only a real save shows
+# (sub-ticket NM-3350). Run on 1101 (Audio Visual, USD): the message of a
+# saved tier, the grid after the save, January chosen in Reset Dates, and the
+# message its Save shows.
+# Run: node scripts/generic-testid-audit.js --steps ../NM-5067/config/audit-steps/commissions/nm-5067-tier-flat-save.txt --office 1101
+#
+# Changes data, then puts it back: Comm % of the APP Downloaded tier is saved
+# as 1 % and then as 0 % again (History keeps an entry for each save). The
+# reset dates are not stored for 1101: the months stay empty.
+
+Module: Commissions
+Submodule: tier-flat-save-nm-5067
+Output: reports/testid-audit-commissions
+Elements: all
+
+1. Go to /navigator/locations/{office}/commissions/tiers
+2. Wait for "css=main button:text-is('Search'):not([disabled])"
+3. Wait until the page settles
+4. Wait 2 seconds
+5. Click "css=main button:text-is('Search')"
+6. Wait up to 90 seconds for "css=main tbody tr [data-testid^=commission-tier-delete-]"
+7. Wait until the page settles
+# A tier saved: Comm % of APP Downloaded to 1 %.
+8. Click "css=main tbody tr:has-text('APP Downloaded') [data-testid^=commission-tier-commission-]"
+9. Type "1" into "css=main tbody tr:has-text('APP Downloaded') input" and leave
+10. Click "css=main button:text-is('Save')"
+11. Audit message as "Tiers saved message"
+12. Wait until the page settles
+13. Audit inside "main" as "Search done - tier saved"
+# Put back: 0 %.
+14. Hover "css=main h1"
+15. Wait 8 seconds
+16. Click "css=main tbody tr:has-text('APP Downloaded') [data-testid^=commission-tier-commission-]"
+17. Type "0" into "css=main tbody tr:has-text('APP Downloaded') input" and leave
+18. Click "css=main button:text-is('Save')"
+19. Wait for "css=[data-sonner-toast]"
+20. Wait until the page settles
+# Reset dates: January = 1 and Save; the office keeps no reset dates, so nothing
+# needs putting back.
+21. Hover "css=main h1"
+22. Wait 8 seconds
+23. Click "css=main button:has-text('Reset Dates')"
+24. Wait for "css=[role=dialog] [role=combobox]"
+25. Wait until the page settles
+26. Click "css=[role=dialog] [role=combobox] >> nth=0"
+27. Click "css=[role=listbox] [role=option] >> nth=1"
+28. Audit inside "[role=dialog]" as "Reset - January chosen (Save on)"
+29. Click "css=[role=dialog] button:text-is('Save')"
+30. Audit message "reset" as "Reset dates save message"
+31. Click "css=[role=dialog] button:text-is('Cancel')"
+32. Wait for "css=body:not(:has([role=dialog]))"
