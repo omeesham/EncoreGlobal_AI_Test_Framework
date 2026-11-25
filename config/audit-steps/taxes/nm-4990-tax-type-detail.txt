@@ -1,0 +1,67 @@
+# NM-4990 - Taxes > Tax Type Detail (NM-4024, parent NM-4019).
+# Every state of the page: the grid while it loads and loaded (40 tax types),
+# the Grid Options tooltip and menu, each column's menu, a column hidden, a
+# name cut short by a narrowed column with its tooltip, and the empty grid
+# shown when the list cannot be loaded.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/taxes/nm-4990-tax-type-detail.txt --office 1606
+#
+# Changes no data: the page is read-only. The list request is failed (Fail)
+# only in the last state, so the page is not reloaded after it.
+
+Module: Taxes
+Submodule: tax-type-detail-nm-4990
+Output: reports/testid-audit-taxes
+Elements: all
+
+# Loading placeholders, before the list arrives
+1. Hold "POST bActive"
+2. Go to /navigator/locations/{office}/taxes/tax-type-detail
+3. Wait for "[data-slot=skeleton]"
+4. Audit inside "main" as "Tax Type Detail - loading"
+5. Release "POST bActive"
+
+# Default view: heading, count, Grid Options, headers, rows
+6. Wait for "css=main tbody tr:has(td + td)"
+7. Wait until the page settles
+8. Audit inside "main" as "Tax Type Detail - default view"
+
+# Tooltip on Grid Options
+9. Hover "Grid Options"
+10. Audit inside "[data-radix-popper-content-wrapper]" as "Grid Options tooltip"
+11. Press "Escape"
+
+# Grid Options menu (column checkboxes, Reset to Default View)
+12. Click "Grid Options"
+13. Audit inside "[role=menu]" as "Grid Options menu open"
+14. Press "Escape"
+
+# Column header menus (Sort ascending / descending, Hide column)
+15. Click "css=main thead th:has-text('Tax Type') button[data-slot=dropdown-menu-trigger]"
+16. Audit inside "[role=menu]" as "Tax Type column menu open"
+17. Press "Escape"
+18. Click "css=main thead th:has-text('Default Taxability') button[data-slot=dropdown-menu-trigger]"
+19. Audit inside "[role=menu]" as "Default Taxability column menu open"
+20. Press "Escape"
+21. Click "css=main thead th:has-text('Active') button[data-slot=dropdown-menu-trigger]"
+22. Audit inside "[role=menu]" as "Active column menu open"
+23. Press "Escape"
+
+# A column hidden from its header menu (Grid Options then shows it unticked)
+24. Click "css=main thead th:has-text('Default Taxability') button[data-slot=dropdown-menu-trigger]"
+25. Click "Hide column"
+26. Audit inside "main" as "Default Taxability column hidden"
+27. Click "Grid Options"
+28. Click "Reset to Default View"
+29. Press "Escape"
+
+# A name cut off by a narrowed Tax Type column shows in full in a tooltip
+30. Drag "[aria-label='Resize column TaxType']" to "css=main h1"
+31. Hover "css=main tbody tr td span[data-slot=tooltip-trigger] >> text=Technician - Support Services"
+32. Audit inside "[data-radix-popper-content-wrapper]" as "Cut-off tax type name tooltip"
+33. Press "Escape"
+
+# The list fails to load: "0 Tax type found" and "No tax type detail records found."
+34. Fail "POST bActive"
+35. Go to /navigator/locations/{office}/taxes/tax-type-detail
+36. Wait for "text=No tax type detail records found."
+37. Audit inside "main" as "Tax Type Detail - list failed to load (empty state)"

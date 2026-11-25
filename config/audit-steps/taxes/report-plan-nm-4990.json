@@ -1,0 +1,16 @@
+{
+  "title": "Missing data-testid - Taxes: Tax Type Detail and International Tax Type Setup (NM-4990)",
+  "module": "Taxes",
+  "office": "1606",
+  "officeLabel": "1606 - Embassy Suites by Hilton Washington DC Convention Center",
+  "appUrl": "https://cloudapps-e2e.encoreglobal.com",
+  "reportsDir": "reports/testid-audit-taxes",
+  "output": "reports/testid-audit-taxes/NM-4990-taxes-1606",
+  "fileName": "NM-4990-taxes-missing-testids-1606",
+  "submodules": [
+    { "ticket": "NM-4024", "name": "Tax Type Detail", "reports": ["tax-type-detail-nm-4990"] },
+    { "ticket": "NM-4026", "name": "International Tax Type Setup", "reports": ["international-tax-type-setup-nm-4990"] },
+    { "ticket": "NM-4990-NAV", "name": "Navigation and App Shell", "reports": ["app-shell-nm-4990"] }
+  ],
+  "ownership": ["NM-4024", "NM-4026", "NM-4990-NAV"]
+}

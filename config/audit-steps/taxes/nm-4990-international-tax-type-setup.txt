@@ -1,0 +1,149 @@
+# NM-4990 - Taxes > International Tax Type Setup (NM-4026, parent NM-4019).
+# Every state of the page: before a search, the page information tooltip, the
+# Country list and the search date's calendar, a refused search date with its
+# "Required" marker and tooltip, the filters' tooltips and the filters
+# collapsed, Mexico results (as in the ticket screenshot) with the IVA list and
+# an empty state's tax type list, the grid while it loads, Canada results, Grid
+# Options, each column's menu, a row being edited (GOV and Provincial tax type
+# lists, the Effective Date marker and the row calendar), the Unsaved changes
+# question, and the message of a failed save.
+# Run: node scripts/generic-testid-audit.js --steps config/audit-steps/taxes/nm-4990-international-tax-type-setup.txt --office 1606
+#
+# Changes no data: rows are edited but never saved. The one Save click is made
+# while every save request is failed (Fail), so nothing reaches the server.
+
+Module: Taxes
+Submodule: international-tax-type-setup-nm-4990
+Output: reports/testid-audit-taxes
+Elements: all
+
+# Before a search: criteria panel and the empty-grid message
+1. Go to /navigator/locations/{office}/taxes/international-tax-type-setup
+2. Wait for "#international-tax-type-setup-country"
+3. Wait until the page settles
+4. Audit inside "main" as "Default view - before search"
+
+# Information tooltip beside the heading
+5. Hover "More information"
+6. Audit inside "[data-radix-popper-content-wrapper]" as "More information tooltip"
+7. Press "Escape"
+
+# Country dropdown open
+8. Click "#international-tax-type-setup-country"
+9. Audit inside "[data-radix-popper-content-wrapper]" as "Country dropdown open"
+10. Press "Escape"
+
+# Search Effective Date calendar open
+11. Click "css=main form button[aria-label='Open calendar']"
+12. Audit inside "[data-slot=popover-content]" as "Search Effective Date calendar open"
+13. Press "Escape"
+
+# An invalid search date: the "Required" marker, Search disabled, and the marker's tooltip
+Type "zzqqxx" into "css=main form input[aria-label='Select date']" and leave
+Audit inside "main" as "Search Effective Date invalid - Required"
+Hover "Required"
+Audit inside "[data-radix-popper-content-wrapper]" as "Required marker tooltip"
+Press "Escape"
+Click "[data-testid=e2e-reset-button]"
+Wait until the page settles
+
+# Criteria panel collapsed, then expanded again, with each button's tooltip
+Hover "Collapse filters"
+Audit inside "[data-radix-popper-content-wrapper]" as "Hide filters tooltip"
+14. Click "Collapse filters"
+15. Audit inside "main" as "Search criteria collapsed"
+Hover "Expand filters"
+Audit inside "[data-radix-popper-content-wrapper]" as "Show filters tooltip"
+16. Click "Expand filters"
+
+# Search Mexico, as in the NM-4026 screenshot (32 states; most have no tax type yet)
+Click "#international-tax-type-setup-country"
+Click "role=option[name='Mexico']"
+Click "[data-testid=e2e-search-button]"
+Wait for "css=main tbody tr:has(td > span:text-is('Aguascalientes'))"
+Wait until the page settles
+Audit inside "main" as "Results - Mexico"
+
+# Mexico's GOV tax type picker (IVA) on Aguascalientes
+Click "css=main tbody tr:has(td > span:text-is('Aguascalientes')) td:has-text('IVA')"
+Click "css=main tbody tr:has(td > span:text-is('Aguascalientes')) button[role=combobox]"
+Audit inside "[data-radix-popper-content-wrapper]" as "Mexico GOV tax type options open"
+Press "Escape"
+
+# An empty Mexican row: its GOV tax type picker (nothing is picked, nothing is saved)
+Click "css=main tbody tr:has(td > span:text-is('Baja California')) td >> nth=1"
+Audit inside "main" as "Empty row - GOV tax type picker shown"
+Click "css=main tbody tr:has(td > span:text-is('Baja California')) button[role=combobox]"
+Audit inside "[data-radix-popper-content-wrapper]" as "Empty row GOV tax type options open"
+Press "Escape"
+Press "Escape"
+
+# Search Canada: loading placeholders, then the results grid
+17. Click "#international-tax-type-setup-country"
+18. Click "role=option[name='Canada']"
+19. Hold "POST countryId"
+20. Click "[data-testid=e2e-search-button]"
+21. Wait for "[data-slot=skeleton]"
+22. Audit inside "main" as "Results - loading"
+23. Release "POST countryId"
+24. Wait for "css=main tbody tr:has(td + td)"
+25. Wait until the page settles
+26. Audit inside "main" as "Results - Canada"
+
+# Grid Options menu
+27. Click "Grid Options"
+28. Audit inside "[role=menu]" as "Grid Options menu open"
+29. Press "Escape"
+
+# Column header menus
+30. Click "css=main thead th:has-text('Province') button[data-slot=dropdown-menu-trigger]"
+31. Audit inside "[role=menu]" as "Province column menu open"
+32. Press "Escape"
+33. Click "css=main thead th:has-text('GOV Tax Type Name') button[data-slot=dropdown-menu-trigger]"
+34. Audit inside "[role=menu]" as "GOV Tax Type Name column menu open"
+35. Press "Escape"
+36. Click "css=main thead th:has-text('GOV Tax Reg. Number') button[data-slot=dropdown-menu-trigger]"
+37. Audit inside "[role=menu]" as "GOV Tax Reg. Number column menu open"
+38. Press "Escape"
+39. Click "css=main thead th:has-text('Provincial Tax Type Name') button[data-slot=dropdown-menu-trigger]"
+40. Audit inside "[role=menu]" as "Provincial Tax Type Name column menu open"
+41. Press "Escape"
+42. Click "css=main thead th:has-text('Provincial Tax Reg. Number') button[data-slot=dropdown-menu-trigger]"
+43. Audit inside "[role=menu]" as "Provincial Tax Reg. Number column menu open"
+44. Press "Escape"
+45. Click "css=main thead th:has-text('Effective Date') button[data-slot=dropdown-menu-trigger]"
+46. Audit inside "[role=menu]" as "Effective Date column menu open"
+47. Press "Escape"
+
+# A row's GOV tax type picker (Ontario: HST) and its options
+48. Click "css=main tbody tr:has(td > span:text-is('Ontario')) td:has-text('HST')"
+49. Audit inside "main" as "Row edit - GOV tax type picker shown"
+50. Click "css=main tbody tr:has(td > span:text-is('Ontario')) button[role=combobox]"
+51. Audit inside "[data-radix-popper-content-wrapper]" as "GOV tax type options open"
+52. Press "Escape"
+
+# A row's Provincial tax type picker (Manitoba: PST) and its options
+53. Click "css=main tbody tr:has(td > span:text-is('Manitoba')) td:has-text('PST')"
+54. Click "css=main tbody tr:has(td > span:text-is('Manitoba')) button[role=combobox]"
+55. Audit inside "[data-radix-popper-content-wrapper]" as "Provincial tax type options open"
+56. Press "Escape"
+
+# A Reg. Number changed without a new date: row validation marker, Save enabled (not clicked)
+57. Type "AUDIT-ONLY" into "css=main tbody tr:has(td > span:text-is('Ontario')) input >> nth=0" and leave
+58. Audit inside "main" as "Row edited - validation shown, unsaved"
+
+# The row's Effective Date calendar
+59. Click "css=main tbody tr:has(td > span:text-is('Ontario')) button[aria-label='Open calendar']"
+60. Audit inside "[data-slot=popover-content]" as "Row Effective Date calendar open"
+61. Press "Escape"
+
+# Searching with unsaved edits asks first
+62. Click "[data-testid=e2e-search-button]"
+63. Audit inside "[role=alertdialog]" as "Unsaved changes dialog"
+64. Click "Stay"
+
+# Save failure message - the save request is blocked, nothing reaches the server
+65. Type "01/01/2099" into "css=main tbody tr:has(td > span:text-is('Ontario')) td:last-child input" and leave
+66. Fail "POST records"
+67. Click "css=main button:text-is('Save')"
+68. Audit message as "Save failed message"
